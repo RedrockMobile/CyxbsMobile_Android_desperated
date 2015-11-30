@@ -1,9 +1,11 @@
-package com.mredrock.cyxbsmobile;
+package com.mredrock.cyxbsmobile.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.mredrock.cyxbsmobile.R;
 
 public class MainActivity extends AppCompatActivity {
 
