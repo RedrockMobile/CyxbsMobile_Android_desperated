@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-    apply plugin: 'com.neenbedankt.android-apt'
-    apply plugin: 'me.tatarka.retrolambda'
 
     defaultConfig {
         applicationId "com.mredrock.cyxbsmobile"
@@ -90,15 +90,15 @@ android {
     }
 
     productFlavors {
-        official {}
-        xiaomi {}
-        baidu {}
+//        official {}
+//        xiaomi {}
+//        baidu {}
         dev {}
-        wandoujia {}
-        meizu {}
-        yingyongbao {}
-        othermarket {}
-        _360 {}
+//        wandoujia {}
+//        meizu {}
+//        yingyongbao {}
+//        othermarket {}
+//        _360 {}
     }
 
     productFlavors.all {
@@ -123,6 +123,12 @@ def revision() {
     return code.toString()
 }
 
+retrolambda {
+    jdk System.getenv("JAVA8_HOME")
+    oldJdk System.getenv("JAVA7_HOME")
+    javaVersion JavaVersion.VERSION_1_7
+}
+
 repositories {
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
@@ -142,9 +148,18 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'com.squareup.okhttp:okhttp:2.0.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
+    compile 'com.squareup.okhttp3:okhttp:3.0.1'
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.0.1'
     compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'com.hwangjr.rxbus:rxbus:1.0.2'
+    compile "com.github.VictorAlbertos:RxCache:0.4.2"
+    compile 'com.alibaba:fastjson:1.1.46.android'
+    compile 'com.github.SeanCode:retrofit-converters-fastjson:1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta3'
+    compile 'com.squareup.retrofit2:retrofit-mock:2.0.0-beta3'
+    compile 'com.squareup.retrofit2:converter-simplexml:2.0.0-beta3'
 }
