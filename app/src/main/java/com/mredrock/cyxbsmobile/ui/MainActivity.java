@@ -4,15 +4,46 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.model.Subject;
+import com.mredrock.cyxbsmobile.network.RequestManager;
+import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
+
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Bind(R.id.main_hello_world_text_view)
+    TextView textView;
+
+    @OnClick(R.id.main_click_button)
+    void clickToGetMovie() {
+        getMovie();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
+    }
+
+    public void getMovie() {
+
+        RequestManager.getInstance().getTopMovie(new SimpleSubscriber<>(this, true, new SubscriberListener<List<Subject>>() {
+            @Override
+            public void onNext(List<Subject> subjects) {
+                textView.setText(subjects.toString());
+            }
+        }), 0, 10);
     }
 
     @Override

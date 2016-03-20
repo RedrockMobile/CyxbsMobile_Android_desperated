@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.data.model;
+package com.mredrock.cyxbsmobile.model;
 
 /**
  * Info of user
@@ -18,11 +18,4 @@ public class User {
     public String college;
     public String grade;
 
-    public static class UserWrapper extends Wrapper {
-        public UserWrapper() {
-        }
-
-        public int status;
-        public User data;
-    }
 }
