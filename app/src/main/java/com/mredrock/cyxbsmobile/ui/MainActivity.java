@@ -28,6 +28,11 @@ public class MainActivity extends AppCompatActivity {
         getMovie();
     }
 
+    @OnClick(R.id.main_test_upload)
+    void clickToTestUpload() {
+        TestUploadActivity.startActivity(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

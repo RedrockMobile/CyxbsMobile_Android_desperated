@@ -84,6 +84,10 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
         }
     }
 
+    protected Context getContext() {
+        return this.context;
+    }
+
     private void showProgressDialog() {
         if (mProgressDialogHandler != null) {
             mProgressDialogHandler.obtainMessage(ProgressDialogHandler.SHOW_PROGRESS_DIALOG).sendToTarget();

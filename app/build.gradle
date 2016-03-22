@@ -78,4 +78,5 @@ dependencies {
         exclude module: 'guava'
     }
     compile 'com.github.orhanobut:logger:1.12'
+    compile 'com.soundcloud.android:android-crop:1.0.1@aar'
 }
