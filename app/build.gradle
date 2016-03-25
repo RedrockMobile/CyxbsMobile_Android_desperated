@@ -79,5 +79,5 @@ dependencies {
     compile 'com.github.siyamed:android-shape-imageview:0.9.3@aar'
     compile 'com.github.orhanobut:logger:1.12'
     compile 'com.soundcloud.android:android-crop:1.0.1@aar'
-    compile 'com.roughike:bottom-bar:1.0.8'
+    compile 'com.roughike:bottom-bar:1.2.4'
 }

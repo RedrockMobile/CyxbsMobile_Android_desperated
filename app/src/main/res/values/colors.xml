@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#0088ba</color>
     <color name="colorAccent">#f76060</color>
     <color name="tabIndicatorColor">#fce68d</color>
+    <color name="tabText">#66000000</color>
     <color name="orange">#ff7d37</color>
     <color name="yellow">#ffb048</color>
 </resources>

@@ -15,8 +15,11 @@
             android:id="@+id/tab_course_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabBackground="@color/white"
+            app:tabTextColor="@color/tabText"
+            app:tabSelectedTextColor="@color/colorPrimary"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/tabIndicatorColor"
+            app:tabIndicatorColor="@color/colorPrimary"
             app:tabMode="scrollable" />
 
     </android.support.design.widget.AppBarLayout>
