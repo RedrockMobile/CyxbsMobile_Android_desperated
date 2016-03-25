@@ -36,7 +36,7 @@
             android:value="c013592261f6ca0f07dbf8660e7fa505" />
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,10 +44,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.SplashActivity"/>
+        <activity android:name=".ui.activity.SplashActivity"/>
         <!--图片剪切-->
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".ui.TestUploadActivity"/>
+        <activity android:name=".ui.activity.TestUploadActivity"/>
     </application>
 
 </manifest>

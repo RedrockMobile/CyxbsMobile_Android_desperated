@@ -52,6 +52,11 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+    //    compile 'com.github.SeanCode:retrofit-converters-fastjson:1.1'
+    //    compile 'com.alibaba:fastjson:1.1.46.android'
+    compile("com.github.VictorAlbertos:RxCache:1.1.0") {
+        exclude module: 'guava'
+    }
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:support-v4:23.2.1'
@@ -66,17 +71,13 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
     compile 'com.squareup.retrofit2:retrofit-mock:2.0.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
-//    compile 'com.github.SeanCode:retrofit-converters-fastjson:1.1'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.squareup.retrofit2:retrofit:2.0.0'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.1'
     compile 'com.hwangjr.rxbus:rxbus:1.0.3'
     compile 'com.github.siyamed:android-shape-imageview:0.9.3@aar'
-//    compile 'com.alibaba:fastjson:1.1.46.android'
-    compile ("com.github.VictorAlbertos:RxCache:1.1.0") {
-        exclude module: 'guava'
-    }
     compile 'com.github.orhanobut:logger:1.12'
     compile 'com.soundcloud.android:android-crop:1.0.1@aar'
+    compile 'com.roughike:bottom-bar:1.0.8'
 }
