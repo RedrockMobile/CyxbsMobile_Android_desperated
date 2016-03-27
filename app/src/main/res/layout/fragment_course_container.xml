@@ -11,22 +11,38 @@
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+        <!--
+            app:tabBackground="@color/colorPrimary"
+            app:tabTextColor="@color/tabText"
+            app:tabSelectedTextColor="@color/white"
+        -->
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_course_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="@color/white"
-            app:tabTextColor="@color/tabText"
-            app:tabSelectedTextColor="@color/colorPrimary"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorColor="@color/tabIndicatorColor"
             app:tabMode="scrollable" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/tab_course_viewpager"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/tab_course_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+       <!-- <android.support.design.widget.FloatingActionButton
+            android:id="@+id/course_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_fab_add" />-->
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>
