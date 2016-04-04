@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.ui.fragment.CommunityContainerFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment;

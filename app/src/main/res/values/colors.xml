@@ -7,4 +7,10 @@
     <color name="tabText">#66000000</color>
     <color name="orange">#ff7d37</color>
     <color name="yellow">#ffb048</color>
+
+
+
+    <color name="body_text_1">#de000000</color>
+    <color name="body_text_2">#8a000000</color>
+    <color name="body_text_3">#60000000</color>
 </resources>
