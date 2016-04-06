@@ -57,7 +57,7 @@ public class SpecificNewsActivity extends BaseActivity {
     private void initToolbar() {
         mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
         mToolbar.setTitle("");
-        mToolBarTitle.setText(getString(R.string.spectific_news_title));
+        mToolBarTitle.setText(getString(R.string.specific_news_title));
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(view -> SpecificNewsActivity.this.finish());
     }

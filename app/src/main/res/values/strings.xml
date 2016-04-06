@@ -44,5 +44,6 @@
 
 
     <string name="news_edt">单击此处输入评论</string>
-    <string name="spectific_news_title">详情</string>
+    <string name="specific_news_title">详情</string>
+    <string name="specific_news_nev">返回</string>
 </resources>
