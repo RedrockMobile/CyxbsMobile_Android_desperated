@@ -9,8 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.ui.adapter.InformationAdapter;
+import com.mredrock.cyxbsmobile.model.News;
+import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * @author MathiasLuo
  */
-public class InformationFragment extends BaseFragment {
+public class NewsFragment extends BaseFragment {
 
     @Bind(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
@@ -26,7 +30,7 @@ public class InformationFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_information, container, false);
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
         ButterKnife.bind(this, view);
         init();
         return view;
@@ -34,7 +38,9 @@ public class InformationFragment extends BaseFragment {
 
     private void init() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getParentFragment().getActivity()));
-        mRecyclerView.setAdapter(new InformationAdapter());
+        List<News> mDatas = new ArrayList<>();
+        for (int i = 0; i < 10; i++) mDatas.add(new News());
+        mRecyclerView.setAdapter(new NewsAdapter(mDatas,getParentFragment().getActivity()));
     }
 
     @Override

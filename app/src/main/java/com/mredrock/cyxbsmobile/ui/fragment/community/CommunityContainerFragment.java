@@ -1,6 +1,5 @@
 package com.mredrock.cyxbsmobile.ui.fragment.community;
 
-import android.app.Notification;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.ui.adapter.InformationAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 
@@ -43,9 +41,9 @@ public class CommunityContainerFragment extends BaseFragment {
 
     private void init() {
         List<Fragment> fragmentLIst = new ArrayList<>();
-        fragmentLIst.add(new InformationFragment());
-        fragmentLIst.add(new InformationFragment());
-        fragmentLIst.add(new InformationFragment());
+        fragmentLIst.add(new NewsFragment());
+        fragmentLIst.add(new NewsFragment());
+        fragmentLIst.add(new NewsFragment());
         TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager(), fragmentLIst, Arrays.asList(getActivity().getResources().getStringArray(R.array.community_tab_tiles)));
 
         mViewPager.setAdapter(adapter);
