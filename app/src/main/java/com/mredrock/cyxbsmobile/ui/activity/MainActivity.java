@@ -28,11 +28,11 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar_title)
+    @Bind(R.id.main_toolbar_title)
     TextView mToolbarTitle;
-    @Bind(R.id.toolbar)
+    @Bind(R.id.main_toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.content)
+    @Bind(R.id.main_coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
     @BindString(R.string.community)
     String mStringCommunity;
@@ -55,8 +55,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mBottomBar = BottomBar.attach(mCoordinatorLayout, savedInstanceState);
         initView();
+        initBottomBar(savedInstanceState);
         mBottomBar.selectTabAtPosition(1, false);
     }
 
@@ -66,11 +66,10 @@ public class MainActivity extends BaseActivity {
         communityContainerFragment = new CommunityContainerFragment();
         exploreFragment = new ExploreFragment();
         myPageFragment = new MyPageFragment();
-        initBottomBar();
     }
 
-    private void initBottomBar() {
-
+    private void initBottomBar(Bundle savedInstanceState) {
+        mBottomBar = BottomBar.attach(mCoordinatorLayout, savedInstanceState);
         mBottomBar.setItems(
                 new BottomBarTab(R.drawable.ic_nearby, "社区"),
                 new BottomBarTab(R.drawable.ic_favorites, "课表"),
@@ -88,19 +87,19 @@ public class MainActivity extends BaseActivity {
                 hideAllFragments(transaction);
                 switch (position) {
                     case 0:
-                        showFragment(transaction, communityContainerFragment, R.id.fragment_container);
+                        showFragment(transaction, communityContainerFragment, R.id.main_fragment_container);
                         setTitle(mStringCommunity);
                         break;
                     case 1:
-                        showFragment(transaction, courseContainerFragment, R.id.fragment_container);
+                        showFragment(transaction, courseContainerFragment, R.id.main_fragment_container);
                         setTitle(mStringCourse);
                         break;
                     case 2:
-                        showFragment(transaction, exploreFragment, R.id.fragment_container);
+                        showFragment(transaction, exploreFragment, R.id.main_fragment_container);
                         setTitle(mStringExplore);
                         break;
                     case 3:
-                        showFragment(transaction, myPageFragment, R.id.fragment_container);
+                        showFragment(transaction, myPageFragment, R.id.main_fragment_container);
                         setTitle(mStringMyPage);
                         break;
                 }
@@ -108,13 +107,15 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onTabReSelected(int position) {}
+            public void onTabReSelected(int position) {
+            }
         });
 
         mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorPrimary));
         mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.colorPrimary));
         mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.colorPrimary));
         mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.colorPrimary));
+
     }
 
     private void hideAllFragments(FragmentTransaction transaction) {
@@ -142,9 +143,6 @@ public class MainActivity extends BaseActivity {
             setSupportActionBar(mToolbar);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
-                //actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_arrow_back));
-                //actionBar.setDisplayHomeAsUpEnabled(true);
-                //actionBar.setHomeButtonEnabled(true);
                 actionBar.setDisplayShowTitleEnabled(false);
             }
         }
@@ -156,5 +154,11 @@ public class MainActivity extends BaseActivity {
         if (mToolbar != null) {
             mToolbarTitle.setText(title);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mBottomBar.onSaveInstanceState(outState);
     }
 }

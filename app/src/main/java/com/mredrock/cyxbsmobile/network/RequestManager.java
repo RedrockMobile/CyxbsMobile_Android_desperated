@@ -2,6 +2,7 @@ package com.mredrock.cyxbsmobile.network;
 
 import android.net.Uri;
 
+import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.BuildConfig;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.MovieResult;
@@ -50,7 +51,7 @@ public enum RequestManager {
         OkHttpClient client = configureOkHttp(new OkHttpClient.Builder());
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://hongyan.cqupt.edu.cn/")
+                .baseUrl(Const.END_POINT_REDROCK)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -95,6 +96,28 @@ public enum RequestManager {
         Observable<List<Subject>> observable = redrockApiService.getTopMovie(RedrockApiService.MOVIE_URL, start, count)
                 .map(new MovieResultFunc<>());
 
+        emitObservable(observable, subscriber);
+    }
+
+    public void getNowWeek(Subscriber<Integer> subscriber, String stuNum, String idNum) {
+        Observable<Integer> observable = redrockApiService.getCourse(stuNum, idNum, "0")
+                .map(courseWrapper -> {
+                    if (courseWrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
+                        throw new RedrockApiException();
+                    }
+                    //Toast.makeText(APP.getContext(), courseWrapper.nowWeek, Toast.LENGTH_SHORT).show();
+                    return Integer.parseInt(courseWrapper.nowWeek);
+                });
+        emitObservable(observable, subscriber);
+    }
+
+    public void getAllCourseJson(Subscriber<String> subscriber, String stuNum, String idNum) {
+        getCourseJson(subscriber, stuNum, idNum, "0");
+    }
+
+    public void getCourseJson(Subscriber<String> subscriber, String stuNum, String idNum, String week) {
+        Observable<String> observable = redrockApiService.getCourse(stuNum, idNum, week)
+                .map(courseWrapper -> new Gson().toJson(courseWrapper));
         emitObservable(observable, subscriber);
     }
 

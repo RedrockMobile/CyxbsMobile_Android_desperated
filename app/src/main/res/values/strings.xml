@@ -6,6 +6,7 @@
     <string name="explore">发现</string>
     <string name="my_page">我的</string>
 
+    <string name="now_week">本周</string>
     <string-array name="titles_weeks">
         <item>整学期</item>
         <item>第一周</item>
@@ -31,6 +32,35 @@
         <item>第二十一周</item>
         <item>第二十二周</item>
         <item>第二十三周</item>
+    </string-array>
+
+    <string-array name="course_weekdays">
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+        <item>七</item>
+    </string-array>
+
+    <string-array name="schedule_weekday">
+        <item>星期一</item>
+        <item>星期二 </item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+        <item>星期日</item>
+    </string-array>
+
+    <string-array name="schedule_time">
+        <item>8:00 ~ 9:40  am</item>
+        <item>10:05 ~ 11:45  am</item>
+        <item>2:00 ~ 3:40  pm</item>
+        <item>4:05 ~ 5:45  pm</item>
+        <item>7:00 ~ 8:40  pm</item>
+        <item>8:50 ~ 10:30  pm</item>
     </string-array>
 
 </resources>

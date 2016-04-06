@@ -3,6 +3,11 @@ package com.mredrock.cyxbsmobile;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.mredrock.cyxbsmobile.config.Const;
+import com.mredrock.cyxbsmobile.model.User;
+import com.mredrock.cyxbsmobile.util.SPUtils;
+
 import timber.log.Timber;
 
 /**
@@ -35,4 +40,21 @@ public class APP extends Application {
         super.onTerminate();
     }
 
+    public static void setUser(Context context, User user) {
+        String userJson;
+        if (user == null) {
+            userJson = "";
+        } else {
+            userJson = new Gson().toJson(user);
+        }
+        SPUtils.set(context, Const.SP_KEY_USER, userJson);
+    }
+
+    public static User getUser(Context context) {
+        String json = (String) SPUtils.get(context, Const.SP_KEY_USER, "");
+        if (json == null || json.length() == 0) {
+            return null;
+        }
+        return new Gson().fromJson(json, User.class);
+    }
 }
