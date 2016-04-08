@@ -2,23 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/community_TabLayout"
         style="@style/CustomTabLayout"
+        app:tabBackground="@color/white"
+        app:tabTextColor="@color/tabText"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabMode="scrollable"
         android:layout_width="match_parent"
-        android:layout_height="32sp"
-        android:layout_marginBottom="2dp" />
+        android:layout_height="wrap_content" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/tab_pading_color" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/community_ViewPager"

@@ -49,7 +49,7 @@ public class CommunityContainerFragment extends BaseFragment {
         mViewPager.setAdapter(adapter);
         mViewPager.setOffscreenPageLimit(fragmentLIst.size());
 
-        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置tab模式，当前为系统默认模式
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mTabLayout.setupWithViewPager(mViewPager);
     }
 

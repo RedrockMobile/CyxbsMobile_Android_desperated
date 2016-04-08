@@ -14,6 +14,6 @@
     <color name="body_text_2">#8a000000</color>
     <color name="body_text_3">#60000000</color>
 
-
+        <color name="comment_item">#f2eeee</color>
     <color name="tab_pading_color">#606B6A6A</color>
 </resources>
