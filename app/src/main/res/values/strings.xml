@@ -63,4 +63,16 @@
         <item>8:50 ~ 10:30  pm</item>
     </string-array>
 
+    <string name="my_page_introduce">简介：</string>
+    <string name="my_page_relate">与我相关</string>
+    <string name="my_page_trend">我的动态</string>
+    <string name="my_page_no_course">没课约</string>
+    <string name="my_page_empty">空教室</string>
+    <string name="my_page_grade">考试与成绩</string>
+    <string name="my_page_calendar">校历</string>
+    <string name="my_page_night">夜间模式</string>
+    <string name="my_page_setting">设置</string>
+    <string name="edit_info_avatar">头像修改</string>
+    <string name="edit_info_nick_name">昵称</string>
+    <string name="edit_info_introduce">简介</string>
 </resources>
