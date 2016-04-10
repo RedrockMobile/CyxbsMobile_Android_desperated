@@ -48,7 +48,11 @@
         <!-- 图片剪切 -->
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name=".ui.activity.TestUploadActivity" />
-        <activity android:name=".ui.activity.SpecificNewsActivity"></activity>
+        <activity android:name=".ui.activity.SpecificNewsActivity" />
+        <activity android:name=".ui.activity.AddNewsActivity"></activity>
+        <activity
+            android:configChanges="orientation|screenSize"
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
     </application>
 
 </manifest>

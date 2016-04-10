@@ -46,4 +46,9 @@
     <string name="news_edt">单击此处输入评论</string>
     <string name="specific_news_title">详情</string>
     <string name="specific_news_nev">返回</string>
+    <string name="activity_add_news_title">哔哔叨叨</string>
+    <string name="save">完成</string>
+    <string name="cancel">取消</string>
+    <string name="add_news_edit_hint">和大家一起哔哔叨叨吧</string>
+    <string name="annex">含附件</string>
 </resources>

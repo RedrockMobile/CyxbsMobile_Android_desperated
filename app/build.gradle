@@ -51,6 +51,7 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':multi-image-selector')
     testCompile 'junit:junit:4.12'
     //    compile 'com.github.SeanCode:retrofit-converters-fastjson:1.1'
     //    compile 'com.alibaba:fastjson:1.1.46.android'

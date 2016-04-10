@@ -1,5 +1,6 @@
 package com.mredrock.cyxbsmobile.ui.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -9,6 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
@@ -26,7 +29,7 @@ import butterknife.BindString;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.toolbar_title)
     TextView mToolbarTitle;
@@ -44,6 +47,9 @@ public class MainActivity extends BaseActivity {
     String mStringMyPage;
     @Bind(R.id.main_app_bar)
     AppBarLayout mAppBar;
+
+    @Bind(R.id.add_news_img)
+    ImageView mImageView;
     private BottomBar mBottomBar;
     private CourseContainerFragment courseContainerFragment;
     private CommunityContainerFragment communityContainerFragment;
@@ -62,6 +68,7 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         initToolbar();
+        mImageView.setOnClickListener(this);
         courseContainerFragment = new CourseContainerFragment();
         communityContainerFragment = new CommunityContainerFragment();
         exploreFragment = new ExploreFragment();
@@ -86,10 +93,12 @@ public class MainActivity extends BaseActivity {
                 }
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 hideAllFragments(transaction);
+                mImageView.setVisibility(View.GONE);
                 switch (position) {
                     case 0:
                         showFragment(transaction, communityContainerFragment, R.id.fragment_container);
                         setTitle(mStringCommunity);
+                        mImageView.setVisibility(View.VISIBLE);
                         break;
                     case 1:
                         showFragment(transaction, courseContainerFragment, R.id.fragment_container);
@@ -108,7 +117,8 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onTabReSelected(int position) {}
+            public void onTabReSelected(int position) {
+            }
         });
 
         mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorPrimary));
@@ -155,6 +165,16 @@ public class MainActivity extends BaseActivity {
         super.onTitleChanged(title, color);
         if (mToolbar != null) {
             mToolbarTitle.setText(title);
+        }
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.add_news_img:
+                startActivity(new Intent(MainActivity.this, AddNewsActivity.class));
+                break;
         }
     }
 }
