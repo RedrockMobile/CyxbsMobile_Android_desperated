@@ -72,7 +72,22 @@
     <string name="my_page_calendar">校历</string>
     <string name="my_page_night">夜间模式</string>
     <string name="my_page_setting">设置</string>
+
     <string name="edit_info_avatar">头像修改</string>
     <string name="edit_info_nick_name">昵称</string>
     <string name="edit_info_introduce">简介</string>
+
+    <string-array name="community_tab_tiles">
+        <item>热门动态</item>
+        <item>哔哔叨叨</item>
+        <item>官方资讯</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="news_edt">单击此处输入评论</string>
+    <string name="specific_news_title">详情</string>
+    <string name="specific_news_nev">返回</string>
+
 </resources>
