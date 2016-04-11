@@ -51,8 +51,8 @@
         <activity android:name=".ui.activity.SpecificNewsActivity" />
         <activity android:name=".ui.activity.AddNewsActivity"></activity>
         <activity
-            android:configChanges="orientation|screenSize"
-            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>

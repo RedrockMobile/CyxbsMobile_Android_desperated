@@ -2,7 +2,6 @@
     package="me.nereo.multi_image_selector">
 
     <application android:allowBackup="true">
-
     </application>
 
 </manifest>

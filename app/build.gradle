@@ -81,4 +81,5 @@ dependencies {
     compile 'com.github.orhanobut:logger:1.12'
     compile 'com.soundcloud.android:android-crop:1.0.1@aar'
     compile 'com.roughike:bottom-bar:1.2.4'
+    compile 'com.github.bumptech.glide:glide:3.6.1'
 }
