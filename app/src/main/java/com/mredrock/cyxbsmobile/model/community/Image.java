@@ -10,6 +10,7 @@ public class Image {
 
     public static final int ADDIMAG = 0001;
     public static final int NORMALIMAGE = 0002;
+
     private int type;
 
     private String photosrc;
@@ -18,6 +19,18 @@ public class Image {
     public Image(String thumbnail_src, String photosrc) {
         this.thumbnail_src = thumbnail_src;
         this.photosrc = photosrc;
+    }
+
+    public Image(String url, int type) {
+        this.url = url;
+        this.type = type;
+    }
+
+    public Image(String url, int width, int height, int type) {
+        this.url = url;
+        this.width = width;
+        this.height = height;
+        this.type = type;
     }
 
     public String getPhotosrc() {
@@ -36,12 +49,6 @@ public class Image {
         this.thumbnail_src = thumbnail_src;
     }
 
-    public Image(String url, int width, int height, int type) {
-        this.url = url;
-        this.width = width;
-        this.height = height;
-        this.type = type;
-    }
 
     public int getType() {
         return type;

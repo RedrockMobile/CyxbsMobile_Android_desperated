@@ -1,6 +1,7 @@
 package com.mredrock.cyxbsmobile.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.util.ScreenTools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -27,13 +29,15 @@ import butterknife.ButterKnife;
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private News mNews;
-    AdapterView.OnItemClickListener mItemClickListener;
+    private List<News> mNews;
     private List<Image> mImgs;
-    private int singlePicX;
+    private OnItemOnClickLIstener onItemOnClickLIstener;
 
+    public void setOnItemOnClickLIstener(OnItemOnClickLIstener onItemOnClickLIstener) {
+        this.onItemOnClickLIstener = onItemOnClickLIstener;
+    }
 
-    public NewsAdapter(News mNews) {
+    public NewsAdapter(List<News> mNews) {
         this.mNews = mNews;
     }
 
@@ -44,19 +48,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(NewsAdapter.ViewHolder holder, int position) {
-        setupOnItemClick(holder, position);
-
+        News.DataBean mDataBean = mNews.get(position).getData();
+        setupOnItemClick(holder, position, mDataBean);
         mImgs = new ArrayList<>();
-        singlePicX = (int) new ScreenTools(APP.getContext()).getSinglePicX();
-        mImgs.add(new Image("file:///android_asset/add_news.jpg", 500, 500, Image.ADDIMAG));
-
+        for (String url : getUrls(mDataBean.getImg().getImg_small_src())) {
+            mImgs.add(new Image(url, Image.ADDIMAG));
+        }
         holder.mAutoNineGridlayout.setImagesData(mImgs);
-        holder.mTextName.setText("Luo12345");
+
+
+        holder.mTextName.setText(mDataBean.getUser_name() != null ? mDataBean.getUser_name().toString() : "罗武侠");
+        holder.mTextTime.setText(mDataBean.getTime());
+        holder.mTextContent.setText(mDataBean.getContent());
+        holder.mBtnMsg.setText(mDataBean.getLike_num());
+        holder.mBtnFavor.setText(mDataBean.getRemark_num());
     }
 
     @Override
     public int getItemCount() {
-        return 12;
+        return mNews != null ? mNews.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -67,6 +77,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         TextView mTextName;
         @Bind(R.id.list_news_text_time)
         TextView mTextTime;
+        @Bind(R.id.textContennt)
+        TextView mTextContent;
         @Bind(R.id.autoNineLayout)
         AutoNineGridlayout mAutoNineGridlayout;
         @Bind(R.id.list_news_btn_message)
@@ -77,24 +89,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mTextName.setText("127893471209847");
         }
     }
 
-    protected void setupOnItemClick(final NewsAdapter.ViewHolder viewHolder, final int position) {
-        if (mItemClickListener != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mItemClickListener.onItemClick(null, viewHolder.itemView, position, position);
-                }
-            });
-        }
+    protected void setupOnItemClick(final NewsAdapter.ViewHolder viewHolder, final int position, News.DataBean dataBean) {
+        if (onItemOnClickLIstener != null)
+            viewHolder.itemView.setOnClickListener(v -> onItemOnClickLIstener.onItemClick(viewHolder.itemView, position, dataBean));
     }
 
-    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-        this.mItemClickListener = listener;
+    public String[] getUrls(String url) {
+        return url.split(",");
     }
 
+    public interface OnItemOnClickLIstener {
+        void onItemClick(View itemView, int position, News.DataBean dataBean);
+    }
 
 }

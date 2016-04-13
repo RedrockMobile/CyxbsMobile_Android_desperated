@@ -65,4 +65,32 @@ public interface NewsApiService {
                                        @Field("photo_src") String photo_src,
                                        @Field("stuNum") String stuNum,
                                        @Field("idNum") String idNum);
+
+
+    @POST("cyxbsMobile/index.php/Home/ArticleRemark/postremarks")
+    Observable<?> getReMark(@Field("article_id") String article_id,
+                            @Field("type_id") String type_id,
+                            @Field("stuNum") String stuNum,
+                            @Field("idNum") String idNum);
+
+    @POST("cyxbsMobile/index.php/Home/ArticleRemark/postremarks")
+    Observable<?> postReMarks(@Field("article_id") String article_id,
+                              @Field("type_id") String type_id,
+                              @Field("content") String content,
+                              @Field("stuNum") String stuNum,
+                              @Field("idNum") String idNum);
+
+    @POST("cyxbsMobile/index.php/Home/Praise/addone")
+    Observable<?> addThumbsUp(@Field("article_id") String article_id,
+                              @Field("type_id") String type_id,
+                              @Field("stuNum") String stuNum,
+                              @Field("idNum") String idNum);
+
+    @POST("cyxbsMobile/index.php/Home/Praise/cancel")
+    Observable<?> cancelThumbsUp(@Field("article_id") String article_id,
+                                 @Field("type_id") String type_id,
+                                 @Field("stuNum") String stuNum,
+                                 @Field("idNum") String idNum);
+
+
 }

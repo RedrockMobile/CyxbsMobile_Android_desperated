@@ -23,10 +23,8 @@ public class AutoNineGridlayout extends NineGridlayout {
     @Override
     protected void layoutChildrenView() {
         int childrenCount = listData.size();
-
-        Log.e("++++++++++++++========》》》》》",childrenCount+"");
         switch (childrenCount) {
-       case 1:
+            case 1:
                 int singleWidth = totalWidth - gap * 2;
                 int singleHeight = singleWidth;
                 ViewGroup.LayoutParams params = getLayoutParams();

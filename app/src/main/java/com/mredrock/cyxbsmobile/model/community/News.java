@@ -1,5 +1,8 @@
 package com.mredrock.cyxbsmobile.model.community;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by mathiasluo on 16-4-5.
  */
@@ -53,7 +56,8 @@ public class News {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Parcelable {
+
         private String type;
         private String id;
         private Object user_id;
@@ -70,6 +74,30 @@ public class News {
         private String like_num;
         private String remark_num;
         private boolean is_my_Like;
+
+        protected DataBean(Parcel in) {
+            type = in.readString();
+            id = in.readString();
+            user_head = in.readString();
+            time = in.readString();
+            content = in.readString();
+            img = in.readParcelable(ImgBean.class.getClassLoader());
+            like_num = in.readString();
+            remark_num = in.readString();
+            is_my_Like = in.readByte() != 0;
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel in) {
+                return new DataBean(in);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
 
         public String getType() {
             return type;
@@ -159,9 +187,43 @@ public class News {
             this.is_my_Like = is_my_Like;
         }
 
-        public static class ImgBean {
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(type);
+            parcel.writeString(id);
+            parcel.writeString(user_head);
+            parcel.writeString(time);
+            parcel.writeString(content);
+            parcel.writeParcelable(img, i);
+            parcel.writeString(like_num);
+            parcel.writeString(remark_num);
+            parcel.writeByte((byte) (is_my_Like ? 1 : 0));
+        }
+        public static class ImgBean implements Parcelable {
             private String img_small_src;
             private String img_src;
+
+            protected ImgBean(Parcel in) {
+                img_small_src = in.readString();
+                img_src = in.readString();
+            }
+
+            public static final Creator<ImgBean> CREATOR = new Creator<ImgBean>() {
+                @Override
+                public ImgBean createFromParcel(Parcel in) {
+                    return new ImgBean(in);
+                }
+
+                @Override
+                public ImgBean[] newArray(int size) {
+                    return new ImgBean[size];
+                }
+            };
 
             public String getImg_small_src() {
                 return img_small_src;
@@ -178,6 +240,19 @@ public class News {
             public void setImg_src(String img_src) {
                 this.img_src = img_src;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel parcel, int i) {
+                parcel.writeString(img_small_src);
+                parcel.writeString(img_src);
+            }
         }
     }
+
+
 }

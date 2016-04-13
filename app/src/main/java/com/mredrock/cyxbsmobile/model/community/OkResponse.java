@@ -9,7 +9,7 @@ public class OkResponse {
      * state : 200
      * info : success
      */
-    public static final int RESPONSE_OK = 200;
+public static final int RESPONSE_OK = 200;
     private int state;
     private String info;
 

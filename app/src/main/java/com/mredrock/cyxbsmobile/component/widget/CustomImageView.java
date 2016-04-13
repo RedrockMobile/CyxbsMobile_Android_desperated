@@ -33,6 +33,7 @@ public class CustomImageView extends ImageView {
     private boolean isAttachedToWindow;
     private OnClickDelecteLIstener mOnClickDelecteLIstener;
     private int type;
+    public static final String BASE_IMG_URL = "http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/";
 
 
     public CustomImageView(Context context, AttributeSet attrs) {
@@ -108,7 +109,7 @@ public class CustomImageView extends ImageView {
             if (isAttachedToWindow) {
                 Glide
                         .with(getContext())
-                        .load(url)
+                        .load(BASE_IMG_URL+url)
                         .placeholder(new ColorDrawable(Color.parseColor("#f5f5f5")))
                         .into(this);
             }

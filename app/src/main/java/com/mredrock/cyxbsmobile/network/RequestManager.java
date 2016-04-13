@@ -57,7 +57,9 @@ public enum RequestManager {
     }
 
     RequestManager() {
-        OkHttpClient client = configureOkHttp(new OkHttpClient.Builder());
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = configureOkHttp(new OkHttpClient.Builder().addInterceptor(interceptor));
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://hongyan.cqupt.edu.cn/")
@@ -155,7 +157,7 @@ public enum RequestManager {
     }
 
     public Observable<OkResponse> sendDynamic(int type_id, String title, String user_id, String content, String thumbnail_src, String photo_src, String stuNum, String idNum) {
-        return newsApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum).observeOn(AndroidSchedulers.mainThread());
+        return newsApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
 
 

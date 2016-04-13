@@ -11,8 +11,10 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.NineGridlayout;
+import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.community.Student;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.util.ScreenTools;
@@ -45,6 +47,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.iv_ngrid_layout)
     NineGridlayout mNineGridlayout;
 
+    private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
     private final static int REQUEST_IMAGE = 0001;
     private List<Image> mImgs;
     private int singlePicX;
@@ -60,7 +63,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     private void init() {
         mImgs = new ArrayList<>();
         singlePicX = (int) new ScreenTools(this).getSinglePicX();
-        mImgs.add(new Image("file:///android_asset/add_news.jpg", 500, 500, Image.ADDIMAG));
+        mImgs.add(new Image(ADD_IMG, Image.ADDIMAG));
         mNineGridlayout.setImagesData(mImgs);
         setSupportActionBar(mToolBar);
         mCancelText.setOnClickListener(this);
@@ -95,30 +98,46 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                 AddNewsActivity.this.finish();
                 break;
             case R.id.toolbar_save:
-                sendDynamic();
+                sendDynamic("我是你", "12345 12345 12345 12345", BBDD.BBDD);
                 break;
         }
     }
 
-    private void sendDynamic() {
+    private void sendDynamic(String title, String content, int type) {
+        Observable<OkResponse> observable;
         List<Image> currentImgs = new ArrayList<>();
         currentImgs.addAll(mImgs);
         currentImgs.remove(0);
-        final String[] photosrcs = {""};
-        final String[] thumbnail_srcs = {""};
-        Observable.from(currentImgs)
+        final String[] photoSrc = {""};
+        final String[] thumbnailSrc = {""};
+        if (currentImgs.size() > 0) {
+            observable = uploadWithImg(currentImgs, title, content, type);
+        } else {
+            observable = uploadWithoutImg(title, content, type);
+        }
+        observable.subscribe(okResponse -> {
+            if (okResponse.getState() == OkResponse.RESPONSE_OK) {
+                closeLoadingProgress();
+                showUploadSucess();
+            }
+        }, throwable -> {
+            closeLoadingProgress();
+            showUploadFail(throwable.toString());
+        });
+
+   /*     Observable.from(currentImgs)
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .observeOn(Schedulers.newThread())
                 .map(image -> image.getUrl())
-                .flatMap(s -> RequestManager.getInstance().uploadNewsImg("2013211594", s))
+                .flatMap(s -> RequestManager.getInstance().uploadNewsImg(Student.STU_NUM, s))
                 .buffer(mImgs.size() - 1)
                 .flatMap(uploadImgResponses -> {
                     for (UploadImgResponse uploadImgResponse : uploadImgResponses) {
-                        photosrcs[0] += photosrcs[0] + uploadImgResponse.getData().getPhotosrc() + ",";
-                        thumbnail_srcs[0] += thumbnail_srcs[0] + uploadImgResponse.getData().getPhotosrc() + ",";
+                        photoSrc[0] += photoSrc[0] + uploadImgResponse.getData().getPhotosrc() + ",";
+                        thumbnailSrc[0] += thumbnailSrc[0] + uploadImgResponse.getData().getPhotosrc() + ",";
                     }
-                    return RequestManager.getInstance().sendDynamic(5, "天地大同", "8", "122334", thumbnail_srcs[0], photosrcs[0], "2013211594", "160155");
+                    return RequestManager.getInstance().sendDynamic(BBDD.BBDD, "天地大同", Student.UER_ID, "122334", thumbnailSrc[0], photoSrc[0], Student.STU_NUM, Student.ID_NUM);
                 })
                 .subscribe(okResponse -> {
                     if (okResponse.getState() == OkResponse.RESPONSE_OK) {
@@ -127,8 +146,33 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                     }
                 }, throwable -> {
                     closeLoadingProgress();
-                    showUploadFail();
+                    showUploadFail(throwable.toString());
+                });*/
+    }
+
+    private Observable<OkResponse> uploadWithImg(List<Image> currentImgs, String title, String content, int type) {
+        final String[] photoSrc = {""};
+        final String[] thumbnailSrc = {""};
+        return Observable.from(currentImgs)
+                .doOnSubscribe(() -> showLoadingProgress())
+                .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
+                .observeOn(Schedulers.newThread())
+                .map(image -> image.getUrl())
+                .flatMap(url -> RequestManager.getInstance().uploadNewsImg(Student.STU_NUM, url))
+                .buffer(currentImgs.size())
+                .flatMap(uploadImgResponses -> {
+                    for (UploadImgResponse uploadImgResponse : uploadImgResponses) {
+                        photoSrc[0] += photoSrc[0] + uploadImgResponse.getData().getPhotosrc().split("/")[6] + ",";
+                        thumbnailSrc[0] += thumbnailSrc[0] + uploadImgResponse.getData().getPhotosrc().split("/")[6] + ",";
+                    }
+                    return RequestManager.getInstance().sendDynamic(type, title, Student.UER_ID, content, thumbnailSrc[0], photoSrc[0], Student.STU_NUM, Student.ID_NUM);
                 });
+    }
+
+    private Observable<OkResponse> uploadWithoutImg(String title, String content, int type) {
+        return RequestManager.getInstance()
+                .sendDynamic(type, title, Student.UER_ID, content, " ", " ", Student.STU_NUM, Student.ID_NUM)
+                .doOnSubscribe(() -> showLoadingProgress());
     }
 
     @Override
@@ -154,17 +198,19 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void showUploadFail() {
+    private void showUploadFail(String reason) {
+        Log.e("===========>>>", "showUploadFail:" + reason);
     }
 
     private void showUploadSucess() {
+        Log.e("===========>>>", "showUploadSucess");
     }
 
     private void showLoadingProgress() {
-
+        Log.e("===========>>>", "showLoadingProgress");
     }
 
     private void closeLoadingProgress() {
-
+        Log.e("===========>>>", "closeLoadingProgress");
     }
 }

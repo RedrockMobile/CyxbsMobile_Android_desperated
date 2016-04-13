@@ -20,6 +20,7 @@ import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.Dynamic;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.community.Student;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
@@ -89,21 +90,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void test() {
-/*
-        RequestManager.getInstance().newsApiService
-                .getHotArticle(2, 1, "2014212041", "044737")
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new Action1<List<News>>() {
-                    @Override
-                    public void call(List<News> okResponse) {
-                        Log.e("++++++++++++++++++++size", okResponse.size() + "");
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Log.e("==============++++++++++++++++++++", throwable.toString());
-                    }
-                });*/
+
 
 
     }

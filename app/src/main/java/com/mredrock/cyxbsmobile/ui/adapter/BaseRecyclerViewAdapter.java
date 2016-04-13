@@ -25,7 +25,7 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(VH holder, int position) {
         bindData(holder, mDatas.get(position), position);
-        setupOnItemClick(holder,position);
+        setupOnItemClick(holder, position);
     }
 
     protected abstract void bindData(VH holder, T data, int position);
@@ -71,7 +71,7 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return mDatas != null ? mDatas.size() : 0;
     }
 
 }
