@@ -41,9 +41,16 @@ public class CommunityContainerFragment extends BaseFragment {
 
     private void init() {
         List<Fragment> fragmentLIst = new ArrayList<>();
-        fragmentLIst.add(new NewsFragment());
-        fragmentLIst.add(new NewsFragment());
-        fragmentLIst.add(new NewsFragment());
+
+        NewsFragment mPopularNewFragment = new NewsFragment();
+        NewsFragment mBBLLNewFragment = new NewsFragment();
+        NewsFragment mOfficialNewFragment = new NewsFragment();
+
+
+        fragmentLIst.add(mPopularNewFragment);
+        fragmentLIst.add(mBBLLNewFragment);
+        fragmentLIst.add(mOfficialNewFragment);
+
         TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager(), fragmentLIst, Arrays.asList(getActivity().getResources().getStringArray(R.array.community_tab_tiles)));
 
         mViewPager.setAdapter(adapter);

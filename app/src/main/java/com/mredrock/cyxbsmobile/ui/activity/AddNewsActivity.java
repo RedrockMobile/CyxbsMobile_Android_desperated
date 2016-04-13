@@ -11,7 +11,10 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.NineGridlayout;
-import com.mredrock.cyxbsmobile.model.Image;
+import com.mredrock.cyxbsmobile.model.community.Image;
+import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
+import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.util.ScreenTools;
 
 import java.util.ArrayList;
@@ -21,6 +24,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class AddNewsActivity extends BaseActivity implements View.OnClickListener {
 
@@ -57,6 +65,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         setSupportActionBar(mToolBar);
         mCancelText.setOnClickListener(this);
         mSaveText.setOnClickListener(this);
+
         mNineGridlayout.setOnAddImagItemClickListener((v, position) -> {
             Intent intent = new Intent(AddNewsActivity.this, MultiImageSelectorActivity.class);
             // 是否显示调用相机拍照
@@ -68,14 +77,15 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
             // 默认选择图片,回填选项(支持String ArrayList)
             startActivityForResult(intent, REQUEST_IMAGE);
         });
+
         mNineGridlayout.setmOnClickDeletecteListener(new NineGridlayout.OnClickDeletecteListener() {
             @Override
             public void onClickDelete(View v, int position) {
-                Log.e("==============>>>>>>", position + "");
                 mImgs.remove(position);
                 mNineGridlayout.setImagesData(mImgs);
             }
         });
+
     }
 
     @Override
@@ -85,8 +95,40 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                 AddNewsActivity.this.finish();
                 break;
             case R.id.toolbar_save:
+                sendDynamic();
                 break;
         }
+    }
+
+    private void sendDynamic() {
+        List<Image> currentImgs = new ArrayList<>();
+        currentImgs.addAll(mImgs);
+        currentImgs.remove(0);
+        final String[] photosrcs = {""};
+        final String[] thumbnail_srcs = {""};
+        Observable.from(currentImgs)
+                .doOnSubscribe(() -> showLoadingProgress())
+                .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
+                .observeOn(Schedulers.newThread())
+                .map(image -> image.getUrl())
+                .flatMap(s -> RequestManager.getInstance().uploadNewsImg("2013211594", s))
+                .buffer(mImgs.size() - 1)
+                .flatMap(uploadImgResponses -> {
+                    for (UploadImgResponse uploadImgResponse : uploadImgResponses) {
+                        photosrcs[0] += photosrcs[0] + uploadImgResponse.getData().getPhotosrc() + ",";
+                        thumbnail_srcs[0] += thumbnail_srcs[0] + uploadImgResponse.getData().getPhotosrc() + ",";
+                    }
+                    return RequestManager.getInstance().sendDynamic(5, "天地大同", "8", "122334", thumbnail_srcs[0], photosrcs[0], "2013211594", "160155");
+                })
+                .subscribe(okResponse -> {
+                    if (okResponse.getState() == OkResponse.RESPONSE_OK) {
+                        closeLoadingProgress();
+                        showUploadSucess();
+                    }
+                }, throwable -> {
+                    closeLoadingProgress();
+                    showUploadFail();
+                });
     }
 
     @Override
@@ -97,7 +139,6 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                 // 获取返回的图片列表
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 // 处理你自己的逻辑 ....
-
                 Observable.from(path)
                         .map(s -> new Image(s, singlePicX, singlePicX, Image.NORMALIMAGE))
                         .map(image -> {
@@ -111,5 +152,19 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                         });
             }
         }
+    }
+
+    private void showUploadFail() {
+    }
+
+    private void showUploadSucess() {
+    }
+
+    private void showLoadingProgress() {
+
+    }
+
+    private void closeLoadingProgress() {
+
     }
 }

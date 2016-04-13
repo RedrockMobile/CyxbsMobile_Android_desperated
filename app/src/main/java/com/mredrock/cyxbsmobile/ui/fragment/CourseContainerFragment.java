@@ -41,7 +41,6 @@ public class CourseContainerFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: ");
         List<String> mTitles = new ArrayList<>();
         mTitles.addAll(Arrays.asList(getResources().getStringArray(R.array.titles_weeks)));
         if (mFragmentList.isEmpty()) {

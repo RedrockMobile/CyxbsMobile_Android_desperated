@@ -10,11 +10,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.model.community.BBDD;
+import com.mredrock.cyxbsmobile.model.community.Dynamic;
+import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
+import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
@@ -24,9 +31,22 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabClickListener;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -64,7 +84,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mBottomBar = BottomBar.attach(mCoordinatorLayout, savedInstanceState);
         initView();
         mBottomBar.selectTabAtPosition(1, false);
+
+        test();
     }
+
+    private void test() {
+/*
+        RequestManager.getInstance().newsApiService
+                .getHotArticle(2, 1, "2014212041", "044737")
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Action1<List<News>>() {
+                    @Override
+                    public void call(List<News> okResponse) {
+                        Log.e("++++++++++++++++++++size", okResponse.size() + "");
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("==============++++++++++++++++++++", throwable.toString());
+                    }
+                });*/
+
+
+    }
+
 
     private void initView() {
         initToolbar();

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.News;
+import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 
@@ -27,6 +27,7 @@ public class NewsFragment extends BaseFragment {
     @Bind(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,9 +39,8 @@ public class NewsFragment extends BaseFragment {
 
     private void init() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getParentFragment().getActivity()));
-        List<News> mDatas = new ArrayList<>();
-        for (int i = 0; i < 10; i++) mDatas.add(new News());
-        mRecyclerView.setAdapter(new NewsAdapter(mDatas,getParentFragment().getActivity()));
+        News news = new News();
+        mRecyclerView.setAdapter(new NewsAdapter(news));
     }
 
     @Override

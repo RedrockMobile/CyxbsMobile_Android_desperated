@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.model;
+package com.mredrock.cyxbsmobile.model.community;
 
 /**
  * Created by mathiasluo on 16-4-11.
@@ -12,6 +12,29 @@ public class Image {
     public static final int NORMALIMAGE = 0002;
     private int type;
 
+    private String photosrc;
+    private String thumbnail_src;
+
+    public Image(String thumbnail_src, String photosrc) {
+        this.thumbnail_src = thumbnail_src;
+        this.photosrc = photosrc;
+    }
+
+    public String getPhotosrc() {
+        return photosrc;
+    }
+
+    public void setPhotosrc(String photosrc) {
+        this.photosrc = photosrc;
+    }
+
+    public String getThumbnail_src() {
+        return thumbnail_src;
+    }
+
+    public void setThumbnail_src(String thumbnail_src) {
+        this.thumbnail_src = thumbnail_src;
+    }
 
     public Image(String url, int width, int height, int type) {
         this.url = url;

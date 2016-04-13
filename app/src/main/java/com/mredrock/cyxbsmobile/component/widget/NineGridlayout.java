@@ -7,12 +7,11 @@ package com.mredrock.cyxbsmobile.component.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.mredrock.cyxbsmobile.model.Image;
+import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.util.ScreenTools;
 
 import java.util.List;
@@ -26,14 +25,14 @@ public class NineGridlayout extends ViewGroup {
     /**
      * 图片之间的间隔
      */
-    private int gap = 16;
-    private int columns;//
-    private int rows;//
-    private List listData;
-    private int totalWidth;
-    private OnAddImagItemClickListener mOnAddImagItemClickListener;
-    private OnNormalImagItemClickListener mOnNormalImagItemClickListener;
-    private OnClickDeletecteListener mOnClickDeletecteListener;
+    protected int gap = 8;
+    protected int columns;//
+    protected int rows;//
+    protected List listData;
+    protected int totalWidth;
+    protected OnAddImagItemClickListener mOnAddImagItemClickListener;
+    protected OnNormalImagItemClickListener mOnNormalImagItemClickListener;
+    protected OnClickDeletecteListener mOnClickDeletecteListener;
 
     public NineGridlayout(Context context) {
         super(context);
@@ -72,7 +71,7 @@ public class NineGridlayout extends ViewGroup {
 
     }
 
-    private void layoutChildrenView() {
+    protected void layoutChildrenView() {
         int childrenCount = listData.size();
 
         int singleWidth = (totalWidth - gap * (3 - 1)) / 3;
@@ -104,7 +103,6 @@ public class NineGridlayout extends ViewGroup {
             });
             childrenView.setImageUrl(((Image) listData.get(i)).getUrl());
             childrenView.setType(((Image) listData.get(i)).getType());
-            Log.e("=====>>>>>>>>>>>>", ((Image) listData.get(i)).getUrl());
             int[] position = findPosition(i);
             int left = (singleWidth + gap) * position[1];
             int top = (singleHeight + gap) * position[0];
@@ -116,7 +114,7 @@ public class NineGridlayout extends ViewGroup {
     }
 
 
-    private int[] findPosition(int childNum) {
+    protected int[] findPosition(int childNum) {
         int[] position = new int[2];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {

@@ -10,23 +10,18 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.Image;
+import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.util.DensityUtil;
-import com.mredrock.cyxbsmobile.util.ScreenTools;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by Pan_ on 2015/2/2.

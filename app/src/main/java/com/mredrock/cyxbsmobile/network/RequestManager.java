@@ -7,21 +7,30 @@ import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.MovieResult;
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Subject;
+import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.exception.ApiException;
 import com.mredrock.cyxbsmobile.network.exception.RedrockApiException;
+import com.mredrock.cyxbsmobile.network.service.NewsApiService;
 import com.mredrock.cyxbsmobile.network.service.RedrockApiService;
 import com.mredrock.cyxbsmobile.network.service.UpDownloadService;
 import com.mredrock.cyxbsmobile.util.OkHttpUtils;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -39,6 +48,7 @@ public enum RequestManager {
 
     private UpDownloadService upDownloadService;
     private RedrockApiService redrockApiService;
+    public NewsApiService newsApiService;
 
     private static final int DEFAULT_TIMEOUT = 30;
 
@@ -58,6 +68,7 @@ public enum RequestManager {
 
         upDownloadService = retrofit.create(UpDownloadService.class);
         redrockApiService = retrofit.create(RedrockApiService.class);
+        newsApiService = retrofit.create(NewsApiService.class);
     }
 
     public OkHttpClient configureOkHttp(OkHttpClient.Builder builder) {
@@ -86,7 +97,7 @@ public enum RequestManager {
                     /* 请求地址 */UpDownloadService.TEST_UPLOAD_URL,
                     /* 除了文件，其他POST参数 *///OkHttpUtils.createStringRequestBody("values"),
                     /* 文件，"file"是参数名 */OkHttpUtils.createFileRequestBody("file", fileUri))
-                .map(wrapper -> wrapper.info);
+                        .map(wrapper -> wrapper.info);
 
         emitObservable(observable, subscriber);
     }
@@ -127,4 +138,26 @@ public enum RequestManager {
         }
     }
 
+    public Observable<UploadImgResponse> uploadNewsImg(String stuNum, String filePath) {
+        File file = new File(filePath);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part file_body = MultipartBody.Part.createFormData("fold", file.getName(), requestFile);
+        RequestBody stuNum_body = RequestBody.create(MediaType.parse("multipart/form-data"), stuNum);
+        return newsApiService.uploadImg(stuNum_body, file_body);
+    }
+
+    public Observable<List<News>> getHotArticle(int size, int page, String stuNum, String idNum) {
+        return newsApiService.getHotArticle(size, page, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<News>> getListArticle(int type_id, int size, int page, String stuNum, String idNum) {
+        return newsApiService.getListArticle(type_id, size, page, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<OkResponse> sendDynamic(int type_id, String title, String user_id, String content, String thumbnail_src, String photo_src, String stuNum, String idNum) {
+        return newsApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum).observeOn(AndroidSchedulers.mainThread());
+    }
+
+
 }
+

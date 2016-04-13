@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.Comment;
+import com.mredrock.cyxbsmobile.model.community.Comment;
 
 import java.util.List;
 

@@ -5,14 +5,13 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
-import com.mredrock.cyxbsmobile.model.Comment;
+import com.mredrock.cyxbsmobile.model.community.Comment;
 import com.mredrock.cyxbsmobile.ui.adapter.SpecificNewsCommentAdapter;
 
 import java.util.ArrayList;
