@@ -2,58 +2,56 @@ package com.mredrock.cyxbsmobile.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout;
-import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
-import com.mredrock.cyxbsmobile.model.community.Comment;
-import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.community.ReMarks;
+import com.mredrock.cyxbsmobile.model.community.Student;
+import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.SpecificNewsCommentAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-
     @Bind(R.id.toolbar_title)
     TextView mToolBarTitle;
-
-
     @Bind(R.id.news_edt_comment)
     EditText mNewsEdtComment;
-
     @Bind(R.id.refresh)
     SwipeRefreshLayout mRefresh;
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    @Bind(R.id.btn_send)
+    TextView mSendText;
 
 
     private News.DataBean dataBean;
-    private List<Image> mImgs;
     private View mHeaderView;
-    private WrapView mWrapView;
+    private NewsAdapter.ViewHolder mWrapView;
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
+    private List<ReMarks.ReMark> mDatas = null;
+    private View mFooterView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +59,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         setContentView(R.layout.activity_specific_news);
         ButterKnife.bind(this);
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
-        mWrapView = new WrapView(mHeaderView);
+        mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
         dataBean = getIntent().getParcelableExtra("dataBean");
         init();
     }
@@ -69,8 +67,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private void init() {
         initToolbar();
         mRefresh.setOnRefreshListener(this);
-
-        List<Comment> mDatas = null;
+        mSendText.setOnClickListener(this);
         mSpecificNewsCommentAdapter = new SpecificNewsCommentAdapter(mDatas, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -80,24 +77,39 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
 
-        mWrapView.mTextNickname.setText(dataBean.getUser_name() != null ? dataBean.getUser_name() + "" : "没有名字就显示我了");
-        mWrapView.mNewsTextTime.setText(dataBean.getTime());
-        mWrapView.mTextContennt.setText(dataBean.getContent());
-        mWrapView.mNewsBtnFavorites.setText(dataBean.getLike_num());
-        mWrapView.mNewsBtnMessage.setText(dataBean.getRemark_num());
-
-        mImgs = new ArrayList<>();
-        for (String url : getUrls(dataBean.getImg().getImg_small_src()))
-            mImgs.add(new Image(url, Image.ADDIMAG));
-
-        mWrapView.mAutoNineLayout.setImagesData(mImgs);
-
+        mWrapView.setData(dataBean);
         reqestComentDatas();
 
     }
 
-    private void reqestComentDatas() {
 
+    private void reqestComentDatas() {
+        RequestManager.getInstance().getRemarks(dataBean.getId(), dataBean.getType_id(), Student.UER_ID, Student.STU_NUM, Student.ID_NUM)
+                .doOnSubscribe(() -> showLoadingProgress())
+                .subscribe(reMarks -> {
+                    mDatas = reMarks.getData();
+                    if ((mDatas == null || mDatas.size() == 0) && mFooterView == null)
+                        addFooterView();
+                    if ((mDatas.size() != 0) && mFooterView != null)
+                        removeFooterView();
+                    mSpecificNewsCommentAdapter = new SpecificNewsCommentAdapter(mDatas, SpecificNewsActivity.this);
+                    mHeaderViewRecyclerAdapter.setAdapter(mSpecificNewsCommentAdapter);
+                    closeLoadingProgress();
+                }, throwable -> {
+                    closeLoadingProgress();
+                    getDataFailed();
+                });
+
+    }
+
+    private void removeFooterView() {
+        mHeaderViewRecyclerAdapter.reMoveFooterView();
+        mHeaderViewRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    private void addFooterView() {
+        mFooterView = LayoutInflater.from(this).inflate(R.layout.list_footer_item_remark, mRecyclerView, false);
+        mHeaderViewRecyclerAdapter.addFooterView(mFooterView);
     }
 
     private void initToolbar() {
@@ -108,50 +120,54 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mToolbar.setNavigationOnClickListener(view -> SpecificNewsActivity.this.finish());
     }
 
-    private List<Comment> getDate() {
-        return null;
-       /* List<Comment> mDatas = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            mDatas.add(new Comment());
-        }
-        return mDatas;*/
+    private void getDataFailed() {
+        Toast.makeText(this, getString(R.string.erro), Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_send:
+                sendReMark();
+                break;
+        }
+    }
 
-    public String[] getUrls(String url) {
-        return url.split(",");
+    private void sendReMark() {
+        if (mNewsEdtComment.getText().toString().equals(""))
+            Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT).show();
+        else
+            RequestManager.getInstance().postReMarks(dataBean.getId(), dataBean.getType_id(), mNewsEdtComment.getText().toString())
+                    .doOnSubscribe(() -> showLoadingProgress())
+                    .subscribe(okResponse -> {
+                        if (okResponse.getState() == OkResponse.RESPONSE_OK) {
+                            reqestComentDatas();
+                            mNewsEdtComment.getText().clear();
+                        }
+                    }, throwable ->
+                            showUploadFail(throwable.toString()));
     }
 
     @Override
     public void onRefresh() {
-
+        reqestComentDatas();
     }
 
-    class WrapView {
-
-        public View itemView;
-
-        @Bind(R.id.news_item_card_view)
-        CardView mCardVIew;
-        @Bind(R.id.list_news_img_avatar)
-        CircleImageView mImgAvatar;
-        @Bind(R.id.list_news_text_nickname)
-        TextView mTextNickname;
-        @Bind(R.id.list_news_text_time)
-        TextView mNewsTextTime;
-        @Bind(R.id.textContennt)
-        TextView mTextContennt;
-        @Bind(R.id.autoNineLayout)
-        AutoNineGridlayout mAutoNineLayout;
-        @Bind(R.id.list_news_btn_message)
-        Button mNewsBtnMessage;
-        @Bind(R.id.list_news_btn_favorites)
-        Button mNewsBtnFavorites;
-
-        public WrapView(View itemView) {
-            this.itemView = itemView;
-            ButterKnife.bind(this, itemView);
-        }
+    private void showLoadingProgress() {
+        mRefresh.setRefreshing(true);
     }
+
+    private void closeLoadingProgress() {
+        mRefresh.setRefreshing(false);
+    }
+
+    private void showUploadFail(String reason) {
+        Log.e("===========>>>", "showUploadFail:" + reason);
+    }
+
+    private void showUploadSucess() {
+        Log.e("===========>>>", "showUploadSucess");
+    }
+
 
 }

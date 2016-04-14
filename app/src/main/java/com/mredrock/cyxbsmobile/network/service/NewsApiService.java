@@ -4,6 +4,7 @@ import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.Dynamic;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.community.ReMarks;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public interface NewsApiService {
                                          @Field("stuNum") String stuNum,
                                          @Field("idNum") String idNum);
 
-
+    @FormUrlEncoded
     //哔哔叨叨(或者其他的)接口：POST
     @POST("cyxbsMobile/index.php/Home/Article/listArticle")
     Observable<List<News>> getListArticle(@Field("type_id") int type_id,
@@ -66,31 +67,33 @@ public interface NewsApiService {
                                        @Field("stuNum") String stuNum,
                                        @Field("idNum") String idNum);
 
-
+    @FormUrlEncoded
+    @POST("cyxbsMobile/index.php/Home/ArticleRemark/getremark")
+    Observable<ReMarks> getReMark(@Field("article_id") String article_id,
+                                        @Field("type_id") int type_id,
+                                        @Field("user_id") String user_id,
+                                        @Field("stuNum") String stuNum,
+                                        @Field("idNum") String idNum);
+    @FormUrlEncoded
     @POST("cyxbsMobile/index.php/Home/ArticleRemark/postremarks")
-    Observable<?> getReMark(@Field("article_id") String article_id,
-                            @Field("type_id") String type_id,
-                            @Field("stuNum") String stuNum,
-                            @Field("idNum") String idNum);
-
-    @POST("cyxbsMobile/index.php/Home/ArticleRemark/postremarks")
-    Observable<?> postReMarks(@Field("article_id") String article_id,
-                              @Field("type_id") String type_id,
-                              @Field("content") String content,
-                              @Field("stuNum") String stuNum,
-                              @Field("idNum") String idNum);
-
+    Observable<OkResponse> postReMarks(@Field("article_id") String article_id,
+                                       @Field("type_id") int type_id,
+                                       @Field("content") String content,
+                                       @Field("user_id") String user_id,
+                                       @Field("stuNum") String stuNum,
+                                       @Field("idNum") String idNum);
+    @FormUrlEncoded
     @POST("cyxbsMobile/index.php/Home/Praise/addone")
-    Observable<?> addThumbsUp(@Field("article_id") String article_id,
-                              @Field("type_id") String type_id,
-                              @Field("stuNum") String stuNum,
-                              @Field("idNum") String idNum);
-
+    Observable<OkResponse> addThumbsUp(@Field("article_id") String article_id,
+                                       @Field("type_id") int type_id,
+                                       @Field("stuNum") String stuNum,
+                                       @Field("idNum") String idNum);
+    @FormUrlEncoded
     @POST("cyxbsMobile/index.php/Home/Praise/cancel")
-    Observable<?> cancelThumbsUp(@Field("article_id") String article_id,
-                                 @Field("type_id") String type_id,
-                                 @Field("stuNum") String stuNum,
-                                 @Field("idNum") String idNum);
+    Observable<OkResponse> cancelThumbsUp(@Field("article_id") String article_id,
+                                          @Field("type_id") int type_id,
+                                          @Field("stuNum") String stuNum,
+                                          @Field("idNum") String idNum);
 
 
 }

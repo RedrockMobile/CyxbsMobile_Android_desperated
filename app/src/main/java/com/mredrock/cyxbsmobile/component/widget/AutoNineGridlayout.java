@@ -26,7 +26,7 @@ public class AutoNineGridlayout extends NineGridlayout {
         switch (childrenCount) {
             case 1:
                 int singleWidth = totalWidth - gap * 2;
-                int singleHeight = singleWidth;
+                int singleHeight = singleWidth / 3 * 2;
                 ViewGroup.LayoutParams params = getLayoutParams();
                 params.height = singleHeight * rows + gap * (rows - 1);
                 setLayoutParams(params);
@@ -42,7 +42,7 @@ public class AutoNineGridlayout extends NineGridlayout {
                                 mOnNormalImagItemClickListener.onClick(view, 0);
                     }
                 });
-                childrenView.setOnClickDelecteLIstener(new CustomImageView.OnClickDelecteLIstener() {
+                childrenView.setOnClickDelecteLIstener(new CustomImageView.OnClickDelecteListener() {
                     @Override
                     public void onClickDelect(View v) {
                         mOnClickDeletecteListener.onClickDelete(v, 0);

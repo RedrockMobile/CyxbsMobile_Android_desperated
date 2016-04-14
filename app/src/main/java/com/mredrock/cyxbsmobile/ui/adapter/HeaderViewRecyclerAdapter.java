@@ -23,6 +23,10 @@ public class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     private List<View> mHeaderViews, mFooterViews;
     private Map<Class, Integer> mItemTypesOffset;
 
+    public RecyclerView.Adapter getmWrappedAdapter() {
+        return mWrappedAdapter;
+    }
+
     /**
      * Construct a new header view recycler adapter
      *
@@ -173,6 +177,10 @@ public class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
             notifyItemRangeChanged(fromPosition + hCount, toPosition + hCount + itemCount);
         }
     };
+
+    public void reMoveFooterView() {
+        mFooterViews.clear();
+    }
 
     private static class StaticViewHolder extends RecyclerView.ViewHolder {
 

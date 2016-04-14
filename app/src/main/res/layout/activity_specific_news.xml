@@ -72,24 +72,40 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/crop__button_bar"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/tab_pading_color" />
+        <!--    <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/tab_pading_color" />-->
 
         <EditText
             android:id="@+id/news_edt_comment"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
+            android:layout_weight="4"
             android:background="@drawable/news_edt"
             android:hint="@string/news_edt"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+
+        <TextView
+            android:id="@+id/btn_send"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_alignTop="@+id/news_edt_comment"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/news_edt_comment"
+            android:layout_weight="1"
+            android:background="@drawable/news_button"
+            android:gravity="center"
+            android:text="发送" />
     </LinearLayout>
 
 </RelativeLayout>

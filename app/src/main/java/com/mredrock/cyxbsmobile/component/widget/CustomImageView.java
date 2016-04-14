@@ -31,7 +31,7 @@ public class CustomImageView extends ImageView {
 
     private String url;
     private boolean isAttachedToWindow;
-    private OnClickDelecteLIstener mOnClickDelecteLIstener;
+    private OnClickDelecteListener onClickDelecteListener;
     private int type;
     public static final String BASE_IMG_URL = "http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/";
 
@@ -79,8 +79,8 @@ public class CustomImageView extends ImageView {
                 int w = DensityUtil.dp2px(getContext(), 18);
 
                 if (x > getWidth() - 2 * w && y < 2 * w) {
-                    if (mOnClickDelecteLIstener != null && type == Image.NORMALIMAGE)
-                        mOnClickDelecteLIstener.onClickDelect(this);
+                    if (onClickDelecteListener != null && type == Image.NORMALIMAGE)
+                        onClickDelecteListener.onClickDelect(this);
                 }
                 break;
         }
@@ -106,10 +106,11 @@ public class CustomImageView extends ImageView {
     public void setImageUrl(String url) {
         if (!TextUtils.isEmpty(url)) {
             this.url = url;
+
             if (isAttachedToWindow) {
                 Glide
                         .with(getContext())
-                        .load(BASE_IMG_URL+url)
+                        .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : BASE_IMG_URL + url)
                         .placeholder(new ColorDrawable(Color.parseColor("#f5f5f5")))
                         .into(this);
             }
@@ -126,11 +127,11 @@ public class CustomImageView extends ImageView {
         }
     }
 
-    public void setOnClickDelecteLIstener(OnClickDelecteLIstener onClickDelecteLIstener) {
-        this.mOnClickDelecteLIstener = onClickDelecteLIstener;
+    public void setOnClickDelecteLIstener(OnClickDelecteListener onClickDelecteListener) {
+        this.onClickDelecteListener = onClickDelecteListener;
     }
 
-    public interface OnClickDelecteLIstener {
+    public interface OnClickDelecteListener {
         void onClickDelect(View v);
     }
 }

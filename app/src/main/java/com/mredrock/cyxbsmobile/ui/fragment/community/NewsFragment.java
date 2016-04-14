@@ -6,16 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.community.News;
-import com.mredrock.cyxbsmobile.model.community.Student;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.EndlessRecyclerOnScrollListener;
 import com.mredrock.cyxbsmobile.ui.activity.SpecificNewsActivity;
@@ -23,18 +20,16 @@ import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 
 /**
  * @author MathiasLuo
  */
-public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, NewsAdapter.OnItemOnClickLIstener {
+public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, NewsAdapter.OnItemOnClickListener {
 
     @Bind(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
@@ -69,29 +64,10 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         getCurrentData(1, 1);
     }
 
-    private void showLoadingProgress() {
-        refreshLayout.setRefreshing(true);
-    }
-
-    private void closeLoadingProgress() {
-        refreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-
-    @Override
-    public void onRefresh() {
-        getCurrentData(1, 1);
-    }
 
     private void getCurrentData(int size, int page) {
         RequestManager.getInstance()
-                .getHotArticle(size, page, Student.STU_NUM, Student.ID_NUM)
+                .getHotArticle(size, page)
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .subscribe(newses -> {
@@ -104,7 +80,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     closeLoadingProgress();
                 }, throwable -> {
                     closeLoadingProgress();
-                    Toast.makeText(getContext(), getString(R.string.erro), Toast.LENGTH_SHORT).show();
+                    getDataFailed(throwable.toString());
                 });
 
     }
@@ -112,28 +88,52 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private void initAdapter(List<News> datas) {
         mDatas = datas;
         mNewsAdapter = new NewsAdapter(mDatas);
-        mNewsAdapter.setOnItemOnClickLIstener(this);
+        mNewsAdapter.setOnItemOnClickListener(this);
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mNewsAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         addFooterView(mHeaderViewRecyclerAdapter);
     }
 
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.list_footer_item, mRecyclerView, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.list_footer_item_news, mRecyclerView, false);
         mHeaderViewRecyclerAdapter.addFooterView(view);
     }
 
     private void getNextPageData(int size, int page) {
         RequestManager.getInstance()
-                .getHotArticle(size, page, Student.STU_NUM, Student.ID_NUM)
+                .getHotArticle(size, page)
                 .subscribe(newses -> {
                     mDatas.addAll(newses);
                     mNewsAdapter.notifyDataSetChanged();
                 }, throwable -> {
-                    Toast.makeText(getContext(), getString(R.string.erro), Toast.LENGTH_SHORT).show();
+                    getDataFailed(throwable.toString());
                 });
     }
 
+
+    private void showLoadingProgress() {
+        refreshLayout.setRefreshing(true);
+    }
+
+    private void closeLoadingProgress() {
+        refreshLayout.setRefreshing(false);
+    }
+
+    private void getDataFailed(String reason) {
+        Toast.makeText(getContext(), getString(R.string.erro) + "===>>>" + reason, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        getCurrentData(1, 1);
+    }
 
     @Override
     public void onItemClick(View itemView, int position, News.DataBean dataBean) {
@@ -141,4 +141,6 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         intent.putExtra("dataBean", dataBean);
         startActivity(intent);
     }
+
+
 }

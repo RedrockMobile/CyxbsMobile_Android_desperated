@@ -60,8 +60,11 @@ public class News {
 
         private String type;
         private String id;
-        private Object user_id;
-        private Object user_name;
+        private int type_id;
+
+
+        private String user_id;
+        private String nick_name;
         private String user_head;
         private String time;
         private String content;
@@ -85,6 +88,18 @@ public class News {
             like_num = in.readString();
             remark_num = in.readString();
             is_my_Like = in.readByte() != 0;
+        }
+
+        public int getType_id() {
+            return type_id;
+        }
+
+        public void setType_id(int type_id) {
+            this.type_id = type_id;
+        }
+
+        public boolean is_my_Like() {
+            return is_my_Like;
         }
 
         public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
@@ -115,20 +130,20 @@ public class News {
             this.id = id;
         }
 
-        public Object getUser_id() {
+        public String getUser_id() {
             return user_id;
         }
 
-        public void setUser_id(Object user_id) {
+        public void setUser_id(String user_id) {
             this.user_id = user_id;
         }
 
-        public Object getUser_name() {
-            return user_name;
+        public String getUser_name() {
+            return nick_name;
         }
 
-        public void setUser_name(Object user_name) {
-            this.user_name = user_name;
+        public void setUser_name(String user_name) {
+            this.nick_name = user_name;
         }
 
         public String getUser_head() {
@@ -204,6 +219,7 @@ public class News {
             parcel.writeString(remark_num);
             parcel.writeByte((byte) (is_my_Like ? 1 : 0));
         }
+
         public static class ImgBean implements Parcelable {
             private String img_small_src;
             private String img_src;

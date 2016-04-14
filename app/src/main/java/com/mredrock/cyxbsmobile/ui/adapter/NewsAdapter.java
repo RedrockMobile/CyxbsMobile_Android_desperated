@@ -5,24 +5,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.model.community.News;
-import com.mredrock.cyxbsmobile.util.ScreenTools;
+import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.network.RequestManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 /**
  * Created by mathiasluo on 16-4-4.
@@ -30,11 +28,10 @@ import butterknife.ButterKnife;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<News> mNews;
-    private List<Image> mImgs;
-    private OnItemOnClickLIstener onItemOnClickLIstener;
+    private OnItemOnClickListener onItemOnClickListener;
 
-    public void setOnItemOnClickLIstener(OnItemOnClickLIstener onItemOnClickLIstener) {
-        this.onItemOnClickLIstener = onItemOnClickLIstener;
+    public void setOnItemOnClickListener(OnItemOnClickListener onItemOnClickLIstener) {
+        this.onItemOnClickListener = onItemOnClickLIstener;
     }
 
     public NewsAdapter(List<News> mNews) {
@@ -50,18 +47,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public void onBindViewHolder(NewsAdapter.ViewHolder holder, int position) {
         News.DataBean mDataBean = mNews.get(position).getData();
         setupOnItemClick(holder, position, mDataBean);
-        mImgs = new ArrayList<>();
-        for (String url : getUrls(mDataBean.getImg().getImg_small_src())) {
-            mImgs.add(new Image(url, Image.ADDIMAG));
-        }
-        holder.mAutoNineGridlayout.setImagesData(mImgs);
-
-
-        holder.mTextName.setText(mDataBean.getUser_name() != null ? mDataBean.getUser_name().toString() : "罗武侠");
-        holder.mTextTime.setText(mDataBean.getTime());
-        holder.mTextContent.setText(mDataBean.getContent());
-        holder.mBtnMsg.setText(mDataBean.getLike_num());
-        holder.mBtnFavor.setText(mDataBean.getRemark_num());
+        holder.setData(mDataBean);
     }
 
     @Override
@@ -69,40 +55,100 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return mNews != null ? mNews.size() : 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+
+    protected void setupOnItemClick(final NewsAdapter.ViewHolder viewHolder, final int position, News.DataBean dataBean) {
+        if (onItemOnClickListener != null)
+            viewHolder.itemView.setOnClickListener(v -> onItemOnClickListener.onItemClick(viewHolder.itemView, position, dataBean));
+    }
+
+    public interface OnItemOnClickListener {
+        void onItemClick(View itemView, int position, News.DataBean dataBean);
+    }
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.list_news_img_avatar)
-        CircleImageView mImgAvatar;
+        public CircleImageView mImgAvatar;
         @Bind(R.id.list_news_text_nickname)
-        TextView mTextName;
+        public TextView mTextName;
         @Bind(R.id.list_news_text_time)
-        TextView mTextTime;
+        public TextView mTextTime;
         @Bind(R.id.textContennt)
-        TextView mTextContent;
+        public TextView mTextContent;
         @Bind(R.id.autoNineLayout)
-        AutoNineGridlayout mAutoNineGridlayout;
+        public AutoNineGridlayout mAutoNineGridlayout;
         @Bind(R.id.list_news_btn_message)
-        Button mBtnMsg;
+        public TextView mBtnMsg;
         @Bind(R.id.list_news_btn_favorites)
-        Button mBtnFavor;
+        public TextView mBtnFavor;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
 
-    protected void setupOnItemClick(final NewsAdapter.ViewHolder viewHolder, final int position, News.DataBean dataBean) {
-        if (onItemOnClickLIstener != null)
-            viewHolder.itemView.setOnClickListener(v -> onItemOnClickLIstener.onItemClick(viewHolder.itemView, position, dataBean));
-    }
+        public static void addThumbsUp(News.DataBean dataBean, TextView textView) {
+            RequestManager.getInstance().addThumbsUp(dataBean.getId(), dataBean.getType_id())
+                    .subscribe(new Action1<OkResponse>() {
+                        @Override
+                        public void call(OkResponse okResponse) {
+                            if (okResponse.getState() == OkResponse.RESPONSE_OK) {
+                                dataBean.setIs_my_Like(true);
+                                textView.setText(Integer.parseInt(textView.getText().toString()) + 1 + "");
+                            }
+                        }
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            Log.e("============>>>>>addThumbsUp", throwable.toString());
+                        }
+                    });
+        }
 
-    public String[] getUrls(String url) {
-        return url.split(",");
-    }
+        public static void cancelTHumbsUp(News.DataBean dataBean, TextView textView) {
+            RequestManager.getInstance().cancelThumbsUp(dataBean.getId(), dataBean.getType_id())
+                    .subscribe(new Action1<OkResponse>() {
+                        @Override
+                        public void call(OkResponse okResponse) {
+                            if (okResponse.getState() == OkResponse.RESPONSE_OK) {
+                                dataBean.setIs_my_Like(false);
+                                textView.setText(Integer.parseInt(textView.getText().toString()) - 1 + "");
+                            }
+                        }
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            Log.e("============>>>>>cancelTHumbsUp", throwable.toString());
+                        }
+                    });
+        }
 
-    public interface OnItemOnClickLIstener {
-        void onItemClick(View itemView, int position, News.DataBean dataBean);
+
+        public void setData(News.DataBean dataBean) {
+
+            mTextName.setText(dataBean.getUser_name() != null ? dataBean.getUser_name() + "" : "没有名字就显示我了");
+            mTextTime.setText(dataBean.getTime());
+            mTextContent.setText(dataBean.getContent());
+            mBtnFavor.setText(dataBean.getLike_num());
+            mBtnMsg.setText(dataBean.getRemark_num());
+
+            mBtnFavor.setOnClickListener(view -> {
+                if (dataBean.isIs_my_Like())
+                    NewsAdapter.ViewHolder.cancelTHumbsUp(dataBean, mBtnFavor);
+                else NewsAdapter.ViewHolder.addThumbsUp(dataBean, mBtnFavor);
+            });
+
+            List<Image> mImgs = new ArrayList<>();
+            for (String url : getUrls(dataBean.getImg().getImg_small_src()))
+                mImgs.add(new Image(url, Image.ADDIMAG));
+            mAutoNineGridlayout.setImagesData(mImgs);
+        }
+
+        public String[] getUrls(String url) {
+            return url != null ? url.split(",") : new String[]{""};
+        }
+
     }
 
 }

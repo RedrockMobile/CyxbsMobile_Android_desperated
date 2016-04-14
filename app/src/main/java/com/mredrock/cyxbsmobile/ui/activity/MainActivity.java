@@ -17,11 +17,9 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.community.BBDD;
-import com.mredrock.cyxbsmobile.model.community.Dynamic;
-import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.community.ReMarks;
 import com.mredrock.cyxbsmobile.model.community.Student;
-import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
@@ -32,22 +30,12 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabClickListener;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -85,13 +73,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mBottomBar = BottomBar.attach(mCoordinatorLayout, savedInstanceState);
         initView();
         mBottomBar.selectTabAtPosition(1, false);
-
         test();
     }
 
     private void test() {
-
-
 
     }
 

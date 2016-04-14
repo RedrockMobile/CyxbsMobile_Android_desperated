@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
+            <TextView
                 android:id="@+id/list_news_btn_message"
                 android:layout_width="52dp"
                 android:layout_height="24dp"
@@ -84,14 +84,15 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginRight="6dp"
                 android:layout_marginTop="8dp"
-                android:background="@color/white"
+                android:background="@drawable/news_button"
                 android:drawableLeft="@drawable/message"
+                android:drawablePadding="8dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="4dp"
                 android:text="15"
                 android:textColor="@color/body_text_2" />
 
-            <Button
+            <TextView
                 android:id="@+id/list_news_btn_favorites"
                 android:layout_width="52dp"
                 android:layout_height="24dp"
@@ -99,8 +100,9 @@
                 android:layout_marginRight="6dp"
                 android:layout_marginTop="8dp"
                 android:layout_toLeftOf="@id/list_news_btn_message"
-                android:background="@color/white"
+                android:background="@drawable/news_button"
                 android:drawableLeft="@drawable/dianzhan"
+                android:drawablePadding="8dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="4dp"
                 android:text="13"

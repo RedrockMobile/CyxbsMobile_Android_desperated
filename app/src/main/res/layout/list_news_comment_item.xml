@@ -47,6 +47,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/list_information_text_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

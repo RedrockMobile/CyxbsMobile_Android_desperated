@@ -9,6 +9,8 @@ import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Subject;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.community.ReMarks;
+import com.mredrock.cyxbsmobile.model.community.Student;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.exception.ApiException;
 import com.mredrock.cyxbsmobile.network.exception.RedrockApiException;
@@ -30,7 +32,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Field;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -140,6 +141,14 @@ public enum RequestManager {
         }
     }
 
+
+    /**
+     * 社区api
+     */
+    public Observable<UploadImgResponse> uploadNewsImg(String filePath) {
+        return uploadNewsImg(Student.STU_NUM, filePath);
+    }
+
     public Observable<UploadImgResponse> uploadNewsImg(String stuNum, String filePath) {
         File file = new File(filePath);
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -148,12 +157,24 @@ public enum RequestManager {
         return newsApiService.uploadImg(stuNum_body, file_body);
     }
 
+    public Observable<List<News>> getHotArticle(int size, int page) {
+        return getHotArticle(size, page, Student.STU_NUM, Student.ID_NUM);
+    }
+
     public Observable<List<News>> getHotArticle(int size, int page, String stuNum, String idNum) {
         return newsApiService.getHotArticle(size, page, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<List<News>> getListArticle(int type_id, int size, int page) {
+        return getListArticle(type_id, size, page, Student.STU_NUM, Student.ID_NUM);
+    }
+
     public Observable<List<News>> getListArticle(int type_id, int size, int page, String stuNum, String idNum) {
         return newsApiService.getListArticle(type_id, size, page, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<OkResponse> sendDynamic(int type_id, String title, String content, String thumbnail_src, String photo_src) {
+        return sendDynamic(type_id, title, Student.UER_ID, content, thumbnail_src, photo_src, Student.STU_NUM, Student.ID_NUM);
     }
 
     public Observable<OkResponse> sendDynamic(int type_id, String title, String user_id, String content, String thumbnail_src, String photo_src, String stuNum, String idNum) {
@@ -161,5 +182,36 @@ public enum RequestManager {
     }
 
 
+    public Observable<ReMarks> getRemarks(String article_id, int type_id) {
+        return getRemarks(article_id, type_id, Student.UER_ID, Student.STU_NUM, Student.ID_NUM);
+    }
+
+    public Observable<ReMarks> getRemarks(String article_id, int type_id, String user_id, String stuNum, String idNum) {
+        return newsApiService.getReMark(article_id, type_id, user_id, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<OkResponse> postReMarks(String article_id, int type_id, String content) {
+        return postReMarks(article_id, type_id, content, Student.UER_ID, Student.STU_NUM, Student.ID_NUM);
+    }
+
+    public Observable<OkResponse> postReMarks(String article_id, int type_id, String content, String user_id, String stuNum, String idNum) {
+        return newsApiService.postReMarks(article_id, type_id, content, user_id, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<OkResponse> addThumbsUp(String article_id, int type_id) {
+        return addThumbsUp(article_id, type_id, Student.STU_NUM, Student.ID_NUM);
+    }
+
+    public Observable<OkResponse> addThumbsUp(String article_id, int type_id, String stuNum, String idNum) {
+        return newsApiService.addThumbsUp(article_id, type_id, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<OkResponse> cancelThumbsUp(String article_id, int type_id) {
+        return cancelThumbsUp(article_id, type_id, Student.STU_NUM, Student.ID_NUM);
+    }
+
+    public Observable<OkResponse> cancelThumbsUp(String article_id, int type_id, String stuNum, String idNum) {
+        return newsApiService.cancelThumbsUp(article_id, type_id, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+    }
 }
 
