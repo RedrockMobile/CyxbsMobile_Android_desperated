@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +17,7 @@ import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.model.community.Student;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
-import com.mredrock.cyxbsmobile.util.ScreenTools;
+import com.mredrock.cyxbsmobile.util.DialogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +27,6 @@ import butterknife.ButterKnife;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class AddNewsActivity extends BaseActivity implements View.OnClickListener {
@@ -69,6 +65,8 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         mSaveText.setOnClickListener(this);
 
         mNineGridlayout.setOnAddImagItemClickListener((v, position) -> {
+
+
             Intent intent = new Intent(AddNewsActivity.this, MultiImageSelectorActivity.class);
             // 是否显示调用相机拍照
             intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
@@ -152,10 +150,17 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE) {
+
+
             if (resultCode == RESULT_OK) {
                 // 获取返回的图片列表
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 // 处理你自己的逻辑 ....
+                if (mImgs.size() + path.size() > 10) {
+                    Toast.makeText(this, "最多只能选9张图", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Observable.from(path)
                         .map(s -> new Image(s, Image.NORMALIMAGE))
                         .map(image -> {
@@ -172,18 +177,40 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void showUploadFail(String reason) {
-        Log.e("===========>>>", "showUploadFail:" + reason);
+        DialogUtil.showLoadSucess(this, "提示", "发表动态失败" + reason, "重新发表", "返回", new DialogUtil.DialogListener() {
+            @Override
+            public void onPositive() {
+                closeLoadingProgress();
+            }
+
+            @Override
+            public void onNegative() {
+                closeLoadingProgress();
+                AddNewsActivity.this.finish();
+            }
+        });
     }
 
     private void showUploadSucess() {
-        Log.e("===========>>>", "showUploadSucess");
+        DialogUtil.showLoadSucess(this, "提示", "发表动态成功", "继续发表", "返回", new DialogUtil.DialogListener() {
+            @Override
+            public void onPositive() {
+                closeLoadingProgress();
+            }
+
+            @Override
+            public void onNegative() {
+                closeLoadingProgress();
+                AddNewsActivity.this.finish();
+            }
+        });
     }
 
     private void showLoadingProgress() {
-        Log.e("===========>>>", "showLoadingProgress");
+        DialogUtil.showLoadingDiaolog(this, "上传中");
     }
 
     private void closeLoadingProgress() {
-        Log.e("===========>>>", "closeLoadingProgress");
+        DialogUtil.dismissDialog();
     }
 }

@@ -26,6 +26,7 @@ import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment;
 import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.util.DialogUtil;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabClickListener;
@@ -77,7 +78,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void test() {
-
     }
 
 

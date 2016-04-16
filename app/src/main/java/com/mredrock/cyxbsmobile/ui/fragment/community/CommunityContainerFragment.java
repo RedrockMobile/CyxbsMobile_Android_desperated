@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 
@@ -43,8 +44,19 @@ public class CommunityContainerFragment extends BaseFragment {
         List<Fragment> fragmentLIst = new ArrayList<>();
 
         NewsFragment mPopularNewFragment = new NewsFragment();
+        Bundle mPop = new Bundle();
+        mPop.putInt("type", BBDD.SHOTARTICLE);
+        mPopularNewFragment.setArguments(mPop);
+
         NewsFragment mBBLLNewFragment = new NewsFragment();
+        Bundle mBBLL = new Bundle();
+        mBBLL.putInt("type", BBDD.LISTARTICLE);
+        mBBLLNewFragment.setArguments(mBBLL);
+
         NewsFragment mOfficialNewFragment = new NewsFragment();
+        Bundle mOfficial = new Bundle();
+        mOfficial.putInt("type", BBDD.JWZXARTICLE);
+        mOfficialNewFragment.setArguments(mOfficial);
 
 
         fragmentLIst.add(mPopularNewFragment);

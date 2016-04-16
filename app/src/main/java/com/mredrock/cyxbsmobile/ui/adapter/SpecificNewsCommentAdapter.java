@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.model.community.ReMarks;
+import com.mredrock.cyxbsmobile.util.ImageLoader;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<ReMarks.
         holder.mTextContent.setText(data.getContent());
         holder.mTextTime.setText(data.getCreated_time());
         holder.mTextViewNickName.setText(data.getNickname());
+        ImageLoader.getInstance().loadAvatar("", holder.mCircleImageView);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.mredrock.cyxbsmobile.ui.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,17 +11,19 @@ import android.widget.TextView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
+import com.mredrock.cyxbsmobile.component.widget.NineGridlayout;
 import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
+import com.mredrock.cyxbsmobile.ui.activity.ImageActivity;
+import com.mredrock.cyxbsmobile.util.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.functions.Action1;
 
 /**
  * Created by mathiasluo on 16-4-4.
@@ -90,37 +93,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         public static void addThumbsUp(News.DataBean dataBean, TextView textView) {
             RequestManager.getInstance().addThumbsUp(dataBean.getId(), dataBean.getType_id())
-                    .subscribe(new Action1<OkResponse>() {
-                        @Override
-                        public void call(OkResponse okResponse) {
-                            if (okResponse.getState() == OkResponse.RESPONSE_OK) {
-                                dataBean.setIs_my_Like(true);
-                                textView.setText(Integer.parseInt(textView.getText().toString()) + 1 + "");
-                            }
+                    .subscribe(okResponse -> {
+                        if (okResponse.getState() == OkResponse.RESPONSE_OK) {
+                            dataBean.setIs_my_Like(true);
+                            textView.setText(Integer.parseInt(textView.getText().toString()) + 1 + "");
                         }
-                    }, new Action1<Throwable>() {
-                        @Override
-                        public void call(Throwable throwable) {
-                            Log.e("============>>>>>addThumbsUp", throwable.toString());
-                        }
+                    }, throwable -> {
+                        Log.e("============>>>>>addThumbsUp", throwable.toString());
                     });
         }
 
         public static void cancelTHumbsUp(News.DataBean dataBean, TextView textView) {
             RequestManager.getInstance().cancelThumbsUp(dataBean.getId(), dataBean.getType_id())
-                    .subscribe(new Action1<OkResponse>() {
-                        @Override
-                        public void call(OkResponse okResponse) {
-                            if (okResponse.getState() == OkResponse.RESPONSE_OK) {
-                                dataBean.setIs_my_Like(false);
-                                textView.setText(Integer.parseInt(textView.getText().toString()) - 1 + "");
-                            }
+                    .subscribe(okResponse -> {
+                        if (okResponse.getState() == OkResponse.RESPONSE_OK) {
+                            dataBean.setIs_my_Like(false);
+                            textView.setText(Integer.parseInt(textView.getText().toString()) - 1 + "");
                         }
-                    }, new Action1<Throwable>() {
-                        @Override
-                        public void call(Throwable throwable) {
-                            Log.e("============>>>>>cancelTHumbsUp", throwable.toString());
-                        }
+                    }, throwable -> {
+                        Log.e("============>>>>>cancelTHumbsUp", throwable.toString());
                     });
         }
 
@@ -132,6 +123,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mTextContent.setText(dataBean.getContent());
             mBtnFavor.setText(dataBean.getLike_num());
             mBtnMsg.setText(dataBean.getRemark_num());
+            ImageLoader.getInstance().loadAvatar(dataBean.getUser_head(), mImgAvatar);
 
             mBtnFavor.setOnClickListener(view -> {
                 if (dataBean.isIs_my_Like())
@@ -143,9 +135,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             for (String url : getUrls(dataBean.getImg().getImg_small_src()))
                 mImgs.add(new Image(url, Image.ADDIMAG));
             mAutoNineGridlayout.setImagesData(mImgs);
+            mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) -> {
+                Intent intent = new Intent(itemView.getContext(), ImageActivity.class);
+                intent.putExtra("dataBean", dataBean);
+                intent.putExtra("position", position);
+                itemView.getContext().startActivity(intent);
+            });
         }
 
-        public String[] getUrls(String url) {
+        public final static String[] getUrls(String url) {
             return url != null ? url.split(",") : new String[]{""};
         }
 

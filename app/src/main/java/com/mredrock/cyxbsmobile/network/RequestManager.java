@@ -58,9 +58,7 @@ public enum RequestManager {
     }
 
     RequestManager() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = configureOkHttp(new OkHttpClient.Builder().addInterceptor(interceptor));
+        OkHttpClient client = configureOkHttp(new OkHttpClient.Builder());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://hongyan.cqupt.edu.cn/")

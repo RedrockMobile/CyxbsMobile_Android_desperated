@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.EndlessRecyclerOnScrollListener;
@@ -24,6 +25,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
@@ -41,12 +43,14 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     int currentPage = 1;
+    private int newsType;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         ButterKnife.bind(this, view);
+        newsType = getArguments().getInt("type", 1);
         init();
         return view;
     }
@@ -64,11 +68,23 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         getCurrentData(1, 1);
     }
 
-
     private void getCurrentData(int size, int page) {
-        RequestManager.getInstance()
-                .getHotArticle(size, page)
-                .doOnSubscribe(() -> showLoadingProgress())
+        switch (newsType) {
+            case BBDD.SHOTARTICLE:
+                getHotCurrentData(size, page);
+                break;
+            case BBDD.LISTARTICLE:
+                getTypeCurrentData(size, page, BBDD.BBDD);
+                break;
+            case BBDD.JWZXARTICLE:
+                getTypeCurrentData(size, page, BBDD.JWZX);
+                break;
+        }
+    }
+
+
+    private void doWithObser(Observable<List<News>> observable) {
+        observable.doOnSubscribe(() -> showLoadingProgress())
                 .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .subscribe(newses -> {
                     if (mDatas == null) {
@@ -84,6 +100,15 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 });
 
     }
+
+    private void getTypeCurrentData(int size, int page, int type) {
+        doWithObser(RequestManager.getInstance().getListArticle(type, size, page));
+    }
+
+    private void getHotCurrentData(int size, int page) {
+        doWithObser(RequestManager.getInstance().getHotArticle(size, page));
+    }
+
 
     private void initAdapter(List<News> datas) {
         mDatas = datas;
@@ -122,7 +147,6 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private void getDataFailed(String reason) {
         Toast.makeText(getContext(), getString(R.string.erro) + "===>>>" + reason, Toast.LENGTH_SHORT).show();
     }
-
 
     @Override
     public void onDestroyView() {
