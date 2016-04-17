@@ -83,4 +83,7 @@ dependencies {
     compile 'com.roughike:bottom-bar:1.2.4'
     compile 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
     compile 'com.afollestad:material-dialogs:0.7.5.5'
+    compile("com.github.VictorAlbertos:RxCache:1.2.6") {
+        exclude module: 'guava'
+    }
 }

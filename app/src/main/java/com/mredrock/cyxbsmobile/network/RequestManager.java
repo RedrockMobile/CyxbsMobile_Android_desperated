@@ -2,6 +2,7 @@ package com.mredrock.cyxbsmobile.network;
 
 import android.net.Uri;
 
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.BuildConfig;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.MovieResult;
@@ -23,6 +24,11 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.rx_cache.DynamicKey;
+import io.rx_cache.DynamicKeyGroup;
+import io.rx_cache.EvictDynamicKey;
+import io.rx_cache.Reply;
+import io.rx_cache.internal.RxCache;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -49,7 +55,9 @@ public enum RequestManager {
 
     private UpDownloadService upDownloadService;
     private RedrockApiService redrockApiService;
-    public NewsApiService newsApiService;
+
+    private CacheProviders cacheProviders;
+    private NewsApiService newsApiService;
 
     private static final int DEFAULT_TIMEOUT = 30;
 
@@ -66,6 +74,10 @@ public enum RequestManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+
+        cacheProviders = new RxCache.Builder()
+                .persistence(APP.getContext().getFilesDir())
+                .using(CacheProviders.class);
 
         upDownloadService = retrofit.create(UpDownloadService.class);
         redrockApiService = retrofit.create(RedrockApiService.class);
@@ -155,12 +167,28 @@ public enum RequestManager {
         return newsApiService.uploadImg(stuNum_body, file_body);
     }
 
+
+    public Observable<List<News>> getHotArticle(int size, int page, boolean update) {
+        return cacheProviders.getCacheNews(getHotArticle(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
+                .map(listReply -> listReply.getData()).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
     public Observable<List<News>> getHotArticle(int size, int page) {
         return getHotArticle(size, page, Student.STU_NUM, Student.ID_NUM);
     }
 
     public Observable<List<News>> getHotArticle(int size, int page, String stuNum, String idNum) {
         return newsApiService.getHotArticle(size, page, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    public Observable<List<News>> getListArticle(int type_id, int size, int page, boolean update) {
+        return cacheProviders.getCacheNews(getListArticle(type_id, size, page), new DynamicKeyGroup(type_id, size), new EvictDynamicKey(update))
+                .map(listReply -> listReply.getData()).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+
     }
 
     public Observable<List<News>> getListArticle(int type_id, int size, int page) {

@@ -51,6 +51,6 @@
     <string name="cancel">取消</string>
     <string name="add_news_edit_hint">和大家一起哔哔叨叨吧</string>
     <string name="annex">含附件</string>
-    <string name="erro">获取数据失败</string>
+    <string name="erro">获取数据失败,你的网络不靠谱呀</string>
     <string name="alter">你没有输入任何东西哟</string>
 </resources>

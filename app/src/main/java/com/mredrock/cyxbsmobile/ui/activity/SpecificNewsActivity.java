@@ -84,7 +84,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
 
     private void reqestComentDatas() {
-        RequestManager.getInstance().getRemarks(dataBean.getId(), dataBean.getType_id(), Student.UER_ID, Student.STU_NUM, Student.ID_NUM)
+        RequestManager.getInstance().getRemarks(dataBean.getId(), dataBean.getType_id())
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribe(reMarks -> {
                     mDatas = reMarks.getData();

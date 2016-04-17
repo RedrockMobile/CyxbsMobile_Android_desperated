@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * @author MathiasLuo
@@ -65,19 +67,20 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 getNextPageData(1, ++currentPage);
             }
         });
-        getCurrentData(1, 1);
+        getCurrentData(1, 1, false);
+        getCurrentData(1, 1, true);
     }
 
-    private void getCurrentData(int size, int page) {
+    private void getCurrentData(int size, int page, boolean update) {
         switch (newsType) {
             case BBDD.SHOTARTICLE:
-                getHotCurrentData(size, page);
+                getHotCurrentData(size, page, update);
                 break;
             case BBDD.LISTARTICLE:
-                getTypeCurrentData(size, page, BBDD.BBDD);
+                getTypeCurrentData(size, page, BBDD.BBDD, update);
                 break;
             case BBDD.JWZXARTICLE:
-                getTypeCurrentData(size, page, BBDD.JWZX);
+                getTypeCurrentData(size, page, BBDD.JWZX, update);
                 break;
         }
     }
@@ -97,16 +100,17 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 }, throwable -> {
                     closeLoadingProgress();
                     getDataFailed(throwable.toString());
+                    Log.e("=================>>>>>>>>>>", throwable.toString());
                 });
 
     }
 
-    private void getTypeCurrentData(int size, int page, int type) {
-        doWithObser(RequestManager.getInstance().getListArticle(type, size, page));
+    private void getTypeCurrentData(int size, int page, int type, boolean update) {
+        doWithObser(RequestManager.getInstance().getListArticle(type, size, page, update));
     }
 
-    private void getHotCurrentData(int size, int page) {
-        doWithObser(RequestManager.getInstance().getHotArticle(size, page));
+    private void getHotCurrentData(int size, int page, boolean update) {
+        doWithObser(RequestManager.getInstance().getHotArticle(size, page, update));
     }
 
 
@@ -145,7 +149,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     private void getDataFailed(String reason) {
-        Toast.makeText(getContext(), getString(R.string.erro) + "===>>>" + reason, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getString(R.string.erro), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -156,7 +160,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        getCurrentData(1, 1);
+        getCurrentData(1, 1, true);
     }
 
     @Override

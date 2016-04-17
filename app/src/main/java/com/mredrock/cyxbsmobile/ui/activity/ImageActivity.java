@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.community.News;
@@ -28,7 +29,7 @@ public class ImageActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(Window.FEATURE_NO_TITLE, Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_image);
         ButterKnife.bind(this);
@@ -41,6 +42,5 @@ public class ImageActivity extends BaseActivity {
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mViewPager, mDataBean);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(position);
-        Log.e("===========>>>>", position + "");
     }
 }
