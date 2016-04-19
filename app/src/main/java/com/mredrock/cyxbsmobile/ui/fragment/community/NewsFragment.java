@@ -58,6 +58,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     private void init() {
+        refreshLayout.setColorSchemeColors(R.color.orange);
         refreshLayout.setOnRefreshListener(this);
         mLinearLayoutManager = new LinearLayoutManager(getParentFragment().getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);

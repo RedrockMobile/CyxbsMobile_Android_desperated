@@ -58,6 +58,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_news);
         ButterKnife.bind(this);
+        mRefresh.setColorSchemeColors(R.color.colorAccent);
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
         mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
         dataBean = getIntent().getParcelableExtra("dataBean");
@@ -162,11 +163,11 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     }
 
     private void showUploadFail(String reason) {
-        Log.e("===========>>>", "showUploadFail:" + reason);
+        Log.d("===========>>>", "showUploadFail:" + reason);
     }
 
     private void showUploadSucess() {
-        Log.e("===========>>>", "showUploadSucess");
+        Log.d("===========>>>", "showUploadSucess");
     }
 
 
