@@ -43,4 +43,12 @@ public class ImageActivity extends BaseActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(position);
     }
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
+
+
+
 }

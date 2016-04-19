@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.util.KeyboardUtil;
 
 public class BaseActivity extends AppCompatActivity {
@@ -16,5 +17,7 @@ public class BaseActivity extends AppCompatActivity {
             return super.dispatchTouchEvent(ev);
         }
         return getWindow().superDispatchTouchEvent(ev) || onTouchEvent(ev);
-   }
+    }
+
+
 }

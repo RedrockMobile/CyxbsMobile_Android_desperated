@@ -1,5 +1,6 @@
 package com.mredrock.cyxbsmobile.ui.adapter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -140,6 +141,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 intent.putExtra("dataBean", dataBean);
                 intent.putExtra("position", position);
                 itemView.getContext().startActivity(intent);
+                ((Activity) itemView.getContext()).overridePendingTransition(R.anim.activity_enter, R.anim.activity_exit);
             });
         }
 

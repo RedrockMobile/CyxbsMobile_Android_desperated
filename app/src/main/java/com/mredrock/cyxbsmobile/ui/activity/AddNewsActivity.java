@@ -65,8 +65,6 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         mSaveText.setOnClickListener(this);
 
         mNineGridlayout.setOnAddImagItemClickListener((v, position) -> {
-
-
             Intent intent = new Intent(AddNewsActivity.this, MultiImageSelectorActivity.class);
             // 是否显示调用相机拍照
             intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
@@ -92,12 +90,17 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                 AddNewsActivity.this.finish();
                 break;
             case R.id.toolbar_save:
-                sendDynamic("标题我该打什么才好？？", mAddNewsEdit.getText().toString() + "  ", BBDD.BBDD);
+                sendDynamic("标题我该打什么才好？？", mAddNewsEdit.getText().toString(), BBDD.BBDD);
                 break;
         }
     }
 
     private void sendDynamic(String title, String content, int type) {
+
+        if (content.equals("") || content == null) {
+            Toast.makeText(AddNewsActivity.this, getString(R.string.noContent), Toast.LENGTH_SHORT).show();
+            return;
+        }
         Observable<OkResponse> observable;
         List<Image> currentImgs = new ArrayList<>();
         currentImgs.addAll(mImgs);
@@ -160,7 +163,6 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                     Toast.makeText(this, "最多只能选9张图", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 Observable.from(path)
                         .map(s -> new Image(s, Image.NORMALIMAGE))
                         .map(image -> {
