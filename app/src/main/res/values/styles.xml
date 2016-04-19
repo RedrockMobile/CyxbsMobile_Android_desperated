@@ -29,5 +29,8 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="SwitchStyle">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
 
 </resources>

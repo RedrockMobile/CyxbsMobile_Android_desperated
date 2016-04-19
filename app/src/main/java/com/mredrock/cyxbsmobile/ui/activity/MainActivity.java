@@ -10,42 +10,32 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.BBDD;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.ReMarks;
-import com.mredrock.cyxbsmobile.model.community.Student;
-import com.mredrock.cyxbsmobile.network.RequestManager;
-import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
 import com.mredrock.cyxbsmobile.util.DensityUtil;
-import com.mredrock.cyxbsmobile.util.DialogUtil;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabClickListener;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
-import rx.functions.Action1;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.toolbar_title)
+    @Bind(R.id.main_toolbar_title)
     TextView mToolbarTitle;
-    @Bind(R.id.toolbar)
+    @Bind(R.id.main_toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.content)
+    @Bind(R.id.main_coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
     @BindString(R.string.community)
     String mStringCommunity;
@@ -71,8 +61,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mBottomBar = BottomBar.attach(mCoordinatorLayout, savedInstanceState);
         initView();
+        initBottomBar(savedInstanceState);
         mBottomBar.selectTabAtPosition(1, false);
         test();
     }
@@ -88,11 +78,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         communityContainerFragment = new CommunityContainerFragment();
         exploreFragment = new ExploreFragment();
         myPageFragment = new MyPageFragment();
-        initBottomBar();
     }
 
-    private void initBottomBar() {
-
+    private void initBottomBar(Bundle savedInstanceState) {
+        mBottomBar = BottomBar.attach(mCoordinatorLayout, savedInstanceState);
         mBottomBar.setItems(
                 new BottomBarTab(R.drawable.ic_nearby, "社区"),
                 new BottomBarTab(R.drawable.ic_favorites, "课表"),
@@ -111,20 +100,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mImageView.setVisibility(View.GONE);
                 switch (position) {
                     case 0:
-                        showFragment(transaction, communityContainerFragment, R.id.fragment_container);
+                        showFragment(transaction, communityContainerFragment, R.id.main_fragment_container);
                         setTitle(mStringCommunity);
                         mImageView.setVisibility(View.VISIBLE);
                         break;
                     case 1:
-                        showFragment(transaction, courseContainerFragment, R.id.fragment_container);
+                        showFragment(transaction, courseContainerFragment, R.id.main_fragment_container);
                         setTitle(mStringCourse);
                         break;
                     case 2:
-                        showFragment(transaction, exploreFragment, R.id.fragment_container);
+                        showFragment(transaction, exploreFragment, R.id.main_fragment_container);
                         setTitle(mStringExplore);
                         break;
                     case 3:
-                        showFragment(transaction, myPageFragment, R.id.fragment_container);
+                        showFragment(transaction, myPageFragment, R.id.main_fragment_container);
                         setTitle(mStringMyPage);
                         break;
                 }
@@ -140,6 +129,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.colorPrimary));
         mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.colorPrimary));
         mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.colorPrimary));
+
     }
 
     private void hideAllFragments(FragmentTransaction transaction) {
@@ -167,9 +157,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             setSupportActionBar(mToolbar);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
-                //actionBar.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_arrow_back));
-                //actionBar.setDisplayHomeAsUpEnabled(true);
-                //actionBar.setHomeButtonEnabled(true);
                 actionBar.setDisplayShowTitleEnabled(false);
             }
         }
@@ -192,4 +179,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mBottomBar.onSaveInstanceState(outState);
+    }
+
+
 }

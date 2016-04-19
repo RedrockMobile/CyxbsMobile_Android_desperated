@@ -3,7 +3,6 @@ package com.mredrock.cyxbsmobile.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,7 +13,7 @@ import com.mredrock.cyxbsmobile.component.widget.NineGridlayout;
 import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.Student;
+import com.mredrock.cyxbsmobile.model.community.Stu;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.util.DialogUtil;
@@ -31,6 +30,8 @@ import rx.schedulers.Schedulers;
 
 public class AddNewsActivity extends BaseActivity implements View.OnClickListener {
 
+    private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
+    private final static int REQUEST_IMAGE = 0001;
     @Bind(R.id.toolbar_cancel)
     TextView mCancelText;
     @Bind(R.id.toolbar_title)
@@ -43,9 +44,6 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     EditText mAddNewsEdit;
     @Bind(R.id.iv_ngrid_layout)
     NineGridlayout mNineGridlayout;
-
-    private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
-    private final static int REQUEST_IMAGE = 0001;
     private List<Image> mImgs;
 
     @Override
@@ -132,7 +130,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                 .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .observeOn(Schedulers.newThread())
                 .map(image -> image.getUrl())
-                .flatMap(url -> RequestManager.getInstance().uploadNewsImg(Student.STU_NUM, url))
+                .flatMap(url -> RequestManager.getInstance().uploadNewsImg(Stu.STU_NUM, url))
                 .buffer(currentImgs.size())
                 .flatMap(uploadImgResponses -> {
                     for (UploadImgResponse uploadImgResponse : uploadImgResponses) {

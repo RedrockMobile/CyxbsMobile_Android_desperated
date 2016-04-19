@@ -18,7 +18,6 @@ import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.model.community.ReMarks;
-import com.mredrock.cyxbsmobile.model.community.Student;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
