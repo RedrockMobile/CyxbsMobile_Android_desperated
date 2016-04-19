@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <corners
-        android:radius="14dp"/>
+    <corners android:radius="4dp" />
     <solid
-        android:color="@color/crop__button_bar"/>
 
+        android:color="@color/white" />
+    <stroke
+        android:width="1dp"
+        android:color="@color/white" />
+    <padding
+        android:bottom="4dp"
+        android:left="6dp"
+        android:right="6dp"
+        android:top="4dp" />
 </shape>

@@ -1,5 +1,6 @@
 package com.mredrock.cyxbsmobile.ui.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -9,24 +10,36 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.model.community.BBDD;
+import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.community.ReMarks;
+import com.mredrock.cyxbsmobile.model.community.Student;
+import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment;
 import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.util.DialogUtil;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabClickListener;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.main_toolbar_title)
     TextView mToolbarTitle;
@@ -44,6 +57,9 @@ public class MainActivity extends BaseActivity {
     String mStringMyPage;
     @Bind(R.id.main_app_bar)
     AppBarLayout mAppBar;
+
+    @Bind(R.id.add_news_img)
+    ImageView mImageView;
     private BottomBar mBottomBar;
     private CourseContainerFragment courseContainerFragment;
     private CommunityContainerFragment communityContainerFragment;
@@ -58,10 +74,16 @@ public class MainActivity extends BaseActivity {
         initView();
         initBottomBar(savedInstanceState);
         mBottomBar.selectTabAtPosition(1, false);
+        test();
     }
+
+    private void test() {
+    }
+
 
     private void initView() {
         initToolbar();
+        mImageView.setOnClickListener(this);
         courseContainerFragment = new CourseContainerFragment();
         communityContainerFragment = new CommunityContainerFragment();
         exploreFragment = new ExploreFragment();
@@ -85,10 +107,12 @@ public class MainActivity extends BaseActivity {
                 }
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 hideAllFragments(transaction);
+                mImageView.setVisibility(View.GONE);
                 switch (position) {
                     case 0:
                         showFragment(transaction, communityContainerFragment, R.id.main_fragment_container);
                         setTitle(mStringCommunity);
+                        mImageView.setVisibility(View.VISIBLE);
                         break;
                     case 1:
                         showFragment(transaction, courseContainerFragment, R.id.main_fragment_container);
@@ -160,5 +184,15 @@ public class MainActivity extends BaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mBottomBar.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.add_news_img:
+                startActivity(new Intent(MainActivity.this, AddNewsActivity.class));
+                break;
+        }
+
     }
 }

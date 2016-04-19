@@ -62,6 +62,7 @@ public class CourseContainerFragment extends BaseFragment {
         loadNowWeek();
         loadAllCourses();
 
+        List<String> mTitles = new ArrayList<>();
         mTitles.addAll(Arrays.asList(getResources().getStringArray(R.array.titles_weeks)));
 
         mNowWeek = new SchoolCalendar().getWeekOfTerm();
@@ -98,6 +99,10 @@ public class CourseContainerFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (mNowWeek <= 23 && mNowWeek >= 1) setCurrentItem(mNowWeek);
+
+     /*   mTitle.setText(getString(R.string.community));
+        ((MainActivity) getActivity()).setContainerToolBar(mToolbar);*/
+
     }
 
     @Override

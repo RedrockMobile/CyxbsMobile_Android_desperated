@@ -68,6 +68,12 @@
         <activity android:name=".ui.activity.mypage.NoCourseActivity"/>
         <activity android:name=".ui.activity.mypage.SelectStudentActivity"/>
         <activity android:name=".ui.activity.mypage.EmptyRoomActivity"></activity>
+        <activity android:name=".ui.activity.AddNewsActivity"></activity>
+        <activity
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".ui.activity.ImageActivity"/>
+
     </application>
 
 </manifest>

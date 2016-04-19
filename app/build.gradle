@@ -52,9 +52,10 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':multi-image-selector')
     testCompile 'junit:junit:4.12'
-    //    compile 'com.github.SeanCode:retrofit-converters-fastjson:1.1'
-    //    compile 'com.alibaba:fastjson:1.1.46.android'
+    //compile 'com.github.SeanCode:retrofit-converters-fastjson:1.1'
+    //compile 'com.alibaba:fastjson:1.1.46.android'
     compile("com.github.VictorAlbertos:RxCache:1.1.0") {
         exclude module: 'guava'
     }
@@ -90,5 +91,13 @@ dependencies {
     //remove it !!! and use uCrop instead
     compile 'com.soundcloud.android:android-crop:1.0.1@aar'
     compile 'com.roughike:bottom-bar:1.2.4'
+
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+
+    compile 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
+    compile 'com.afollestad:material-dialogs:0.7.5.5'
+    compile("com.github.VictorAlbertos:RxCache:1.2.6") {
+        exclude module: 'guava'
+    }
+
 }

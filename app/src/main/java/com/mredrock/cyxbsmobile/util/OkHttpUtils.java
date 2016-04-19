@@ -21,8 +21,9 @@ public class OkHttpUtils {
 
     /**
      * 返回请求体中的 File 部分
+     *
      * @param fileUri 文件uri
-     * @param key File 的POST请求参数
+     * @param key     File 的POST请求参数
      * @return MultipartBody.Part (File)
      */
     public static MultipartBody.Part createFileRequestBody(String key, Uri fileUri) {
@@ -34,6 +35,7 @@ public class OkHttpUtils {
 
     /**
      * 返回请求体中的其他字符串部分
+     *
      * @param values POST请求参数，key在 请求服务
      *               {@link com.mredrock.cyxbsmobile.network.service.UpDownloadService}
      *               的 @Part("key") 注解中写

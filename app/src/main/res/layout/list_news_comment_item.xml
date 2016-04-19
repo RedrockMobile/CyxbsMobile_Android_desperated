@@ -2,20 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/comment_item"
     android:orientation="vertical">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp">
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp">
 
         <com.mredrock.cyxbsmobile.component.widget.CircleImageView
             android:id="@+id/list_information_img_avatar"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@mipmap/avatar_default" />
 
         <LinearLayout
@@ -31,27 +32,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我是昵称"
-                android:textColor="@color/body_text_1"
-                android:textSize="12sp" />
+                android:textColor="@color/crop__button_text"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/list_information_text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" 昨天12:00"
+                android:text="3-16  12:00"
                 android:textColor="@color/crop__button_text"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
+
         </LinearLayout>
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/list_information_text_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="16dp"
+        android:lineSpacingMultiplier="1.2"
         android:text="如果你无法简洁的表达你的想法，那么只能说你还不够了解他。"
         android:textColor="@color/body_text_1"
         android:textSize="14sp" />
+
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 
@@ -41,15 +42,35 @@ public class CommunityContainerFragment extends BaseFragment {
 
     private void init() {
         List<Fragment> fragmentLIst = new ArrayList<>();
-        fragmentLIst.add(new NewsFragment());
-        fragmentLIst.add(new NewsFragment());
-        fragmentLIst.add(new NewsFragment());
+
+        NewsFragment mPopularNewFragment = new NewsFragment();
+        Bundle mPop = new Bundle();
+        mPop.putInt("type", BBDD.SHOTARTICLE);
+        mPopularNewFragment.setArguments(mPop);
+
+        NewsFragment mBBLLNewFragment = new NewsFragment();
+        Bundle mBBLL = new Bundle();
+        mBBLL.putInt("type", BBDD.LISTARTICLE);
+        //mBBLLNewFragment.setArguments(mBBLL);
+        mBBLLNewFragment.setArguments(mPop);
+
+
+        NewsFragment mOfficialNewFragment = new NewsFragment();
+        Bundle mOfficial = new Bundle();
+        mOfficial.putInt("type", BBDD.JWZXARTICLE);
+       // mOfficialNewFragment.setArguments(mOfficial);
+        mOfficialNewFragment.setArguments(mPop);
+
+        fragmentLIst.add(mPopularNewFragment);
+        fragmentLIst.add(mBBLLNewFragment);
+        fragmentLIst.add(mOfficialNewFragment);
+
         TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager(), fragmentLIst, Arrays.asList(getActivity().getResources().getStringArray(R.array.community_tab_tiles)));
 
         mViewPager.setAdapter(adapter);
         mViewPager.setOffscreenPageLimit(fragmentLIst.size());
 
-        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置tab模式，当前为系统默认模式
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
