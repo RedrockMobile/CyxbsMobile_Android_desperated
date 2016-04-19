@@ -1,0 +1,254 @@
+package com.mredrock.cyxbsmobile.ui.activity.mypage;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
+import com.mredrock.cyxbsmobile.model.Student;
+import com.mredrock.cyxbsmobile.model.User;
+import com.mredrock.cyxbsmobile.network.RequestManager;
+import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
+import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
+import com.mredrock.cyxbsmobile.ui.adapter.NoCourseAdapter;
+import com.mredrock.cyxbsmobile.ui.fragment.NoCourseItemFragment;
+import com.mredrock.cyxbsmobile.util.NetUtils;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class NoCourseActivity extends BaseActivity
+        implements View.OnClickListener,
+        NoCourseAdapter.OnItemButtonClickListener {
+
+    public static final int REQUEST_SELECT = 1;
+    public static final String EXTRA_NO_COURSE = "extra_no_course";
+
+    @Bind(R.id.no_course_stu)
+    EditText noCourseStu;
+    @Bind(R.id.no_course_add)
+    TextView noCourseAdd;
+    @Bind(R.id.no_course_have)
+    TextView noCourseHave;
+    @Bind(R.id.no_course_change)
+    TextView noCourseChange;
+    @Bind(R.id.no_course_recycler_view)
+    RecyclerView noCourseRecyclerView;
+    @Bind(R.id.no_course_search)
+    LinearLayout noCourseSearch;
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
+    private ArrayList<String> stuNumList;
+    private ArrayList<String> nameList;
+    private NoCourseAdapter mNoCourseAdapter;
+
+    private int count = 0;
+    private User mUser;
+    private Handler mHandler = new Handler();
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_no_course);
+        ButterKnife.bind(this);
+        initToolbar();
+        init();
+    }
+
+
+    private void init() {
+        noCourseAdd.setOnClickListener(this);
+        noCourseSearch.setOnClickListener(this);
+        noCourseChange.setOnClickListener(this);
+        stuNumList = new ArrayList<>();
+        nameList = new ArrayList<>();
+        if (mUser != null) {
+            addStudent(mUser.stuNum, mUser.name);
+        }
+
+        mNoCourseAdapter = new NoCourseAdapter(nameList);
+        mNoCourseAdapter.setOnItemButtonClickListener(this);
+        noCourseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        noCourseRecyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL_LIST));
+        noCourseRecyclerView.setAdapter(mNoCourseAdapter);
+
+        noCourseStu.setOnEditorActionListener(
+                new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                        }
+                        return true;
+                    }
+                });
+    }
+
+    private void initToolbar() {
+        if (toolbar != null) {
+            toolbar.setTitle("");
+            toolbarTitle.setText("没课约");
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationOnClickListener(v -> NoCourseActivity.this.finish());
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeButtonEnabled(true);
+            }
+        }
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.no_course_add:
+                if (!noCourseStu.getText().toString().equals("")) {
+                    doAddAction();
+                }
+                break;
+            case R.id.no_course_search:
+                Intent intent = new Intent(this, NoCourseContainerActivity
+                        .class);
+                intent.putStringArrayListExtra(NoCourseItemFragment
+                        .EXTRA_NAME_LIST, nameList);
+                intent.putStringArrayListExtra(NoCourseItemFragment
+                        .EXTRA_STU_NUM_LIST, stuNumList);
+                startActivity(intent);
+                break;
+            case R.id.no_course_change:
+                if (noCourseChange.getText().toString().equals("修改")) {
+                    noCourseChange.setText("完成");
+                    mNoCourseAdapter.setButtonVisible();
+                } else {
+                    noCourseChange.setText("修改");
+                    mNoCourseAdapter.setButtonInVisible();
+                    mNoCourseAdapter = null;
+                    mNoCourseAdapter = new NoCourseAdapter(nameList);
+                    noCourseRecyclerView.setAdapter(mNoCourseAdapter);
+                    mNoCourseAdapter.setOnItemButtonClickListener(this);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_SELECT && resultCode == RESULT_OK) {
+            Student student = (Student) data.getExtras().getSerializable(EXTRA_NO_COURSE);
+            addStudent(student.stunum, student.name);
+        }
+    }
+
+
+    private void addStudent(String stuNum, String name) {
+        stuNumList.add(stuNum);
+        nameList.add(name);
+        count++;
+        StringBuilder sb = new StringBuilder();
+        noCourseHave.setText(sb.append("已添加").append(count).append("人"));
+    }
+
+
+    private void removeStudent(int position) {
+        stuNumList.remove(
+                stuNumList.remove((stuNumList.size() - 1) - position));
+        noCourseHave.setText(
+                new StringBuilder("已添加").append(count).append("人"));
+    }
+
+
+    private void doAddAction() {
+        if (stuNumList.contains(noCourseStu.getText().toString()) ||
+                nameList.contains(noCourseStu.getText().toString())) {
+            Snackbar.make(noCourseStu, "请不要重复添加！", Snackbar.LENGTH_SHORT)
+                    .show();
+        } else if (!NetUtils.isNetWorkAvilable(this)) {
+            Snackbar.make(noCourseStu, "没有网络连接，无法查找该同学！", Snackbar.LENGTH_SHORT)
+                    .show();
+        } else {
+            RequestManager.INSTANCE.getStudent(
+                    new SimpleSubscriber<>(this, true,
+                            new SubscriberListener<List<Student>>() {
+                                @Override
+                                public void onNext(List<Student> students) {
+                                    super.onNext(students);
+                                    if (students != null &&
+                                            students.size() != 0) {
+                                        Pattern pattern = Pattern.compile(
+                                                "[0-9]*");
+                                        Matcher m = pattern.matcher(
+                                                noCourseStu.getText()
+                                                        .toString());
+                                        //输入的不是数字
+                                        if (!m.matches()) {
+                                            Intent intent = new Intent(
+                                                    NoCourseActivity.this,
+                                                    SelectStudentActivity.class);
+                                            intent.putExtra(
+                                                    SelectStudentActivity.EXTRA_STUDENT_LIST,
+                                                    (Serializable) students);
+                                            startActivityForResult(intent, REQUEST_SELECT);
+                                        } else {
+                                            addStudent(students.get(0).stunum,
+                                                    students.get(0).name);
+                                            noCourseStu.setHint(
+                                                    "输入学号/姓名可以继续添加");
+                                            noCourseStu.setText("");
+                                            mNoCourseAdapter.notifyDataSetChanged();
+                                        }
+                                    } else {
+                                        Snackbar.make(noCourseStu, "没有找到这个人哦~",
+                                                Snackbar.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }), noCourseStu.getText().toString());
+        }
+    }
+
+
+    @Override
+    public void onClickEnd(int position) {
+        removeStudent(position);
+        count--;
+        noCourseHave.setText(new StringBuilder("已添加").append(count).append
+                ("人"));
+        if (nameList.size() == 0) {
+            noCourseStu.setHint("请输入要查询的学号/姓名");
+            noCourseChange.setText("修改");
+            mNoCourseAdapter.setButtonInVisible();
+            mNoCourseAdapter = null;
+            mNoCourseAdapter = new NoCourseAdapter(nameList);
+            noCourseRecyclerView.setAdapter(mNoCourseAdapter);
+            mNoCourseAdapter.setOnItemButtonClickListener(this);
+        }
+    }
+}

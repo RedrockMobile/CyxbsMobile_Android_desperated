@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.mredrock.cyxbsmobile.ui.activity.mypage.EmptyRoomActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout
+        android:id="@+id/empty_rfab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:rfal_frame_alpha="0.7"
+        app:rfal_frame_color="#ffffff">
+
+        <LinearLayout
+            android:id="@+id/empty_top_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
+
+            <ImageView
+                android:id="@+id/empty_iv_resultIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_room_result"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/empty_tv_searchResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="查询结果"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/empty_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/empty_top_layout"
+            android:minHeight="48dp" />
+
+        <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton xmlns:rfab="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/empty_rfab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            rfab:rfab_color_normal="@color/colorPrimary"
+            rfab:rfab_color_pressed="@color/colorPrimary"
+            rfab:rfab_drawable="@drawable/ic_room_pencil"
+            rfab:rfab_shadow_color="#999"
+            rfab:rfab_shadow_dx="0dp"
+            rfab:rfab_shadow_dy="2dp"
+            rfab:rfab_shadow_radius="4dp"
+            rfab:rfab_size="normal" />
+
+    </com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout>
+
+</LinearLayout>
