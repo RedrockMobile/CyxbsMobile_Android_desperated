@@ -1,7 +1,6 @@
 package com.mredrock.cyxbsmobile.ui.fragment;
 
 import android.content.Intent;
-import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,12 +11,17 @@ import android.widget.RelativeLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.ui.activity.EditInfoActivity;
+import com.mredrock.cyxbsmobile.ui.activity.mypage.EditInfoActivity;
+import com.mredrock.cyxbsmobile.ui.activity.mypage.EmptyRoomActivity;
+import com.mredrock.cyxbsmobile.ui.activity.mypage.NoCourseActivity;
+import com.mredrock.cyxbsmobile.ui.activity.mypage.RelateMeActivity;
+import com.mredrock.cyxbsmobile.ui.activity.mypage.SettingActivity;
 
 /**
  * 我的页面
  */
-public class MyPageFragment extends BaseFragment implements View.OnClickListener{
+public class MyPageFragment extends BaseFragment
+        implements View.OnClickListener {
 
     @Bind(R.id.my_page_edit_layout) LinearLayout myPageEditLayout;
     @Bind(R.id.my_page_relate_layout) RelativeLayout myPageRelateLayout;
@@ -53,7 +57,6 @@ public class MyPageFragment extends BaseFragment implements View.OnClickListener
         myPageCalendarLayout.setOnClickListener(this);
         myPageNightLayout.setOnClickListener(this);
         myPageSettingLayout.setOnClickListener(this);
-
     }
 
 
@@ -64,19 +67,22 @@ public class MyPageFragment extends BaseFragment implements View.OnClickListener
 
 
     @Override public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.my_page_edit_layout:
-                Intent intent = new Intent(getActivity(), EditInfoActivity
-                        .class);
+                Intent intent = new Intent(getActivity(),
+                        EditInfoActivity.class);
                 startActivity(intent);
-            break;
+                break;
             case R.id.my_page_relate_layout:
-            break;
+                startActivity(new Intent(getActivity(), RelateMeActivity.class));
+                break;
             case R.id.my_page_trend_layout:
                 break;
             case R.id.my_page_no_course_layout:
+                startActivity(new Intent(getActivity(), NoCourseActivity.class));
                 break;
             case R.id.my_page_empty_layout:
+                startActivity(new Intent(getActivity(), EmptyRoomActivity.class));
                 break;
             case R.id.my_page_grade_layout:
                 break;
@@ -85,6 +91,7 @@ public class MyPageFragment extends BaseFragment implements View.OnClickListener
             case R.id.my_page_night_layout:
                 break;
             case R.id.my_page_setting_layout:
+                startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
         }
     }

@@ -63,6 +63,43 @@
         <item>8:50 ~ 10:30  pm</item>
     </string-array>
 
+    <string-array name="no_schedule_sections">
+        <item>1–2节</item>
+        <item>3–4节</item>
+        <item>5–6节</item>
+        <item>7–8节</item>
+        <item>9–10节</item>
+        <item>11–12节</item>
+    </string-array>
+
+    <string-array name="no_schedule_week">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+
+    <string-array name="empty_buildings">
+        <item>请选择教学楼</item>
+        <item>二教</item>
+        <item>三教</item>
+        <item>四教</item>
+        <item>五教</item>
+        <item>八教</item>
+    </string-array>
+
+    <string-array name="empty_sections">
+        <item>一二节</item>
+        <item>三四节</item>
+        <item>五六节</item>
+        <item>七八节</item>
+        <item>九十节</item>
+        <item>AB节</item>
+    </string-array>
+
     <string name="my_page_introduce">简介：</string>
     <string name="my_page_relate">与我相关</string>
     <string name="my_page_trend">我的动态</string>
@@ -76,6 +113,15 @@
     <string name="edit_info_avatar">头像修改</string>
     <string name="edit_info_nick_name">昵称</string>
     <string name="edit_info_introduce">简介</string>
+
+    <string name="setting_news_remind">新消息提醒</string>
+    <string name="setting_feedback">意见反馈</string>
+    <string name="setting_about">关于</string>
+    <string name="setting_exit">退出当前账号</string>
+
+    <string name="news_remind_hint">打开后将推送响应类型的消息</string>
+    <string name="news_remind_comment">评论与回复</string>
+    <string name="news_remind_like">点赞</string>
 
     <string-array name="community_tab_tiles">
         <item>热门动态</item>

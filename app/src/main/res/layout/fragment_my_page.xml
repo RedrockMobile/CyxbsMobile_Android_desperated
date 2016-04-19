@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -26,13 +26,13 @@
                 android:paddingEnd="15dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:background="@drawable/bg_my_page_layout">
+                android:background="@drawable/bg_layout">
 
-                <ImageView
+                <com.mredrock.cyxbsmobile.component.widget.CircleImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_page_default"/>
+                    android:src="@drawable/avatar_default"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                             android:layout_marginStart="12dp"
                             android:text="skylineTan"
                             android:textSize="15sp"
-                            android:textColor="@color/my_page_text_dark"/>
+                            android:textColor="@color/text_dark"/>
 
                         <ImageView
                             android:layout_width="24dp"
@@ -76,7 +76,7 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/my_page_introduce"
                             android:textSize="12sp"
-                            android:textColor="@color/my_page_text_light"/>
+                            android:textColor="@color/text_light_2"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
                             android:ellipsize="end"
                             android:text="to be a better man"
                             android:textSize="12sp"
-                            android:textColor="@color/my_page_text_light"/>
+                            android:textColor="@color/text_light_2"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -105,7 +105,7 @@
                 android:layout_marginTop="15dp"
                 android:paddingLeft="24dp"
                 android:paddingStart="24dp"
-                android:background="@drawable/bg_my_page_layout">
+                android:background="@drawable/bg_layout">
 
                 <ImageView
                     android:id="@+id/my_page_iv_relate"
@@ -123,7 +123,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginStart="24dp"
                     android:text="@string/my_page_relate"
-                    android:textColor="@color/my_page_text_dark"/>
+                    android:textColor="@color/text_dark"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -140,7 +140,7 @@
                 android:layout_height="42dp"
                 android:paddingLeft="24dp"
                 android:paddingStart="24dp"
-                android:background="@drawable/bg_my_page_layout">
+                android:background="@drawable/bg_layout">
 
                 <ImageView
                     android:id="@+id/my_page_iv_trend"
@@ -158,7 +158,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginStart="24dp"
                     android:text="@string/my_page_trend"
-                    android:textColor="@color/my_page_text_dark"/>
+                    android:textColor="@color/text_dark"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -175,7 +175,7 @@
                 android:layout_height="42dp"
                 android:paddingLeft="24dp"
                 android:paddingStart="24dp"
-                android:background="@drawable/bg_my_page_layout">
+                android:background="@drawable/bg_layout">
 
                 <ImageView
                     android:id="@+id/my_page_iv_no_course"
@@ -193,7 +193,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginStart="24dp"
                     android:text="@string/my_page_no_course"
-                    android:textColor="@color/my_page_text_dark"/>
+                    android:textColor="@color/text_dark"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -210,7 +210,7 @@
                 android:layout_height="42dp"
                 android:paddingLeft="24dp"
                 android:paddingStart="24dp"
-                android:background="@drawable/bg_my_page_layout">
+                android:background="@drawable/bg_layout">
 
                 <ImageView
                     android:id="@+id/my_page_iv_empty"
@@ -228,7 +228,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginStart="24dp"
                     android:text="@string/my_page_empty"
-                    android:textColor="@color/my_page_text_dark"/>
+                    android:textColor="@color/text_dark"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -245,7 +245,7 @@
                 android:layout_height="42dp"
                 android:paddingLeft="24dp"
                 android:paddingStart="24dp"
-                android:background="@drawable/bg_my_page_layout">
+                android:background="@drawable/bg_layout">
 
                 <ImageView
                     android:id="@+id/my_page_iv_grade"
@@ -263,7 +263,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginStart="24dp"
                     android:text="@string/my_page_grade"
-                    android:textColor="@color/my_page_text_dark"/>
+                    android:textColor="@color/text_dark"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -280,7 +280,7 @@
                 android:layout_height="42dp"
                 android:paddingLeft="24dp"
                 android:paddingStart="24dp"
-                android:background="@drawable/bg_my_page_layout">
+                android:background="@drawable/bg_layout">
 
                 <ImageView
                     android:id="@+id/my_page_iv_calendar"
@@ -298,7 +298,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginStart="24dp"
                     android:text="@string/my_page_calendar"
-                    android:textColor="@color/my_page_text_dark"/>
+                    android:textColor="@color/text_dark"/>
 
             </RelativeLayout>
 
@@ -314,7 +314,7 @@
                 android:layout_marginTop="15dp"
                 android:paddingLeft="24dp"
                 android:paddingStart="24dp"
-                android:background="@drawable/bg_my_page_layout">
+                android:background="@drawable/bg_layout">
 
                 <ImageView
                     android:id="@+id/my_page_iv_night"
@@ -332,7 +332,17 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginStart="24dp"
                     android:text="@string/my_page_night"
-                    android:textColor="@color/my_page_text_dark"/>
+                    android:textColor="@color/text_dark"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:theme="@style/SwitchStyle"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -349,7 +359,7 @@
                 android:layout_height="42dp"
                 android:paddingLeft="24dp"
                 android:paddingStart="24dp"
-                android:background="@drawable/bg_my_page_layout">
+                android:background="@drawable/bg_layout">
 
                 <ImageView
                     android:id="@+id/my_page_iv_setting"
@@ -367,7 +377,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginStart="24dp"
                     android:text="@string/my_page_setting"
-                    android:textColor="@color/my_page_text_dark"/>
+                    android:textColor="@color/text_dark"/>
 
             </RelativeLayout>
 

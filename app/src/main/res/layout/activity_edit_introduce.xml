@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_grey"
+    tools:context=".ui.activity.mypage.EditIntroduceActivity">
+
+    <include layout="@layout/toolbar_edit_introduce"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/white">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="153dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="14dp"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="请输入您的简介"
+            android:textColorHint="@color/text_light_2"
+            android:text="爱生活爱旅行爱看书什么都爱，对的就是不爱上课。"
+            android:textColor="@color/text_dark"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="7"
+            android:textColor="@color/text_light_2"
+            android:textSize="13sp"/>
+
+    </FrameLayout>
+
+</LinearLayout>

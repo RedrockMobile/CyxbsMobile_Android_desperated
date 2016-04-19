@@ -2,7 +2,9 @@ package com.mredrock.cyxbsmobile.network.service;
 
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.Course;
+import com.mredrock.cyxbsmobile.model.Empty;
 import com.mredrock.cyxbsmobile.model.MovieResult;
+import com.mredrock.cyxbsmobile.model.Student;
 import com.mredrock.cyxbsmobile.model.Subject;
 
 import java.util.List;
@@ -30,4 +32,13 @@ public interface RedrockApiService {
     @Headers("API_APP: android")
     @POST(Const.API_PERSON_SCHEDULE)
     Observable<Course.CourseWrapper> getCourse(@Field("stuNum") String stuNum, @Field("idNum") String idNum, @Field("week") String week);
+
+    @GET(Const.APT_SEARCH_STUDENT)
+    Observable<Student.StudentWrapper> getStudent(@Query("stu") String stu);
+
+    @FormUrlEncoded
+    @POST(Const.API_EMPTYROOM)
+    Observable<Empty> getEmptyRoomList(@Field("buildNum") String buildNum, @Field("week") String week, @Field("weekdayNum") String weekdayNum, @Field("sectionNum") String sectionNum);
+
+
 }

@@ -48,13 +48,26 @@
         <!-- 图片剪切 -->
         <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
         <activity android:name=".ui.activity.TestUploadActivity"/>
-        <activity android:name=".ui.activity.EditInfoActivity" />
-        <activity android:name=".ui.activity.SpecificNewsActivity"></activity>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity android:name=".ui.activity.mypage.EditInfoActivity"/>
+        <activity android:name=".ui.activity.SpecificNewsActivity"/>
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
+
+        <activity android:name=".ui.activity.mypage.RelateMeActivity"/>
+        <activity android:name=".ui.activity.mypage.MyTrendActivity"/>
+        <activity android:name=".ui.activity.mypage.SettingActivity"/>
+        <activity android:name=".ui.activity.mypage.NewsRemindActivity"/>
+        <activity android:name=".ui.activity.mypage.EditNickNameActivity"/>
+        <activity android:name=".ui.activity.mypage.EditIntroduceActivity"/>
+        <activity android:name=".ui.activity.mypage.NoCourseContainerActivity"/>
+        <activity android:name=".ui.activity.mypage.NoCourseActivity"/>
+        <activity android:name=".ui.activity.mypage.SelectStudentActivity"/>
+        <activity android:name=".ui.activity.mypage.EmptyRoomActivity"></activity>
     </application>
 
 </manifest>

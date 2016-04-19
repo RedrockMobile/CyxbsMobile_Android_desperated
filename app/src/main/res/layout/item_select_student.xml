@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@drawable/bg_layout">
+
+    <TextView
+        android:id="@+id/select_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="skylineTan"
+        android:textColor="#111111"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/select_major"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:text="skylineTan"
+        android:textColor="#111111"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/select_stu_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:text="skylineTan"
+        android:textColor="#111111"
+        android:textSize="16sp"/>
+
+</LinearLayout>

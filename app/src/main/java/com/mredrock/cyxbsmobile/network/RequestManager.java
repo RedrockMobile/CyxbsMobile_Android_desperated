@@ -5,8 +5,10 @@ import android.net.Uri;
 import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.BuildConfig;
 import com.mredrock.cyxbsmobile.config.Const;
+import com.mredrock.cyxbsmobile.model.Course;
 import com.mredrock.cyxbsmobile.model.MovieResult;
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
+import com.mredrock.cyxbsmobile.model.Student;
 import com.mredrock.cyxbsmobile.model.Subject;
 import com.mredrock.cyxbsmobile.network.exception.ApiException;
 import com.mredrock.cyxbsmobile.network.exception.RedrockApiException;
@@ -119,6 +121,25 @@ public enum RequestManager {
         Observable<String> observable = redrockApiService.getCourse(stuNum, idNum, week)
                 .map(courseWrapper -> new Gson().toJson(courseWrapper));
         emitObservable(observable, subscriber);
+    }
+
+    public void getCourse(Subscriber<List<Course>> subscriber, String stuNum, String idNum, String week) {
+        Observable<List<Course>> observable = redrockApiService.getCourse(stuNum, idNum, week).map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable, subscriber);
+    }
+
+    public void getStudent(Subscriber<List<Student>> subscriber,String stu){
+        Observable<List<Student>> observable = redrockApiService.getStudent(stu)
+                .map(studentWrapper -> studentWrapper.data);
+        emitObservable(observable,subscriber);
+    }
+
+    public void getEmptyRoomList(Subscriber<List<String>> subscriber,String
+            buildNum,String week,String weekdayNum,String sectionNum){
+        Observable<List<String>> observable = redrockApiService
+                .getEmptyRoomList(buildNum,week,weekdayNum,sectionNum)
+                .map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable,subscriber);
     }
 
     private <T> void emitObservable(Observable<T> o, Subscriber<T> s) {
