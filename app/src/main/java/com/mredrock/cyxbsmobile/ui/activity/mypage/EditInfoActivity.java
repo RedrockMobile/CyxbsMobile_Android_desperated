@@ -26,8 +26,7 @@ public class EditInfoActivity extends BaseActivity
     @Bind(R.id.edit_info_nick_layout)
     RelativeLayout editInfoNickLayout;
     @Bind(R.id.edit_info_introduce_layout)
-    RelativeLayout
-            editInfoIntroduceLayout;
+    RelativeLayout editInfoIntroduceLayout;
 
 
     @Override
@@ -40,7 +39,6 @@ public class EditInfoActivity extends BaseActivity
         editInfoIntroduceLayout.setOnClickListener(this);
         editInfoNickLayout.setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View v) {

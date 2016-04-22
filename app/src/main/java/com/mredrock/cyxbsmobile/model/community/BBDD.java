@@ -10,6 +10,7 @@ public class BBDD {
     public static final int XSJZ = 3;
     public static final int XWGG = 4;
     public static final int BBDD = 5;
+    public static final String LISTNEWS = "6";
 
     public static final int SHOTARTICLE = 0001;
     public static final int LISTARTICLE = 0002;

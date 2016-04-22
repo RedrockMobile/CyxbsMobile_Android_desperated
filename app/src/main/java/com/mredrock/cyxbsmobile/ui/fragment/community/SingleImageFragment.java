@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -20,12 +21,14 @@ import butterknife.ButterKnife;
 /**
  * Created by mathiasluo on 16-4-16.
  */
-public class SingleImageFragment extends BaseLazyFragment {
+public class SingleImageFragment extends BaseLazyFragment implements View.OnClickListener {
 
     @Bind(R.id.fragment_progressBar)
     ProgressBar mProgressBar;
     @Bind(R.id.image_shot)
     ImageView mImageView;
+    @Bind(R.id.layout)
+    RelativeLayout layout;
     private String url;
 
     @Nullable
@@ -34,6 +37,7 @@ public class SingleImageFragment extends BaseLazyFragment {
         url = getArguments().getString("url");
         View view = inflater.inflate(R.layout.content_img, container, false);
         ButterKnife.bind(this, view);
+        layout.setOnClickListener(this);
         showProgress();
         return view;
     }
@@ -63,7 +67,10 @@ public class SingleImageFragment extends BaseLazyFragment {
                 closeProgress();
             }
         });
+    }
 
-
+    @Override
+    public void onClick(View view) {
+        getActivity().finish();
     }
 }

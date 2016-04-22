@@ -3,6 +3,7 @@ package com.mredrock.cyxbsmobile.ui.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
-import com.mredrock.cyxbsmobile.component.widget.NineGridlayout;
 import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
@@ -34,12 +34,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<News> mNews;
     private OnItemOnClickListener onItemOnClickListener;
 
-    public void setOnItemOnClickListener(OnItemOnClickListener onItemOnClickLIstener) {
-        this.onItemOnClickListener = onItemOnClickLIstener;
-    }
-
     public NewsAdapter(List<News> mNews) {
         this.mNews = mNews;
+    }
+
+    public void setOnItemOnClickListener(OnItemOnClickListener onItemOnClickLIstener) {
+        this.onItemOnClickListener = onItemOnClickLIstener;
     }
 
     @Override
@@ -116,12 +116,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     });
         }
 
+        public final static String[] getUrls(String url) {
+            return url != null ? url.split(",") : new String[]{""};
+        }
 
         public void setData(News.DataBean dataBean) {
 
-            mTextName.setText(dataBean.getUser_name() != null ? dataBean.getUser_name() + "" : "没有名字就显示我了");
+            mTextName.setText(dataBean.getUser_name() != "" ? dataBean.getUser_name() + "" : "没有名字就显示我了");
             mTextTime.setText(dataBean.getTime());
-            mTextContent.setText(dataBean.getContent());
+            //mTextContent.setText(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : "");
+            mTextContent.setText(Html.fromHtml(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : ""));
             mBtnFavor.setText(dataBean.getLike_num());
             mBtnMsg.setText(dataBean.getRemark_num());
             ImageLoader.getInstance().loadAvatar(dataBean.getUser_head(), mImgAvatar);
@@ -134,19 +138,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             List<Image> mImgs = new ArrayList<>();
             for (String url : getUrls(dataBean.getImg().getImg_small_src()))
-                mImgs.add(new Image(url, Image.ADDIMAG));
+                if (!url.equals("")) mImgs.add(new Image(url, Image.ADDIMAG));
             mAutoNineGridlayout.setImagesData(mImgs);
             mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) -> {
                 Intent intent = new Intent(itemView.getContext(), ImageActivity.class);
                 intent.putExtra("dataBean", dataBean);
                 intent.putExtra("position", position);
+                Log.e("===============>>>>>>>", position + dataBean.getImg().getImg_small_src());
                 itemView.getContext().startActivity(intent);
                 ((Activity) itemView.getContext()).overridePendingTransition(R.anim.activity_enter, R.anim.activity_exit);
             });
-        }
 
-        public final static String[] getUrls(String url) {
-            return url != null ? url.split(",") : new String[]{""};
+
         }
 
     }

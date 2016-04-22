@@ -11,7 +11,11 @@ import com.mredrock.cyxbsmobile.model.MovieResult;
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Student;
 import com.mredrock.cyxbsmobile.model.Subject;
+import com.mredrock.cyxbsmobile.model.community.BBDD;
+import com.mredrock.cyxbsmobile.model.community.BBDDNews;
+import com.mredrock.cyxbsmobile.model.community.ContentBean;
 import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.OfficeNews;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.model.community.ReMarks;
 import com.mredrock.cyxbsmobile.model.community.Stu;
@@ -24,6 +28,7 @@ import com.mredrock.cyxbsmobile.network.service.UpDownloadService;
 import com.mredrock.cyxbsmobile.util.OkHttpUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -195,6 +200,23 @@ public enum RequestManager {
         return getHotArticle(size, page, Stu.STU_NUM, Stu.ID_NUM);
     }
 
+
+    public Observable<OfficeNews> getListNews(int size, int page, String stuNum, String idNum, String type_id) {
+        return newsApiService.getlistNews(size, page, stuNum, idNum, type_id);
+    }
+
+    public Observable<List<ContentBean>> getListNews(int size, int page) {
+        return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDD.LISTNEWS)
+                .flatMap(officeNews -> Observable.just(officeNews.getData()));
+    }
+
+    public Observable<List<ContentBean>> getListNews(int size, int page, boolean update) {
+        return cacheProviders.getCacheContentBean(getListNews(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
+                .map(listReply -> listReply.getData()).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
     public Observable<List<News>> getHotArticle(int size, int page, String stuNum, String idNum) {
         return newsApiService.getHotArticle(size, page, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
@@ -211,7 +233,22 @@ public enum RequestManager {
     }
 
     public Observable<List<News>> getListArticle(int type_id, int size, int page, String stuNum, String idNum) {
-        return newsApiService.getListArticle(type_id, size, page, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+        return newsApiService.getListArticle(type_id, size, page, stuNum, idNum).flatMap(new Func1<BBDDNews, Observable<List<News>>>() {
+            @Override
+            public Observable<List<News>> call(BBDDNews bbddNews) {
+                return Observable.just(bbddNews.getData()).map(new Func1<List<BBDDNews.BBDDBean>, List<News>>() {
+                    @Override
+                    public List<News> call(List<BBDDNews.BBDDBean> bbddBeen) {
+
+                        List<News> news = new ArrayList<News>();
+                        for (BBDDNews.BBDDBean mbbddBean : bbddBeen) {
+                            news.add(new News(mbbddBean));
+                        }
+                        return news;
+                    }
+                });
+            }
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<OkResponse> sendDynamic(int type_id, String title, String content, String thumbnail_src, String photo_src) {

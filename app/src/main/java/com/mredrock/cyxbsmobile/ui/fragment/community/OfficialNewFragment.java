@@ -13,13 +13,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.BBDD;
+import com.mredrock.cyxbsmobile.model.community.ContentBean;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.EndlessRecyclerOnScrollListener;
 import com.mredrock.cyxbsmobile.ui.activity.SpecificNewsActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
-import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.OfficialNewAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 
 import java.util.List;
@@ -30,27 +30,24 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
- * @author MathiasLuo
+ * Created by mathiasluo on 16-4-22.
  */
-public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, NewsAdapter.OnItemOnClickListener {
-
+public class OfficialNewFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, OfficialNewAdapter.OnItemOnClickListener {
     @Bind(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
     @Bind(R.id.information_refresh)
     SwipeRefreshLayout refreshLayout;
     int currentPage = 1;
-    private List<News> mDatas = null;
-    private NewsAdapter mNewsAdapter;
+    private List<ContentBean> mDatas = null;
+    private OfficialNewAdapter mNewsAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
-    private int newsType;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         ButterKnife.bind(this, view);
-        newsType = getArguments().getInt("type", 1);
         init();
         return view;
     }
@@ -71,18 +68,10 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     protected void getCurrentData(int size, int page, boolean update) {
-        switch (newsType) {
-            case BBDD.SHOTARTICLE:
-                getHotCurrentData(size, page, update);
-                break;
-            case BBDD.LISTARTICLE:
-                getTypeCurrentData(size, page, BBDD.BBDD, update);
-                break;
-        }
+        getHotCurrentData(size, page, update);
     }
 
-
-    private void doWithObser(Observable<List<News>> observable) {
+    private void doWithObser(Observable<List<ContentBean>> observable) {
         observable.doOnSubscribe(() -> showLoadingProgress())
                 .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .subscribe(newses -> {
@@ -101,18 +90,14 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     }
 
-    private void getTypeCurrentData(int size, int page, int type, boolean update) {
-        doWithObser(RequestManager.getInstance().getListArticle(type, size, page, update));
-    }
-
     private void getHotCurrentData(int size, int page, boolean update) {
-        doWithObser(RequestManager.getInstance().getHotArticle(size, page, update));
+        doWithObser(RequestManager.getInstance().getListNews(size, page, update));
     }
 
 
-    private void initAdapter(List<News> datas) {
+    private void initAdapter(List<ContentBean> datas) {
         mDatas = datas;
-        mNewsAdapter = new NewsAdapter(mDatas);
+        mNewsAdapter = new OfficialNewAdapter(mDatas);
         mNewsAdapter.setOnItemOnClickListener(this);
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mNewsAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
@@ -125,25 +110,15 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     private void getNextPageData(int size, int page) {
-        switch (newsType) {
-            case BBDD.SHOTARTICLE:
-                getNextHotArticle(size, page);
-                break;
-            case BBDD.LISTARTICLE:
-                getNextTypeCurrentData(size, page);
-                break;
-        }
+        getNextHotArticle(size, page);
     }
 
-    private void getNextTypeCurrentData(int size, int page) {
-        doNextWithObser(RequestManager.getInstance().getListArticle(size, page, BBDD.BBDD));
-    }
 
     private void getNextHotArticle(int size, int page) {
-        doNextWithObser(RequestManager.getInstance().getHotArticle(size, page));
+        doNextWithObser(RequestManager.getInstance().getListNews(size, page));
     }
 
-    private void doNextWithObser(Observable<List<News>> observable) {
+    private void doNextWithObser(Observable<List<ContentBean>> observable) {
         observable.subscribe(newses -> {
             mDatas.addAll(newses);
             mNewsAdapter.notifyDataSetChanged();
@@ -176,10 +151,11 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         getCurrentData(1, 1, true);
     }
 
+
     @Override
-    public void onItemClick(View itemView, int position, News.DataBean dataBean) {
+    public void onItemClick(View itemView, int position, ContentBean dataBean) {
         Intent intent = new Intent(getActivity(), SpecificNewsActivity.class);
-        intent.putExtra("dataBean", dataBean);
+        intent.putExtra("dataBean", new News.DataBean(dataBean));
         startActivity(intent);
     }
 }

@@ -97,4 +97,5 @@ dependencies {
         exclude module: 'guava'
     }
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile 'com.github.traex.rippleeffect:library:1.3'
 }

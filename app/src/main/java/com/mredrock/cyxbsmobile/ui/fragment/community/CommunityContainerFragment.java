@@ -51,15 +51,15 @@ public class CommunityContainerFragment extends BaseFragment {
         NewsFragment mBBLLNewFragment = new NewsFragment();
         Bundle mBBLL = new Bundle();
         mBBLL.putInt("type", BBDD.LISTARTICLE);
-        //mBBLLNewFragment.setArguments(mBBLL);
-        mBBLLNewFragment.setArguments(mPop);
+        mBBLLNewFragment.setArguments(mBBLL);
+        //mBBLLNewFragment.setArguments(mPop);
 
 
-        NewsFragment mOfficialNewFragment = new NewsFragment();
-        Bundle mOfficial = new Bundle();
-        mOfficial.putInt("type", BBDD.JWZXARTICLE);
-       // mOfficialNewFragment.setArguments(mOfficial);
-        mOfficialNewFragment.setArguments(mPop);
+        OfficialNewFragment mOfficialNewFragment = new OfficialNewFragment();
+        //Bundle mOfficial = new Bundle();
+        // mOfficial.putInt("type", BBDD.JWZXARTICLE);
+        //mOfficialNewFragment.setArguments(mOfficial);
+        // mOfficialNewFragment.setArguments(mPop);
 
         fragmentLIst.add(mPopularNewFragment);
         fragmentLIst.add(mBBLLNewFragment);
