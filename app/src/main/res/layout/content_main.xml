@@ -1,11 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_fragment_container"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="42dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.activity.MainActivity"
-    tools:showIn="@layout/activity_main"/>
+    tools:showIn="@layout/activity_main">
+
+    <FrameLayout
+        android:id="@+id/main_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="@color/white" >
+
+        <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            app:color_choose="@color/colorPrimary"
+            app:color_normal="@color/tabText"
+            app:button_image_normal="@drawable/ic_nearby"
+            app:button_text="@string/community"/>
+
+        <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            app:color_choose="@color/colorPrimary"
+            app:color_normal="@color/tabText"
+            app:button_image_normal="@drawable/ic_favorites"
+            app:button_text="@string/course"/>
+
+        <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            app:color_choose="@color/colorPrimary"
+            app:color_normal="@color/tabText"
+            app:button_image_normal="@drawable/ic_restaurants"
+            app:button_text="@string/explore"/>
+
+        <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            app:color_choose="@color/colorPrimary"
+            app:color_normal="@color/tabText"
+            app:button_image_normal="@drawable/ic_friends"
+            app:button_text="@string/my_page"/>
+
+    </com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar>
+
+</LinearLayout>

@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-public class KeyboardUtil {
+public class KeyboardUtils {
 
-    private KeyboardUtil() {
+    private KeyboardUtils() {
         throw new UnsupportedOperationException("cannot be instantiated");
     }
 

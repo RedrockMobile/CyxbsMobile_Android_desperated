@@ -1,133 +1,140 @@
-<android.support.v4.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/course_swipe_refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <ScrollView
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/course_month"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/course_weekday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp" />
+
+            <LinearLayout
+                android:id="@+id/course_weeks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/course_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:id="@+id/course_scheduleview"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:layout_height="wrap_content">
 
-            <!--就只是七个选中今日的底色-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="16dp"
-                android:orientation="horizontal">
-
-                <View
-                    android:id="@+id/view_course_today_1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#FFFBEB"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/view_course_today_2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#FFFBEB"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/view_course_today_3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#FFFBEB"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/view_course_today_4"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#FFFBEB"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/view_course_today_5"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#FFFBEB"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/view_course_today_6"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#FFFBEB"
-                    android:visibility="invisible" />
-
-                <View
-                    android:id="@+id/view_course_today_7"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#FFFBEB"
-                    android:visibility="invisible" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <FrameLayout
+                android:id="@+id/course_scheduleview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="@color/white">
 
+                <!--就只是七个选中今日的底色-->
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/course_month"
-                        android:gravity="center"
-                        android:layout_width="40dp"
-                        android:textSize="16sp"
-                        android:textColor="@color/tabText"
-                        android:layout_height="match_parent" />
+                    <View
+                        android:id="@+id/view_course_today_1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#FFFBEB"
+                        android:visibility="invisible" />
 
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <View
+                        android:id="@+id/view_course_today_2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#FFFBEB"
+                        android:visibility="invisible" />
 
-                        <LinearLayout
-                            android:id="@+id/course_weekday"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingRight="16dp"
-                            android:orientation="horizontal"
-                            android:paddingTop="6dp" />
+                    <View
+                        android:id="@+id/view_course_today_3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#FFFBEB"
+                        android:visibility="invisible" />
 
-                        <LinearLayout
-                            android:id="@+id/course_weeks"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:layout_marginRight="16dp"
-                            android:orientation="horizontal" />
+                    <View
+                        android:id="@+id/view_course_today_4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#FFFBEB"
+                        android:visibility="invisible" />
 
-                    </LinearLayout>
+                    <View
+                        android:id="@+id/view_course_today_5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#FFFBEB"
+                        android:visibility="invisible" />
+
+                    <View
+                        android:id="@+id/view_course_today_6"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#FFFBEB"
+                        android:visibility="invisible" />
+
+                    <View
+                        android:id="@+id/view_course_today_7"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#FFFBEB"
+                        android:visibility="invisible" />
 
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/course_schedule_holder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -142,17 +149,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="600dp" />
                 </LinearLayout>
-            </LinearLayout>
 
-<!--            <com.pnikosis.materialishprogress.ProgressWheel
-                android:id="@+id/course_progress"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                wheel:matProg_barColor="#e91e63"
-                wheel:matProg_progressIndeterminate="true" />-->
 
-        </FrameLayout>
-    </ScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+            </FrameLayout>
+        </ScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

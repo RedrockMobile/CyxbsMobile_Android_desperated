@@ -8,6 +8,7 @@
     <color name="orange">#ff7d37</color>
     <color name="yellow">#ffb048</color>
     <color name="grey">#f3f7fa</color>
+    <color name="white">#fff</color>
     <color name="data_light_black">#a9a9a9</color>
 
     <color name="divider">#e3e3e8</color>

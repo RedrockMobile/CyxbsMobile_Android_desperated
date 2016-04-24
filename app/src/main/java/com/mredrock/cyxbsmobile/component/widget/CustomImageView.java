@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.community.Image;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.util.DensityUtils;
 
 /**
  * Created by Pan_ on 2015/2/2.
@@ -76,7 +76,7 @@ public class CustomImageView extends ImageView {
                 }
                 int x = (int) event.getX();
                 int y = (int) event.getY();
-                int w = DensityUtil.dp2px(getContext(), 18);
+                int w = DensityUtils.dp2px(getContext(), 18);
 
                 if (x > getWidth() - 2 * w && y < 2 * w) {
                     if (onClickDelecteListener != null && type == Image.NORMALIMAGE)
@@ -123,7 +123,7 @@ public class CustomImageView extends ImageView {
         if (type == Image.NORMALIMAGE) {
             int w = canvas.getWidth();
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_delete_black_18dp);
-            canvas.drawBitmap(bitmap, w - DensityUtil.dp2px(getContext(), 18), 0, null);
+            canvas.drawBitmap(bitmap, w - DensityUtils.dp2px(getContext(), 18), 0, null);
         }
     }
 

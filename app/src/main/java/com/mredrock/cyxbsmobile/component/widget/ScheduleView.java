@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Course;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.util.DensityUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +22,8 @@ import java.util.Set;
 
 public class ScheduleView extends FrameLayout {
 
-    private final int width = (int) ((DensityUtil.getScreenWidth(getContext()) - DensityUtil.dp2px(getContext(), 56)) / 7);
-    private int height = (int) DensityUtil.dp2px(getContext(), 100);
+    private final int width = (int) ((DensityUtils.getScreenWidth(getContext()) - DensityUtils.dp2px(getContext(), 56)) / 7);
+    private int height = (int) DensityUtils.dp2px(getContext(), 100);
     private CourseColorSelector colorSelector = new CourseColorSelector();
     public CourseList[][] course = new CourseList[7][7];
     private Context context;
@@ -36,8 +36,8 @@ public class ScheduleView extends FrameLayout {
         super(context, attrs);
         this.context = context;
         /* 如果超大屏幕课表太短了，给它填满屏幕 */
-        int screeHeight = DensityUtil.getScreenHeight(context);
-        if (DensityUtil.px2dp(context, screeHeight) > 700) height = screeHeight / 6;
+        int screeHeight = DensityUtils.getScreenHeight(context);
+        if (DensityUtils.px2dp(context, screeHeight) > 700) height = screeHeight / 6;
         initCourse();
         setWillNotDraw(false);
     }
@@ -57,8 +57,8 @@ public class ScheduleView extends FrameLayout {
         initCourse();
         if (data != null) {
             for (Course aData : data) {
-                //colorSelector.addCourse(aData.course);
-                colorSelector.addCourse(aData.begin_lesson, aData.hash_day);
+                colorSelector.addCourse(aData.course);
+                //colorSelector.addCourse(aData.begin_lesson, aData.hash_day);
                 int x = aData.hash_lesson;
                 int y = aData.hash_day;
                 if (course[x][y] == null) {
@@ -101,9 +101,9 @@ public class ScheduleView extends FrameLayout {
         int mWidth = width;
         int mHeight = (int) (height * (float) course.period / 2);
 
-        LayoutParams flParams = new LayoutParams((mWidth - DensityUtil.dp2px(getContext(), 1f)), (mHeight - DensityUtil.dp2px(getContext(), 1f)));
-        flParams.topMargin = (mTop + DensityUtil.dp2px(getContext(), 1f));
-        flParams.leftMargin = (mLeft + DensityUtil.dp2px(getContext(), 1f));
+        LayoutParams flParams = new LayoutParams((mWidth - DensityUtils.dp2px(getContext(), 1f)), (mHeight - DensityUtils.dp2px(getContext(), 1f)));
+        flParams.topMargin = (mTop + DensityUtils.dp2px(getContext(), 1f));
+        flParams.leftMargin = (mLeft + DensityUtils.dp2px(getContext(), 1f));
         tv.setLayoutParams(flParams);
         tv.setTextColor(Color.WHITE);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
@@ -111,9 +111,9 @@ public class ScheduleView extends FrameLayout {
         tv.setText(course.course + "@" + course.classroom);
 
         GradientDrawable gd = new GradientDrawable();
-        gd.setCornerRadius(DensityUtil.dp2px(getContext(), 1));
-        //gd.setColor(colorSelector.getCourseColor(course.course));
-        gd.setColor(colorSelector.getCourseColor(course.begin_lesson, course.hash_day));
+        gd.setCornerRadius(DensityUtils.dp2px(getContext(), 2));
+        gd.setColor(colorSelector.getCourseColor(course.course));
+        //gd.setColor(colorSelector.getCourseColor(course.begin_lesson, course.hash_day));
         tv.setBackgroundDrawable(gd);
         tv.setOnClickListener(v -> CourseDialog.show(getContext(), courses));
         addView(tv);
@@ -134,10 +134,10 @@ public class ScheduleView extends FrameLayout {
 
     public static class CourseColorSelector {
         private int[] colors = new int[]{
-                Color.argb(255, 254, 145, 103),
-                Color.argb(255, 120, 201, 252),
-                Color.argb(255, 111, 219, 188),
-                Color.argb(255, 191, 161, 233),
+                Color.argb(200, 254, 145, 103),
+                Color.argb(200, 120, 201, 252),
+                Color.argb(200, 111, 219, 188),
+                Color.argb(200, 191, 161, 233),
         };
 
         private HashMap<String, Integer> mCourseColorMap = new HashMap<>();
@@ -157,7 +157,7 @@ public class ScheduleView extends FrameLayout {
         public void addCourse(int beginLesson, int hashDay) {
             if (hashDay >= 5) mCourseColorMap.put(beginLesson + "," + hashDay, colors[3]);
             else if (beginLesson < 4) mCourseColorMap.put(beginLesson + "," + hashDay, colors[0]);
-            else if (beginLesson < 7) mCourseColorMap.put(beginLesson + "," + hashDay, colors[1]);
+            else if (beginLesson < 9) mCourseColorMap.put(beginLesson + "," + hashDay, colors[1]);
             else mCourseColorMap.put(beginLesson + "," + hashDay, colors[2]);
         }
 

@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.util.DensityUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,13 +32,6 @@ public class RedPagerView extends RelativeLayout implements ViewPager.OnPageChan
     private int gravity;
     private View mHintView;
     private Timer timer = new Timer();
-
-    public interface HintView {
-        public void initView(int length, int gravity);
-
-        public void setCurrent(int current);
-    }
-
 
     public RedPagerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -109,7 +102,7 @@ public class RedPagerView extends RelativeLayout implements ViewPager.OnPageChan
     private void initHintView(PagerAdapter adapter) {
 
         //设置提示view的位置
-        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, DensityUtil.dp2px(getContext(), 24));
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, DensityUtils.dp2px(getContext(), 24));
         lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         (mHintView).setLayoutParams(lp);
 
@@ -137,6 +130,12 @@ public class RedPagerView extends RelativeLayout implements ViewPager.OnPageChan
     @Override
     public void onPageSelected(int arg0) {
         ((HintView) mHintView).setCurrent(arg0);
+    }
+
+    public interface HintView {
+        void initView(int length, int gravity);
+
+        void setCurrent(int current);
     }
 
     static class PointHintView extends LinearLayout implements RedPagerView.HintView {
@@ -177,14 +176,14 @@ public class RedPagerView extends RelativeLayout implements ViewPager.OnPageChan
 
             dot_focus = new GradientDrawable();
             dot_focus.setColor(getResources().getColor(R.color.colorAccent));
-            dot_focus.setCornerRadius(DensityUtil.dp2px(getContext(), 4));
-            dot_focus.setSize(DensityUtil.dp2px(getContext(), 8), DensityUtil.dp2px(getContext(), 8));
+            dot_focus.setCornerRadius(DensityUtils.dp2px(getContext(), 4));
+            dot_focus.setSize(DensityUtils.dp2px(getContext(), 8), DensityUtils.dp2px(getContext(), 8));
 
             dot_normal = new GradientDrawable();
             dot_normal.setColor(Color.GRAY);
             dot_normal.setAlpha(125);
-            dot_normal.setCornerRadius(DensityUtil.dp2px(getContext(), 4));
-            dot_normal.setSize(DensityUtil.dp2px(getContext(), 8), DensityUtil.dp2px(getContext(), 8));
+            dot_normal.setCornerRadius(DensityUtils.dp2px(getContext(), 4));
+            dot_normal.setSize(DensityUtils.dp2px(getContext(), 8), DensityUtils.dp2px(getContext(), 8));
 
 
             for (int i = 0; i < length; i++) {

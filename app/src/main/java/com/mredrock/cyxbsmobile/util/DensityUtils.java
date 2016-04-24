@@ -5,12 +5,12 @@ import android.graphics.Point;
 import android.view.Display;
 import android.view.WindowManager;
 
-public class DensityUtil {
+public class DensityUtils {
 
     private static int screenWidth = 0;
     private static int screenHeight = 0;
 
-    private DensityUtil() {
+    private DensityUtils() {
         throw new UnsupportedOperationException("cannot be instantiated");
     }
 
