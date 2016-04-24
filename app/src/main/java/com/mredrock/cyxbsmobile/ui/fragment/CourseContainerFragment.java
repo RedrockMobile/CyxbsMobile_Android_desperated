@@ -45,8 +45,6 @@ public class CourseContainerFragment extends BaseFragment {
     TabLayout mTabs;
     @Bind(R.id.tab_course_viewpager)
     ViewPager mPager;
-    //@Bind(R.id.course_fab)
-    //FloatingActionButton mFab;
 
     private TextView mToolbarTitle;
 
@@ -56,12 +54,15 @@ public class CourseContainerFragment extends BaseFragment {
     private int mNowWeek;
     private User mUser;
 
+    private ViewPager.OnPageChangeListener mPageListener;
+    private ViewPager.OnPageChangeListener mTabListener;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUser = APP.getUser(getActivity());
         EventBus.getDefault().register(this);
-        // 测试
+        // TODO 测试
         testUser();
         loadNowWeek();
         loadAllCourses();
@@ -94,8 +95,8 @@ public class CourseContainerFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         mToolbarTitle = ((MainActivity) getActivity()).getToolbarTitle();
         mPager.setAdapter(mAdapter);
-        mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabs));
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mPager.addOnPageChangeListener(mTabListener = new TabLayout.TabLayoutOnPageChangeListener(mTabs));
+        mPager.addOnPageChangeListener(mPageListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -137,6 +138,8 @@ public class CourseContainerFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
+        mPager.removeOnPageChangeListener(mTabListener);
+        mPager.removeOnPageChangeListener(mPageListener);
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
@@ -167,7 +170,7 @@ public class CourseContainerFragment extends BaseFragment {
     // TODO 测试用户
     private void testUser() {
         mUser = new User();
-        mUser.stuNum = "2014213790";
+        mUser.stuNum = "2015210408";
         mUser.idNum = "";
     }
 

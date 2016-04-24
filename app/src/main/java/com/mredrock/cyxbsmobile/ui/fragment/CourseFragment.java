@@ -136,7 +136,9 @@ public class CourseFragment extends BaseFragment {
                 EventBus.getDefault().post(new UpdateCourseEvent());
             }
         });
-        mCourseSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.colorAccent), ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        mCourseSwipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(getContext(), R.color.colorAccent),
+                ContextCompat.getColor(getContext(), R.color.colorPrimary));
     }
 
     @Override
@@ -193,7 +195,7 @@ public class CourseFragment extends BaseFragment {
     // TODO 测试用户
     private void testUser() {
         mUser = new User();
-        mUser.stuNum = "2014213790";
+        mUser.stuNum = "2015210408";
         mUser.idNum = "";
     }
 }

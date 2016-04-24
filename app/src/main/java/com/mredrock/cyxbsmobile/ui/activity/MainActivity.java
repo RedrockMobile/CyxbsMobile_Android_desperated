@@ -45,11 +45,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.bottom_bar)
     BottomBar mBottomBar;
 
-    private CourseContainerFragment courseContainerFragment;
-    private CommunityContainerFragment communityContainerFragment;
-    private ExploreFragment exploreFragment;
-    private MyPageFragment myPageFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,53 +56,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void initView() {
         initToolbar();
         mImageView.setOnClickListener(this);
-        courseContainerFragment = new CourseContainerFragment();
-        communityContainerFragment = new CommunityContainerFragment();
-        exploreFragment = new ExploreFragment();
-        myPageFragment = new MyPageFragment();
+
         mBottomBar.setOnBottomViewClickListener((view, position) -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            Fragment fragment = null;
             mImageView.setVisibility(View.GONE);
             switch (position) {
                 case 0:
-                    showFragment(transaction, communityContainerFragment, R.id.main_fragment_container);
+                    fragment = new CommunityContainerFragment();
                     setTitle(mStringCommunity);
                     mImageView.setVisibility(View.VISIBLE);
                     break;
                 case 1:
-                    showFragment(transaction, courseContainerFragment, R.id.main_fragment_container);
-                    setTitle(mStringCourse);
+                    fragment = new CourseContainerFragment();
                     break;
                 case 2:
-                    showFragment(transaction, exploreFragment, R.id.main_fragment_container);
+                    fragment = new ExploreFragment();
                     setTitle(mStringExplore);
                     break;
                 case 3:
-                    showFragment(transaction, myPageFragment, R.id.main_fragment_container);
+                    fragment = new MyPageFragment();
                     setTitle(mStringMyPage);
                     break;
             }
+            transaction.replace(R.id.main_fragment_container, fragment);
             transaction.commit();
         });
-    }
-
-    private void hideAllFragments(FragmentTransaction transaction) {
-        hideFragment(transaction, courseContainerFragment);
-        hideFragment(transaction, communityContainerFragment);
-        hideFragment(transaction, exploreFragment);
-        hideFragment(transaction, myPageFragment);
-    }
-
-    private void hideFragment(FragmentTransaction transaction, Fragment frag) {
-        if (frag != null) transaction.hide(frag);
-    }
-
-    private void showFragment(FragmentTransaction transaction, Fragment frag, int resId) {
-        hideAllFragments(transaction);
-        if (!frag.isAdded()) {
-            transaction.add(resId, frag);
-        }
-        transaction.show(frag);
     }
 
     private void initToolbar() {

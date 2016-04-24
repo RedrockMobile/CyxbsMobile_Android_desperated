@@ -1,10 +1,9 @@
-package com.mredrock.cyxbsmobile.ui.fragment.community;
+package com.mredrock.cyxbsmobile.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 
-abstract class BaseLazyFragment extends Fragment {
+public abstract class BaseLazyFragment extends BaseFragment {
     private static final String TAG = BaseLazyFragment.class.getSimpleName();
     private boolean isPrepared;
 
@@ -80,7 +79,7 @@ abstract class BaseLazyFragment extends Fragment {
     /**
      * 第一次fragment可见（进行初始化工作）
      */
-    abstract void onFirstUserVisible();
+    protected abstract void onFirstUserVisible();
 
     /**
      * fragment可见（切换回来或者onResume）
