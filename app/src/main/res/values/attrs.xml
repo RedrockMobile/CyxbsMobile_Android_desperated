@@ -12,4 +12,23 @@
         </attr>
         <attr name="auto_play" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="TagFlowLayout">
+        <attr name="multi_suppout" format="boolean"/>
+        <attr name="max_select" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="BottomButton" >
+        <attr name="button_text" format="string" />
+        <attr name="button_text_size" format="dimension" />
+        <attr name="button_text_color_normal" format="color" />
+        <attr name="button_text_color_choose" format="color" />
+        <attr name="button_image_normal" format="reference" />
+        <attr name="button_image_choose" format="reference" />
+        <attr name="button_image_color_normal" format="color" />
+        <attr name="button_image_color_choose" format="color" />
+        <attr name="button_text_image_margin" format="dimension" />
+        <attr name="color_choose" format="color" />
+        <attr name="color_normal" format="color" />
+    </declare-styleable>
 </resources>

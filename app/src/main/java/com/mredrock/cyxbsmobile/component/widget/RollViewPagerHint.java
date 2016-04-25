@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import com.jude.rollviewpager.HintView;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.util.DensityUtils;
 
 public class RollViewPagerHint extends LinearLayout implements HintView {
 
@@ -51,14 +51,14 @@ public class RollViewPagerHint extends LinearLayout implements HintView {
 
         dot_focus = new GradientDrawable();
         dot_focus.setColor(getResources().getColor(R.color.colorPrimary));
-        dot_focus.setCornerRadius(DensityUtil.dp2px(getContext(), 4));
-        dot_focus.setSize(DensityUtil.dp2px(getContext(), 8), DensityUtil.dp2px(getContext(), 8));
+        dot_focus.setCornerRadius(DensityUtils.dp2px(getContext(), 4));
+        dot_focus.setSize(DensityUtils.dp2px(getContext(), 8), DensityUtils.dp2px(getContext(), 8));
 
         dot_normal = new GradientDrawable();
         dot_normal.setColor(Color.WHITE);
         dot_normal.setAlpha(125);
-        dot_normal.setCornerRadius(DensityUtil.dp2px(getContext(), 4));
-        dot_normal.setSize(DensityUtil.dp2px(getContext(), 8), DensityUtil.dp2px(getContext(), 8));
+        dot_normal.setCornerRadius(DensityUtils.dp2px(getContext(), 4));
+        dot_normal.setSize(DensityUtils.dp2px(getContext(), 8), DensityUtils.dp2px(getContext(), 8));
 
 
 

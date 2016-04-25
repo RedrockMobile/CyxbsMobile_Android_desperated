@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/no_course_swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/no_schedule_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/no_course_week"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:orientation="horizontal"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/no_course_time"
+                        android:layout_width="26dp"
+                        android:layout_height="600dp"
+                        android:layout_marginTop="1dp"
+                        android:gravity="right"
+                        android:orientation="vertical"/>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/no_course_time_divider"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:id="@+id/view_no_course_today_1"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="#fdf6ea"
+                                android:visibility="invisible"/>
+
+                            <View
+                                android:id="@+id/view_no_course_today_2"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="#fdf6ea"
+                                android:visibility="invisible"/>
+
+                            <View
+                                android:id="@+id/view_no_course_today_3"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="#fdf6ea"
+                                android:visibility="invisible"/>
+
+                            <View
+                                android:id="@+id/view_no_course_today_4"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="#fdf6ea"
+                                android:visibility="invisible"/>
+
+                            <View
+                                android:id="@+id/view_no_course_today_5"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="#fdf6ea"
+                                android:visibility="invisible"/>
+
+                            <View
+                                android:id="@+id/view_no_course_today_6"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="#fdf6ea"
+                                android:visibility="invisible"/>
+
+                            <View
+                                android:id="@+id/view_no_course_today_7"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="#fdf6ea"
+                                android:visibility="invisible"/>
+
+                        </LinearLayout>
+
+                        <com.mredrock.cyxbsmobile.component.widget.NoScheduleView
+                            android:id="@+id/no_course_schedule_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="600dp"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

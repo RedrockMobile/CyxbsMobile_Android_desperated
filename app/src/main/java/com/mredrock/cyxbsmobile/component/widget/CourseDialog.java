@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Course;
+import com.mredrock.cyxbsmobile.util.DensityUtils;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class CourseDialog {
         view.setAdapter(adapter);
         new AlertDialog.Builder(context)
                 .setTitle("课程详细信息")
-                .setView(layout, 0, 0, 0, 0)
+                .setView(layout, DensityUtils.dp2px(context, 12), DensityUtils.dp2px(context, 24), DensityUtils.dp2px(context, 12), DensityUtils.dp2px(context, 24))
                 .show();
     }
 

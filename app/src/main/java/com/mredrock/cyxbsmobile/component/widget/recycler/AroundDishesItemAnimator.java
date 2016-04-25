@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.animation.DecelerateInterpolator;
 
 import com.mredrock.cyxbsmobile.ui.adapter.AroundDishesAdapter;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.util.DensityUtils;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class AroundDishesItemAnimator extends DefaultItemAnimator{
     }
 
     private void runEnterAnimation(AroundDishesAdapter.AroundDishesViewHolder holder) {
-        final int screenHeight = DensityUtil.getScreenHeight(holder.itemView.getContext());
+        final int screenHeight = DensityUtils.getScreenHeight(holder.itemView.getContext());
         holder.itemView.setTranslationY(screenHeight);
         holder.itemView.animate()
                 .translationY(0)

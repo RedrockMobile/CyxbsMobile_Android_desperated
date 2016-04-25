@@ -1,34 +1,30 @@
 package com.mredrock.cyxbsmobile.ui.activity;
 
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
+import com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.BottomBarTab;
-import com.roughike.bottombar.OnTabClickListener;
+import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
 
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.main_toolbar_title)
     TextView mToolbarTitle;
@@ -44,13 +40,11 @@ public class MainActivity extends BaseActivity {
     String mStringExplore;
     @BindString(R.string.my_page)
     String mStringMyPage;
-    @Bind(R.id.main_app_bar)
-    AppBarLayout mAppBar;
-    private BottomBar mBottomBar;
-    private CourseContainerFragment courseContainerFragment;
-    private CommunityContainerFragment communityContainerFragment;
-    private ExploreFragment exploreFragment;
-    private MyPageFragment myPageFragment;
+
+    @Bind(R.id.add_news_img)
+    ImageView mImageView;
+    @Bind(R.id.bottom_bar)
+    BottomBar mBottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +52,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
-        initBottomBar(savedInstanceState);
-        mBottomBar.selectTabAtPosition(1, false);
-
     }
 
     @Override
@@ -70,79 +61,33 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         initToolbar();
-        courseContainerFragment = new CourseContainerFragment();
-        communityContainerFragment = new CommunityContainerFragment();
-        exploreFragment = new ExploreFragment();
-        myPageFragment = new MyPageFragment();
-    }
+        mImageView.setOnClickListener(this);
 
-    private void initBottomBar(Bundle savedInstanceState) {
-        mBottomBar = BottomBar.attach(mCoordinatorLayout, savedInstanceState);
-        mBottomBar.setItems(
-                new BottomBarTab(R.drawable.ic_nearby, "社区"),
-                new BottomBarTab(R.drawable.ic_favorites, "课表"),
-                new BottomBarTab(R.drawable.ic_restaurants, "发现"),
-                new BottomBarTab(R.drawable.ic_friends, "我的")
-        );
-
-        mBottomBar.setOnTabClickListener(new OnTabClickListener() {
-            @Override
-            public void onTabSelected(int position) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    mAppBar.setElevation(position == 1 ? 0 : DensityUtil.dp2px(MainActivity.this, 4));
-                }
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                hideAllFragments(transaction);
-                switch (position) {
-                    case 0:
-                        showFragment(transaction, communityContainerFragment, R.id.main_fragment_container);
-                        setTitle(mStringCommunity);
-                        break;
-                    case 1:
-                        showFragment(transaction, courseContainerFragment, R.id.main_fragment_container);
-                        setTitle(mStringCourse);
-                        break;
-                    case 2:
-                        showFragment(transaction, exploreFragment, R.id.main_fragment_container);
-                        setTitle(mStringExplore);
-                        break;
-                    case 3:
-                        showFragment(transaction, myPageFragment, R.id.main_fragment_container);
-                        setTitle(mStringMyPage);
-                        break;
-                }
-                transaction.commit();
+        mBottomBar.setOnBottomViewClickListener((view, position) -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            Fragment fragment = null;
+            mImageView.setVisibility(View.GONE);
+            switch (position) {
+                case 0:
+                    fragment = new CommunityContainerFragment();
+                    setTitle(mStringCommunity);
+                    mImageView.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    fragment = new CourseContainerFragment();
+                    break;
+                case 2:
+                    fragment = new ExploreFragment();
+                    setTitle(mStringExplore);
+                    break;
+                case 3:
+                    fragment = new MyPageFragment();
+                    setTitle(mStringMyPage);
+                    break;
             }
-
-            @Override
-            public void onTabReSelected(int position) {
-            }
+            transaction.replace(R.id.main_fragment_container, fragment);
+            transaction.commit();
         });
-
-        mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorPrimary));
-        mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.colorPrimary));
-        mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.colorPrimary));
-        mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.colorPrimary));
-
-    }
-
-    private void hideAllFragments(FragmentTransaction transaction) {
-        hideFragment(transaction, courseContainerFragment);
-        hideFragment(transaction, communityContainerFragment);
-        hideFragment(transaction, exploreFragment);
-        hideFragment(transaction, myPageFragment);
-    }
-
-    private void hideFragment(FragmentTransaction transaction, Fragment frag) {
-        if (frag != null) transaction.hide(frag);
-    }
-
-    private void showFragment(FragmentTransaction transaction, Fragment frag, int resId) {
-        hideAllFragments(transaction);
-        if (!frag.isAdded()) {
-            transaction.add(resId, frag);
-        }
-        transaction.show(frag);
     }
 
     private void initToolbar() {
@@ -165,8 +110,16 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mBottomBar.onSaveInstanceState(outState);
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.add_news_img:
+                startActivity(new Intent(MainActivity.this, AddNewsActivity.class));
+                break;
+        }
+
+    }
+
+    public TextView getToolbarTitle() {
+        return mToolbarTitle;
     }
 }

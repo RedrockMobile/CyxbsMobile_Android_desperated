@@ -16,6 +16,9 @@ public class Const {
     public static final String API_RESTAURANT_DETAIL          = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shopinfo";
     public static final String API_RESTAURANT_COMMENTS        = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/comList";
     public static final String API_RESTAURANT_SEND_COMMENT    = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/addCom";
+    public static final String APT_SEARCH_STUDENT             = "/cyxbsMobile/index.php/home/searchPeople/peopleList";
+    //空教室
+    public static final String API_EMPTYROOM                  = "/api/roomEmpty";
 
     public static final String SP_KEY_USER                    = "user";
 

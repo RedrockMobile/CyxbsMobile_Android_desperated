@@ -11,14 +11,11 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.util.KeyboardUtil;
+import com.mredrock.cyxbsmobile.util.KeyboardUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
 
 public class BaseActivity extends AppCompatActivity {
     private static final int HEADER_HIDE_ANIM_DURATION = 300;
@@ -40,7 +37,7 @@ public class BaseActivity extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            KeyboardUtil.autoHideInput(v, ev);
+            KeyboardUtils.autoHideInput(v, ev);
             return super.dispatchTouchEvent(ev);
         }
         return getWindow().superDispatchTouchEvent(ev) || onTouchEvent(ev);
