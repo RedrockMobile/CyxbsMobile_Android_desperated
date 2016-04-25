@@ -12,8 +12,8 @@ import java.util.List;
  */
 public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
-    private List<T> mDatas;
-    protected Context mContext;
+    List<T> mDatas;
+    Context mContext;
 
     AdapterView.OnItemClickListener mItemClickListener;
 
@@ -57,10 +57,10 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
         }
     }
 
-    public void updateListViewData(List<T> lists) {
+    public void updateData(List<T> data) {
         mDatas.clear();
-        if (lists != null) {
-            mDatas.addAll(lists);
+        if (data != null) {
+            mDatas.addAll(data);
             notifyDataSetChanged();
         }
     }

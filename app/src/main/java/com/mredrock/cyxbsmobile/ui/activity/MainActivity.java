@@ -2,12 +2,14 @@ package com.mredrock.cyxbsmobile.ui.activity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
@@ -58,6 +60,12 @@ public class MainActivity extends BaseActivity {
         initView();
         initBottomBar(savedInstanceState);
         mBottomBar.selectTabAtPosition(1, false);
+
+    }
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onPostCreate(savedInstanceState, persistentState);
     }
 
     private void initView() {

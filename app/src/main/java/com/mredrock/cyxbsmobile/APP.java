@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.util.SPUtils;
+import com.squareup.picasso.Picasso;
 
 import timber.log.Timber;
 

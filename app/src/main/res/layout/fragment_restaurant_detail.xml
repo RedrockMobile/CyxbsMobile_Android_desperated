@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/restaurant_detail_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.mredrock.cyxbsmobile.component.widget.EndlessScrollView
+        android:id="@+id/restaurant_detail_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/restaurant_detail_shop_name"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="22dp"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin">
+
+                    <ImageView
+                        android:id="@+id/restaurant_detail_shop_img"
+                        android:layout_width="128dp"
+                        android:layout_height="88dp"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:id="@+id/restaurant_detail_recommend"
+                        style="@style/RestaurantTextAppearance"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/restaurant_detail_shop_img"
+                        android:layout_toRightOf="@+id/restaurant_detail_shop_img"
+                        android:paddingLeft="@dimen/activity_horizontal_margin" />
+
+                    <TextView
+                        style="@style/RestaurantTextAppearance"
+                        android:layout_width="190dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="bottom"
+                        android:layout_toEndOf="@+id/restaurant_detail_shop_img"
+                        android:layout_toRightOf="@+id/restaurant_detail_shop_img"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:text="人均消费：暂时无数据" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="1dp">
+
+                <LinearLayout
+                    android:id="@+id/restaurant_detail_phone_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="50dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_around_food_shop_phone" />
+
+                        <TextView
+                            android:id="@+id/restaurant_detail_shop_phone"
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="14dp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#d9d9d9" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="50dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_around_food_shop_position" />
+
+                        <TextView
+                            android:id="@+id/restaurant_detail_shop_location"
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="14dp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#d9d9d9" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="50dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_around_food_star" />
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="14dp"
+                            android:text="暂时无促销信息" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#d9d9d9" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_around_food_shop_msg" />
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="14dp"
+                        android:text="评价" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#d9d9d9" />
+
+                <com.mredrock.cyxbsmobile.component.widget.CommentView
+                    android:id="@+id/restaurant_detail_comment_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.mredrock.cyxbsmobile.component.widget.EndlessScrollView>
+
+</android.support.v4.widget.SwipeRefreshLayout>

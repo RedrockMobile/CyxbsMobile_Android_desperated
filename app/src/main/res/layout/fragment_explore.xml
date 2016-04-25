@@ -1,13 +1,160 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.ExploreFragment">
+    android:background="@color/white"
+    tools:context=".ui.activity.MainActivity">
 
-    <TextView
-        android:text="发现页面"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <com.jude.rollviewpager.RollPagerView
+            android:id="@+id/explore_roll_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/explore_roll_viewpager_height"
+            android:scaleType="fitXY"
+            app:rollviewpager_hint_color="#7c7c7c"
+            app:rollviewpager_hint_paddingBottom="16dp"
+            app:rollviewpager_hint_paddingLeft="16dp"
+            app:rollviewpager_hint_paddingRight="16dp"
+            app:rollviewpager_hint_paddingTop="16dp"
+            app:rollviewpager_play_delay="3000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/explore_portal_holder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/explore_holder_height"
+                android:layout_weight="1"
+                android:background="@drawable/bg_explore_holder"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/explore_image_size"
+                    android:layout_height="@dimen/explore_image_size"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_portal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/explore_portal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/explore_map_holder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/explore_holder_height"
+                android:layout_weight="1"
+                android:background="@drawable/bg_explore_holder"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/explore_image_size"
+                    android:layout_height="@dimen/explore_image_size"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_map" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/explore_map" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/explore_eat_holder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/explore_holder_height"
+                android:layout_weight="1"
+                android:background="@drawable/bg_explore_holder"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/explore_image_size"
+                    android:layout_height="@dimen/explore_image_size"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_eat" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/explore_eat" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/explore_around_holder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/explore_holder_height"
+                android:layout_weight="1"
+                android:background="@drawable/bg_explore_holder"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/explore_image_size"
+                    android:layout_height="@dimen/explore_image_size"
+                    android:src="@drawable/icon_around" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/explore_around_food" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/explore_community_holder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/explore_holder_height"
+                android:layout_weight="1"
+                android:background="@drawable/bg_explore_holder"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/explore_image_size"
+                    android:layout_height="@dimen/explore_image_size"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_community" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/explore_community" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/explore_holder_height"
+                android:layout_weight="1"
+                android:clickable="false"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
+

@@ -48,7 +48,25 @@
         <!-- 图片剪切 -->
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name=".ui.activity.TestUploadActivity" />
-        <activity android:name=".ui.activity.SpecificNewsActivity"></activity>
+        <activity android:name=".ui.activity.SpecificNewsActivity" />
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/FinestWebViewTheme.Light" />
+        <activity
+            android:name=".ui.activity.AroundDishesActivity"
+            android:label="@string/around_food_activity_name" />
+        <activity
+            android:name=".ui.activity.EatWhatActivity"
+            android:label="@string/eat_what_activity_name" />
+        <activity
+            android:name=".ui.activity.RestaurantDetailActivity"
+            android:label="@string/around_food_activity_name" />
+        <activity
+            android:name=".ui.activity.MapActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
