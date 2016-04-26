@@ -12,11 +12,13 @@ import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.NineGridlayout;
 import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.Image;
+import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.model.community.Stu;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.util.DialogUtil;
+import com.mredrock.cyxbsmobile.util.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,21 +106,18 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         currentImgs.addAll(mImgs);
         currentImgs.remove(0);
 
-        if (currentImgs.size() > 0) {
-            observable = uploadWithImg(currentImgs, title, content, type);
-        } else {
-            observable = uploadWithoutImg(title, content, type);
-        }
+        if (currentImgs.size() > 0) observable = uploadWithImg(currentImgs, title, content, type);
+        else observable = uploadWithoutImg(title, content, type);
+
         observable.subscribe(okResponse -> {
             if (okResponse.getState() == OkResponse.RESPONSE_OK) {
                 closeLoadingProgress();
-                showUploadSucess();
+                showUploadSucess(content);
             }
         }, throwable -> {
             closeLoadingProgress();
             showUploadFail(throwable.toString());
         });
-
 
     }
 
@@ -128,7 +127,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         return Observable.from(currentImgs)
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
-                .observeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
                 .map(image -> image.getUrl())
                 .flatMap(url -> RequestManager.getInstance().uploadNewsImg(Stu.STU_NUM, url))
                 .buffer(currentImgs.size())
@@ -151,7 +150,6 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE) {
-
 
             if (resultCode == RESULT_OK) {
                 // 获取返回的图片列表
@@ -191,19 +189,21 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-    private void showUploadSucess() {
-        DialogUtil.showLoadSucess(this, "提示", "发表动态成功", "继续发表", "返回", new DialogUtil.DialogListener() {
+    private void showUploadSucess(String content) {
+       /* DialogUtil.showLoadSucess(this, "提示", "发表动态成功", "继续发表", "返回", new DialogUtil.DialogListener() {
             @Override
             public void onPositive() {
                 closeLoadingProgress();
             }
-
             @Override
             public void onNegative() {
                 closeLoadingProgress();
                 AddNewsActivity.this.finish();
             }
-        });
+        });*/
+        // RxBus.getDefault().post(new (mImgs, content));
+        RxBus.getDefault().post(new News(content, mImgs));
+        AddNewsActivity.this.finish();
     }
 
     private void showLoadingProgress() {

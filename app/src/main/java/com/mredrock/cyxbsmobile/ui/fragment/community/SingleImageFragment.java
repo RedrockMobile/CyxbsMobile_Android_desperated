@@ -17,11 +17,12 @@ import com.mredrock.cyxbsmobile.util.ImageLoader;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by mathiasluo on 16-4-16.
  */
-public class SingleImageFragment extends BaseLazyFragment implements View.OnClickListener {
+public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAttacher.OnPhotoTapListener {
 
     @Bind(R.id.fragment_progressBar)
     ProgressBar mProgressBar;
@@ -29,6 +30,7 @@ public class SingleImageFragment extends BaseLazyFragment implements View.OnClic
     ImageView mImageView;
     @Bind(R.id.layout)
     RelativeLayout layout;
+    PhotoViewAttacher mAttacher;
     private String url;
 
     @Nullable
@@ -37,11 +39,9 @@ public class SingleImageFragment extends BaseLazyFragment implements View.OnClic
         url = getArguments().getString("url");
         View view = inflater.inflate(R.layout.content_img, container, false);
         ButterKnife.bind(this, view);
-        layout.setOnClickListener(this);
         showProgress();
         return view;
     }
-
 
     @Override
     public void onDestroyView() {
@@ -59,18 +59,27 @@ public class SingleImageFragment extends BaseLazyFragment implements View.OnClic
 
     @Override
     void onFirstUserVisible() {
-        // ImageLoader.getInstance().loadImage(url, mImageView);
-        ImageLoader.getInstance().loadImageWithTargetView(url, new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                mImageView.setImageBitmap(resource);
-                closeProgress();
-            }
-        });
+        ImageLoader.getInstance()
+                .loadImageWithTargetView(url, new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        if (mImageView == null) return;
+                        mImageView.setImageBitmap(resource);
+                        closeProgress();
+                        mAttacher = new PhotoViewAttacher(mImageView);
+                        mAttacher.update();
+                        mAttacher.setOnPhotoTapListener(SingleImageFragment.this);
+                    }
+                });
     }
 
     @Override
-    public void onClick(View view) {
+    public void onPhotoTap(View view, float v, float v1) {
+        getActivity().finish();
+    }
+
+    @Override
+    public void onOutsidePhotoTap() {
         getActivity().finish();
     }
 }

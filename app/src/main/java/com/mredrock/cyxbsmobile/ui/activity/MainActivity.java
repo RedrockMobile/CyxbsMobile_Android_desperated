@@ -64,12 +64,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         initView();
         initBottomBar(savedInstanceState);
         mBottomBar.selectTabAtPosition(1, false);
-        test();
     }
-
-    private void test() {
-    }
-
 
     private void initView() {
         initToolbar();
@@ -175,7 +170,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_news_img:
-                startActivity(new Intent(MainActivity.this, AddNewsActivity.class));
+                startActivityForResult(new Intent(MainActivity.this, AddNewsActivity.class), 1);
                 break;
         }
     }
@@ -185,6 +180,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onSaveInstanceState(outState);
         mBottomBar.onSaveInstanceState(outState);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+
+        }
+
+    }
+
+
 
 
 }

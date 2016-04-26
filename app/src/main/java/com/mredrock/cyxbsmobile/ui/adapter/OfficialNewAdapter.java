@@ -46,6 +46,17 @@ public class OfficialNewAdapter extends RecyclerView.Adapter<OfficialNewAdapter.
         holder.mTextNickName.setText(mDataBean.getUnit().equals("") ? "教务在线" : mDataBean.getUnit());
     }
 
+    public void addDatas(List<ContentBean> datas) {
+        mNews.addAll(datas);
+        notifyDataSetChanged();
+    }
+
+    public void replaceDatas(List<ContentBean> datas) {
+        mNews = datas;
+        notifyDataSetChanged();
+    }
+
+
     @Override
     public int getItemCount() {
         return mNews != null ? mNews.size() : 0;

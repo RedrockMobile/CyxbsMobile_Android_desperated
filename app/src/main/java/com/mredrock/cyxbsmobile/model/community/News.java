@@ -3,6 +3,8 @@ package com.mredrock.cyxbsmobile.model.community;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by mathiasluo on 16-4-5.
  */
@@ -50,12 +52,36 @@ public class News {
 
     private DataBean data;
 
+
+    public News(ContentBean contentBean) {
+        this.data = new DataBean(contentBean);
+    }
+
     public News(BBDDNews.BBDDBean bbddBean) {
-        this.data = new DataBean(bbddBean.getType_id(), bbddBean.getId()
-                , 5, "userid", bbddBean.getNickname(),
-                bbddBean.getArticle_photo_src(), bbddBean.getCreated_time()
-                , new ContentBean(bbddBean.getContent()), new DataBean.ImgBean(bbddBean.getArticle_thumbnail_src(), bbddBean.getArticle_photo_src())
-                , bbddBean.getLike_num(), bbddBean.getRemark_num(), bbddBean.isIs_my_like());
+        this.data = new DataBean(bbddBean.getType_id()
+                , bbddBean.getId()
+                , 5
+                , "userid"
+                , bbddBean.getNickname()
+                , bbddBean.getArticle_photo_src()
+                , bbddBean.getCreated_time()
+                , new ContentBean(bbddBean.getContent())
+                , new DataBean.ImgBean(bbddBean.getArticle_thumbnail_src()
+                , bbddBean.getArticle_photo_src())
+                , bbddBean.getLike_num(), bbddBean.getRemark_num()
+                , bbddBean.isIs_my_like());
+    }
+
+    public News(String content, List<Image> list) {
+        list.remove(0);
+        String a = "";
+        String b = "";
+        for (Image image : list) {
+            a += image.getUrl() + ",";
+            b += image.getUrl() + ",";
+        }
+
+        this.data = new DataBean(new DataBean.ImgBean(a, b), new ContentBean(content));
     }
 
     public int getStatus() {
@@ -95,6 +121,7 @@ public class News {
                 return new DataBean[size];
             }
         };
+
         private String type;
         private String id;
         private int type_id;
@@ -129,6 +156,21 @@ public class News {
             this.remark_num = remark_num;
             this.is_my_Like = is_my_Like;
         }
+        /*    String id;
+    String title;
+    String date;
+    String content;
+    String articletype_id;
+    String name;
+    String address;
+    String articleid;
+    String read;
+    String head;
+    String unit;
+    String remark_num;
+    String like_num;
+    boolean is_my_like;
+ */
 
 
         public DataBean(ContentBean content) {
@@ -137,9 +179,20 @@ public class News {
             this.nick_name = content.getName();
             this.user_head = content.getHead();
             this.time = content.getDate();
+            this.remark_num = content.remark_num;
             this.id = content.id;
             this.img = new ImgBean("", "");
             this.like_num = content.getRead();
+        }
+
+        public DataBean(ImgBean img, ContentBean content) {
+            this.img = img;
+            this.content = content;
+            this.type_id = BBDD.BBDD;
+            this.nick_name = Stu.STU_NAME;
+            this.time = "2016.04.12";
+            this.like_num = "0";
+            this.remark_num = "0";
         }
 
         protected DataBean(Parcel in) {

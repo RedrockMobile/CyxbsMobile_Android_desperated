@@ -134,8 +134,10 @@ public class NineGridlayout extends ViewGroup {
 
     public void setImagesData(List<Image> lists) {
         if (lists == null || lists.isEmpty()) {
+            this.setVisibility(GONE);
             return;
         }
+        this.setVisibility(VISIBLE);
         //初始化布局
         generateChildrenLayout(lists.size());
         //这里做一个重用view的处理

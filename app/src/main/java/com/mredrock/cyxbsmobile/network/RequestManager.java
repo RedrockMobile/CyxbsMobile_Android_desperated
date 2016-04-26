@@ -192,12 +192,21 @@ public enum RequestManager {
 
     public Observable<List<News>> getHotArticle(int size, int page, boolean update) {
         return cacheProviders.getCacheNews(getHotArticle(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
-                .map(listReply -> listReply.getData()).subscribeOn(Schedulers.newThread())
+                .map(listReply -> listReply.getData())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+
     }
 
     public Observable<List<News>> getHotArticle(int size, int page) {
-        return getHotArticle(size, page, Stu.STU_NUM, Stu.ID_NUM);
+        return getHotArticle(size, page, Stu.STU_NUM, Stu.ID_NUM)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+    public Observable<List<News>> getHotArticle(int size, int page, String stuNum, String idNum) {
+        return newsApiService.getHotArticle(size, page, stuNum, idNum);
     }
 
 
@@ -205,58 +214,58 @@ public enum RequestManager {
         return newsApiService.getlistNews(size, page, stuNum, idNum, type_id);
     }
 
-    public Observable<List<ContentBean>> getListNews(int size, int page) {
+    public Observable<List<News>> getListNews(int size, int page) {
         return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDD.LISTNEWS)
-                .flatMap(officeNews -> Observable.just(officeNews.getData()));
-    }
-
-    public Observable<List<ContentBean>> getListNews(int size, int page, boolean update) {
-        return cacheProviders.getCacheContentBean(getListNews(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
-                .map(listReply -> listReply.getData()).subscribeOn(Schedulers.newThread())
+                .flatMap(officeNews -> Observable.just(officeNews.getData()))
+                .map(contentBeen -> {
+                    List<News> news = new ArrayList<>();
+                    for (ContentBean bean : contentBeen) news.add(new News(bean));
+                    return news;
+                })
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-
-    public Observable<List<News>> getHotArticle(int size, int page, String stuNum, String idNum) {
-        return newsApiService.getHotArticle(size, page, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+    public Observable<List<News>> getListNews(int size, int page, boolean update) {
+        return cacheProviders.getCacheContentBean(getListNews(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
+                .map(listReply -> listReply.getData())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
+
 
     public Observable<List<News>> getListArticle(int type_id, int size, int page, boolean update) {
         return cacheProviders.getCacheNews(getListArticle(type_id, size, page), new DynamicKeyGroup(type_id, size), new EvictDynamicKey(update))
-                .map(listReply -> listReply.getData()).subscribeOn(Schedulers.newThread())
+                .map(listReply -> listReply.getData())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-
     }
 
     public Observable<List<News>> getListArticle(int type_id, int size, int page) {
-        return getListArticle(type_id, size, page, Stu.STU_NUM, Stu.ID_NUM);
+        return getListArticle(type_id, size, page, Stu.STU_NUM, Stu.ID_NUM)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<List<News>> getListArticle(int type_id, int size, int page, String stuNum, String idNum) {
-        return newsApiService.getListArticle(type_id, size, page, stuNum, idNum).flatMap(new Func1<BBDDNews, Observable<List<News>>>() {
-            @Override
-            public Observable<List<News>> call(BBDDNews bbddNews) {
-                return Observable.just(bbddNews.getData()).map(new Func1<List<BBDDNews.BBDDBean>, List<News>>() {
-                    @Override
-                    public List<News> call(List<BBDDNews.BBDDBean> bbddBeen) {
-
-                        List<News> news = new ArrayList<News>();
-                        for (BBDDNews.BBDDBean mbbddBean : bbddBeen) {
-                            news.add(new News(mbbddBean));
-                        }
-                        return news;
+        return newsApiService.getListArticle(type_id, size, page, stuNum, idNum)
+                .flatMap(bbddNews -> Observable.just(bbddNews.getData()).map(bbddBeen -> {
+                    List<News> news = new ArrayList<>();
+                    for (BBDDNews.BBDDBean mbbddBean : bbddBeen) {
+                        news.add(new News(mbbddBean));
                     }
-                });
-            }
-        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+                    return news;
+                }));
     }
 
     public Observable<OkResponse> sendDynamic(int type_id, String title, String content, String thumbnail_src, String photo_src) {
-        return sendDynamic(type_id, title, Stu.UER_ID, content, thumbnail_src, photo_src, Stu.STU_NUM, Stu.ID_NUM);
+        return sendDynamic(type_id, title, Stu.UER_ID, content, thumbnail_src, photo_src, Stu.STU_NUM, Stu.ID_NUM)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<OkResponse> sendDynamic(int type_id, String title, String user_id, String content, String thumbnail_src, String photo_src, String stuNum, String idNum) {
-        return newsApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+        return newsApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum);
     }
 
     public Observable<ReMarks> getRemarks(String article_id, int type_id) {

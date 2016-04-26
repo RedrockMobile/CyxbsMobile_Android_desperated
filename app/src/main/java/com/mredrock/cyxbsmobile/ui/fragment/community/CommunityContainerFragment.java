@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 
@@ -43,27 +42,13 @@ public class CommunityContainerFragment extends BaseFragment {
     private void init() {
         List<Fragment> fragmentLIst = new ArrayList<>();
 
-        NewsFragment mPopularNewFragment = new NewsFragment();
-        Bundle mPop = new Bundle();
-        mPop.putInt("type", BBDD.SHOTARTICLE);
-        mPopularNewFragment.setArguments(mPop);
+        HotNewsFragment mPopularNewFragment = new HotNewsFragment();
+        BBDDFragment mBBLLNewFragment = new BBDDFragment();
 
-        NewsFragment mBBLLNewFragment = new NewsFragment();
-        Bundle mBBLL = new Bundle();
-        mBBLL.putInt("type", BBDD.LISTARTICLE);
-        mBBLLNewFragment.setArguments(mBBLL);
-        //mBBLLNewFragment.setArguments(mPop);
-
-
-        OfficialNewFragment mOfficialNewFragment = new OfficialNewFragment();
-        //Bundle mOfficial = new Bundle();
-        // mOfficial.putInt("type", BBDD.JWZXARTICLE);
-        //mOfficialNewFragment.setArguments(mOfficial);
-        // mOfficialNewFragment.setArguments(mPop);
-
+        OfficialFragment mOfficialFragment = new OfficialFragment();
         fragmentLIst.add(mPopularNewFragment);
         fragmentLIst.add(mBBLLNewFragment);
-        fragmentLIst.add(mOfficialNewFragment);
+        fragmentLIst.add(mOfficialFragment);
 
         TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager(), fragmentLIst, Arrays.asList(getActivity().getResources().getStringArray(R.array.community_tab_tiles)));
 
@@ -78,5 +63,9 @@ public class CommunityContainerFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    public void changeViewPagerIndex(int index) {
+        mViewPager.setCurrentItem(index);
     }
 }

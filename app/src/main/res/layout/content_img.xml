@@ -32,7 +32,6 @@
         android:id="@+id/image_shot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_centerInParent="true"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter" />

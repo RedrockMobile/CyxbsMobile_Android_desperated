@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
+import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
@@ -51,7 +52,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public void onBindViewHolder(NewsAdapter.ViewHolder holder, int position) {
         News.DataBean mDataBean = mNews.get(position).getData();
         setupOnItemClick(holder, position, mDataBean);
-        holder.setData(mDataBean);
+        holder.setData(mDataBean, false);
+        setDate(holder, mDataBean);
+    }
+
+    public void setDate(NewsAdapter.ViewHolder holder, News.DataBean mDataBean) {
+
     }
 
     @Override
@@ -65,10 +71,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             viewHolder.itemView.setOnClickListener(v -> onItemOnClickListener.onItemClick(viewHolder.itemView, position, dataBean));
     }
 
+
+    public void addDatas(List<News> datas) {
+        mNews.addAll(datas);
+        notifyDataSetChanged();
+    }
+
+    public void replaceDatas(List<News> datas) {
+        mNews = datas;
+        notifyDataSetChanged();
+    }
+
+    public void addToFirst(News news) {
+        mNews.add(0, news);
+        notifyDataSetChanged();
+    }
+
     public interface OnItemOnClickListener {
         void onItemClick(View itemView, int position, News.DataBean dataBean);
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -86,6 +107,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public TextView mBtnMsg;
         @Bind(R.id.list_news_btn_favorites)
         public TextView mBtnFavor;
+        @Bind(R.id.textView_ex)
+        public TextView mTextView_ex;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -93,7 +116,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
 
         public static void addThumbsUp(News.DataBean dataBean, TextView textView) {
-            RequestManager.getInstance().addThumbsUp(dataBean.getId(), dataBean.getType_id())
+            RequestManager.getInstance()
+                    .addThumbsUp(dataBean.getId(), dataBean.getType_id())
                     .subscribe(okResponse -> {
                         if (okResponse.getState() == OkResponse.RESPONSE_OK) {
                             dataBean.setIs_my_Like(true);
@@ -105,7 +129,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
 
         public static void cancelTHumbsUp(News.DataBean dataBean, TextView textView) {
-            RequestManager.getInstance().cancelThumbsUp(dataBean.getId(), dataBean.getType_id())
+            RequestManager.getInstance()
+                    .cancelThumbsUp(dataBean.getId(), dataBean.getType_id())
                     .subscribe(okResponse -> {
                         if (okResponse.getState() == OkResponse.RESPONSE_OK) {
                             dataBean.setIs_my_Like(false);
@@ -120,15 +145,31 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             return url != null ? url.split(",") : new String[]{""};
         }
 
-        public void setData(News.DataBean dataBean) {
+        private List<Image> getImgs(String[] urls) {
+            List<Image> mImgs = new ArrayList<>();
+            for (String url : urls)
+                if (!url.equals("")) mImgs.add(new Image(url, Image.ADDIMAG));
+            return mImgs;
+        }
 
-            mTextName.setText(dataBean.getUser_name() != "" ? dataBean.getUser_name() + "" : "没有名字就显示我了");
+        public void setData(News.DataBean dataBean, boolean isSingle) {
+
+            mTextName.setText(dataBean.getType_id() < BBDD.BBDD ? dataBean.getContentBean().getTitle() : dataBean.getUser_name());
             mTextTime.setText(dataBean.getTime());
-            //mTextContent.setText(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : "");
-            mTextContent.setText(Html.fromHtml(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : ""));
             mBtnFavor.setText(dataBean.getLike_num());
             mBtnMsg.setText(dataBean.getRemark_num());
+
+            if (isSingle)
+                mTextContent.setText(Html.fromHtml(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : ""));
+            else if (dataBean.getType_id() < BBDD.BBDD)
+                mTextContent.setText(dataBean.getContentBean().getTitle() != null ? dataBean.getContentBean().getTitle() : "");
+            else
+                mTextContent.setText(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : "");
+
             ImageLoader.getInstance().loadAvatar(dataBean.getUser_head(), mImgAvatar);
+            if (dataBean.getContentBean().getAddress() != null && !dataBean.getContentBean().getAddress().equals(""))
+                mTextView_ex.setVisibility(View.VISIBLE);
+            else mTextView_ex.setVisibility(View.INVISIBLE);
 
             mBtnFavor.setOnClickListener(view -> {
                 if (dataBean.isIs_my_Like())
@@ -136,22 +177,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 else NewsAdapter.ViewHolder.addThumbsUp(dataBean, mBtnFavor);
             });
 
-            List<Image> mImgs = new ArrayList<>();
-            for (String url : getUrls(dataBean.getImg().getImg_small_src()))
-                if (!url.equals("")) mImgs.add(new Image(url, Image.ADDIMAG));
-            mAutoNineGridlayout.setImagesData(mImgs);
+            mAutoNineGridlayout.setImagesData(getImgs(getUrls(dataBean.getImg().getImg_small_src())));
+
             mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) -> {
                 Intent intent = new Intent(itemView.getContext(), ImageActivity.class);
                 intent.putExtra("dataBean", dataBean);
                 intent.putExtra("position", position);
-                Log.e("===============>>>>>>>", position + dataBean.getImg().getImg_small_src());
                 itemView.getContext().startActivity(intent);
                 ((Activity) itemView.getContext()).overridePendingTransition(R.anim.activity_enter, R.anim.activity_exit);
             });
 
-
         }
 
     }
+
 
 }
