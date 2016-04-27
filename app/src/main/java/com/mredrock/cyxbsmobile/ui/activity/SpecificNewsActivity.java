@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbsmobile.model.community.ContentBean;
@@ -25,7 +24,11 @@ import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.SpecificNewsCommentAdapter;
+import com.mredrock.cyxbsmobile.util.Util;
+import com.mredrock.cyxbsmobile.util.download.DownloadHelper;
+import com.mredrock.cyxbsmobile.util.download.callback.OnDownloadListener;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -95,17 +98,35 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         if (!bean.getAddress().equals("")) {
             mTextDown.setVisibility(View.VISIBLE);
             String[] address = bean.getAddress().split("\\|");
-            mTextDown.setOnClickListener(view -> showDownListDialog(address));
+            String[] names = bean.getName().split("\\|");
+            mTextDown.setOnClickListener(view -> showDownListDialog(address, names));
         }
     }
 
-    public void showDownListDialog(String[] address) {
-        new MaterialDialog.Builder(this)
-                .title("下载附件")
-                .items(address)
-                .itemsCallback((dialog, view, which, text) -> {
-                })
-                .show();
+    public void showDownListDialog(String[] address, String[] names) {
+
+        DownloadHelper downloadHelper = new DownloadHelper(this, true);
+        downloadHelper.prepare(Arrays.asList(names), Arrays.asList(address),
+                new OnDownloadListener() {
+                    @Override
+                    public void startDownload() {
+
+                    }
+
+                    @Override
+                    public void downloadSuccess() {
+                        downloadHelper.tryOpenFile();
+                    }
+
+                    @Override
+                    public void downloadFailed(String message) {
+                        Util.toast(SpecificNewsActivity.this, getResources().getString(R.string.load_failed));
+                        if (message != null) {
+                            Log.d("====>>>", "error is " + message);
+                        }
+                    }
+                });
+
     }
 
 
