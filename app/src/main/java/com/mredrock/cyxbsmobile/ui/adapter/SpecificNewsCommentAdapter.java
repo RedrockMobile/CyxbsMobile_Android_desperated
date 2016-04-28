@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.model.community.ReMarks;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
+import com.mredrock.cyxbsmobile.util.TimeUtils;
 
 import java.util.List;
 
@@ -31,9 +31,9 @@ public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<ReMarks.
     @Override
     protected void bindData(ViewHolder holder, ReMarks.ReMark data, int position) {
         holder.mTextContent.setText(data.getContent());
-        holder.mTextTime.setText(data.getCreated_time());
+        holder.mTextTime.setText(TimeUtils.getTimeDetail(data.getCreated_time()));
         holder.mTextViewNickName.setText(data.getNickname());
-        ImageLoader.getInstance().loadAvatar("", holder.mCircleImageView);
+        ImageLoader.getInstance().loadAvatar(data.getPhoto_thumbnail_src(), holder.mCircleImageView);
     }
 
     @Override

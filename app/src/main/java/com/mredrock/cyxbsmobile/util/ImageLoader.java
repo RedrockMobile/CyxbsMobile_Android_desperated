@@ -49,11 +49,12 @@ public class ImageLoader {
         int position = new Random().nextInt(3);
         Glide.with(APP.getContext())
                 .load(url)
+                .asBitmap()
                 .placeholder(circles[position])
                 .error(circles[position])
-                .crossFade()
                 .into(imageView);
     }
+
 
     public void loadImageWithTargetView(String url, SimpleTarget simpleTarget) {
         Glide.with(APP.getContext())

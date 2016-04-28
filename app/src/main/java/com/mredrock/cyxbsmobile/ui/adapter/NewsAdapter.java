@@ -20,6 +20,7 @@ import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.activity.ImageActivity;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
+import com.mredrock.cyxbsmobile.util.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,7 +156,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public void setData(News.DataBean dataBean, boolean isSingle) {
 
             mTextName.setText(dataBean.getType_id() < BBDD.BBDD ? dataBean.getContentBean().getTitle() : dataBean.getUser_name());
-            mTextTime.setText(dataBean.getTime());
+            mTextTime.setText(TimeUtils.getTimeDetail(dataBean.getTime()));
             mBtnFavor.setText(dataBean.getLike_num());
             mBtnMsg.setText(dataBean.getRemark_num());
 
@@ -167,6 +168,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 mTextContent.setText(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : "");
 
             ImageLoader.getInstance().loadAvatar(dataBean.getUser_head(), mImgAvatar);
+
+
             if (dataBean.getContentBean().getAddress() != null && !dataBean.getContentBean().getAddress().equals(""))
                 mTextView_ex.setVisibility(View.VISIBLE);
             else mTextView_ex.setVisibility(View.INVISIBLE);

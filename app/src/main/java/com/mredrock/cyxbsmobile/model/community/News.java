@@ -3,6 +3,8 @@ package com.mredrock.cyxbsmobile.model.community;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mredrock.cyxbsmobile.util.TimeUtils;
+
 import java.util.List;
 
 /**
@@ -190,7 +192,7 @@ public class News {
             this.content = content;
             this.type_id = BBDD.BBDD;
             this.nick_name = Stu.STU_NAME;
-            this.time = "2016.04.12";
+            this.time = TimeUtils.getTodayDate();
             this.like_num = "0";
             this.remark_num = "0";
         }
