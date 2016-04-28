@@ -190,18 +190,6 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void showUploadSucess(String content) {
-       /* DialogUtil.showLoadSucess(this, "提示", "发表动态成功", "继续发表", "返回", new DialogUtil.DialogListener() {
-            @Override
-            public void onPositive() {
-                closeLoadingProgress();
-            }
-            @Override
-            public void onNegative() {
-                closeLoadingProgress();
-                AddNewsActivity.this.finish();
-            }
-        });*/
-        // RxBus.getDefault().post(new (mImgs, content));
         RxBus.getDefault().post(new News(content, mImgs));
         AddNewsActivity.this.finish();
     }

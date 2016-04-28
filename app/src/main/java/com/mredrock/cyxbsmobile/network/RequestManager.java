@@ -25,9 +25,11 @@ import com.mredrock.cyxbsmobile.network.exception.RedrockApiException;
 import com.mredrock.cyxbsmobile.network.service.NewsApiService;
 import com.mredrock.cyxbsmobile.network.service.RedrockApiService;
 import com.mredrock.cyxbsmobile.network.service.UpDownloadService;
+import com.mredrock.cyxbsmobile.util.BitmapUtil;
 import com.mredrock.cyxbsmobile.util.OkHttpUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -184,6 +186,11 @@ public enum RequestManager {
 
     public Observable<UploadImgResponse> uploadNewsImg(String stuNum, String filePath) {
         File file = new File(filePath);
+        try {
+            file = BitmapUtil.decodeBitmapFromRes(APP.getContext(), filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part file_body = MultipartBody.Part.createFormData("fold", file.getName(), requestFile);
         RequestBody stuNum_body = RequestBody.create(MediaType.parse("multipart/form-data"), stuNum);
