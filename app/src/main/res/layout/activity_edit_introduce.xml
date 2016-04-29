@@ -3,11 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/background_grey"
     tools:context=".ui.activity.mypage.EditIntroduceActivity">
 
-    <include layout="@layout/toolbar_edit_introduce"/>
+    <com.mredrock.cyxbsmobile.component.widget.Toolbar
+        android:id="@+id/edit_introduce_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text_title="简介"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -16,6 +21,7 @@
         android:background="@android:color/white">
 
         <EditText
+            android:id="@+id/edit_introduce_et"
             android:layout_width="match_parent"
             android:layout_height="153dp"
             android:paddingLeft="15dp"
@@ -24,7 +30,6 @@
             android:gravity="top"
             android:hint="请输入您的简介"
             android:textColorHint="@color/text_light_2"
-            android:text="爱生活爱旅行爱看书什么都爱，对的就是不爱上课。"
             android:textColor="@color/text_dark"
             android:textSize="14sp"/>
 

@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.NoCourse;
-import com.mredrock.cyxbsmobile.ui.adapter.NoCourseDialogAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.mypage.NoCourseDialogAdapter;
 import com.mredrock.cyxbsmobile.util.DensityUtil;
 import java.util.List;
 

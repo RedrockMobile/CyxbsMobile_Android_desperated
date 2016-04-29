@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.adapter;
+package com.mredrock.cyxbsmobile.ui.adapter.mypage;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,8 +14,7 @@ import java.util.List;
 /**
  * Created by skylineTan on 2016/4/12 23:31.
  */
-public class NoCourseAdapter
-        extends RecyclerView.Adapter<NoCourseAdapter.ViewHolder> {
+public class NoCourseAdapter extends RecyclerView.Adapter<NoCourseAdapter.ViewHolder> {
 
     private List<String> mNameList;
     private OnItemButtonClickListener mListener;

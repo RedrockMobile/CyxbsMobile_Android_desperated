@@ -8,13 +8,14 @@ import java.util.List;
  */
 public class RelateMe implements Serializable{
 
-    public String id;
-    public String user_id;
-    public String user_name;
-    public String user_head;
-    public String time;
     public String type;
-    public String comment;
+    public String content;
+    public String article_content;
+    public String created_time;
+    public String article_id;
+    public String stunum;
+    public String nickname;
+    public String photo_src;
 
     /**
      * "status": 200,

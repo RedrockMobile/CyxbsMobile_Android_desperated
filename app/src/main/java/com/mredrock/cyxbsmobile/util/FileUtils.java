@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 
+import android.widget.Toast;
 import com.mredrock.cyxbsmobile.APP;
 
 import java.io.File;
@@ -109,6 +110,16 @@ public class FileUtils {
                 return "保存失败，原因: " + e.getMessage();
             }
         }
+    }
+
+    public boolean saveUriToFile(Context context,Uri imageUri,String filePath,String fileName){
+        if(imageUri != null && imageUri.getScheme().equals("file")){
+            File file = new File(filePath,fileName);
+            imageUri.getPath();
+        }else {
+            Toast.makeText(context, "Unexpected error", Toast.LENGTH_SHORT).show();
+        }
+        return true;
     }
 
 }

@@ -6,7 +6,7 @@
     android:background="@color/colorPrimary">
 
     <TextView
-        android:id="@+id/nick_name_cancel"
+        android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingLeft="15dp"
@@ -23,15 +23,16 @@
         android:textSize="15sp"/>
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="昵称"
+        android:text="简介"
         android:textColor="@android:color/white"
         android:textSize="18sp"/>
 
     <TextView
-        android:id="@+id/nick_name_save"
+        android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingLeft="15dp"

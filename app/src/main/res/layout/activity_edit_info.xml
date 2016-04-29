@@ -26,7 +26,8 @@
             android:textSize="15sp"
             android:textColor="@color/text_dark"/>
 
-        <ImageView
+        <com.mredrock.cyxbsmobile.component.widget.CircleImageView
+            android:id="@+id/edit_info_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
@@ -60,11 +61,11 @@
             android:textColor="@color/text_dark"/>
 
         <TextView
+            android:id="@+id/edit_info_nick_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="skylineTan"
             android:textColor="@color/text_light_1"/>
 
     </RelativeLayout>
@@ -95,6 +96,7 @@
             android:textColor="@color/text_dark"/>
 
         <TextView
+            android:id="@+id/edit_info_introduce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -105,7 +107,6 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:maxEms="13"
-            android:text="to be a better man"
             android:textColor="@color/text_light_1"/>
 
     </RelativeLayout>

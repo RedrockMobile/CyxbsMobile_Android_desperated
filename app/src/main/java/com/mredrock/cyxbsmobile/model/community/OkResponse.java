@@ -11,6 +11,7 @@ public class OkResponse {
      */
 public static final int RESPONSE_OK = 200;
     private int state;
+    private String status;
     private String info;
 
     public int getState() {
@@ -19,6 +20,15 @@ public static final int RESPONSE_OK = 200;
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getInfo() {

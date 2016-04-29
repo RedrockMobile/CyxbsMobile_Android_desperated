@@ -1,13 +1,10 @@
 package com.mredrock.cyxbsmobile.ui.activity.mypage;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -15,7 +12,7 @@ import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbsmobile.model.Student;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
-import com.mredrock.cyxbsmobile.ui.adapter.SelectStudentAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.mypage.SelectStudentAdapter;
 import java.util.List;
 
 public class SelectStudentActivity extends BaseActivity {

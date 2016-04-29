@@ -7,9 +7,12 @@ import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.BuildConfig;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.Course;
+import com.mredrock.cyxbsmobile.model.Exam;
+import com.mredrock.cyxbsmobile.model.Grade;
 import com.mredrock.cyxbsmobile.model.MovieResult;
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Subject;
+import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.model.community.ReMarks;
@@ -166,6 +169,25 @@ public enum RequestManager {
         emitObservable(observable,subscriber);
     }
 
+    public void getGradeJson(Subscriber<String> subscriber,String
+            stuNum,String stuId){
+        Observable<String> observable = redrockApiService.getGrade(stuNum,stuId)
+                .map(gradeWrapper -> new Gson().toJson(gradeWrapper));
+        emitObservable(observable,subscriber);
+    }
+
+    public void getExamJson(Subscriber<String> subscriber,String
+            stu){
+        Observable<String> observable = redrockApiService.getExam(stu).map(examWapper -> new Gson().toJson(examWapper));
+        emitObservable(observable,subscriber);
+    }
+
+    public void getReExamJson(Subscriber<String> subscriber,String
+            stu){
+        Observable<String> observable = redrockApiService.getReExam(stu).map(examWapper -> new Gson().toJson(examWapper));
+        emitObservable(observable,subscriber);
+    }
+
     private <T> void emitObservable(Observable<T> o, Subscriber<T> s) {
         o.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -282,6 +304,33 @@ public enum RequestManager {
 
     public Observable<OkResponse> cancelThumbsUp(String article_id, int type_id, String stuNum, String idNum) {
         return newsApiService.cancelThumbsUp(article_id, type_id, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<OkResponse> setPersonInfo(String stuNum,String idNum,
+                                             String photo_thumbnail_src, String photo_src){
+        return redrockApiService.setPersonInfo(stuNum, idNum,
+                photo_thumbnail_src,photo_src);
+    }
+
+    public void setPersonNickName(Subscriber<OkResponse> subscriber,String stuNum,
+                                                    String idNum,String nickName){
+        Observable<OkResponse> observable = redrockApiService
+                .setPersonNickName(stuNum,idNum,nickName);
+        emitObservable(observable,subscriber);
+    }
+
+    public void setPersonIntroduction(Subscriber<OkResponse> subscriber,String
+            stuNum, String idNum,String introduction){
+        Observable<OkResponse> observable = redrockApiService
+                .setPersonIntroduction(stuNum,idNum,introduction);
+        emitObservable(observable,subscriber);
+    }
+
+    public void getPersonInfo(Subscriber<User> subscriber,String stuNum,String
+            idNum){
+        Observable<User> observable = redrockApiService.getPersonInfo(stuNum, idNum)
+                .map(userWrapper -> userWrapper.data);
+        emitObservable(observable,subscriber);
     }
 }
 

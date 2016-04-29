@@ -2,6 +2,7 @@ package com.mredrock.cyxbsmobile.ui.activity.mypage;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
-import com.mredrock.cyxbsmobile.ui.adapter.EmptyAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.mypage.EmptyAdapter;
 import com.mredrock.cyxbsmobile.util.EmptyConverter;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
@@ -41,7 +42,7 @@ public class EmptyRoomActivity extends BaseActivity
     @Bind(R.id.empty_rfab) RapidFloatingActionButton mEmptyRfabButton;
     @Bind(R.id.empty_iv_resultIcon) ImageView mIvResultIcon;
     @Bind(R.id.empty_tv_searchResult) TextView mTvResult;
-    @Bind(R.id.empty_rv) RecyclerView mEmptyListView;
+    @Bind(R.id.empty_rv) RecyclerView mEmptyRecyclerView;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.toolbar) Toolbar toolbar;
 
@@ -120,7 +121,8 @@ public class EmptyRoomActivity extends BaseActivity
     private void setupAdapter() {
         mEmptyRoomList = new ArrayList<>();
         mEmptyRoomAdapter = new EmptyAdapter(mEmptyRoomList, this);
-        mEmptyListView.setAdapter(mEmptyRoomAdapter);
+        mEmptyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mEmptyRecyclerView.setAdapter(mEmptyRoomAdapter);
     }
 
 
@@ -144,7 +146,7 @@ public class EmptyRoomActivity extends BaseActivity
         String weekday = String.valueOf(calendar.getDayOfWeek());
         for (String courseTime : courseTimeList) {
             RequestManager.INSTANCE.getEmptyRoomList(
-                    new SimpleSubscriber<List<String>>(this, true,
+                    new SimpleSubscriber<>(this, true,
                             new SubscriberListener<List<String>>() {
                                 @Override
                                 public void onNext(List<String> strings) {
@@ -176,10 +178,7 @@ public class EmptyRoomActivity extends BaseActivity
 
 
     private void updateEmptyAdapter() {
-        mEmptyRoomList = mConverter.convert();
-        if (mEmptyRoomList == null) {
-            mEmptyRoomList = new ArrayList<>();
-        }
+        mEmptyRoomList.addAll(mConverter.convert());
         mEmptyRoomAdapter.notifyDataSetChanged();
         mIvResultIcon.setVisibility(View.VISIBLE);
         mTvResult.setVisibility(View.VISIBLE);

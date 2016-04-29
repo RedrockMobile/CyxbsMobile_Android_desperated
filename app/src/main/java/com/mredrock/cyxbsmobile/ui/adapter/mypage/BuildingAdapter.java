@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.adapter;
+package com.mredrock.cyxbsmobile.ui.adapter.mypage;
 
 import android.view.LayoutInflater;
 import android.view.View;

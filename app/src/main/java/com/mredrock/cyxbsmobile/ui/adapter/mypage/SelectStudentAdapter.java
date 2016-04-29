@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.adapter;
+package com.mredrock.cyxbsmobile.ui.adapter.mypage;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,14 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Student;
-import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.activity.mypage.NoCourseActivity;
+import com.mredrock.cyxbsmobile.ui.adapter.BaseRecyclerViewAdapter;
 import java.util.List;
 
 /**

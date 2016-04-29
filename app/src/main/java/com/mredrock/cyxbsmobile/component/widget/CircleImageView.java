@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+import com.mredrock.cyxbsmobile.util.CommonUtils;
 
 public class CircleImageView extends ImageView {
     private int mBorderThickness = 0;
@@ -51,7 +52,7 @@ public class CircleImageView extends ImageView {
         if (drawable.getClass() == NinePatchDrawable.class) {
             return;
         }
-        Bitmap b = ((BitmapDrawable) drawable).getBitmap();
+        Bitmap b = CommonUtils.drawableToBitmap(drawable);
         Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
         if (defaultWidth == 0) {
             defaultWidth = getWidth();

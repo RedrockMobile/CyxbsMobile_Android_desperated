@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.fragment;
+package com.mredrock.cyxbsmobile.ui.fragment.mypage;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,11 +20,11 @@ import com.mredrock.cyxbsmobile.model.NoCourse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
+import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 import com.mredrock.cyxbsmobile.util.DensityUtil;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

@@ -195,4 +195,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == MyPageFragment.REQUEST_EDIT_INFO){
+            myPageFragment.onActivityResult(requestCode,resultCode,data);
+        }
+    }
 }

@@ -11,7 +11,6 @@ import butterknife.ButterKnife;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.RelateMe;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
-import com.mredrock.cyxbsmobile.ui.adapter.RelateMeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 

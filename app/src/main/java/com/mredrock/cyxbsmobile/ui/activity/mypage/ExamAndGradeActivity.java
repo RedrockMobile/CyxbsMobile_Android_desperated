@@ -10,45 +10,41 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.NoCourse;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
-import com.mredrock.cyxbsmobile.ui.fragment.mypage.NoCourseItemFragment;
-import com.mredrock.cyxbsmobile.util.SchoolCalendar;
+import com.mredrock.cyxbsmobile.ui.fragment.mypage.ExamScheduleFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.mypage.GradeFragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NoCourseContainerActivity extends BaseActivity {
+public class ExamAndGradeActivity extends BaseActivity {
 
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.no_course_tab_layout) TabLayout noCourseTabLayout;
-    @Bind(R.id.no_course_view_pager) ViewPager noCourseViewPager;
+    @Bind(R.id.exam_grade_tab_layout) TabLayout examGradeTabLayout;
+    @Bind(R.id.exam_grade_view_pager) ViewPager examGradeViewPager;
 
     private List<String> mTitleList;
     private List<Fragment> mFragmentList;
-    private List<NoCourse> mNoCourseList;
 
     private TabPagerAdapter mTabPagerAdapter;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_no_course_container);
+        setContentView(R.layout.activity_exam_and_grade);
         ButterKnife.bind(this);
         initToolbar();
         initViewPager();
-        initView();
     }
-
 
     private void initToolbar() {
         if(toolbar != null){
             toolbar.setTitle("");
-            toolbarTitle.setText("没课约");
+            toolbarTitle.setText("考试与成绩");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationOnClickListener(v -> NoCourseContainerActivity.this.finish());
+            toolbar.setNavigationOnClickListener(v -> ExamAndGradeActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if(actionBar != null){
                 actionBar.setDisplayHomeAsUpEnabled(true);
@@ -58,30 +54,20 @@ public class NoCourseContainerActivity extends BaseActivity {
     }
 
     private void initViewPager() {
-        mTitleList = Arrays.asList(getResources().getStringArray(R.array.titles_weeks));
-        int week = new SchoolCalendar().getWeekOfTerm();
-        if(week >= 1 && week <= 23){
-            mTitleList.remove(week);
-            mTitleList.add(week,"本周");
-        }
+        mTitleList = Arrays.asList(getResources().getStringArray(R.array
+                .exam_grade_tab_titles));
         mFragmentList = new ArrayList<>();
-        for(int i = 0;i<mTitleList.size();i++){
-            NoCourseItemFragment noCourseItemFragment = NoCourseItemFragment
-                    .newInstance(i);
-            mFragmentList.add(noCourseItemFragment);
-        }
+        mFragmentList.add(new GradeFragment());
+        mFragmentList.add(ExamScheduleFragment.newInstance(false));
+        mFragmentList.add(ExamScheduleFragment.newInstance(true));
 
         mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(),
                 mFragmentList,mTitleList);
-        noCourseViewPager.setAdapter(mTabPagerAdapter);
-        noCourseViewPager.addOnPageChangeListener(new TabLayout
-                .TabLayoutOnPageChangeListener(noCourseTabLayout));
-        noCourseTabLayout.setupWithViewPager(noCourseViewPager);
+        examGradeViewPager.setAdapter(mTabPagerAdapter);
+        examGradeViewPager.addOnPageChangeListener(new TabLayout
+                .TabLayoutOnPageChangeListener(examGradeTabLayout));
+        examGradeTabLayout.setupWithViewPager(examGradeViewPager);
 
-        noCourseViewPager.setCurrentItem(week,true);
-    }
-
-    private void initView() {
-
+        examGradeViewPager.setCurrentItem(0,true);
     }
 }
