@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
@@ -18,6 +19,7 @@ import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
+import com.mredrock.cyxbsmobile.ui.activity.MainActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbsmobile.util.SPUtils;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
@@ -43,8 +45,8 @@ public class CourseContainerFragment extends BaseFragment {
     TabLayout mTabs;
     @Bind(R.id.tab_course_viewpager)
     ViewPager mPager;
-    //@Bind(R.id.course_fab)
-    //FloatingActionButton mFab;
+
+    private TextView mToolbarTitle;
 
     private TabPagerAdapter mAdapter;
     private List<Fragment> mFragmentList = new ArrayList<>();
@@ -52,17 +54,20 @@ public class CourseContainerFragment extends BaseFragment {
     private int mNowWeek;
     private User mUser;
 
+    private ViewPager.OnPageChangeListener mPageListener;
+    private ViewPager.OnPageChangeListener mTabListener;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUser = APP.getUser(getActivity());
         EventBus.getDefault().register(this);
-        // 测试
+        // TODO 测试
         testUser();
         loadNowWeek();
         loadAllCourses();
 
-        List<String> mTitles = new ArrayList<>();
+        mTitles = new ArrayList<>();
         mTitles.addAll(Arrays.asList(getResources().getStringArray(R.array.titles_weeks)));
 
         mNowWeek = new SchoolCalendar().getWeekOfTerm();
@@ -88,10 +93,28 @@ public class CourseContainerFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_course_container, container, false);
         ButterKnife.bind(this, view);
+        mToolbarTitle = ((MainActivity) getActivity()).getToolbarTitle();
         mPager.setAdapter(mAdapter);
-        mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabs));
+        mPager.addOnPageChangeListener(mTabListener = new TabLayout.TabLayoutOnPageChangeListener(mTabs));
+        mPager.addOnPageChangeListener(mPageListener = new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (mToolbarTitle != null) mToolbarTitle.setText(mTitles.get(position));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         mTabs.setupWithViewPager(mPager);
         mTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+        mTabs.setVisibility(View.GONE);
         return view;
     }
 
@@ -100,13 +123,23 @@ public class CourseContainerFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         if (mNowWeek <= 23 && mNowWeek >= 1) setCurrentItem(mNowWeek);
 
-     /*   mTitle.setText(getString(R.string.community));
-        ((MainActivity) getActivity()).setContainerToolBar(mToolbar);*/
-
+        if (mToolbarTitle != null) {
+            mToolbarTitle.setOnClickListener(v -> {
+                if (isVisible()) {
+                    if (mTabs.getVisibility() == View.VISIBLE) {
+                        mTabs.setVisibility(View.GONE);
+                    } else {
+                        mTabs.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
     }
 
     @Override
     public void onDestroyView() {
+        mPager.removeOnPageChangeListener(mTabListener);
+        mPager.removeOnPageChangeListener(mPageListener);
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
@@ -137,9 +170,8 @@ public class CourseContainerFragment extends BaseFragment {
     // TODO 测试用户
     private void testUser() {
         mUser = new User();
-        mUser.stuNum = "";
+        mUser.stuNum = "2015210408";
         mUser.idNum = "";
-        mUser = null;
     }
 
     private void loadNowWeek() {
@@ -151,7 +183,6 @@ public class CourseContainerFragment extends BaseFragment {
                     updateFirstDay(nowWeek);
                     if (mNowWeek <= 23 && mNowWeek >= 1) {
                         setCurrentItem(mNowWeek);
-                        mTitles.set(mNowWeek, getActivity().getResources().getString(R.string.now_week));
                     }
                 }
             }), mUser.stuNum, mUser.idNum);

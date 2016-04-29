@@ -1,42 +1,27 @@
 package com.mredrock.cyxbsmobile.ui.activity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
+import android.os.PersistableBundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.BBDD;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.ReMarks;
-import com.mredrock.cyxbsmobile.model.community.Student;
-import com.mredrock.cyxbsmobile.network.RequestManager;
-import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
+import com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
-import com.mredrock.cyxbsmobile.util.DialogUtil;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.BottomBarTab;
-import com.roughike.bottombar.OnTabClickListener;
-
-import java.util.List;
+import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
 
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
-import rx.functions.Action1;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -55,16 +40,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     String mStringExplore;
     @BindString(R.string.my_page)
     String mStringMyPage;
-    @Bind(R.id.main_app_bar)
-    AppBarLayout mAppBar;
 
     @Bind(R.id.add_news_img)
     ImageView mImageView;
-    private BottomBar mBottomBar;
-    private CourseContainerFragment courseContainerFragment;
-    private CommunityContainerFragment communityContainerFragment;
-    private ExploreFragment exploreFragment;
-    private MyPageFragment myPageFragment;
+    @Bind(R.id.bottom_bar)
+    BottomBar mBottomBar;
+
+    private Fragment myPageFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,93 +54,43 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
-        initBottomBar(savedInstanceState);
-        mBottomBar.selectTabAtPosition(1, false);
-        test();
     }
 
-    private void test() {
+    @Override
+    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onPostCreate(savedInstanceState, persistentState);
     }
-
 
     private void initView() {
         initToolbar();
         mImageView.setOnClickListener(this);
-        courseContainerFragment = new CourseContainerFragment();
-        communityContainerFragment = new CommunityContainerFragment();
-        exploreFragment = new ExploreFragment();
-        myPageFragment = new MyPageFragment();
-    }
 
-    private void initBottomBar(Bundle savedInstanceState) {
-        mBottomBar = BottomBar.attach(mCoordinatorLayout, savedInstanceState);
-        mBottomBar.setItems(
-                new BottomBarTab(R.drawable.ic_nearby, "社区"),
-                new BottomBarTab(R.drawable.ic_favorites, "课表"),
-                new BottomBarTab(R.drawable.ic_restaurants, "发现"),
-                new BottomBarTab(R.drawable.ic_friends, "我的")
-        );
-
-        mBottomBar.setOnTabClickListener(new OnTabClickListener() {
-            @Override
-            public void onTabSelected(int position) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    mAppBar.setElevation(position == 1 ? 0 : DensityUtil.dp2px(MainActivity.this, 4));
-                }
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                hideAllFragments(transaction);
-                mImageView.setVisibility(View.GONE);
-                switch (position) {
-                    case 0:
-                        showFragment(transaction, communityContainerFragment, R.id.main_fragment_container);
-                        setTitle(mStringCommunity);
-                        mImageView.setVisibility(View.VISIBLE);
-                        break;
-                    case 1:
-                        showFragment(transaction, courseContainerFragment, R.id.main_fragment_container);
-                        setTitle(mStringCourse);
-                        break;
-                    case 2:
-                        showFragment(transaction, exploreFragment, R.id.main_fragment_container);
-                        setTitle(mStringExplore);
-                        break;
-                    case 3:
-                        showFragment(transaction, myPageFragment, R.id.main_fragment_container);
-                        setTitle(mStringMyPage);
-                        break;
-                }
-                transaction.commit();
+        mBottomBar.setOnBottomViewClickListener((view, position) -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            Fragment fragment = null;
+            mImageView.setVisibility(View.GONE);
+            switch (position) {
+                case 0:
+                    fragment = new CommunityContainerFragment();
+                    setTitle(mStringCommunity);
+                    mImageView.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    fragment = new CourseContainerFragment();
+                    break;
+                case 2:
+                    fragment = new ExploreFragment();
+                    setTitle(mStringExplore);
+                    break;
+                case 3:
+                    fragment = new MyPageFragment();
+                    myPageFragment = fragment;
+                    setTitle(mStringMyPage);
+                    break;
             }
-
-            @Override
-            public void onTabReSelected(int position) {
-            }
+            transaction.replace(R.id.main_fragment_container, fragment);
+            transaction.commit();
         });
-
-        mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorPrimary));
-        mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.colorPrimary));
-        mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.colorPrimary));
-        mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.colorPrimary));
-
-    }
-
-    private void hideAllFragments(FragmentTransaction transaction) {
-        hideFragment(transaction, courseContainerFragment);
-        hideFragment(transaction, communityContainerFragment);
-        hideFragment(transaction, exploreFragment);
-        hideFragment(transaction, myPageFragment);
-    }
-
-    private void hideFragment(FragmentTransaction transaction, Fragment frag) {
-        if (frag != null) transaction.hide(frag);
-    }
-
-    private void showFragment(FragmentTransaction transaction, Fragment frag, int resId) {
-        hideAllFragments(transaction);
-        if (!frag.isAdded()) {
-            transaction.add(resId, frag);
-        }
-        transaction.show(frag);
     }
 
     private void initToolbar() {
@@ -181,12 +113,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mBottomBar.onSaveInstanceState(outState);
-    }
-
-    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_news_img:
@@ -200,8 +126,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == MyPageFragment.REQUEST_EDIT_INFO){
-            myPageFragment.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == MyPageFragment.REQUEST_EDIT_INFO) {
+            myPageFragment.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    public TextView getToolbarTitle() {
+        return mToolbarTitle;
     }
 }

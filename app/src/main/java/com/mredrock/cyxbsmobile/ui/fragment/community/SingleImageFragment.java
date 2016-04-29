@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.ui.fragment.BaseLazyFragment;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 
 import butterknife.Bind;
@@ -54,7 +55,7 @@ public class SingleImageFragment extends BaseLazyFragment {
     }
 
     @Override
-    void onFirstUserVisible() {
+    protected void onFirstUserVisible() {
         // ImageLoader.getInstance().loadImage(url, mImageView);
         ImageLoader.getInstance().loadImageWithTargetView(url, new SimpleTarget<Bitmap>() {
             @Override

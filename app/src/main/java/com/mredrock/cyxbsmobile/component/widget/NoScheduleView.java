@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.NoCourse;
 import com.mredrock.cyxbsmobile.ui.adapter.mypage.NoCourseDialogAdapter;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.util.DensityUtils;
 import java.util.List;
 
 /**
@@ -25,8 +25,8 @@ import java.util.List;
  */
 public class NoScheduleView extends FrameLayout{
 
-    private final int width = (int) ((DensityUtil.getScreenWidth(getContext()) - DensityUtil.dp2px(getContext(), 26)) / 7);
-    private final int height = (int) (DensityUtil.dp2px(getContext(), 100));
+    private final int width = (int) ((DensityUtils.getScreenWidth(getContext()) - DensityUtils.dp2px(getContext(), 26)) / 7);
+    private final int height = (int) (DensityUtils.dp2px(getContext(), 100));
     private NoCourseColorSelector colorSelector = new NoCourseColorSelector();
     public NoCourse[][] noCourseArray = new NoCourse[7][7];
     private Context context;
@@ -74,9 +74,9 @@ public class NoScheduleView extends FrameLayout{
             int top = height * noCourse.hash_lesson;
             int left = width * noCourse.hash_day;
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    (width - DensityUtil.dp2px(getContext(), 1f)), (height - DensityUtil.dp2px(getContext(), 1f)));
-            params.topMargin = top + DensityUtil.dp2px(getContext(), 1f);
-            params.leftMargin = left+DensityUtil.dp2px(getContext(), 1f);
+                    (width - DensityUtils.dp2px(getContext(), 1f)), (height - DensityUtils.dp2px(getContext(), 1f)));
+            params.topMargin = top + DensityUtils.dp2px(getContext(), 1f);
+            params.leftMargin = left+DensityUtils.dp2px(getContext(), 1f);
             textView.setLayoutParams(params);
             textView.setTextColor(Color.WHITE);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
@@ -105,7 +105,7 @@ public class NoScheduleView extends FrameLayout{
             }
             textView.setText(sb);
             GradientDrawable gd = new GradientDrawable();
-            gd.setCornerRadius(DensityUtil.dp2px(getContext(),1));
+            gd.setCornerRadius(DensityUtils.dp2px(getContext(),1));
             gd.setColor(colorSelector.getNoCourseColor(noCourse.hash_day,
                     noCourse.hash_lesson));
             textView.setBackgroundDrawable(gd);

@@ -2,6 +2,7 @@ package com.mredrock.cyxbsmobile.component.task.progress;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 

@@ -10,19 +10,22 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.tag.FlowLayout;
 import com.mredrock.cyxbsmobile.component.widget.tag.TagAdapter;
 import com.mredrock.cyxbsmobile.component.widget.tag.TagFlowLayout;
 import com.mredrock.cyxbsmobile.ui.adapter.mypage.BuildingAdapter;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.util.DensityUtils;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.viewbase.RapidFloatingActionContentViewBase;
 import com.wangjie.shadowviewhelper.ShadowProperty;
 import com.wangjie.shadowviewhelper.ShadowViewHelper;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
+import butterknife.ButterKnife;
 
 public class RapidFloatingContentListView
         extends RapidFloatingActionContentViewBase implements View.OnClickListener, TagFlowLayout.OnSelectListener, AdapterView.OnItemSelectedListener {
@@ -59,7 +62,7 @@ public class RapidFloatingContentListView
         /**fab所展开view的阴影*/
         ShadowViewHelper.bindShadowHelper(
                 new ShadowProperty()
-                        .setShadowRadius(DensityUtil.dp2px(getContext(), 4))
+                        .setShadowRadius(DensityUtils.dp2px(getContext(), 4))
                         .setShadowColor(0x66404040)
                 ,
                 contentView

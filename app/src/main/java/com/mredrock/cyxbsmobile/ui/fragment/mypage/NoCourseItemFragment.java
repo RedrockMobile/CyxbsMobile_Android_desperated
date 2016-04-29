@@ -11,8 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.NoScheduleView;
 import com.mredrock.cyxbsmobile.model.Course;
@@ -21,13 +20,17 @@ import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.util.DensityUtils;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by skylineTan on 2016/4/13 20:39.
@@ -108,9 +111,9 @@ public class NoCourseItemFragment extends BaseFragment {
     private void initView() {
         //星期和时间TextView
         TextView blank = new TextView(getActivity());
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) DensityUtil.dp2px(getContext(), 25f),
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) DensityUtils.dp2px(getContext(), 25f),
                 (LinearLayout.LayoutParams.MATCH_PARENT));
-        layoutParams.leftMargin = DensityUtil.dp2px(getContext(), 1f);
+        layoutParams.leftMargin = DensityUtils.dp2px(getContext(), 1f);
         blank.setLayoutParams(layoutParams);
         blank.setBackgroundColor(getResources().getColor(R.color.no_course_day_background));
         noCourseWeek.addView(blank);
@@ -118,7 +121,7 @@ public class NoCourseItemFragment extends BaseFragment {
         for (int i = 0; i < 7; i++) {
             TextView tv = new TextView(getActivity());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
-            params.leftMargin = DensityUtil.dp2px(getContext(), 1f);
+            params.leftMargin = DensityUtils.dp2px(getContext(), 1f);
             tv.setLayoutParams(params);
             tv.setText(data[i]);
             tv.setTextColor(getResources().getColor(R.color.no_course_day));
@@ -134,12 +137,12 @@ public class NoCourseItemFragment extends BaseFragment {
             tv.setTextColor(getResources().getColor(R.color.no_course_time));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
             tv.setGravity(Gravity.CENTER);
-            tv.setHeight(DensityUtil.dp2px(getContext(), 50));
+            tv.setHeight(DensityUtils.dp2px(getContext(), 50));
             noCourseTime.addView(tv);
             if (i % 2 != 0) {
                 View divider = new TextView(getActivity());
                 divider.setLayoutParams(new LinearLayout.LayoutParams
-                        (LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(getActivity(), 1)));
+                        (LinearLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(getActivity(), 1)));
                 divider.setBackgroundColor(getResources().getColor(R.color.no_course_time_divider));
                 noCourseTime.addView(divider);
             }

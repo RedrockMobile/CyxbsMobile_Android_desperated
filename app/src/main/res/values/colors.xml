@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00aae8</color>
-    <color name="colorPrimaryDark">#0088ba</color>
-    <color name="colorAccent">#f76060</color>
-    <color name="tabIndicatorColor">#c9c9c9</color>
-    <color name="tabText">#66000000</color>
+
+    <color name="white">#ffffff</color>
     <color name="orange">#ff7d37</color>
     <color name="yellow">#ffb048</color>
     <color name="grey">#f3f7fa</color>
     <color name="data_light_black">#a9a9a9</color>
+
+    <!--Common-->
+    <color name="colorPrimary">#00aae8</color>
+    <color name="colorPrimaryDark">#0088ba</color>
+    <color name="colorAccent">#f76060</color>
 
     <color name="divider">#e3e3e8</color>
     <color name="divider_light">#e0e0e0</color>
@@ -32,6 +34,10 @@
     <color name="body_text_2">#8a000000</color>
     <color name="body_text_3">#60000000</color>
 
+
+    <color name="tabIndicatorColor">#c9c9c9</color>
+    <color name="tabText">#66000000</color>
+    <color name="tab_background_pressed">#1Affffff</color>
     <color name="tab_pading_color">#606B6A6A</color>
 
     <color name="no_course_day_background">#f0f0f0</color>

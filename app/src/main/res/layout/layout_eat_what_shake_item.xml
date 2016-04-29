@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <ImageView
+        android:id="@+id/item_eat_what_shake_result_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:adjustViewBounds="true" />
+
+    <TextView
+        android:id="@+id/item_eat_what_shake_result_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:gravity="center_vertical"
+        android:text="黄焖鸡米饭"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/item_eat_what_shake_result_address"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_weight="1"
+        android:text="重邮老校门对面堕落街内"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/item_eat_what_shake_result_again"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:gravity="center_vertical|right"
+        android:text="不想吃这个？再摇一摇"
+        android:textSize="14sp" />
+</LinearLayout>

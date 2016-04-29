@@ -20,7 +20,7 @@ import com.mredrock.cyxbsmobile.event.CourseLoadFinishEvent;
 import com.mredrock.cyxbsmobile.event.UpdateCourseEvent;
 import com.mredrock.cyxbsmobile.model.Course;
 import com.mredrock.cyxbsmobile.model.User;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.util.DensityUtils;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -80,13 +80,14 @@ public class CourseFragment extends BaseFragment {
         String[] date = getResources().getStringArray(R.array.course_weekdays);
         String month = new SchoolCalendar(mWeek, 1).getMonth() + "月";
 
-        int screeHeight = DensityUtil.getScreenHeight(getContext());
-        if (DensityUtil.px2dp(getContext(), screeHeight) > 700) {
-            mCourseTime.setLayoutParams(new LinearLayout.LayoutParams(DensityUtil.dp2px(getContext(), 40), screeHeight));
+        int screeHeight = DensityUtils.getScreenHeight(getContext());
+        if (DensityUtils.px2dp(getContext(), screeHeight) > 700) {
+            mCourseTime.setLayoutParams(new LinearLayout.LayoutParams(DensityUtils.dp2px(getContext(), 40), screeHeight));
             mCourseScheduleContent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, screeHeight));
         }
 
         if (mWeek != 0) mCourseMonth.setText(month);
+        int today = (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + 5) % 7;
         for (int i = 0; i < 7; i++) {
             TextView tv = new TextView(getActivity());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
@@ -94,6 +95,9 @@ public class CourseFragment extends BaseFragment {
             SchoolCalendar schoolCalendar = new SchoolCalendar(mWeek, i + 1);
             tv.setText(date[i]);
             tv.setGravity(Gravity.CENTER);
+            if (i == today && mWeek == new SchoolCalendar().getWeekOfTerm()) {
+                tv.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+            }
             mCourseWeeks.addView(tv);
             if (mWeek != 0) {
                 TextView textView = new TextView(getActivity());
@@ -102,7 +106,11 @@ public class CourseFragment extends BaseFragment {
                 textView.setText(day);
                 textView.setGravity(Gravity.CENTER);
                 textView.setTextSize(14);
-                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.data_light_black));
+                if (i == today && mWeek == new SchoolCalendar().getWeekOfTerm()) {
+                    textView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                } else {
+                    textView.setTextColor(ContextCompat.getColor(getContext(), R.color.data_light_black));
+                }
                 mCourseWeekday.addView(textView);
             }
         }
@@ -128,7 +136,9 @@ public class CourseFragment extends BaseFragment {
                 EventBus.getDefault().post(new UpdateCourseEvent());
             }
         });
-        mCourseSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.colorAccent), ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        mCourseSwipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(getContext(), R.color.colorAccent),
+                ContextCompat.getColor(getContext(), R.color.colorPrimary));
     }
 
     @Override
@@ -185,8 +195,7 @@ public class CourseFragment extends BaseFragment {
     // TODO 测试用户
     private void testUser() {
         mUser = new User();
-        mUser.stuNum = "";
+        mUser.stuNum = "2015210408";
         mUser.idNum = "";
-        mUser = null;
     }
 }

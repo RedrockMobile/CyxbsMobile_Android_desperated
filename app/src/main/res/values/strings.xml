@@ -41,7 +41,7 @@
         <item>四</item>
         <item>五</item>
         <item>六</item>
-        <item>七</item>
+        <item>日</item>
     </string-array>
 
     <string-array name="schedule_weekday">
@@ -142,6 +142,28 @@
         <item>哔哔叨叨</item>
         <item>官方资讯</item>
     </string-array>
+
+    <string name="explore_portal">红岩门户</string>
+    <string name="explore_map">重邮地图</string>
+    <string name="explore_eat">吃什么</string>
+    <string name="explore_around_food">周边美食</string>
+    <string name="explore_community">重邮社区</string>
+    <string name="explore_business">创业谷</string>
+
+    <string name="portal_title">红岩主页</string>
+    <string name="portal_menu_overflow">overflow</string>
+    <string name="portal_menu_share">分享链接</string>
+    <string name="portal_menu_refresh">刷新页面</string>
+    <string name="portal_menu_copy">复制链接</string>
+    <string name="portal_open_with">用浏览器打开</string>
+
+    <string name="eat_what_activity_name">吃什么</string>
+    <string name="eat_what_text">吃什么 摇一摇</string>
+
+    <string name="around_food_activity_name">周边美食</string>
+    <string name="restaurant_detail_dialog_title">"请输入评论"</string>
+    <string name="restaurant_detail_dialog_hint">"请输入"</string>
+    <string name="restaurant_detail_dialog_positive_text">发送</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
