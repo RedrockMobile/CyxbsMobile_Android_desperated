@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +16,19 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
+import com.mredrock.cyxbsmobile.model.community.ContentBean;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.model.community.ReMarks;
-import com.mredrock.cyxbsmobile.model.community.Student;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.SpecificNewsCommentAdapter;
+import com.mredrock.cyxbsmobile.util.Util;
+import com.mredrock.cyxbsmobile.util.download.DownloadHelper;
+import com.mredrock.cyxbsmobile.util.download.callback.OnDownloadListener;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -43,6 +48,8 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     RecyclerView mRecyclerView;
     @Bind(R.id.btn_send)
     TextView mSendText;
+    @Bind(R.id.downText)
+    TextView mTextDown;
 
 
     private News.DataBean dataBean;
@@ -71,21 +78,61 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mSendText.setOnClickListener(this);
         mSpecificNewsCommentAdapter = new SpecificNewsCommentAdapter(mDatas, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mSpecificNewsCommentAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
-
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
 
-        mWrapView.setData(dataBean);
+        mWrapView.setData(dataBean, true);
+        if (dataBean.getContentBean().getArticletype_id() != null)
+            doWithNews(mWrapView, dataBean.getContentBean());
         reqestComentDatas();
+    }
+
+    private void doWithNews(NewsAdapter.ViewHolder mWrapView, ContentBean bean) {
+        mWrapView.mTextContent.setText(Html.fromHtml(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : ""));
+        mWrapView.mTextName.setText(!bean.getUnit().equals("") ? bean.getUnit() : "教务在线");
+        mWrapView.mTextView_ex.setVisibility(View.INVISIBLE);
+        if (dataBean.getContentBean().getContent().charAt(0) == '<')
+            mWrapView.mTextContent.setText(dataBean.getContentBean().getTitle());
+        if (!bean.getAddress().equals("")) {
+            mTextDown.setVisibility(View.VISIBLE);
+            String[] address = bean.getAddress().split("\\|");
+            String[] names = bean.getName().split("\\|");
+            mTextDown.setOnClickListener(view -> showDownListDialog(address, names));
+        }
+    }
+
+    public void showDownListDialog(String[] address, String[] names) {
+
+        DownloadHelper downloadHelper = new DownloadHelper(this, true);
+        downloadHelper.prepare(Arrays.asList(names), Arrays.asList(address),
+                new OnDownloadListener() {
+                    @Override
+                    public void startDownload() {
+
+                    }
+
+                    @Override
+                    public void downloadSuccess() {
+                        downloadHelper.tryOpenFile();
+                    }
+
+                    @Override
+                    public void downloadFailed(String message) {
+                        Util.toast(SpecificNewsActivity.this, getResources().getString(R.string.load_failed));
+                        if (message != null) {
+                            Log.d("====>>>", "error is " + message);
+                        }
+                    }
+                });
 
     }
 
 
     private void reqestComentDatas() {
-        RequestManager.getInstance().getRemarks(dataBean.getId(), dataBean.getType_id())
+        RequestManager.getInstance()
+                .getRemarks(dataBean.getId(), dataBean.getType_id())
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribe(reMarks -> {
                     mDatas = reMarks.getData();
@@ -138,15 +185,15 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         if (mNewsEdtComment.getText().toString().equals(""))
             Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT).show();
         else
-            RequestManager.getInstance().postReMarks(dataBean.getId(), dataBean.getType_id(), mNewsEdtComment.getText().toString())
+            RequestManager.getInstance()
+                    .postReMarks(dataBean.getId(), dataBean.getType_id(), mNewsEdtComment.getText().toString())
                     .doOnSubscribe(() -> showLoadingProgress())
                     .subscribe(okResponse -> {
                         if (okResponse.getState() == OkResponse.RESPONSE_OK) {
                             reqestComentDatas();
                             mNewsEdtComment.getText().clear();
                         }
-                    }, throwable ->
-                            showUploadFail(throwable.toString()));
+                    }, throwable -> showUploadFail(throwable.toString()));
     }
 
     @Override

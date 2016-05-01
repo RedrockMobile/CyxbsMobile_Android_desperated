@@ -3,7 +3,6 @@ package com.mredrock.cyxbsmobile.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,11 +12,13 @@ import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.NineGridlayout;
 import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.Image;
+import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.Student;
+import com.mredrock.cyxbsmobile.model.community.Stu;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.util.DialogUtil;
+import com.mredrock.cyxbsmobile.util.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,8 @@ import rx.schedulers.Schedulers;
 
 public class AddNewsActivity extends BaseActivity implements View.OnClickListener {
 
+    private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
+    private final static int REQUEST_IMAGE = 0001;
     @Bind(R.id.toolbar_cancel)
     TextView mCancelText;
     @Bind(R.id.toolbar_title)
@@ -43,9 +46,6 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     EditText mAddNewsEdit;
     @Bind(R.id.iv_ngrid_layout)
     NineGridlayout mNineGridlayout;
-
-    private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
-    private final static int REQUEST_IMAGE = 0001;
     private List<Image> mImgs;
 
     @Override
@@ -106,21 +106,18 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         currentImgs.addAll(mImgs);
         currentImgs.remove(0);
 
-        if (currentImgs.size() > 0) {
-            observable = uploadWithImg(currentImgs, title, content, type);
-        } else {
-            observable = uploadWithoutImg(title, content, type);
-        }
+        if (currentImgs.size() > 0) observable = uploadWithImg(currentImgs, title, content, type);
+        else observable = uploadWithoutImg(title, content, type);
+
         observable.subscribe(okResponse -> {
             if (okResponse.getState() == OkResponse.RESPONSE_OK) {
                 closeLoadingProgress();
-                showUploadSucess();
+                showUploadSucess(content);
             }
         }, throwable -> {
             closeLoadingProgress();
             showUploadFail(throwable.toString());
         });
-
 
     }
 
@@ -130,9 +127,9 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         return Observable.from(currentImgs)
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
-                .observeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
                 .map(image -> image.getUrl())
-                .flatMap(url -> RequestManager.getInstance().uploadNewsImg(Student.STU_NUM, url))
+                .flatMap(url -> RequestManager.getInstance().uploadNewsImg(Stu.STU_NUM, url))
                 .buffer(currentImgs.size())
                 .flatMap(uploadImgResponses -> {
                     for (UploadImgResponse uploadImgResponse : uploadImgResponses) {
@@ -153,7 +150,6 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE) {
-
 
             if (resultCode == RESULT_OK) {
                 // 获取返回的图片列表
@@ -193,19 +189,21 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-    private void showUploadSucess() {
-        DialogUtil.showLoadSucess(this, "提示", "发表动态成功", "继续发表", "返回", new DialogUtil.DialogListener() {
+    private void showUploadSucess(String content) {
+       /* DialogUtil.showLoadSucess(this, "提示", "发表动态成功", "继续发表", "返回", new DialogUtil.DialogListener() {
             @Override
             public void onPositive() {
                 closeLoadingProgress();
             }
-
             @Override
             public void onNegative() {
                 closeLoadingProgress();
                 AddNewsActivity.this.finish();
             }
-        });
+        });*/
+        // RxBus.getDefault().post(new (mImgs, content));
+        RxBus.getDefault().post(new News(content, mImgs));
+        AddNewsActivity.this.finish();
     }
 
     private void showLoadingProgress() {

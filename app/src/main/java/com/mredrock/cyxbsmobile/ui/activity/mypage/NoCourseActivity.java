@@ -14,8 +14,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbsmobile.model.Student;
@@ -27,6 +29,7 @@ import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.NoCourseAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.NoCourseItemFragment;
 import com.mredrock.cyxbsmobile.util.NetUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +43,22 @@ public class NoCourseActivity extends BaseActivity
     public static final int REQUEST_SELECT = 1;
     public static final String EXTRA_NO_COURSE = "extra_no_course";
 
-    @Bind(R.id.no_course_stu) EditText noCourseStu;
-    @Bind(R.id.no_course_add) TextView noCourseAdd;
-    @Bind(R.id.no_course_have) TextView noCourseHave;
-    @Bind(R.id.no_course_change) TextView noCourseChange;
-    @Bind(R.id.no_course_recycler_view) RecyclerView noCourseRecyclerView;
-    @Bind(R.id.no_course_search) LinearLayout noCourseSearch;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.no_course_stu)
+    EditText noCourseStu;
+    @Bind(R.id.no_course_add)
+    TextView noCourseAdd;
+    @Bind(R.id.no_course_have)
+    TextView noCourseHave;
+    @Bind(R.id.no_course_change)
+    TextView noCourseChange;
+    @Bind(R.id.no_course_recycler_view)
+    RecyclerView noCourseRecyclerView;
+    @Bind(R.id.no_course_search)
+    LinearLayout noCourseSearch;
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     private ArrayList<String> stuNumList;
     private ArrayList<String> nameList;
@@ -58,7 +69,8 @@ public class NoCourseActivity extends BaseActivity
     private Handler mHandler = new Handler();
 
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_course);
         ButterKnife.bind(this);
@@ -97,13 +109,13 @@ public class NoCourseActivity extends BaseActivity
     }
 
     private void initToolbar() {
-        if(toolbar != null){
+        if (toolbar != null) {
             toolbar.setTitle("");
             toolbarTitle.setText("没课约");
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(v -> NoCourseActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
-            if(actionBar != null){
+            if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeButtonEnabled(true);
             }
@@ -111,7 +123,8 @@ public class NoCourseActivity extends BaseActivity
     }
 
 
-    @Override public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.no_course_add:
                 if (!noCourseStu.getText().toString().equals("")) {
@@ -119,20 +132,19 @@ public class NoCourseActivity extends BaseActivity
                 }
                 break;
             case R.id.no_course_search:
-                Intent intent = new Intent(this,NoCourseContainerActivity
+                Intent intent = new Intent(this, NoCourseContainerActivity
                         .class);
                 intent.putStringArrayListExtra(NoCourseItemFragment
-                        .EXTRA_NAME_LIST,nameList);
+                        .EXTRA_NAME_LIST, nameList);
                 intent.putStringArrayListExtra(NoCourseItemFragment
-                        .EXTRA_STU_NUM_LIST,stuNumList);
+                        .EXTRA_STU_NUM_LIST, stuNumList);
                 startActivity(intent);
                 break;
             case R.id.no_course_change:
                 if (noCourseChange.getText().toString().equals("修改")) {
                     noCourseChange.setText("完成");
                     mNoCourseAdapter.setButtonVisible();
-                }
-                else {
+                } else {
                     noCourseChange.setText("修改");
                     mNoCourseAdapter.setButtonInVisible();
                     mNoCourseAdapter = null;
@@ -150,9 +162,9 @@ public class NoCourseActivity extends BaseActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_SELECT && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_SELECT && resultCode == RESULT_OK) {
             Student student = (Student) data.getExtras().getSerializable(EXTRA_NO_COURSE);
-            addStudent(student.stunum,student.name);
+            addStudent(student.stunum, student.name);
         }
     }
 
@@ -179,12 +191,10 @@ public class NoCourseActivity extends BaseActivity
                 nameList.contains(noCourseStu.getText().toString())) {
             Snackbar.make(noCourseStu, "请不要重复添加！", Snackbar.LENGTH_SHORT)
                     .show();
-        }
-        else if (!NetUtils.isNetWorkAvilable(this)) {
+        } else if (!NetUtils.isNetWorkAvailable(this)) {
             Snackbar.make(noCourseStu, "没有网络连接，无法查找该同学！", Snackbar.LENGTH_SHORT)
                     .show();
-        }
-        else {
+        } else {
             RequestManager.INSTANCE.getStudent(
                     new SimpleSubscriber<>(this, true,
                             new SubscriberListener<List<Student>>() {
@@ -196,8 +206,7 @@ public class NoCourseActivity extends BaseActivity
                                         Pattern pattern = Pattern.compile(
                                                 "[0-9]*");
                                         Matcher m = pattern.matcher(
-                                                noCourseStu.getText()
-                                                           .toString());
+                                                noCourseStu.getText().toString());
                                         //输入的不是数字
                                         if (!m.matches()) {
                                             Intent intent = new Intent(
@@ -207,8 +216,7 @@ public class NoCourseActivity extends BaseActivity
                                                     SelectStudentActivity.EXTRA_STUDENT_LIST,
                                                     (Serializable) students);
                                             startActivityForResult(intent, REQUEST_SELECT);
-                                        }
-                                        else {
+                                        } else {
                                             addStudent(students.get(0).stunum,
                                                     students.get(0).name);
                                             noCourseStu.setHint(
@@ -216,8 +224,7 @@ public class NoCourseActivity extends BaseActivity
                                             noCourseStu.setText("");
                                             mNoCourseAdapter.notifyDataSetChanged();
                                         }
-                                    }
-                                    else {
+                                    } else {
                                         Snackbar.make(noCourseStu, "没有找到这个人哦~",
                                                 Snackbar.LENGTH_SHORT).show();
                                     }
@@ -226,8 +233,8 @@ public class NoCourseActivity extends BaseActivity
         }
     }
 
-
-    @Override public void onClickEnd(int position) {
+    @Override
+    public void onClickEnd(int position) {
         removeStudent(position);
         count--;
         noCourseHave.setText(new StringBuilder("已添加").append(count).append

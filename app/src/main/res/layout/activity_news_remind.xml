@@ -11,88 +11,88 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
         android:text="@string/news_remind_hint"
         android:textColor="@color/text_light_2"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/divider"/>
+        android:background="@color/divider" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="vertical"
-        android:background="@drawable/bg_layout">
+        android:background="@drawable/bg_layout"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="14dp"
             android:layout_marginStart="14dp"
-            android:layout_centerVertical="true"
             android:text="@string/news_remind_comment"
             android:textColor="@color/text_dark"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:theme="@style/SwitchStyle"
-            android:checked="true"/>
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:checked="true"
+            android:theme="@style/SwitchStyle" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="14dp"
             android:layout_marginStart="14dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/divider_light"/>
+            android:background="@color/divider_light" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="vertical"
-        android:background="@drawable/bg_layout">
+        android:background="@drawable/bg_layout"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="14dp"
             android:layout_marginStart="14dp"
-            android:layout_centerVertical="true"
             android:text="@string/news_remind_like"
             android:textColor="@color/text_dark"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:theme="@style/SwitchStyle"
-            android:checked="true"/>
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:checked="true"
+            android:theme="@style/SwitchStyle" />
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/divider"/>
+        android:background="@color/divider" />
 
 </LinearLayout>

@@ -8,8 +8,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.RapidFloatingContentListView;
 import com.mredrock.cyxbsmobile.model.EmptyRoom;
@@ -23,6 +25,7 @@ import com.mredrock.cyxbsmobile.util.SchoolCalendar;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionHelper;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -30,25 +33,41 @@ import java.util.Set;
 public class EmptyRoomActivity extends BaseActivity
         implements RapidFloatingContentListView.OnCompleteButtonClickListener {
 
-    /** 请求时传入的教学楼参数 */
-    public static final String[] buildNumApiArray = { "2", "3", "4", "5", "8" };
+    /**
+     * 请求时传入的教学楼参数
+     */
+    public static final String[] buildNumApiArray = {"2", "3", "4", "5", "8"};
 
-    /** 请求时传入的课时参数 */
-    public static final String[] sectionNumApiArray = { "0", "1", "2", "3", "4",
-            "5" };
+    /**
+     * 请求时传入的课时参数
+     */
+    public static final String[] sectionNumApiArray = {"0", "1", "2", "3", "4",
+            "5"};
 
-    @Bind(R.id.empty_rfab_layout) RapidFloatingActionLayout mEmptyRfabLayout;
-    @Bind(R.id.empty_rfab) RapidFloatingActionButton mEmptyRfabButton;
-    @Bind(R.id.empty_iv_resultIcon) ImageView mIvResultIcon;
-    @Bind(R.id.empty_tv_searchResult) TextView mTvResult;
-    @Bind(R.id.empty_rv) RecyclerView mEmptyListView;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.empty_rfab_layout)
+    RapidFloatingActionLayout mEmptyRfabLayout;
+    @Bind(R.id.empty_rfab)
+    RapidFloatingActionButton mEmptyRfabButton;
+    @Bind(R.id.empty_iv_resultIcon)
+    ImageView mIvResultIcon;
+    @Bind(R.id.empty_tv_searchResult)
+    TextView mTvResult;
+    @Bind(R.id.empty_rv)
+    RecyclerView mEmptyListView;
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
-    /** 需要请求的次数 */
+    /**
+     * 需要请求的次数
+     */
     private int mNeedReqNum;
 
-    /** 成功请求的次数 */
+    /**
+     * 成功请求的次数
+     */
+
     private int mSuccessReqNum;
 
     private List<EmptyRoom> mEmptyRoomList;
@@ -57,7 +76,8 @@ public class EmptyRoomActivity extends BaseActivity
     private EmptyConverter mConverter;
 
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_room);
         ButterKnife.bind(this);
@@ -75,14 +95,13 @@ public class EmptyRoomActivity extends BaseActivity
         if (buildNumPosition != -1 && buildNumPosition != 0) {
             if (sectionPosSet != null && !sectionPosSet.isEmpty()) {
                 loadingEmptyData(buildNumPosition, sectionPosSet);
-            }
-            else {
+            } else {
                 Toast.makeText(this, "请选择课时", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+        } else {
             Toast.makeText(this, "请选择教学楼", Toast.LENGTH_SHORT).show();
         }
+
         mEmptyRfabLayout.toggleContent();
     }
 
@@ -128,7 +147,7 @@ public class EmptyRoomActivity extends BaseActivity
      * 加载数据.
      *
      * @param buildNumPosition 教学楼
-     * @param sectionPosSet 课时
+     * @param sectionPosSet    课时
      */
     private void loadingEmptyData(int buildNumPosition, Set<Integer> sectionPosSet) {
         String buildingNum = buildNumApiArray[buildNumPosition - 1];
@@ -144,23 +163,18 @@ public class EmptyRoomActivity extends BaseActivity
         String weekday = String.valueOf(calendar.getDayOfWeek());
         for (String courseTime : courseTimeList) {
             RequestManager.INSTANCE.getEmptyRoomList(
-                    new SimpleSubscriber<List<String>>(this, true,
-                            new SubscriberListener<List<String>>() {
-                                @Override
-                                public void onNext(List<String> strings) {
-                                    super.onNext(strings);
-                                    mSuccessReqNum++;
-                                    mConverter.setEmptyData(strings);
-                                    if (mSuccessReqNum == mNeedReqNum) {
-                                        updateEmptyAdapter();
-                                    }
-                                }
-
-
-                                @Override public void onCompleted() {
-                                    super.onCompleted();
-                                }
-                            }), buildingNum, week, weekday, courseTime);
+                    new SimpleSubscriber<>(EmptyRoomActivity.this, true, new SubscriberListener<List<String>>() {
+                        @Override
+                        public void onNext(List<String> strings) {
+                            super.onNext(strings);
+                            mSuccessReqNum++;
+                            mConverter.setEmptyData(strings);
+                            if (mSuccessReqNum == mNeedReqNum) {
+                                updateEmptyAdapter();
+                            }
+                        }
+                    })
+                    , buildingNum, week, weekday, courseTime);
         }
     }
 

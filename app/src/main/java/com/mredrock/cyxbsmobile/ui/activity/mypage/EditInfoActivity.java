@@ -7,23 +7,31 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 
 public class EditInfoActivity extends BaseActivity
         implements View.OnClickListener {
 
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.edit_info_avatar_layout) RelativeLayout editInfoAvatarLayout;
-    @Bind(R.id.edit_info_nick_layout) RelativeLayout editInfoNickLayout;
-    @Bind(R.id.edit_info_introduce_layout) RelativeLayout
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.edit_info_avatar_layout)
+    RelativeLayout editInfoAvatarLayout;
+    @Bind(R.id.edit_info_nick_layout)
+    RelativeLayout editInfoNickLayout;
+    @Bind(R.id.edit_info_introduce_layout)
+    RelativeLayout
             editInfoIntroduceLayout;
 
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_info);
         ButterKnife.bind(this);
@@ -33,8 +41,8 @@ public class EditInfoActivity extends BaseActivity
         editInfoNickLayout.setOnClickListener(this);
     }
 
-
-    @Override public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.edit_info_avatar_layout:
 

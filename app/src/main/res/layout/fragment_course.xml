@@ -133,9 +133,9 @@
                     android:id="@+id/course_schedule_holder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="6dp"
+                    android:orientation="horizontal"
                     android:paddingBottom="6dp"
-                    android:orientation="horizontal">
+                    android:paddingTop="6dp">
 
                     <LinearLayout
                         android:id="@+id/course_time"

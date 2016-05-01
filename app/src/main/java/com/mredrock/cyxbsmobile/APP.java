@@ -7,9 +7,10 @@ import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.util.SPUtils;
-import com.squareup.picasso.Picasso;
+import com.orhanobut.logger.Logger;
 
 import timber.log.Timber;
+
 
 /**
  * Created by cc on 16/3/18.
@@ -17,28 +18,8 @@ import timber.log.Timber;
 public class APP extends Application {
     private static Context context;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        }
-        context = getApplicationContext();
-    }
-
     public static Context getContext() {
         return context;
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-    }
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
     }
 
     public static void setUser(Context context, User user) {
@@ -58,4 +39,26 @@ public class APP extends Application {
         }
         return new Gson().fromJson(json, User.class);
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
+        Logger.init("cyxbs_mobile");
+        context = getApplicationContext();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+    }
+
 }

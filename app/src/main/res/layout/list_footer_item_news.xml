@@ -13,4 +13,12 @@
         android:layout_centerInParent="true"
         app:mlpb_progress_color="#566da9"
         app:mlpb_progress_stoke_width="3dp" />
+
+    <TextView
+        android:id="@+id/textLoadingFailed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/loadingFailed"
+        android:visibility="invisible" />
 </RelativeLayout>

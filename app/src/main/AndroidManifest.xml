@@ -2,19 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mredrock.cyxbsmobile">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".APP"
@@ -24,27 +24,27 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="c85d4fb11d552c7112543bc0317d2da0"/>
+            android:value="c85d4fb11d552c7112543bc0317d2da0" />
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="55d88b23e0f55a71ec007365"/>
+            android:value="55d88b23e0f55a71ec007365" />
         <!-- <meta-data -->
         <!-- android:name="UMENG_CHANNEL" -->
         <!-- android:value="${UMENG_CHANNEL_VALUE}" /> -->
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
-            android:value="c013592261f6ca0f07dbf8660e7fa505"/>
+            android:value="c013592261f6ca0f07dbf8660e7fa505" />
 
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.SplashActivity"/>
+        <activity android:name=".ui.activity.SplashActivity" />
         <!-- 图片剪切 -->
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name=".ui.activity.TestUploadActivity" />
@@ -67,33 +67,42 @@
             android:name=".ui.activity.MapActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
-        <activity android:name=".ui.activity.TestUploadActivity"/>
-        <activity android:name=".ui.activity.mypage.EditInfoActivity"/>
-        <activity android:name=".ui.activity.SpecificNewsActivity"/>
+        <activity android:name=".ui.activity.mypage.EditInfoActivity" />
+
+        <activity android:name=".ui.activity.mypage.RelateMeActivity" />
+        <activity android:name=".ui.activity.mypage.MyTrendActivity" />
+        <activity android:name=".ui.activity.mypage.SettingActivity" />
+        <activity android:name=".ui.activity.mypage.NewsRemindActivity" />
+        <activity android:name=".ui.activity.mypage.EditNickNameActivity" />
+        <activity android:name=".ui.activity.mypage.EditIntroduceActivity" />
+        <activity android:name=".ui.activity.mypage.NoCourseContainerActivity" />
+        <activity android:name=".ui.activity.mypage.NoCourseActivity" />
+        <activity android:name=".ui.activity.mypage.SelectStudentActivity" />
+        <activity android:name=".ui.activity.mypage.EmptyRoomActivity" />
+        <activity android:name=".ui.activity.AddNewsActivity" />
+        <activity
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".ui.activity.ImageActivity" />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity android:name=".ui.activity.TestUploadActivity" />
+        <activity android:name=".ui.activity.mypage.EditInfoActivity" />
+        <activity android:name=".ui.activity.SpecificNewsActivity" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
 
-        <activity android:name=".ui.activity.mypage.RelateMeActivity"/>
-        <activity android:name=".ui.activity.mypage.MyTrendActivity"/>
-        <activity android:name=".ui.activity.mypage.SettingActivity"/>
-        <activity android:name=".ui.activity.mypage.NewsRemindActivity"/>
-        <activity android:name=".ui.activity.mypage.EditNickNameActivity"/>
-        <activity android:name=".ui.activity.mypage.EditIntroduceActivity"/>
-        <activity android:name=".ui.activity.mypage.NoCourseContainerActivity"/>
-        <activity android:name=".ui.activity.mypage.NoCourseActivity"/>
-        <activity android:name=".ui.activity.mypage.SelectStudentActivity"/>
+        <activity android:name=".ui.activity.mypage.RelateMeActivity" />
+        <activity android:name=".ui.activity.mypage.MyTrendActivity" />
+        <activity android:name=".ui.activity.mypage.SettingActivity" />
+        <activity android:name=".ui.activity.mypage.NewsRemindActivity" />
+        <activity android:name=".ui.activity.mypage.EditNickNameActivity" />
+        <activity android:name=".ui.activity.mypage.EditIntroduceActivity" />
+        <activity android:name=".ui.activity.mypage.NoCourseContainerActivity" />
+        <activity android:name=".ui.activity.mypage.NoCourseActivity" />
+        <activity android:name=".ui.activity.mypage.SelectStudentActivity" />
         <activity android:name=".ui.activity.mypage.EmptyRoomActivity"></activity>
-        <activity android:name=".ui.activity.AddNewsActivity"></activity>
-        <activity
-            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity android:name=".ui.activity.ImageActivity"/>
 
     </application>
 

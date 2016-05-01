@@ -7,6 +7,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.component.widget.CustomImageView;
 
 import java.util.Random;
 
@@ -48,15 +49,16 @@ public class ImageLoader {
         int position = new Random().nextInt(3);
         Glide.with(APP.getContext())
                 .load(url)
+                .asBitmap()
                 .placeholder(circles[position])
                 .error(circles[position])
-                .crossFade()
                 .into(imageView);
     }
 
+
     public void loadImageWithTargetView(String url, SimpleTarget simpleTarget) {
         Glide.with(APP.getContext())
-                .load(url)
+                .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
                 .asBitmap()
                 .placeholder(R.drawable.img_on_laoding)
                 .error(R.drawable.img_on_laoding)

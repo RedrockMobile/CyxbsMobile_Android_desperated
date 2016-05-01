@@ -9,11 +9,9 @@ import com.mredrock.cyxbsmobile.model.MovieResult;
 import com.mredrock.cyxbsmobile.model.Restaurant;
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Empty;
-import com.mredrock.cyxbsmobile.model.MovieResult;
 import com.mredrock.cyxbsmobile.model.Student;
 import com.mredrock.cyxbsmobile.model.Subject;
 
-import java.sql.Wrapper;
 import java.util.List;
 
 import retrofit2.http.Field;
@@ -57,7 +55,8 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_RESTAURANT_SEND_COMMENT)
-    Observable<RedrockApiWrapper<Object>> sendRestaurantComment(@Field("shop_id") String id, @Field("user_number") String userNumber, @Field("user_password") String userPassword,@Field("comment_content") String commentContent,@Field("comment_author_name") String commentAuthoName);
+    Observable<RedrockApiWrapper<Object>> sendRestaurantComment(@Field("shop_id") String id, @Field("user_number") String userNumber, @Field("user_password") String userPassword, @Field("comment_content") String commentContent, @Field("comment_author_name") String commentAuthoName);
+
     @GET(Const.APT_SEARCH_STUDENT)
     Observable<Student.StudentWrapper> getStudent(@Query("stu") String stu);
 

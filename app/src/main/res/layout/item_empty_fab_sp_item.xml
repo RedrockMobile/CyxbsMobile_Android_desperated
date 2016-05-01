@@ -3,7 +3,6 @@
     android:id="@+id/item_empty_tv_selector"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="12dp"
+    android:gravity="center"
     android:paddingBottom="12dp"
-    android:gravity="center" />
-
+    android:paddingTop="12dp" />

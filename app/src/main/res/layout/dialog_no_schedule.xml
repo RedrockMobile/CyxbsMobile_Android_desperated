@@ -51,14 +51,14 @@
 
     </LinearLayout>
 
-        <TextView
-            android:id="@+id/dialog_no_course_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="82dp"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textColor="#111111"/>
+    <TextView
+        android:id="@+id/dialog_no_course_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="82dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:textColor="#111111"/>
 
 
     <LinearLayout
@@ -103,15 +103,15 @@
         android:layout_marginRight="34dp"
         />
 
-        <TextView
-            android:id="@+id/dialog_no_course_certain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:clickable="true"
-            android:text="确定"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp" />
+    <TextView
+        android:id="@+id/dialog_no_course_certain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:clickable="true"
+        android:text="确定"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp" />
 
 </LinearLayout>

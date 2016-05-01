@@ -30,10 +30,14 @@ import butterknife.ButterKnife;
 public class RapidFloatingContentListView
         extends RapidFloatingActionContentViewBase implements View.OnClickListener, TagFlowLayout.OnSelectListener, AdapterView.OnItemSelectedListener {
 
-    /**教学楼*/
+    /**
+     * 教学楼
+     */
     private Spinner mSpBuildings;
 
-    /**课时*/
+    /**
+     * 课时
+     */
     private TagFlowLayout mSectionTagLayout;
 
     private int mBuildNumPosition = -1;
@@ -75,20 +79,20 @@ public class RapidFloatingContentListView
         final List<String> buildNumList = Arrays.asList(getResources().getStringArray(R.array.empty_buildings));
         final String[] sectionNumArray = getResources().getStringArray(R.array.empty_sections);
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        setupSpBuildings(view,buildNumList);
+        setupSpBuildings(view, buildNumList);
         setupSectionTagLayout(view, inflater, sectionNumArray);
         final Button completeBtn = ButterKnife.findById(view, R.id.empty_fab_btn_complete);
         completeBtn.setOnClickListener(this);
     }
 
-    private void setupSpBuildings(View view,final List<String> buildNumList) {
-        mSpBuildings = ButterKnife.findById(view,R.id.empty_fab_sp_buildings);
+    private void setupSpBuildings(View view, final List<String> buildNumList) {
+        mSpBuildings = ButterKnife.findById(view, R.id.empty_fab_sp_buildings);
         BuildingAdapter buildingAdapter = new BuildingAdapter(buildNumList);
         mSpBuildings.setAdapter(buildingAdapter);
         mSpBuildings.setOnItemSelectedListener(this);
     }
 
-    private void setupSectionTagLayout(View view,LayoutInflater inflater,
+    private void setupSectionTagLayout(View view, LayoutInflater inflater,
                                        final String[] sectionNumArray) {
         mSectionTagLayout = ButterKnife.findById(view, R.id.empty_fab_section_tagLayout);
         mSectionTagLayout.setAdapter(new TagAdapter<String>(sectionNumArray) {

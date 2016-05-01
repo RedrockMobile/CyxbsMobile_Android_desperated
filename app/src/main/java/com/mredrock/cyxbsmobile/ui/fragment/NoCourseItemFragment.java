@@ -40,12 +40,16 @@ public class NoCourseItemFragment extends BaseFragment {
     public static final String EXTRA_STU_NUM_LIST = "extra_stu_num_list";
     public static final String EXTRA_NAME_LIST = "extra_name_list";
 
-    @Bind(R.id.no_course_week) LinearLayout noCourseWeek;
-    @Bind(R.id.no_course_time) LinearLayout noCourseTime;
-    @Bind(R.id.no_course_schedule_content) NoScheduleView noCourseScheduleContent;
-    @Bind(R.id.no_course_swipe_refresh_layout) SwipeRefreshLayout noCourseSwipeRefreshLayout;
+    @Bind(R.id.no_course_week)
+    LinearLayout noCourseWeek;
+    @Bind(R.id.no_course_time)
+    LinearLayout noCourseTime;
+    @Bind(R.id.no_course_schedule_content)
+    NoScheduleView noCourseScheduleContent;
+    @Bind(R.id.no_course_swipe_refresh_layout)
+    SwipeRefreshLayout noCourseSwipeRefreshLayout;
 
-    private Map<String ,List<Course>> mCourseMap;
+    private Map<String, List<Course>> mCourseMap;
     private ArrayList<String> mStuNumList;
     private ArrayList<String> mNameList;
     private List<NoCourse> mNoCourseList;
@@ -69,7 +73,8 @@ public class NoCourseItemFragment extends BaseFragment {
     }
 
 
-    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         parseArguments();
         mStuNumList = getActivity().getIntent().getStringArrayListExtra
@@ -79,12 +84,13 @@ public class NoCourseItemFragment extends BaseFragment {
     }
 
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity())
-                                  .inflate(R.layout.fragment_no_course_item, container, false);
+                .inflate(R.layout.fragment_no_course_item, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -97,12 +103,13 @@ public class NoCourseItemFragment extends BaseFragment {
     }
 
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
-    private void parseArguments(){
+    private void parseArguments() {
         Bundle args = getArguments();
         mWeek = args.getInt(ARG_WEEK);
     }
@@ -146,12 +153,12 @@ public class NoCourseItemFragment extends BaseFragment {
                 noCourseTime.addView(divider);
             }
         }
-        if(mWeek == new SchoolCalendar().getWeekOfTerm()) showTodayWeek();
+        if (mWeek == new SchoolCalendar().getWeekOfTerm()) showTodayWeek();
 
         noCourseSwipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getContext(), R.color.colorAccent), ContextCompat.getColor(getContext(), R.color.colorPrimary));
         noCourseSwipeRefreshLayout.setOnRefreshListener(() -> {
-            if(mStuNumList.size() != 0){
+            if (mStuNumList.size() != 0) {
                 noCourseSwipeRefreshLayout.setRefreshing(true);
                 loadWeekNoCourse();
             }
@@ -159,7 +166,7 @@ public class NoCourseItemFragment extends BaseFragment {
 
         mCourseMap = new LinkedHashMap<>();
         mNoCourseList = new ArrayList<>();
-        if(mStuNumList.size() != 0){
+        if (mStuNumList.size() != 0) {
             noCourseSwipeRefreshLayout.setRefreshing(true);
             loadWeekNoCourse();
         }
@@ -167,23 +174,25 @@ public class NoCourseItemFragment extends BaseFragment {
 
 
     private void loadWeekNoCourse() {
-        for(int i = 0;i<mStuNumList.size();i++){
+        for (int i = 0; i < mStuNumList.size(); i++) {
             final int finalI = i;
             RequestManager.INSTANCE.getCourse(new SimpleSubscriber<>(getActivity(), new SubscriberListener<List<Course>>() {
-                @Override public void onNext(List<Course> courses) {
+                @Override
+                public void onNext(List<Course> courses) {
                     super.onNext(courses);
-                    mCourseMap.put(String.valueOf(finalI),courses);
+                    mCourseMap.put(String.valueOf(finalI), courses);
                 }
 
 
-                @Override public void onCompleted() {
+                @Override
+                public void onCompleted() {
                     super.onCompleted();
-                    if(noCourseSwipeRefreshLayout != null && noCourseSwipeRefreshLayout.isRefreshing()){
+                    if (noCourseSwipeRefreshLayout != null && noCourseSwipeRefreshLayout.isRefreshing()) {
                         noCourseSwipeRefreshLayout.setRefreshing(false);
                     }
                     getNoCourseTable();
                 }
-            }), mStuNumList.get(i),"", String.valueOf(mWeek));
+            }), mStuNumList.get(i), "", String.valueOf(mWeek));
         }
     }
 

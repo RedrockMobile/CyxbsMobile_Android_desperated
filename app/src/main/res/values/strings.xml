@@ -154,6 +154,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="news_load">下载附件</string>
+    <string name="load_agree">确定</string>
+    <string name="load_disagree">取消</string>
+    <string name="loading">下载中,请稍后</string>
+    <string name="load_open_file">下载成功,是否打开?</string>
+    <string name="load_file_path">文件位于%1$s</string>
+    <string name="load_failed">下载失败了~</string>
+    <string name="load_error_prepare">加载异常</string>
+
     <string name="news_edt">单击此处输入评论</string>
     <string name="specific_news_title">详情</string>
     <string name="specific_news_nev">返回</string>
@@ -166,5 +175,6 @@
     <string name="erro">获取数据失败,你的网络不靠谱呀</string>
     <string name="alter">你没有输入任何东西哟</string>
     <string name="noContent">你没有输入消息哟!</string>
+    <string name="loadingFailed">加载失败，点击重新加载</string>
 
 </resources>

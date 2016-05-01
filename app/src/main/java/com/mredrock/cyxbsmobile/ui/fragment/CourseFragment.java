@@ -162,7 +162,8 @@ public class CourseFragment extends BaseFragment {
     }
 
     private void showTodayWeek() {
-        if (getView() != null) getView().findViewById(mTodayWeekIds[Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1]).setVisibility(View.VISIBLE);
+        if (getView() != null)
+            getView().findViewById(mTodayWeekIds[Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1]).setVisibility(View.VISIBLE);
     }
 
     private void loadWeekCourseFromDB(int mWeek) {

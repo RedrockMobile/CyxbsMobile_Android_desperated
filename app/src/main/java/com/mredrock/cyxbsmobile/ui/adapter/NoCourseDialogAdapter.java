@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
+
 import java.util.List;
 
 /**
@@ -32,17 +35,18 @@ public class NoCourseDialogAdapter
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                                            .inflate(R.layout.item_no_course, parent, false));
+                .inflate(R.layout.item_no_course, parent, false));
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.no_course_tv) TextView noCourseTv;
+        @Bind(R.id.no_course_tv)
+        TextView noCourseTv;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

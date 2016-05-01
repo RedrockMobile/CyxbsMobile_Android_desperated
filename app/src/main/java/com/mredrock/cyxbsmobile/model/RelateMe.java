@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by skylineTan on 2016/4/10 16:44.
  */
-public class RelateMe implements Serializable{
+public class RelateMe implements Serializable {
 
     public String id;
     public String user_id;
@@ -21,6 +21,6 @@ public class RelateMe implements Serializable{
      * "data":[{"id":"动态的ID","user_id":"2013211123","user_name":"用户名","user_head":"用户头像地址","time":"时间戳","type":"类型:点赞还是评论","comment":"如果是评论就显示评论内容，如果是点赞就返回空字符串"}]
      */
 
-    public static class RelateMeWapper extends RedrockApiWrapper<List<RelateMe>>{
+    public static class RelateMeWapper extends RedrockApiWrapper<List<RelateMe>> {
     }
 }

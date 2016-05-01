@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
+
 import java.util.List;
 
 /**
@@ -29,27 +32,30 @@ public class NoCourseAdapter
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext())
-                                            .inflate(R.layout.item_no_course_user, parent, false));
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_no_course_user, parent, false);
+        return new ViewHolder(view);
     }
 
 
-    @Override public void onBindViewHolder(ViewHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
         holder.noCourseName.setText(mNameList.get((mNameList.size() - 1) - position));
-        if(flag){
+        if (flag) {
             holder.noCourseDelete.setVisibility(View.VISIBLE);
         }
         holder.noCourseDelete.setOnClickListener(view -> {
             mNameList.remove((mNameList.size() - 1) - position);
             notifyDataSetChanged();
-            if(mListener != null){
+            if (mListener != null) {
                 mListener.onClickEnd(position);
             }
         });
     }
 
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return mNameList.size();
     }
 
@@ -72,8 +78,10 @@ public class NoCourseAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.no_course_name) TextView noCourseName;
-        @Bind(R.id.no_course_delete) ImageView noCourseDelete;
+        @Bind(R.id.no_course_name)
+        TextView noCourseName;
+        @Bind(R.id.no_course_delete)
+        ImageView noCourseDelete;
 
 
         public ViewHolder(View itemView) {
@@ -82,7 +90,9 @@ public class NoCourseAdapter
         }
     }
 
+
     public interface OnItemButtonClickListener {
         void onClickEnd(int position);
     }
+
 }

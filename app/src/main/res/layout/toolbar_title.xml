@@ -8,19 +8,19 @@
         android:id="@+id/toolbar_iv_back"
         android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:layout_gravity="center_horizontal"
-        android:scaleType="centerInside"
         android:background="?attr/selectableItemBackground"
-        android:src="@drawable/ic_my_page_back"/>
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_my_page_back" />
 
     <TextView
         android:id="@+id/toolbar_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="18sp"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
 
 </RelativeLayout>

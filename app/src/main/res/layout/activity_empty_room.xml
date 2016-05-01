@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_room_result"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/empty_tv_searchResult"
@@ -41,7 +41,7 @@
                 android:text="查询结果"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -49,10 +49,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/empty_top_layout"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp" />
 
-        <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton
-            xmlns:rfab="http://schemas.android.com/apk/res-auto"
+        <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton xmlns:rfab="http://schemas.android.com/apk/res-auto"
             android:id="@+id/empty_rfab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,7 +66,7 @@
             rfab:rfab_shadow_dx="0dp"
             rfab:rfab_shadow_dy="2dp"
             rfab:rfab_shadow_radius="4dp"
-            rfab:rfab_size="normal"/>
+            rfab:rfab_size="normal" />
 
     </com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout>
 

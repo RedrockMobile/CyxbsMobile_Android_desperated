@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_grey">
+    android:background="@color/background_grey"
+    android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
 
@@ -12,52 +12,52 @@
         android:layout_width="match_parent"
         android:layout_height="82dp"
         android:layout_marginTop="15dp"
-        android:paddingLeft="16dp"
-        android:paddingStart="16dp"
-        android:paddingRight="16dp"
+        android:background="@drawable/bg_layout"
         android:paddingEnd="16dp"
-        android:background="@drawable/bg_layout">
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/edit_info_avatar"
-            android:textSize="15sp"
-            android:textColor="@color/text_dark"/>
+            android:textColor="@color/text_dark"
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/avatar_default"/>
+            android:src="@drawable/avatar_default" />
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/divider_edit_info"/>
+        android:background="@color/divider_edit_info" />
 
     <RelativeLayout
         android:id="@+id/edit_info_nick_layout"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="15dp"
-        android:paddingLeft="16dp"
-        android:paddingStart="16dp"
-        android:paddingRight="16dp"
+        android:background="@drawable/bg_layout"
         android:paddingEnd="16dp"
-        android:background="@drawable/bg_layout">
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/edit_info_nick_name"
-            android:textSize="15sp"
-            android:textColor="@color/text_dark"/>
+            android:textColor="@color/text_dark"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -65,25 +65,25 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="skylineTan"
-            android:textColor="@color/text_light_1"/>
+            android:textColor="@color/text_light_1" />
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/divider_edit_info"/>
+        android:background="@color/divider_edit_info" />
 
     <RelativeLayout
         android:id="@+id/edit_info_introduce_layout"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="15dp"
-        android:paddingLeft="16dp"
-        android:paddingStart="16dp"
-        android:paddingRight="16dp"
+        android:background="@drawable/bg_layout"
         android:paddingEnd="16dp"
-        android:background="@drawable/bg_layout">
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp">
 
         <TextView
             android:id="@+id/edit_info_tv_introduce"
@@ -91,28 +91,28 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/edit_info_introduce"
-            android:textSize="15sp"
-            android:textColor="@color/text_dark"/>
+            android:textColor="@color/text_dark"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="46dp"
-            android:singleLine="true"
-            android:maxLines="1"
             android:ellipsize="end"
             android:maxEms="13"
+            android:maxLines="1"
+            android:singleLine="true"
             android:text="to be a better man"
-            android:textColor="@color/text_light_1"/>
+            android:textColor="@color/text_light_1" />
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/divider"/>
+        android:background="@color/divider" />
 
 </LinearLayout>
