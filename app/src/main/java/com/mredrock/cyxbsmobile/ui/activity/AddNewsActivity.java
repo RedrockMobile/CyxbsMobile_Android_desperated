@@ -64,6 +64,17 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         mCancelText.setOnClickListener(this);
         mSaveText.setOnClickListener(this);
 
+        mAddNewsEdit.setOnFocusChangeListener((view, b) -> {
+            EditText _e = (EditText) view;
+            if (!b) {
+                _e.setHint(_e.getTag().toString());
+            } else {
+                _e.setTag(_e.getHint().toString());
+                _e.setHint("");
+            }
+        });
+
+
         mNineGridlayout.setOnAddImagItemClickListener((v, position) -> {
             Intent intent = new Intent(AddNewsActivity.this, MultiImageSelectorActivity.class);
             // 是否显示调用相机拍照
@@ -80,6 +91,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
             mImgs.remove(position);
             mNineGridlayout.setImagesData(mImgs);
         });
+
 
     }
 

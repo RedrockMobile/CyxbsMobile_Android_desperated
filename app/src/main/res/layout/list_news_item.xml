@@ -3,6 +3,7 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:expandableTextView="http://schemas.android.com/tools"
     android:id="@+id/news_item_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -65,17 +66,49 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/textContennt"
+
+        <com.mredrock.cyxbsmobile.component.widget.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/expand_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
-            android:lineSpacingMultiplier="1.3"
-            android:text="如果你无法简洁的表达你的想法，那么只能说你还不够了解他。"
-            android:textColor="@color/body_text_1"
-            android:textSize="16sp" />
+            expandableTextView:animDuration="200"
+            expandableTextView:maxCollapsedLines="4">
+
+            <TextView
+                android:id="@+id/expandable_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="16dp"
+                android:lineSpacingMultiplier="1.3"
+                android:text="如果你无法简洁的表达你的想法，那么只能说你还不够了解他。"
+                android:textColor="@color/body_text_1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@id/expand_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|bottom"
+                android:background="@android:color/transparent"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:textColor="@color/md_material_blue_800" />
+        </com.mredrock.cyxbsmobile.component.widget.ExpandableTextView>
+
+        <!--      <TextView
+                  android:id="@+id/textContennt"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="4dp"
+                  android:layout_marginLeft="8dp"
+                  android:layout_marginRight="16dp"
+                  android:lineSpacingMultiplier="1.3"
+                  android:text="如果你无法简洁的表达你的想法，那么只能说你还不够了解他。"
+                  android:textColor="@color/body_text_1"
+                  android:textSize="16sp" />-->
 
         <com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout
             android:id="@+id/autoNineLayout"
