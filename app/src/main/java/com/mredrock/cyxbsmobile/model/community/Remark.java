@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by mathiasluo on 16-4-12.
  */
-public class ReMarks {
+public class Remark {
 
     /**
      * state : 200

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/crop__button_bar"
-    tools:context="com.mredrock.cyxbsmobile.ui.activity.SpecificNewsActivity">
+    tools:context=".ui.activity.social.SpecificNewsActivity">
 
 
     <android.support.v7.widget.Toolbar

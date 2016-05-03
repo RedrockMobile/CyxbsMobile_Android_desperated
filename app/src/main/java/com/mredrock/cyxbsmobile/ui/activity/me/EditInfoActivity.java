@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.activity.mypage;
+package com.mredrock.cyxbsmobile.ui.activity.me;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,47 +14,44 @@ import butterknife.ButterKnife;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 
-public class SettingActivity extends BaseActivity
+public class EditInfoActivity extends BaseActivity
         implements View.OnClickListener {
 
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.setting_remind_layout)
-    RelativeLayout settingRemindLayout;
-    @Bind(R.id.setting_feedback_layout)
-    RelativeLayout settingFeedbackLayout;
-    @Bind(R.id.setting_about_layout)
-    RelativeLayout settingAboutLayout;
-    @Bind(R.id.setting_exit_layout)
-    RelativeLayout settingExitLayout;
+    @Bind(R.id.edit_info_avatar_layout)
+    RelativeLayout editInfoAvatarLayout;
+    @Bind(R.id.edit_info_nick_layout)
+    RelativeLayout editInfoNickLayout;
+    @Bind(R.id.edit_info_introduce_layout)
+    RelativeLayout
+            editInfoIntroduceLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_edit_info);
         ButterKnife.bind(this);
         initToolbar();
-        settingRemindLayout.setOnClickListener(this);
-        settingFeedbackLayout.setOnClickListener(this);
-        settingAboutLayout.setOnClickListener(this);
-        settingExitLayout.setOnClickListener(this);
+        editInfoAvatarLayout.setOnClickListener(this);
+        editInfoIntroduceLayout.setOnClickListener(this);
+        editInfoNickLayout.setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.setting_remind_layout:
-                startActivity(new Intent(this, NewsRemindActivity.class));
+            case R.id.edit_info_avatar_layout:
+
                 break;
-            case R.id.setting_feedback_layout:
+            case R.id.edit_info_nick_layout:
+                startActivity(new Intent(this, EditNickNameActivity.class));
                 break;
-            case R.id.setting_about_layout:
-                break;
-            case R.id.setting_exit_layout:
+            case R.id.edit_info_introduce_layout:
+                startActivity(new Intent(this, EditIntroduceActivity.class));
                 break;
         }
     }
@@ -63,10 +60,10 @@ public class SettingActivity extends BaseActivity
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
-            toolbarTitle.setText("没课约");
+            toolbarTitle.setText("修改信息");
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(
-                    v -> SettingActivity.this.finish());
+                    v -> EditInfoActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);

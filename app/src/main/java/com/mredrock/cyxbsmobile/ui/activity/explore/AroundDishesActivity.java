@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.activity;
+package com.mredrock.cyxbsmobile.ui.activity.explore;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.fragment.AroundDishesFragment;
 import com.mredrock.cyxbsmobile.util.ActivityUtils;
 import com.mredrock.cyxbsmobile.util.Utils;

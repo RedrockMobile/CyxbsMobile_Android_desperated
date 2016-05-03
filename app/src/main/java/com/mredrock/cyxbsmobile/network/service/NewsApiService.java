@@ -6,7 +6,7 @@ import com.mredrock.cyxbsmobile.model.community.Dynamic;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OfficeNews;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.ReMarks;
+import com.mredrock.cyxbsmobile.model.community.Remark;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 
 import java.util.List;
@@ -79,11 +79,11 @@ public interface NewsApiService {
 
     @FormUrlEncoded
     @POST("cyxbsMobile/index.php/Home/ArticleRemark/getremark")
-    Observable<ReMarks> getReMark(@Field("article_id") String article_id,
-                                  @Field("type_id") int type_id,
-                                  @Field("user_id") String user_id,
-                                  @Field("stuNum") String stuNum,
-                                  @Field("idNum") String idNum);
+    Observable<Remark> getReMark(@Field("article_id") String article_id,
+                                 @Field("type_id") int type_id,
+                                 @Field("user_id") String user_id,
+                                 @Field("stuNum") String stuNum,
+                                 @Field("idNum") String idNum);
 
     @FormUrlEncoded
     @POST("cyxbsMobile/index.php/Home/ArticleRemark/postremarks")

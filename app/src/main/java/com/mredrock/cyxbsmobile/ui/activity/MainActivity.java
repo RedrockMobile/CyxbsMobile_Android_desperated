@@ -14,10 +14,11 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar;
+import com.mredrock.cyxbsmobile.ui.activity.social.AddNewsActivity;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment;
-import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.social.CommunityContainerFragment;
 
 import butterknife.Bind;
 import butterknife.BindString;

@@ -8,14 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.ui.activity.mypage.EditInfoActivity;
-import com.mredrock.cyxbsmobile.ui.activity.mypage.EmptyRoomActivity;
-import com.mredrock.cyxbsmobile.ui.activity.mypage.NoCourseActivity;
-import com.mredrock.cyxbsmobile.ui.activity.mypage.RelateMeActivity;
-import com.mredrock.cyxbsmobile.ui.activity.mypage.SettingActivity;
+import com.mredrock.cyxbsmobile.ui.activity.me.EditInfoActivity;
+import com.mredrock.cyxbsmobile.ui.activity.me.EmptyRoomActivity;
+import com.mredrock.cyxbsmobile.ui.activity.me.NoCourseActivity;
+import com.mredrock.cyxbsmobile.ui.activity.me.RelateMeActivity;
+import com.mredrock.cyxbsmobile.ui.activity.me.SettingActivity;
 
 /**
  * 我的页面
@@ -23,18 +25,28 @@ import com.mredrock.cyxbsmobile.ui.activity.mypage.SettingActivity;
 public class MyPageFragment extends BaseFragment
         implements View.OnClickListener {
 
-    @Bind(R.id.my_page_edit_layout) LinearLayout myPageEditLayout;
-    @Bind(R.id.my_page_relate_layout) RelativeLayout myPageRelateLayout;
-    @Bind(R.id.my_page_trend_layout) RelativeLayout myPageTrendLayout;
-    @Bind(R.id.my_page_no_course_layout) RelativeLayout myPageNoCourseLayout;
-    @Bind(R.id.my_page_empty_layout) RelativeLayout myPageEmptyLayout;
-    @Bind(R.id.my_page_grade_layout) RelativeLayout myPageGradeLayout;
-    @Bind(R.id.my_page_calendar_layout) RelativeLayout myPageCalendarLayout;
-    @Bind(R.id.my_page_night_layout) RelativeLayout myPageNightLayout;
-    @Bind(R.id.my_page_setting_layout) RelativeLayout myPageSettingLayout;
+    @Bind(R.id.my_page_edit_layout)
+    LinearLayout myPageEditLayout;
+    @Bind(R.id.my_page_relate_layout)
+    RelativeLayout myPageRelateLayout;
+    @Bind(R.id.my_page_trend_layout)
+    RelativeLayout myPageTrendLayout;
+    @Bind(R.id.my_page_no_course_layout)
+    RelativeLayout myPageNoCourseLayout;
+    @Bind(R.id.my_page_empty_layout)
+    RelativeLayout myPageEmptyLayout;
+    @Bind(R.id.my_page_grade_layout)
+    RelativeLayout myPageGradeLayout;
+    @Bind(R.id.my_page_calendar_layout)
+    RelativeLayout myPageCalendarLayout;
+    @Bind(R.id.my_page_night_layout)
+    RelativeLayout myPageNightLayout;
+    @Bind(R.id.my_page_setting_layout)
+    RelativeLayout myPageSettingLayout;
 
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -60,13 +72,15 @@ public class MyPageFragment extends BaseFragment
     }
 
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
 
-    @Override public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.my_page_edit_layout:
                 Intent intent = new Intent(getActivity(),

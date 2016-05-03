@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.activity;
+package com.mredrock.cyxbsmobile.ui.activity.explore;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

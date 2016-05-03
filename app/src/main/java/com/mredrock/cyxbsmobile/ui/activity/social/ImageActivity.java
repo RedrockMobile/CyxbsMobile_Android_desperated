@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.activity;
+package com.mredrock.cyxbsmobile.ui.activity.social;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

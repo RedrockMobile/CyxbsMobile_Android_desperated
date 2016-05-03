@@ -13,12 +13,13 @@ import android.widget.TextView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
+import com.mredrock.cyxbsmobile.component.widget.ExpandableTextView;
 import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
-import com.mredrock.cyxbsmobile.ui.activity.ImageActivity;
+import com.mredrock.cyxbsmobile.ui.activity.social.ImageActivity;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 import com.mredrock.cyxbsmobile.util.TimeUtils;
 
@@ -100,7 +101,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public TextView mTextName;
         @Bind(R.id.list_news_text_time)
         public TextView mTextTime;
-        @Bind(R.id.textContennt)
+        @Bind(R.id.expandable_text)
         public TextView mTextContent;
         @Bind(R.id.autoNineLayout)
         public AutoNineGridlayout mAutoNineGridlayout;
@@ -110,6 +111,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public TextView mBtnFavor;
         @Bind(R.id.textView_ex)
         public TextView mTextView_ex;
+        @Bind(R.id.expand_text_view)
+        public ExpandableTextView mExpandableTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -160,12 +163,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mBtnFavor.setText(dataBean.getLike_num());
             mBtnMsg.setText(dataBean.getRemark_num());
 
+
             if (isSingle)
-                mTextContent.setText(Html.fromHtml(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : ""));
-            else if (dataBean.getType_id() < BBDD.BBDD)
-                mTextContent.setText(dataBean.getContentBean().getTitle() != null ? dataBean.getContentBean().getTitle() : "");
-            else
-                mTextContent.setText(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : "");
+            // mTextContent.setText(Html.fromHtml(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : ""));
+            {
+                mExpandableTextView.setText(Html.fromHtml(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : ""));
+                mExpandableTextView.setmMaxCollapsedLines(1000000);
+            } else if (dataBean.getType_id() < BBDD.BBDD) {
+                //mTextContent.setText(dataBean.getContentBean().getTitle() != null ? dataBean.getContentBean().getTitle() : "");
+                mExpandableTextView.setText(dataBean.getContentBean().getTitle() != null ? dataBean.getContentBean().getTitle() : "");
+            } else {
+                //mTextContent.setText(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : "");
+                mExpandableTextView.setText(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : "");
+            }
 
             ImageLoader.getInstance().loadAvatar(dataBean.getUser_head(), mImgAvatar);
 
@@ -191,6 +201,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             });
 
         }
+
 
     }
 

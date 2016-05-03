@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.activity;
+package com.mredrock.cyxbsmobile.ui.activity.explore;
 
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.EatWhat;
 import com.mredrock.cyxbsmobile.network.RequestManager;
+import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;

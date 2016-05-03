@@ -20,7 +20,7 @@ import com.mredrock.cyxbsmobile.model.community.ContentBean;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OfficeNews;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.ReMarks;
+import com.mredrock.cyxbsmobile.model.community.Remark;
 import com.mredrock.cyxbsmobile.model.community.Stu;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.exception.ApiException;
@@ -28,11 +28,13 @@ import com.mredrock.cyxbsmobile.network.exception.RedrockApiException;
 import com.mredrock.cyxbsmobile.network.service.NewsApiService;
 import com.mredrock.cyxbsmobile.network.service.RedrockApiService;
 import com.mredrock.cyxbsmobile.network.service.UpDownloadService;
+import com.mredrock.cyxbsmobile.util.BitmapUtil;
 import com.mredrock.cyxbsmobile.util.OkHttpUtils;
 import com.mredrock.cyxbsmobile.util.Utils;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -277,6 +279,11 @@ public enum RequestManager {
 
     public Observable<UploadImgResponse> uploadNewsImg(String stuNum, String filePath) {
         File file = new File(filePath);
+        try {
+            file = BitmapUtil.decodeBitmapFromRes(APP.getContext(), filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part file_body = MultipartBody.Part.createFormData("fold", file.getName(), requestFile);
         RequestBody stuNum_body = RequestBody.create(MediaType.parse("multipart/form-data"), stuNum);
@@ -361,11 +368,11 @@ public enum RequestManager {
         return newsApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum);
     }
 
-    public Observable<ReMarks> getRemarks(String article_id, int type_id) {
+    public Observable<Remark> getRemarks(String article_id, int type_id) {
         return getRemarks(article_id, type_id, Stu.UER_ID, Stu.STU_NUM, Stu.ID_NUM);
     }
 
-    public Observable<ReMarks> getRemarks(String article_id, int type_id, String user_id, String stuNum, String idNum) {
+    public Observable<Remark> getRemarks(String article_id, int type_id, String user_id, String stuNum, String idNum) {
         return newsApiService.getReMark(article_id, type_id, user_id, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -409,7 +416,8 @@ public enum RequestManager {
         @Override
         public T call(RedrockApiWrapper<T> wrapper) {
             if (wrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
-                throw new RedrockApiException();
+
+                throw new RedrockApiException(wrapper.info);
             }
             return wrapper.data;
         }

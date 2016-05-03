@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.fragment.community;
+package com.mredrock.cyxbsmobile.ui.fragment.social;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.subscriber.EndlessRecyclerOnScrollListener;
-import com.mredrock.cyxbsmobile.ui.activity.SpecificNewsActivity;
+import com.mredrock.cyxbsmobile.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
@@ -158,7 +158,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         ButterKnife.unbind(this);
     }
 
-    static public class FooterViewWrapper {
+    public static class FooterViewWrapper {
 
         @Bind(R.id.progressBar)
         CircleProgressBar mCircleProgressBar;
@@ -186,7 +186,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         }
 
         public void onFailedClick(View.OnClickListener onClickListener) {
-            mTextLAodingFailed.setOnClickListener(view -> onClickListener.onClick(view));
+            mTextLAodingFailed.setOnClickListener(onClickListener::onClick);
         }
 
     }

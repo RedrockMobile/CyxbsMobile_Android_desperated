@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.activity;
+package com.mredrock.cyxbsmobile.ui.activity.social;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.model.community.Stu;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
+import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.util.DialogUtil;
 import com.mredrock.cyxbsmobile.util.RxBus;
 
@@ -64,6 +65,17 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         mCancelText.setOnClickListener(this);
         mSaveText.setOnClickListener(this);
 
+        mAddNewsEdit.setOnFocusChangeListener((view, b) -> {
+            EditText _e = (EditText) view;
+            if (!b) {
+                _e.setHint(_e.getTag().toString());
+            } else {
+                _e.setTag(_e.getHint().toString());
+                _e.setHint("");
+            }
+        });
+
+
         mNineGridlayout.setOnAddImagItemClickListener((v, position) -> {
             Intent intent = new Intent(AddNewsActivity.this, MultiImageSelectorActivity.class);
             // 是否显示调用相机拍照
@@ -80,6 +92,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
             mImgs.remove(position);
             mNineGridlayout.setImagesData(mImgs);
         });
+
 
     }
 
@@ -190,18 +203,6 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void showUploadSucess(String content) {
-       /* DialogUtil.showLoadSucess(this, "提示", "发表动态成功", "继续发表", "返回", new DialogUtil.DialogListener() {
-            @Override
-            public void onPositive() {
-                closeLoadingProgress();
-            }
-            @Override
-            public void onNegative() {
-                closeLoadingProgress();
-                AddNewsActivity.this.finish();
-            }
-        });*/
-        // RxBus.getDefault().post(new (mImgs, content));
         RxBus.getDefault().post(new News(content, mImgs));
         AddNewsActivity.this.finish();
     }

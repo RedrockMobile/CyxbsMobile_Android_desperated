@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.fragment.community;
+package com.mredrock.cyxbsmobile.ui.fragment.social;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

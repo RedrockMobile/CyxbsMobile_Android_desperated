@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.fragment.community;
+package com.mredrock.cyxbsmobile.ui.fragment.social;
 
 import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.News;

@@ -9,6 +9,8 @@ import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.util.SPUtils;
 import com.orhanobut.logger.Logger;
 
+import org.greenrobot.eventbus.EventBus;
+
 import timber.log.Timber;
 
 

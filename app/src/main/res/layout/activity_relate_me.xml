@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_relate_me"
     android:orientation="vertical"
-    tools:context=".ui.activity.mypage.RelateMeActivity">
+    tools:context=".ui.activity.me.RelateMeActivity">
 
     <include layout="@layout/toolbar" />
 

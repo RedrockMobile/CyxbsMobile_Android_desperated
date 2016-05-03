@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.activity.mypage;
+package com.mredrock.cyxbsmobile.ui.activity.me;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;

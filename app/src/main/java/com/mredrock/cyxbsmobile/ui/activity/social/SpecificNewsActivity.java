@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.activity;
+package com.mredrock.cyxbsmobile.ui.activity.social;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,8 +19,9 @@ import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbsmobile.model.community.ContentBean;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.ReMarks;
+import com.mredrock.cyxbsmobile.model.community.Remark;
 import com.mredrock.cyxbsmobile.network.RequestManager;
+import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.SpecificNewsCommentAdapter;
@@ -57,7 +58,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private NewsAdapter.ViewHolder mWrapView;
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
-    private List<ReMarks.ReMark> mDatas = null;
+    private List<Remark.ReMark> mDatas = null;
     private View mFooterView;
 
     @Override

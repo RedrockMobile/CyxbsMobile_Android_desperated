@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.activity;
+package com.mredrock.cyxbsmobile.ui.activity.explore;
 
 import android.content.Intent;
 import android.os.Bundle;

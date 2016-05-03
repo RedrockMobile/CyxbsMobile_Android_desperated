@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.mredrock.cyxbsmobile.ui.activity.mypage.EmptyRoomActivity">
+    tools:context="com.mredrock.cyxbsmobile.ui.activity.me.EmptyRoomActivity">
 
     <include layout="@layout/toolbar" />
 
