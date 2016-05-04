@@ -8,15 +8,18 @@ public class Image {
     public int width;
     public int height;
 
+
     public static final int ADDIMAG = 0001;
     public static final int NORMALIMAGE = 0002;
 
     public int type;
 
+
     public Image(String url, int type) {
         this.url = url;
         this.type = type;
     }
+
     public int getType() {
         return type;
     }
@@ -25,6 +28,7 @@ public class Image {
         this.type = type;
         return this;
     }
+
 
     @Override
     public String toString() {

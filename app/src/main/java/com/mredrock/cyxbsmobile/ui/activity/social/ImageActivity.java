@@ -40,6 +40,7 @@ public class ImageActivity extends AppCompatActivity {
         ((Activity) context).overridePendingTransition(R.anim.activity_enter, R.anim.activity_exit);
     }
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +49,7 @@ public class ImageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mDataBean = getIntent().getParcelableExtra(DATA);
         mPosition = getIntent().getIntExtra(POSITION, 0);
+
         init();
     }
 
@@ -56,5 +58,6 @@ public class ImageActivity extends AppCompatActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mPosition);
     }
+
 
 }

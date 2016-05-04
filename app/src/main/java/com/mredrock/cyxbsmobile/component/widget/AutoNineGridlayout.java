@@ -48,6 +48,7 @@ public class AutoNineGridlayout extends NineGridlayout {
                     }
                 });
                 childrenView.setImageUrl(((Image) listData.get(0)).url);
+
                 childrenView.setType(((Image) listData.get(0)).getType());
                 int[] position = findPosition(0);
                 int left = 0;

@@ -7,4 +7,5 @@
         android:icon="@drawable/ic_add_news"
         android:title="addNews"
         app:showAsAction="always" />
+
 </menu>

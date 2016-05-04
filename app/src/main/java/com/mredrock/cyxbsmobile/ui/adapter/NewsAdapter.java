@@ -2,6 +2,7 @@ package com.mredrock.cyxbsmobile.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,14 @@ import com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.component.widget.ExpandableTextView;
 import com.mredrock.cyxbsmobile.model.community.BBDDNews;
+
 import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
+
 import com.mredrock.cyxbsmobile.ui.activity.social.ImageActivity;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 import com.mredrock.cyxbsmobile.util.TimeUtils;
@@ -52,6 +55,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(NewsAdapter.ViewHolder holder, int position) {
         News.DataBean mDataBean = mNews.get(position).data;
+
         setupOnItemClick(holder, position, mDataBean);
         holder.setData(mDataBean, false);
         setDate(holder, mDataBean);
@@ -144,6 +148,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                             textView.setText(Integer.parseInt(textView.getText().toString()) - 1 + "");
                         }
                     }));
+
         }
 
         public final static String[] getUrls(String url) {
@@ -165,6 +170,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mBtnMsg.setText(dataBean.remark_num);
 
 
+
             if (isSingle)
             // mTextContent.setText(Html.fromHtml(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : ""));
             {
@@ -182,6 +188,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
 
             if (dataBean.content.address != null && !dataBean.content.address.equals(""))
+
                 mTextView_ex.setVisibility(View.VISIBLE);
             else mTextView_ex.setVisibility(View.INVISIBLE);
 
@@ -196,6 +203,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) ->
                     ImageActivity.startWithData(itemView.getContext(), dataBean, position)
             );
+
 
         }
 

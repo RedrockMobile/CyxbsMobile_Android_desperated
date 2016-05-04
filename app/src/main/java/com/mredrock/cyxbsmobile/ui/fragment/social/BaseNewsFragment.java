@@ -50,6 +50,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     private final static int PER_PAGE_NUM = 9;
     public static final String TAG = "BaseNewsFragment";
 
+
     abstract Observable<List<News>> provideData(int size, int page, boolean update);
 
     abstract Observable<List<News>> provideData(int size, int page);
@@ -79,11 +80,13 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
         getCurrentData(PER_PAGE_NUM, 1, false);
         getCurrentData(PER_PAGE_NUM, 1, true);
+
     }
 
     @Override
     public void onRefresh() {
         getCurrentData(1, PER_PAGE_NUM, true);
+
     }
 
     private void getDataFailed(String reason) {
@@ -109,6 +112,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                     else
                         mNewsAdapter.replaceDatas(newses);
                     Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
+
                     closeLoadingProgress();
                 }, throwable -> {
                     closeLoadingProgress();
@@ -172,6 +176,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         CircleProgressBar mCircleProgressBar;
         @Bind(R.id.textLoadingFailed)
         TextView mTextLoadingFailed;
+
         private View footerView;
 
         public FooterViewWrapper(Context context, ViewGroup parent) {
@@ -186,6 +191,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         public void showLoading() {
             mCircleProgressBar.setVisibility(View.VISIBLE);
             mTextLoadingFailed.setVisibility(View.GONE);
+
         }
 
         public void showLoadingFailed() {
@@ -195,6 +201,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
         public void onFailedClick(View.OnClickListener onClickListener) {
             mTextLoadingFailed.setOnClickListener(onClickListener::onClick);
+
         }
 
     }

@@ -1,5 +1,6 @@
 package com.mredrock.cyxbsmobile.ui.activity;
 
+
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -9,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
@@ -25,6 +27,7 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends BaseActivity {
+
 
     @Bind(R.id.main_toolbar_title)
     TextView mToolbarTitle;
@@ -48,6 +51,7 @@ public class MainActivity extends BaseActivity {
 
     private Menu mMenu;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,12 +73,14 @@ public class MainActivity extends BaseActivity {
             Fragment fragment = null;
             //  mImageView.setVisibility(View.GONE);
             hiddenMenu();
+
             switch (position) {
                 case 0:
                     fragment = new CommunityContainerFragment();
                     setTitle(mStringCommunity);
                     // mImageView.setVisibility(View.VISIBLE);
                     showMenu();
+
                     break;
                 case 1:
                     fragment = new CourseContainerFragment();
@@ -144,11 +150,10 @@ public class MainActivity extends BaseActivity {
                 mMenu.getItem(i).setVisible(true);
             }
         }
+
     }
 
     public TextView getToolbarTitle() {
         return mToolbarTitle;
     }
-
-
 }

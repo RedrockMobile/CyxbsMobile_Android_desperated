@@ -1,11 +1,11 @@
 package com.mredrock.cyxbsmobile.network.service;
 
 import com.mredrock.cyxbsmobile.model.community.BBDDNews;
+import com.mredrock.cyxbsmobile.model.community.Comment;
 import com.mredrock.cyxbsmobile.model.community.Latest;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OfficeNews;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.Comment;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 
 import java.util.List;
@@ -28,6 +28,7 @@ public interface NewsApiService {
 
     @POST("cyxbsMobile/index.php/Home/Article/addArticle")
     Observable<OkResponse> sendDynamic(@Body Latest latest);
+
 
 
     @FormUrlEncoded
@@ -79,6 +80,7 @@ public interface NewsApiService {
                                   @Field("user_id") String user_id,
                                   @Field("stuNum") String stuNum,
                                   @Field("idNum") String idNum);
+
 
     @FormUrlEncoded
     @POST("cyxbsMobile/index.php/Home/ArticleRemark/postremarks")

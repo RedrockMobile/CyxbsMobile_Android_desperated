@@ -29,5 +29,6 @@ public class OfficialFragment extends BaseNewsFragment {
         holder.mTextContent.setText(mDataBean.content.title);
         holder.mTextName.setText(mDataBean.content.unit != "" ? mDataBean.content.unit : "教务在线");
 
+
     }
 }

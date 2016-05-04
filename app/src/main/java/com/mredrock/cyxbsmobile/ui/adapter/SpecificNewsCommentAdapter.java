@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.model.community.Comment;
+
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 import com.mredrock.cyxbsmobile.util.TimeUtils;
 
@@ -25,6 +26,7 @@ public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<Comment.
 
 
     public SpecificNewsCommentAdapter(List<Comment.ReMark> mDatas, Context context) {
+
         super(mDatas, context);
     }
 
@@ -34,6 +36,7 @@ public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<Comment.
         holder.mTextTime.setText(TimeUtils.getTimeDetail(data.created_time));
         holder.mTextViewNickName.setText(data.nickname);
         ImageLoader.getInstance().loadAvatar(data.photo_thumbnail_src, holder.mCircleImageView);
+
     }
 
     @Override

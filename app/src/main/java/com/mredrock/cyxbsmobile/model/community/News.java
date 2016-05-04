@@ -21,6 +21,7 @@ public class News  {
 
     public int status;
     public String page;
+
     /**
      * type : bbdd
      * id : 5
@@ -63,10 +64,12 @@ public class News  {
         for (Image image : list) {
             a += image.url + ",";
             b += image.url + ",";
+
         }
 
         this.data = new DataBean(new DataBean.ImgBean(a, b), new ContentBean(content));
     }
+
 
 
     public static class DataBean implements Parcelable {
@@ -91,6 +94,7 @@ public class News  {
         public String user_head;
         public String time;
         public ContentBean content;
+
         /**
          * img_small_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/thumbnail/1460427947_1265413131.png
          * img_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/1460427947_1265413131.png
@@ -128,12 +132,14 @@ public class News  {
             this.id = content.id;
             this.img = new ImgBean("", "");
             this.like_num = content.read;
+
         }
 
         public DataBean(ImgBean img, ContentBean content) {
             this.img = img;
             this.content = content;
             this.type_id = BBDDNews.BBDD;
+
             this.nick_name = Stu.STU_NAME;
             this.time = TimeUtils.getTodayDate();
             this.like_num = "0";
@@ -154,6 +160,7 @@ public class News  {
             remark_num = in.readString();
             is_my_Like = in.readByte() != 0;
         }
+
 
 
         @Override
@@ -195,6 +202,7 @@ public class News  {
                 }
             };
 
+
             public ImgBean(String img_small_src, String img_src) {
                 this.img_small_src = img_small_src;
                 this.img_src = img_src;
@@ -204,6 +212,7 @@ public class News  {
                 img_small_src = in.readString();
                 img_src = in.readString();
             }
+
 
             @Override
             public int describeContents() {

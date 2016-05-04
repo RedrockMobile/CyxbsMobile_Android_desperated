@@ -20,11 +20,13 @@ public class BBDDFragment extends BaseNewsFragment {
     @Override
     Observable<List<News>> provideData(int size, int page, boolean update) {
         return RequestManager.getInstance().getListArticle(BBDDNews.BBDD, size, page, update);
+
     }
 
     @Override
     Observable<List<News>> provideData(int size, int page) {
         return RequestManager.getInstance().getListArticle(BBDDNews.BBDD, size, page);
+
     }
 
     @Override

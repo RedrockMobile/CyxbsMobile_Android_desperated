@@ -2,6 +2,7 @@ package com.mredrock.cyxbsmobile.component.task.progress;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+
 import android.os.Handler;
 import android.os.Message;
 
@@ -31,7 +32,9 @@ public class ProgressDialogHandler extends Handler {
         if (pd == null) {
             pd = new ProgressDialog(context);
             pd.setMessage("Loading...");
+
             pd.setCancelable(cancelable);
+
             if (cancelable) {
                 pd.setOnCancelListener(dialogInterface -> mProgressCancelListener.onCancelProgress());
             }

@@ -23,6 +23,7 @@ import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
+
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
@@ -61,6 +62,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private List<Comment.ReMark> mDatas = null;
+
     private View mFooterView;
 
     @Override
@@ -89,6 +91,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mWrapView.setData(dataBean, true);
         if (dataBean.content.articletype_id != null)
             doWithNews(mWrapView, dataBean.content);
+
         reqestComentDatas();
     }
 
@@ -102,6 +105,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
             mTextDown.setVisibility(View.VISIBLE);
             String[] address = bean.address.split("\\|");
             String[] names = bean.name.split("\\|");
+
             mTextDown.setOnClickListener(view -> showDownListDialog(address, names));
         }
     }
@@ -139,6 +143,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribe(reMarks -> {
                     mDatas = reMarks.data;
+
                     if ((mDatas == null || mDatas.size() == 0) && mFooterView == null)
                         addFooterView();
                     if ((mDatas.size() != 0) && mFooterView != null)
@@ -203,6 +208,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                             mNewsEdtComment.getText().clear();
                         }
                     }, throwable -> showUploadFail(throwable.toString()));*/
+
     }
 
     @Override

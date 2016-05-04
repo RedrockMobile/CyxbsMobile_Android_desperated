@@ -97,6 +97,7 @@ public class NineGridlayout extends ViewGroup {
             });
             childrenView.setOnClickDelecteLIstener(v -> mOnClickDeletecteListener.onClickDelete(v, finalI));
             childrenView.setImageUrl(((Image) listData.get(i)).url);
+
             childrenView.setType(((Image) listData.get(i)).getType());
             int[] position = findPosition(i);
             int left = (singleWidth + gap) * position[1];

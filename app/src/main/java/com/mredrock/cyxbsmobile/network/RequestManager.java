@@ -16,6 +16,7 @@ import com.mredrock.cyxbsmobile.model.RestaurantDetail;
 import com.mredrock.cyxbsmobile.model.Subject;
 import com.mredrock.cyxbsmobile.model.community.BBDDNews;
 import com.mredrock.cyxbsmobile.model.community.Comment;
+
 import com.mredrock.cyxbsmobile.model.community.ContentBean;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OfficeNews;
@@ -155,6 +156,7 @@ public enum RequestManager {
                 .map(courseWrapper -> {
                     Logger.d(courseWrapper.nowWeek);
                     return new Gson().toJson(courseWrapper);
+
                 });
         emitObservable(observable, subscriber);
     }
@@ -225,6 +227,7 @@ public enum RequestManager {
                         return restaurantComments;
                     } else {
                         return null;
+
                     }
                 });
         return emitObservable(observable, subscriber);
@@ -267,6 +270,7 @@ public enum RequestManager {
     }
 
     public Observable<UploadImgResponse.Response> uploadNewsImg(String stuNum, String filePath) {
+
         File file = new File(filePath);
         try {
             file = BitmapUtil.decodeBitmapFromRes(APP.getContext(), filePath);
@@ -277,6 +281,7 @@ public enum RequestManager {
         MultipartBody.Part file_body = MultipartBody.Part.createFormData("fold", file.getName(), requestFile);
         RequestBody stuNum_body = RequestBody.create(MediaType.parse("multipart/form-data"), stuNum);
         return newsApiService.uploadImg(stuNum_body, file_body).map(new RedrockApiWrapperFunc<>());
+
     }
 
     public Observable<List<News>> getHotArticle(int size, int page, boolean update) {
@@ -306,6 +311,7 @@ public enum RequestManager {
     public Observable<List<News>> getListNews(int size, int page) {
         return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDDNews.LISTNEWS)
                 .flatMap(officeNews -> Observable.just(officeNews.data))
+
                 .map(contentBeen -> {
                     List<News> news = new ArrayList<>();
                     for (ContentBean bean : contentBeen) news.add(new News(bean));
@@ -348,7 +354,6 @@ public enum RequestManager {
                         return news;
                     }
                 }));
-
     }
 
     public Observable<OkResponse> sendDynamic(int type_id, String title, String content, String thumbnail_src, String photo_src) {
@@ -366,6 +371,7 @@ public enum RequestManager {
     }
 
     public Observable<Comment> getRemarks(String article_id, int type_id, String user_id, String stuNum, String idNum) {
+
         return newsApiService.getReMark(article_id, type_id, user_id, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -409,6 +415,7 @@ public enum RequestManager {
         @Override
         public T call(RedrockApiWrapper<T> wrapper) {
             if (wrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
+
                 throw new RedrockApiException(wrapper.info);
             }
             return wrapper.data;

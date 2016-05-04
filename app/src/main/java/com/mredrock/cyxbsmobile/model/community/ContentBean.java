@@ -41,6 +41,8 @@ public class ContentBean implements Parcelable {
     };
 
 
+
+
     protected ContentBean(Parcel in) {
         id = in.readString();
         title = in.readString();
@@ -61,6 +63,7 @@ public class ContentBean implements Parcelable {
     public static Creator<ContentBean> getCREATOR() {
         return CREATOR;
     }
+
 
     @Override
     public int describeContents() {

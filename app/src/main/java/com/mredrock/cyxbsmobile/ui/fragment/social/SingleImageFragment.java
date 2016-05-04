@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.mredrock.cyxbsmobile.R;
@@ -20,10 +21,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
+
 /**
  * Created by mathiasluo on 16-4-16.
  */
 public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAttacher.OnPhotoTapListener {
+
 
     @Bind(R.id.fragment_progressBar)
     ProgressBar mProgressBar;
@@ -43,6 +46,7 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
         showProgress();
         return view;
     }
+
 
     @Override
     public void onDestroyView() {
@@ -84,3 +88,4 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
         getActivity().finish();
     }
 }
+

@@ -84,6 +84,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
             }
         });
 
+
         mNineGridlayout.setOnAddImagItemClickListener((v, position) -> {
             Intent intent = new Intent(AddNewsActivity.this, MultiImageSelectorActivity.class);
             // 是否显示调用相机拍照
@@ -119,6 +120,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     private void sendDynamic(String title, String content, int type) {
 
         if (content == null || content.equals("")) {
+
             Toast.makeText(AddNewsActivity.this, getString(R.string.noContent), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -132,6 +134,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
 
         observable.subscribe(okResponse -> {
             if (okResponse.state == OkResponse.RESPONSE_OK) {
+
                 closeLoadingProgress();
                 showUploadSucess(content);
             }
@@ -139,6 +142,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
             closeLoadingProgress();
             showUploadFail(throwable.toString());
         });
+
     }
 
     private Observable<OkResponse> uploadWithImg(List<Image> currentImgs, String title, String content, int type) {
@@ -155,6 +159,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                     for (UploadImgResponse.Response response : responses) {
                         photoSrc[0] += photoSrc[0] + response.photosrc.split("/")[6] + ",";
                         thumbnailSrc[0] += thumbnailSrc[0] + response.photosrc.split("/")[6] + ",";
+
                     }
                     return RequestManager.getInstance().sendDynamic(type, title, content, thumbnailSrc[0], photoSrc[0]);
                 });
@@ -192,6 +197,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                                 mNineGridlayout.setImagesData(list);
                             }
                         }));
+
             }
         }
     }

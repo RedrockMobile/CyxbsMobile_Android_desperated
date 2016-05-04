@@ -13,5 +13,6 @@ public class UploadImgResponse extends RedrockApiWrapper<UploadImgResponse.Respo
         public String photosrc;
         public String thumbnail_src;
         public int state;
+
     }
 }
