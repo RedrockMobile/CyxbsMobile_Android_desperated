@@ -4,9 +4,9 @@ import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import java.util.List;
 
 /**
- * Created by skylineTan on 2016/4/28 00:30.
+ * Created by skylineTan on 2016/5/1 18:04.
  */
-public class Trend {
+public class BBDDDetail {
 
     public String id;
     public String photo_src;
@@ -18,7 +18,7 @@ public class Trend {
     public String like_num;
     public String remark_num;
 
-    public static class TrendWrapper extends RedrockApiWrapper<List<Trend>>{
+    public static class BBDDDetailWrapper extends RedrockApiWrapper<List<BBDDDetail>>{
 
     }
 }

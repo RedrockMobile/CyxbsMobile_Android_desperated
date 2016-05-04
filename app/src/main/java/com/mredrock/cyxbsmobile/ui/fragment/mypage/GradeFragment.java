@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Created by skylineTan on 2016/4/21 19:08.
  */
-public class GradeFragment extends BaseFragment {
+public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     @Bind(R.id.grade_tv_nothing) TextView gradeTvNothing;
     @Bind(R.id.grade_recyclerView) RecyclerView mGradeRecyclerView;
@@ -71,11 +71,7 @@ public class GradeFragment extends BaseFragment {
         mGradeAdapter = new GradeAdapter(mGradeList, getActivity());
         mGradeRecyclerView.setAdapter(mGradeAdapter);
 
-        mGradeRefreshLayout.setOnRefreshListener(() -> {
-            if(mUser != null) {
-                loadGradeFromNetWork();
-            }
-        });
+        mGradeRefreshLayout.setOnRefreshListener(this);
         mGradeRefreshLayout.setColorSchemeColors(ContextCompat.getColor
                 (getContext(),R.color.colorAccent), ContextCompat.getColor
                 (getContext(),R.color.colorPrimary));
@@ -98,6 +94,12 @@ public class GradeFragment extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
+    @Override public void onRefresh() {
+        if(mUser != null) {
+            loadGradeFromNetWork();
+        }
+    }
+
 
     private void loadGradeFromDB() {
         mUser = new User();
@@ -111,8 +113,7 @@ public class GradeFragment extends BaseFragment {
                         .GradeWrapper.class);
                 refresh(grade.data);
             }else if(NetUtils.isNetWorkAvilable(getActivity())){
-                mGradeRefreshLayout.setRefreshing(true);
-                loadGradeFromNetWork();
+                showProgress();
             }else {
                 gradeTvNothing.setVisibility(View.VISIBLE);
             }
@@ -124,13 +125,17 @@ public class GradeFragment extends BaseFragment {
     }
 
     private void loadGradeFromNetWork(){
-        mGradeRefreshLayout.setRefreshing(true);
-        RequestManager.INSTANCE.getGradeJson(new SimpleSubscriber<String>(
+        RequestManager.getInstance().getGradeJson(new SimpleSubscriber<String>(
                 getActivity(), new SubscriberListener<String>() {
+
+            @Override public void onStart() {
+                super.onStart();
+            }
+
 
             @Override public void onError(Throwable e) {
                 super.onError(e);
-                mGradeRefreshLayout.setRefreshing(false);
+                dismissProgress();
                 gradeTvNothing.setVisibility(View.VISIBLE);
 
             }
@@ -139,7 +144,7 @@ public class GradeFragment extends BaseFragment {
             @Override public void onNext(String s) {
                 super.onNext(s);
                 Grade.GradeWrapper grade = new Gson().fromJson(s,Grade.GradeWrapper.class);
-                mGradeRefreshLayout.setRefreshing(false);
+                dismissProgress();
                 refresh(grade.data);
                 DBExamGradeHelper.addGrade(getActivity(),"2014213983",s);
                 if (mGradeList.size() == 0) {
@@ -163,5 +168,14 @@ public class GradeFragment extends BaseFragment {
                 .grade_title_property);
         grade.grade = getActivity().getResources().getString(R.string.grade_title_score);
         mGradeList.add(grade);
+    }
+
+    private void showProgress(){
+        mGradeRefreshLayout.post(() -> mGradeRefreshLayout.setRefreshing(true));
+        onRefresh();
+    }
+
+    private void dismissProgress(){
+        mGradeRefreshLayout.setRefreshing(false);
     }
 }

@@ -31,6 +31,8 @@ public class Const {
     public static final String API_GET_INFO            = "/cyxbsMobile/index.php/Home/Person/search";
     //与我相关
     public static final String API_ABOUT_ME            = "/cyxbsMobile/index.php/Home/Article/aboutme";
+    //根据id得到动态详情
+    public static final String API_TREND_DETAIL        = "/cyxbsMobile/index.php/Home/Article/searchContent";
     //动态查询
     public static final String API_SEARCH_ARTICLE      = "/cyxbsMobile/index.php/Home/Article/searchtrends";
 

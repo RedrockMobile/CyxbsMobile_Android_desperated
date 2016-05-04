@@ -69,7 +69,6 @@ public class NoScheduleView extends FrameLayout{
 
 
     private void createTextView(NoCourse noCourse,int week){
-        if(!(noCourse.hash_day == 5 || noCourse.hash_day == 6)){
             TextView textView = new TextView(getContext());
             int top = height * noCourse.hash_lesson;
             int left = width * noCourse.hash_day;
@@ -116,7 +115,6 @@ public class NoScheduleView extends FrameLayout{
             } else if (noCourse.names.size() > 5) {
                 addDropTriangle(top,left);
             }
-        }
     }
 
     private void init() {

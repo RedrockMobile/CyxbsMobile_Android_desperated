@@ -36,9 +36,10 @@ public class ImageLoader {
     public void loadImage(String url, ImageView imageView) {
         Glide.with(APP.getContext())
                 .load(url)
+                .asBitmap()
+                .centerCrop()
                 .placeholder(R.drawable.img_on_laoding)
                 .error(R.drawable.img_on_laoding)
-                .crossFade()
                 .into(imageView);
 
     }
@@ -48,9 +49,9 @@ public class ImageLoader {
         int position = new Random().nextInt(3);
         Glide.with(APP.getContext())
                 .load(url)
+                .asBitmap()
                 .placeholder(circles[position])
                 .error(circles[position])
-                .crossFade()
                 .into(imageView);
     }
 

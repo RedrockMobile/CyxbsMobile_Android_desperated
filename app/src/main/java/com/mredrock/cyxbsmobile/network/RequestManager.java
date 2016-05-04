@@ -2,6 +2,7 @@ package com.mredrock.cyxbsmobile.network;
 
 import android.net.Uri;
 
+import android.util.Log;
 import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.BuildConfig;
@@ -10,11 +11,14 @@ import com.mredrock.cyxbsmobile.model.Course;
 import com.mredrock.cyxbsmobile.model.EatWhat;
 import com.mredrock.cyxbsmobile.model.MovieResult;
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
+import com.mredrock.cyxbsmobile.model.AboutMe;
 import com.mredrock.cyxbsmobile.model.Restaurant;
 import com.mredrock.cyxbsmobile.model.RestaurantComment;
 import com.mredrock.cyxbsmobile.model.RestaurantDetail;
 import com.mredrock.cyxbsmobile.model.Subject;
 import com.mredrock.cyxbsmobile.model.User;
+import com.mredrock.cyxbsmobile.model.community.BBDDDetail;
+import com.mredrock.cyxbsmobile.model.community.BBDDNews;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.model.community.ReMarks;
@@ -29,8 +33,12 @@ import com.mredrock.cyxbsmobile.util.OkHttpUtils;
 import com.mredrock.cyxbsmobile.util.Utils;
 import com.orhanobut.logger.Logger;
 
+import io.rx_cache.DynamicKey;
+import io.rx_cache.Reply;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.rx_cache.DynamicKeyGroup;
@@ -49,6 +57,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
@@ -236,10 +245,12 @@ public enum RequestManager {
         return emitObservable(observable, subscriber);
     }
 
-    public void getCourse (Subscriber < List < Course >> subscriber, String stuNum, String
-            idNum, String week){
-        Observable<List<Course>> observable = redrockApiService.getCourse(stuNum, idNum, week).map(new RedrockApiWrapperFunc<>());
-        emitObservable(observable, subscriber);
+    public void getCourse (Subscriber<List<Course>> subscriber,
+                           List<String> stuNumList, String week){
+        Observable<List<Course>> observable = Observable.from(stuNumList)
+                .flatMap(s -> redrockApiService.getCourse(s,"",week))
+                .map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable,subscriber);
     }
 
 
@@ -275,6 +286,57 @@ public enum RequestManager {
             stu){
         Observable<String> observable = redrockApiService.getReExam(stu).map(examWapper -> new Gson().toJson(examWapper));
         emitObservable(observable,subscriber);
+    }
+
+    public Observable<List<AboutMe>> getAboutMeList(String stuNum, String
+            idNum, boolean update){
+        return cacheProviders.getCacheRelateMes(getAboutMeList(stuNum,idNum), new DynamicKey(stuNum),new EvictDynamicKey
+                (update)).map(Reply::getData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<AboutMe>> getAboutMeList(String stuNum, String
+            idNum){
+       return redrockApiService.getAboutMe(stuNum,idNum).map(new
+                RedrockApiWrapperFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<News>> getTrendDetail(String stuNum, String idNum, int type_id, String article_id){
+        List<News> newsList = new ArrayList<>();
+        return redrockApiService.getTrendDetail(stuNum,idNum,type_id,article_id)
+                         .flatMap(bbddDetailWrapper -> Observable.from(bbddDetailWrapper.data))
+                         .map(bbddDetail -> {
+                             News news = new News(bbddDetail);
+                             newsList.add(news);
+                             return newsList;
+                         })
+                         .subscribeOn(Schedulers.io())
+                         .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<News>> getMyTrend(String stuNum,String idNum, boolean update){
+        return cacheProviders.getMyTrend(getMyTrend(stuNum,idNum),new
+                DynamicKey(stuNum),new EvictDynamicKey(update))
+                .map(Reply::getData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<News>> getMyTrend(String stuNum,String
+            idNum){
+        List<News> newsList = new ArrayList<>();
+        return redrockApiService.searchTrends(stuNum,idNum)
+                                .flatMap(bbddDetailWrapper -> Observable.from(bbddDetailWrapper.data))
+                                .map(bbddDetail -> {
+                                    News news = new News(bbddDetail);
+                                    newsList.add(news);
+                                    return newsList;
+                                })
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread());
     }
 
     private <T> Subscription emitObservable(Observable<T> o, Subscriber<T> s) {

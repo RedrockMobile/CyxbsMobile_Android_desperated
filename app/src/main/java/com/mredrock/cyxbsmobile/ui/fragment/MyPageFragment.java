@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,11 +24,12 @@ import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
+import com.mredrock.cyxbsmobile.ui.activity.mypage.AboutMeActivity;
 import com.mredrock.cyxbsmobile.ui.activity.mypage.EditInfoActivity;
 import com.mredrock.cyxbsmobile.ui.activity.mypage.EmptyRoomActivity;
 import com.mredrock.cyxbsmobile.ui.activity.mypage.ExamAndGradeActivity;
+import com.mredrock.cyxbsmobile.ui.activity.mypage.MyTrendActivity;
 import com.mredrock.cyxbsmobile.ui.activity.mypage.NoCourseActivity;
-import com.mredrock.cyxbsmobile.ui.activity.mypage.RelateMeActivity;
 import com.mredrock.cyxbsmobile.ui.activity.mypage.SettingActivity;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 
@@ -35,9 +37,11 @@ import com.mredrock.cyxbsmobile.util.ImageLoader;
  * 我的页面
  */
 public class MyPageFragment extends BaseFragment
-        implements View.OnClickListener {
+        implements View.OnClickListener,CompoundButton.OnCheckedChangeListener {
 
     public static final int REQUEST_EDIT_INFO = 10;
+    public static final int REQUEST_ABOUJT_ME = 11;
+    public static final int REQUEST_MY_TREND = 12;
 
     @Bind(R.id.my_page_edit_layout) LinearLayout myPageEditLayout;
     @Bind(R.id.my_page_relate_layout) RelativeLayout myPageRelateLayout;
@@ -52,6 +56,7 @@ public class MyPageFragment extends BaseFragment
     @Bind(R.id.my_page_nick_name) TextView myPageNickName;
     @Bind(R.id.my_page_gender) ImageView myPageGender;
     @Bind(R.id.my_page_introduce) TextView myPageIntroduce;
+    @Bind(R.id.my_page_switch_compat) SwitchCompat myPageSwitchCompat;
 
     private User mUser;
 
@@ -79,6 +84,7 @@ public class MyPageFragment extends BaseFragment
         myPageCalendarLayout.setOnClickListener(this);
         myPageNightLayout.setOnClickListener(this);
         myPageSettingLayout.setOnClickListener(this);
+        myPageSwitchCompat.setOnCheckedChangeListener(this);
 
         mUser = new User();
         mUser.stuNum = "2014213983";
@@ -96,23 +102,32 @@ public class MyPageFragment extends BaseFragment
     @Override public void onClick(View v) {
         switch (v.getId()) {
             case R.id.my_page_edit_layout:
-                Intent intent = new Intent(getActivity(), EditInfoActivity.class);
-                intent.putExtra(EditInfoActivity.EXTRA_USER,mUser);
-                startActivityForResult(intent,REQUEST_EDIT_INFO);
+                Intent intent = new Intent(getActivity(),
+                        EditInfoActivity.class);
+                intent.putExtra(EditInfoActivity.EXTRA_USER, mUser);
+                startActivityForResult(intent, REQUEST_EDIT_INFO);
                 break;
             case R.id.my_page_relate_layout:
-                startActivity(new Intent(getActivity(), RelateMeActivity.class));
+                startActivity(new Intent(getActivity(),
+                        AboutMeActivity.class).putExtra(
+                        EditInfoActivity.EXTRA_USER, mUser));
                 break;
             case R.id.my_page_trend_layout:
+                startActivity(new Intent(getActivity(),
+                        MyTrendActivity.class).putExtra(
+                        EditInfoActivity.EXTRA_USER, mUser));
                 break;
             case R.id.my_page_no_course_layout:
-                startActivity(new Intent(getActivity(), NoCourseActivity.class));
+                startActivity(
+                        new Intent(getActivity(), NoCourseActivity.class));
                 break;
             case R.id.my_page_empty_layout:
-                startActivity(new Intent(getActivity(), EmptyRoomActivity.class));
+                startActivity(
+                        new Intent(getActivity(), EmptyRoomActivity.class));
                 break;
             case R.id.my_page_grade_layout:
-                startActivity(new Intent(getActivity(), ExamAndGradeActivity.class));
+                startActivity(
+                        new Intent(getActivity(), ExamAndGradeActivity.class));
                 break;
             case R.id.my_page_calendar_layout:
                 break;
@@ -128,12 +143,20 @@ public class MyPageFragment extends BaseFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             mUser = data.getParcelableExtra(EditInfoActivity.EXTRA_USER);
             refreshEditLayout();
         }
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(buttonView.getId() == R.id.my_page_switch_compat){
+            if(isChecked){
+
+            }
+        }
+    }
 
     private void getPersonInfoData() {
         RequestManager.getInstance()
@@ -149,17 +172,19 @@ public class MyPageFragment extends BaseFragment
                                   @Override public void onCompleted() {
                                       super.onCompleted();
                                   }
-                              }), mUser.stuNum,mUser.idNum);
+                              }), mUser.stuNum, mUser.idNum);
     }
 
-    private void refreshEditLayout(){
-        ImageLoader.getInstance().loadImageWithTargetView(
-                mUser.photo_thumbnail_src, new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        myPageAvatar.setImageBitmap(resource);
-                    }
-                });
+
+    private void refreshEditLayout() {
+        ImageLoader.getInstance()
+                   .loadImageWithTargetView(mUser.photo_thumbnail_src,
+                           new SimpleTarget<Bitmap>() {
+                               @Override
+                               public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                   myPageAvatar.setImageBitmap(resource);
+                               }
+                           });
         myPageNickName.setText(mUser.nickname);
         myPageIntroduce.setText(mUser.introduction);
     }

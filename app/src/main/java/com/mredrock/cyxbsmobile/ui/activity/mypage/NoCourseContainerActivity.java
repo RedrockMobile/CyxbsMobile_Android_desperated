@@ -6,11 +6,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.NoCourse;
+import com.mredrock.cyxbsmobile.model.User;
+import com.mredrock.cyxbsmobile.network.RequestManager;
+import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.mypage.NoCourseItemFragment;
@@ -61,8 +67,7 @@ public class NoCourseContainerActivity extends BaseActivity {
         mTitleList = Arrays.asList(getResources().getStringArray(R.array.titles_weeks));
         int week = new SchoolCalendar().getWeekOfTerm();
         if(week >= 1 && week <= 23){
-            mTitleList.remove(week);
-            mTitleList.add(week,"本周");
+            mTitleList.set(week,"本周");
         }
         mFragmentList = new ArrayList<>();
         for(int i = 0;i<mTitleList.size();i++){
@@ -78,7 +83,7 @@ public class NoCourseContainerActivity extends BaseActivity {
                 .TabLayoutOnPageChangeListener(noCourseTabLayout));
         noCourseTabLayout.setupWithViewPager(noCourseViewPager);
 
-        noCourseViewPager.setCurrentItem(week,true);
+        noCourseViewPager.setCurrentItem(week);
     }
 
     private void initView() {

@@ -51,6 +51,14 @@
             android:layout_below="@+id/empty_top_layout"
             android:minHeight="48dp"/>
 
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/empty_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
+
         <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton
             xmlns:rfab="http://schemas.android.com/apk/res-auto"
             android:id="@+id/empty_rfab"

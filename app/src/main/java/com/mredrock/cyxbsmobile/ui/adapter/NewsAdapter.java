@@ -121,7 +121,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             mTextName.setText(dataBean.getUser_name() != null ? dataBean.getUser_name() + "" : "没有名字就显示我了");
             mTextTime.setText(dataBean.getTime());
-            mTextContent.setText(dataBean.getContent());
             mBtnFavor.setText(dataBean.getLike_num());
             mBtnMsg.setText(dataBean.getRemark_num());
             ImageLoader.getInstance().loadAvatar(dataBean.getUser_head(), mImgAvatar);

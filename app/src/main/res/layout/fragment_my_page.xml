@@ -316,8 +316,7 @@
                 android:layout_height="42dp"
                 android:layout_marginTop="15dp"
                 android:paddingLeft="24dp"
-                android:paddingStart="24dp"
-                android:background="@drawable/bg_layout">
+                android:paddingStart="24dp">
 
                 <ImageView
                     android:id="@+id/my_page_iv_night"
@@ -338,6 +337,7 @@
                     android:textColor="@color/text_dark"/>
 
                 <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/my_page_switch_compat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"

@@ -1,6 +1,7 @@
 package com.mredrock.cyxbsmobile.ui.activity.mypage;
 
 import android.os.Bundle;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,6 +46,7 @@ public class EmptyRoomActivity extends BaseActivity
     @Bind(R.id.empty_rv) RecyclerView mEmptyRecyclerView;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.empty_progress) ContentLoadingProgressBar emptyProgress;
 
     /** 需要请求的次数 */
     private int mNeedReqNum;
@@ -146,8 +148,15 @@ public class EmptyRoomActivity extends BaseActivity
         String weekday = String.valueOf(calendar.getDayOfWeek());
         for (String courseTime : courseTimeList) {
             RequestManager.INSTANCE.getEmptyRoomList(
-                    new SimpleSubscriber<>(this, true,
+                    new SimpleSubscriber<>(this,
                             new SubscriberListener<List<String>>() {
+
+                                @Override public void onStart() {
+                                    super.onStart();
+                                    emptyProgress.setVisibility(View.VISIBLE);
+                                }
+
+
                                 @Override
                                 public void onNext(List<String> strings) {
                                     super.onNext(strings);
@@ -156,11 +165,19 @@ public class EmptyRoomActivity extends BaseActivity
                                     if (mSuccessReqNum == mNeedReqNum) {
                                         updateEmptyAdapter();
                                     }
+                                    emptyProgress.setVisibility(View.GONE);
                                 }
 
 
                                 @Override public void onCompleted() {
                                     super.onCompleted();
+                                }
+
+
+                                @Override public void onError(Throwable e) {
+                                    super.onError(e);
+                                    getDataFailed(e.getMessage());
+                                    emptyProgress.setVisibility(View.GONE);
                                 }
                             }), buildingNum, week, weekday, courseTime);
         }
@@ -182,5 +199,9 @@ public class EmptyRoomActivity extends BaseActivity
         mEmptyRoomAdapter.notifyDataSetChanged();
         mIvResultIcon.setVisibility(View.VISIBLE);
         mTvResult.setVisibility(View.VISIBLE);
+    }
+
+    private void getDataFailed(String reason) {
+        Toast.makeText(this,"获取数据失败"+reason,Toast.LENGTH_SHORT).show();
     }
 }

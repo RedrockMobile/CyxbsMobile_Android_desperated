@@ -42,7 +42,7 @@ public class EditIntroduceActivity extends BaseActivity {
             @Override public void onClick(View v) {
                 if (!editIntroduceEt.getText().toString().equals("")) {
                     RequestManager.getInstance()
-                                  .setPersonNickName(new SimpleSubscriber<>(
+                                  .setPersonIntroduction(new SimpleSubscriber<>(
                                                   EditIntroduceActivity.this, true,
                                                   new SubscriberListener<OkResponse>() {
 

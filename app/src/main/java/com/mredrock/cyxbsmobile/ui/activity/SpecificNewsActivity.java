@@ -15,9 +15,11 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
+import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.model.community.ReMarks;
+import com.mredrock.cyxbsmobile.model.community.Stu;
 import com.mredrock.cyxbsmobile.model.community.Student;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
@@ -28,6 +30,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
@@ -61,7 +65,14 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mRefresh.setColorSchemeColors(R.color.colorAccent);
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
         mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
-        dataBean = getIntent().getParcelableExtra("dataBean");
+        String article_id = getIntent().getStringExtra("article_id");
+        if(article_id != null){
+            getDataBeanById(article_id);
+        }else {
+            dataBean = getIntent().getParcelableExtra("dataBean");
+            mWrapView.setData(dataBean);
+            reqestComentDatas();
+        }
         init();
     }
 
@@ -78,8 +89,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
 
-        mWrapView.setData(dataBean);
-        reqestComentDatas();
 
     }
 
@@ -147,6 +156,20 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                         }
                     }, throwable ->
                             showUploadFail(throwable.toString()));
+    }
+
+    private void getDataBeanById(String article_id){
+        RequestManager.getInstance().getTrendDetail("2014213983","26722X", BBDD
+                .BBDD,article_id)
+                .subscribe(newses -> {
+                    if(newses != null && newses.size() > 0){
+                        dataBean = newses.get(0).getData();
+                        mWrapView.setData(dataBean);
+                        reqestComentDatas();
+                    }
+                }, throwable -> {
+                    showUploadFail(throwable.getMessage());
+                });
     }
 
     @Override

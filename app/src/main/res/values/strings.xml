@@ -180,5 +180,6 @@
     <string name="erro">获取数据失败,你的网络不靠谱呀</string>
     <string name="alter">你没有输入任何东西哟</string>
     <string name="noContent">你没有输入消息哟!</string>
+    <string name="loadingFailed">加载失败，点击重新加载</string>
 
 </resources>

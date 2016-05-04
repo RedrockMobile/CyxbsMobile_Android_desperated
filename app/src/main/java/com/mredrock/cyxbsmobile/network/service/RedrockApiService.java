@@ -11,15 +11,13 @@ import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Empty;
 import com.mredrock.cyxbsmobile.model.Exam;
 import com.mredrock.cyxbsmobile.model.Grade;
-import com.mredrock.cyxbsmobile.model.MovieResult;
-import com.mredrock.cyxbsmobile.model.RelateMe;
+import com.mredrock.cyxbsmobile.model.AboutMe;
 import com.mredrock.cyxbsmobile.model.Student;
 import com.mredrock.cyxbsmobile.model.Subject;
 
 import com.mredrock.cyxbsmobile.model.User;
+import com.mredrock.cyxbsmobile.model.community.BBDDDetail;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.Trend;
-import java.sql.Wrapper;
 import java.util.List;
 
 import retrofit2.http.Field;
@@ -109,21 +107,23 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_ABOUT_ME)
-    Observable<RelateMe.RelateMeWapper> getAboutMe(@Field("stuNum") String stuNum,
-                                                   @Field("idNum") String idNum,
-                                                   @Field("page") int page,
-                                                   @Field("size") int size);
+    Observable<AboutMe.AboutMeWapper> getAboutMe(@Field("stuNum") String
+                                                            stuNum,
+                                                   @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_TREND_DETAIL)
+    Observable<BBDDDetail.BBDDDetailWrapper> getTrendDetail(@Field("stuNum") String stuNum,
+                                          @Field("idNum") String idNum,
+                                          @Field("type_id") int type_id,
+                                          @Field("article_id") String article_id);
 
     @FormUrlEncoded
     @POST(Const.API_SEARCH_ARTICLE)
-    Observable<Trend.TrendWrapper> searchTrends(@Field("stuNum") String stuNum,
-                                                @Field("idNum") String idNum,
-                                                @Field("page") int page,
-                                                @Field("size") int size);
+    Observable<BBDDDetail.BBDDDetailWrapper> searchTrends(@Field("stuNum") String stuNum,
+                                                @Field("idNum") String idNum);
 
-    Observable<Trend.TrendWrapper> searchOtherTrends(@Field("stuNum") String stuNum,
+    Observable<BBDDDetail.BBDDDetailWrapper> searchOtherTrends(@Field("stuNum") String stuNum,
                                                      @Field("idNum") String idNum,
-                                                     @Field("page") int page,
-                                                     @Field("size") int size,
                                                      @Field("stunum_other") String stunum_other);
 }

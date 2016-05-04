@@ -3,6 +3,7 @@ package com.mredrock.cyxbsmobile;
 import android.app.Application;
 import android.content.Context;
 
+import android.support.v7.app.AppCompatDelegate;
 import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.User;
@@ -16,6 +17,10 @@ import timber.log.Timber;
  */
 public class APP extends Application {
     private static Context context;
+
+    static {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
 
     @Override
     public void onCreate() {

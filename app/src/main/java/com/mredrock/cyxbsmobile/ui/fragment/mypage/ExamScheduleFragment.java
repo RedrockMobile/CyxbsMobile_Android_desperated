@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.Bind;
@@ -86,11 +87,9 @@ public class ExamScheduleFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
-        examSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override public void onRefresh() {
-                if (mUser != null) {
-                    loadExamFromNetWork();
-                }
+        examSwipeRefreshLayout.setOnRefreshListener(() -> {
+            if (mUser != null) {
+                loadExamFromNetWork();
             }
         });
         examSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor
@@ -187,8 +186,7 @@ public class ExamScheduleFragment extends BaseFragment {
                         (0),Exam.ExamWapper.class);
                 refresh(exam.data);
             }else if(NetUtils.isNetWorkAvilable(getActivity())){
-                examSwipeRefreshLayout.setRefreshing(true);
-                loadExamFromNetWork();
+                showProgress();
             }else {
                 examTvNothing.setVisibility(View.VISIBLE);
             }
@@ -205,5 +203,20 @@ public class ExamScheduleFragment extends BaseFragment {
         mExamList.addAll(examList);
         mExamScheduleAdapter.notifyDataSetChanged();
         examTvNothing.setVisibility(View.GONE);
+    }
+
+    private void showProgress() {
+        examSwipeRefreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(new
+                                                                  ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override public void onGlobalLayout() {
+                examSwipeRefreshLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                examSwipeRefreshLayout.setRefreshing(true);
+                loadExamFromNetWork();
+            }
+        });
+    }
+
+    private void dismissProgress(){
+        examSwipeRefreshLayout.setRefreshing(false);
     }
 }
