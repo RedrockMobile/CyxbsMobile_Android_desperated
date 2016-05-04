@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d9d9d9"
+    android:orientation="vertical"
+    tools:context=".ui.activity.explore.RestaurantDetailActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/restaurant_detail_coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/restaurant_detail_contentFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/restaurant_detail_comment_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_add"
+            app:fabSize="normal"
+            app:layout_anchor="@id/restaurant_detail_contentFrame"
+            app:layout_anchorGravity="bottom|right|end" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <ProgressBar
+        android:id="@+id/restaurant_detail_progress"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffff</color>
+    <color name="orange">#ff7d37</color>
+    <color name="yellow">#ffb048</color>
+    <color name="grey">#f3f7fa</color>
+    <color name="data_light_black">#a9a9a9</color>
+
+    <!--Common-->
+    <color name="colorPrimary">#00aae8</color>
+    <color name="colorPrimaryDark">#0088ba</color>
+    <color name="colorAccent">#f76060</color>
+    <color name="tabIndicatorColor">#c9c9c9</color>
+    <color name="tab_background_pressed">#1Affffff</color>
+    <color name="tabText">#66000000</color>
+
+    <color name="divider">#e3e3e8</color>
+    <color name="divider_light">#e0e0e0</color>
+    <color name="divider_relate_me">#cfcfcf</color>
+    <color name="divider_edit_info">#e4e4e9</color>
+    <color name="divider_edit_introduce">#e5e5ea</color>
+
+    <color name="background_grey">#efeff4</color>
+    <color name="background_relate_me">#ececec</color>
+    <!-- text颜色由深到浅 -->
+    <color name="text_dark">#333333</color>
+    <color name="text_light_1">#666666</color>
+    <color name="text_light_2">#999999</color>
+    <!-- layout点击ripple的颜色 -->
+    <color name="ripple_normal">#CACCCB</color>
+    <color name="ripple_dark">#B0B2B1</color>
+
+    <color name="relate_me_background">#f8f8f8</color>
+
+    <color name="body_text_1">#de000000</color>
+    <color name="body_text_2">#8a000000</color>
+    <color name="body_text_3">#60000000</color>
+
+    <color name="comment_item">#f2eeee</color>
+
+    <color name="no_course_day_background">#f0f0f0</color>
+    <color name="no_course_day">#4b4b4b</color>
+    <color name="no_course_day_selector">#49b4fc</color>
+    <color name="no_course_time">#666666</color>
+    <color name="no_course_time_divider">#f2f2f2</color>
+    <color name="no_course_blue">#01b1f4</color>
+    <color name="no_course_divider_dark">#c6c6c6</color>
+    <color name="no_course_divider_light">#cdcccc</color>
+    <!--<color name="no_course_edit_hint">#aeadad</color>-->
+    <!--<color name="no_course_text">#434040</color>-->
+    <color name="no_course_text_white">#e9f6fe</color>
+    <color name="no_course_dialog_title">#19aafe</color>
+
+    <color name="theme_Slate">#9da3a5</color>
+    <color name="tab_pading_color">#606B6A6A</color>
+
+</resources>

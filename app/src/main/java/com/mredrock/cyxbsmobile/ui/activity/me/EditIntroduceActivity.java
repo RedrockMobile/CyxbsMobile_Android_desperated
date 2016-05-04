@@ -1,0 +1,14 @@
+package com.mredrock.cyxbsmobile.ui.activity.me;
+
+import android.os.Bundle;
+import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
+
+public class EditIntroduceActivity extends BaseActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_introduce);
+    }
+}
