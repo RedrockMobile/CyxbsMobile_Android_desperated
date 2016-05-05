@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by mathiasluo on 16-4-5.
  */
-public class News  {
+public class HotNews {
 
 
     /**
@@ -38,26 +38,26 @@ public class News  {
 
     public DataBean data;
 
-    public News(ContentBean contentBean) {
-        this.data = new DataBean(contentBean);
+    public HotNews(OfficeNewsContent officeNewsContent) {
+        this.data = new DataBean(officeNewsContent);
     }
 
-    public News(BBDDNews.BBDDBean bbddBean) {
-        this.data = new DataBean(bbddBean.type_id
-                , bbddBean.id
+    public HotNews(BBDDNewsContent bbddNewsContent) {
+        this.data = new DataBean(bbddNewsContent.type_id
+                , bbddNewsContent.id
                 , 5
                 , "userid"
-                , bbddBean.nickname
-                , bbddBean.article_photo_src
-                , bbddBean.created_time
-                , new ContentBean(bbddBean.content)
-                , new DataBean.ImgBean(bbddBean.article_thumbnail_src
-                , bbddBean.article_photo_src)
-                , bbddBean.like_num, bbddBean.remark_num
-                , bbddBean.is_my_like);
+                , bbddNewsContent.nickname
+                , bbddNewsContent.article_photo_src
+                , bbddNewsContent.created_time
+                , new OfficeNewsContent(bbddNewsContent.content)
+                , new DataBean.ImgBean(bbddNewsContent.article_thumbnail_src
+                , bbddNewsContent.article_photo_src)
+                , bbddNewsContent.like_num, bbddNewsContent.remark_num
+                , bbddNewsContent.is_my_like);
     }
 
-    public News(String content, List<Image> list) {
+    public HotNews(String content, List<Image> list) {
         list.remove(0);
         String a = "";
         String b = "";
@@ -67,9 +67,8 @@ public class News  {
 
         }
 
-        this.data = new DataBean(new DataBean.ImgBean(a, b), new ContentBean(content));
+        this.data = new DataBean(new DataBean.ImgBean(a, b), new OfficeNewsContent(content));
     }
-
 
 
     public static class DataBean implements Parcelable {
@@ -93,7 +92,7 @@ public class News  {
         public String nick_name;
         public String user_head;
         public String time;
-        public ContentBean content;
+        public OfficeNewsContent content;
 
         /**
          * img_small_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/thumbnail/1460427947_1265413131.png
@@ -106,7 +105,7 @@ public class News  {
         public boolean is_my_Like;
 
         public DataBean(String type, String id, int type_id, String user_id, String nick_name,
-                        String user_head, String time, ContentBean content, ImgBean img, String like_num,
+                        String user_head, String time, OfficeNewsContent content, ImgBean img, String like_num,
                         String remark_num, boolean is_my_Like) {
             this.type = type;
             this.id = id;
@@ -122,7 +121,7 @@ public class News  {
             this.is_my_Like = is_my_Like;
         }
 
-        public DataBean(ContentBean content) {
+        public DataBean(OfficeNewsContent content) {
             this.content = content;
             this.type_id = 6;
             this.nick_name = content.name;
@@ -135,7 +134,7 @@ public class News  {
 
         }
 
-        public DataBean(ImgBean img, ContentBean content) {
+        public DataBean(ImgBean img, OfficeNewsContent content) {
             this.img = img;
             this.content = content;
             this.type_id = BBDDNews.BBDD;
@@ -154,7 +153,7 @@ public class News  {
             nick_name = in.readString();
             user_head = in.readString();
             time = in.readString();
-            content = in.readParcelable(ContentBean.class.getClassLoader());
+            content = in.readParcelable(OfficeNewsContent.class.getClassLoader());
             img = in.readParcelable(ImgBean.class.getClassLoader());
             like_num = in.readString();
             remark_num = in.readString();

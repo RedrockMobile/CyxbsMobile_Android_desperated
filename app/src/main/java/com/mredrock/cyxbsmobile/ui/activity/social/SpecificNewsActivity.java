@@ -19,7 +19,8 @@ import android.widget.Toast;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbsmobile.model.community.Comment;
-import com.mredrock.cyxbsmobile.model.community.ContentBean;
+import com.mredrock.cyxbsmobile.model.community.CommentContent;
+import com.mredrock.cyxbsmobile.model.community.OfficeNewsContent;
 import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
@@ -76,7 +77,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
-    private List<Comment.Remark> mDatas = null;
+    private List<CommentContent> mDatas = null;
 
 
     private View mFooterView;
@@ -124,7 +125,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         requestComments();
     }
 
-    private void doWithNews(NewsAdapter.ViewHolder mWrapView, ContentBean bean) {
+    private void doWithNews(NewsAdapter.ViewHolder mWrapView, OfficeNewsContent bean) {
         mWrapView.mTextContent.setText(Html.fromHtml(dataBean.content != null ? dataBean.content.content : ""));
         mWrapView.mTextName.setText(!bean.unit.equals("") ? bean.unit : "教务在线");
         mWrapView.mTextView_ex.setVisibility(View.INVISIBLE);

@@ -52,9 +52,8 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':multi-image-selector')
+//    compile project(':multi-image-selector')
     testCompile 'junit:junit:4.12'
-    compile files('src/main/lib/common-lang3.jar')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:support-v4:23.3.0'
@@ -67,7 +66,6 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
-    compile 'com.squareup.retrofit2:retrofit-mock:2.0.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'org.greenrobot:eventbus:3.0.0'
@@ -85,17 +83,14 @@ dependencies {
     compile 'com.github.wangjiegulu:AndroidBucket:1.0.4'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.zhy:percent-support-extends:1.0.1'
-
-    //remove it !!! and use uCrop instead
-    compile 'com.soundcloud.android:android-crop:1.0.1@aar'
-    compile 'com.roughike:bottom-bar:1.2.4'
+    compile 'org.apache.commons:commons-lang3:3.0'
+    compile 'com.roughike:bottom-bar:1.3.3'
     compile files('src/libs/Android_Map_V2.5.0.jar')
     compile 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
     compile 'com.afollestad:material-dialogs:0.7.5.5'
-    compile("com.github.VictorAlbertos:RxCache:1.2.6") {
-        exclude module: 'guava'
-    }
+    compile "com.github.VictorAlbertos:RxCache:1.2.6"
     compile 'com.github.traex.rippleeffect:library:1.3'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'com.ms-square:expandableTextView:0.1.4'
+    compile 'com.github.lovetuzitong:MultiImageSelector:92c0404cfb'
 }

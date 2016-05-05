@@ -9,8 +9,7 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
-import com.mredrock.cyxbsmobile.model.community.Comment;
-
+import com.mredrock.cyxbsmobile.model.community.CommentContent;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 import com.mredrock.cyxbsmobile.util.TimeUtils;
 
@@ -22,15 +21,15 @@ import butterknife.ButterKnife;
 /**
  * Created by mathiasluo on 16-4-5.
  */
-public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<Comment.Remark, SpecificNewsCommentAdapter.ViewHolder> {
+public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<CommentContent, SpecificNewsCommentAdapter.ViewHolder> {
 
 
-    public SpecificNewsCommentAdapter(List<Comment.Remark> mDatas, Context context) {
+    public SpecificNewsCommentAdapter(List<CommentContent> mDatas, Context context) {
         super(mDatas, context);
     }
 
     @Override
-    protected void bindData(ViewHolder holder, Comment.Remark data, int position) {
+    protected void bindData(ViewHolder holder, CommentContent data, int position) {
         holder.mTextContent.setText(data.content);
         holder.mTextTime.setText(TimeUtils.getTimeDetail(data.created_time));
         holder.mTextViewNickName.setText(data.nickname);

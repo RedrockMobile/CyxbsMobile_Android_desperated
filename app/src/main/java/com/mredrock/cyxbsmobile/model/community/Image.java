@@ -9,8 +9,8 @@ public class Image {
     public int height;
 
 
-    public static final int ADDIMAG = 0001;
-    public static final int NORMALIMAGE = 0002;
+    public static final int TYPE_ADD = 1;
+    public static final int TYPE_NORMAL = 2;
 
     public int type;
 

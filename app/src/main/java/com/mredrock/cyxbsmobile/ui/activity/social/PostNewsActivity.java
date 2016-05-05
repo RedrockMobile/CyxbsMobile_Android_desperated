@@ -13,7 +13,7 @@ import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.NineGridlayout;
 import com.mredrock.cyxbsmobile.model.community.BBDDNews;
 import com.mredrock.cyxbsmobile.model.community.Image;
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.HotNews;
 import com.mredrock.cyxbsmobile.model.community.Stu;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
@@ -33,7 +33,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class AddNewsActivity extends BaseActivity implements View.OnClickListener {
+public class PostNewsActivity extends BaseActivity implements View.OnClickListener {
 
     private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
     private final static int REQUEST_IMAGE = 0001;
@@ -53,7 +53,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
 
 
     public static final void startActivity(Context context) {
-        Intent intent = new Intent(context, AddNewsActivity.class);
+        Intent intent = new Intent(context, PostNewsActivity.class);
         context.startActivity(intent);
     }
 
@@ -67,7 +67,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
 
     private void init() {
         mImgs = new ArrayList<>();
-        mImgs.add(new Image(ADD_IMG, Image.ADDIMAG));
+        mImgs.add(new Image(ADD_IMG, Image.TYPE_ADD));
         mNineGridlayout.setImagesData(mImgs);
         setSupportActionBar(mToolBar);
         mCancelText.setOnClickListener(this);
@@ -85,7 +85,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
 
 
         mNineGridlayout.setOnAddImagItemClickListener((v, position) -> {
-            Intent intent = new Intent(AddNewsActivity.this, MultiImageSelectorActivity.class);
+            Intent intent = new Intent(PostNewsActivity.this, MultiImageSelectorActivity.class);
             // 是否显示调用相机拍照
             intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
             // 最大图片选择数量
@@ -108,7 +108,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar_cancel:
-                AddNewsActivity.this.finish();
+                PostNewsActivity.this.finish();
                 break;
             case R.id.toolbar_save:
                 sendDynamic("标题我该打什么才好？？", mAddNewsEdit.getText().toString(), BBDDNews.BBDD);
@@ -120,7 +120,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
 
         if (content == null || content.equals("")) {
 
-            Toast.makeText(AddNewsActivity.this, getString(R.string.noContent), Toast.LENGTH_SHORT).show();
+            Toast.makeText(PostNewsActivity.this, getString(R.string.noContent), Toast.LENGTH_SHORT).show();
             return;
         }
         Observable<String> observable;
@@ -132,7 +132,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         else observable = uploadWithoutImg(title, content, type);
 
        /* observable.subscribe(okResponse -> {
-            if (okResponse.state == OkResponse.RESPONSE_OK) {
+            if (okResponse.state == RequestResponse.RESPONSE_OK) {
 
                 closeLoadingProgress();
                 showUploadSucess(content);
@@ -199,7 +199,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                     return;
                 }
                 Observable.from(path)
-                        .map(s -> new Image(s, Image.NORMALIMAGE))
+                        .map(s -> new Image(s, Image.TYPE_NORMAL))
                         .map(image -> {
                             mImgs.add(image);
                             return mImgs;
@@ -226,14 +226,14 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onNegative() {
                 closeLoadingProgress();
-                AddNewsActivity.this.finish();
+                PostNewsActivity.this.finish();
             }
         });
     }
 
     private void showUploadSucess(String content) {
-        RxBus.getDefault().post(new News(content, mImgs));
-        AddNewsActivity.this.finish();
+        RxBus.getDefault().post(new HotNews(content, mImgs));
+        PostNewsActivity.this.finish();
     }
 
     private void showLoadingProgress() {

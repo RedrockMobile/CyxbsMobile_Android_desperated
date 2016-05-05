@@ -3,10 +3,12 @@ package com.mredrock.cyxbsmobile.model.community;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created by mathiasluo on 16-4-22.
  */
-public class ContentBean implements Parcelable {
+public class OfficeNewsContent implements Parcelable {
 
     public String id;
     public String title;
@@ -23,27 +25,52 @@ public class ContentBean implements Parcelable {
     public String like_num;
     public boolean is_my_like;
 
+    public String getArticletype_id() {
+        int typeId = 0;
+        String type = "红岩网校工作站";
+        if (StringUtils.isNotBlank(articletype_id)) {
+            typeId = Integer.parseInt(articletype_id);
+            switch (typeId) {
+                case 1:
+                    type = "重邮新闻";
+                    break;
+                case 2:
+                    type = "教务新闻";
+                    break;
+                case 3:
+                    type = "E彩鎏光";
+                    break;
+                case 4:
+                    type = "校务公告";
+                    break;
+                case 5:
+                    type = "哔哔叨叨";
+                    break;
+                default:
+                    break;
+            }
+        }
+        return type;
+    }
 
-    public ContentBean(String content) {
+    public OfficeNewsContent(String content) {
         this.content = content;
     }
 
-    public static final Creator<ContentBean> CREATOR = new Creator<ContentBean>() {
+    public static final Creator<OfficeNewsContent> CREATOR = new Creator<OfficeNewsContent>() {
         @Override
-        public ContentBean createFromParcel(Parcel in) {
-            return new ContentBean(in);
+        public OfficeNewsContent createFromParcel(Parcel in) {
+            return new OfficeNewsContent(in);
         }
 
         @Override
-        public ContentBean[] newArray(int size) {
-            return new ContentBean[size];
+        public OfficeNewsContent[] newArray(int size) {
+            return new OfficeNewsContent[size];
         }
     };
 
 
-
-
-    protected ContentBean(Parcel in) {
+    protected OfficeNewsContent(Parcel in) {
         id = in.readString();
         title = in.readString();
         date = in.readString();
@@ -60,7 +87,7 @@ public class ContentBean implements Parcelable {
         is_my_like = in.readByte() != 0;
     }
 
-    public static Creator<ContentBean> getCREATOR() {
+    public static Creator<OfficeNewsContent> getCREATOR() {
         return CREATOR;
     }
 

@@ -88,7 +88,7 @@ public class NineGridlayout extends ViewGroup {
             childrenView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (((Image) listData.get(finalI)).getType() == Image.ADDIMAG)
+                    if (((Image) listData.get(finalI)).getType() == Image.TYPE_ADD)
                         if (mOnAddImagItemClickListener != null)
                             mOnAddImagItemClickListener.onClick(view, finalI);
                         else if (mOnNormalImagItemClickListener != null)

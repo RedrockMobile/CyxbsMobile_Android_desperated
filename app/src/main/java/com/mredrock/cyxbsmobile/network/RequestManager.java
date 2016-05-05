@@ -14,11 +14,11 @@ import com.mredrock.cyxbsmobile.model.Restaurant;
 import com.mredrock.cyxbsmobile.model.RestaurantComment;
 import com.mredrock.cyxbsmobile.model.RestaurantDetail;
 import com.mredrock.cyxbsmobile.model.Subject;
+import com.mredrock.cyxbsmobile.model.community.BBDDNewsContent;
 import com.mredrock.cyxbsmobile.model.community.BBDDNews;
-import com.mredrock.cyxbsmobile.model.community.Comment;
-import com.mredrock.cyxbsmobile.model.community.ContentBean;
+import com.mredrock.cyxbsmobile.model.community.CommentContent;
 import com.mredrock.cyxbsmobile.model.community.News;
-import com.mredrock.cyxbsmobile.model.community.OfficeNews;
+import com.mredrock.cyxbsmobile.model.community.OfficeNewsContent;
 import com.mredrock.cyxbsmobile.model.community.Stu;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.exception.ApiException;
@@ -69,7 +69,6 @@ public enum RequestManager {
     private UpDownloadService upDownloadService;
     private RedrockApiService redrockApiService;
     private CacheProviders cacheProviders;
-   // private NewsApiService newsApiService;
 
     RequestManager() {
         OkHttpClient client = configureOkHttp(new OkHttpClient.Builder());
@@ -87,7 +86,6 @@ public enum RequestManager {
 
         upDownloadService = retrofit.create(UpDownloadService.class);
         redrockApiService = retrofit.create(RedrockApiService.class);
-       // newsApiService = retrofit.create(NewsApiService.class);
     }
 
     public static RequestManager getInstance() {
@@ -301,17 +299,15 @@ public enum RequestManager {
     }
 
 
-    public Observable<OfficeNews> getListNews(int size, int page, String stuNum, String idNum, String type_id) {
-        return redrockApiService.getlistNews(size, page, stuNum, idNum, type_id);
+    public Observable<List<OfficeNewsContent>> getListNews(int size, int page, String stuNum, String idNum, String type_id) {
+        return redrockApiService.getlistNews(size, page, stuNum, idNum, type_id).map(new RedrockApiWrapperFunc<>());
     }
 
     public Observable<List<News>> getListNews(int size, int page) {
         return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDDNews.LISTNEWS)
-                .flatMap(officeNews -> Observable.just(officeNews.data))
-
                 .map(contentBeen -> {
                     List<News> news = new ArrayList<>();
-                    for (ContentBean bean : contentBeen) news.add(new News(bean));
+                    for (OfficeNewsContent bean : contentBeen) news.add(new News(bean));
                     return news;
                 })
                 .subscribeOn(Schedulers.newThread())
@@ -345,8 +341,8 @@ public enum RequestManager {
                 .flatMap(bbddBeen -> Observable.just(bbddBeen)
                         .map(bbddBeen1 -> {
                             List<News> news = new ArrayList<>();
-                            for (BBDDNews.BBDDBean mbbddBean : bbddBeen1)
-                                news.add(new News(mbbddBean));
+                            for (BBDDNewsContent bbddNewsContent : bbddBeen1)
+                                news.add(new News(bbddNewsContent));
                             return news;
                         }));
     }
@@ -362,11 +358,11 @@ public enum RequestManager {
                 .map(new RedrockApiWrapperFunc<>());
     }
 
-    public Observable<List<Comment.Remark>> getRemarks(String article_id, int type_id) {
+    public Observable<List<CommentContent>> getRemarks(String article_id, int type_id) {
         return getRemarks(article_id, type_id, Stu.UER_ID, Stu.STU_NUM, Stu.ID_NUM);
     }
 
-    public Observable<List<Comment.Remark>> getRemarks(String article_id, int type_id, String user_id, String stuNum, String idNum) {
+    public Observable<List<CommentContent>> getRemarks(String article_id, int type_id, String user_id, String stuNum, String idNum) {
         return redrockApiService.getReMark(article_id, type_id, user_id, stuNum, idNum)
                 .map(comment -> {
                     comment.status = comment.state;

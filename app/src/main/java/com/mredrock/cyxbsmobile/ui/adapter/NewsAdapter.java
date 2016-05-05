@@ -164,7 +164,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private List<Image> getImgs(String[] urls) {
             List<Image> mImgs = new ArrayList<>();
             for (String url : urls)
-                if (!url.equals("")) mImgs.add(new Image(url, Image.ADDIMAG));
+                if (!url.equals("")) mImgs.add(new Image(url, Image.TYPE_ADD));
             return mImgs;
         }
 

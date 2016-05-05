@@ -34,7 +34,7 @@ public class AutoNineGridlayout extends NineGridlayout {
                 childrenView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (((Image) listData.get(0)).getType() == Image.ADDIMAG)
+                        if (((Image) listData.get(0)).getType() == Image.TYPE_ADD)
                             if (mOnAddImagItemClickListener != null)
                                 mOnAddImagItemClickListener.onClick(view, 0);
                             else if (mOnNormalImagItemClickListener != null)

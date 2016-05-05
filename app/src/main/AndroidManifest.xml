@@ -45,9 +45,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.SplashActivity" />
-        <!-- 图片剪切 -->
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".ui.activity.TestUploadActivity" />
+
         <activity android:name=".ui.activity.social.SpecificNewsActivity" />
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
@@ -84,25 +82,6 @@
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".ui.activity.social.ImageActivity" />
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".ui.activity.TestUploadActivity" />
-        <activity android:name=".ui.activity.me.EditInfoActivity" />
-        <activity android:name=".ui.activity.social.SpecificNewsActivity" />
-        <!--
-             ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-
-        <activity android:name=".ui.activity.me.RelateMeActivity" />
-        <activity android:name=".ui.activity.me.MyTrendActivity" />
-        <activity android:name=".ui.activity.me.SettingActivity" />
-        <activity android:name=".ui.activity.me.NewsRemindActivity" />
-        <activity android:name=".ui.activity.me.EditNickNameActivity" />
-        <activity android:name=".ui.activity.me.EditIntroduceActivity" />
-        <activity android:name=".ui.activity.me.NoCourseContainerActivity" />
-        <activity android:name=".ui.activity.me.NoCourseActivity" />
-        <activity android:name=".ui.activity.me.SelectStudentActivity" />
-        <activity android:name=".ui.activity.me.EmptyRoomActivity"></activity>
 
     </application>
 
