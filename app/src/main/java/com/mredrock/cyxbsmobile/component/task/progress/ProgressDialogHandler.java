@@ -28,7 +28,7 @@ public class ProgressDialogHandler extends Handler {
         this.cancelable = cancelable;
     }
 
-    private void initProgressDialog(){
+    private void initProgressDialog() {
         if (pd == null) {
             pd = new ProgressDialog(context);
             pd.setMessage("Loading...");
@@ -45,7 +45,7 @@ public class ProgressDialogHandler extends Handler {
         }
     }
 
-    private void dismissProgressDialog(){
+    private void dismissProgressDialog() {
         if (pd != null) {
             pd.dismiss();
             pd = null;

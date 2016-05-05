@@ -2,7 +2,6 @@ package com.mredrock.cyxbsmobile.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,11 @@ import com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.component.widget.ExpandableTextView;
 import com.mredrock.cyxbsmobile.model.community.BBDDNews;
-
 import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.model.community.News;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
-
 import com.mredrock.cyxbsmobile.ui.activity.social.ImageActivity;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 import com.mredrock.cyxbsmobile.util.TimeUtils;
@@ -127,12 +123,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public static void like(News.DataBean dataBean, TextView textView) {
             RequestManager.getInstance()
                     .addThumbsUp(dataBean.id, dataBean.type_id)
-                    .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<OkResponse>() {
+                    .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
                         @Override
                         public void onCompleted() {
                             super.onCompleted();
                             dataBean.is_my_Like = true;
                             textView.setText(Integer.parseInt(textView.getText().toString()) + 1 + "");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
                         }
                     }));
         }
@@ -140,12 +141,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public static void dislike(News.DataBean dataBean, TextView textView) {
             RequestManager.getInstance()
                     .cancelThumbsUp(dataBean.id, dataBean.type_id)
-                    .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<OkResponse>() {
+                    .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
                         @Override
                         public void onCompleted() {
                             super.onCompleted();
                             dataBean.is_my_Like = false;
                             textView.setText(Integer.parseInt(textView.getText().toString()) - 1 + "");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
                         }
                     }));
 
@@ -170,25 +176,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mBtnMsg.setText(dataBean.remark_num);
 
 
-
-            if (isSingle)
-            // mTextContent.setText(Html.fromHtml(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : ""));
-            {
+            if (isSingle) {
                 mExpandableTextView.setText(Html.fromHtml(dataBean.content != null ? dataBean.content.content : ""));
                 mExpandableTextView.setmMaxCollapsedLines(1000000);
             } else if (dataBean.type_id < BBDDNews.BBDD) {
-                //mTextContent.setText(dataBean.getContentBean().getTitle() != null ? dataBean.getContentBean().getTitle() : "");
                 mExpandableTextView.setText(dataBean.content.title != null ? dataBean.content.title : "");
             } else {
-                //mTextContent.setText(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : "");
                 mExpandableTextView.setText(dataBean.content != null ? dataBean.content.content : "");
             }
 
             ImageLoader.getInstance().loadAvatar(dataBean.user_head, mImgAvatar);
 
-
             if (dataBean.content.address != null && !dataBean.content.address.equals(""))
-
                 mTextView_ex.setVisibility(View.VISIBLE);
             else mTextView_ex.setVisibility(View.INVISIBLE);
 
@@ -203,7 +202,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) ->
                     ImageActivity.startWithData(itemView.getContext(), dataBean, position)
             );
-
 
         }
 

@@ -1,17 +1,10 @@
 package com.mredrock.cyxbsmobile.model.community;
 
+import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
+
 /**
  * Created by mathiasluo on 16-4-12.
  */
-public class OkResponse {
-
-    /**
-     * state : 200
-     * info : success
-     */
-    public static final int RESPONSE_OK = 200;
+public class OkResponse extends RedrockApiWrapper<String> {
     public int state;
-    public String info;
-
-
 }

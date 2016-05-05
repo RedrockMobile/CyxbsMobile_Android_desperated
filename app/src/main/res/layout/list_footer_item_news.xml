@@ -12,7 +12,6 @@
         android:layout_height="42dp"
         android:layout_centerInParent="true"
         android:layout_marginBottom="12dp"
-
         app:mlpb_progress_color="#566da9"
         app:mlpb_progress_stoke_width="3dp" />
 

@@ -22,16 +22,15 @@ import butterknife.ButterKnife;
 /**
  * Created by mathiasluo on 16-4-5.
  */
-public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<Comment.ReMark, SpecificNewsCommentAdapter.ViewHolder> {
+public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<Comment.Remark, SpecificNewsCommentAdapter.ViewHolder> {
 
 
-    public SpecificNewsCommentAdapter(List<Comment.ReMark> mDatas, Context context) {
-
+    public SpecificNewsCommentAdapter(List<Comment.Remark> mDatas, Context context) {
         super(mDatas, context);
     }
 
     @Override
-    protected void bindData(ViewHolder holder, Comment.ReMark data, int position) {
+    protected void bindData(ViewHolder holder, Comment.Remark data, int position) {
         holder.mTextContent.setText(data.content);
         holder.mTextTime.setText(TimeUtils.getTimeDetail(data.created_time));
         holder.mTextViewNickName.setText(data.nickname);

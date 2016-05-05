@@ -1,7 +1,6 @@
 package com.mredrock.cyxbsmobile.ui.fragment.social;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -74,7 +73,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
             @Override
             public void onLoadMore(int page) {
                 currentIndex = page;
-                getNextPageData(1, currentIndex);
+                getNextPageData(PER_PAGE_NUM, currentIndex);
             }
         });
 
@@ -85,8 +84,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
     @Override
     public void onRefresh() {
-        getCurrentData(1, PER_PAGE_NUM, true);
-
+        getCurrentData(PER_PAGE_NUM, 1, true);
     }
 
     private void getDataFailed(String reason) {
@@ -141,7 +139,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
         mFooterViewWrapper = new FooterViewWrapper(getContext(), mRecyclerView);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterViewWrapper.getFooterView());
-        mFooterViewWrapper.onFailedClick(view -> getNextPageData(1, currentIndex));
+        mFooterViewWrapper.onFailedClick(view -> getNextPageData(PER_PAGE_NUM, currentIndex));
     }
 
     private void getNextPageData(int size, int page) {
@@ -159,9 +157,11 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
     @Override
     public void onItemClick(View itemView, int position, News.DataBean dataBean) {
-        Intent intent = new Intent(getActivity(), SpecificNewsActivity.class);
-        intent.putExtra("dataBean", dataBean);
-        startActivity(intent);
+
+                int height = itemView.getHeight(); // 获取高度
+                Log.e("=====>>>>获取的高度==》》", height + "");
+                SpecificNewsActivity.startActivityWithDataBean(getActivity(), dataBean, height);
+
     }
 
     @Override

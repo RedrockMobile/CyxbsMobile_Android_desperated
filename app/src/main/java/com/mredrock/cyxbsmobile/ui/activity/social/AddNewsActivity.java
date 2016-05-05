@@ -14,7 +14,6 @@ import com.mredrock.cyxbsmobile.component.widget.NineGridlayout;
 import com.mredrock.cyxbsmobile.model.community.BBDDNews;
 import com.mredrock.cyxbsmobile.model.community.Image;
 import com.mredrock.cyxbsmobile.model.community.News;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.model.community.Stu;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
@@ -124,7 +123,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
             Toast.makeText(AddNewsActivity.this, getString(R.string.noContent), Toast.LENGTH_SHORT).show();
             return;
         }
-        Observable<OkResponse> observable;
+        Observable<String> observable;
         List<Image> currentImgs = new ArrayList<>();
         currentImgs.addAll(mImgs);
         currentImgs.remove(0);
@@ -132,7 +131,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         if (currentImgs.size() > 0) observable = uploadWithImg(currentImgs, title, content, type);
         else observable = uploadWithoutImg(title, content, type);
 
-        observable.subscribe(okResponse -> {
+       /* observable.subscribe(okResponse -> {
             if (okResponse.state == OkResponse.RESPONSE_OK) {
 
                 closeLoadingProgress();
@@ -141,11 +140,26 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
         }, throwable -> {
             closeLoadingProgress();
             showUploadFail(throwable.toString());
-        });
+        });*/
+        observable.subscribe(new SimpleSubscriber<>(this, new SubscriberListener<String>() {
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                closeLoadingProgress();
+                showUploadFail(e.toString());
+            }
+
+            @Override
+            public void onCompleted() {
+                super.onCompleted();
+                closeLoadingProgress();
+                showUploadSucess(content);
+            }
+        }));
 
     }
 
-    private Observable<OkResponse> uploadWithImg(List<Image> currentImgs, String title, String content, int type) {
+    private Observable<String> uploadWithImg(List<Image> currentImgs, String title, String content, int type) {
         final String[] photoSrc = {""};
         final String[] thumbnailSrc = {""};
         return Observable.from(currentImgs)
@@ -165,7 +179,7 @@ public class AddNewsActivity extends BaseActivity implements View.OnClickListene
                 });
     }
 
-    private Observable<OkResponse> uploadWithoutImg(String title, String content, int type) {
+    private Observable<String> uploadWithoutImg(String title, String content, int type) {
         return RequestManager.getInstance()
                 .sendDynamic(type, title, content, " ", " ")
                 .doOnSubscribe(() -> showLoadingProgress());
