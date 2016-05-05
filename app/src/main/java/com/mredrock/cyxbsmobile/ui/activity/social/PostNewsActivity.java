@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.NineGridlayout;
-import com.mredrock.cyxbsmobile.model.community.BBDDNews;
-import com.mredrock.cyxbsmobile.model.community.Image;
-import com.mredrock.cyxbsmobile.model.community.HotNews;
-import com.mredrock.cyxbsmobile.model.community.Stu;
-import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
+import com.mredrock.cyxbsmobile.model.social.BBDDNews;
+import com.mredrock.cyxbsmobile.model.social.HotNews;
+import com.mredrock.cyxbsmobile.model.social.Image;
+import com.mredrock.cyxbsmobile.model.social.Stu;
+import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;

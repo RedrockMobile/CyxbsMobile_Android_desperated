@@ -1,7 +1,8 @@
 package com.mredrock.cyxbsmobile.ui.fragment.social;
 
-import com.mredrock.cyxbsmobile.model.community.HotNews;
-import com.mredrock.cyxbsmobile.model.community.HotNewsContent;
+
+import com.mredrock.cyxbsmobile.model.social.HotNews;
+import com.mredrock.cyxbsmobile.model.social.HotNewsContent;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 

@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.HotNewsContent;
+import com.mredrock.cyxbsmobile.model.social.HotNewsContent;
 import com.mredrock.cyxbsmobile.ui.adapter.ViewPagerAdapter;
 
 import butterknife.Bind;

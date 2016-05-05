@@ -1,22 +1,20 @@
 package com.mredrock.cyxbsmobile.network.service;
 
-import com.mredrock.cyxbsmobile.model.RestaurantComment;
 import com.mredrock.cyxbsmobile.config.Const;
-import com.mredrock.cyxbsmobile.model.RestaurantDetail;
 import com.mredrock.cyxbsmobile.model.Course;
 import com.mredrock.cyxbsmobile.model.EatWhat;
-import com.mredrock.cyxbsmobile.model.MovieResult;
-import com.mredrock.cyxbsmobile.model.Restaurant;
-import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Empty;
+import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
+import com.mredrock.cyxbsmobile.model.Restaurant;
+import com.mredrock.cyxbsmobile.model.RestaurantComment;
+import com.mredrock.cyxbsmobile.model.RestaurantDetail;
 import com.mredrock.cyxbsmobile.model.Student;
-import com.mredrock.cyxbsmobile.model.Subject;
-import com.mredrock.cyxbsmobile.model.community.BBDDNews;
-import com.mredrock.cyxbsmobile.model.community.Comment;
-import com.mredrock.cyxbsmobile.model.community.HotNews;
-import com.mredrock.cyxbsmobile.model.community.OfficeNews;
-import com.mredrock.cyxbsmobile.model.community.RequestResponse;
-import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
+import com.mredrock.cyxbsmobile.model.social.BBDDNews;
+import com.mredrock.cyxbsmobile.model.social.Comment;
+import com.mredrock.cyxbsmobile.model.social.HotNews;
+import com.mredrock.cyxbsmobile.model.social.OfficeNews;
+import com.mredrock.cyxbsmobile.model.social.RequestResponse;
+import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
 
 import java.util.List;
 
@@ -30,18 +28,12 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 import rx.Observable;
 
 /**
  * Created by cc on 16/1/20.
  */
 public interface RedrockApiService {
-
-    String MOVIE_URL = "https://api.douban.com/v2/movie/top250";
-
-    @GET
-    Observable<MovieResult<List<Subject>>> getTopMovie(@Url String url, @Query("start") int start, @Query("count") int count);
 
     @FormUrlEncoded
     @Headers("API_APP: android")

@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.model.community;
+package com.mredrock.cyxbsmobile.model.social;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,7 +10,7 @@ import com.mredrock.cyxbsmobile.util.TimeUtils;
  */
 public class HotNewsContent implements Parcelable {
 
-    public static final Parcelable.Creator<HotNewsContent> CREATOR = new Parcelable.Creator<HotNewsContent>() {
+    public static final Creator<HotNewsContent> CREATOR = new Creator<HotNewsContent>() {
         @Override
         public HotNewsContent createFromParcel(Parcel in) {
             return new HotNewsContent(in);

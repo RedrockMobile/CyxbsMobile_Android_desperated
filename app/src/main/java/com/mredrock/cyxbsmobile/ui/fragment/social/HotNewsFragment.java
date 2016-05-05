@@ -1,6 +1,7 @@
 package com.mredrock.cyxbsmobile.ui.fragment.social;
 
-import com.mredrock.cyxbsmobile.model.community.HotNews;
+
+import com.mredrock.cyxbsmobile.model.social.HotNews;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 
 import java.util.List;

@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.HotNews;
-import com.mredrock.cyxbsmobile.model.community.HotNewsContent;
+import com.mredrock.cyxbsmobile.model.social.HotNews;
+import com.mredrock.cyxbsmobile.model.social.HotNewsContent;
 import com.mredrock.cyxbsmobile.subscriber.EndlessRecyclerOnScrollListener;
 import com.mredrock.cyxbsmobile.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
@@ -79,7 +79,6 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         });
 
         getCurrentData(PER_PAGE_NUM, 1, false);
-        getCurrentData(PER_PAGE_NUM, 1, true);
 
     }
 
@@ -94,11 +93,15 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
     private void showLoadingProgress() {
-        refreshLayout.setRefreshing(true);
+        if (refreshLayout != null) {
+            refreshLayout.setRefreshing(true);
+        }
     }
 
     private void closeLoadingProgress() {
-        refreshLayout.setRefreshing(false);
+        if (refreshLayout != null) {
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     public void getCurrentData(int size, int page, boolean update) {
@@ -109,7 +112,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                     if (mDatas == null)
                         initAdapter(newses);
                     else
-                        mNewsAdapter.replaceDatas(newses);
+                        mNewsAdapter.addDatas(newses);
                     Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
                     closeLoadingProgress();
                 }, throwable -> {

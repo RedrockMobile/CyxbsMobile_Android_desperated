@@ -20,7 +20,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.Image;
+import com.mredrock.cyxbsmobile.model.social.Image;
 import com.mredrock.cyxbsmobile.util.DensityUtils;
 
 /**

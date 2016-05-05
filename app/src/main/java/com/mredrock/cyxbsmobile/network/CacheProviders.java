@@ -1,6 +1,7 @@
 package com.mredrock.cyxbsmobile.network;
 
-import com.mredrock.cyxbsmobile.model.community.HotNews;
+
+import com.mredrock.cyxbsmobile.model.social.HotNews;
 
 import java.util.List;
 

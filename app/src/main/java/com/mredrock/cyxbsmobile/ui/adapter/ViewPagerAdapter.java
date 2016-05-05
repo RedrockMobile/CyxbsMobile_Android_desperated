@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.mredrock.cyxbsmobile.model.community.HotNewsContent;
+import com.mredrock.cyxbsmobile.model.social.HotNewsContent;
 import com.mredrock.cyxbsmobile.ui.fragment.social.SingleImageFragment;
 
 import java.util.ArrayList;

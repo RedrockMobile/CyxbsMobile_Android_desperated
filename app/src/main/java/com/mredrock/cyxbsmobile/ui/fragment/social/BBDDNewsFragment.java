@@ -1,7 +1,7 @@
 package com.mredrock.cyxbsmobile.ui.fragment.social;
 
-import com.mredrock.cyxbsmobile.model.community.BBDDNews;
-import com.mredrock.cyxbsmobile.model.community.HotNews;
+import com.mredrock.cyxbsmobile.model.social.BBDDNews;
+import com.mredrock.cyxbsmobile.model.social.HotNews;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.util.RxBus;
 
@@ -39,11 +39,12 @@ public class BBDDNewsFragment extends BaseNewsFragment {
         mSubscription = RxBus.getDefault()
                 .toObserverable(HotNews.class)
                 .subscribe(s -> {
-                    ((CommunityContainerFragment) getParentFragment()).changeViewPagerIndex(1);
+                    ((SocialContainerFragment) getParentFragment()).changeViewPagerIndex(1);
                     //注释掉的这句话是把 最新发送的推到顶部
                     //mNewsAdapter.addToFirst(s);
                     getCurrentData(BaseNewsFragment.PER_PAGE_NUM, 1, true);
                     mRecyclerView.scrollToPosition(0);
+
                 }, throwable -> {
 
                 });

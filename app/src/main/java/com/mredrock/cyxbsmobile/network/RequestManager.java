@@ -13,14 +13,13 @@ import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Restaurant;
 import com.mredrock.cyxbsmobile.model.RestaurantComment;
 import com.mredrock.cyxbsmobile.model.RestaurantDetail;
-import com.mredrock.cyxbsmobile.model.Subject;
-import com.mredrock.cyxbsmobile.model.community.BBDDNewsContent;
-import com.mredrock.cyxbsmobile.model.community.BBDDNews;
-import com.mredrock.cyxbsmobile.model.community.CommentContent;
-import com.mredrock.cyxbsmobile.model.community.HotNews;
-import com.mredrock.cyxbsmobile.model.community.OfficeNewsContent;
-import com.mredrock.cyxbsmobile.model.community.Stu;
-import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
+import com.mredrock.cyxbsmobile.model.social.BBDDNews;
+import com.mredrock.cyxbsmobile.model.social.BBDDNewsContent;
+import com.mredrock.cyxbsmobile.model.social.CommentContent;
+import com.mredrock.cyxbsmobile.model.social.HotNews;
+import com.mredrock.cyxbsmobile.model.social.OfficeNewsContent;
+import com.mredrock.cyxbsmobile.model.social.Stu;
+import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.exception.ApiException;
 import com.mredrock.cyxbsmobile.network.exception.RedrockApiException;
 import com.mredrock.cyxbsmobile.network.service.RedrockApiService;
@@ -119,13 +118,6 @@ public enum RequestManager {
                     /* 除了文件，其他POST参数 *///OkHttpUtils.createStringRequestBody("values"),
                     /* 文件，"file"是参数名 */OkHttpUtils.createFileRequestBody("file", fileUri))
                         .map(wrapper -> wrapper.info);
-
-        emitObservable(observable, subscriber);
-    }
-
-    public void getTopMovie(Subscriber<List<Subject>> subscriber, int start, int count) {
-        Observable<List<Subject>> observable = redrockApiService.getTopMovie(RedrockApiService.MOVIE_URL, start, count)
-                .map(new MovieResultFunc<>());
 
         emitObservable(observable, subscriber);
     }

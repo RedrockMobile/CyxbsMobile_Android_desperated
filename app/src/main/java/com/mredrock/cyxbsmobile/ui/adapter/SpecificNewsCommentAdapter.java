@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
-import com.mredrock.cyxbsmobile.model.community.CommentContent;
+import com.mredrock.cyxbsmobile.model.social.CommentContent;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 import com.mredrock.cyxbsmobile.util.TimeUtils;
 

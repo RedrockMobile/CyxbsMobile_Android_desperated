@@ -18,8 +18,8 @@ import com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbsmobile.ui.activity.social.PostNewsActivity;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
-import com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment;
-import com.mredrock.cyxbsmobile.ui.fragment.social.CommunityContainerFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.UserFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.social.SocialContainerFragment;
 
 import butterknife.Bind;
 import butterknife.BindString;
@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity {
 
             switch (position) {
                 case 0:
-                    fragment = new CommunityContainerFragment();
+                    fragment = new SocialContainerFragment();
                     setTitle(mStringCommunity);
                     // mImageView.setVisibility(View.VISIBLE);
                     showMenu();
@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity {
                     setTitle(mStringExplore);
                     break;
                 case 3:
-                    fragment = new MyPageFragment();
+                    fragment = new UserFragment();
                     setTitle(mStringMyPage);
                     break;
             }
@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_addNews:
+            case R.id.action_add_news:
                 PostNewsActivity.startActivity(this);
                 break;
         }

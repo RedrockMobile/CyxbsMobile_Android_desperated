@@ -18,9 +18,9 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
-import com.mredrock.cyxbsmobile.model.community.CommentContent;
-import com.mredrock.cyxbsmobile.model.community.HotNewsContent;
-import com.mredrock.cyxbsmobile.model.community.OfficeNewsContent;
+import com.mredrock.cyxbsmobile.model.social.CommentContent;
+import com.mredrock.cyxbsmobile.model.social.HotNewsContent;
+import com.mredrock.cyxbsmobile.model.social.OfficeNewsContent;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
