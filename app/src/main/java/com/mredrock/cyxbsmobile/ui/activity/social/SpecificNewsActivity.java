@@ -16,10 +16,10 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
-import com.mredrock.cyxbsmobile.model.community.Comment;
-import com.mredrock.cyxbsmobile.model.community.ContentBean;
-import com.mredrock.cyxbsmobile.model.community.News;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.social.Comment;
+import com.mredrock.cyxbsmobile.model.social.ContentBean;
+import com.mredrock.cyxbsmobile.model.social.News;
+import com.mredrock.cyxbsmobile.model.social.OkResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;

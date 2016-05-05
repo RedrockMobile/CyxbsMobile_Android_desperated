@@ -1,12 +1,12 @@
 package com.mredrock.cyxbsmobile.network.service;
 
-import com.mredrock.cyxbsmobile.model.community.BBDDNews;
-import com.mredrock.cyxbsmobile.model.community.Comment;
-import com.mredrock.cyxbsmobile.model.community.Latest;
-import com.mredrock.cyxbsmobile.model.community.News;
-import com.mredrock.cyxbsmobile.model.community.OfficeNews;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
+import com.mredrock.cyxbsmobile.model.social.BBDDNews;
+import com.mredrock.cyxbsmobile.model.social.Comment;
+import com.mredrock.cyxbsmobile.model.social.Latest;
+import com.mredrock.cyxbsmobile.model.social.News;
+import com.mredrock.cyxbsmobile.model.social.OfficeNews;
+import com.mredrock.cyxbsmobile.model.social.OkResponse;
+import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
 
 import java.util.List;
 

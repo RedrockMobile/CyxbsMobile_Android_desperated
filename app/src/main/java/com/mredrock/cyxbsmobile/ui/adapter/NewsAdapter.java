@@ -12,11 +12,11 @@ import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.component.widget.ExpandableTextView;
-import com.mredrock.cyxbsmobile.model.community.BBDDNews;
+import com.mredrock.cyxbsmobile.model.social.BBDDNews;
 
-import com.mredrock.cyxbsmobile.model.community.Image;
-import com.mredrock.cyxbsmobile.model.community.News;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.social.Image;
+import com.mredrock.cyxbsmobile.model.social.News;
+import com.mredrock.cyxbsmobile.model.social.OkResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;

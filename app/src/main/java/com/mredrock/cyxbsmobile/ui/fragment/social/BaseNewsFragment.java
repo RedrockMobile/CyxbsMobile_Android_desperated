@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.social.News;
 import com.mredrock.cyxbsmobile.subscriber.EndlessRecyclerOnScrollListener;
 import com.mredrock.cyxbsmobile.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;

@@ -1,6 +1,6 @@
 package com.mredrock.cyxbsmobile.ui.fragment.social;
 
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.social.News;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 

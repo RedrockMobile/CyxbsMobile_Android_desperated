@@ -5,24 +5,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <android.support.design.widget.AppBarLayout
+    <android.support.design.widget.TabLayout
+        android:id="@+id/community_TabLayout"
+        style="@style/CustomTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/community_TabLayout"
-            style="@style/CustomTabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabBackground="@color/white"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/colorPrimary"
-            app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/colorPrimary"
-            app:tabTextColor="@color/tabText" />
-
-    </android.support.design.widget.AppBarLayout>
+        android:layout_height="wrap_content"
+        app:tabBackground="@color/white"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/tabText" />
 
 
     <android.support.v4.view.ViewPager

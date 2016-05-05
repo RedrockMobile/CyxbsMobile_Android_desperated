@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.model.community;
+package com.mredrock.cyxbsmobile.model.social;
 
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 

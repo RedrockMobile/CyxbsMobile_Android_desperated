@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.model.community;
+package com.mredrock.cyxbsmobile.model.social;
 
 /**
  * Created by mathiasluo on 16-4-12.

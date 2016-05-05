@@ -13,16 +13,15 @@ import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Restaurant;
 import com.mredrock.cyxbsmobile.model.RestaurantComment;
 import com.mredrock.cyxbsmobile.model.RestaurantDetail;
-import com.mredrock.cyxbsmobile.model.Subject;
-import com.mredrock.cyxbsmobile.model.community.BBDDNews;
-import com.mredrock.cyxbsmobile.model.community.Comment;
+import com.mredrock.cyxbsmobile.model.social.BBDDNews;
+import com.mredrock.cyxbsmobile.model.social.Comment;
 
-import com.mredrock.cyxbsmobile.model.community.ContentBean;
-import com.mredrock.cyxbsmobile.model.community.News;
-import com.mredrock.cyxbsmobile.model.community.OfficeNews;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.Stu;
-import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
+import com.mredrock.cyxbsmobile.model.social.ContentBean;
+import com.mredrock.cyxbsmobile.model.social.News;
+import com.mredrock.cyxbsmobile.model.social.OfficeNews;
+import com.mredrock.cyxbsmobile.model.social.OkResponse;
+import com.mredrock.cyxbsmobile.model.social.Stu;
+import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.exception.ApiException;
 import com.mredrock.cyxbsmobile.network.exception.RedrockApiException;
 import com.mredrock.cyxbsmobile.network.service.NewsApiService;
@@ -124,13 +123,6 @@ public enum RequestManager {
                     /* 除了文件，其他POST参数 *///OkHttpUtils.createStringRequestBody("values"),
                     /* 文件，"file"是参数名 */OkHttpUtils.createFileRequestBody("file", fileUri))
                         .map(wrapper -> wrapper.info);
-
-        emitObservable(observable, subscriber);
-    }
-
-    public void getTopMovie(Subscriber<List<Subject>> subscriber, int start, int count) {
-        Observable<List<Subject>> observable = redrockApiService.getTopMovie(RedrockApiService.MOVIE_URL, start, count)
-                .map(new MovieResultFunc<>());
 
         emitObservable(observable, subscriber);
     }
