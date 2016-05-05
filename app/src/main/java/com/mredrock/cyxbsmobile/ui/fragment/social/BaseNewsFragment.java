@@ -95,11 +95,15 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
     private void showLoadingProgress() {
-        refreshLayout.setRefreshing(true);
+        if (refreshLayout != null) {
+            refreshLayout.setRefreshing(true);
+        }
     }
 
     private void closeLoadingProgress() {
-        refreshLayout.setRefreshing(false);
+        if (refreshLayout != null) {
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     public void getCurrentData(int size, int page, boolean update) {
