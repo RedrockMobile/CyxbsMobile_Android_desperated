@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by mathiasluo on 16-4-12.
  */
-public class Comment extends RedrockApiWrapper<Comment> {
+public class Comment extends RedrockApiWrapper<List<Comment.ReMark>> {
 
     /**
      * state : 200
@@ -25,9 +25,6 @@ public class Comment extends RedrockApiWrapper<Comment> {
      * content : 我就看看可不可以评论
      */
 
-    public List<ReMark> data;
-
-
     public static class ReMark {
         public String stunum;
         public String nickname;
@@ -36,7 +33,5 @@ public class Comment extends RedrockApiWrapper<Comment> {
         public String photo_thumbnail_src;
         public String created_time;
         public String content;
-
-
     }
 }

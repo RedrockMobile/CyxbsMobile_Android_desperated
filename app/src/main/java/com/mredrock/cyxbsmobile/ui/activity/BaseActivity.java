@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
     private int mActionBarAutoHideSensitivity = 0;
     private int mActionBarAutoHideSingnal = 0;
 
-    private ArrayList<View> mHideableHeaderViews = new ArrayList<>();
+    private ArrayList<View> mHideableHeaderViews;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class BaseActivity extends AppCompatActivity {
                 heights.put(firstVisibleItemPosition, firstVisibleItemView.getHeight());
 
                 int previousItemsHeight = 0;
-                for (int i = 0;i < firstVisibleItemPosition; i++) {
+                for (int i = 0; i < firstVisibleItemPosition; i++) {
                     previousItemsHeight += heights.get(i) != null ? heights.get(i) : 0;
                 }
                 int currentScrollY = previousItemsHeight - firstVisibleItemView.getTop()
@@ -85,7 +85,7 @@ public class BaseActivity extends AppCompatActivity {
     private void onHomeContentScrolled(int currentY, int deltaY) {
         if (deltaY > mActionBarAutoHideSensitivity) {
             deltaY = mActionBarAutoHideSensitivity;
-        } else if (deltaY < -mActionBarAutoHideSensitivity){
+        } else if (deltaY < -mActionBarAutoHideSensitivity) {
             deltaY = -mActionBarAutoHideSensitivity;
         }
 
@@ -135,13 +135,16 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void registerHideableHeaderView(View hideableHeaderView) {
+        if (mHideableHeaderViews == null) {
+            mHideableHeaderViews = new ArrayList<>();
+        }
         if (!mHideableHeaderViews.contains(hideableHeaderView)) {
             mHideableHeaderViews.add(hideableHeaderView);
         }
     }
 
     protected void deregisterHideableHeaderView(View hideableHeaderView) {
-        if (mHideableHeaderViews.contains(hideableHeaderView)) {
+        if (mHideableHeaderViews != null && mHideableHeaderViews.contains(hideableHeaderView)) {
             mHideableHeaderViews.remove(hideableHeaderView);
         }
     }
