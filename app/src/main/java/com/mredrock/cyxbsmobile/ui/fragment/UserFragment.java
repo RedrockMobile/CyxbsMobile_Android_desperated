@@ -22,7 +22,7 @@ import com.mredrock.cyxbsmobile.ui.activity.me.SettingActivity;
 /**
  * 我的页面
  */
-public class MyPageFragment extends BaseFragment
+public class UserFragment extends BaseFragment
         implements View.OnClickListener {
 
     @Bind(R.id.my_page_edit_layout)

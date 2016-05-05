@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.MainActivity">
     <item
-        android:id="@+id/action_addNews"
+        android:id="@+id/action_add_news"
         android:icon="@drawable/ic_add_news"
-        android:title="addNews"
+        android:title="add News"
         app:showAsAction="always" />
 
 </menu>

@@ -79,13 +79,12 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         });
 
         getCurrentData(PER_PAGE_NUM, 1, false);
-        getCurrentData(PER_PAGE_NUM, 1, true);
 
     }
 
     @Override
     public void onRefresh() {
-        getCurrentData(1, PER_PAGE_NUM, true);
+        getCurrentData(PER_PAGE_NUM, 1, true);
 
     }
 
@@ -114,7 +113,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                     if (mDatas == null)
                         initAdapter(newses);
                     else
-                        mNewsAdapter.replaceDatas(newses);
+                        mNewsAdapter.addDatas(newses);
                     Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
 
                     closeLoadingProgress();

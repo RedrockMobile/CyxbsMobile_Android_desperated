@@ -39,7 +39,7 @@ public class BBDDFragment extends BaseNewsFragment {
         mSubscription = RxBus.getDefault()
                 .toObserverable(News.class)
                 .subscribe(s -> {
-                    ((CommunityContainerFragment) getParentFragment()).changeViewPagerIndex(1);
+                    ((SocialContainerFragment) getParentFragment()).changeViewPagerIndex(1);
                     mNewsAdapter.addToFirst(s);
                 }, throwable -> {
 

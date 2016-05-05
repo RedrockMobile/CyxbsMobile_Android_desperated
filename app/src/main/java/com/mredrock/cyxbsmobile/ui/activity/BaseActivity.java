@@ -143,7 +143,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void deregisterHideableHeaderView(View hideableHeaderView) {
+    protected void unregisterHideableHeaderView(View hideableHeaderView) {
         if (mHideableHeaderViews != null && mHideableHeaderViews.contains(hideableHeaderView)) {
             mHideableHeaderViews.remove(hideableHeaderView);
         }

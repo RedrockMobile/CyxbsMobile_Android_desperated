@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * 社区
  */
-public class CommunityContainerFragment extends BaseFragment {
+public class SocialContainerFragment extends BaseFragment {
 
     @Bind(R.id.community_TabLayout)
     TabLayout mTabLayout;
@@ -33,7 +33,7 @@ public class CommunityContainerFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_community_container, container, false);
+        View view = inflater.inflate(R.layout.fragment_social_container, container, false);
         ButterKnife.bind(this, view);
         init();
         return view;
