@@ -77,7 +77,7 @@
         <activity android:name=".ui.activity.me.NoCourseActivity" />
         <activity android:name=".ui.activity.me.SelectStudentActivity" />
         <activity android:name=".ui.activity.me.EmptyRoomActivity" />
-        <activity android:name=".ui.activity.social.AddNewsActivity" />
+        <activity android:name=".ui.activity.social.PostNewsActivity" />
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize" />

@@ -40,7 +40,10 @@ public class BBDDNewsFragment extends BaseNewsFragment {
                 .toObserverable(HotNews.class)
                 .subscribe(s -> {
                     ((CommunityContainerFragment) getParentFragment()).changeViewPagerIndex(1);
-                    mNewsAdapter.addToFirst(s);
+                    //注释掉的这句话是把 最新发送的推到顶部
+                    //mNewsAdapter.addToFirst(s);
+                    getCurrentData(BaseNewsFragment.PER_PAGE_NUM, 1, true);
+                    mRecyclerView.scrollToPosition(0);
                 }, throwable -> {
 
                 });

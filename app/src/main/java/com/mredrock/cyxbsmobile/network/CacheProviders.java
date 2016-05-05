@@ -1,6 +1,6 @@
 package com.mredrock.cyxbsmobile.network;
 
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.HotNews;
 
 import java.util.List;
 
@@ -14,8 +14,7 @@ import rx.Observable;
  */
 public interface CacheProviders {
 
-    Observable<Reply<List<News>>> getCacheNews(Observable<List<News>> oNews, DynamicKeyGroup key, EvictDynamicKey evictDynamicKey);
+    Observable<Reply<List<HotNews>>> getCacheNews(Observable<List<HotNews>> oNews, DynamicKeyGroup key, EvictDynamicKey evictDynamicKey);
 
-    Observable<Reply<List<News>>> getCacheContentBean(Observable<List<News>> oNews, DynamicKeyGroup key, EvictDynamicKey evictDynamicKey);
-
+    Observable<Reply<List<HotNews>>> getCacheContentBean(Observable<List<HotNews>> oNews, DynamicKeyGroup key, EvictDynamicKey evictDynamicKey);
 }

@@ -43,7 +43,7 @@ public class CommunityContainerFragment extends BaseFragment {
         List<Fragment> fragmentLIst = new ArrayList<>();
 
         HotNewsFragment mPopularNewFragment = new HotNewsFragment();
-        BBDDFragment mBBLLNewFragment = new BBDDFragment();
+        BBDDNewsFragment mBBLLNewFragment = new BBDDNewsFragment();
 
         OfficialFragment mOfficialFragment = new OfficialFragment();
         fragmentLIst.add(mPopularNewFragment);

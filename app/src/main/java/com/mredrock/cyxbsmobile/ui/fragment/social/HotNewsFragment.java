@@ -1,6 +1,6 @@
 package com.mredrock.cyxbsmobile.ui.fragment.social;
 
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.HotNews;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 
 import java.util.List;
@@ -13,12 +13,12 @@ import rx.Observable;
 public class HotNewsFragment extends BaseNewsFragment {
 
     @Override
-    Observable<List<News>> provideData(int size, int page, boolean update) {
+    Observable<List<HotNews>> provideData(int size, int page, boolean update) {
         return RequestManager.getInstance().getHotArticle(size, page, update);
     }
 
     @Override
-    Observable<List<News>> provideData(int size, int page) {
+    Observable<List<HotNews>> provideData(int size, int page) {
         return RequestManager.getInstance().getHotArticle(size, page);
     }
 

@@ -1,6 +1,5 @@
 package com.mredrock.cyxbsmobile.ui.activity.social;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.HotNewsContent;
 import com.mredrock.cyxbsmobile.ui.adapter.ViewPagerAdapter;
 
 import butterknife.Bind;
@@ -24,7 +23,7 @@ public class ImageActivity extends AppCompatActivity {
     @Bind(R.id.container)
     ViewPager mViewPager;
 
-    private News.DataBean mDataBean;
+    private HotNewsContent mDataBean;
     private ViewPagerAdapter mAdapter;
     private int mPosition;
 
@@ -32,12 +31,11 @@ public class ImageActivity extends AppCompatActivity {
     public static final String POSITION = "position";
 
 
-    public static final void startWithData(Context context, News.DataBean dataBean, int position) {
+    public static final void startWithData(Context context, HotNewsContent dataBean, int position) {
         Intent intent = new Intent(context, ImageActivity.class);
         intent.putExtra(DATA, dataBean);
         intent.putExtra(POSITION, position);
         context.startActivity(intent);
-        ((Activity) context).overridePendingTransition(R.anim.activity_enter, R.anim.activity_exit);
     }
 
 
@@ -49,7 +47,6 @@ public class ImageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mDataBean = getIntent().getParcelableExtra(DATA);
         mPosition = getIntent().getIntExtra(POSITION, 0);
-
         init();
     }
 

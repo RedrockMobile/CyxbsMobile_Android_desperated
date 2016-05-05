@@ -17,7 +17,7 @@ import com.mredrock.cyxbsmobile.model.Subject;
 import com.mredrock.cyxbsmobile.model.community.BBDDNewsContent;
 import com.mredrock.cyxbsmobile.model.community.BBDDNews;
 import com.mredrock.cyxbsmobile.model.community.CommentContent;
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.HotNews;
 import com.mredrock.cyxbsmobile.model.community.OfficeNewsContent;
 import com.mredrock.cyxbsmobile.model.community.Stu;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
@@ -279,7 +279,7 @@ public enum RequestManager {
 
     }
 
-    public Observable<List<News>> getHotArticle(int size, int page, boolean update) {
+    public Observable<List<HotNews>> getHotArticle(int size, int page, boolean update) {
         return cacheProviders.getCacheNews(getHotArticle(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
                 .map(listReply -> listReply.getData())
                 .subscribeOn(Schedulers.io())
@@ -287,14 +287,14 @@ public enum RequestManager {
 
     }
 
-    public Observable<List<News>> getHotArticle(int size, int page) {
+    public Observable<List<HotNews>> getHotArticle(int size, int page) {
         return getHotArticle(size, page, Stu.STU_NUM, Stu.ID_NUM)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
 
     }
 
-    public Observable<List<News>> getHotArticle(int size, int page, String stuNum, String idNum) {
+    public Observable<List<HotNews>> getHotArticle(int size, int page, String stuNum, String idNum) {
         return redrockApiService.getHotArticle(size, page, stuNum, idNum);
     }
 
@@ -303,18 +303,18 @@ public enum RequestManager {
         return redrockApiService.getlistNews(size, page, stuNum, idNum, type_id).map(new RedrockApiWrapperFunc<>());
     }
 
-    public Observable<List<News>> getListNews(int size, int page) {
+    public Observable<List<HotNews>> getListNews(int size, int page) {
         return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDDNews.LISTNEWS)
                 .map(contentBeen -> {
-                    List<News> news = new ArrayList<>();
-                    for (OfficeNewsContent bean : contentBeen) news.add(new News(bean));
-                    return news;
+                    List<HotNews> aNews = new ArrayList<>();
+                    for (OfficeNewsContent bean : contentBeen) aNews.add(new HotNews(bean));
+                    return aNews;
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<News>> getListNews(int size, int page, boolean update) {
+    public Observable<List<HotNews>> getListNews(int size, int page, boolean update) {
         return cacheProviders.getCacheContentBean(getListNews(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
                 .map(listReply -> listReply.getData())
                 .subscribeOn(Schedulers.io())
@@ -322,28 +322,28 @@ public enum RequestManager {
     }
 
 
-    public Observable<List<News>> getListArticle(int type_id, int size, int page, boolean update) {
+    public Observable<List<HotNews>> getListArticle(int type_id, int size, int page, boolean update) {
         return cacheProviders.getCacheNews(getListArticle(type_id, size, page), new DynamicKeyGroup(type_id, size), new EvictDynamicKey(update))
                 .map(listReply -> listReply.getData())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<News>> getListArticle(int type_id, int size, int page) {
+    public Observable<List<HotNews>> getListArticle(int type_id, int size, int page) {
         return getListArticle(type_id, size, page, Stu.STU_NUM, Stu.ID_NUM)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<News>> getListArticle(int type_id, int size, int page, String stuNum, String idNum) {
+    public Observable<List<HotNews>> getListArticle(int type_id, int size, int page, String stuNum, String idNum) {
         return redrockApiService.getListArticle(type_id, size, page, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>())
                 .flatMap(bbddBeen -> Observable.just(bbddBeen)
                         .map(bbddBeen1 -> {
-                            List<News> news = new ArrayList<>();
+                            List<HotNews> aNews = new ArrayList<>();
                             for (BBDDNewsContent bbddNewsContent : bbddBeen1)
-                                news.add(new News(bbddNewsContent));
-                            return news;
+                                aNews.add(new HotNews(bbddNewsContent));
+                            return aNews;
                         }));
     }
 

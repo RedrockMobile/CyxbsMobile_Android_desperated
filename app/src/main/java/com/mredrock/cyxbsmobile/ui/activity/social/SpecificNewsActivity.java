@@ -18,10 +18,9 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
-import com.mredrock.cyxbsmobile.model.community.Comment;
 import com.mredrock.cyxbsmobile.model.community.CommentContent;
+import com.mredrock.cyxbsmobile.model.community.HotNewsContent;
 import com.mredrock.cyxbsmobile.model.community.OfficeNewsContent;
-import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
@@ -73,7 +72,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private View mHeaderView;
 
     public static final String TAG = "SpecificNewsActivity";
-    private News.DataBean dataBean;
+    private HotNewsContent dataBean;
 
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
@@ -83,7 +82,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private View mFooterView;
 
 
-    public static final void startActivityWithDataBean(Context context, News.DataBean dataBean, int itemViewHeight) {
+    public static final void startActivityWithDataBean(Context context, HotNewsContent dataBean, int itemViewHeight) {
         Intent intent = new Intent(context, SpecificNewsActivity.class);
         intent.putExtra(STRAT_DATA, dataBean);
         intent.putExtra(ITEM_VIEW_HEIGHT, itemViewHeight);

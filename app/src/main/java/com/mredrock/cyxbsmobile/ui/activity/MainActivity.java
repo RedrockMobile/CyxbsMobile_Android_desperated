@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar;
-import com.mredrock.cyxbsmobile.ui.activity.social.AddNewsActivity;
+import com.mredrock.cyxbsmobile.ui.activity.social.PostNewsActivity;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment;
@@ -129,7 +129,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_addNews:
-                AddNewsActivity.startActivity(this);
+                PostNewsActivity.startActivity(this);
                 break;
         }
         return super.onOptionsItemSelected(item);

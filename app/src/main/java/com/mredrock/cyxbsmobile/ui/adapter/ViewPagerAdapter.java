@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.HotNewsContent;
 import com.mredrock.cyxbsmobile.ui.fragment.social.SingleImageFragment;
 
 import java.util.ArrayList;
@@ -16,14 +16,14 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<SingleImageFragment> fragments = new ArrayList<>();
     private ViewPager mViewPager;
-    private News.DataBean mDataBean;
+    private HotNewsContent mHotNewsContent;
     private String[] urls;
 
-    public ViewPagerAdapter(FragmentManager fm, ViewPager viewPager, News.DataBean dataBean) {
+    public ViewPagerAdapter(FragmentManager fm, ViewPager viewPager, HotNewsContent hotNewsContent) {
         super(fm);
-        this.mDataBean = dataBean;
+        this.mHotNewsContent = hotNewsContent;
         this.mViewPager = viewPager;
-        urls = NewsAdapter.ViewHolder.getUrls(dataBean.img.img_src);
+        urls = NewsAdapter.ViewHolder.getUrls(hotNewsContent.img.img_src);
         mViewPager.setOffscreenPageLimit(urls.length);
         for (String url : urls) {
             SingleImageFragment singleImageFragment = new SingleImageFragment();

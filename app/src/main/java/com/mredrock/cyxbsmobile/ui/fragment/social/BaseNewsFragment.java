@@ -15,7 +15,8 @@ import android.widget.Toast;
 
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.HotNews;
+import com.mredrock.cyxbsmobile.model.community.HotNewsContent;
 import com.mredrock.cyxbsmobile.subscriber.EndlessRecyclerOnScrollListener;
 import com.mredrock.cyxbsmobile.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
@@ -43,16 +44,16 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private int currentIndex;
-    private List<News> mDatas = null;
+    private List<HotNews> mDatas = null;
     private FooterViewWrapper mFooterViewWrapper;
 
-    private final static int PER_PAGE_NUM = 9;
+    public final static int PER_PAGE_NUM = 10;
     public static final String TAG = "BaseNewsFragment";
 
 
-    abstract Observable<List<News>> provideData(int size, int page, boolean update);
+    abstract Observable<List<HotNews>> provideData(int size, int page, boolean update);
 
-    abstract Observable<List<News>> provideData(int size, int page);
+    abstract Observable<List<HotNews>> provideData(int size, int page);
 
     @Nullable
     @Override
@@ -110,7 +111,6 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                     else
                         mNewsAdapter.replaceDatas(newses);
                     Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
-
                     closeLoadingProgress();
                 }, throwable -> {
                     closeLoadingProgress();
@@ -119,11 +119,11 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
 
-    private void initAdapter(List<News> datas) {
+    private void initAdapter(List<HotNews> datas) {
         mDatas = datas;
         mNewsAdapter = new NewsAdapter(mDatas) {
             @Override
-            public void setDate(ViewHolder holder, News.DataBean mDataBean) {
+            public void setDate(ViewHolder holder, HotNewsContent mDataBean) {
                 BaseNewsFragment.this.setDate(holder, mDataBean);
             }
         };
@@ -133,7 +133,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         addFooterView(mHeaderViewRecyclerAdapter);
     }
 
-    protected void setDate(NewsAdapter.ViewHolder holder, News.DataBean mDataBean) {
+    protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
     }
 
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
@@ -156,12 +156,9 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
     @Override
-    public void onItemClick(View itemView, int position, News.DataBean dataBean) {
-
-                int height = itemView.getHeight(); // 获取高度
-                Log.e("=====>>>>获取的高度==》》", height + "");
-                SpecificNewsActivity.startActivityWithDataBean(getActivity(), dataBean, height);
-
+    public void onItemClick(View itemView, int position, HotNewsContent dataBean) {
+        int height = itemView.getHeight(); // 获取高度
+        SpecificNewsActivity.startActivityWithDataBean(getActivity(), dataBean, height);
     }
 
     @Override

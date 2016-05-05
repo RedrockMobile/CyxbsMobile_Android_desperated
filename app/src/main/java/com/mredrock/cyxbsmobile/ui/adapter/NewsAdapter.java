@@ -12,8 +12,9 @@ import com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.component.widget.ExpandableTextView;
 import com.mredrock.cyxbsmobile.model.community.BBDDNews;
+import com.mredrock.cyxbsmobile.model.community.HotNewsContent;
 import com.mredrock.cyxbsmobile.model.community.Image;
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.HotNews;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
@@ -32,10 +33,10 @@ import butterknife.ButterKnife;
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private List<News> mNews;
+    private List<HotNews> mNews;
     private OnItemOnClickListener onItemOnClickListener;
 
-    public NewsAdapter(List<News> mNews) {
+    public NewsAdapter(List<HotNews> mNews) {
         this.mNews = mNews;
     }
 
@@ -50,14 +51,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(NewsAdapter.ViewHolder holder, int position) {
-        News.DataBean mDataBean = mNews.get(position).data;
+        HotNewsContent mDataBean = mNews.get(position).data;
 
         setupOnItemClick(holder, position, mDataBean);
         holder.setData(mDataBean, false);
         setDate(holder, mDataBean);
     }
 
-    public void setDate(NewsAdapter.ViewHolder holder, News.DataBean mDataBean) {
+    public void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
 
     }
 
@@ -67,29 +68,29 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
 
-    protected void setupOnItemClick(final NewsAdapter.ViewHolder viewHolder, final int position, News.DataBean dataBean) {
+    protected void setupOnItemClick(final NewsAdapter.ViewHolder viewHolder, final int position,HotNewsContent dataBean) {
         if (onItemOnClickListener != null)
             viewHolder.itemView.setOnClickListener(v -> onItemOnClickListener.onItemClick(viewHolder.itemView, position, dataBean));
     }
 
 
-    public void addDatas(List<News> datas) {
+    public void addDatas(List<HotNews> datas) {
         mNews.addAll(datas);
         notifyDataSetChanged();
     }
 
-    public void replaceDatas(List<News> datas) {
+    public void replaceDatas(List<HotNews> datas) {
         mNews = datas;
         notifyDataSetChanged();
     }
 
-    public void addToFirst(News news) {
-        mNews.add(0, news);
+    public void addToFirst(HotNews hotNews) {
+        mNews.add(0, hotNews);
         notifyDataSetChanged();
     }
 
     public interface OnItemOnClickListener {
-        void onItemClick(View itemView, int position, News.DataBean dataBean);
+        void onItemClick(View itemView, int position, HotNewsContent dataBean);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -120,7 +121,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             ButterKnife.bind(this, itemView);
         }
 
-        public static void like(News.DataBean dataBean, TextView textView) {
+        public static void like(HotNewsContent dataBean, TextView textView) {
             RequestManager.getInstance()
                     .addThumbsUp(dataBean.id, dataBean.type_id)
                     .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
@@ -138,7 +139,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     }));
         }
 
-        public static void dislike(News.DataBean dataBean, TextView textView) {
+        public static void dislike(HotNewsContent dataBean, TextView textView) {
             RequestManager.getInstance()
                     .cancelThumbsUp(dataBean.id, dataBean.type_id)
                     .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
@@ -168,7 +169,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             return mImgs;
         }
 
-        public void setData(News.DataBean dataBean, boolean isSingle) {
+        public void setData(HotNewsContent dataBean, boolean isSingle) {
 
             mTextName.setText(dataBean.type_id < BBDDNews.BBDD ? dataBean.content.title : dataBean.nick_name);
             mTextTime.setText(TimeUtils.getTimeDetail(dataBean.time));
