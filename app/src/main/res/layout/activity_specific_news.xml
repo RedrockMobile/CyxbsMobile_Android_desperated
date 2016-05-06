@@ -81,6 +81,8 @@
             android:layout_weight="4"
             android:background="@drawable/news_edt"
             android:hint="@string/news_edt"
+            android:textColorHint="@color/body_text_3"
+            android:textSize="14sp"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
 
         <TextView
