@@ -12,8 +12,11 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.User;
@@ -24,20 +27,26 @@ import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
+import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyTrendActivity extends BaseActivity
-        implements SwipeRefreshLayout.OnRefreshListener,NewsAdapter.OnItemOnClickListener {
+        implements SwipeRefreshLayout.OnRefreshListener, NewsAdapter.OnItemOnClickListener {
 
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.my_trend_recycler_view) RecyclerView myTrendRecyclerView;
-    @Bind(R.id.my_trend_refresh_layout) SwipeRefreshLayout myTrendRefreshLayout;
+    @Bind(R.id.toolbar_title)
+    TextView           toolbarTitle;
+    @Bind(R.id.toolbar)
+    Toolbar            toolbar;
+    @Bind(R.id.my_trend_recycler_view)
+    RecyclerView       myTrendRecyclerView;
+    @Bind(R.id.my_trend_refresh_layout)
+    SwipeRefreshLayout myTrendRefreshLayout;
 
     private List<HotNews> mNewsList;
-    private NewsAdapter mNewsAdapter;
-    private User mUser;
+    private NewsAdapter   mNewsAdapter;
+    private User          mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,41 +56,42 @@ public class MyTrendActivity extends BaseActivity
         initToolbar();
         init();
 
-        mUser = getIntent().getParcelableExtra(Const.Extras.EDIT_USER);
-        mUser.idNum = "26722X";
+        mUser = APP.getUser(this);
 
         getMyTrendData(false);
         showProgress();
     }
 
 
-    @Override public void onRefresh() {
+    @Override
+    public void onRefresh() {
         getMyTrendData(true);
     }
 
     @Override
     public void onItemClick(View itemView, int position, HotNewsContent dataBean) {
         Intent intent = new Intent(this, SpecificNewsActivity.class);
-        intent.putExtra("dataBean",dataBean);
+        intent.putExtra("dataBean", dataBean);
         startActivity(intent);
     }
 
     private void init() {
         myTrendRefreshLayout.setOnRefreshListener(this);
-        myTrendRefreshLayout.setColorSchemeColors(ContextCompat.getColor
-                (this,R.color.colorAccent),ContextCompat.getColor
-                (this,R.color.colorPrimary));
+        myTrendRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(this, R.color.colorAccent),
+                ContextCompat.getColor(this, R.color.colorPrimary)
+        );
 
         mNewsList = new ArrayList<>();
         myTrendRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mNewsAdapter = new NewsAdapter(mNewsList){
+        mNewsAdapter = new NewsAdapter(mNewsList) {
             @Override
             public void onBindViewHolder(ViewHolder holder, int position) {
                 super.onBindViewHolder(holder, position);
                 ImageLoader.getInstance().loadAvatar(mUser
-                        .photo_thumbnail_src,holder.mImgAvatar);
+                        .photo_thumbnail_src, holder.mImgAvatar);
                 holder.mTextName.setText(mUser.nickname.equals("") ? mUser
-                        .stunum : mUser.nickname);
+                        .stuNum : mUser.nickname);
             }
         };
         mNewsAdapter.setOnItemOnClickListener(this);
@@ -106,31 +116,35 @@ public class MyTrendActivity extends BaseActivity
 
 
     private void getMyTrendData(boolean update) {
-        RequestManager.getInstance()
-                      .getMyTrend(mUser.stunum, mUser.idNum, update)
-                      .subscribe(newses -> {
-                          dismissProgress();
-                          mNewsList.clear();
-                          mNewsList.addAll(newses);
-                          mNewsAdapter.notifyDataSetChanged();
-                      }, throwable -> {
-                          dismissProgress();
-                          getDataFailed(throwable.getMessage());
-                      });
+        if (mUser != null) {
+            Logger.d(mUser.toString());
+            RequestManager.getInstance()
+                          .getMyTrend(mUser.stuNum, mUser.idNum, update)
+                          .subscribe(newses -> {
+                              dismissProgress();
+                              mNewsList.clear();
+                              mNewsList.addAll(newses);
+                              mNewsAdapter.notifyDataSetChanged();
+                          }, throwable -> {
+                              dismissProgress();
+                              getDataFailed(throwable.getMessage());
+                          });
+        }
     }
 
 
     private void showProgress() {
         myTrendRefreshLayout.getViewTreeObserver()
-                                  .addOnGlobalLayoutListener(
-                                          new ViewTreeObserver.OnGlobalLayoutListener() {
-                                              @Override
-                                              public void onGlobalLayout() {
-                                                  myTrendRefreshLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                                                  myTrendRefreshLayout.setRefreshing(true);
-                                                  getMyTrendData(true);
-                                              }
-                                          });
+                            .addOnGlobalLayoutListener(
+                                    new ViewTreeObserver.OnGlobalLayoutListener() {
+                                        @Override
+                                        public void onGlobalLayout() {
+                                            myTrendRefreshLayout.getViewTreeObserver()
+                                                                .removeGlobalOnLayoutListener(this);
+                                            myTrendRefreshLayout.setRefreshing(true);
+                                            getMyTrendData(true);
+                                        }
+                                    });
     }
 
 

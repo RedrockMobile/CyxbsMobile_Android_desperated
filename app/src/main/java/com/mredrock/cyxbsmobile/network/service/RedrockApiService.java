@@ -44,6 +44,10 @@ import rx.Observable;
 public interface RedrockApiService {
 
     @FormUrlEncoded
+    @POST(Const.API_VERIFY)
+    Observable<User.UserWrapper> verify(@Field("stuNum") String stuNum, @Field("idNum") String idNum);
+
+    @FormUrlEncoded
     @Headers("API_APP: android")
     @POST(Const.API_PERSON_SCHEDULE)
     Observable<Course.CourseWrapper> getCourse(@Field("stuNum") String stuNum,

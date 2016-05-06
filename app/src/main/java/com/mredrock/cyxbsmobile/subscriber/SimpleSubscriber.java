@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.mredrock.cyxbsmobile.BuildConfig;
 import com.mredrock.cyxbsmobile.component.task.progress.ProgressCancelListener;
 import com.mredrock.cyxbsmobile.component.task.progress.ProgressDialogHandler;
+import com.orhanobut.logger.Logger;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;

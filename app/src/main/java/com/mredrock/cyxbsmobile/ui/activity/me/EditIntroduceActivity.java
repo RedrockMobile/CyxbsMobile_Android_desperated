@@ -9,10 +9,13 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.Toolbar;
 import com.mredrock.cyxbsmobile.config.Const;
@@ -26,36 +29,40 @@ import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
 
     public static final String EXTRA_EDIT_INTRODUCE = "extra_edit_introduce";
-    public static final int MAX_SIZE_TEXT = 30;
-    @Bind(R.id.edit_introduce_toolbar) Toolbar editIntroduceToolbar;
-    @Bind(R.id.edit_introduce_et) EditText editIntroduceEt;
-    @Bind(R.id.edit_introduce_count) TextView editIntroduceCount;
+    public static final int    MAX_SIZE_TEXT        = 30;
+    @Bind(R.id.edit_introduce_toolbar)
+    Toolbar  editIntroduceToolbar;
+    @Bind(R.id.edit_introduce_et)
+    EditText editIntroduceEt;
+    @Bind(R.id.edit_introduce_count)
+    TextView editIntroduceCount;
 
     private User mUser;
 
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_introduce);
         ButterKnife.bind(this);
-
-        mUser = getIntent().getExtras()
-                           .getParcelable(Const.Extras.EDIT_USER);
         init();
     }
 
 
     private void init() {
+        mUser = APP.getUser(this);
+
         editIntroduceEt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_SIZE_TEXT)});
         editIntroduceEt.setText(mUser.introduction);
-        editIntroduceEt.setSelection(mUser.introduction.length());
-        editIntroduceCount.setText(String.valueOf(MAX_SIZE_TEXT - mUser.introduction.length()));
+        editIntroduceEt.setSelection(mUser.introduction == null ? 0 : mUser.introduction.length());
+        editIntroduceCount.setText(String.valueOf(
+                MAX_SIZE_TEXT - (mUser.introduction == null ? 0 : mUser.introduction.length())));
         editIntroduceEt.addTextChangedListener(this);
         editIntroduceToolbar.setRightTextListener(v -> setPersonIntroduction());
         editIntroduceToolbar.setLeftTextListener(v -> {
             if (!editIntroduceEt.getText().toString().equals(mUser.introduction)) {
                 showDialog(EditIntroduceActivity.this);
-            }else {
+            } else {
                 finish();
             }
         });
@@ -68,7 +75,8 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
                           .setPersonIntroduction(new SimpleSubscriber<>(
                                           EditIntroduceActivity.this, true, new SubscriberListener<RedrockApiWrapper<Object>>() {
 
-                                      @Override public void onCompleted() {
+                                      @Override
+                                      public void onCompleted() {
                                           super.onCompleted();
                                           Intent intent = new Intent();
                                           intent.putExtra(EXTRA_EDIT_INTRODUCE,
@@ -78,12 +86,14 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
                                       }
 
 
-                                      @Override public void onError(Throwable e) {
+                                      @Override
+                                      public void onError(Throwable e) {
                                           super.onError(e);
-                                          Toast.makeText(EditIntroduceActivity.this, "修改简介失败，原因：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                          Toast.makeText(EditIntroduceActivity.this, "修改简介失败，原因：" + e.getMessage(), Toast.LENGTH_SHORT)
+                                               .show();
                                           finish();
                                       }
-                                  }), mUser.stunum, mUser.idNum,
+                                  }), mUser.stuNum, mUser.idNum,
                                   editIntroduceEt.getText().toString());
         }
     }
@@ -95,19 +105,19 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
                                            .positiveText("退出")
                                            .negativeText("取消")
                                            .callback(new MaterialDialog.ButtonCallback() {
-                                                       @Override
-                                                       public void onPositive(MaterialDialog dialog) {
-                                                           super.onPositive(dialog);
-                                                           finish();
-                                                       }
+                                               @Override
+                                               public void onPositive(MaterialDialog dialog) {
+                                                   super.onPositive(dialog);
+                                                   finish();
+                                               }
 
 
-                                                       @Override
-                                                       public void onNegative(MaterialDialog dialog) {
-                                                           super.onNegative(dialog);
-                                                           dialog.dismiss();
-                                                       }
-                                                   })
+                                               @Override
+                                               public void onNegative(MaterialDialog dialog) {
+                                                   super.onNegative(dialog);
+                                                   dialog.dismiss();
+                                               }
+                                           })
                                            .show();
     }
 
@@ -125,12 +135,13 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
     }
 
 
-    @Override public void afterTextChanged(Editable s) {
-        if(s.length() < MAX_SIZE_TEXT) {
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (s.length() < MAX_SIZE_TEXT) {
             int num = s.length();
             num = Math.max(MAX_SIZE_TEXT - num, 0);
             editIntroduceCount.setText(String.valueOf(num));
-        }else {
+        } else {
             editIntroduceCount.setText(String.valueOf(0));
         }
     }

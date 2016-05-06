@@ -62,8 +62,6 @@ public class CourseContainerFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         mUser = APP.getUser(getActivity());
         EventBus.getDefault().register(this);
-        // TODO 测试
-        testUser();
         loadNowWeek();
         loadAllCourses();
 
@@ -167,13 +165,6 @@ public class CourseContainerFragment extends BaseFragment {
         }
     }
 
-    // TODO 测试用户
-    private void testUser() {
-        mUser = new User();
-        mUser.stuNum = "2015210408";
-        mUser.idNum = "";
-    }
-
     private void loadNowWeek() {
         if (mUser != null) {
             RequestManager.INSTANCE.getNowWeek(new SimpleSubscriber<>(APP.getContext(), new SubscriberListener<Integer>() {
@@ -199,8 +190,6 @@ public class CourseContainerFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdate(UpdateCourseEvent event) {
         mUser = APP.getUser(getActivity());
-        //TODO
-        testUser();
         loadAllCourses();
     }
 }

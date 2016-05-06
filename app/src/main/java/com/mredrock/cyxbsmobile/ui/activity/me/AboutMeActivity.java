@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.AboutMe;
 import com.mredrock.cyxbsmobile.model.User;
@@ -46,11 +48,7 @@ public class AboutMeActivity extends BaseActivity implements
         init();
         mAboutMeAdapter.setOnItemClickListener(this);
 
-        mUser = new User();
-        mUser.stunum = "2014213983";
-        mUser.idNum = "26722X";
-        //mUser.stunum = "2014213983";
-        //mUser.idNum = "26722X";
+        mUser = APP.getUser(this);
 
         getCurrentData(false);
         showProgress();
@@ -84,7 +82,7 @@ public class AboutMeActivity extends BaseActivity implements
 
     public void getCurrentData(boolean update) {
         RequestManager.getInstance()
-                      .getAboutMeList(mUser.stunum, mUser.idNum, update)
+                      .getAboutMeList(mUser.stuNum, mUser.idNum, update)
                       .subscribe(aboutMes -> {
                           dismissProgress();
                           mAboutMeList.clear();

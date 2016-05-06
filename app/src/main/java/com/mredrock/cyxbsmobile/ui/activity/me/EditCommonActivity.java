@@ -11,10 +11,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.Toolbar;
 import com.mredrock.cyxbsmobile.config.Const;
@@ -23,39 +26,43 @@ import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
+
 import rx.Subscriber;
 
 /**
  * Created by skylineTan on 2016/5/5 19:03.
  */
-public abstract class EditCommonActivity extends BaseActivity implements TextWatcher{
+public abstract class EditCommonActivity extends BaseActivity implements TextWatcher {
 
-    @Bind(R.id.edit_common_toolbar) Toolbar editCommonToolbar;
-    @Bind(R.id.edit_common_et) EditText editCommonEt;
-    @Bind(R.id.edit_common_delete) ImageView editCommonDelete;
-    @Bind(R.id.edit_common_count) TextView editCommonCount;
+    @Bind(R.id.edit_common_toolbar)
+    Toolbar   editCommonToolbar;
+    @Bind(R.id.edit_common_et)
+    EditText  editCommonEt;
+    @Bind(R.id.edit_common_delete)
+    ImageView editCommonDelete;
+    @Bind(R.id.edit_common_count)
+    TextView  editCommonCount;
 
-    protected User mUser;
-    private String editTextContent;
+    protected User   mUser;
+    private   String editTextContent;
 
-    protected abstract void provideData(Subscriber<RedrockApiWrapper<Object>> subscriber
-            ,String stuNum,String idNum,String info);
+    protected abstract void provideData(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String info);
 
     protected abstract String getExtra();
 
-    @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_common);
         ButterKnife.bind(this);
 
-        mUser = getIntent().getExtras()
-                           .getParcelable(Const.Extras.EDIT_USER);
-        mUser.idNum = "26722X";
         init();
     }
 
     private void init() {
-        switch (getExtra()){
+        mUser = APP.getUser(this);
+
+        switch (getExtra()) {
             case Const.Extras.EDIT_QQ:
                 editTextContent = mUser.qq;
                 editCommonToolbar.setTitle("QQ");
@@ -71,22 +78,23 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
         }
         editCommonEt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Integer.parseInt(getExtra()))});
         editCommonEt.setText(editTextContent);
-        editCommonEt.setSelection(editTextContent.length());
-        editCommonCount.setText(String.valueOf(Integer.parseInt(getExtra()) - editTextContent.length()));
+        editCommonEt.setSelection(editTextContent == null ? 0 : editTextContent.length());
+        editCommonCount.setText(String.valueOf(
+                Integer.parseInt(getExtra()) - (editTextContent == null ? 0 : editTextContent.length())));
         editCommonEt.addTextChangedListener(this);
         editCommonDelete.setOnClickListener(v -> editCommonEt.setText(""));
         editCommonToolbar.setRightTextListener(v -> setPersonInfo());
         editCommonToolbar.setLeftTextListener(v -> {
             if (!editCommonEt.getText().toString().equals(editTextContent)) {
                 showDialog(EditCommonActivity.this);
-            }else {
+            } else {
                 finish();
             }
         });
     }
 
 
-    private void setPersonInfo(){
+    private void setPersonInfo() {
         provideData(new SimpleSubscriber<>(this, true,
                 new SubscriberListener<RedrockApiWrapper<Object>>() {
 
@@ -103,10 +111,11 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        Toast.makeText(EditCommonActivity.this, "修改失败，原因：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditCommonActivity.this, "修改失败，原因：" + e.getMessage(), Toast.LENGTH_SHORT)
+                             .show();
                         finish();
                     }
-                }),mUser.stunum, mUser.idNum, editCommonEt.getText().toString());
+                }), mUser.stuNum, mUser.idNum, editCommonEt.getText().toString());
     }
 
     private void showDialog(Context context) {
@@ -115,19 +124,19 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
                                            .positiveText("退出")
                                            .negativeText("取消")
                                            .callback(new MaterialDialog.ButtonCallback() {
-                                                       @Override
-                                                       public void onPositive(MaterialDialog dialog) {
-                                                           super.onPositive(dialog);
-                                                           finish();
-                                                       }
+                                               @Override
+                                               public void onPositive(MaterialDialog dialog) {
+                                                   super.onPositive(dialog);
+                                                   finish();
+                                               }
 
 
-                                                       @Override
-                                                       public void onNegative(MaterialDialog dialog) {
-                                                           super.onNegative(dialog);
-                                                           dialog.dismiss();
-                                                       }
-                                                   })
+                                               @Override
+                                               public void onNegative(MaterialDialog dialog) {
+                                                   super.onNegative(dialog);
+                                                   dialog.dismiss();
+                                               }
+                                           })
                                            .show();
     }
 
@@ -144,12 +153,13 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
     }
 
 
-    @Override public void afterTextChanged(Editable s) {
-        if(s.length() < Integer.parseInt(getExtra())) {
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (s.length() < Integer.parseInt(getExtra())) {
             int num = s.length();
             num = Math.max(Integer.parseInt(getExtra()) - num, 0);
             editCommonCount.setText(String.valueOf(num));
-        }else {
+        } else {
             editCommonCount.setText(String.valueOf(0));
         }
     }

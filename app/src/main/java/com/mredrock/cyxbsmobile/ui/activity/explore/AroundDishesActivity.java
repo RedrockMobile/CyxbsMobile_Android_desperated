@@ -78,7 +78,7 @@ public class AroundDishesActivity extends BaseActivity {
 
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
     }

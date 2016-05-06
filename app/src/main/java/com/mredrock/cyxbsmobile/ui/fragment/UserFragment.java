@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.config.Const;
@@ -29,7 +29,6 @@ import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
-import com.mredrock.cyxbsmobile.ui.activity.MainActivity;
 import com.mredrock.cyxbsmobile.ui.activity.me.MyTrendActivity;
 import com.mredrock.cyxbsmobile.ui.activity.me.AboutMeActivity;
 import com.mredrock.cyxbsmobile.ui.activity.me.ExamAndGradeActivity;
@@ -41,6 +40,7 @@ import com.mredrock.cyxbsmobile.ui.activity.me.EmptyRoomActivity;
 import com.mredrock.cyxbsmobile.ui.activity.me.NoCourseActivity;
 import com.mredrock.cyxbsmobile.ui.activity.me.SettingActivity;
 import com.mredrock.cyxbsmobile.util.SPUtils;
+import com.orhanobut.logger.Logger;
 
 /**
  * 我的页面
@@ -100,9 +100,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         myPageSwitchCompat.setChecked(isNight);
         myPageSwitchCompat.setOnCheckedChangeListener(this);
 
-        mUser = new User();
-        mUser.stuNum = "2014213983";
-        mUser.idNum = "26722X";
+        mUser = APP.getUser(getActivity());
         getPersonInfoData();
     }
 
@@ -115,24 +113,18 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
     @OnClick(R.id.my_page_edit_layout)
     void clickToEdit() {
-        Intent intent = new Intent(getActivity(),
-                EditInfoActivity.class);
-        intent.putExtra(Const.Extras.EDIT_USER, mUser);
+        Intent intent = new Intent(getActivity(), EditInfoActivity.class);
         startActivityForResult(intent, REQUEST_EDIT_INFO);
     }
 
     @OnClick(R.id.my_page_relate_layout)
     void clickToRelate() {
-        startActivity(new Intent(getActivity(),
-                AboutMeActivity.class).putExtra(
-                Const.Extras.EDIT_USER, mUser));
+        startActivity(new Intent(getActivity(), AboutMeActivity.class));
     }
 
     @OnClick(R.id.my_page_trend_layout)
     void clickToLatest() {
-        startActivity(new Intent(getActivity(),
-                MyTrendActivity.class).putExtra(
-                Const.Extras.EDIT_USER, mUser));
+        startActivity(new Intent(getActivity(), MyTrendActivity.class));
     }
 
     @OnClick(R.id.my_page_no_course_layout)
@@ -197,27 +189,28 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 //mMainActivity.getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
-            //mMainActivity.recreate();
+            //getActivity().recreate();
         }
     }
 
     private void getPersonInfoData() {
-        RequestManager.getInstance()
-                      .getPersonInfo(new SimpleSubscriber<>(getActivity(),
-                              new SubscriberListener<User>() {
-                                  @Override
-                                  public void onNext(User user) {
-                                      super.onNext(user);
-                                      mUser = user;
-                                      refreshEditLayout();
-                                  }
+        if (mUser != null) {
+            RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(getActivity(),
+                    new SubscriberListener<User>() {
 
+                        @Override
+                        public void onNext(User user) {
+                            super.onNext(user);
+                            if (user != null) {
+                                mUser = User.cloneFromUserInfo(mUser, user);
+                                APP.setUser(getActivity(), mUser);
 
-                                  @Override
-                                  public void onCompleted() {
-                                      super.onCompleted();
-                                  }
-                              }), mUser.stuNum, mUser.idNum);
+                                refreshEditLayout();
+                            }
+                        }
+
+                    }), mUser.stuNum, mUser.idNum);
+        }
     }
 
 
@@ -225,7 +218,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
         myPageNickName.setText(mUser.nickname);
         myPageIntroduce.setText(mUser.introduction);
-        if (mUser.gender.equals("男")) {
+        if (mUser.gender.trim().equals("男")) {
             myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
             myPageGender.setText("♂");
         } else {
