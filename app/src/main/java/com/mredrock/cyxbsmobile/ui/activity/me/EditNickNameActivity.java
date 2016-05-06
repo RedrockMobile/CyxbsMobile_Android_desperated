@@ -10,8 +10,7 @@ public class EditNickNameActivity extends EditCommonActivity {
 
     @Override
     protected void provideData(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String info) {
-        RequestManager.getInstance().setPersonNickName(subscriber, stuNum,
-                idNum, info);
+        RequestManager.getInstance().setPersonNickName(subscriber, stuNum, idNum, info);
     }
 
 

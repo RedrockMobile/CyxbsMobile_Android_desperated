@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.fragment.mypage;
+package com.mredrock.cyxbsmobile.ui.fragment.me;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

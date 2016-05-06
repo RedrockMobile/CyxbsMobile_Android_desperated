@@ -14,13 +14,14 @@ import butterknife.OnClick;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
+import com.mredrock.cyxbsmobile.ui.activity.LoginActivity;
 
 public class SettingActivity extends BaseActivity {
 
     @Bind(R.id.toolbar_title)
-    TextView toolbarTitle;
+    TextView       toolbarTitle;
     @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar        toolbar;
     @Bind(R.id.setting_remind_layout)
     RelativeLayout settingRemindLayout;
     @Bind(R.id.setting_feedback_layout)
@@ -57,6 +58,9 @@ public class SettingActivity extends BaseActivity {
     @OnClick(R.id.setting_exit_layout)
     void clickToExit() {
 
+        startActivity(new Intent(this, LoginActivity.class));
+        this.finish();
+        //TODO exit MainActivity
     }
 
     private void initToolbar() {
@@ -64,8 +68,7 @@ public class SettingActivity extends BaseActivity {
             toolbar.setTitle("");
             toolbarTitle.setText("设置");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationOnClickListener(
-                    v -> SettingActivity.this.finish());
+            toolbar.setNavigationOnClickListener(v -> SettingActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);

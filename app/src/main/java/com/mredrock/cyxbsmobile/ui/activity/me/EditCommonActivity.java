@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.Toolbar;
 import com.mredrock.cyxbsmobile.config.Const;
@@ -34,19 +35,19 @@ import rx.Subscriber;
 public abstract class EditCommonActivity extends BaseActivity implements TextWatcher {
 
     @Bind(R.id.edit_common_toolbar)
-    Toolbar editCommonToolbar;
+
+    Toolbar   editCommonToolbar;
     @Bind(R.id.edit_common_et)
-    EditText editCommonEt;
+    EditText  editCommonEt;
     @Bind(R.id.edit_common_delete)
     ImageView editCommonDelete;
     @Bind(R.id.edit_common_count)
-    TextView editCommonCount;
+    TextView  editCommonCount;
 
-    protected User mUser;
-    private String editTextContent;
+    protected User   mUser;
+    private   String editTextContent;
 
-    protected abstract void provideData(Subscriber<RedrockApiWrapper<Object>> subscriber
-            , String stuNum, String idNum, String info);
+    protected abstract void provideData(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String info);
 
     protected abstract String getExtra();
 
@@ -56,13 +57,13 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
         setContentView(R.layout.activity_edit_common);
         ButterKnife.bind(this);
 
-        mUser = getIntent().getExtras()
-                .getParcelable(Const.Extras.EDIT_USER);
-        mUser.idNum = "26722X";
         init();
     }
 
     private void init() {
+
+        mUser = APP.getUser(this);
+
         switch (getExtra()) {
             case Const.Extras.EDIT_QQ:
                 editTextContent = mUser.qq;
@@ -79,8 +80,9 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
         }
         editCommonEt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Integer.parseInt(getExtra()))});
         editCommonEt.setText(editTextContent);
-        editCommonEt.setSelection(editTextContent.length());
-        editCommonCount.setText(String.valueOf(Integer.parseInt(getExtra()) - editTextContent.length()));
+        editCommonEt.setSelection(editTextContent == null ? 0 : editTextContent.length());
+        editCommonCount.setText(String.valueOf(
+                Integer.parseInt(getExtra()) - (editTextContent == null ? 0 : editTextContent.length())));
         editCommonEt.addTextChangedListener(this);
         editCommonDelete.setOnClickListener(v -> editCommonEt.setText(""));
         editCommonToolbar.setRightTextListener(v -> setPersonInfo());
@@ -111,10 +113,12 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        Toast.makeText(EditCommonActivity.this, "修改失败，原因：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditCommonActivity.this, "修改失败，原因：" + e.getMessage(), Toast.LENGTH_SHORT)
+                             .show();
                         finish();
                     }
-                }), mUser.stunum, mUser.idNum, editCommonEt.getText().toString());
+
+                }), mUser.stuNum, mUser.idNum, editCommonEt.getText().toString());
     }
 
     private void showDialog(Context context) {
@@ -137,6 +141,7 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
                     }
                 })
                 .show();
+
     }
 
     @Override

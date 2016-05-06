@@ -33,6 +33,7 @@ import com.mredrock.cyxbsmobile.ui.adapter.SpecificNewsCommentAdapter;
 import com.mredrock.cyxbsmobile.util.Util;
 import com.mredrock.cyxbsmobile.util.download.DownloadHelper;
 import com.mredrock.cyxbsmobile.util.download.callback.OnDownloadListener;
+import com.orhanobut.logger.Logger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -98,6 +99,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
             mWrapView.setData(mHotNewsContent, true);
             if (mHotNewsContent.type_id < BBDDNews.BBDD || (mHotNewsContent.type_id == 6 && mHotNewsContent.user_id == null))
                 doWithNews(mWrapView, mHotNewsContent.content);
+
             requestComments();
         }
         init();
@@ -119,7 +121,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private void doWithNews(NewsAdapter.ViewHolder mWrapView, OfficeNewsContent bean) {
         mWrapView.mTextContent.setText(Html.fromHtml(mHotNewsContent.content != null ? mHotNewsContent.content.content : ""));
-        mWrapView.mTextName.setText(bean.getArticletype_id());
+        mWrapView.mTextName.setText(bean.getOfficeName());
 
         mWrapView.mTextView_ex.setVisibility(View.INVISIBLE);
         if (mHotNewsContent.content.content.charAt(0) == '<')

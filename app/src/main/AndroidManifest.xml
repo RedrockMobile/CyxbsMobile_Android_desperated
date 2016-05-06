@@ -85,14 +85,11 @@
         <activity android:name=".ui.activity.me.ExamAndGradeActivity" />
         <activity android:name=".ui.activity.me.SchoolCalendarActivity" />
         <activity android:name=".ui.activity.social.PostNewsActivity" />
+        <activity android:name=".ui.activity.LoginActivity" />
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".ui.activity.social.ImageActivity" />
-        <activity
-            android:name=".ui.activity.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait" />

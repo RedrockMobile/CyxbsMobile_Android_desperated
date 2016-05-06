@@ -139,7 +139,7 @@ public class EatWhatActivity extends BaseActivity implements SensorEventListener
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
         mCompositeSubscription.clear();

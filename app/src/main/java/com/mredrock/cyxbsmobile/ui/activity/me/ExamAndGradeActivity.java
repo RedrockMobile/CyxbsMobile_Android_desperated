@@ -14,9 +14,9 @@ import butterknife.ButterKnife;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
-import com.mredrock.cyxbsmobile.ui.fragment.mypage.ExamScheduleFragment;
-import com.mredrock.cyxbsmobile.ui.fragment.mypage.GradeFragment;
 
+import com.mredrock.cyxbsmobile.ui.fragment.me.ExamScheduleFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.me.GradeFragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

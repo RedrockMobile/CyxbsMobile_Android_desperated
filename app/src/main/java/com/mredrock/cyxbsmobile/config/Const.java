@@ -28,11 +28,14 @@ public class Const {
     public static final String API_SOCIAL_LIKE = "/cyxbsMobile/index.php/Home/Praise/addone";
     public static final String API_SOCIAL_UNLIKE = "/cyxbsMobile/index.php/Home/Praise/cancel";
 
-    public static final String API_AVATAR_UPLOAD = "/cyxbsMobile/index.php/home/photo/upload";
-    public static final String API_GET_PERSON_INFO = "/cyxbsMobile/index.php/Home/Person/search";
+
+    public static final String API_AVATAR_UPLOAD     = "/cyxbsMobile/index.php/home/photo/upload";
+    public static final String API_GET_PERSON_INFO   = "/cyxbsMobile/index.php/Home/Person/search";
     public static final String API_GET_PERSON_LATEST = "/cyxbsMobile/index.php/Home/Article/searchtrends";
 
-    public static final String API_EMPTYROOM = "/api/roomEmpty";
+    //登陆验证接口
+    public static final String API_VERIFY          = "/api/verify";
+    public static final String API_EMPTYROOM       = "/api/roomEmpty";
     //考试安排
     public static final String API_EXAM_SCHEDULE = "/api/examSchedule";
     //补考安排

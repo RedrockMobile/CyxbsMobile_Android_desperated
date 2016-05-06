@@ -28,6 +28,7 @@ import com.mredrock.cyxbsmobile.model.social.Stu;
 import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.exception.RedrockApiException;
 import com.mredrock.cyxbsmobile.network.func.RedrockApiWrapperFunc;
+import com.mredrock.cyxbsmobile.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbsmobile.network.service.RedrockApiService;
 import com.mredrock.cyxbsmobile.network.service.UpDownloadService;
 import com.mredrock.cyxbsmobile.util.BitmapUtil;
@@ -103,7 +104,7 @@ public enum RequestManager {
 
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addInterceptor(logging);
         }
 
@@ -125,6 +126,13 @@ public enum RequestManager {
                     /* 除了文件，其他POST参数 *///OkHttpUtils.createStringRequestBody("values"),
                     /* 文件，"file"是参数名 */OkHttpUtils.createFileRequestBody("file", fileUri))
                         .map(wrapper -> wrapper.info);
+
+        emitObservable(observable, subscriber);
+    }
+
+    public void verify(Subscriber<User> subscriber, String stuNum, String idNum) {
+        Observable<User> observable = redrockApiService.verify(stuNum, idNum)
+                .map(new RedrockApiWrapperFunc<>());
 
         emitObservable(observable, subscriber);
     }
@@ -288,27 +296,28 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public Observable<List<AboutMe>> getAboutMeList(String stuNum, String
-            idNum, boolean update) {
-        return cacheProviders.getCacheRelateMes(getAboutMeList(stuNum, idNum), new DynamicKey(stuNum), new EvictDynamicKey
-                (update)).map(Reply::getData)
+
+    public Observable<List<AboutMe>> getAboutMeList(String stuNum, String idNum, boolean update) {
+
+        return getAboutMeList(stuNum, idNum).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+//        return cacheProviders.getCacheRelateMes(getAboutMeList(stuNum, idNum), new DynamicKey(stuNum), new EvictDynamicKey(update))
+//                             .map(Reply::getData)
+//                             .subscribeOn(Schedulers.io())
+//                             .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<AboutMe>> getAboutMeList(String stuNum, String idNum) {
+        return redrockApiService.getAboutMe(stuNum, idNum)
+                .map(new RedrockApiWrapperFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<AboutMe>> getAboutMeList(String stuNum, String
-            idNum) {
-        return redrockApiService.getAboutMe(stuNum, idNum).map(new
-                RedrockApiWrapperFunc<>())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
+    public Observable<List<HotNews>> getTrendDetail(String stuNum, String idNum, int type_id, String article_id) {
 
-    public Observable<List<HotNews>> getTrendDetail(String stuNum,
-                                                    String idNum,
-                                                    int type_id,
-                                                    String article_id) {
         List<HotNews> newsList = new ArrayList<>();
+
         return redrockApiService.getTrendDetail(stuNum, idNum, type_id, article_id)
                 .flatMap(bbddDetailWrapper -> Observable.from(bbddDetailWrapper.data))
                 .map(bbddDetail -> {
@@ -321,15 +330,12 @@ public enum RequestManager {
     }
 
     public Observable<List<HotNews>> getMyTrend(String stuNum, String idNum, boolean update) {
-        return cacheProviders.getMyTrend(getMyTrend(stuNum, idNum), new
-                DynamicKey(stuNum), new EvictDynamicKey(update))
-                .map(Reply::getData)
+        return getMyTrend(stuNum, idNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<HotNews>> getMyTrend(String stuNum, String
-            idNum) {
+    public Observable<List<HotNews>> getMyTrend(String stuNum, String idNum) {
         List<HotNews> newsList = new ArrayList<>();
         return redrockApiService.searchTrends(stuNum, idNum)
                 .flatMap(bbddDetailWrapper -> Observable.from(bbddDetailWrapper.data))
@@ -479,8 +485,8 @@ public enum RequestManager {
                                                        String user_id,
                                                        String stuNum,
                                                        String idNum) {
-        Log.e("===>>article_id->",article_id);
-        Log.e("===>>type_id->",type_id+"");
+        Log.e("===>>article_id->", article_id);
+        Log.e("===>>type_id->", type_id + "");
         return redrockApiService.getSocialCommentList(article_id, type_id, user_id, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>())
                 .subscribeOn(Schedulers.newThread())
@@ -530,15 +536,16 @@ public enum RequestManager {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<RedrockApiWrapper<Object>> setPersonInfo(String stuNum, String
-            idNum, String photo_thumbnail_src, String photo_src) {
-        return redrockApiService.setPersonInfo(stuNum, idNum,
-                photo_thumbnail_src, photo_src);
+    public Observable<RedrockApiWrapper<Object>> setPersonInfo(String stuNum, String idNum, String photo_thumbnail_src, String photo_src) {
+
+        return redrockApiService.setPersonInfo(stuNum, idNum, photo_thumbnail_src, photo_src)
+                .map(new RedrockApiWrapperFunc());
     }
 
-    public void setPersonNickName(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum,
-                                  String idNum, String nickName) {
-        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonNickName(stuNum, idNum, nickName);
+    public void setPersonNickName(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String nickName) {
+
+        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonNickName(stuNum, idNum, nickName)
+                .map(new RedrockApiWrapperFunc());
 
         emitObservable(observable, subscriber);
     }
@@ -555,8 +562,8 @@ public enum RequestManager {
     }
 
 
-    public Observable<List<HotNews>> getPersonLatestList(String otherStuNum, String
-            stuNum, String idNum, String userName, String userHead) {
+    public Observable<List<HotNews>> getPersonLatestList(String otherStuNum, String stuNum, String idNum, String userName, String userHead) {
+
         return redrockApiService.getPersonLatestList(otherStuNum, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>())
                 .map(personLatests -> {
@@ -569,38 +576,38 @@ public enum RequestManager {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<HotNews>> getPersonLatestList(String otherStuNum, String
-            userName, String userHead) {
+    public Observable<List<HotNews>> getPersonLatestList(String otherStuNum, String userName, String userHead) {
         return getPersonLatestList(otherStuNum, Stu.STU_NUM, Stu.ID_NUM, userName, userHead);
     }
 
     public void setPersonIntroduction(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String introduction) {
 
-        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonIntroduction(stuNum, idNum, introduction);
+        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonIntroduction(stuNum, idNum, introduction)
+                .map(new RedrockApiWrapperFunc());
 
         emitObservable(observable, subscriber);
     }
 
     public void setPersonQQ(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String qq) {
 
-        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonQQ(stuNum, idNum, qq);
+        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonQQ(stuNum, idNum, qq)
+                .map(new RedrockApiWrapperFunc());
 
         emitObservable(observable, subscriber);
     }
 
-    public void setPersonPhone(Subscriber<RedrockApiWrapper<Object>> subscriber,
-                               String stuNum,
-                               String idNum,
-                               String phone) {
-        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonPhone(stuNum, idNum, phone);
+    public void setPersonPhone(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String phone) {
+
+        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonPhone(stuNum, idNum, phone)
+                .map(new RedrockApiWrapperFunc());
 
         emitObservable(observable, subscriber);
     }
 
-    public void getPersonInfo(Subscriber<User> subscriber, String stuNum, String
-            idNum) {
+    public void getPersonInfo(Subscriber<User> subscriber, String stuNum, String idNum) {
         Observable<User> observable = redrockApiService.getPersonInfo(stuNum, idNum)
-                .map(userWrapper -> userWrapper.data);
+                .map(new RedrockApiWrapperFunc<>())
+                .map(new UserInfoVerifyFunc());
         emitObservable(observable, subscriber);
     }
 

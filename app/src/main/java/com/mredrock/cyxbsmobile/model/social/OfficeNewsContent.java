@@ -25,7 +25,7 @@ public class OfficeNewsContent implements Parcelable {
     public String like_num;
     public boolean is_my_like;
 
-    public String getArticletype_id() {
+    public String getOfficeName() {
         int typeId = 0;
         String type = "红岩网校工作站";
         if (StringUtils.isNotBlank(articletype_id)) {
@@ -113,5 +113,25 @@ public class OfficeNewsContent implements Parcelable {
         parcel.writeString(remark_num);
         parcel.writeString(like_num);
         parcel.writeByte((byte) (is_my_like ? 1 : 0));
+    }
+
+    @Override
+    public String toString() {
+        return "OfficeNewsContent{" +
+                "address='" + address + '\'' +
+                ", id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", date='" + date + '\'' +
+                ", content='" + content + '\'' +
+                ", articletype_id='" + articletype_id + '\'' +
+                ", name='" + name + '\'' +
+                ", articleid='" + articleid + '\'' +
+                ", read='" + read + '\'' +
+                ", head='" + head + '\'' +
+                ", unit='" + unit + '\'' +
+                ", remark_num='" + remark_num + '\'' +
+                ", like_num='" + like_num + '\'' +
+                ", is_my_like=" + is_my_like +
+                '}';
     }
 }
