@@ -66,7 +66,6 @@ public class NoCourseActivity extends BaseActivity
 
     private int count = 0;
     private User mUser;
-    private Handler mHandler = new Handler();
 
 
     @Override
@@ -164,7 +163,12 @@ public class NoCourseActivity extends BaseActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SELECT && resultCode == RESULT_OK) {
             Student student = (Student) data.getExtras().getSerializable(EXTRA_NO_COURSE);
-            addStudent(student.stunum, student.name);
+            if(!stuNumList.contains(student.stunum)) {
+                addStudent(student.stunum, student.name);
+            }else {
+                Snackbar.make(noCourseStu, "请不要重复添加！", Snackbar.LENGTH_SHORT)
+                        .show();
+            }
         }
     }
 
@@ -175,6 +179,7 @@ public class NoCourseActivity extends BaseActivity
         count++;
         StringBuilder sb = new StringBuilder();
         noCourseHave.setText(sb.append("已添加").append(count).append("人"));
+        mNoCourseAdapter.notifyDataSetChanged();
     }
 
 
@@ -222,7 +227,6 @@ public class NoCourseActivity extends BaseActivity
                                             noCourseStu.setHint(
                                                     "输入学号/姓名可以继续添加");
                                             noCourseStu.setText("");
-                                            mNoCourseAdapter.notifyDataSetChanged();
                                         }
                                     } else {
                                         Snackbar.make(noCourseStu, "没有找到这个人哦~",

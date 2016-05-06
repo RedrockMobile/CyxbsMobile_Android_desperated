@@ -9,8 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
+import butterknife.OnClick;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Student;
 import com.mredrock.cyxbsmobile.ui.adapter.BaseRecyclerViewAdapter;
@@ -32,13 +34,14 @@ public class SelectStudentAdapter extends BaseRecyclerViewAdapter<Student, Selec
 
     @Override
     protected void bindData(ViewHolder holder, Student data, int position) {
-        holder.selectName.setText(data.stunum);
+        holder.selectName.setText(data.name);
         holder.selectMajor.setText(data.major);
         holder.selectStuNum.setText(data.stunum);
         setOnItemClickListener((parent, view, position1, id) -> {
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
-            bundle.putSerializable(NoCourseActivity.EXTRA_NO_COURSE, data);
+            bundle.putSerializable(NoCourseActivity.EXTRA_NO_COURSE, mDatas
+                    .get(position1));
             intent.putExtras(bundle);
             ((AppCompatActivity) mContext).setResult(Activity.RESULT_OK, intent);
             ((AppCompatActivity) mContext).finish();
