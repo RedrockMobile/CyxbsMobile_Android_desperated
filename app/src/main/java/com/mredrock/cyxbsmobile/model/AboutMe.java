@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by skylineTan on 2016/4/10 16:44.
  */
-public class AboutMe implements Serializable{
+public class AboutMe implements Serializable {
 
     public String type;
     public String content;
@@ -18,6 +18,6 @@ public class AboutMe implements Serializable{
     public String nickname;
     public String photo_src;
 
-    public static class AboutMeWapper extends RedrockApiWrapper<List<AboutMe>>{
+    public static class AboutMeWapper extends RedrockApiWrapper<List<AboutMe>> {
     }
 }

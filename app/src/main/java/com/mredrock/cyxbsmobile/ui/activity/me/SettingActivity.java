@@ -11,10 +11,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import butterknife.OnClick;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 
-public class SettingActivity extends BaseActivity{
+public class SettingActivity extends BaseActivity {
 
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -39,22 +40,22 @@ public class SettingActivity extends BaseActivity{
     }
 
     @OnClick(R.id.setting_remind_layout)
-    void clickToRemind(){
+    void clickToRemind() {
         startActivity(new Intent(this, NewsRemindActivity.class));
     }
 
     @OnClick(R.id.setting_feedback_layout)
-    void clickToFeedback(){
+    void clickToFeedback() {
 
     }
 
     @OnClick(R.id.setting_about_layout)
-    void clickToAbout(){
+    void clickToAbout() {
         startActivity(new Intent(this, AboutActivity.class));
     }
 
     @OnClick(R.id.setting_exit_layout)
-    void clickToExit(){
+    void clickToExit() {
 
     }
 

@@ -179,7 +179,7 @@
     <string name="load_failed">下载失败了~</string>
     <string name="load_error_prepare">加载异常</string>
 
-    <string name="news_edt">单击此处输入评论</string>
+    <string name="news_edt">说点什么吧...</string>
     <string name="specific_news_title">详情</string>
     <string name="specific_news_nev">返回</string>
 

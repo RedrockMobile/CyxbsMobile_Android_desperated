@@ -160,7 +160,7 @@ public class RestaurantDetailFragment extends Fragment {
 
                 if (Utils.checkNotNullAndNotEmpty(restaurantDetail.restaurantComments)) {
                     if (mPage == 1) {
-                        mComments =restaurantDetail.restaurantComments;
+                        mComments = restaurantDetail.restaurantComments;
                     } else {
                         mComments.addAll(restaurantDetail.restaurantComments);
                     }
@@ -217,13 +217,12 @@ public class RestaurantDetailFragment extends Fragment {
         builder.setTitle(getResources().getString(R.string.restaurant_detail_dialog_title));
         builder.setView(view);
         builder.setPositiveButton(getResources().getString(R.string.restaurant_detail_dialog_positive_text), (dialog, whichButton) -> {
-                    if (!edtInput.getText().toString().isEmpty()) {
-                        sendCommentAndRefresh(edtInput.getText().toString());
-                    }
-                    else {
-                        Toast.makeText(getActivity(), "内容不能为空哟", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            if (!edtInput.getText().toString().isEmpty()) {
+                sendCommentAndRefresh(edtInput.getText().toString());
+            } else {
+                Toast.makeText(getActivity(), "内容不能为空哟", Toast.LENGTH_SHORT).show();
+            }
+        });
         builder.setNegativeButton("取消", (dialog, whichButton) -> {
             dialog.dismiss();
         });

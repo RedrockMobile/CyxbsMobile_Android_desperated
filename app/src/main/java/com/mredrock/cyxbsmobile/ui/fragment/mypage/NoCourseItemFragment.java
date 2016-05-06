@@ -43,11 +43,15 @@ public class NoCourseItemFragment extends BaseFragment {
     public static final String EXTRA_STU_NUM_LIST = "extra_stu_num_list";
     public static final String EXTRA_NAME_LIST = "extra_name_list";
 
-    @Bind(R.id.no_course_week) LinearLayout noCourseWeek;
-    @Bind(R.id.no_course_time) LinearLayout noCourseTime;
-    @Bind(R.id.no_course_schedule_content) NoScheduleView
+    @Bind(R.id.no_course_week)
+    LinearLayout noCourseWeek;
+    @Bind(R.id.no_course_time)
+    LinearLayout noCourseTime;
+    @Bind(R.id.no_course_schedule_content)
+    NoScheduleView
             noCourseScheduleContent;
-    @Bind(R.id.no_course_swipe_refresh_layout) SwipeRefreshLayout
+    @Bind(R.id.no_course_swipe_refresh_layout)
+    SwipeRefreshLayout
             noCourseSwipeRefreshLayout;
 
     private Map<String, List<Course>> mCourseMap;
@@ -57,10 +61,10 @@ public class NoCourseItemFragment extends BaseFragment {
 
     private int mWeek;
     private int count;
-    private int[] mTodayWeekIds = { R.id.view_no_course_today_7,
+    private int[] mTodayWeekIds = {R.id.view_no_course_today_7,
             R.id.view_no_course_today_1, R.id.view_no_course_today_2,
             R.id.view_no_course_today_3, R.id.view_no_course_today_4,
-            R.id.view_no_course_today_5, R.id.view_no_course_today_6 };
+            R.id.view_no_course_today_5, R.id.view_no_course_today_6};
 
 
     public NoCourseItemFragment() {
@@ -82,9 +86,9 @@ public class NoCourseItemFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         parseArguments();
         mStuNumList = getActivity().getIntent()
-                                   .getStringArrayListExtra(EXTRA_STU_NUM_LIST);
+                .getStringArrayListExtra(EXTRA_STU_NUM_LIST);
         mNameList = getActivity().getIntent()
-                                 .getStringArrayListExtra(EXTRA_NAME_LIST);
+                .getStringArrayListExtra(EXTRA_NAME_LIST);
     }
 
 
@@ -94,8 +98,8 @@ public class NoCourseItemFragment extends BaseFragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity())
-                                  .inflate(R.layout.fragment_no_course_item,
-                                          container, false);
+                .inflate(R.layout.fragment_no_course_item,
+                        container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -190,25 +194,28 @@ public class NoCourseItemFragment extends BaseFragment {
         RequestManager.getInstance().getCourse(new
                 SimpleSubscriber<>(getActivity(), new SubscriberListener<List<Course>>() {
 
-            @Override public void onStart() {
+            @Override
+            public void onStart() {
                 super.onStart();
                 count = 0;
             }
 
 
-            @Override public void onNext(List<Course> courses) {
+            @Override
+            public void onNext(List<Course> courses) {
                 super.onNext(courses);
-                mCourseMap.put(String.valueOf(count),courses);
+                mCourseMap.put(String.valueOf(count), courses);
                 count++;
             }
 
 
-            @Override public void onCompleted() {
+            @Override
+            public void onCompleted() {
                 super.onCompleted();
                 dismissProgress();
                 getNoCourseTable();
             }
-        }),mStuNumList,String.valueOf(mWeek));
+        }), mStuNumList, String.valueOf(mWeek));
     }
 
 
@@ -216,7 +223,7 @@ public class NoCourseItemFragment extends BaseFragment {
         if (getView() != null) {
             getView().findViewById(mTodayWeekIds[
                     Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1])
-                     .setVisibility(View.VISIBLE);
+                    .setVisibility(View.VISIBLE);
         }
     }
 
@@ -275,7 +282,7 @@ public class NoCourseItemFragment extends BaseFragment {
                     if ((booleanList.size() == 0 ||
                             !booleanList.get(Integer.parseInt(entry.getKey()))) && isNoCourse) {
                         nameList.add(mNameList.get(Integer.parseInt(entry.getKey())));
-                    }else if (mWeek == 0 && !isAllSemester) {
+                    } else if (mWeek == 0 && !isAllSemester) {
                         String name = mNameList.get(
                                 Integer.parseInt(entry.getKey())) + "\n" +
                                 rawWeek;
@@ -297,20 +304,20 @@ public class NoCourseItemFragment extends BaseFragment {
         }
     }
 
-    private void showProgress(){
+    private void showProgress() {
         noCourseSwipeRefreshLayout.getViewTreeObserver()
-                      .addOnGlobalLayoutListener(
-                              new ViewTreeObserver.OnGlobalLayoutListener() {
-                                  @Override
-                                  public void onGlobalLayout() {
-                                      noCourseSwipeRefreshLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                                      noCourseSwipeRefreshLayout.setRefreshing(true);
-                                      loadWeekNoCourse();
-                                  }
-                              });
+                .addOnGlobalLayoutListener(
+                        new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @Override
+                            public void onGlobalLayout() {
+                                noCourseSwipeRefreshLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                                noCourseSwipeRefreshLayout.setRefreshing(true);
+                                loadWeekNoCourse();
+                            }
+                        });
     }
 
-    private void dismissProgress(){
+    private void dismissProgress() {
         if (noCourseSwipeRefreshLayout != null &&
                 noCourseSwipeRefreshLayout.isRefreshing()) {
             noCourseSwipeRefreshLayout.setRefreshing(

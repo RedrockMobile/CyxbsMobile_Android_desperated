@@ -30,6 +30,7 @@ public class OfficialFragment extends BaseNewsFragment {
         super.setDate(holder, mDataBean);
         holder.mTextContent.setText(mDataBean.content.title);
         holder.mTextName.setText(mDataBean.content.getArticletype_id());
+        holder.enableClick = false;
     }
 
 }

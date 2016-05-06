@@ -50,33 +50,33 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     public static final int REQUEST_EDIT_INFO = 10;
 
     @Bind(R.id.my_page_edit_layout)
-    LinearLayout    myPageEditLayout;
+    LinearLayout myPageEditLayout;
     @Bind(R.id.my_page_relate_layout)
-    RelativeLayout  myPageRelateLayout;
+    RelativeLayout myPageRelateLayout;
     @Bind(R.id.my_page_trend_layout)
-    RelativeLayout  myPageTrendLayout;
+    RelativeLayout myPageTrendLayout;
     @Bind(R.id.my_page_no_course_layout)
-    RelativeLayout  myPageNoCourseLayout;
+    RelativeLayout myPageNoCourseLayout;
     @Bind(R.id.my_page_empty_layout)
-    RelativeLayout  myPageEmptyLayout;
+    RelativeLayout myPageEmptyLayout;
     @Bind(R.id.my_page_grade_layout)
-    RelativeLayout  myPageGradeLayout;
+    RelativeLayout myPageGradeLayout;
     @Bind(R.id.my_page_calendar_layout)
-    RelativeLayout  myPageCalendarLayout;
+    RelativeLayout myPageCalendarLayout;
     @Bind(R.id.my_page_night_layout)
-    RelativeLayout  myPageNightLayout;
+    RelativeLayout myPageNightLayout;
     @Bind(R.id.my_page_setting_layout)
-    RelativeLayout  myPageSettingLayout;
+    RelativeLayout myPageSettingLayout;
     @Bind(R.id.my_page_avatar)
     CircleImageView myPageAvatar;
     @Bind(R.id.my_page_nick_name)
-    TextView        myPageNickName;
+    TextView myPageNickName;
     @Bind(R.id.my_page_gender)
-    TextView        myPageGender;
+    TextView myPageGender;
     @Bind(R.id.my_page_introduce)
-    TextView        myPageIntroduce;
+    TextView myPageIntroduce;
     @Bind(R.id.my_page_switch_compat)
-    SwitchCompat    myPageSwitchCompat;
+    SwitchCompat myPageSwitchCompat;
 
     private User mUser;
 
@@ -203,27 +203,27 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
     private void getPersonInfoData() {
         RequestManager.getInstance()
-                      .getPersonInfo(new SimpleSubscriber<>(getActivity(),
-                              new SubscriberListener<User>() {
-                                  @Override
-                                  public void onNext(User user) {
-                                      super.onNext(user);
-                                      mUser = user;
-                                      refreshEditLayout();
-                                  }
+                .getPersonInfo(new SimpleSubscriber<>(getActivity(),
+                        new SubscriberListener<User>() {
+                            @Override
+                            public void onNext(User user) {
+                                super.onNext(user);
+                                mUser = user;
+                                refreshEditLayout();
+                            }
 
 
-                                  @Override
-                                  public void onCompleted() {
-                                      super.onCompleted();
-                                  }
-                              }), mUser.stuNum, mUser.idNum);
+                            @Override
+                            public void onCompleted() {
+                                super.onCompleted();
+                            }
+                        }), mUser.stuNum, mUser.idNum);
     }
 
 
     private void refreshEditLayout() {
         ImageLoader.getInstance()
-                   .loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
+                .loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
         myPageNickName.setText(mUser.nickname);
         myPageIntroduce.setText(mUser.introduction);
         if (mUser.gender.equals("男")) {

@@ -4,7 +4,7 @@ import com.mredrock.cyxbsmobile.util.Utils;
 
 /**
  * Result of Shaking
- *
+ * <p>
  * Created by Stormouble on 16/4/7.
  */
 public class EatWhat {
@@ -32,6 +32,6 @@ public class EatWhat {
 
     @Override
     public String toString() {
-        return  "Shop " + name + " located in " + address;
+        return "Shop " + name + " located in " + address;
     }
 }

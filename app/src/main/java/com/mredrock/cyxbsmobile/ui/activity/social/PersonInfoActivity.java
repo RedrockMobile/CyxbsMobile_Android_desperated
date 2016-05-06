@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.social.BaseNewsFragment;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
+import com.mredrock.cyxbsmobile.util.ScreenTools;
 
 import java.util.List;
 
@@ -87,7 +89,6 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
         mSwipeRefreshLayout.setColorSchemeColors(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-
         mHeaderViewWrapper.setData(mUserAvatar, mNickName);
         showLaoding();
         requestData();
@@ -128,6 +129,13 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
                 RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) cardView.getLayoutParams();
                 params.setMargins(0, 0, 0, 10);
                 cardView.setLayoutParams(params);
+
+                ViewGroup.LayoutParams ps = holder.mImgAvatar.getLayoutParams();
+                ps.width = ScreenTools.instance(PersonInfoActivity.this).dip2px(42);
+                ps.height = ps.width;
+                holder.mImgAvatar.setLayoutParams(ps);
+                holder.enableClick = false;
+
             }
         };
         mHeaderViewRecyclerAdapter.setAdapter(mNewsAdapter);

@@ -15,6 +15,7 @@ import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Student;
 import com.mredrock.cyxbsmobile.ui.adapter.BaseRecyclerViewAdapter;
 import com.mredrock.cyxbsmobile.ui.activity.me.NoCourseActivity;
+
 import java.util.List;
 
 import butterknife.Bind;

@@ -4,17 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -31,7 +25,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnItemClick;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -94,8 +87,8 @@ public class AroundDishesFragment extends Fragment {
         mAdapter = new AroundDishesAdapter(getActivity(), new ArrayList<Restaurant>());
         mAdapter.setOnItemClickListener((parent, view1, position, id) ->
                 FragmentUtils.startAnotherFragment(getFragmentManager(), AroundDishesFragment.this,
-                    RestaurantDetailFragment.newInstance(mAdapter.getItem(position).id),
-                    R.id.around_dishes_contentFrame));
+                        RestaurantDetailFragment.newInstance(mAdapter.getItem(position).id),
+                        R.id.around_dishes_contentFrame));
         mAroundFoodRecyclerView.setAdapter(mAdapter);
         mAroundFoodRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -106,7 +99,7 @@ public class AroundDishesFragment extends Fragment {
                         mPage++;
                         mSwipeRefreshLayout.setRefreshing(true);
                         loadAroundFoodList();
-                    } else  {
+                    } else {
                         mFirstTimeTouchBottom = true;
                     }
                 }

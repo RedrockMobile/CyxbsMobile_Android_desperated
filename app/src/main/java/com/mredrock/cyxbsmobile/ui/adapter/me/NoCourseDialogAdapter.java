@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.ui.adapter.BaseRecyclerViewAdapter;
+
 import java.util.List;
 
 /**

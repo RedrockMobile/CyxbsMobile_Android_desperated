@@ -12,8 +12,10 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.AboutMe;
 import com.mredrock.cyxbsmobile.model.User;
@@ -21,16 +23,21 @@ import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.me.AboutMeAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AboutMeActivity extends BaseActivity implements
-        SwipeRefreshLayout.OnRefreshListener,AboutMeAdapter.OnItemClickListener{
+        SwipeRefreshLayout.OnRefreshListener, AboutMeAdapter.OnItemClickListener {
 
-    @Bind(R.id.relate_me_recycler_View) RecyclerView aboutMeRecyclerView;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.about_me_swipe_refresh) SwipeRefreshLayout aboutMeSwipeRefresh;
+    @Bind(R.id.relate_me_recycler_View)
+    RecyclerView aboutMeRecyclerView;
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.about_me_swipe_refresh)
+    SwipeRefreshLayout aboutMeSwipeRefresh;
 
     private List<AboutMe> mAboutMeList;
     private AboutMeAdapter mAboutMeAdapter;
@@ -38,7 +45,8 @@ public class AboutMeActivity extends BaseActivity implements
     private User mUser;
 
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relate_me);
         ButterKnife.bind(this);
@@ -56,7 +64,8 @@ public class AboutMeActivity extends BaseActivity implements
         showProgress();
     }
 
-    @Override public void onRefresh() {
+    @Override
+    public void onRefresh() {
         getCurrentData(true);
     }
 
@@ -64,15 +73,15 @@ public class AboutMeActivity extends BaseActivity implements
     @Override
     public void onItemClick(View itemView, int position, AboutMe aboutMe) {
         Intent intent = new Intent(this, SpecificNewsActivity.class);
-        intent.putExtra("article_id",aboutMe.article_id);
+        intent.putExtra("article_id", aboutMe.article_id);
         startActivity(intent);
     }
 
     private void init() {
         aboutMeSwipeRefresh.setOnRefreshListener(this);
         aboutMeSwipeRefresh.setColorSchemeColors(ContextCompat.getColor
-                (this,R.color.colorAccent),ContextCompat.getColor
-                (this,R.color.colorPrimary));
+                (this, R.color.colorAccent), ContextCompat.getColor
+                (this, R.color.colorPrimary));
 
         mAboutMeList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -84,16 +93,16 @@ public class AboutMeActivity extends BaseActivity implements
 
     public void getCurrentData(boolean update) {
         RequestManager.getInstance()
-                      .getAboutMeList(mUser.stunum, mUser.idNum, update)
-                      .subscribe(aboutMes -> {
-                          dismissProgress();
-                          mAboutMeList.clear();
-                          mAboutMeList.addAll(aboutMes);
-                          mAboutMeAdapter.notifyDataSetChanged();
-                      }, throwable -> {
-                          dismissProgress();
-                          getDataFailed(throwable.getMessage());
-                      });
+                .getAboutMeList(mUser.stunum, mUser.idNum, update)
+                .subscribe(aboutMes -> {
+                    dismissProgress();
+                    mAboutMeList.clear();
+                    mAboutMeList.addAll(aboutMes);
+                    mAboutMeAdapter.notifyDataSetChanged();
+                }, throwable -> {
+                    dismissProgress();
+                    getDataFailed(throwable.getMessage());
+                });
     }
 
     private void initToolbar() {
@@ -113,25 +122,25 @@ public class AboutMeActivity extends BaseActivity implements
 
     private void showProgress() {
         aboutMeSwipeRefresh.getViewTreeObserver()
-                            .addOnGlobalLayoutListener(
-                                    new ViewTreeObserver.OnGlobalLayoutListener() {
-                                        @Override
-                                        public void onGlobalLayout() {
-                                            aboutMeSwipeRefresh.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                                            aboutMeSwipeRefresh.setRefreshing(true);
-                                            getCurrentData(true);
-                                        }
-                                    });
+                .addOnGlobalLayoutListener(
+                        new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @Override
+                            public void onGlobalLayout() {
+                                aboutMeSwipeRefresh.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                                aboutMeSwipeRefresh.setRefreshing(true);
+                                getCurrentData(true);
+                            }
+                        });
     }
 
 
     private void dismissProgress() {
-        if(aboutMeSwipeRefresh.isRefreshing()) {
+        if (aboutMeSwipeRefresh.isRefreshing()) {
             aboutMeSwipeRefresh.setRefreshing(false);
         }
     }
 
-    private void getDataFailed(String reason){
-        Toast.makeText(AboutMeActivity.this, "获取数据失败，原因:"+reason, Toast.LENGTH_SHORT).show();
+    private void getDataFailed(String reason) {
+        Toast.makeText(AboutMeActivity.this, "获取数据失败，原因:" + reason, Toast.LENGTH_SHORT).show();
     }
 }

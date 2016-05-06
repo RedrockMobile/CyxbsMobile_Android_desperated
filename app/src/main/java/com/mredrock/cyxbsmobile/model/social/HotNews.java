@@ -24,7 +24,8 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> {
                 , new HotNewsContent.ImgBean(personLatest.thumbnailPhoto, personLatest.photo)
                 , personLatest.likeNum
                 , personLatest.remarkNum
-                , true);
+                , true
+                , personLatest.id);
     }
 
     public HotNews(OfficeNewsContent officeNewsContent) {
@@ -43,7 +44,8 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> {
                 , new HotNewsContent.ImgBean(bbddNewsContent.article_thumbnail_src, bbddNewsContent.article_photo_src)
                 , bbddNewsContent.like_num
                 , bbddNewsContent.remark_num
-                , bbddNewsContent.is_my_like);
+                , bbddNewsContent.is_my_like
+                , bbddNewsContent.id);
     }
 
     public HotNews(String content, List<Image> list) {
@@ -58,18 +60,19 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> {
         this.data = new HotNewsContent(new HotNewsContent.ImgBean(a, b), new OfficeNewsContent(content));
     }
 
-    public HotNews(BBDDDetail bbddDetail){
+    public HotNews(BBDDDetail bbddDetail) {
         this.data = new HotNewsContent("bbdd"
-        ,bbddDetail.id
-        ,5
-        ,"userid"
-        ,""
-        ,""
-        ,bbddDetail.created_time
-        ,new OfficeNewsContent(bbddDetail.content)
-        ,new HotNewsContent.ImgBean(bbddDetail.thumbnail_src,bbddDetail.photo_src)
-        ,bbddDetail.like_num
-        ,bbddDetail.remark_num
-        ,false);
+                , bbddDetail.id
+                , 5
+                , "userid"
+                , ""
+                , ""
+                , bbddDetail.created_time
+                , new OfficeNewsContent(bbddDetail.content)
+                , new HotNewsContent.ImgBean(bbddDetail.thumbnail_src, bbddDetail.photo_src)
+                , bbddDetail.like_num
+                , bbddDetail.remark_num
+                , false
+                , bbddDetail.id);
     }
 }

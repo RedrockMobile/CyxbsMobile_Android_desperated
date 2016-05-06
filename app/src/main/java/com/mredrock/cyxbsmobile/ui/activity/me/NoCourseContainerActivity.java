@@ -10,12 +10,14 @@ import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.NoCourse;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.mypage.NoCourseItemFragment;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,8 +69,8 @@ public class NoCourseContainerActivity extends BaseActivity {
     private void initViewPager() {
         mTitleList = Arrays.asList(getResources().getStringArray(R.array.titles_weeks));
         int week = new SchoolCalendar().getWeekOfTerm();
-        if(week >= 1 && week <= 23){
-            mTitleList.set(week,"本周");
+        if (week >= 1 && week <= 23) {
+            mTitleList.set(week, "本周");
         }
         mFragmentList = new ArrayList<>();
         for (int i = 0; i < mTitleList.size(); i++) {

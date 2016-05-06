@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Grade;
 import com.mredrock.cyxbsmobile.ui.adapter.BaseRecyclerViewAdapter;
@@ -18,7 +20,7 @@ import java.util.List;
 /**
  * Created by skylineTan on 2016/4/21 19:16.
  */
-public class GradeAdapter extends BaseRecyclerViewAdapter<Grade,GradeAdapter
+public class GradeAdapter extends BaseRecyclerViewAdapter<Grade, GradeAdapter
         .ViewHolder> {
 
     private String drawer_primary_text = "#DE000000";
@@ -35,7 +37,7 @@ public class GradeAdapter extends BaseRecyclerViewAdapter<Grade,GradeAdapter
     protected void bindData(ViewHolder holder, Grade data, int position) {
         setItemBackgroundColor(holder.itemView, position);
         holder.mTvCourse.setText(data.course);
-        trySetGradeTitleColor(holder,position);
+        trySetGradeTitleColor(holder, position);
         holder.mTvProperty.setText(data.property);
         holder.mTvGrade.setText(data.grade);
     }
@@ -58,7 +60,7 @@ public class GradeAdapter extends BaseRecyclerViewAdapter<Grade,GradeAdapter
         }
     }
 
-    private void trySetGradeTitleColor(ViewHolder holder,int position) {
+    private void trySetGradeTitleColor(ViewHolder holder, int position) {
         int titleColor = Color.parseColor(drawer_primary_text);
         if (position == 0) {
             titleColor = mContext.getResources().getColor(R.color.colorPrimary);
@@ -68,9 +70,10 @@ public class GradeAdapter extends BaseRecyclerViewAdapter<Grade,GradeAdapter
         holder.mTvGrade.setTextColor(titleColor);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.item_grade_tv_course) TextView mTvCourse;
+        @Bind(R.id.item_grade_tv_course)
+        TextView mTvCourse;
         @Bind(R.id.item_grade_tv_property)
         TextView mTvProperty;
         @Bind(R.id.item_grade_tv_score)

@@ -103,7 +103,7 @@ public class AroundDishesActivity extends BaseActivity {
                 FragmentTransaction transaction =
                         getSupportFragmentManager().beginTransaction();
                 boolean isShow = true;
-                for (int i = fragments.size() - 1; i >= 0 ; i--) {
+                for (int i = fragments.size() - 1; i >= 0; i--) {
                     Fragment fragment = fragments.get(i);
                     if (Utils.checkNotNull(fragment)) {
                         if (isShow) {

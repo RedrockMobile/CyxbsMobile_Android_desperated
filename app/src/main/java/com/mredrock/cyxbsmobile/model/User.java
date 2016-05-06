@@ -2,6 +2,7 @@ package com.mredrock.cyxbsmobile.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -9,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  * <p>
  * Created by David on 15/5/15.
  */
-public class User implements Parcelable{
+public class User implements Parcelable {
     public User() {
     }
 
@@ -52,23 +53,27 @@ public class User implements Parcelable{
 
 
     public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override public User createFromParcel(Parcel in) {
+        @Override
+        public User createFromParcel(Parcel in) {
             return new User(in);
         }
 
 
-        @Override public User[] newArray(int size) {
+        @Override
+        public User[] newArray(int size) {
             return new User[size];
         }
     };
 
 
-    @Override public int describeContents() {
+    @Override
+    public int describeContents() {
         return 0;
     }
 
 
-    @Override public void writeToParcel(Parcel dest, int flags) {
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(stuNum);
         dest.writeString(idNum);
         dest.writeString(name);

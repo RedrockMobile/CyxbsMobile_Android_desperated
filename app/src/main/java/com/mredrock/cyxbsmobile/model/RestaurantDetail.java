@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Detail info of restaurant
- *
+ * <p>
  * Created by Stormouble on 16/4/12.
  */
 public class RestaurantDetail {

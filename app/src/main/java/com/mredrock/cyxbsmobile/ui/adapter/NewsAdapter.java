@@ -36,7 +36,7 @@ import butterknife.OnClick;
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private List<HotNews>         mNews;
+    private List<HotNews> mNews;
     private OnItemOnClickListener onItemOnClickListener;
 
     public NewsAdapter(List<HotNews> mNews) {
@@ -50,7 +50,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new NewsAdapter.ViewHolder(LayoutInflater.from(parent.getContext())
-                                                        .inflate(R.layout.list_news_item, parent, false));
+                .inflate(R.layout.list_news_item, parent, false));
     }
 
     @Override
@@ -99,21 +99,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.list_news_img_avatar)
-        public CircleImageView    mImgAvatar;
+        public CircleImageView mImgAvatar;
         @Bind(R.id.list_news_text_nickname)
-        public TextView           mTextName;
+        public TextView mTextName;
         @Bind(R.id.list_news_text_time)
-        public TextView           mTextTime;
+        public TextView mTextTime;
         @Bind(R.id.expandable_text)
-        public TextView           mTextContent;
+        public TextView mTextContent;
         @Bind(R.id.autoNineLayout)
         public AutoNineGridlayout mAutoNineGridlayout;
         @Bind(R.id.list_news_btn_message)
-        public TextView           mBtnMsg;
+        public TextView mBtnMsg;
         @Bind(R.id.list_news_btn_favorites)
-        public TextView           mBtnFavor;
+        public TextView mBtnFavor;
         @Bind(R.id.textView_ex)
-        public TextView           mTextView_ex;
+        public TextView mTextView_ex;
         @Bind(R.id.expand_text_view)
         public ExpandableTextView mExpandableTextView;
 
@@ -122,7 +122,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public void takeToPersonInfoActivity(View view) {
             if (enableClick)
                 PersonInfoActivity.StartActivityWithData(view.getContext(), mHotNewsContent.user_head, mHotNewsContent.nick_name, mHotNewsContent.user_id);
-            Log.e("===>>>", mHotNewsContent.user_head + "\n" + mHotNewsContent.nick_name + "\n" + mHotNewsContent.user_id);
         }
 
         public View itemView;
@@ -140,42 +139,62 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             ButterKnife.bind(this, itemView);
         }
 
-        public static void like(HotNewsContent dataBean, TextView textView) {
+        public static void like(HotNewsContent hotNewsContent, TextView textView) {
             RequestManager.getInstance()
-                          .addThumbsUp(dataBean.id, dataBean.type_id)
-                          .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
-                              @Override
-                              public void onCompleted() {
-                                  super.onCompleted();
-                                  dataBean.is_my_Like = true;
-                                  textView.setText(Integer.parseInt(textView.getText()
-                                                                            .toString()) + 1 + "");
-                              }
+                    .addThumbsUp(hotNewsContent.id, hotNewsContent.type_id)
+                    .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
+                        @Override
+                        public void onStart() {
+                            super.onStart();
+                            hotNewsContent.is_my_Like = true;
+                            textView.setText(Integer.parseInt(textView.getText()
+                                    .toString()) + 1 + "");
+                        }
 
-                              @Override
-                              public void onError(Throwable e) {
-                                  super.onError(e);
-                              }
-                          }));
+                        @Override
+                        public void onCompleted() {
+                            super.onCompleted();
+                            Log.e("===>>>", "点赞成功");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                            Log.e(TAG, e.toString());
+                            hotNewsContent.is_my_Like = false;
+                            textView.setText(Integer.parseInt(textView.getText()
+                                    .toString()) - 1 + "");
+                        }
+                    }));
         }
 
-        public static void dislike(HotNewsContent dataBean, TextView textView) {
+        public static void dislike(HotNewsContent hotNewsContent, TextView textView) {
             RequestManager.getInstance()
-                          .cancelThumbsUp(dataBean.id, dataBean.type_id)
-                          .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
-                              @Override
-                              public void onCompleted() {
-                                  super.onCompleted();
-                                  dataBean.is_my_Like = false;
-                                  textView.setText(Integer.parseInt(textView.getText()
-                                                                            .toString()) - 1 + "");
-                              }
+                    .cancelThumbsUp(hotNewsContent.id, hotNewsContent.type_id)
+                    .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
+                        @Override
+                        public void onStart() {
+                            super.onStart();
+                            hotNewsContent.is_my_Like = false;
+                            textView.setText(Integer.parseInt(textView.getText()
+                                    .toString()) - 1 + "");
+                        }
 
-                              @Override
-                              public void onError(Throwable e) {
-                                  super.onError(e);
-                              }
-                          }));
+                        @Override
+                        public void onCompleted() {
+                            super.onCompleted();
+                            Log.e("===>>>", "取消赞成功");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                            Log.e(TAG, e.toString());
+                            hotNewsContent.is_my_Like = true;
+                            textView.setText(Integer.parseInt(textView.getText()
+                                    .toString()) + 1 + "");
+                        }
+                    }));
 
         }
 
@@ -192,8 +211,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         public void setData(HotNewsContent hotNewsContent, boolean isSingle) {
             mHotNewsContent = hotNewsContent;
-            mTextName.setText(hotNewsContent.type_id < BBDDNews.BBDD ?/*dataBean.content.title*/ hotNewsContent
-                    .geType_id() : hotNewsContent.nick_name);
+            mTextName.setText(hotNewsContent.type_id < BBDDNews.BBDD ? hotNewsContent.geType_id() : hotNewsContent.nick_name);
             mTextTime.setText(TimeUtils.getTimeDetail(hotNewsContent.getTime()));
             mBtnFavor.setText(hotNewsContent.like_num);
             mBtnMsg.setText(hotNewsContent.remark_num);
@@ -225,7 +243,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) ->
                     ImageActivity.startWithData(itemView.getContext(), hotNewsContent, position)
             );
-
         }
 
     }

@@ -40,17 +40,27 @@ public class EmptyRoomActivity extends BaseActivity
      */
     public static final String[] buildNumApiArray = {"2", "3", "4", "5", "8"};
 
-    /** 请求时传入的课时参数 */
+    /**
+     * 请求时传入的课时参数
+     */
     public static final String[] sectionNumApiArray = {"0", "1", "2", "3", "4", "5"};
 
-    @Bind(R.id.empty_rfab_layout) RapidFloatingActionLayout mEmptyRfabLayout;
-    @Bind(R.id.empty_rfab) RapidFloatingActionButton mEmptyRfabButton;
-    @Bind(R.id.empty_iv_resultIcon) ImageView mIvResultIcon;
-    @Bind(R.id.empty_tv_searchResult) TextView mTvResult;
-    @Bind(R.id.empty_rv) RecyclerView mEmptyRecyclerView;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.empty_progress) ContentLoadingProgressBar emptyProgress;
+    @Bind(R.id.empty_rfab_layout)
+    RapidFloatingActionLayout mEmptyRfabLayout;
+    @Bind(R.id.empty_rfab)
+    RapidFloatingActionButton mEmptyRfabButton;
+    @Bind(R.id.empty_iv_resultIcon)
+    ImageView mIvResultIcon;
+    @Bind(R.id.empty_tv_searchResult)
+    TextView mTvResult;
+    @Bind(R.id.empty_rv)
+    RecyclerView mEmptyRecyclerView;
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.empty_progress)
+    ContentLoadingProgressBar emptyProgress;
 
     /**
      * 需要请求的次数
@@ -160,7 +170,8 @@ public class EmptyRoomActivity extends BaseActivity
                     new SimpleSubscriber<>(this,
                             new SubscriberListener<List<String>>() {
 
-                                @Override public void onStart() {
+                                @Override
+                                public void onStart() {
                                     super.onStart();
                                     emptyProgress.setVisibility(View.VISIBLE);
                                 }
@@ -178,12 +189,14 @@ public class EmptyRoomActivity extends BaseActivity
                                 }
 
 
-                                @Override public void onCompleted() {
+                                @Override
+                                public void onCompleted() {
                                     super.onCompleted();
                                 }
 
 
-                                @Override public void onError(Throwable e) {
+                                @Override
+                                public void onError(Throwable e) {
                                     super.onError(e);
                                     getDataFailed(e.getMessage());
                                     emptyProgress.setVisibility(View.GONE);
@@ -211,6 +224,6 @@ public class EmptyRoomActivity extends BaseActivity
     }
 
     private void getDataFailed(String reason) {
-        Toast.makeText(this,"获取数据失败"+reason,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "获取数据失败" + reason, Toast.LENGTH_SHORT).show();
     }
 }

@@ -7,14 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.model.AboutMe;
 import com.mredrock.cyxbsmobile.ui.adapter.BaseRecyclerViewAdapter;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 import com.mredrock.cyxbsmobile.util.TimeUtils;
+
 import java.util.List;
 
 /**
@@ -38,16 +41,16 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
         holder.aboutMeContent.setText(data.content);
         holder.aboutMeTime.setText(TimeUtils.getTimeDetail(data.created_time));
         holder.aboutMeNewContent.setText(data.article_content);
-        ImageLoader.getInstance().loadAvatar(data.photo_src,holder.aboutMeAvatar);
-        if(data.article_photo_src.equals("")){
+        ImageLoader.getInstance().loadAvatar(data.photo_src, holder.aboutMeAvatar);
+        if (data.article_photo_src.equals("")) {
             holder.aboutMeNewImg.setVisibility(View.GONE);
         }
-        ImageLoader.getInstance().loadImage(data.article_photo_src,holder.aboutMeNewImg);
-        if(data.type.equals(TYPE_PRAISE)){
+        ImageLoader.getInstance().loadImage(data.article_photo_src, holder.aboutMeNewImg);
+        if (data.type.equals(TYPE_PRAISE)) {
             holder.aboutMeType.setText("赞了我");
             holder.aboutMeContent.setVisibility(View.GONE);
         }
-        if(mOnItemClickListener != null) {
+        if (mOnItemClickListener != null) {
             holder.itemView.setOnClickListener(v -> mOnItemClickListener.onItemClick(holder.itemView, position, data));
         }
     }
@@ -56,31 +59,38 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                                            .inflate(R.layout.item_relate_me,
-                                                    parent, false));
+                .inflate(R.layout.item_relate_me,
+                        parent, false));
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(View itemView, int position, AboutMe aboutMe);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.about_me_avatar) CircleImageView aboutMeAvatar;
-        @Bind(R.id.about_me_nick_name) TextView aboutMeNickName;
-        @Bind(R.id.about_me_type) TextView aboutMeType;
-        @Bind(R.id.about_me_time) TextView aboutMeTime;
-        @Bind(R.id.about_me_content) TextView aboutMeContent;
-        @Bind(R.id.about_me_new_img) ImageView aboutMeNewImg;
-        @Bind(R.id.about_me_new_content) TextView aboutMeNewContent;
+        @Bind(R.id.about_me_avatar)
+        CircleImageView aboutMeAvatar;
+        @Bind(R.id.about_me_nick_name)
+        TextView aboutMeNickName;
+        @Bind(R.id.about_me_type)
+        TextView aboutMeType;
+        @Bind(R.id.about_me_time)
+        TextView aboutMeTime;
+        @Bind(R.id.about_me_content)
+        TextView aboutMeContent;
+        @Bind(R.id.about_me_new_img)
+        ImageView aboutMeNewImg;
+        @Bind(R.id.about_me_new_content)
+        TextView aboutMeNewContent;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

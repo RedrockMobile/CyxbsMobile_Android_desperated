@@ -152,21 +152,21 @@ public class EatWhatActivity extends BaseActivity implements SensorEventListener
 
             Subscription subscription = RequestManager.getInstance()
                     .getEatWhat(new Subscriber<EatWhat>() {
-                @Override
-                public void onCompleted() {
+                        @Override
+                        public void onCompleted() {
 
-                }
+                        }
 
-                @Override
-                public void onError(Throwable e) {
-                    Toast.makeText(EatWhatActivity.this, "加载失败", Toast.LENGTH_SHORT).show();
-                }
+                        @Override
+                        public void onError(Throwable e) {
+                            Toast.makeText(EatWhatActivity.this, "加载失败", Toast.LENGTH_SHORT).show();
+                        }
 
-                @Override
-                public void onNext(EatWhat eatWhat) {
-                    setData(eatWhat);
-                }
-            });
+                        @Override
+                        public void onNext(EatWhat eatWhat) {
+                            setData(eatWhat);
+                        }
+                    });
 
             mCompositeSubscription.add(subscription);
         }

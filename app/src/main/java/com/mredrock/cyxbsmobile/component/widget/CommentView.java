@@ -22,20 +22,20 @@ public class CommentView extends LinearLayout {
         initView();
     }
 
-    private void initView(){
+    private void initView() {
         inflate(getContext(), R.layout.layout_restaurant_comment, this);
         mContainer = (LinearLayout) findViewById(R.id.container);
     }
 
-    public void setData(List<RestaurantComment> comments){
+    public void setData(List<RestaurantComment> comments) {
         mContainer.removeAllViews();
         LayoutInflater mInflater = LayoutInflater.from(getContext());
-        if(comments!=null){
-            for(int i = 0;i < comments.size(); i++){
+        if (comments != null) {
+            for (int i = 0; i < comments.size(); i++) {
                 View itemView = mInflater.inflate(R.layout.layout_restaurant_comment_item, mContainer, false);
-                TextView content = (TextView)itemView.findViewById(R.id.content);
-                TextView date = (TextView)itemView.findViewById(R.id.date);
-                TextView author = (TextView)itemView.findViewById(R.id.author);
+                TextView content = (TextView) itemView.findViewById(R.id.content);
+                TextView date = (TextView) itemView.findViewById(R.id.date);
+                TextView author = (TextView) itemView.findViewById(R.id.author);
                 content.setText(comments.get(i).comment_content.replaceAll("(\r?\n(\\s*\r?\n)+)", ""));
                 date.setText(new SchoolCalendar(Long.parseLong(comments.get(i).comment_date)).getString("yyyy年MM月dd日HH:mm"));
                 author.setText(comments.get(i).comment_author_name);

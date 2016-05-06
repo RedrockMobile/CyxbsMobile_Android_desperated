@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Exam;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
@@ -53,15 +55,15 @@ public class ExamScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         int type = viewHolder.getItemViewType();
         if (type == HEADER) {
-            bindHeadViewHolder((ExamHeaderViewHolder)viewHolder);
+            bindHeadViewHolder((ExamHeaderViewHolder) viewHolder);
         } else {
-            bindCommonViewHolder((ExamCommonViewHolder)viewHolder, position);
+            bindCommonViewHolder((ExamCommonViewHolder) viewHolder, position);
         }
     }
 
     private void bindHeadViewHolder(ExamHeaderViewHolder holder) {
         Exam exam = mExamList.get(0);
-        if(exam.week != null && exam.weekday != null) {
+        if (exam.week != null && exam.weekday != null) {
             SchoolCalendar schoolCalendar = null;
             if (exam.week != null && Integer.valueOf(exam.week) != 0) {
                 schoolCalendar = new SchoolCalendar(Integer.valueOf(exam.week),
@@ -74,28 +76,27 @@ public class ExamScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         exam.week, exam.chineseWeekday) + "\n" +
                         schoolCalendar.getMonth() + "/" +
                         schoolCalendar.getDay());
-            }
-            else {
+            } else {
                 holder.mTvExamTime.setText(mContext.getResources().getString(R.string.exam_unsure));
             }
-        }else {
+        } else {
             holder.mTvExamTime.setText(exam.date);
         }
         holder.mTvExamCourse.setText(exam.course);
         String seat = Integer.valueOf(exam.seat) != 0 ? " @ " + exam.seat : "";
         holder.mTvExamLocation.setText(exam.classroom + seat);
-        if(exam.begin_time != null && exam.end_time != null) {
+        if (exam.begin_time != null && exam.end_time != null) {
             holder.mTvExamDaytime.setText(formatData(mContext.getResources()
-                                                             .getString(R.string.exam_detail_date),
+                            .getString(R.string.exam_detail_date),
                     exam.begin_time, exam.end_time));
-        }else {
+        } else {
             holder.mTvExamDaytime.setText(exam.time);
         }
     }
 
     private void bindCommonViewHolder(ExamCommonViewHolder holder, int position) {
         Exam exam = mExamList.get(position);
-        if(exam.week != null && exam.weekday != null) {
+        if (exam.week != null && exam.weekday != null) {
             SchoolCalendar schoolCalendar = null;
             if (Integer.valueOf(exam.week) != 0) {
                 schoolCalendar = new SchoolCalendar(Integer.valueOf(exam.week),
@@ -107,20 +108,19 @@ public class ExamScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         exam.week, exam.chineseWeekday) + "\n" +
                         schoolCalendar.getMonth() + "/" +
                         schoolCalendar.getDay());
-            }
-            else {
+            } else {
                 holder.mTvExamTime.setText(mContext.getResources().getString(R.string.exam_unsure));
             }
-        }else {
+        } else {
             holder.mTvExamTime.setText(exam.date);
         }
         holder.mTvExamCourse.setText(exam.course);
         String seat = Integer.valueOf(exam.seat) != 0 ? " @ " + exam.seat : "";
         holder.mTvExamLocation.setText(exam.classroom + seat);
-        if(exam.begin_time != null && exam.end_time != null) {
+        if (exam.begin_time != null && exam.end_time != null) {
             holder.mTvExamDaytime.setText(formatData(mContext.getResources()
-                                                             .getString(R.string.exam_detail_date), exam.begin_time, exam.end_time));
-        }else {
+                    .getString(R.string.exam_detail_date), exam.begin_time, exam.end_time));
+        } else {
             holder.mTvExamDaytime.setText(exam.time);
         }
     }
@@ -174,7 +174,7 @@ public class ExamScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private final String[] numChineseArray = {"一", "二", "三", "四", "五", "六", "七"};
 
         public boolean tryModifyData(Exam exam) {
-            if ( exam.weekday.equals("0") || exam.week.equals("0")) {
+            if (exam.weekday.equals("0") || exam.week.equals("0")) {
                 return false;
             } else {
                 toChineseNum(exam);

@@ -78,7 +78,7 @@ public class ImageLoader {
     }
 
     @SuppressWarnings("unchecked")
-    public void loadLocalImage(int resId,SimpleTarget<Bitmap> simpleTarget){
+    public void loadLocalImage(int resId, SimpleTarget<Bitmap> simpleTarget) {
         Glide.with(APP.getContext())
                 .load(resId)
                 .asBitmap()

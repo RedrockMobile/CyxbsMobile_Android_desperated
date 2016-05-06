@@ -28,6 +28,7 @@ public class HotNewsContent implements Parcelable {
     public String user_id;
     public String nick_name;
     public String user_head;
+    public String article_id;
     public String time;
     public OfficeNewsContent content;
     public ImgBean img;
@@ -79,7 +80,7 @@ public class HotNewsContent implements Parcelable {
 
     public HotNewsContent(String type, String id, int type_id, String user_id, String nick_name,
                           String user_head, String time, OfficeNewsContent content, ImgBean img, String like_num,
-                          String remark_num, boolean is_my_Like) {
+                          String remark_num, boolean is_my_Like, String article_id) {
         this.type = type;
         this.id = id;
         this.type_id = type_id;
@@ -92,6 +93,7 @@ public class HotNewsContent implements Parcelable {
         this.like_num = like_num;
         this.remark_num = remark_num;
         this.is_my_Like = is_my_Like;
+        this.article_id = article_id;
     }
 
     public HotNewsContent(OfficeNewsContent content) {
@@ -104,6 +106,7 @@ public class HotNewsContent implements Parcelable {
         this.id = content.id;
         this.img = new ImgBean("", "");
         this.like_num = content.read;
+        this.article_id = content.id;
 
     }
 
@@ -116,6 +119,7 @@ public class HotNewsContent implements Parcelable {
         this.time = TimeUtils.getTodayDate();
         this.like_num = "0";
         this.remark_num = "0";
+        this.article_id = content.id;
     }
 
     protected HotNewsContent(Parcel in) {
@@ -131,6 +135,7 @@ public class HotNewsContent implements Parcelable {
         like_num = in.readString();
         remark_num = in.readString();
         is_my_Like = in.readByte() != 0;
+        article_id = in.readString();
     }
 
 
@@ -153,6 +158,7 @@ public class HotNewsContent implements Parcelable {
         parcel.writeString(like_num);
         parcel.writeString(remark_num);
         parcel.writeByte((byte) (is_my_Like ? 1 : 0));
+        parcel.writeString(article_id);
     }
 
 

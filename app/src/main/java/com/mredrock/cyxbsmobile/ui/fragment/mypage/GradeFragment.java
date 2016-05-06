@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Grade;
 import com.mredrock.cyxbsmobile.model.User;
@@ -22,17 +24,21 @@ import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.adapter.me.GradeAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 import com.mredrock.cyxbsmobile.util.NetUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by skylineTan on 2016/4/21 19:08.
  */
-public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    @Bind(R.id.grade_tv_nothing) TextView gradeTvNothing;
-    @Bind(R.id.grade_recyclerView) RecyclerView mGradeRecyclerView;
-    @Bind(R.id.grade_swipe_refresh_layout) SwipeRefreshLayout
+    @Bind(R.id.grade_tv_nothing)
+    TextView gradeTvNothing;
+    @Bind(R.id.grade_recyclerView)
+    RecyclerView mGradeRecyclerView;
+    @Bind(R.id.grade_swipe_refresh_layout)
+    SwipeRefreshLayout
             mGradeRefreshLayout;
 
     private List<Grade> mGradeList;
@@ -42,7 +48,8 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
     private boolean mIsVisibleToUser;
 
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -69,27 +76,28 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
 
         mGradeRefreshLayout.setOnRefreshListener(this);
         mGradeRefreshLayout.setColorSchemeColors(ContextCompat.getColor
-                (getContext(),R.color.colorAccent), ContextCompat.getColor
-                (getContext(),R.color.colorPrimary));
+                (getContext(), R.color.colorAccent), ContextCompat.getColor
+                (getContext(), R.color.colorPrimary));
 
         mUser = new User();
         mUser.stuNum = "2014213983";
         mUser.idNum = "26722X";
         if (mUser != null) {
-            if(NetUtils.isNetWorkAvailable(getActivity())){
+            if (NetUtils.isNetWorkAvailable(getActivity())) {
                 showProgress();
-            }else {
+            } else {
                 gradeTvNothing.setVisibility(View.VISIBLE);
             }
-        }else {
+        } else {
             if (mIsVisibleToUser) {
-                Toast.makeText(getActivity(),"请登录后再试",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "请登录后再试", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
 
-    @Override public void setUserVisibleHint(boolean isVisibleToUser) {
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         mIsVisibleToUser = isVisibleToUser;
         if (isVisibleToUser && mGradeList != null && mGradeList.isEmpty()) {
@@ -98,22 +106,25 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
     }
 
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
-    @Override public void onRefresh() {
-        if(mUser != null) {
+    @Override
+    public void onRefresh() {
+        if (mUser != null) {
             loadGradeList(true);
         }
     }
 
-    private void loadGradeList(boolean update){
+    private void loadGradeList(boolean update) {
         RequestManager.getInstance().getGradeList(new SimpleSubscriber<List<Grade>>(
                 getActivity(), new SubscriberListener<List<Grade>>() {
 
-            @Override public void onError(Throwable e) {
+            @Override
+            public void onError(Throwable e) {
                 super.onError(e);
                 dismissProgress();
                 gradeTvNothing.setVisibility(View.VISIBLE);
@@ -121,7 +132,8 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
             }
 
 
-            @Override public void onNext(List<Grade> gradeList) {
+            @Override
+            public void onNext(List<Grade> gradeList) {
                 super.onNext(gradeList);
                 dismissProgress();
                 refresh(gradeList);
@@ -129,10 +141,10 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
                     gradeTvNothing.setVisibility(View.VISIBLE);
                 }
             }
-        }),mUser.stuNum,mUser.idNum,update);
+        }), mUser.stuNum, mUser.idNum, update);
     }
 
-    private void refresh(List<Grade> gradeList){
+    private void refresh(List<Grade> gradeList) {
         mGradeList.clear();
         addTitleToList();
         mGradeList.addAll(gradeList);
@@ -149,14 +161,14 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
         mGradeList.add(grade);
     }
 
-    private void showProgress(){
+    private void showProgress() {
         mGradeRefreshLayout.post(() -> mGradeRefreshLayout.setRefreshing(true));
         loadGradeList(false);
         onRefresh();
     }
 
-    private void dismissProgress(){
-        if(mGradeRefreshLayout != null && mGradeRefreshLayout.isRefreshing()) {
+    private void dismissProgress() {
+        if (mGradeRefreshLayout != null && mGradeRefreshLayout.isRefreshing()) {
             mGradeRefreshLayout.setRefreshing(false);
         }
     }

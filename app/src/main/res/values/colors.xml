@@ -38,7 +38,7 @@
     <color name="body_text_2">#8a000000</color>
     <color name="body_text_3">#60000000</color>
 
-    <color name="comment_item">#f5f7f5f5</color>
+    <color name="comment_item">#FBFAFA</color>
 
     <color name="no_course_day_background">#f0f0f0</color>
     <color name="no_course_day">#4b4b4b</color>
@@ -61,5 +61,8 @@
     <color name="crop__button_text">#666666</color>
 
     <color name="black_lightly">#f0000000</color>
+    
+    <color name="gray_edit">#A9A7A9</color>
+    <color name="gray_edit_back">#ECECEF</color>
 
 </resources>

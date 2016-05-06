@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Stormouble on 16/4/24.
  */
-public class AroundDishesItemAnimator extends DefaultItemAnimator{
+public class AroundDishesItemAnimator extends DefaultItemAnimator {
 
     @Override
     public boolean canReuseUpdatedViewHolder(@NonNull RecyclerView.ViewHolder viewHolder) {

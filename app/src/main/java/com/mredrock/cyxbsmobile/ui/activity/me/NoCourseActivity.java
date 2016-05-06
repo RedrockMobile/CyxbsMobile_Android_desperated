@@ -162,9 +162,9 @@ public class NoCourseActivity extends BaseActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SELECT && resultCode == RESULT_OK) {
             Student student = (Student) data.getExtras().getSerializable(EXTRA_NO_COURSE);
-            if(!stuNumList.contains(student.stunum)) {
+            if (!stuNumList.contains(student.stunum)) {
                 addStudent(student.stunum, student.name);
-            }else {
+            } else {
                 Snackbar.make(noCourseStu, "请不要重复添加！", Snackbar.LENGTH_SHORT)
                         .show();
             }

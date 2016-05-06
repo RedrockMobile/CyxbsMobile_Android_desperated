@@ -2,15 +2,13 @@ package com.mredrock.cyxbsmobile;
 
 import android.app.Application;
 import android.content.Context;
-
 import android.support.v7.app.AppCompatDelegate;
+
 import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.util.SPUtils;
 import com.orhanobut.logger.Logger;
-
-import org.greenrobot.eventbus.EventBus;
 
 import timber.log.Timber;
 
@@ -66,11 +64,11 @@ public class APP extends Application {
         super.onTerminate();
     }
 
-    private void initThemeMode(){
-        isNight = (boolean) SPUtils.get(this,Const.SP_KEY_IS_NIGHT,false);
-        if(isNight){
+    private void initThemeMode() {
+        isNight = (boolean) SPUtils.get(this, Const.SP_KEY_IS_NIGHT, false);
+        if (isNight) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }else {
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }

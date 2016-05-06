@@ -129,8 +129,8 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         mDatas = datas;
         mNewsAdapter = new NewsAdapter(mDatas) {
             @Override
-            public void setDate(ViewHolder holder, HotNewsContent mDataBean) {
-                BaseNewsFragment.this.setDate(holder, mDataBean);
+            public void setDate(ViewHolder holder, HotNewsContent hotNewsContent) {
+                BaseNewsFragment.this.setDate(holder, hotNewsContent);
             }
         };
         mNewsAdapter.setOnItemOnClickListener(this);
