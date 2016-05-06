@@ -50,6 +50,10 @@ public class Toolbar extends FrameLayout{
         right.setOnClickListener(listener);
     }
 
+    public void setTitle(String titleText){
+        title.setText(titleText);
+    }
+
     private void init(Context context, AttributeSet attrs) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout
                 .toolbar_save_cancel,this);

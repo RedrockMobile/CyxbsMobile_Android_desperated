@@ -5,6 +5,10 @@ import android.os.Parcelable;
 import com.mredrock.cyxbsmobile.util.TimeUtils;
 import java.util.List;
 
+import com.mredrock.cyxbsmobile.util.TimeUtils;
+
+import java.util.List;
+
 /**
  * Created by mathiasluo on 16-4-5.
  */

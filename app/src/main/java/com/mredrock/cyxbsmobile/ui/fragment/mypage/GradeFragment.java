@@ -6,7 +6,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.database.DBExamGradeHelper;
 import com.mredrock.cyxbsmobile.model.Grade;
 import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.network.RequestManager;
@@ -76,43 +72,11 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
                 (getContext(),R.color.colorAccent), ContextCompat.getColor
                 (getContext(),R.color.colorPrimary));
 
-        loadGradeFromDB();
-    }
-
-
-    @Override public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        mIsVisibleToUser = isVisibleToUser;
-        if (isVisibleToUser && mGradeList != null && mGradeList.isEmpty()) {
-            loadGradeFromNetWork();
-        }
-    }
-
-
-    @Override public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @Override public void onRefresh() {
-        if(mUser != null) {
-            loadGradeFromNetWork();
-        }
-    }
-
-
-    private void loadGradeFromDB() {
         mUser = new User();
         mUser.stuNum = "2014213983";
         mUser.idNum = "26722X";
         if (mUser != null) {
-            List<String> gradeJsonList = DBExamGradeHelper.selectGrade
-                    (getActivity(),mUser.stuNum);
-            if(gradeJsonList != null && gradeJsonList.size() > 0){
-                Grade.GradeWrapper grade = new Gson().fromJson(gradeJsonList.get(0),Grade
-                        .GradeWrapper.class);
-                refresh(grade.data);
-            }else if(NetUtils.isNetWorkAvilable(getActivity())){
+            if(NetUtils.isNetWorkAvailable(getActivity())){
                 showProgress();
             }else {
                 gradeTvNothing.setVisibility(View.VISIBLE);
@@ -124,14 +88,30 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
         }
     }
 
-    private void loadGradeFromNetWork(){
-        RequestManager.getInstance().getGradeJson(new SimpleSubscriber<String>(
-                getActivity(), new SubscriberListener<String>() {
 
-            @Override public void onStart() {
-                super.onStart();
-            }
+    @Override public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        mIsVisibleToUser = isVisibleToUser;
+        if (isVisibleToUser && mGradeList != null && mGradeList.isEmpty()) {
+            loadGradeList(true);
+        }
+    }
 
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override public void onRefresh() {
+        if(mUser != null) {
+            loadGradeList(true);
+        }
+    }
+
+    private void loadGradeList(boolean update){
+        RequestManager.getInstance().getGradeList(new SimpleSubscriber<List<Grade>>(
+                getActivity(), new SubscriberListener<List<Grade>>() {
 
             @Override public void onError(Throwable e) {
                 super.onError(e);
@@ -141,20 +121,19 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
             }
 
 
-            @Override public void onNext(String s) {
-                super.onNext(s);
-                Grade.GradeWrapper grade = new Gson().fromJson(s,Grade.GradeWrapper.class);
+            @Override public void onNext(List<Grade> gradeList) {
+                super.onNext(gradeList);
                 dismissProgress();
-                refresh(grade.data);
-                DBExamGradeHelper.addGrade(getActivity(),"2014213983",s);
+                refresh(gradeList);
                 if (mGradeList.size() == 0) {
                     gradeTvNothing.setVisibility(View.VISIBLE);
                 }
             }
-        }),"2014213983","26722X");
+        }),mUser.stuNum,mUser.idNum,update);
     }
 
     private void refresh(List<Grade> gradeList){
+        mGradeList.clear();
         addTitleToList();
         mGradeList.addAll(gradeList);
         mGradeAdapter.notifyDataSetChanged();
@@ -172,10 +151,13 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
 
     private void showProgress(){
         mGradeRefreshLayout.post(() -> mGradeRefreshLayout.setRefreshing(true));
+        loadGradeList(false);
         onRefresh();
     }
 
     private void dismissProgress(){
-        mGradeRefreshLayout.setRefreshing(false);
+        if(mGradeRefreshLayout != null && mGradeRefreshLayout.isRefreshing()) {
+            mGradeRefreshLayout.setRefreshing(false);
+        }
     }
 }

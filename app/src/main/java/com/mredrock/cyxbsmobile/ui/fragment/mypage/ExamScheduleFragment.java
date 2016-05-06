@@ -14,15 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.database.DBExamGradeHelper;
 import com.mredrock.cyxbsmobile.model.Exam;
 import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
-import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.mypage.ExamScheduleAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 import com.mredrock.cyxbsmobile.util.NetUtils;
@@ -89,13 +86,26 @@ public class ExamScheduleFragment extends BaseFragment {
         initRecyclerView();
         examSwipeRefreshLayout.setOnRefreshListener(() -> {
             if (mUser != null) {
-                loadExamFromNetWork();
+                loadExamList(true);
             }
         });
         examSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor
                 (getContext(),R.color.colorAccent), ContextCompat.getColor(getContext(),R.color.colorPrimary));
 
-        loadExamFromDB();
+
+        mUser = new User();
+        mUser.stu = "2014213983";
+        if (mUser != null) {
+            if(NetUtils.isNetWorkAvailable(getActivity())){
+                showProgress();
+            }else {
+                examTvNothing.setVisibility(View.VISIBLE);
+            }
+        }else {
+            if (mIsVisibleToUser) {
+                Toast.makeText(getActivity(),"请登录后再试",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -130,13 +140,10 @@ public class ExamScheduleFragment extends BaseFragment {
         examRecyclerView.setAdapter(mExamScheduleAdapter);
     }
 
-    public void loadExamFromNetWork() {
-        mUser = new User();
-        mUser.stu = "2014213983";
-        examSwipeRefreshLayout.setRefreshing(true);
+    public void loadExamList(boolean update) {
         if (mUser != null) {
-            Subscriber<String> subscriber = new SimpleSubscriber<>(
-                    getActivity(), new SubscriberListener<String>() {
+            Subscriber<List<Exam>> subscriber = new SimpleSubscriber<>(
+                    getActivity(), new SubscriberListener<List<Exam>>() {
                 @Override public void onError(Throwable e) {
                     super.onError(e);
                     examSwipeRefreshLayout.setRefreshing(false);
@@ -144,53 +151,23 @@ public class ExamScheduleFragment extends BaseFragment {
                 }
 
 
-                @Override public void onNext(String s) {
-                    super.onNext(s);
-                    Exam.ExamWapper exam = new Gson().fromJson(s,Exam.ExamWapper.class);
+                @Override public void onNext(List<Exam> examList) {
+                    super.onNext(examList);
                     examSwipeRefreshLayout.setRefreshing(false);
-                    DBExamGradeHelper.addExam(getActivity(),"2014213983", mType,s);
-                    if (exam.data == null || exam.data.size() == 0) {
+                    if (examList == null || examList.size() == 0) {
                         examTvNothing.setVisibility(View.VISIBLE);
                     }else {
-                        refresh(exam.data);
+                        refresh(examList);
                     }
                 }
 
             });
             if (isReExam) {
-                RequestManager.INSTANCE.getReExamJson(subscriber,mUser.stu);
+                RequestManager.getInstance().getReExamList(subscriber,mUser.stu,update);
             } else {
-                RequestManager.INSTANCE.getExamJson(subscriber,mUser.stu);
+                RequestManager.getInstance().getExamList(subscriber,mUser.stu,update);
             }
         } else {
-            if (mIsVisibleToUser) {
-                Toast.makeText(getActivity(),"请登录后再试",Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void loadExamFromDB() {
-        mUser = new User();
-        mUser.stu = "2014213983";
-
-        if (mUser != null) {
-            if (isReExam) {
-                mType = TYPE_REEXAM;
-            } else {
-                mType = TYPE_EXAM;
-            }
-            List<String> examJsonList = DBExamGradeHelper.selectExam
-                    (getActivity(),mUser.stu,mType);
-            if(examJsonList != null && examJsonList.size() > 0){
-                Exam.ExamWapper exam = new Gson().fromJson(examJsonList.get
-                        (0),Exam.ExamWapper.class);
-                refresh(exam.data);
-            }else if(NetUtils.isNetWorkAvilable(getActivity())){
-                showProgress();
-            }else {
-                examTvNothing.setVisibility(View.VISIBLE);
-            }
-        }else {
             if (mIsVisibleToUser) {
                 Toast.makeText(getActivity(),"请登录后再试",Toast.LENGTH_SHORT).show();
             }
@@ -211,7 +188,7 @@ public class ExamScheduleFragment extends BaseFragment {
             @Override public void onGlobalLayout() {
                 examSwipeRefreshLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 examSwipeRefreshLayout.setRefreshing(true);
-                loadExamFromNetWork();
+                loadExamList(false);
             }
         });
     }

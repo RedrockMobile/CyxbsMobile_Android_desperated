@@ -2,7 +2,6 @@ package com.mredrock.cyxbsmobile.component.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,7 +24,7 @@ public class AutoNineGridlayout extends NineGridlayout {
         int childrenCount = listData.size();
         switch (childrenCount) {
             case 1:
-                int singleWidth = totalWidth - gap * 2;
+                int singleWidth = totalWidth;
                 int singleHeight = singleWidth / 3 * 2;
                 ViewGroup.LayoutParams params = getLayoutParams();
                 params.height = singleHeight * rows + gap * (rows - 1);
@@ -51,7 +50,7 @@ public class AutoNineGridlayout extends NineGridlayout {
                 childrenView.setImageUrl(((Image) listData.get(0)).getUrl());
                 childrenView.setType(((Image) listData.get(0)).getType());
                 int[] position = findPosition(0);
-                int left = (singleWidth + gap) * position[1];
+                int left = 0;
                 int top = (singleHeight + gap) * position[0];
                 int right = left + singleWidth;
                 int bottom = top + singleHeight;

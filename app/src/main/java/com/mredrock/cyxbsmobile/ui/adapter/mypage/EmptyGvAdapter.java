@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.mredrock.cyxbsmobile.R;
+
 import java.util.List;
 
-public class EmptyGvAdapter extends BaseAdapter{
+public class EmptyGvAdapter extends BaseAdapter {
 
     private Context context;
     private List<String> datas;
@@ -36,10 +38,10 @@ public class EmptyGvAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_empty_gv_item, parent, false);
         }
-        TextView room  = (TextView) convertView.findViewById(R.id.item_empty_gv_room);
+        TextView room = (TextView) convertView.findViewById(R.id.item_empty_gv_room);
         room.setText(datas.get(position));
 
         return convertView;

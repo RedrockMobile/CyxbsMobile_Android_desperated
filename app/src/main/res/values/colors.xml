@@ -5,12 +5,16 @@
     <color name="orange">#ff7d37</color>
     <color name="yellow">#ffb048</color>
     <color name="grey">#f3f7fa</color>
+    <color name="pink">#ef8f9f</color>
     <color name="data_light_black">#a9a9a9</color>
 
     <!--Common-->
     <color name="colorPrimary">#00aae8</color>
     <color name="colorPrimaryDark">#0088ba</color>
     <color name="colorAccent">#f76060</color>
+    <color name="tabIndicatorColor">#c9c9c9</color>
+    <color name="tab_background_pressed">#1Affffff</color>
+    <color name="tabText">#66000000</color>
 
     <color name="divider">#e3e3e8</color>
     <color name="divider_light">#e0e0e0</color>
@@ -34,11 +38,7 @@
     <color name="body_text_2">#8a000000</color>
     <color name="body_text_3">#60000000</color>
 
-
-    <color name="tabIndicatorColor">#c9c9c9</color>
-    <color name="tabText">#66000000</color>
-    <color name="tab_background_pressed">#1Affffff</color>
-    <color name="tab_pading_color">#606B6A6A</color>
+    <color name="comment_item">#f2eeee</color>
 
     <color name="no_course_day_background">#f0f0f0</color>
     <color name="no_course_day">#4b4b4b</color>
@@ -54,7 +54,7 @@
     <color name="no_course_dialog_title">#19aafe</color>
     <color name="exam_grade_tab_text">#999999</color>
 
-    <color name="comment_item">#f2eeee</color>
     <color name="theme_Slate">#9da3a5</color>
+    <color name="tab_pading_color">#606B6A6A</color>
 
 </resources>

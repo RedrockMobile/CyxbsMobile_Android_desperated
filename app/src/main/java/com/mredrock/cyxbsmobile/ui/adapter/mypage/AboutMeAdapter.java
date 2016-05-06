@@ -40,6 +40,9 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
         holder.aboutMeTime.setText(TimeUtils.getTimeDetail(data.created_time));
         holder.aboutMeNewContent.setText(data.article_content);
         ImageLoader.getInstance().loadAvatar(data.photo_src,holder.aboutMeAvatar);
+        if(data.article_photo_src.equals("")){
+            holder.aboutMeNewImg.setVisibility(View.GONE);
+        }
         ImageLoader.getInstance().loadImage(data.article_photo_src,holder.aboutMeNewImg);
         if(data.type.equals(TYPE_PRAISE)){
             holder.aboutMeType.setText("赞了我");

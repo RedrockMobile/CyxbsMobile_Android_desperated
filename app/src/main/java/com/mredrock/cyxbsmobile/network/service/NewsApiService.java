@@ -1,10 +1,12 @@
 package com.mredrock.cyxbsmobile.network.service;
 
 import com.mredrock.cyxbsmobile.model.community.BBDD;
+import com.mredrock.cyxbsmobile.model.community.BBDDNews;
 import com.mredrock.cyxbsmobile.model.community.Dynamic;
 import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.OfficeNews;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.ReMarks;
+import com.mredrock.cyxbsmobile.model.community.Remark;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 
 import java.util.List;
@@ -34,6 +36,14 @@ public interface NewsApiService {
 
 
     @FormUrlEncoded
+    @POST("/cyxbsMobile/index.php/Home/Article/listNews")
+    Observable<OfficeNews> getlistNews(@Field("size") int size,
+                                       @Field("page") int page,
+                                       @Field("stuNum") String stuNum,
+                                       @Field("idNum") String idNum,
+                                       @Field("type_id") String type_id);
+
+    @FormUrlEncoded
     @POST("cyxbsMobile/index.php/Home/Article/searchHotArticle")
     Observable<List<News>> getHotArticle(@Field("size") int size,
                                          @Field("page") int page,
@@ -43,11 +53,11 @@ public interface NewsApiService {
     @FormUrlEncoded
     //哔哔叨叨(或者其他的)接口：POST
     @POST("cyxbsMobile/index.php/Home/Article/listArticle")
-    Observable<List<News>> getListArticle(@Field("type_id") int type_id,
-                                          @Field("size") int size,
-                                          @Field("page") int page,
-                                          @Field("stuNum") String stuNum,
-                                          @Field("idNum") String idNum);
+    Observable<BBDDNews> getListArticle(@Field("type_id") int type_id,
+                                        @Field("size") int size,
+                                        @Field("page") int page,
+                                        @Field("stuNum") String stuNum,
+                                        @Field("idNum") String idNum);
 
 
     @Multipart
@@ -69,11 +79,12 @@ public interface NewsApiService {
 
     @FormUrlEncoded
     @POST("cyxbsMobile/index.php/Home/ArticleRemark/getremark")
-    Observable<ReMarks> getReMark(@Field("article_id") String article_id,
-                                        @Field("type_id") int type_id,
-                                        @Field("user_id") String user_id,
-                                        @Field("stuNum") String stuNum,
-                                        @Field("idNum") String idNum);
+    Observable<Remark> getReMark(@Field("article_id") String article_id,
+                                 @Field("type_id") int type_id,
+                                 @Field("user_id") String user_id,
+                                 @Field("stuNum") String stuNum,
+                                 @Field("idNum") String idNum);
+
     @FormUrlEncoded
     @POST("cyxbsMobile/index.php/Home/ArticleRemark/postremarks")
     Observable<OkResponse> postReMarks(@Field("article_id") String article_id,
@@ -82,12 +93,14 @@ public interface NewsApiService {
                                        @Field("user_id") String user_id,
                                        @Field("stuNum") String stuNum,
                                        @Field("idNum") String idNum);
+
     @FormUrlEncoded
     @POST("cyxbsMobile/index.php/Home/Praise/addone")
     Observable<OkResponse> addThumbsUp(@Field("article_id") String article_id,
                                        @Field("type_id") int type_id,
                                        @Field("stuNum") String stuNum,
                                        @Field("idNum") String idNum);
+
     @FormUrlEncoded
     @POST("cyxbsMobile/index.php/Home/Praise/cancel")
     Observable<OkResponse> cancelThumbsUp(@Field("article_id") String article_id,

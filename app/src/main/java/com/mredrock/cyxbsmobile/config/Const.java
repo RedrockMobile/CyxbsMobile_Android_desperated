@@ -36,10 +36,26 @@ public class Const {
     //动态查询
     public static final String API_SEARCH_ARTICLE      = "/cyxbsMobile/index.php/Home/Article/searchtrends";
 
-    public static final String SP_KEY_USER                    = "user";
+    public static final String SP_KEY_USER             = "user";
+    public static final String SP_KEY_IS_NIGHT         = "is_night";
 
     public static final String COURSE_DB_NAME          = "course.db";
     public static final int COURSE_DB_VERSION          = 1;
-    public static final String DB_NAME                 = "zscy.db";
-    public static final int DB_VERSION                 = 1;
+
+    public static final class Extras{
+        public static final String EDIT_USER = "10";
+        public static final String EDIT_NICK_NAME = "10";
+        public static final String EDIT_INTRODUCTION = "30";
+        public static final String EDIT_QQ = "15";
+        public static final String EDIT_PHONE = "11";
+    }
+
+    public static final class Requests{
+        public static final int SELECT_PICTURE = 1;
+        public static final int SELECT_CAMERA = 2;
+        public static final int EDIT_NICKNAME = 3;
+        public static final int EDIT_INTRODUCE = 4;
+        public static final int EDIT_QQ = 5;
+        public static final int EDIT_PHONE = 6;
+    }
 }

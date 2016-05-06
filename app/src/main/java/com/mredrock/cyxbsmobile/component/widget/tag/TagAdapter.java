@@ -1,6 +1,7 @@
 package com.mredrock.cyxbsmobile.component.widget.tag;
 
 import android.view.View;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,7 +12,7 @@ public abstract class TagAdapter<T> {
     private OnDataChangedListener mOnDataChangedListener;
     private HashSet<Integer> mCheckedPosList = new HashSet<>();
 
-    public TagAdapter(List<T> datas,String arg) {
+    public TagAdapter(List<T> datas, String arg) {
         mTagDatas = datas;
     }
 

@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="@color/background_grey"
-    tools:context=".ui.activity.mypage.EditIntroduceActivity">
+    android:orientation="vertical"
+    tools:context=".ui.activity.me.EditIntroduceActivity">
 
     <com.mredrock.cyxbsmobile.component.widget.Toolbar
         android:id="@+id/edit_introduce_toolbar"
@@ -24,24 +24,24 @@
             android:id="@+id/edit_introduce_et"
             android:layout_width="match_parent"
             android:layout_height="153dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="14dp"
             android:background="@null"
             android:gravity="top"
             android:hint="请输入您的简介"
             android:textColorHint="@color/text_light_2"
+            android:paddingLeft="15dp"
+            android:paddingTop="14dp"
             android:textColor="@color/text_dark"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/edit_introduce_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
-            android:text="7"
+            android:layout_marginRight="15dp"
             android:textColor="@color/text_light_2"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
     </FrameLayout>
 

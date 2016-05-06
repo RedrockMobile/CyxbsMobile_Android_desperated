@@ -9,6 +9,8 @@ import com.mredrock.cyxbsmobile.BuildConfig;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.Course;
 import com.mredrock.cyxbsmobile.model.EatWhat;
+import com.mredrock.cyxbsmobile.model.Exam;
+import com.mredrock.cyxbsmobile.model.Grade;
 import com.mredrock.cyxbsmobile.model.MovieResult;
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.AboutMe;
@@ -17,18 +19,21 @@ import com.mredrock.cyxbsmobile.model.RestaurantComment;
 import com.mredrock.cyxbsmobile.model.RestaurantDetail;
 import com.mredrock.cyxbsmobile.model.Subject;
 import com.mredrock.cyxbsmobile.model.User;
-import com.mredrock.cyxbsmobile.model.community.BBDDDetail;
+import com.mredrock.cyxbsmobile.model.community.BBDD;
 import com.mredrock.cyxbsmobile.model.community.BBDDNews;
+import com.mredrock.cyxbsmobile.model.community.ContentBean;
 import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.community.OfficeNews;
 import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.ReMarks;
-import com.mredrock.cyxbsmobile.model.community.Student;
+import com.mredrock.cyxbsmobile.model.community.Remark;
+import com.mredrock.cyxbsmobile.model.community.Stu;
 import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.exception.ApiException;
 import com.mredrock.cyxbsmobile.network.exception.RedrockApiException;
 import com.mredrock.cyxbsmobile.network.service.NewsApiService;
 import com.mredrock.cyxbsmobile.network.service.RedrockApiService;
 import com.mredrock.cyxbsmobile.network.service.UpDownloadService;
+import com.mredrock.cyxbsmobile.util.BitmapUtil;
 import com.mredrock.cyxbsmobile.util.OkHttpUtils;
 import com.mredrock.cyxbsmobile.util.Utils;
 import com.orhanobut.logger.Logger;
@@ -36,6 +41,7 @@ import com.orhanobut.logger.Logger;
 import io.rx_cache.DynamicKey;
 import io.rx_cache.Reply;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +68,7 @@ import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
+
 /**
  * RequestManager
  * 请求服务在 {@link RedrockApiService} 与 {@link UpDownloadService} 中定义
@@ -71,17 +78,11 @@ public enum RequestManager {
 
     INSTANCE;
 
+    private static final int DEFAULT_TIMEOUT = 30;
     private UpDownloadService upDownloadService;
     private RedrockApiService redrockApiService;
-
     private CacheProviders cacheProviders;
     private NewsApiService newsApiService;
-
-    private static final int DEFAULT_TIMEOUT = 30;
-
-    public static RequestManager getInstance() {
-        return INSTANCE;
-    }
 
     RequestManager() {
         OkHttpClient client = configureOkHttp(new OkHttpClient.Builder());
@@ -100,6 +101,10 @@ public enum RequestManager {
         upDownloadService = retrofit.create(UpDownloadService.class);
         redrockApiService = retrofit.create(RedrockApiService.class);
         newsApiService = retrofit.create(NewsApiService.class);
+    }
+
+    public static RequestManager getInstance() {
+        return INSTANCE;
     }
 
     public OkHttpClient configureOkHttp(OkHttpClient.Builder builder) {
@@ -269,22 +274,33 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void getGradeJson(Subscriber<String> subscriber,String
-            stuNum,String stuId){
-        Observable<String> observable = redrockApiService.getGrade(stuNum,stuId)
-                .map(gradeWrapper -> new Gson().toJson(gradeWrapper));
+    public void getGradeList(Subscriber<List<Grade>> subscriber, String
+            stuNum, String stuId,boolean update){
+        Observable<List<Grade>> observable = redrockApiService.getGrade(stuNum,stuId)
+                .map(new RedrockApiWrapperFunc<>());
+        cacheProviders.getCacheGradeList(observable,new DynamicKey
+                (stuNum), new EvictDynamicKey(update))
+                .map(Reply::getData);
         emitObservable(observable,subscriber);
     }
 
-    public void getExamJson(Subscriber<String> subscriber,String
-            stu){
-        Observable<String> observable = redrockApiService.getExam(stu).map(examWapper -> new Gson().toJson(examWapper));
+    public void getExamList(Subscriber<List<Exam>> subscriber, String
+            stu,boolean update){
+        Observable<List<Exam>> observable = redrockApiService.getExam(stu).map
+                (new RedrockApiWrapperFunc<>());
+        cacheProviders.getCacheExamList(observable,new DynamicKey(stu),new
+                EvictDynamicKey(update))
+                .map(Reply::getData);
         emitObservable(observable,subscriber);
     }
 
-    public void getReExamJson(Subscriber<String> subscriber,String
-            stu){
-        Observable<String> observable = redrockApiService.getReExam(stu).map(examWapper -> new Gson().toJson(examWapper));
+    public void getReExamList(Subscriber<List<Exam>> subscriber,String
+            stu,boolean update){
+        Observable<List<Exam>> observable = redrockApiService.getReExam(stu).map
+                (new RedrockApiWrapperFunc<>());
+        cacheProviders.getCacheExamList(observable,new DynamicKey(stu),new
+                EvictDynamicKey(update))
+                      .map(Reply::getData);
         emitObservable(observable,subscriber);
     }
 
@@ -346,96 +362,133 @@ public enum RequestManager {
                 .subscribe(s);
     }
 
+    private class MovieResultFunc<T> implements Func1<MovieResult<T>,T>{
 
-    private class MovieResultFunc<T> implements Func1<MovieResult<T>, T> {
-
-        @Override
-        public T call(MovieResult<T> movieResult) {
-            if (movieResult.count == 0) {
+        @Override public T call(MovieResult<T> movieResult) {
+            if(movieResult.count == 0){
                 throw new ApiException(100);
             }
             return movieResult.subjects;
         }
     }
 
-    private class RedrockApiWrapperFunc<T> implements Func1<com.mredrock.cyxbsmobile.model.RedrockApiWrapper<T>, T> {
+    private class RedrockApiWrapperFunc<T> implements Func1<RedrockApiWrapper<T>,T>{
 
-        @Override
-        public T call(com.mredrock.cyxbsmobile.model.RedrockApiWrapper<T> wrapper) {
-            if (wrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
-                throw new RedrockApiException();
+        @Override public T call(RedrockApiWrapper<T> wrapper) {
+            if(wrapper.status != Const.REDROCK_API_STATUS_SUCCESS){
+                throw new RedrockApiException(wrapper.info);
             }
             return wrapper.data;
         }
     }
-
-
     /**
      * 社区api
      */
     public Observable<UploadImgResponse> uploadNewsImg(String filePath) {
-        return uploadNewsImg(Student.STU_NUM, filePath);
+        return uploadNewsImg(Stu.STU_NUM, filePath);
     }
 
     public Observable<UploadImgResponse> uploadNewsImg(String stuNum, String filePath) {
         File file = new File(filePath);
+        try {
+            file = BitmapUtil.decodeBitmapFromRes(APP.getContext(), filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part file_body = MultipartBody.Part.createFormData("fold", file.getName(), requestFile);
         RequestBody stuNum_body = RequestBody.create(MediaType.parse("multipart/form-data"), stuNum);
         return newsApiService.uploadImg(stuNum_body, file_body);
     }
 
-
     public Observable<List<News>> getHotArticle(int size, int page, boolean update) {
         return cacheProviders.getCacheNews(getHotArticle(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
-                .map(listReply -> listReply.getData()).subscribeOn(Schedulers.newThread())
+                .map(Reply::getData)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+
     }
 
-
     public Observable<List<News>> getHotArticle(int size, int page) {
-        return getHotArticle(size, page, Student.STU_NUM, Student.ID_NUM);
+        return getHotArticle(size, page, Stu.STU_NUM, Stu.ID_NUM)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+
     }
 
     public Observable<List<News>> getHotArticle(int size, int page, String stuNum, String idNum) {
-        return newsApiService.getHotArticle(size, page, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+        return newsApiService.getHotArticle(size, page, stuNum, idNum);
+    }
+
+
+    public Observable<OfficeNews> getListNews(int size, int page, String stuNum, String idNum, String type_id) {
+        return newsApiService.getlistNews(size, page, stuNum, idNum, type_id);
+    }
+
+    public Observable<List<News>> getListNews(int size, int page) {
+        return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDD.LISTNEWS)
+                .flatMap(officeNews -> Observable.just(officeNews.getData()))
+                .map(contentBeen -> {
+                    List<News> news = new ArrayList<>();
+                    for (ContentBean bean : contentBeen) news.add(new News(bean));
+                    return news;
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<News>> getListNews(int size, int page, boolean update) {
+        return cacheProviders.getCacheContentBean(getListNews(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
+                .map(listReply -> listReply.getData())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
 
     public Observable<List<News>> getListArticle(int type_id, int size, int page, boolean update) {
         return cacheProviders.getCacheNews(getListArticle(type_id, size, page), new DynamicKeyGroup(type_id, size), new EvictDynamicKey(update))
-                .map(listReply -> listReply.getData()).subscribeOn(Schedulers.newThread())
+                .map(listReply -> listReply.getData())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-
     }
 
     public Observable<List<News>> getListArticle(int type_id, int size, int page) {
-        return getListArticle(type_id, size, page, Student.STU_NUM, Student.ID_NUM);
+        return getListArticle(type_id, size, page, Stu.STU_NUM, Stu.ID_NUM)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<List<News>> getListArticle(int type_id, int size, int page, String stuNum, String idNum) {
-        return newsApiService.getListArticle(type_id, size, page, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+        return newsApiService.getListArticle(type_id, size, page, stuNum, idNum)
+                .flatMap(bbddNews -> Observable.just(bbddNews.getData()).map(bbddBeen -> {
+                    List<News> news = new ArrayList<>();
+                    for (BBDDNews.BBDDBean mbbddBean : bbddBeen) {
+                        news.add(new News(mbbddBean));
+                    }
+                    return news;
+                }));
     }
 
     public Observable<OkResponse> sendDynamic(int type_id, String title, String content, String thumbnail_src, String photo_src) {
-        return sendDynamic(type_id, title, Student.UER_ID, content, thumbnail_src, photo_src, Student.STU_NUM, Student.ID_NUM);
+        return sendDynamic(type_id, title, Stu.UER_ID, content, thumbnail_src, photo_src, Stu.STU_NUM, Stu.ID_NUM)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<OkResponse> sendDynamic(int type_id, String title, String user_id, String content, String thumbnail_src, String photo_src, String stuNum, String idNum) {
-        return newsApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+        return newsApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum);
     }
 
-
-    public Observable<ReMarks> getRemarks(String article_id, int type_id) {
-        return getRemarks(article_id, type_id, Student.UER_ID, Student.STU_NUM, Student.ID_NUM);
+    public Observable<Remark> getRemarks(String article_id, int type_id) {
+        return getRemarks(article_id, type_id, Stu.UER_ID, Stu.STU_NUM, Stu.ID_NUM);
     }
 
-    public Observable<ReMarks> getRemarks(String article_id, int type_id, String user_id, String stuNum, String idNum) {
+    public Observable<Remark> getRemarks(String article_id, int type_id, String user_id, String stuNum, String idNum) {
         return newsApiService.getReMark(article_id, type_id, user_id, stuNum, idNum).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<OkResponse> postReMarks(String article_id, int type_id, String content) {
-        return postReMarks(article_id, type_id, content, Student.UER_ID, Student.STU_NUM, Student.ID_NUM);
+        return postReMarks(article_id, type_id, content, Stu.UER_ID, Stu.STU_NUM, Stu.ID_NUM);
     }
 
     public Observable<OkResponse> postReMarks(String article_id, int type_id, String content, String user_id, String stuNum, String idNum) {
@@ -443,7 +496,7 @@ public enum RequestManager {
     }
 
     public Observable<OkResponse> addThumbsUp(String article_id, int type_id) {
-        return addThumbsUp(article_id, type_id, Student.STU_NUM, Student.ID_NUM);
+        return addThumbsUp(article_id, type_id, Stu.STU_NUM, Stu.ID_NUM);
     }
 
     public Observable<OkResponse> addThumbsUp(String article_id, int type_id, String stuNum, String idNum) {
@@ -451,7 +504,7 @@ public enum RequestManager {
     }
 
     public Observable<OkResponse> cancelThumbsUp(String article_id, int type_id) {
-        return cancelThumbsUp(article_id, type_id, Student.STU_NUM, Student.ID_NUM);
+        return cancelThumbsUp(article_id, type_id, Stu.STU_NUM, Stu.ID_NUM);
     }
 
     public Observable<OkResponse> cancelThumbsUp(String article_id, int type_id, String stuNum, String idNum) {
@@ -475,6 +528,19 @@ public enum RequestManager {
             stuNum, String idNum,String introduction){
         Observable<OkResponse> observable = redrockApiService
                 .setPersonIntroduction(stuNum,idNum,introduction);
+        emitObservable(observable,subscriber);
+    }
+
+    public void setPersonQQ(Subscriber<OkResponse> subscriber,String stuNum, String idNum,String qq){
+        Observable<OkResponse> observable = redrockApiService.setPersonQQ
+                (stuNum,idNum,qq);
+        emitObservable(observable,subscriber);
+    }
+
+    public void setPersonPhone(Subscriber<OkResponse> subscriber,String
+            stuNum,String idNum,String phone){
+        Observable<OkResponse> observable = redrockApiService.setPersonPhone
+                (stuNum,idNum,phone);
         emitObservable(observable,subscriber);
     }
 

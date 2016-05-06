@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f8f7f7"
-    tools:context=".ui.activity.mypage.NoCourseActivity">
+    tools:context=".ui.activity.me.NoCourseActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,10 +16,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/shape_stroke"
             android:orientation="horizontal">
 
@@ -28,19 +28,19 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@null"
+                android:hint="请输入要查询的学号/姓名"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:paddingBottom="12dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:imeOptions="actionDone"
-                android:background="@null"
                 android:singleLine="true"
-                android:maxLines="1"
-                android:hint="请输入要查询的学号/姓名"
-                android:textColorHint="#aeadad"
                 android:textColor="#242121"
+                android:textColorHint="#aeadad"
                 android:textCursorDrawable="@null"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <FrameLayout
                 android:layout_width="72dp"
@@ -52,11 +52,11 @@
                     android:id="@+id/no_course_add"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
                     android:background="?attr/selectableItemBackground"
+                    android:gravity="center"
                     android:text="添加"
-                    android:textSize="16sp"
-                    android:textColor="@color/no_course_text_white"/>
+                    android:textColor="@color/no_course_text_white"
+                    android:textSize="16sp" />
 
             </FrameLayout>
 
@@ -85,20 +85,20 @@
                     android:paddingRight="12dp"
                     android:text="已添加0人"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="#cdcccc"/>
+                    android:background="#cdcccc" />
 
                 <TextView
                     android:id="@+id/no_course_change"
                     android:layout_width="72dp"
                     android:layout_height="44dp"
                     android:layout_gravity="center|end"
-                    android:gravity="center"
                     android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center"
                     android:text="修改"
                     android:textColor="#5b5b5b"
                     android:textSize="16sp" />
@@ -113,7 +113,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/no_course_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
@@ -129,8 +129,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:gravity="center"
                 android:background="?android:attr/selectableItemBackground"
+                android:gravity="center"
                 android:text="查询"
                 android:textColor="@color/no_course_text_white"
                 android:textSize="19sp" />

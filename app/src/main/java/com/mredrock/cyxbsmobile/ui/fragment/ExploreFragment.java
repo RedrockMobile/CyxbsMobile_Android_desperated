@@ -14,8 +14,8 @@ import com.jude.rollviewpager.RollPagerView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.RollViewPagerHint;
 import com.mredrock.cyxbsmobile.config.Const;
-import com.mredrock.cyxbsmobile.ui.activity.AroundDishesActivity;
-import com.mredrock.cyxbsmobile.ui.activity.EatWhatActivity;
+import com.mredrock.cyxbsmobile.ui.activity.explore.AroundDishesActivity;
+import com.mredrock.cyxbsmobile.ui.activity.explore.EatWhatActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.ExploreRollViewPagerAdapter;
 import com.mredrock.cyxbsmobile.util.WebViewUtils;
 

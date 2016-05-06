@@ -8,42 +8,22 @@ import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.util.SPUtils;
-import com.squareup.picasso.Picasso;
+import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.EventBus;
 
 import timber.log.Timber;
+
 
 /**
  * Created by cc on 16/3/18.
  */
 public class APP extends Application {
     private static Context context;
-
-    static {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        }
-        context = getApplicationContext();
-    }
+    private boolean isNight;
 
     public static Context getContext() {
         return context;
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-    }
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
     }
 
     public static void setUser(Context context, User user) {
@@ -62,5 +42,36 @@ public class APP extends Application {
             return null;
         }
         return new Gson().fromJson(json, User.class);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
+        Logger.init("cyxbs_mobile");
+        context = getApplicationContext();
+        initThemeMode();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+    }
+
+    private void initThemeMode(){
+        isNight = (boolean) SPUtils.get(this,Const.SP_KEY_IS_NIGHT,false);
+        if(isNight){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 }

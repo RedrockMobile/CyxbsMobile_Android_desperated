@@ -7,7 +7,7 @@ import android.widget.GridView;
 /**
  * Created by root on 15/9/11.
  */
-public class NoScrollGridView extends GridView{
+public class NoScrollGridView extends GridView {
 
     public NoScrollGridView(Context context) {
         super(context);

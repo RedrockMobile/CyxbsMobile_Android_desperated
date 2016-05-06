@@ -6,10 +6,9 @@ import java.util.List;
  * Created by Stormouble on 15/12/12.
  */
 public class EmptyRoom {
-    /** 楼层 */
+
     private String floor;
 
-    /** 对应楼层的教室数 */
     private List<String> emptyRooms;
 
     public EmptyRoom() {

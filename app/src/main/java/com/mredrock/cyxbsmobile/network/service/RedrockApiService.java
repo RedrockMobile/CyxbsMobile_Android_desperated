@@ -61,7 +61,8 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_RESTAURANT_SEND_COMMENT)
-    Observable<RedrockApiWrapper<Object>> sendRestaurantComment(@Field("shop_id") String id, @Field("user_number") String userNumber, @Field("user_password") String userPassword,@Field("comment_content") String commentContent,@Field("comment_author_name") String commentAuthoName);
+    Observable<RedrockApiWrapper<Object>> sendRestaurantComment(@Field("shop_id") String id, @Field("user_number") String userNumber, @Field("user_password") String userPassword, @Field("comment_content") String commentContent, @Field("comment_author_name") String commentAuthoName);
+
     @GET(Const.APT_SEARCH_STUDENT)
     Observable<Student.StudentWrapper> getStudent(@Query("stu") String stu);
 
@@ -93,6 +94,18 @@ public interface RedrockApiService {
     Observable<OkResponse> setPersonNickName(@Field("stuNum") String stuNum,
                                                  @Field("idNum") String idNum,
                                                  @Field("nickname") String nickname);
+
+    @FormUrlEncoded
+    @POST(Const.API_EDIT_INFO)
+    Observable<OkResponse> setPersonQQ(@Field("stuNum") String stuNum,
+                                       @Field("idNum") String idNum,
+                                       @Field("qq") String qq);
+
+    @FormUrlEncoded
+    @POST(Const.API_EDIT_INFO)
+    Observable<OkResponse> setPersonPhone(@Field("stuNum") String stuNum,
+                                          @Field("idNum") String idNum,
+                                          @Field("phone") String phone);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)

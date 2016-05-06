@@ -52,7 +52,7 @@ public class CircleImageView extends ImageView {
         if (drawable.getClass() == NinePatchDrawable.class) {
             return;
         }
-        Bitmap b = CommonUtils.drawableToBitmap(drawable);
+        Bitmap b = ((BitmapDrawable) drawable).getBitmap();
         Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
         if (defaultWidth == 0) {
             defaultWidth = getWidth();

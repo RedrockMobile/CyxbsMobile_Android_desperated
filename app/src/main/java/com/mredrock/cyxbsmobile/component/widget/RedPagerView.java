@@ -72,7 +72,6 @@ public class RedPagerView extends RelativeLayout implements ViewPager.OnPageChan
         }, 0, delay);
     }
 
-
     private void initHint() {
         View hintView;
         switch (mode) {
@@ -86,7 +85,6 @@ public class RedPagerView extends RelativeLayout implements ViewPager.OnPageChan
         addView(hintView);
         mHintView = hintView;
     }
-
 
     public ViewPager getmViewPager() {
         return mViewPager;
@@ -184,7 +182,6 @@ public class RedPagerView extends RelativeLayout implements ViewPager.OnPageChan
             dot_normal.setAlpha(125);
             dot_normal.setCornerRadius(DensityUtils.dp2px(getContext(), 4));
             dot_normal.setSize(DensityUtils.dp2px(getContext(), 8), DensityUtils.dp2px(getContext(), 8));
-
 
             for (int i = 0; i < length; i++) {
                 mDots[i] = new ImageView(getContext());

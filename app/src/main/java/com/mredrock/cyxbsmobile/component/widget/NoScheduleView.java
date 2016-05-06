@@ -14,16 +14,19 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.NoCourse;
 import com.mredrock.cyxbsmobile.ui.adapter.mypage.NoCourseDialogAdapter;
 import com.mredrock.cyxbsmobile.util.DensityUtils;
+
 import java.util.List;
 
 /**
  * Created by skylineTan on 2016/4/13 23:30.
  */
-public class NoScheduleView extends FrameLayout{
+public class NoScheduleView extends FrameLayout {
 
     private final int width = (int) ((DensityUtils.getScreenWidth(getContext()) - DensityUtils.dp2px(getContext(), 26)) / 7);
     private final int height = (int) (DensityUtils.dp2px(getContext(), 100));
@@ -43,11 +46,11 @@ public class NoScheduleView extends FrameLayout{
         setWillNotDraw(false);
     }
 
-    public void addContentView(List<NoCourse> noCourseList,int week){
+    public void addContentView(List<NoCourse> noCourseList, int week) {
         removeAllViews();
         init();
-        if(noCourseList != null){
-            for(NoCourse noCourse : noCourseList){
+        if (noCourseList != null) {
+            for (NoCourse noCourse : noCourseList) {
                 int x = noCourse.hash_day;
                 int y = noCourse.hash_lesson;
                 noCourseArray[x][y] = noCourse;
@@ -58,10 +61,10 @@ public class NoScheduleView extends FrameLayout{
 
 
     private void loadingContent(int week) {
-        for(int x = 0;x <7;x++){
-            for(int y = 0;y < 6;y++){
-                if(noCourseArray[x][y] != null){
-                    createTextView(noCourseArray[x][y],week);
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 6; y++) {
+                if (noCourseArray[x][y] != null) {
+                    createTextView(noCourseArray[x][y], week);
                 }
             }
         }
@@ -75,36 +78,35 @@ public class NoScheduleView extends FrameLayout{
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                     (width - DensityUtils.dp2px(getContext(), 1f)), (height - DensityUtils.dp2px(getContext(), 1f)));
             params.topMargin = top + DensityUtils.dp2px(getContext(), 1f);
-            params.leftMargin = left+DensityUtils.dp2px(getContext(), 1f);
+            params.leftMargin = left + DensityUtils.dp2px(getContext(), 1f);
             textView.setLayoutParams(params);
             textView.setTextColor(Color.WHITE);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
             textView.setGravity(Gravity.CENTER);
             StringBuilder sb = new StringBuilder();
-            if(week == 0) {
+            if (week == 0) {
                 if (noCourse.names.size() <= 2) {
                     for (String name : noCourse.names) {
                         sb.append(name).append("\n");
                     }
-                }
-                else {
+                } else {
                     for (int i = 0; i < 2; i++) {
                         sb.append(noCourse.names.get(i)).append("\n");
                     }
                 }
-            }else {
-                if(noCourse.names.size() <= 5){
+            } else {
+                if (noCourse.names.size() <= 5) {
                     for (String s : noCourse.names)
                         sb.append(s).append('\n');
-                }else {
-                    for(int i = 0;i<5;i++){
+                } else {
+                    for (int i = 0; i < 5; i++) {
                         sb.append(noCourse.names.get(i)).append("\n");
                     }
                 }
             }
             textView.setText(sb);
             GradientDrawable gd = new GradientDrawable();
-            gd.setCornerRadius(DensityUtils.dp2px(getContext(),1));
+            gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
             gd.setColor(colorSelector.getNoCourseColor(noCourse.hash_day,
                     noCourse.hash_lesson));
             textView.setBackgroundDrawable(gd);
@@ -113,29 +115,29 @@ public class NoScheduleView extends FrameLayout{
             if (week == 0 && noCourse.names.size() > 2) {
                 addDropTriangle(top, left);
             } else if (noCourse.names.size() > 5) {
-                addDropTriangle(top,left);
+                addDropTriangle(top, left);
             }
     }
 
     private void init() {
-        for(int i = 0;i<7;i++){
+        for (int i = 0; i < 7; i++) {
             noCourseArray[i] = new NoCourse[7];
         }
     }
 
-    private void addDropTriangle(int top,int left){
+    private void addDropTriangle(int top, int left) {
         View drop = new View(getContext());
         drop.setBackgroundDrawable(getResources().getDrawable(R.drawable
                 .ic_corner_right_bottom));
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams
-                (width/5,height/5);
-        layoutParams.topMargin = top + 4*height /5;
+                (width / 5, height / 5);
+        layoutParams.topMargin = top + 4 * height / 5;
         layoutParams.leftMargin = left + 4 * height / 5;
         drop.setLayoutParams(layoutParams);
         addView(drop);
     }
 
-    private void showDetailDialog(NoCourse noCourse){
+    private void showDetailDialog(NoCourse noCourse) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_no_schedule, null);
         RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.no_course_recycler);
@@ -152,11 +154,11 @@ public class NoScheduleView extends FrameLayout{
                 .schedule_time)[noCourse.hash_lesson]);
         count.setText(new StringBuilder("共计").append(noCourse.names.size()).append("人"));
         recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-        NoCourseDialogAdapter adapter = new NoCourseDialogAdapter(noCourse.names,context);
+        NoCourseDialogAdapter adapter = new NoCourseDialogAdapter(noCourse.names, context);
         recyclerView.setAdapter(adapter);
-        AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle("详情")
-                .setView(layout)
+        MaterialDialog dialog = new MaterialDialog.Builder(context)
+                .title("详情")
+                .customView(layout,true)
                 .show();
         certain.setOnClickListener(view -> dialog.dismiss());
     }
@@ -169,16 +171,19 @@ public class NoScheduleView extends FrameLayout{
                 Color.argb(200, 191, 161, 233),
         };
 
-        public int getNoCourseColor(int hashDay,int hashLesson) {
-            if (hashDay == 5 || hashDay == 6){
+        public int getNoCourseColor(int hashDay, int hashLesson) {
+            if (hashDay == 5 || hashDay == 6) {
                 return colors[3];
             }
-            switch (hashLesson){
-                case 0:case 1:
+            switch (hashLesson) {
+                case 0:
+                case 1:
                     return colors[0];
-                case 2:case 3:
+                case 2:
+                case 3:
                     return colors[1];
-                case 4:case 5:
+                case 4:
+                case 5:
                     return colors[2];
             }
             return colors[2];

@@ -77,7 +77,8 @@ public class NoCourseItemFragment extends BaseFragment {
     }
 
 
-    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         parseArguments();
         mStuNumList = getActivity().getIntent()
@@ -87,7 +88,8 @@ public class NoCourseItemFragment extends BaseFragment {
     }
 
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -106,7 +108,8 @@ public class NoCourseItemFragment extends BaseFragment {
     }
 
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }

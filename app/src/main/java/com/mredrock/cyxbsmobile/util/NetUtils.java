@@ -11,17 +11,14 @@ public class NetUtils {
 
     /**
      * 是否有网络
+     *
      * @param ctx
      * @return
      */
-    public static boolean isNetWorkAvilable(Context ctx) {
+    public static boolean isNetWorkAvailable(Context ctx) {
         ConnectivityManager connectivityManager = (ConnectivityManager) ctx
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        if (activeNetInfo == null || !activeNetInfo.isAvailable()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(activeNetInfo == null || !activeNetInfo.isAvailable());
     }
 }
