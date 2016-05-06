@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@android:color/white"
-    tools:context=".ui.activity.mypage.SelectStudentActivity">
+    android:orientation="vertical"
+    tools:context=".ui.activity.me.SelectStudentActivity">
 
     <include layout="@layout/toolbar" />
 
@@ -13,6 +13,6 @@
         android:id="@+id/select_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"/>
+        android:background="@android:color/white" />
 
 </LinearLayout>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#d9d9d9"
     android:orientation="vertical"
-    tools:context=".ui.activity.RestaurantDetailActivity">
+    tools:context=".ui.activity.explore.RestaurantDetailActivity">
 
     <include layout="@layout/toolbar" />
 

@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 
+import android.widget.Toast;
+
 import com.mredrock.cyxbsmobile.APP;
 
 import java.io.File;
@@ -29,6 +31,7 @@ public class FileUtils {
 
     /**
      * Uri -> File
+     *
      * @param uri 路径
      * @return 文件
      */
@@ -40,8 +43,8 @@ public class FileUtils {
             if (path != null) {
                 path = Uri.decode(path);
                 ContentResolver cr = context.getContentResolver();
-                Cursor cur = cr.query(Images.Media.EXTERNAL_CONTENT_URI, new String[] {
-                        Images.ImageColumns._ID, Images.ImageColumns.DATA },
+                Cursor cur = cr.query(Images.Media.EXTERNAL_CONTENT_URI, new String[]{
+                                Images.ImageColumns._ID, Images.ImageColumns.DATA},
                         "(" + Images.ImageColumns.DATA + "=" + "'" + path + "'" + ")",
                         null,
                         null);
@@ -57,7 +60,7 @@ public class FileUtils {
             }
             if (path != null) return new File(path);
         } else if (scheme.equals("content")) {
-            String[] projection = { MediaStore.Images.Media.DATA };
+            String[] projection = {MediaStore.Images.Media.DATA};
             Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
@@ -73,9 +76,10 @@ public class FileUtils {
 
     /**
      * 保存文件到本地
+     *
      * @param responseBody 网络请求的数据
-     * @param dir 保存的路径
-     * @param fileName 文件名
+     * @param dir          保存的路径
+     * @param fileName     文件名
      * @return 操作情况
      */
     public static String saveFile(ResponseBody responseBody, File dir, String fileName) {
@@ -84,8 +88,9 @@ public class FileUtils {
 
     /**
      * 保存文件到本地
-     * @param in 流呀流
-     * @param dir 保存的路径
+     *
+     * @param in       流呀流
+     * @param dir      保存的路径
      * @param fileName 文件名
      * @return 操作情况
      */
@@ -109,6 +114,16 @@ public class FileUtils {
                 return "保存失败，原因: " + e.getMessage();
             }
         }
+    }
+
+    public boolean saveUriToFile(Context context, Uri imageUri, String filePath, String fileName) {
+        if (imageUri != null && imageUri.getScheme().equals("file")) {
+            File file = new File(filePath, fileName);
+            imageUri.getPath();
+        } else {
+            Toast.makeText(context, "Unexpected error", Toast.LENGTH_SHORT).show();
+        }
+        return true;
     }
 
 }

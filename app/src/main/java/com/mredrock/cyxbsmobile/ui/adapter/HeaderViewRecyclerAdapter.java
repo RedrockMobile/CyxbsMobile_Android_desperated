@@ -22,13 +22,42 @@ public class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     private RecyclerView.Adapter mWrappedAdapter;
     private List<View> mHeaderViews, mFooterViews;
     private Map<Class, Integer> mItemTypesOffset;
+    private RecyclerView.AdapterDataObserver mDataObserver = new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            super.onChanged();
+            notifyDataSetChanged();
+        }
 
-    public RecyclerView.Adapter getmWrappedAdapter() {
-        return mWrappedAdapter;
-    }
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            super.onItemRangeChanged(positionStart, itemCount);
+            notifyItemRangeChanged(positionStart + getHeaderCount(), itemCount);
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+            notifyItemRangeInserted(positionStart + getHeaderCount(), itemCount);
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            super.onItemRangeRemoved(positionStart, itemCount);
+            notifyItemRangeRemoved(positionStart + getHeaderCount(), itemCount);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            super.onItemRangeMoved(fromPosition, toPosition, itemCount);
+            int hCount = getHeaderCount();
+            // TODO: No notifyItemRangeMoved method?
+            notifyItemRangeChanged(fromPosition + hCount, toPosition + hCount + itemCount);
+        }
+    };
 
     /**
-     * Construct a new header view recycler adapter
+     * Construct HotNewsFragment new header view recycler adapter
      *
      * @param adapter The underlying adapter to wrap
      */
@@ -37,6 +66,10 @@ public class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
         mFooterViews = new ArrayList<>();
         mItemTypesOffset = new HashMap<>();
         setWrappedAdapter(adapter);
+    }
+
+    public RecyclerView.Adapter getmWrappedAdapter() {
+        return mWrappedAdapter;
     }
 
     /**
@@ -83,7 +116,7 @@ public class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     /**
-     * Add a static view to appear at the start of the RecyclerView. Headers are displayed in the
+     * Add HotNewsFragment static view to appear at the start of the RecyclerView. Headers are displayed in the
      * order they were added.
      *
      * @param view The header view to add
@@ -93,7 +126,7 @@ public class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     /**
-     * Add a static view to appear at the end of the RecyclerView. Footers are displayed in the
+     * Add HotNewsFragment static view to appear at the end of the RecyclerView. Footers are displayed in the
      * order they were added.
      *
      * @param view The footer view to add
@@ -128,7 +161,7 @@ public class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
         return mFooterViews.size();
     }
 
-    private void setWrappedAdapter(RecyclerView.Adapter adapter) {
+    public void setWrappedAdapter(RecyclerView.Adapter adapter) {
         if (mWrappedAdapter != null) mWrappedAdapter.unregisterAdapterDataObserver(mDataObserver);
         mWrappedAdapter = adapter;
         Class adapterClass = mWrappedAdapter.getClass();
@@ -144,46 +177,25 @@ public class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
         return mItemTypesOffset.get(mWrappedAdapter.getClass());
     }
 
-    private RecyclerView.AdapterDataObserver mDataObserver = new RecyclerView.AdapterDataObserver() {
-        @Override
-        public void onChanged() {
-            super.onChanged();
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public void onItemRangeChanged(int positionStart, int itemCount) {
-            super.onItemRangeChanged(positionStart, itemCount);
-            notifyItemRangeChanged(positionStart + getHeaderCount(), itemCount);
-        }
-
-        @Override
-        public void onItemRangeInserted(int positionStart, int itemCount) {
-            super.onItemRangeInserted(positionStart, itemCount);
-            notifyItemRangeInserted(positionStart + getHeaderCount(), itemCount);
-        }
-
-        @Override
-        public void onItemRangeRemoved(int positionStart, int itemCount) {
-            super.onItemRangeRemoved(positionStart, itemCount);
-            notifyItemRangeRemoved(positionStart + getHeaderCount(), itemCount);
-        }
-
-        @Override
-        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-            super.onItemRangeMoved(fromPosition, toPosition, itemCount);
-            int hCount = getHeaderCount();
-            // TODO: No notifyItemRangeMoved method?
-            notifyItemRangeChanged(fromPosition + hCount, toPosition + hCount + itemCount);
-        }
-    };
-
     public void reMoveFooterView() {
         mFooterViews.clear();
     }
 
-    private static class StaticViewHolder extends RecyclerView.ViewHolder {
+    public View getFooterVIew(int index) {
+        return mFooterViews.get(index);
+    }
 
+    public void inVisableFooterView() {
+        for (View view : mFooterViews)
+            view.setVisibility(View.GONE);
+    }
+
+    public void VisableFooterView() {
+        for (View view : mFooterViews)
+            view.setVisibility(View.VISIBLE);
+    }
+
+    private static class StaticViewHolder extends RecyclerView.ViewHolder {
         public StaticViewHolder(View itemView) {
             super(itemView);
         }

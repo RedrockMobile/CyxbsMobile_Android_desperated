@@ -8,12 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.jude.rollviewpager.RollPagerView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.RollViewPagerHint;
 import com.mredrock.cyxbsmobile.config.Const;
+import com.mredrock.cyxbsmobile.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbsmobile.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbsmobile.ui.activity.explore.WhatToEatActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.ExploreRollViewPagerAdapter;
@@ -34,16 +34,10 @@ public class ExploreFragment extends BaseFragment {
 
     @Bind(R.id.explore_roll_view_pager)
     RollPagerView mRollViewPager;
-    @Bind(R.id.explore_portal_holder)
-    LinearLayout mPortalHolder;
-    @Bind(R.id.explore_map_holder)
-    LinearLayout mMapHolder;
     @Bind(R.id.explore_what_to_eat_holder)
     LinearLayout mWhatToEatHolder;
     @Bind(R.id.explore_surrounding_food_holder)
     LinearLayout mSurroundingFoodHolder;
-    @Bind(R.id.explore_community_holder)
-    LinearLayout mCommunityHolder;
 
     @OnClick(R.id.explore_portal_holder)
     void clickToPortal() {
@@ -55,7 +49,7 @@ public class ExploreFragment extends BaseFragment {
     @OnClick(R.id.explore_map_holder)
     void clickToMap() {
         if (isAdded()) {
-            Toast.makeText(getActivity(), "此功能还未开放", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getActivity(), MapActivity.class));
         }
     }
 
@@ -77,13 +71,6 @@ public class ExploreFragment extends BaseFragment {
             startLocation[0] += mSurroundingFoodHolder.getWidth() / 2;
             SurroundingFoodActivity.startSurroundingFoodActivity(startLocation, getActivity());
             getActivity().overridePendingTransition(0, 0);
-        }
-    }
-
-    @OnClick(R.id.explore_community_holder)
-    void clickToCommunity() {
-        if (isAdded()) {
-            Toast.makeText(getActivity(), "此功能还未开放", Toast.LENGTH_SHORT).show();
         }
     }
 

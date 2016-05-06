@@ -6,11 +6,11 @@ import android.preference.PreferenceManager;
 
 public class SPUtils {
 
+    public static final String DEFAULT_FILE_NAME = "share_data";
+
     private SPUtils() {
         throw new UnsupportedOperationException("SPUtils can't be instantiated");
     }
-
-    public static final String DEFAULT_FILE_NAME = "share_data";
 
     public static void set(Context context, String key, Object object) {
         set(context, key, object, DEFAULT_FILE_NAME);

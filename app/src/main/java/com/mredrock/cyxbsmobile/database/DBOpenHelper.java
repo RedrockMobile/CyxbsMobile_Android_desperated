@@ -4,15 +4,17 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.mredrock.cyxbsmobile.config.Const;
+
 public class DBOpenHelper extends SQLiteOpenHelper {
 
     public static final String CREATE_COURSE_TABLE_V1 =
             "CREATE TABLE course" +
-            "(" +
-            "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-            "    stu_id TEXT NOT NULL," +
-            "    all_course TEXT NOT NULL" +
-            ")";
+                    "(" +
+                    "    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                    "    stu_id TEXT NOT NULL," +
+                    "    all_course TEXT NOT NULL" +
+                    ")";
 
     public DBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

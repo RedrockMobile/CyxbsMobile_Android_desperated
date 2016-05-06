@@ -1,5 +1,6 @@
 package com.mredrock.cyxbsmobile.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
@@ -11,7 +12,12 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.event.LoginEvent;
 import com.mredrock.cyxbsmobile.util.KeyboardUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,15 +28,16 @@ public class BaseActivity extends AppCompatActivity {
 
     private boolean mActionBarAutoHideEnbale = false;
     private boolean mActionBarShown;
-    private int mActionBarAutoHideMinY = 0;
+    private int mActionBarAutoHideMinY        = 0;
     private int mActionBarAutoHideSensitivity = 0;
-    private int mActionBarAutoHideSingnal = 0;
+    private int mActionBarAutoHideSingnal     = 0;
 
-    private ArrayList<View> mHideableHeaderViews = new ArrayList<>();
+    private ArrayList<View> mHideableHeaderViews;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -63,7 +70,7 @@ public class BaseActivity extends AppCompatActivity {
                 heights.put(firstVisibleItemPosition, firstVisibleItemView.getHeight());
 
                 int previousItemsHeight = 0;
-                for (int i = 0;i < firstVisibleItemPosition; i++) {
+                for (int i = 0; i < firstVisibleItemPosition; i++) {
                     previousItemsHeight += heights.get(i) != null ? heights.get(i) : 0;
                 }
                 int currentScrollY = previousItemsHeight - firstVisibleItemView.getTop()
@@ -76,16 +83,14 @@ public class BaseActivity extends AppCompatActivity {
 
     private void setupActionBarAutoHide() {
         mActionBarAutoHideEnbale = true;
-        mActionBarAutoHideMinY =
-                getResources().getDimensionPixelOffset(R.dimen.action_bar_auto_hide_min_y);
-        mActionBarAutoHideSensitivity =
-                getResources().getDimensionPixelOffset(R.dimen.action_bar_auto_hide_sensitivity);
+        mActionBarAutoHideMinY = getResources().getDimensionPixelOffset(R.dimen.action_bar_auto_hide_min_y);
+        mActionBarAutoHideSensitivity = getResources().getDimensionPixelOffset(R.dimen.action_bar_auto_hide_sensitivity);
     }
 
     private void onHomeContentScrolled(int currentY, int deltaY) {
         if (deltaY > mActionBarAutoHideSensitivity) {
             deltaY = mActionBarAutoHideSensitivity;
-        } else if (deltaY < -mActionBarAutoHideSensitivity){
+        } else if (deltaY < -mActionBarAutoHideSensitivity) {
             deltaY = -mActionBarAutoHideSensitivity;
         }
 
@@ -115,17 +120,17 @@ public class BaseActivity extends AppCompatActivity {
         for (final View view : mHideableHeaderViews) {
             if (shown) {
                 ViewCompat.animate(view)
-                        .translationY(0)
-                        .alpha(1)
-                        .setDuration(HEADER_HIDE_ANIM_DURATION)
-                        .withLayer();
+                          .translationY(0)
+                          .alpha(1)
+                          .setDuration(HEADER_HIDE_ANIM_DURATION)
+                          .withLayer();
             } else {
                 ViewCompat.animate(view)
-                        .translationY(-view.getBottom())
-                        .alpha(1)
-                        .setDuration(HEADER_HIDE_ANIM_DURATION)
-                        .setInterpolator(new DecelerateInterpolator())
-                        .withLayer();
+                          .translationY(-view.getBottom())
+                          .alpha(1)
+                          .setDuration(HEADER_HIDE_ANIM_DURATION)
+                          .setInterpolator(new DecelerateInterpolator())
+                          .withLayer();
             }
         }
     }
@@ -135,14 +140,30 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void registerHideableHeaderView(View hideableHeaderView) {
+        if (mHideableHeaderViews == null) {
+            mHideableHeaderViews = new ArrayList<>();
+        }
         if (!mHideableHeaderViews.contains(hideableHeaderView)) {
             mHideableHeaderViews.add(hideableHeaderView);
         }
     }
 
-    protected void deregisterHideableHeaderView(View hideableHeaderView) {
-        if (mHideableHeaderViews.contains(hideableHeaderView)) {
+    protected void unregisterHideableHeaderView(View hideableHeaderView) {
+        if (mHideableHeaderViews != null && mHideableHeaderViews.contains(hideableHeaderView)) {
             mHideableHeaderViews.remove(hideableHeaderView);
         }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginEvent(LoginEvent event) {
+        startActivity(new Intent(this, LoginActivity.class));
+        this.finish();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

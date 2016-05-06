@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.mredrock.cyxbsmobile.model.community.Image;
+import com.mredrock.cyxbsmobile.model.social.Image;
 import com.mredrock.cyxbsmobile.util.ScreenTools;
 
 import java.util.List;
@@ -88,7 +88,7 @@ public class NineGridlayout extends ViewGroup {
             childrenView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (((Image) listData.get(finalI)).getType() == Image.ADDIMAG)
+                    if (((Image) listData.get(finalI)).getType() == Image.TYPE_ADD)
                         if (mOnAddImagItemClickListener != null)
                             mOnAddImagItemClickListener.onClick(view, finalI);
                         else if (mOnNormalImagItemClickListener != null)
@@ -96,7 +96,8 @@ public class NineGridlayout extends ViewGroup {
                 }
             });
             childrenView.setOnClickDelecteLIstener(v -> mOnClickDeletecteListener.onClickDelete(v, finalI));
-            childrenView.setImageUrl(((Image) listData.get(i)).getUrl());
+            childrenView.setImageUrl(((Image) listData.get(i)).url);
+
             childrenView.setType(((Image) listData.get(i)).getType());
             int[] position = findPosition(i);
             int left = (singleWidth + gap) * position[1];
@@ -134,8 +135,10 @@ public class NineGridlayout extends ViewGroup {
 
     public void setImagesData(List<Image> lists) {
         if (lists == null || lists.isEmpty()) {
+            this.setVisibility(GONE);
             return;
         }
+        this.setVisibility(VISIBLE);
         //初始化布局
         generateChildrenLayout(lists.size());
         //这里做一个重用view的处理

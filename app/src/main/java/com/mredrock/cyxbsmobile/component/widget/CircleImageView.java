@@ -13,6 +13,8 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.mredrock.cyxbsmobile.util.CommonUtils;
+
 public class CircleImageView extends ImageView {
     private int mBorderThickness = 0;
     private Context mContext;

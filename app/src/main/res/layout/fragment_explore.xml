@@ -122,35 +122,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/explore_around_food" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/explore_community_holder"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/explore_holder_height"
-                android:layout_weight="1"
-                android:background="@drawable/bg_explore_holder"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="@dimen/explore_image_size"
-                    android:layout_height="@dimen/explore_image_size"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_community" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/explore_community" />
             </LinearLayout>
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="@dimen/explore_holder_height"
                 android:layout_weight="1"
-                android:clickable="false"/>
+                android:clickable="false" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/explore_holder_height"
+                android:layout_weight="1"
+                android:clickable="false" />
+
 
         </LinearLayout>
 

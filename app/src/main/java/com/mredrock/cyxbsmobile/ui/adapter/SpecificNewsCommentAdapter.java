@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
-import com.mredrock.cyxbsmobile.model.community.ReMarks;
+import com.mredrock.cyxbsmobile.model.social.CommentContent;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
+import com.mredrock.cyxbsmobile.util.TimeUtils;
 
 import java.util.List;
 
@@ -21,19 +21,20 @@ import butterknife.ButterKnife;
 /**
  * Created by mathiasluo on 16-4-5.
  */
-public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<ReMarks.ReMark, SpecificNewsCommentAdapter.ViewHolder> {
+public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<CommentContent, SpecificNewsCommentAdapter.ViewHolder> {
 
 
-    public SpecificNewsCommentAdapter(List<ReMarks.ReMark> mDatas, Context context) {
+    public SpecificNewsCommentAdapter(List<CommentContent> mDatas, Context context) {
         super(mDatas, context);
     }
 
     @Override
-    protected void bindData(ViewHolder holder, ReMarks.ReMark data, int position) {
-        holder.mTextContent.setText(data.getContent());
-        holder.mTextTime.setText(data.getCreated_time());
-        holder.mTextViewNickName.setText(data.getNickname());
-        ImageLoader.getInstance().loadAvatar("", holder.mCircleImageView);
+    protected void bindData(ViewHolder holder, CommentContent data, int position) {
+        holder.mTextContent.setText(data.content);
+        holder.mTextTime.setText(TimeUtils.getTimeDetail(data.created_time));
+        holder.mTextViewNickName.setText(data.nickname);
+        ImageLoader.getInstance().loadAvatar(data.photo_thumbnail_src, holder.mCircleImageView);
+
     }
 
     @Override

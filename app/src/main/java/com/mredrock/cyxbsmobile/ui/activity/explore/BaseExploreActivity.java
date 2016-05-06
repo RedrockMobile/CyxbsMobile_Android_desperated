@@ -64,7 +64,7 @@ public abstract class BaseExploreActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
     }

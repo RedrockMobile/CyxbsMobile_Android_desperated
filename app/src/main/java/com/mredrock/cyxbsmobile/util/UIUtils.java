@@ -31,7 +31,7 @@ public class UIUtils {
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.add(frameId,toFragment, toFragment.getClass().getName());
+        transaction.add(frameId, toFragment, toFragment.getClass().getName());
         transaction.hide(fromFragment);
         transaction.addToBackStack(toFragment.getClass().getName());
         transaction.commit();

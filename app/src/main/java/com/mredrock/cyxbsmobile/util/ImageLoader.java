@@ -1,5 +1,6 @@
 package com.mredrock.cyxbsmobile.util;
 
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -7,6 +8,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.component.widget.CustomImageView;
 
 import java.util.Random;
 
@@ -48,15 +50,16 @@ public class ImageLoader {
         int position = new Random().nextInt(3);
         Glide.with(APP.getContext())
                 .load(url)
+                .asBitmap()
                 .placeholder(circles[position])
                 .error(circles[position])
-                .crossFade()
                 .into(imageView);
     }
 
+
     public void loadImageWithTargetView(String url, SimpleTarget simpleTarget) {
         Glide.with(APP.getContext())
-                .load(url)
+                .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
                 .asBitmap()
                 .placeholder(R.drawable.img_placeholder)
                 .error(R.drawable.img_placeholder)
@@ -70,6 +73,15 @@ public class ImageLoader {
                 .listener(listener)
                 .placeholder(R.mipmap.avatar_default)
                 .error(R.mipmap.avatar_default)
+                .into(simpleTarget);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void loadLocalImage(int resId, SimpleTarget<Bitmap> simpleTarget) {
+        Glide.with(APP.getContext())
+                .load(resId)
+                .asBitmap()
+                .centerCrop()
                 .into(simpleTarget);
     }
 }

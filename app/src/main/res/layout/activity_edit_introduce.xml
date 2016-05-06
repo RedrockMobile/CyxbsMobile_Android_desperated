@@ -3,11 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_grey"
-    tools:context=".ui.activity.mypage.EditIntroduceActivity">
+    android:orientation="vertical"
+    tools:context=".ui.activity.me.EditIntroduceActivity">
 
-    <include layout="@layout/toolbar_edit_introduce"/>
+    <com.mredrock.cyxbsmobile.component.widget.Toolbar
+        android:id="@+id/edit_introduce_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text_title="简介"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -16,27 +21,27 @@
         android:background="@android:color/white">
 
         <EditText
+            android:id="@+id/edit_introduce_et"
             android:layout_width="match_parent"
             android:layout_height="153dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="14dp"
             android:background="@null"
             android:gravity="top"
             android:hint="请输入您的简介"
             android:textColorHint="@color/text_light_2"
-            android:text="爱生活爱旅行爱看书什么都爱，对的就是不爱上课。"
+            android:paddingLeft="15dp"
+            android:paddingTop="14dp"
             android:textColor="@color/text_dark"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/edit_introduce_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
-            android:text="7"
+            android:layout_marginRight="15dp"
             android:textColor="@color/text_light_2"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
     </FrameLayout>
 

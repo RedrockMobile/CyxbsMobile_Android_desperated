@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import com.mredrock.cyxbsmobile.util.Utils;
 
 /**
- * comments of restaurant
- *
+ * Comments of restaurant
+ * <p>
  * Created by Stormouble on 16/4/12.
  */
 public class FoodComment implements Comparable<FoodComment>{

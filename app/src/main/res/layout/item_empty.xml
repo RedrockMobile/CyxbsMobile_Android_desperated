@@ -45,7 +45,7 @@
             android:layout_marginBottom="4dp"
             android:gravity="center|start" />
 
-        <com.mredrock.cyxbs.ui.widget.NoScrollGridView
+        <com.mredrock.cyxbsmobile.component.widget.NoScrollGridView
             android:id="@+id/item_empty_gv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

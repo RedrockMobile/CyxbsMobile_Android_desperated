@@ -100,6 +100,12 @@
         <item>AB节</item>
     </string-array>
 
+    <string-array name="exam_grade_tab_titles">
+        <item>成绩</item>
+        <item>考试安排</item>
+        <item>补考安排</item>
+    </string-array>
+
     <string name="my_page_introduce">简介：</string>
     <string name="my_page_relate">与我相关</string>
     <string name="my_page_trend">我的动态</string>
@@ -113,11 +119,21 @@
     <string name="edit_info_avatar">头像修改</string>
     <string name="edit_info_nick_name">昵称</string>
     <string name="edit_info_introduce">简介</string>
+    <string name="edit_info_qq">QQ</string>
+    <string name="edit_info_phone">电话</string>
 
     <string name="setting_news_remind">新消息提醒</string>
     <string name="setting_feedback">意见反馈</string>
     <string name="setting_about">关于</string>
     <string name="setting_exit">退出当前账号</string>
+
+    <string name="grade_title_name">名称</string>
+    <string name="grade_title_property">类型</string>
+    <string name="grade_title_score">成绩</string>
+
+    <string name="exam_unsure">时间待定</string>
+    <string name="exam_date">%1$s周周%2$s</string>
+    <string name="exam_detail_date">%1$s - %2$s</string>
 
     <string name="news_remind_hint">打开后将推送响应类型的消息</string>
     <string name="news_remind_comment">评论与回复</string>
@@ -181,7 +197,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="news_edt">单击此处输入评论</string>
+    <string name="news_load">下载附件</string>
+    <string name="load_agree">确定</string>
+    <string name="load_disagree">取消</string>
+    <string name="loading">下载中,请稍后</string>
+    <string name="load_open_file">下载成功,是否打开?</string>
+    <string name="load_file_path">文件位于%1$s</string>
+    <string name="load_failed">下载失败了~</string>
+    <string name="load_error_prepare">加载异常</string>
+
+    <string name="news_edt">说点什么吧...</string>
     <string name="specific_news_title">详情</string>
     <string name="specific_news_nev">返回</string>
 
@@ -193,5 +218,12 @@
     <string name="erro">获取数据失败,你的网络不靠谱呀</string>
     <string name="alter">你没有输入任何东西哟</string>
     <string name="noContent">你没有输入消息哟!</string>
+    <string name="loadingFailed">加载失败，点击重新加载</string>
+    <string name="title_activity_login">登录</string>
+
+
+    <string name="jwzx">教务在线</string>
+    <string name="person_info">详细资料</string>
+    <string name="latest">近期动态</string>
 
 </resources>

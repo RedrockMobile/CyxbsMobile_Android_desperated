@@ -25,6 +25,7 @@ public class CourseDialog {
         view.setAdapter(adapter);
         new AlertDialog.Builder(context)
                 .setTitle("课程详细信息")
+                .setCancelable(true)
                 .setView(layout, DensityUtils.dp2px(context, 12), DensityUtils.dp2px(context, 24), DensityUtils.dp2px(context, 12), DensityUtils.dp2px(context, 24))
                 .show();
     }

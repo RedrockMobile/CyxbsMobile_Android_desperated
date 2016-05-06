@@ -1,5 +1,6 @@
 package com.mredrock.cyxbsmobile.ui.activity;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -8,23 +9,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ImageView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar;
+import com.mredrock.cyxbsmobile.ui.activity.social.PostNewsActivity;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.UserFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.explore.ExploreFragment;
-import com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment;
-import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.social.SocialContainerFragment;
 
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity {
+
 
     @Bind(R.id.main_toolbar_title)
     TextView mToolbarTitle;
@@ -41,10 +44,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @BindString(R.string.my_page)
     String mStringMyPage;
 
-    @Bind(R.id.add_news_img)
-    ImageView mImageView;
+
     @Bind(R.id.bottom_bar)
     BottomBar mBottomBar;
+
+//    BaseFragment socialContainerFragment;
+//    BaseFragment courseContainerFragment;
+//    BaseFragment exploreFragment;
+//    BaseFragment userFragment;
+
+    private Fragment myPageFragment;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,27 +71,46 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void initView() {
         initToolbar();
-        mImageView.setOnClickListener(this);
-
+        // mImageView.setOnClickListener(this);
         mBottomBar.setOnBottomViewClickListener((view, position) -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             Fragment fragment = null;
-            mImageView.setVisibility(View.GONE);
+            //  mImageView.setVisibility(View.GONE);
+            hiddenMenu();
+
             switch (position) {
                 case 0:
-                    fragment = new CommunityContainerFragment();
+//                    if (socialContainerFragment == null) {
+//                        socialContainerFragment = new SocialContainerFragment();
+//                    }
+//                    fragment = socialContainerFragment;
+                    fragment = new SocialContainerFragment();
                     setTitle(mStringCommunity);
-                    mImageView.setVisibility(View.VISIBLE);
+                    // mImageView.setVisibility(View.VISIBLE);
+                    showMenu();
+
                     break;
                 case 1:
+//                    if (courseContainerFragment == null) {
+//                        courseContainerFragment = new CourseContainerFragment();
+//                    }
+//                    fragment = courseContainerFragment;
                     fragment = new CourseContainerFragment();
                     break;
                 case 2:
+//                    if (exploreFragment == null) {
+//                        exploreFragment = new ExploreFragment();
+//                    }
+//                    fragment = exploreFragment;
                     fragment = new ExploreFragment();
                     setTitle(mStringExplore);
                     break;
                 case 3:
-                    fragment = new MyPageFragment();
+//                    if (userFragment == null) {
+//                        userFragment = new UserFragment();
+//                    }
+                    fragment = new UserFragment();
+                    myPageFragment = fragment;
                     setTitle(mStringMyPage);
                     break;
             }
@@ -110,16 +139,56 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.add_news_img:
-                startActivity(new Intent(MainActivity.this, AddNewsActivity.class));
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add_news:
+                PostNewsActivity.startActivity(this);
                 break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void hiddenMenu() {
+        if (null != mMenu) {
+            for (int i = 0; i < mMenu.size(); i++) {
+                mMenu.getItem(i).setVisible(false);
+            }
+        }
+    }
+
+    private void showMenu() {
+        if (null != mMenu) {
+            for (int i = 0; i < mMenu.size(); i++) {
+                mMenu.getItem(i).setVisible(true);
+            }
         }
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == UserFragment.REQUEST_EDIT_INFO) {
+            myPageFragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
     public TextView getToolbarTitle() {
         return mToolbarTitle;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
     }
 }

@@ -1,6 +1,7 @@
 package com.mredrock.cyxbsmobile.util;
 
 import com.mredrock.cyxbsmobile.model.EmptyRoom;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,31 +12,49 @@ import java.util.TreeMap;
  * Created by Stormouble on 15/12/12.
  */
 public class EmptyConverter {
-    /** 楼层的数字表示 */
+    /**
+     * 楼层的数字表示
+     */
     public static final String[] floorNumArray = {"1", "2", "3", "4", "5", "6"};
 
-    /** 楼层的中文表示 */
+    /**
+     * 楼层的中文表示
+     */
     public static final String[] floorArray = {"一楼", "二楼", "三楼", "四楼", "五楼", "六楼"};
 
-    /** 八教教学楼的数字表示 */
+    /**
+     * 八教教学楼的数字表示
+     */
     public static final String[] eighthBuildingNumArray = {"1", "2", "3"};
 
-    /** 八教教学楼的中文表示 */
+    /**
+     * 八教教学楼的中文表示
+     */
     public static final String[] eighthBuildingArray = {"一栋", "二栋", "三栋"};
 
-    /** 是否需要筛选数据 */
+    /**
+     * 是否需要筛选数据
+     */
     private boolean mIsNeedPick;
 
-    /** 数据是否为八教教室 */
+    /**
+     * 数据是否为八教教室
+     */
     private boolean mIsEighthBuilding;
 
-    /** 数据集 */
+    /**
+     * 数据集
+     */
     private List<String> mEmptyData;
 
-    /** 数据组, key代表楼层,value代表相应楼层的空教室 */
+    /**
+     * 数据组, key代表楼层,value代表相应楼层的空教室
+     */
     private Map<String, List<String>> mEmptyGroup;
 
-    /** 转换后的数据集 */
+    /**
+     * 转换后的数据集
+     */
     private List<EmptyRoom> mEmptyRoomList;
 
     public EmptyConverter() {
@@ -128,7 +147,7 @@ public class EmptyConverter {
     private void check(List<String> data) {
         if (data != null && !data.isEmpty()) {
             String empty = data.get(0);
-            if ((empty.substring(0,1)).equals("8")) {
+            if ((empty.substring(0, 1)).equals("8")) {
                 mIsEighthBuilding = true;
             }
         }

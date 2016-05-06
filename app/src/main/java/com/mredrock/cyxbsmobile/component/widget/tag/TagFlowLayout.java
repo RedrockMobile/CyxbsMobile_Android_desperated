@@ -10,21 +10,25 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.mredrock.cyxbsmobile.R;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChangedListener {
 
+    private static final String TAG = "TagFlowLayout";
+    private static final String KEY_CHOOSE_POS = "key_choose_pos";
+    private static final String KEY_DEFAULT = "key_default";
     private TagAdapter mTagAdapter;
     private boolean mSupportMulSelected = true;
     private int mSelectedMax = -1;
-    private static final String TAG = "TagFlowLayout";
     private MotionEvent mMotionEvent;
-
     private Set<Integer> mSelectedView = new HashSet<Integer>();
-
+    private OnSelectListener mOnSelectListener;
+    private OnTagClickListener mOnTagClickListener;
 
     public TagFlowLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -46,7 +50,6 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
         this(context, null);
     }
 
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int cCount = getChildCount();
@@ -61,23 +64,10 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    public interface OnSelectListener {
-        void onSelected(Set<Integer> selectPosSet);
-    }
-
-    private OnSelectListener mOnSelectListener;
-
     public void setOnSelectListener(OnSelectListener onSelectListener) {
         mOnSelectListener = onSelectListener;
         if (mOnSelectListener != null) setClickable(true);
     }
-
-    public interface OnTagClickListener {
-        boolean onTagClick(View view, int position, FlowLayout parent);
-    }
-
-    private OnTagClickListener mOnTagClickListener;
-
 
     public void setOnTagClickListener(OnTagClickListener onTagClickListener) {
         mOnTagClickListener = onTagClickListener;
@@ -194,10 +184,6 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
         }
     }
 
-    private static final String KEY_CHOOSE_POS = "key_choose_pos";
-    private static final String KEY_DEFAULT = "key_default";
-
-
     @Override
     protected Parcelable onSaveInstanceState() {
         Bundle bundle = new Bundle();
@@ -265,4 +251,11 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
     }
 
 
+    public interface OnTagClickListener {
+        boolean onTagClick(View view, int position, FlowLayout parent);
+    }
+
+    public interface OnSelectListener {
+        void onSelected(Set<Integer> selectPosSet);
+    }
 }

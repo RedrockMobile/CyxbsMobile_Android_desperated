@@ -1,26 +1,40 @@
 package com.mredrock.cyxbsmobile.network.service;
 
-import com.mredrock.cyxbsmobile.model.FoodComment;
 import com.mredrock.cyxbsmobile.config.Const;
-import com.mredrock.cyxbsmobile.model.FoodDetail;
+import com.mredrock.cyxbsmobile.model.AboutMe;
 import com.mredrock.cyxbsmobile.model.Course;
-import com.mredrock.cyxbsmobile.model.Shake;
-import com.mredrock.cyxbsmobile.model.MovieResult;
-import com.mredrock.cyxbsmobile.model.Food;
-import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Empty;
+import com.mredrock.cyxbsmobile.model.Exam;
+import com.mredrock.cyxbsmobile.model.Food;
+import com.mredrock.cyxbsmobile.model.FoodComment;
+import com.mredrock.cyxbsmobile.model.FoodDetail;
+import com.mredrock.cyxbsmobile.model.Grade;
+import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
+import com.mredrock.cyxbsmobile.model.Shake;
 import com.mredrock.cyxbsmobile.model.Student;
-import com.mredrock.cyxbsmobile.model.Subject;
+import com.mredrock.cyxbsmobile.model.User;
+import com.mredrock.cyxbsmobile.model.social.BBDDDetail;
+import com.mredrock.cyxbsmobile.model.social.BBDDNews;
+import com.mredrock.cyxbsmobile.model.social.Comment;
+import com.mredrock.cyxbsmobile.model.social.HotNews;
+import com.mredrock.cyxbsmobile.model.social.OfficeNews;
+import com.mredrock.cyxbsmobile.model.social.PersonInfo;
+import com.mredrock.cyxbsmobile.model.social.PersonLatest;
+import com.mredrock.cyxbsmobile.model.social.RequestResponse;
+import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -28,15 +42,16 @@ import rx.Observable;
  */
 public interface RedrockApiService {
 
-    String MOVIE_URL = "https://api.douban.com/v2/movie/top250";
-
-    @GET
-    Observable<MovieResult<List<Subject>>> getTopMovie(@Url String url, @Query("start") int start, @Query("count") int count);
+    @FormUrlEncoded
+    @POST(Const.API_VERIFY)
+    Observable<User.UserWrapper> verify(@Field("stuNum") String stuNum, @Field("idNum") String idNum);
 
     @FormUrlEncoded
     @Headers("API_APP: android")
     @POST(Const.API_PERSON_SCHEDULE)
-    Observable<Course.CourseWrapper> getCourse(@Field("stuNum") String stuNum, @Field("idNum") String idNum, @Field("week") String week);
+    Observable<Course.CourseWrapper> getCourse(@Field("stuNum") String stuNum,
+                                               @Field("idNum") String idNum,
+                                               @Field("week") String week);
 
     //Explore start
     @GET(Const.API_SHAKE)
@@ -52,11 +67,16 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_FOOD_COMMENT_LIST)
-    Observable<RedrockApiWrapper<List<FoodComment>>> getFoodComments(@Field("shop_id") String id, @Field("pid") String page);
+    Observable<RedrockApiWrapper<List<FoodComment>>> getFoodComments(@Field("shop_id") String id,
+                                                                     @Field("pid") String page);
 
     @FormUrlEncoded
     @POST(Const.API_SEND_FOOD_COMMENT)
-    Observable<RedrockApiWrapper<Object>> sendFoodComment(@Field("shop_id") String id, @Field("user_number") String userNumber, @Field("user_password") String userPassword,@Field("comment_content") String commentContent,@Field("comment_author_name") String commentAuthoName);
+    Observable<RedrockApiWrapper<Object>> sendFoodComment(@Field("shop_id") String id,
+                                                          @Field("user_number") String userNumber,
+                                                          @Field("user_password") String userPassword,
+                                                          @Field("comment_content") String commentContent,
+                                                          @Field("comment_author_name") String commentAuthoName);
     //Explore end
 
     @GET(Const.APT_SEARCH_STUDENT)
@@ -64,7 +84,165 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_EMPTYROOM)
-    Observable<Empty> getEmptyRoomList(@Field("buildNum") String buildNum, @Field("week") String week, @Field("weekdayNum") String weekdayNum, @Field("sectionNum") String sectionNum);
+    Observable<Empty> getEmptyRoomList(@Field("buildNum") String buildNum,
+                                       @Field("week") String week,
+                                       @Field("weekdayNum") String weekdayNum,
+                                       @Field("sectionNum") String sectionNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_SCORE)
+    Observable<Grade.GradeWrapper> getGrade(@Field("stuNum") String stuNum,
+                                            @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_EXAM_SCHEDULE)
+    Observable<Exam.ExamWapper> getExam(@Field("stuNum") String stu);
+
+    @FormUrlEncoded
+    @POST(Const.API_REEXAM_SCHEDULE)
+    Observable<Exam.ExamWapper> getReExam(@Field("stu") String stu);
+
+    @FormUrlEncoded
+    @POST(Const.API_EDIT_INFO)
+    Observable<RedrockApiWrapper<Object>> setPersonInfo(@Field("stuNum") String stuNum,
+                                                        @Field("idNum") String idNum,
+                                                        @Field("photo_thumbnail_src") String photo_thumbnail_src,
+                                                        @Field("photo_src") String photo_src);
+
+    @FormUrlEncoded
+    @POST(Const.API_EDIT_INFO)
+    Observable<RedrockApiWrapper<Object>> setPersonNickName(@Field("stuNum") String stuNum,
+                                                            @Field("idNum") String idNum,
+                                                            @Field("nickname") String nickname);
+
+    @FormUrlEncoded
+    @POST(Const.API_EDIT_INFO)
+    Observable<RedrockApiWrapper<Object>> setPersonQQ(@Field("stuNum") String stuNum,
+                                                      @Field("idNum") String idNum,
+                                                      @Field("qq") String qq);
+
+    @FormUrlEncoded
+    @POST(Const.API_EDIT_INFO)
+    Observable<RedrockApiWrapper<Object>> setPersonPhone(@Field("stuNum") String stuNum,
+                                                         @Field("idNum") String idNum,
+                                                         @Field("phone") String phone);
+
+    @FormUrlEncoded
+    @POST(Const.API_EDIT_INFO)
+    Observable<RedrockApiWrapper<Object>> setPersonIntroduction(@Field("stuNum") String stuNum,
+                                                                @Field("idNum") String idNum,
+                                                                @Field("introduction") String introduction);
+
+    @FormUrlEncoded
+    @POST(Const.API_GET_INFO)
+    Observable<User.UserWrapper> getPersonInfo(@Field("stuNum") String stuNum,
+                                               @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_ABOUT_ME)
+    Observable<AboutMe.AboutMeWapper> getAboutMe(@Field("stuNum") String
+                                                         stuNum,
+                                                 @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_TREND_DETAIL)
+    Observable<BBDDDetail.BBDDDetailWrapper> getTrendDetail(@Field("stuNum") String stuNum,
+                                                            @Field("idNum") String idNum,
+                                                            @Field("type_id") int type_id,
+                                                            @Field("article_id") String article_id);
+
+    @FormUrlEncoded
+    @POST(Const.API_SEARCH_ARTICLE)
+    Observable<BBDDDetail.BBDDDetailWrapper> searchTrends(@Field("stuNum") String stuNum,
+                                                          @Field("idNum") String idNum);
+
+    Observable<BBDDDetail.BBDDDetailWrapper> searchOtherTrends(@Field("stuNum") String stuNum,
+                                                               @Field("idNum") String idNum,
+                                                               @Field("stunum_other") String stunum_other);
+
+    @FormUrlEncoded
+    @POST(Const.API_SOCIAL_OFFICIAL_NEWS_LIST)
+    Observable<OfficeNews> getSocialOfficialNewsList(@Field("size") int size,
+                                                     @Field("page") int page,
+                                                     @Field("stuNum") String stuNum,
+                                                     @Field("idNum") String idNum,
+                                                     @Field("type_id") String type_id);
+
+    @FormUrlEncoded
+    @POST(Const.API_SOCIAL_HOT_LIST)
+    Observable<List<HotNews>> getSocialHotList(@Field("size") int size,
+                                               @Field("page") int page,
+                                               @Field("stuNum") String stuNum,
+                                               @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    //哔哔叨叨(或者其他的)接口：POST
+    @POST(Const.API_SOCIAL_BBDD_LIST)
+    Observable<BBDDNews> getSocialBBDDList(@Field("type_id") int type_id,
+                                           @Field("size") int size,
+                                           @Field("page") int page,
+                                           @Field("stuNum") String stuNum,
+                                           @Field("idNum") String idNum);
 
 
+    @Multipart
+    @POST(Const.API_SOCIAL_IMG_UPLOAD)
+    Observable<UploadImgResponse> uploadSocialImg(@Part("stunum") RequestBody stunum,
+                                                  @Part MultipartBody.Part file);
+
+
+    @FormUrlEncoded
+    @POST(Const.API_SOCIAL_ARTICLE_ADD)
+    Observable<RequestResponse> sendDynamic(@Field("type_id") int type_id,
+                                            @Field("title") String title,
+                                            @Field("user_id") String user_id,
+                                            @Field("content") String content,
+                                            @Field("thumbnail_src") String thumbnail_src,
+                                            @Field("photo_src") String photo_src,
+                                            @Field("stuNum") String stuNum,
+                                            @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_SOCIAL_COMMENT_LIST)
+    Observable<Comment> getSocialCommentList(@Field("article_id") String article_id,
+                                             @Field("type_id") int type_id,
+                                             @Field("user_id") String user_id,
+                                             @Field("stuNum") String stuNum,
+                                             @Field("idNum") String idNum);
+
+
+    @FormUrlEncoded
+    @POST(Const.API_SOCIAL_COMMENT_ADD)
+    Observable<RequestResponse> addSocialComment(@Field("article_id") String article_id,
+                                                 @Field("type_id") int type_id,
+                                                 @Field("content") String content,
+                                                 @Field("user_id") String user_id,
+                                                 @Field("stuNum") String stuNum,
+                                                 @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_SOCIAL_LIKE)
+    Observable<RequestResponse> socialLike(@Field("article_id") String article_id,
+                                           @Field("type_id") int type_id,
+                                           @Field("stuNum") String stuNum,
+                                           @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_SOCIAL_UNLIKE)
+    Observable<RequestResponse> socialUnlike(@Field("article_id") String article_id,
+                                             @Field("type_id") int type_id,
+                                             @Field("stuNum") String stuNum,
+                                             @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_GET_PERSON_INFO)
+    Observable<RedrockApiWrapper<PersonInfo>> getPersonInfo(@Field("stunum_other") String otherStuNum,
+                                                            @Field("stuNum") String stuNum,
+                                                            @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_GET_PERSON_LATEST)
+    Observable<RedrockApiWrapper<List<PersonLatest>>> getPersonLatestList(@Field("stunum_other") String otherStuNum,
+                                                                          @Field("stuNum") String stuNum,
+                                                                          @Field("idNum") String idNum);
 }

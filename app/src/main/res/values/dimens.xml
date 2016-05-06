@@ -28,6 +28,8 @@
     <!-- line spacing -->
     <item name="body_spacing" format="float" type="dimen">1.22448979592</item>
 
+    <dimen name="information_img_avatar">48dp</dimen>
+
     <!-- Action Bar auto-hide-on-scroll behavior parameters -->
     <dimen name="action_bar_auto_hide_min_y">152dp</dimen>
     <dimen name="action_bar_auto_hide_sensitivity">48dp</dimen>
