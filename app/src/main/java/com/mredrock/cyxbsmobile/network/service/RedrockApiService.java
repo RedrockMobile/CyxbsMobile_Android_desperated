@@ -43,7 +43,9 @@ public interface RedrockApiService {
     @FormUrlEncoded
     @Headers("API_APP: android")
     @POST(Const.API_PERSON_SCHEDULE)
-    Observable<Course.CourseWrapper> getCourse(@Field("stuNum") String stuNum, @Field("idNum") String idNum, @Field("week") String week);
+    Observable<Course.CourseWrapper> getCourse(@Field("stuNum") String stuNum,
+                                               @Field("idNum") String idNum,
+                                               @Field("week") String week);
 
     @GET(Const.API_EAT_WHAT)
     Observable<RedrockApiWrapper<EatWhat>> getEatWhat();
@@ -58,18 +60,26 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_RESTAURANT_COMMENTS)
-    Observable<RedrockApiWrapper<List<RestaurantComment>>> getRestaurantComments(@Field("shop_id") String id, @Field("pid") String page);
+    Observable<RedrockApiWrapper<List<RestaurantComment>>> getRestaurantComments(@Field("shop_id") String id,
+                                                                                 @Field("pid") String page);
 
     @FormUrlEncoded
     @POST(Const.API_RESTAURANT_SEND_COMMENT)
-    Observable<RedrockApiWrapper<Object>> sendRestaurantComment(@Field("shop_id") String id, @Field("user_number") String userNumber, @Field("user_password") String userPassword, @Field("comment_content") String commentContent, @Field("comment_author_name") String commentAuthoName);
+    Observable<RedrockApiWrapper<Object>> sendRestaurantComment(@Field("shop_id") String id,
+                                                                @Field("user_number") String userNumber,
+                                                                @Field("user_password") String userPassword,
+                                                                @Field("comment_content") String commentContent,
+                                                                @Field("comment_author_name") String commentAuthoName);
 
     @GET(Const.APT_SEARCH_STUDENT)
     Observable<Student.StudentWrapper> getStudent(@Query("stu") String stu);
 
     @FormUrlEncoded
     @POST(Const.API_EMPTYROOM)
-    Observable<Empty> getEmptyRoomList(@Field("buildNum") String buildNum, @Field("week") String week, @Field("weekdayNum") String weekdayNum, @Field("sectionNum") String sectionNum);
+    Observable<Empty> getEmptyRoomList(@Field("buildNum") String buildNum,
+                                       @Field("week") String week,
+                                       @Field("weekdayNum") String weekdayNum,
+                                       @Field("sectionNum") String sectionNum);
 
     @FormUrlEncoded
     @POST(Const.API_SCORE)
@@ -142,38 +152,38 @@ public interface RedrockApiService {
                                                      @Field("stunum_other") String stunum_other);
 
     @FormUrlEncoded
-    @POST("/cyxbsMobile/index.php/Home/Article/listNews")
-    Observable<OfficeNews> getlistNews(@Field("size") int size,
-                                       @Field("page") int page,
-                                       @Field("stuNum") String stuNum,
-                                       @Field("idNum") String idNum,
-                                       @Field("type_id") String type_id);
+    @POST(Const.API_SOCIAL_OFFICIAL_NEWS_LIST)
+    Observable<OfficeNews> getSocialOfficialNewsList(@Field("size") int size,
+                                                     @Field("page") int page,
+                                                     @Field("stuNum") String stuNum,
+                                                     @Field("idNum") String idNum,
+                                                     @Field("type_id") String type_id);
 
     @FormUrlEncoded
-    @POST("cyxbsMobile/index.php/Home/Article/searchHotArticle")
-    Observable<List<HotNews>> getHotArticle(@Field("size") int size,
-                                            @Field("page") int page,
-                                            @Field("stuNum") String stuNum,
-                                            @Field("idNum") String idNum);
+    @POST(Const.API_SOCIAL_HOT_LIST)
+    Observable<List<HotNews>> getSocialHotList(@Field("size") int size,
+                                               @Field("page") int page,
+                                               @Field("stuNum") String stuNum,
+                                               @Field("idNum") String idNum);
 
     @FormUrlEncoded
     //哔哔叨叨(或者其他的)接口：POST
-    @POST("cyxbsMobile/index.php/Home/Article/listArticle")
-    Observable<BBDDNews> getListArticle(@Field("type_id") int type_id,
-                                        @Field("size") int size,
-                                        @Field("page") int page,
-                                        @Field("stuNum") String stuNum,
-                                        @Field("idNum") String idNum);
+    @POST(Const.API_SOCIAL_BBDD_LIST)
+    Observable<BBDDNews> getSocialBBDDList(@Field("type_id") int type_id,
+                                           @Field("size") int size,
+                                           @Field("page") int page,
+                                           @Field("stuNum") String stuNum,
+                                           @Field("idNum") String idNum);
 
 
     @Multipart
-    @POST("cyxbsMobile/index.php/Home/Photo/uploadArticle")
-    Observable<UploadImgResponse> uploadImg(@Part("stunum") RequestBody stunum,
-                                            @Part MultipartBody.Part file);
+    @POST(Const.API_SOCIAL_IMG_UPLOAD)
+    Observable<UploadImgResponse> uploadSocialImg(@Part("stunum") RequestBody stunum,
+                                                  @Part MultipartBody.Part file);
 
 
     @FormUrlEncoded
-    @POST("cyxbsMobile/index.php/Home/Article/addArticle")
+    @POST(Const.API_SOCIAL_ARTICLE_ADD)
     Observable<RequestResponse> sendDynamic(@Field("type_id") int type_id,
                                             @Field("title") String title,
                                             @Field("user_id") String user_id,
@@ -184,35 +194,35 @@ public interface RedrockApiService {
                                             @Field("idNum") String idNum);
 
     @FormUrlEncoded
-    @POST("cyxbsMobile/index.php/Home/ArticleRemark/getremark")
-    Observable<Comment> getReMark(@Field("article_id") String article_id,
-                                  @Field("type_id") int type_id,
-                                  @Field("user_id") String user_id,
-                                  @Field("stuNum") String stuNum,
-                                  @Field("idNum") String idNum);
+    @POST(Const.API_SOCIAL_COMMENT_LIST)
+    Observable<Comment> getSocialCommentList(@Field("article_id") String article_id,
+                                             @Field("type_id") int type_id,
+                                             @Field("user_id") String user_id,
+                                             @Field("stuNum") String stuNum,
+                                             @Field("idNum") String idNum);
 
 
     @FormUrlEncoded
-    @POST("cyxbsMobile/index.php/Home/ArticleRemark/postremarks")
-    Observable<RequestResponse> postReMarks(@Field("article_id") String article_id,
-                                            @Field("type_id") int type_id,
-                                            @Field("content") String content,
-                                            @Field("user_id") String user_id,
-                                            @Field("stuNum") String stuNum,
-                                            @Field("idNum") String idNum);
+    @POST(Const.API_SOCIAL_COMMENT_ADD)
+    Observable<RequestResponse> addSocialComment(@Field("article_id") String article_id,
+                                                 @Field("type_id") int type_id,
+                                                 @Field("content") String content,
+                                                 @Field("user_id") String user_id,
+                                                 @Field("stuNum") String stuNum,
+                                                 @Field("idNum") String idNum);
 
     @FormUrlEncoded
-    @POST("cyxbsMobile/index.php/Home/Praise/addone")
-    Observable<RequestResponse> addThumbsUp(@Field("article_id") String article_id,
-                                            @Field("type_id") int type_id,
-                                            @Field("stuNum") String stuNum,
-                                            @Field("idNum") String idNum);
+    @POST(Const.API_SOCIAL_LIKE)
+    Observable<RequestResponse> socialLike(@Field("article_id") String article_id,
+                                           @Field("type_id") int type_id,
+                                           @Field("stuNum") String stuNum,
+                                           @Field("idNum") String idNum);
 
     @FormUrlEncoded
-    @POST("cyxbsMobile/index.php/Home/Praise/cancel")
-    Observable<RequestResponse> cancelThumbsUp(@Field("article_id") String article_id,
-                                               @Field("type_id") int type_id,
-                                               @Field("stuNum") String stuNum,
-                                               @Field("idNum") String idNum);
+    @POST(Const.API_SOCIAL_UNLIKE)
+    Observable<RequestResponse> socialUnlike(@Field("article_id") String article_id,
+                                             @Field("type_id") int type_id,
+                                             @Field("stuNum") String stuNum,
+                                             @Field("idNum") String idNum);
 
 }

@@ -13,9 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
@@ -27,39 +29,54 @@ import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.util.DialogUtil;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 import com.yalantis.ucrop.UCrop;
+
 import java.io.File;
+
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class EditInfoActivity extends BaseActivity{
+public class EditInfoActivity extends BaseActivity {
 
     private static final String PATH_CROP_PICTURES =
             Environment.getExternalStorageDirectory() + "/cyxbsmobile/" +
                     "Pictures";
 
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.edit_info_avatar_layout) RelativeLayout editInfoAvatarLayout;
-    @Bind(R.id.edit_info_nick_layout) RelativeLayout editInfoNickLayout;
-    @Bind(R.id.edit_info_introduce_layout) RelativeLayout
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.edit_info_avatar_layout)
+    RelativeLayout editInfoAvatarLayout;
+    @Bind(R.id.edit_info_nick_layout)
+    RelativeLayout editInfoNickLayout;
+    @Bind(R.id.edit_info_introduce_layout)
+    RelativeLayout
             editInfoIntroduceLayout;
-    @Bind(R.id.edit_info_avatar) CircleImageView editInfoAvatar;
-    @Bind(R.id.edit_info_nick_name) TextView editInfoNickName;
-    @Bind(R.id.edit_info_introduce) TextView editInfoIntroduce;
-    @Bind(R.id.edit_info_qq) TextView editInfoQq;
-    @Bind(R.id.edit_info_qq_layout) RelativeLayout editInfoQqLayout;
-    @Bind(R.id.edit_info_phone) TextView editInfoPhone;
-    @Bind(R.id.edit_info_phone_layout) RelativeLayout editInfoPhoneLayout;
+    @Bind(R.id.edit_info_avatar)
+    CircleImageView editInfoAvatar;
+    @Bind(R.id.edit_info_nick_name)
+    TextView editInfoNickName;
+    @Bind(R.id.edit_info_introduce)
+    TextView editInfoIntroduce;
+    @Bind(R.id.edit_info_qq)
+    TextView editInfoQq;
+    @Bind(R.id.edit_info_qq_layout)
+    RelativeLayout editInfoQqLayout;
+    @Bind(R.id.edit_info_phone)
+    TextView editInfoPhone;
+    @Bind(R.id.edit_info_phone_layout)
+    RelativeLayout editInfoPhoneLayout;
 
     private User mUser;
-    private CharSequence[] dialogItems = { "拍照", "从相册中选择" };
+    private CharSequence[] dialogItems = {"拍照", "从相册中选择"};
     private Uri mDestinationUri, cameraImageUri;
     private File dir;
 
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_info);
         ButterKnife.bind(this);
@@ -73,7 +90,7 @@ public class EditInfoActivity extends BaseActivity{
 
     private void initView() {
         ImageLoader.getInstance()
-                   .loadAvatar(mUser.photo_thumbnail_src, editInfoAvatar);
+                .loadAvatar(mUser.photo_thumbnail_src, editInfoAvatar);
         editInfoNickName.setText(mUser.nickname);
         editInfoIntroduce.setText(mUser.introduction);
         editInfoQq.setText(mUser.qq);
@@ -88,33 +105,33 @@ public class EditInfoActivity extends BaseActivity{
     }
 
     @OnClick(R.id.edit_info_avatar_layout)
-    void clickToDialog(){
+    void clickToDialog() {
         showSelectDialog();
     }
 
     @OnClick(R.id.edit_info_nick_layout)
-    void clickToNickName(){
+    void clickToNickName() {
         Intent intent = new Intent(this, EditNickNameActivity.class);
         intent.putExtra(Const.Extras.EDIT_USER, mUser);
         startActivityForResult(intent, Const.Requests.EDIT_NICKNAME);
     }
 
     @OnClick(R.id.edit_info_introduce_layout)
-    void clickToIntroduce(){
+    void clickToIntroduce() {
         Intent intent = new Intent(this, EditIntroduceActivity.class);
         intent.putExtra(Const.Extras.EDIT_USER, mUser);
         startActivityForResult(intent, Const.Requests.EDIT_INTRODUCE);
     }
 
     @OnClick(R.id.edit_info_qq_layout)
-    void clickToQQ(){
+    void clickToQQ() {
         Intent intent = new Intent(this, EditQQActivity.class);
         intent.putExtra(Const.Extras.EDIT_USER, mUser);
         startActivityForResult(intent, Const.Requests.EDIT_QQ);
     }
 
     @OnClick(R.id.edit_info_phone_layout)
-    void clickToPhone(){
+    void clickToPhone() {
         Intent intent = new Intent(this, EditPhoneActivity.class);
         intent.putExtra(Const.Extras.EDIT_USER, mUser);
         startActivityForResult(intent, Const.Requests.EDIT_PHONE);
@@ -128,7 +145,7 @@ public class EditInfoActivity extends BaseActivity{
                     Uri selectedUri = data.getData();
                     if (selectedUri != null) {
                         startuCropActivity(selectedUri);
-                    }else {
+                    } else {
                         Toast.makeText(this, "无法识别该图像", Toast.LENGTH_SHORT).show();
                     }
                     break;
@@ -191,17 +208,16 @@ public class EditInfoActivity extends BaseActivity{
 
     private void showSelectDialog() {
         new MaterialDialog.Builder(this).title("头像修改")
-                                        .items(dialogItems)
-                                        .itemsCallback(
-                                                (dialog, itemView, which, text) -> {
-                                                    if (which == 0) {
-                                                        getImageFromCamera();
-                                                    }
-                                                    else {
-                                                        getImageFromAlbum();
-                                                    }
-                                                })
-                                        .show();
+                .items(dialogItems)
+                .itemsCallback(
+                        (dialog, itemView, which, text) -> {
+                            if (which == 0) {
+                                getImageFromCamera();
+                            } else {
+                                getImageFromAlbum();
+                            }
+                        })
+                .show();
     }
 
 
@@ -224,29 +240,29 @@ public class EditInfoActivity extends BaseActivity{
         if (resultUri != null) {
             showProgress();
             RequestManager.getInstance()
-                          .uploadNewsImg(mUser.stunum, resultUri.getPath())
-                          .subscribeOn(Schedulers.io())
-                          .flatMap((Func1<UploadImgResponse.Response, Observable<?>>) response -> {
-                                      mUser.photo_thumbnail_src = response.thumbnail_src;
-                                      mUser.photo_src = response.photosrc;
-                                      return RequestManager.getInstance()
-                                                           .setPersonInfo(mUser.stunum,
-                                                                   mUser.idNum,
-                                                                   response.thumbnail_src,
-                                                                   response.photosrc);
-                                  })
-                          .observeOn(AndroidSchedulers.mainThread())
-                          .subscribe(okResponse -> {
-                              dismissProgress();
-                              Toast.makeText(this, "修改头像成功", Toast.LENGTH_SHORT)
-                                   .show();
-                              editInfoAvatar.setImageURI(resultUri);
-                          }, throwable -> {
-                              dismissProgress();
-                              Toast.makeText(this,
-                                      "修改头像失败：" + throwable.getMessage(),
-                                      Toast.LENGTH_SHORT).show();
-                          });
+                    .uploadNewsImg(mUser.stunum, resultUri.getPath())
+                    .subscribeOn(Schedulers.io())
+                    .flatMap((Func1<UploadImgResponse.Response, Observable<?>>) response -> {
+                        mUser.photo_thumbnail_src = response.thumbnail_src;
+                        mUser.photo_src = response.photosrc;
+                        return RequestManager.getInstance()
+                                .setPersonInfo(mUser.stunum,
+                                        mUser.idNum,
+                                        response.thumbnail_src,
+                                        response.photosrc);
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(okResponse -> {
+                        dismissProgress();
+                        Toast.makeText(this, "修改头像成功", Toast.LENGTH_SHORT)
+                                .show();
+                        editInfoAvatar.setImageURI(resultUri);
+                    }, throwable -> {
+                        dismissProgress();
+                        Toast.makeText(this,
+                                "修改头像失败：" + throwable.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    });
         }
     }
 
@@ -255,9 +271,8 @@ public class EditInfoActivity extends BaseActivity{
         Throwable cropError = UCrop.getError(result);
         if (cropError != null) {
             Toast.makeText(this, cropError.getMessage(), Toast.LENGTH_SHORT)
-                 .show();
-        }
-        else {
+                    .show();
+        } else {
             Toast.makeText(this, "Unexpected error", Toast.LENGTH_SHORT).show();
         }
     }
