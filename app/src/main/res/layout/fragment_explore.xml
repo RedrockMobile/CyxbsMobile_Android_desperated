@@ -43,7 +43,7 @@
                     android:layout_width="@dimen/explore_image_size"
                     android:layout_height="@dimen/explore_image_size"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_portal" />
+                    android:src="@drawable/ic_portal" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                     android:layout_width="@dimen/explore_image_size"
                     android:layout_height="@dimen/explore_image_size"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_map" />
+                    android:src="@drawable/ic_map" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/explore_eat_holder"
+                android:id="@+id/explore_what_to_eat_holder"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/explore_holder_height"
                 android:layout_weight="1"
@@ -87,7 +87,7 @@
                     android:layout_width="@dimen/explore_image_size"
                     android:layout_height="@dimen/explore_image_size"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_eat" />
+                    android:src="@drawable/ic_find_food" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/explore_around_holder"
+                android:id="@+id/explore_surrounding_food_holder"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/explore_holder_height"
                 android:layout_weight="1"
@@ -116,7 +116,7 @@
                 <ImageView
                     android:layout_width="@dimen/explore_image_size"
                     android:layout_height="@dimen/explore_image_size"
-                    android:src="@drawable/icon_around" />
+                    android:src="@drawable/ic_around_food" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -138,7 +138,7 @@
                     android:layout_width="@dimen/explore_image_size"
                     android:layout_height="@dimen/explore_image_size"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_community" />
+                    android:src="@drawable/ic_community" />
 
                 <TextView
                     android:layout_width="wrap_content"

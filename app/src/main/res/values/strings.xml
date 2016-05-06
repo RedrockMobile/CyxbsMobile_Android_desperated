@@ -129,6 +129,7 @@
         <item>官方资讯</item>
     </string-array>
 
+    <!--explore page start-->
     <string name="explore_portal">红岩门户</string>
     <string name="explore_map">重邮地图</string>
     <string name="explore_eat">吃什么</string>
@@ -143,13 +144,39 @@
     <string name="portal_menu_copy">复制链接</string>
     <string name="portal_open_with">用浏览器打开</string>
 
-    <string name="eat_what_activity_name">吃什么</string>
-    <string name="eat_what_text">吃什么 摇一摇</string>
+    <string name="map_dialog_title">流量警告</string>
+    <string name="map_dialog_content">当前不在wifi下哦，是否用流量下载重邮地图？</string>
+    <string name="map_dialog_positive">就是任性</string>
+    <string name="map_dialog_negative">还是算了</string>
 
-    <string name="around_food_activity_name">周边美食</string>
-    <string name="restaurant_detail_dialog_title">"请输入评论"</string>
-    <string name="restaurant_detail_dialog_hint">"请输入"</string>
-    <string name="restaurant_detail_dialog_positive_text">发送</string>
+    <string name="what_to_eat_activity_name">吃什么</string>
+    <string name="shake_again_text">不想吃这个？再摇一摇</string>
+
+    <string name="surrounding_food_activity_name">周边美食</string>
+    <string name="restaurant_promotion">暂无促销信息</string>
+    <string name="restaurant_average_cost">人均消费: 暂无数据</string>
+    <string name="restaurant_comment">评论</string>
+    <string name="phone_call_dialog_title">拨打电话</string>
+    <string name="phone_call_dialog_content">是否拨打该电话</string>
+    <string name="phone_call_dialog_positive">好的</string>
+    <string name="phone_call_dialog_negative">不了</string>
+
+    <string name="send_comment_dialog_title">请输入评论</string>
+    <string name="send_comment_dialog_hint">"请输入"</string>
+    <string name="send_comment_dialog_prefill">""</string>
+    <string name="send_comment_dialog_positive_text">发送</string>
+    <string name="send_comment_dialog_negative_text">取消</string>
+
+    <string name="placeholder_explore_restaurant_name">九九牛肉馆</string>
+    <string name="placeholder_explore_restaurant_recommend">新鲜大盘牛肉, 肉多耐嚼, 值得拥有</string>
+    <string name="placeholder_explore_restaurant_cost">人均消费: 99元</string>
+    <string name="placeholder_explore_restaurant_phone">13509495754</string>
+    <string name="placeholder_explore_restaurant_location">南岸区南山路99号(近崇文路), 在重庆邮电大学堕落街附近</string>
+    <string name="placeholder_explore_restaurant_promotion">牛排大促销, 只要30元, 再附送小配菜, 走过路过不要错过</string>
+    <string name="placeholder_explore_restaurant_comment">好吃</string>
+    <string name="placeholder_explore_restaurant_author">王二小</string>
+    <string name="placeholder_explore_restaurant_date">2016年5月1号</string>
+    <!--explore page end-->
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

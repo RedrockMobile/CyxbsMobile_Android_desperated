@@ -1,8 +1,9 @@
 package com.mredrock.cyxbsmobile.util;
 
-import android.support.annotation.NonNull;
+import android.os.Process;
 
-import java.util.ArrayDeque;
+import com.squareup.picasso.Picasso;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -37,5 +38,18 @@ public class Utils {
 
     public static boolean equal(Object a, Object b) {
         return a == b || (a != null && a.equals(b));
+    }
+
+    public static class BackgroundThread extends Thread {
+
+        public BackgroundThread(Runnable runnable) {
+            super(runnable);
+        }
+
+        @Override
+        public void run() {
+            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+            super.run();
+        }
     }
 }

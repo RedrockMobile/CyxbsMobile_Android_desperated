@@ -36,8 +36,8 @@ public class ImageLoader {
     public void loadImage(String url, ImageView imageView) {
         Glide.with(APP.getContext())
                 .load(url)
-                .placeholder(R.drawable.img_on_laoding)
-                .error(R.drawable.img_on_laoding)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_placeholder)
                 .crossFade()
                 .into(imageView);
 
@@ -58,8 +58,8 @@ public class ImageLoader {
         Glide.with(APP.getContext())
                 .load(url)
                 .asBitmap()
-                .placeholder(R.drawable.img_on_laoding)
-                .error(R.drawable.img_on_laoding)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_placeholder)
                 .into(simpleTarget);
     }
 

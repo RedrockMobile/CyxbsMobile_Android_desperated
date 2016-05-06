@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_layout"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_micro"
+        android:layout_marginTop="@dimen/spacing_micro"
+        android:minHeight="@dimen/item_min_height_xxlarge"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_normal">
+
+        <ImageView
+            android:id="@+id/item_food_restaurant_img"
+            android:layout_width="@dimen/restaurant_photo_width"
+            android:layout_height="@dimen/restaurant_photo_height"
+            android:layout_marginLeft="@dimen/spacing_normal"
+            android:layout_marginRight="@dimen/spacing_normal"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_food_restaurant_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/body_text_1"
+                android:textSize="@dimen/app_text_size_large"
+                tools:text="@string/placeholder_explore_restaurant_name" />
+
+            <TextView
+                android:id="@+id/item_food_restaurant_recommend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:textColor="@color/text_light_3"
+                android:textSize="@dimen/app_text_size_small"
+                tools:text="@string/placeholder_explore_restaurant_recommend" />
+
+            <TextView
+                android:id="@+id/item_food_restaurant_address"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:textColor="@color/text_light_1"
+                android:textSize="@dimen/app_text_size_medium"
+                tools:text="@string/placeholder_explore_restaurant_location" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="@dimen/padding_normal"
+        android:layout_marginRight="@dimen/padding_normal"
+        android:background="@color/divider" />
+
+</LinearLayout>

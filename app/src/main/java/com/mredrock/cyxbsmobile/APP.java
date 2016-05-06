@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.util.SPUtils;
+import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
 import timber.log.Timber;
@@ -23,6 +24,7 @@ public class APP extends Application {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
+            Logger.init();
         }
         context = getApplicationContext();
     }

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
-import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.community.CommunityContainerFragment;
 

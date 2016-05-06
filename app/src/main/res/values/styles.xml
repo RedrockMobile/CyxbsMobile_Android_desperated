@@ -12,6 +12,33 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="TextAppearance.Title" parent="TextAppearance.AppCompat.Title">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.Body2" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">14sp
+        </item> <!-- bug in AppCompat, can remove this when it's fixed -->
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="TextAppearance.Body1" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">14sp
+        </item> <!-- bug in AppCompat, can remove this when it's fixed -->
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="Body1Text">
+        <item name="android:textAppearance">@style/TextAppearance.Body1</item>
+        <item name="android:lineSpacingMultiplier">@dimen/body_spacing</item>
+    </style>
+
+    <style name="Body2Text">
+        <item name="android:textAppearance">@style/TextAppearance.Body2</item>
+        <item name="android:lineSpacingMultiplier">@dimen/body_spacing</item>
+    </style>
+
 
     <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
         <!--<item name="tabMaxWidth">@dimen/tab_max_width</item>-->
@@ -29,8 +56,12 @@
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="RestaurantTextAppearance" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:textColor">@color/body_text_3</item>
+
+    <style name="RestaurantTextButton">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
+        <item name="android:textSize">@dimen/app_text_size_medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/body_text_1</item>
     </style>
 
     <style name="SwitchStyle">
