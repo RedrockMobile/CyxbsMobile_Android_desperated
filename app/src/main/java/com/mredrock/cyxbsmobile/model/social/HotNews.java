@@ -35,9 +35,9 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> {
         this.data = new HotNewsContent(bbddNewsContent.type_id
                 , bbddNewsContent.id
                 , 5
-                , "userId"
+                , bbddNewsContent.stunum
                 , bbddNewsContent.nickname
-                , bbddNewsContent.article_photo_src
+                , bbddNewsContent.photo_src
                 , bbddNewsContent.created_time
                 , new OfficeNewsContent(bbddNewsContent.content)
                 , new HotNewsContent.ImgBean(bbddNewsContent.article_thumbnail_src, bbddNewsContent.article_photo_src)

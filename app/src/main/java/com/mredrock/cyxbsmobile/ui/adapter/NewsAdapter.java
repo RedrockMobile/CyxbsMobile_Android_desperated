@@ -2,6 +2,7 @@ package com.mredrock.cyxbsmobile.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -219,6 +220,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public void takeToPersonInfoActivity(View view) {
             if (enableClick)
                 PersonInfoActivity.StartActivityWithData(view.getContext(), mHotNewsContent.user_head, mHotNewsContent.nick_name, mHotNewsContent.user_id);
+            Log.e("===>>>", mHotNewsContent.user_head + "\n" + mHotNewsContent.nick_name + "\n" + mHotNewsContent.user_id);
         }
 
     }

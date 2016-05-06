@@ -18,4 +18,5 @@ public class BBDDNewsContent {
     public String photo_src;
     public String photo_thumbnail_src;
     public boolean is_my_like;
+    public String stunum;
 }

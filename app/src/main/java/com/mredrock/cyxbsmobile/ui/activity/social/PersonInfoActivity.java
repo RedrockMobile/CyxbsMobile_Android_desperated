@@ -89,6 +89,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
 
         mHeaderViewWrapper.setData(mUserAvatar, mNickName);
+        showLaoding();
         requestData();
     }
 
