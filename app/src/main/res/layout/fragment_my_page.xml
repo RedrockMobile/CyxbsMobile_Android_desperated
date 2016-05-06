@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_grey"
-    tools:context="com.mredrock.cyxbsmobile.ui.fragment.MyPageFragment">
+    tools:context=".ui.fragment.UserFragment">
 
     <ScrollView
         android:layout_width="match_parent"

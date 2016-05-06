@@ -18,8 +18,8 @@ import com.afollestad.materialdialogs.Theme;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.Toolbar;
 import com.mredrock.cyxbsmobile.config.Const;
+import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.User;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
@@ -38,7 +38,7 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
     protected User mUser;
     private String editTextContent;
 
-    protected abstract void provideData(Subscriber<OkResponse> subscriber
+    protected abstract void provideData(Subscriber<RedrockApiWrapper<Object>> subscriber
             ,String stuNum,String idNum,String info);
 
     protected abstract String getExtra();
@@ -88,7 +88,7 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
 
     private void setPersonInfo(){
         provideData(new SimpleSubscriber<>(this, true,
-                new SubscriberListener<OkResponse>() {
+                new SubscriberListener<RedrockApiWrapper<Object>>() {
 
                     @Override
                     public void onCompleted() {

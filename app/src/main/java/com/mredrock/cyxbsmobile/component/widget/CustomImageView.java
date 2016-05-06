@@ -20,7 +20,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.Image;
+import com.mredrock.cyxbsmobile.model.social.Image;
 import com.mredrock.cyxbsmobile.util.DensityUtils;
 
 /**
@@ -79,7 +79,7 @@ public class CustomImageView extends ImageView {
                 int w = DensityUtils.dp2px(getContext(), 18);
 
                 if (x > getWidth() - 2 * w && y < 2 * w) {
-                    if (onClickDelecteListener != null && type == Image.NORMALIMAGE)
+                    if (onClickDelecteListener != null && type == Image.TYPE_NORMAL)
                         onClickDelecteListener.onClickDelect(this);
                 }
                 break;
@@ -120,7 +120,7 @@ public class CustomImageView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (type == Image.NORMALIMAGE) {
+        if (type == Image.TYPE_NORMAL) {
             int w = canvas.getWidth();
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_delete_black_18dp);
             canvas.drawBitmap(bitmap, w - DensityUtils.dp2px(getContext(), 18), 0, null);

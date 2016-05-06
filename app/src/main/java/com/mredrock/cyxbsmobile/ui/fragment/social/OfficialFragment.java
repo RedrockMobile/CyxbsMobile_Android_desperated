@@ -1,6 +1,8 @@
 package com.mredrock.cyxbsmobile.ui.fragment.social;
 
-import com.mredrock.cyxbsmobile.model.community.News;
+
+import com.mredrock.cyxbsmobile.model.social.HotNews;
+import com.mredrock.cyxbsmobile.model.social.HotNewsContent;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 
@@ -14,20 +16,21 @@ import rx.Observable;
 public class OfficialFragment extends BaseNewsFragment {
 
     @Override
-    Observable<List<News>> provideData(int size, int page, boolean update) {
+    Observable<List<HotNews>> provideData(int size, int page, boolean update) {
         return RequestManager.getInstance().getListNews(size, page, update);
     }
 
     @Override
-    Observable<List<News>> provideData(int size, int page) {
+    Observable<List<HotNews>> provideData(int size, int page) {
         return RequestManager.getInstance().getListNews(size, page);
     }
 
     @Override
-    protected void setDate(NewsAdapter.ViewHolder holder, News.DataBean mDataBean) {
+    protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
         super.setDate(holder, mDataBean);
-        holder.mTextContent.setText(mDataBean.getContentBean().getTitle());
-        holder.mTextName.setText(mDataBean.getContentBean().getUnit() != "" ? mDataBean.getContentBean().getUnit() : "教务在线");
+        holder.mTextContent.setText(mDataBean.content.title);
 
+        holder.mTextName.setText(mDataBean.content.getArticletype_id());
     }
+
 }

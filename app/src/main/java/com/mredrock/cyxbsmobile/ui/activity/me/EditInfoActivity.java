@@ -10,8 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,14 +21,16 @@ import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.User;
-import com.mredrock.cyxbsmobile.model.community.UploadImgResponse;
+import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.util.DialogUtil;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 import com.yalantis.ucrop.UCrop;
 import java.io.File;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class EditInfoActivity extends BaseActivity{
@@ -226,18 +226,15 @@ public class EditInfoActivity extends BaseActivity{
             RequestManager.getInstance()
                           .uploadNewsImg(mUser.stunum, resultUri.getPath())
                           .subscribeOn(Schedulers.io())
-                          .flatMap(uploadImgResponse -> {
-                              UploadImgResponse.DataBean dataBean
-                                      = uploadImgResponse.getData();
-                              mUser.photo_thumbnail_src
-                                      = dataBean.getThumbnail_src();
-                              mUser.photo_src = dataBean.getPhotosrc();
-                              return RequestManager.getInstance()
-                                                   .setPersonInfo(mUser.stunum,
-                                                           mUser.idNum,
-                                                           dataBean.getThumbnail_src(),
-                                                           dataBean.getPhotosrc());
-                          })
+                          .flatMap((Func1<UploadImgResponse.Response, Observable<?>>) response -> {
+                                      mUser.photo_thumbnail_src = response.thumbnail_src;
+                                      mUser.photo_src = response.photosrc;
+                                      return RequestManager.getInstance()
+                                                           .setPersonInfo(mUser.stunum,
+                                                                   mUser.idNum,
+                                                                   response.thumbnail_src,
+                                                                   response.photosrc);
+                                  })
                           .observeOn(AndroidSchedulers.mainThread())
                           .subscribe(okResponse -> {
                               dismissProgress();

@@ -17,7 +17,8 @@ import butterknife.ButterKnife;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.User;
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.social.HotNews;
+import com.mredrock.cyxbsmobile.model.social.HotNewsContent;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.activity.social.SpecificNewsActivity;
@@ -34,7 +35,7 @@ public class MyTrendActivity extends BaseActivity
     @Bind(R.id.my_trend_recycler_view) RecyclerView myTrendRecyclerView;
     @Bind(R.id.my_trend_refresh_layout) SwipeRefreshLayout myTrendRefreshLayout;
 
-    private List<News> mNewsList;
+    private List<HotNews> mNewsList;
     private NewsAdapter mNewsAdapter;
     private User mUser;
 
@@ -59,7 +60,7 @@ public class MyTrendActivity extends BaseActivity
     }
 
     @Override
-    public void onItemClick(View itemView, int position, News.DataBean dataBean) {
+    public void onItemClick(View itemView, int position, HotNewsContent dataBean) {
         Intent intent = new Intent(this, SpecificNewsActivity.class);
         intent.putExtra("dataBean",dataBean);
         startActivity(intent);

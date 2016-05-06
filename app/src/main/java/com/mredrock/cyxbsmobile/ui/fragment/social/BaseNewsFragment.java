@@ -1,12 +1,12 @@
 package com.mredrock.cyxbsmobile.ui.fragment.social;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,8 @@ import android.widget.Toast;
 
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.model.community.News;
+import com.mredrock.cyxbsmobile.model.social.HotNews;
+import com.mredrock.cyxbsmobile.model.social.HotNewsContent;
 import com.mredrock.cyxbsmobile.subscriber.EndlessRecyclerOnScrollListener;
 import com.mredrock.cyxbsmobile.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
@@ -34,6 +35,7 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, NewsAdapter.OnItemOnClickListener {
 
+
     protected NewsAdapter mNewsAdapter;
     @Bind(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
@@ -42,12 +44,16 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private int currentIndex;
-    private List<News> mDatas = null;
+    private List<HotNews> mDatas = null;
     private FooterViewWrapper mFooterViewWrapper;
 
-    abstract Observable<List<News>> provideData(int size, int page, boolean update);
+    public final static int PER_PAGE_NUM = 10;
+    public static final String TAG = "BaseNewsFragment";
 
-    abstract Observable<List<News>> provideData(int size, int page);
+
+    abstract Observable<List<HotNews>> provideData(int size, int page, boolean update);
+
+    abstract Observable<List<HotNews>> provideData(int size, int page);
 
     @Nullable
     @Override
@@ -68,45 +74,46 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
             @Override
             public void onLoadMore(int page) {
                 currentIndex = page;
-                getNextPageData(1, currentIndex);
+                getNextPageData(PER_PAGE_NUM, currentIndex);
             }
         });
 
-        getCurrentData(1, 1, false);
-        getCurrentData(1, 1, true);
+        getCurrentData(PER_PAGE_NUM, 1, false);
+
     }
 
     @Override
     public void onRefresh() {
-        getCurrentData(1, 1, true);
+        getCurrentData(PER_PAGE_NUM, 1, true);
     }
 
     private void getDataFailed(String reason) {
         Toast.makeText(getContext(), getString(R.string.erro), Toast.LENGTH_SHORT).show();
+        Log.e(TAG, reason);
     }
 
     private void showLoadingProgress() {
-        if(refreshLayout != null && !refreshLayout.isRefreshing()) {
+        if (refreshLayout != null) {
             refreshLayout.setRefreshing(true);
         }
     }
 
     private void closeLoadingProgress() {
-        if(refreshLayout != null && refreshLayout.isRefreshing()) {
+        if (refreshLayout != null) {
             refreshLayout.setRefreshing(false);
         }
     }
 
-    public void getCurrentData(int page, int size, boolean update) {
-        provideData(page, size, update)
+    public void getCurrentData(int size, int page, boolean update) {
+        provideData(size, page, update)
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .subscribe(newses -> {
-                    if (mDatas == null) {
+                    if (mDatas == null)
                         initAdapter(newses);
-                    } else {
-                        mNewsAdapter.replaceDatas(newses);
-                    }
+                    else
+                        mNewsAdapter.addDatas(newses);
+                    Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
                     closeLoadingProgress();
                 }, throwable -> {
                     closeLoadingProgress();
@@ -115,11 +122,11 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
 
-    private void initAdapter(List<News> datas) {
+    private void initAdapter(List<HotNews> datas) {
         mDatas = datas;
         mNewsAdapter = new NewsAdapter(mDatas) {
             @Override
-            public void setDate(ViewHolder holder, News.DataBean mDataBean) {
+            public void setDate(ViewHolder holder, HotNewsContent mDataBean) {
                 BaseNewsFragment.this.setDate(holder, mDataBean);
             }
         };
@@ -129,20 +136,22 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         addFooterView(mHeaderViewRecyclerAdapter);
     }
 
-    protected void setDate(NewsAdapter.ViewHolder holder, News.DataBean mDataBean) {
+    protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
     }
 
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
         mFooterViewWrapper = new FooterViewWrapper(getContext(), mRecyclerView);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterViewWrapper.getFooterView());
-        mFooterViewWrapper.onFailedClick(view -> getNextPageData(1, currentIndex));
+        mFooterViewWrapper.onFailedClick(view -> getNextPageData(PER_PAGE_NUM, currentIndex));
     }
 
     private void getNextPageData(int size, int page) {
         provideData(size, page)
                 .doOnSubscribe(() -> mFooterViewWrapper.showLoading())
-                .subscribe(newses ->
-                                mNewsAdapter.addDatas(newses),
+                .subscribe(newses -> {
+                            mNewsAdapter.addDatas(newses);
+                            Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
+                        },
                         throwable -> {
                             mFooterViewWrapper.showLoadingFailed();
                             getDataFailed(throwable.toString());
@@ -150,10 +159,9 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
     @Override
-    public void onItemClick(View itemView, int position, News.DataBean dataBean) {
-        Intent intent = new Intent(getActivity(), SpecificNewsActivity.class);
-        intent.putExtra("dataBean", dataBean);
-        startActivity(intent);
+    public void onItemClick(View itemView, int position, HotNewsContent dataBean) {
+        int height = itemView.getHeight(); // 获取高度
+        SpecificNewsActivity.startActivityWithDataBean(getActivity(), dataBean, height);
     }
 
     @Override
@@ -167,7 +175,8 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         @Bind(R.id.progressBar)
         CircleProgressBar mCircleProgressBar;
         @Bind(R.id.textLoadingFailed)
-        TextView mTextLAodingFailed;
+        TextView mTextLoadingFailed;
+
         private View footerView;
 
         public FooterViewWrapper(Context context, ViewGroup parent) {
@@ -181,16 +190,18 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
         public void showLoading() {
             mCircleProgressBar.setVisibility(View.VISIBLE);
-            mTextLAodingFailed.setVisibility(View.GONE);
+            mTextLoadingFailed.setVisibility(View.GONE);
+
         }
 
         public void showLoadingFailed() {
             mCircleProgressBar.setVisibility(View.INVISIBLE);
-            mTextLAodingFailed.setVisibility(View.VISIBLE);
+            mTextLoadingFailed.setVisibility(View.VISIBLE);
         }
 
         public void onFailedClick(View.OnClickListener onClickListener) {
-            mTextLAodingFailed.setOnClickListener(onClickListener::onClick);
+            mTextLoadingFailed.setOnClickListener(onClickListener::onClick);
+
         }
 
     }

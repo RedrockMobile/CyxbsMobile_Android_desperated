@@ -1,5 +1,7 @@
 package com.mredrock.cyxbsmobile.ui.activity.social;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,12 +18,12 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
-import com.mredrock.cyxbsmobile.model.community.BBDD;
-import com.mredrock.cyxbsmobile.model.community.ContentBean;
-import com.mredrock.cyxbsmobile.model.community.News;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
-import com.mredrock.cyxbsmobile.model.community.Remark;
+import com.mredrock.cyxbsmobile.model.social.CommentContent;
+import com.mredrock.cyxbsmobile.model.social.HotNewsContent;
+import com.mredrock.cyxbsmobile.model.social.OfficeNewsContent;
 import com.mredrock.cyxbsmobile.network.RequestManager;
+import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
@@ -35,11 +37,13 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import butterknife.OnClick;
 
-public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
+
+    public static final String STRAT_DATA = "dataBean";
+    public static final String ITEM_VIEW_HEIGHT = "itemViewHeight";
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.toolbar_title)
@@ -55,14 +59,36 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     @Bind(R.id.downText)
     TextView mTextDown;
 
+/*    @Bind(R.id.comment_header)
+    View mHeaderView;*/
 
-    private News.DataBean dataBean;
-    private View mHeaderView;
+
     private NewsAdapter.ViewHolder mWrapView;
+
+
+    // private View mCommentHeader;
+    //private int itemViewHeight;
+
+    private View mHeaderView;
+
+    public static final String TAG = "SpecificNewsActivity";
+    private HotNewsContent dataBean;
+
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
-    private List<Remark.ReMark> mDatas = null;
+    private List<CommentContent> mDatas = null;
+
+
     private View mFooterView;
+
+
+    public static final void startActivityWithDataBean(Context context, HotNewsContent dataBean, int itemViewHeight) {
+        Intent intent = new Intent(context, SpecificNewsActivity.class);
+        intent.putExtra(STRAT_DATA, dataBean);
+        intent.putExtra(ITEM_VIEW_HEIGHT, itemViewHeight);
+        context.startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,45 +96,50 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         setContentView(R.layout.activity_specific_news);
         ButterKnife.bind(this);
         mRefresh.setColorSchemeColors(R.color.colorAccent);
+        // sHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item, null, false);
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
+        //mCommentHeader = LayoutInflater.from(this).inflate(R.layout.list_comment_header, null, false);
         mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
         String article_id = getIntent().getStringExtra("article_id");
         if(article_id != null){
             getDataBeanById(article_id);
         }else {
-            dataBean = getIntent().getParcelableExtra("dataBean");
+            dataBean = getIntent().getParcelableExtra(STRAT_DATA);
             mWrapView.setData(dataBean,true);
-            if (dataBean.getContentBean().getArticletype_id() != null)
-                doWithNews(mWrapView, dataBean.getContentBean());
-            reqestComentDatas();
+            if (dataBean.content.getArticletype_id() != null)
+                doWithNews(mWrapView, dataBean.content);
+            requestComments();
         }
+        // itemViewHeight = getIntent().getIntExtra(ITEM_VIEW_HEIGHT, 100);
         init();
     }
 
     private void init() {
         initToolbar();
         mRefresh.setOnRefreshListener(this);
-        mSendText.setOnClickListener(this);
         mSpecificNewsCommentAdapter = new SpecificNewsCommentAdapter(mDatas, this);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
+
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mSpecificNewsCommentAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
-
+        //mHeaderViewRecyclerAdapter.addHeaderView(mCommentHeader);
 
     }
 
-    private void doWithNews(NewsAdapter.ViewHolder mWrapView, ContentBean bean) {
-        mWrapView.mTextContent.setText(Html.fromHtml(dataBean.getContentBean() != null ? dataBean.getContentBean().getContent() : ""));
-        mWrapView.mTextName.setText(!bean.getUnit().equals("") ? bean.getUnit() : "教务在线");
+    private void doWithNews(NewsAdapter.ViewHolder mWrapView, OfficeNewsContent bean) {
+        mWrapView.mTextContent.setText(Html.fromHtml(dataBean.content != null ? dataBean.content.content : ""));
+        mWrapView.mTextName.setText(!bean.unit.equals("") ? bean.unit : "教务在线");
         mWrapView.mTextView_ex.setVisibility(View.INVISIBLE);
-        if (dataBean.getContentBean().getContent().charAt(0) == '<')
-            mWrapView.mTextContent.setText(dataBean.getContentBean().getTitle());
-        if (!bean.getAddress().equals("")) {
+        if (dataBean.content.content.charAt(0) == '<')
+            mWrapView.mTextContent.setText(dataBean.content.title);
+        if (!bean.address.equals("")) {
             mTextDown.setVisibility(View.VISIBLE);
-            String[] address = bean.getAddress().split("\\|");
-            String[] names = bean.getName().split("\\|");
+            String[] address = bean.address.split("\\|");
+            String[] names = bean.name.split("\\|");
+
             mTextDown.setOnClickListener(view -> showDownListDialog(address, names));
         }
     }
@@ -120,7 +151,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 new OnDownloadListener() {
                     @Override
                     public void startDownload() {
-
                     }
 
                     @Override
@@ -139,13 +169,12 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     }
 
-
-    private void reqestComentDatas() {
+    private void requestComments() {
         RequestManager.getInstance()
-                .getRemarks(dataBean.getId(), dataBean.getType_id())
+                .getRemarks(dataBean.id, dataBean.type_id)
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribe(reMarks -> {
-                    mDatas = reMarks.getData();
+                    mDatas = reMarks;
                     if ((mDatas == null || mDatas.size() == 0) && mFooterView == null)
                         addFooterView();
                     if ((mDatas.size() != 0) && mFooterView != null)
@@ -155,19 +184,27 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                     closeLoadingProgress();
                 }, throwable -> {
                     closeLoadingProgress();
-                    getDataFailed();
+                    getDataFailed(throwable.toString());
                 });
-
     }
 
     private void removeFooterView() {
         mHeaderViewRecyclerAdapter.reMoveFooterView();
         mHeaderViewRecyclerAdapter.notifyDataSetChanged();
+
+        // mFooterView.findViewById(R.id.footer_remark).setVisibility(View.INVISIBLE);
+
     }
 
     private void addFooterView() {
         mFooterView = LayoutInflater.from(this).inflate(R.layout.list_footer_item_remark, mRecyclerView, false);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterView);
+       /* if (mFooterView == null) {
+            mFooterView = LayoutInflater.from(this).inflate(R.layout.list_footer_item_remark, mRecyclerView, false);
+            mHeaderViewRecyclerAdapter.addFooterView(mFooterView);
+        } else {
+            mFooterView.findViewById(R.id.footer_remark).setVisibility(View.VISIBLE);
+        }*/
     }
 
     private void initToolbar() {
@@ -178,42 +215,53 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mToolbar.setNavigationOnClickListener(view -> SpecificNewsActivity.this.finish());
     }
 
-    private void getDataFailed() {
+    private void getDataFailed(String reason) {
         Toast.makeText(this, getString(R.string.erro), Toast.LENGTH_SHORT).show();
+        Log.e(TAG, reason);
     }
 
-    @Override
+/*    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_send:
-                sendReMark();
+                sendComment();
                 break;
         }
-    }
+    }*/
 
-    private void sendReMark() {
+    @OnClick(R.id.btn_send)
+    public void sendComment(View view) {
         if (mNewsEdtComment.getText().toString().equals(""))
             Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT).show();
         else
             RequestManager.getInstance()
-                    .postReMarks(dataBean.getId(), dataBean.getType_id(), mNewsEdtComment.getText().toString())
+                    .postReMarks(dataBean.id, dataBean.type_id, mNewsEdtComment.getText().toString())
                     .doOnSubscribe(() -> showLoadingProgress())
-                    .subscribe(okResponse -> {
-                        if (okResponse.getState() == OkResponse.RESPONSE_OK) {
-                            reqestComentDatas();
+                    .subscribe(new SimpleSubscriber<>(this, new SubscriberListener<String>() {
+                        @Override
+                        public void onCompleted() {
+                            super.onCompleted();
+                            requestComments();
                             mNewsEdtComment.getText().clear();
                         }
-                    }, throwable -> showUploadFail(throwable.toString()));
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                            showUploadFail(e.toString());
+                        }
+                    }));
+
     }
 
     private void getDataBeanById(String article_id){
-        RequestManager.getInstance().getTrendDetail("2014213983","26722X", BBDD
-                .BBDD,article_id)
+        RequestManager.getInstance().getTrendDetail("2014213983","26722X", 5,
+                article_id)
                 .subscribe(newses -> {
                     if(newses != null && newses.size() > 0){
-                        dataBean = newses.get(0).getData();
+                        dataBean = newses.get(0).data;
                         mWrapView.setData(dataBean,false);
-                        reqestComentDatas();
+                        requestComments();
                     }
                 }, throwable -> {
                     showUploadFail(throwable.getMessage());
@@ -222,7 +270,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     @Override
     public void onRefresh() {
-        reqestComentDatas();
+        requestComments();
     }
 
     private void showLoadingProgress() {

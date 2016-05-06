@@ -21,7 +21,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.DayNight.NoActionBar">
+        android:theme="@style/Theme.DayNight.NoActionBar">
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="c85d4fb11d552c7112543bc0317d2da0"/>
@@ -44,11 +44,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.SplashActivity"/>
-        <!-- 图片剪切 -->
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
-        <activity android:name=".ui.activity.TestUploadActivity"/>
-        <activity android:name=".ui.activity.social.SpecificNewsActivity"/>
+
+        <activity android:name=".ui.activity.SplashActivity" />
+
+        <activity android:name=".ui.activity.social.SpecificNewsActivity" />
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -91,6 +90,8 @@
         <activity android:name=".ui.activity.me.AboutActivity"/>
         <activity android:name=".ui.activity.me.EditQQActivity"/>
         <activity android:name=".ui.activity.me.EditPhoneActivity" />
+        <activity android:name=".ui.activity.social.PostNewsActivity" />
+
     </application>
 
 </manifest>

@@ -12,7 +12,6 @@ import butterknife.ButterKnife;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.model.AboutMe;
-import com.mredrock.cyxbsmobile.model.community.News;
 import com.mredrock.cyxbsmobile.ui.adapter.BaseRecyclerViewAdapter;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 import com.mredrock.cyxbsmobile.util.TimeUtils;

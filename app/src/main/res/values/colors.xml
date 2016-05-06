@@ -57,4 +57,10 @@
     <color name="theme_Slate">#9da3a5</color>
     <color name="tab_pading_color">#606B6A6A</color>
 
+    <color name="crop__button_bar">#f3f3f3</color>
+    <color name="crop__button_text">#666666</color>
+
+
+    <color name="black_lightly">#000000</color>
+
 </resources>

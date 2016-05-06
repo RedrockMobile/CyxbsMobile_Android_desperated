@@ -3,6 +3,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/md_divider_black"
     android:fitsSystemWindows="true">
 
     <ProgressBar
@@ -11,21 +12,6 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerInParent="true" />
-    <!--
-        <include
-            android:id="@+id/head_content"
-            layout="@layout/content_img_header"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:fitsSystemWindows="true" />
-
-        <include
-            android:id="@+id/bottom_content"
-            layout="@layout/content_img_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" />-->
 
 
     <ImageView
@@ -36,8 +22,7 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter" />
 
-    <!--    android:layout_above="@id/bottom_content"
-        android:layout_below="@id/head_content"-->
+
 </RelativeLayout>
 
 

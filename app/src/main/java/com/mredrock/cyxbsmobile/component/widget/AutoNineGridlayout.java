@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mredrock.cyxbsmobile.model.community.Image;
+import com.mredrock.cyxbsmobile.model.social.Image;
 
 /**
  * Created by mathiasluo on 16-4-11.
@@ -34,7 +34,7 @@ public class AutoNineGridlayout extends NineGridlayout {
                 childrenView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (((Image) listData.get(0)).getType() == Image.ADDIMAG)
+                        if (((Image) listData.get(0)).getType() == Image.TYPE_ADD)
                             if (mOnAddImagItemClickListener != null)
                                 mOnAddImagItemClickListener.onClick(view, 0);
                             else if (mOnNormalImagItemClickListener != null)
@@ -47,7 +47,8 @@ public class AutoNineGridlayout extends NineGridlayout {
                         mOnClickDeletecteListener.onClickDelete(v, 0);
                     }
                 });
-                childrenView.setImageUrl(((Image) listData.get(0)).getUrl());
+                childrenView.setImageUrl(((Image) listData.get(0)).url);
+
                 childrenView.setType(((Image) listData.get(0)).getType());
                 int[] position = findPosition(0);
                 int left = 0;

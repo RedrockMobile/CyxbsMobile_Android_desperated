@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.Spanned;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +16,8 @@ import com.afollestad.materialdialogs.Theme;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.Toolbar;
 import com.mredrock.cyxbsmobile.config.Const;
+import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.User;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
@@ -68,7 +66,7 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
         if (!editIntroduceEt.getText().toString().equals("")) {
             RequestManager.getInstance()
                           .setPersonIntroduction(new SimpleSubscriber<>(
-                                          EditIntroduceActivity.this, true, new SubscriberListener<OkResponse>() {
+                                          EditIntroduceActivity.this, true, new SubscriberListener<RedrockApiWrapper<Object>>() {
 
                                       @Override public void onCompleted() {
                                           super.onCompleted();

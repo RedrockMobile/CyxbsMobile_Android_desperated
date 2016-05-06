@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,37 +8,42 @@
     android:background="@color/crop__button_bar"
     tools:context=".ui.activity.social.SpecificNewsActivity">
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/AppTheme.PopupOverlay">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/specific_news_title"
-            android:textColor="@color/white" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
+            <TextView
+                android:id="@+id/toolbar_title"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/specific_news_title"
+                android:textColor="@color/white" />
 
-        <TextView
-            android:id="@+id/downText"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="12dp"
-            android:text="下载附件"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:visibility="invisible" />
+            <TextView
+                android:id="@+id/downText"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="12dp"
+                android:text="下载附件"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:visibility="invisible" />
 
-    </android.support.v7.widget.Toolbar>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -45,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/specific_cardView"
-        android:layout_below="@id/toolbar">
+        android:layout_below="@id/appBarLayout">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -53,7 +59,6 @@
             android:layout_height="match_parent" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
 
     <LinearLayout
         android:id="@+id/specific_cardView"
@@ -91,6 +96,5 @@
             android:gravity="center"
             android:text="发送" />
     </LinearLayout>
-
 
 </RelativeLayout>

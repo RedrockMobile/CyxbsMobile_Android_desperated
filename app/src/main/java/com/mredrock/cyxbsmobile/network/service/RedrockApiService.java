@@ -1,43 +1,44 @@
 package com.mredrock.cyxbsmobile.network.service;
 
-import com.mredrock.cyxbsmobile.model.RestaurantComment;
 import com.mredrock.cyxbsmobile.config.Const;
-import com.mredrock.cyxbsmobile.model.RestaurantDetail;
 import com.mredrock.cyxbsmobile.model.Course;
 import com.mredrock.cyxbsmobile.model.EatWhat;
-import com.mredrock.cyxbsmobile.model.MovieResult;
-import com.mredrock.cyxbsmobile.model.Restaurant;
-import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Empty;
 import com.mredrock.cyxbsmobile.model.Exam;
 import com.mredrock.cyxbsmobile.model.Grade;
 import com.mredrock.cyxbsmobile.model.AboutMe;
+import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
+import com.mredrock.cyxbsmobile.model.Restaurant;
+import com.mredrock.cyxbsmobile.model.RestaurantComment;
+import com.mredrock.cyxbsmobile.model.RestaurantDetail;
 import com.mredrock.cyxbsmobile.model.Student;
-import com.mredrock.cyxbsmobile.model.Subject;
+import com.mredrock.cyxbsmobile.model.social.BBDDNews;
+import com.mredrock.cyxbsmobile.model.social.Comment;
+import com.mredrock.cyxbsmobile.model.social.HotNews;
+import com.mredrock.cyxbsmobile.model.social.OfficeNews;
+import com.mredrock.cyxbsmobile.model.social.RequestResponse;
+import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
 
 import com.mredrock.cyxbsmobile.model.User;
-import com.mredrock.cyxbsmobile.model.community.BBDDDetail;
-import com.mredrock.cyxbsmobile.model.community.OkResponse;
+import com.mredrock.cyxbsmobile.model.social.BBDDDetail;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 import rx.Observable;
 
 /**
  * Created by cc on 16/1/20.
  */
 public interface RedrockApiService {
-
-    String MOVIE_URL = "https://api.douban.com/v2/movie/top250";
-
-    @GET
-    Observable<MovieResult<List<Subject>>> getTopMovie(@Url String url, @Query("start") int start, @Query("count") int count);
 
     @FormUrlEncoded
     @Headers("API_APP: android")
@@ -84,32 +85,32 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
-    Observable<OkResponse> setPersonInfo(@Field("stuNum") String stuNum,
+    Observable<RedrockApiWrapper<Object>> setPersonInfo(@Field("stuNum") String stuNum,
                                          @Field("idNum") String idNum,
                                          @Field("photo_thumbnail_src") String photo_thumbnail_src,
                                          @Field("photo_src") String photo_src);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
-    Observable<OkResponse> setPersonNickName(@Field("stuNum") String stuNum,
+    Observable<RedrockApiWrapper<Object>> setPersonNickName(@Field("stuNum") String stuNum,
                                                  @Field("idNum") String idNum,
                                                  @Field("nickname") String nickname);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
-    Observable<OkResponse> setPersonQQ(@Field("stuNum") String stuNum,
+    Observable<RedrockApiWrapper<Object>> setPersonQQ(@Field("stuNum") String stuNum,
                                        @Field("idNum") String idNum,
                                        @Field("qq") String qq);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
-    Observable<OkResponse> setPersonPhone(@Field("stuNum") String stuNum,
+    Observable<RedrockApiWrapper<Object>> setPersonPhone(@Field("stuNum") String stuNum,
                                           @Field("idNum") String idNum,
                                           @Field("phone") String phone);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
-    Observable<OkResponse> setPersonIntroduction(@Field("stuNum") String stuNum,
+    Observable<RedrockApiWrapper<Object>> setPersonIntroduction(@Field("stuNum") String stuNum,
                                              @Field("idNum") String idNum,
                                              @Field("introduction") String introduction);
 
@@ -139,4 +140,79 @@ public interface RedrockApiService {
     Observable<BBDDDetail.BBDDDetailWrapper> searchOtherTrends(@Field("stuNum") String stuNum,
                                                      @Field("idNum") String idNum,
                                                      @Field("stunum_other") String stunum_other);
+
+    @FormUrlEncoded
+    @POST("/cyxbsMobile/index.php/Home/Article/listNews")
+    Observable<OfficeNews> getlistNews(@Field("size") int size,
+                                       @Field("page") int page,
+                                       @Field("stuNum") String stuNum,
+                                       @Field("idNum") String idNum,
+                                       @Field("type_id") String type_id);
+
+    @FormUrlEncoded
+    @POST("cyxbsMobile/index.php/Home/Article/searchHotArticle")
+    Observable<List<HotNews>> getHotArticle(@Field("size") int size,
+                                            @Field("page") int page,
+                                            @Field("stuNum") String stuNum,
+                                            @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    //哔哔叨叨(或者其他的)接口：POST
+    @POST("cyxbsMobile/index.php/Home/Article/listArticle")
+    Observable<BBDDNews> getListArticle(@Field("type_id") int type_id,
+                                        @Field("size") int size,
+                                        @Field("page") int page,
+                                        @Field("stuNum") String stuNum,
+                                        @Field("idNum") String idNum);
+
+
+    @Multipart
+    @POST("cyxbsMobile/index.php/Home/Photo/uploadArticle")
+    Observable<UploadImgResponse> uploadImg(@Part("stunum") RequestBody stunum,
+                                            @Part MultipartBody.Part file);
+
+
+    @FormUrlEncoded
+    @POST("cyxbsMobile/index.php/Home/Article/addArticle")
+    Observable<RequestResponse> sendDynamic(@Field("type_id") int type_id,
+                                            @Field("title") String title,
+                                            @Field("user_id") String user_id,
+                                            @Field("content") String content,
+                                            @Field("thumbnail_src") String thumbnail_src,
+                                            @Field("photo_src") String photo_src,
+                                            @Field("stuNum") String stuNum,
+                                            @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST("cyxbsMobile/index.php/Home/ArticleRemark/getremark")
+    Observable<Comment> getReMark(@Field("article_id") String article_id,
+                                  @Field("type_id") int type_id,
+                                  @Field("user_id") String user_id,
+                                  @Field("stuNum") String stuNum,
+                                  @Field("idNum") String idNum);
+
+
+    @FormUrlEncoded
+    @POST("cyxbsMobile/index.php/Home/ArticleRemark/postremarks")
+    Observable<RequestResponse> postReMarks(@Field("article_id") String article_id,
+                                            @Field("type_id") int type_id,
+                                            @Field("content") String content,
+                                            @Field("user_id") String user_id,
+                                            @Field("stuNum") String stuNum,
+                                            @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST("cyxbsMobile/index.php/Home/Praise/addone")
+    Observable<RequestResponse> addThumbsUp(@Field("article_id") String article_id,
+                                            @Field("type_id") int type_id,
+                                            @Field("stuNum") String stuNum,
+                                            @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST("cyxbsMobile/index.php/Home/Praise/cancel")
+    Observable<RequestResponse> cancelThumbsUp(@Field("article_id") String article_id,
+                                               @Field("type_id") int type_id,
+                                               @Field("stuNum") String stuNum,
+                                               @Field("idNum") String idNum);
+
 }

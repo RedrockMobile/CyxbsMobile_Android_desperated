@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.jude.rollviewpager.RollPagerView;
 import com.mredrock.cyxbsmobile.R;
@@ -16,6 +14,7 @@ import com.mredrock.cyxbsmobile.component.widget.RollViewPagerHint;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.ui.activity.explore.AroundDishesActivity;
 import com.mredrock.cyxbsmobile.ui.activity.explore.EatWhatActivity;
+import com.mredrock.cyxbsmobile.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.ExploreRollViewPagerAdapter;
 import com.mredrock.cyxbsmobile.util.WebViewUtils;
 
@@ -30,16 +29,6 @@ public class ExploreFragment extends BaseFragment {
 
     @Bind(R.id.explore_roll_view_pager)
     RollPagerView mRollViewPager;
-    @Bind(R.id.explore_portal_holder)
-    LinearLayout portalHolder;
-    @Bind(R.id.explore_map_holder)
-    LinearLayout mapHolder;
-    @Bind(R.id.explore_eat_holder)
-    LinearLayout eatHolder;
-    @Bind(R.id.explore_around_holder)
-    LinearLayout aroundHolder;
-    @Bind(R.id.explore_community_holder)
-    LinearLayout communityHolder;
 
     @OnClick(R.id.explore_portal_holder)
     void clickToPortal() {
@@ -51,7 +40,7 @@ public class ExploreFragment extends BaseFragment {
     @OnClick(R.id.explore_map_holder)
     void clickToMap() {
         if (isAdded()) {
-            Toast.makeText(getActivity(), "此功能还未开放", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getActivity(), MapActivity.class));
         }
     }
 
@@ -66,13 +55,6 @@ public class ExploreFragment extends BaseFragment {
     void clickToAround() {
         if (isAdded()) {
             startActivity(new Intent(getActivity(), AroundDishesActivity.class));
-        }
-    }
-
-    @OnClick(R.id.explore_community_holder)
-    void clickToCommunity() {
-        if (isAdded()) {
-            Toast.makeText(getActivity(), "此功能还未开放", Toast.LENGTH_SHORT).show();
         }
     }
 
