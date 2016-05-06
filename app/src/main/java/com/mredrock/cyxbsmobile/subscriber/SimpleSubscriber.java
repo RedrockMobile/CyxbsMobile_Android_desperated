@@ -1,6 +1,7 @@
 package com.mredrock.cyxbsmobile.subscriber;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.BuildConfig;

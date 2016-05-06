@@ -19,7 +19,7 @@ import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
-import com.mredrock.cyxbsmobile.ui.adapter.mypage.GradeAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.me.GradeAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 import com.mredrock.cyxbsmobile.util.NetUtils;
 import java.util.ArrayList;

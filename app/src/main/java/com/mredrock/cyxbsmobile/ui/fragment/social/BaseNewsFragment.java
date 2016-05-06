@@ -49,6 +49,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
     public final static int PER_PAGE_NUM = 10;
     public static final String TAG = "BaseNewsFragment";
+    public final static int FIRST_PAGE_INDEX = 0;
 
 
     abstract Observable<List<HotNews>> provideData(int size, int page, boolean update);
@@ -68,6 +69,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         refreshLayout.setColorSchemeColors(R.color.orange);
         refreshLayout.setOnRefreshListener(this);
         mLinearLayoutManager = new LinearLayoutManager(getParentFragment().getActivity());
+
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
         mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLinearLayoutManager) {
@@ -78,13 +80,14 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
             }
         });
 
-        getCurrentData(PER_PAGE_NUM, 1, false);
+        getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, false);
+        //getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
 
     }
 
     @Override
     public void onRefresh() {
-        getCurrentData(PER_PAGE_NUM, 1, true);
+        getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
     }
 
     private void getDataFailed(String reason) {
@@ -109,10 +112,10 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .subscribe(newses -> {
-                    if (mDatas == null)
+                    if (mDatas == null) {
                         initAdapter(newses);
-                    else
-                        mNewsAdapter.addDatas(newses);
+                        if (newses.size() == 0) mFooterViewWrapper.showLoadingNoData();
+                    } else mNewsAdapter.addDatas(newses);
                     Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
                     closeLoadingProgress();
                 }, throwable -> {
@@ -149,6 +152,10 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         provideData(size, page)
                 .doOnSubscribe(() -> mFooterViewWrapper.showLoading())
                 .subscribe(newses -> {
+                            if (newses.size() == 0) {
+                                mFooterViewWrapper.showLoadingNoMoreData();
+                                return;
+                            }
                             mNewsAdapter.addDatas(newses);
                             Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
                         },
@@ -197,11 +204,23 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         public void showLoadingFailed() {
             mCircleProgressBar.setVisibility(View.INVISIBLE);
             mTextLoadingFailed.setVisibility(View.VISIBLE);
+            mTextLoadingFailed.setText("加载失败，点击重新加载!");
+        }
+
+        public void showLoadingNoMoreData() {
+            mCircleProgressBar.setVisibility(View.INVISIBLE);
+            mTextLoadingFailed.setVisibility(View.VISIBLE);
+            mTextLoadingFailed.setText("已经到底了,没有更多数据了哟!");
+        }
+
+        public void showLoadingNoData() {
+            mCircleProgressBar.setVisibility(View.INVISIBLE);
+            mTextLoadingFailed.setVisibility(View.VISIBLE);
+            mTextLoadingFailed.setText("还没有数据哟,点击发送吧！");
         }
 
         public void onFailedClick(View.OnClickListener onClickListener) {
             mTextLoadingFailed.setOnClickListener(onClickListener::onClick);
-
         }
 
     }

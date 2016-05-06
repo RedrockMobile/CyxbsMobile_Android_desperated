@@ -5,7 +5,7 @@
 
     <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="information_img_avatar">52dp</dimen>
+    <dimen name="information_img_avatar">48dp</dimen>
 
     <dimen name="action_bar_auto_hide_min_y">152dp</dimen>
     <dimen name="action_bar_auto_hide_sensitivity">48dp</dimen>

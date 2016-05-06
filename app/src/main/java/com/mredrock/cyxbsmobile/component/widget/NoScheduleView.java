@@ -3,7 +3,6 @@ package com.mredrock.cyxbsmobile.component.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.NoCourse;
-import com.mredrock.cyxbsmobile.ui.adapter.mypage.NoCourseDialogAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.me.NoCourseDialogAdapter;
 import com.mredrock.cyxbsmobile.util.DensityUtils;
 
 import java.util.List;

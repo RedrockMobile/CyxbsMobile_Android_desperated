@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.adapter.mypage;
+package com.mredrock.cyxbsmobile.ui.adapter.me;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Grade;
 import com.mredrock.cyxbsmobile.ui.adapter.BaseRecyclerViewAdapter;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**

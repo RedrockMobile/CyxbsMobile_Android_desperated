@@ -2,6 +2,7 @@ package com.mredrock.cyxbsmobile.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.activity.social.ImageActivity;
+import com.mredrock.cyxbsmobile.ui.activity.social.PersonInfoActivity;
 import com.mredrock.cyxbsmobile.util.ImageLoader;
 import com.mredrock.cyxbsmobile.util.TimeUtils;
 
@@ -27,13 +29,14 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by mathiasluo on 16-4-4.
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private List<HotNews> mNews;
+    private List<HotNews>         mNews;
     private OnItemOnClickListener onItemOnClickListener;
 
     public NewsAdapter(List<HotNews> mNews) {
@@ -46,13 +49,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new NewsAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_news_item, parent, false));
+        return new NewsAdapter.ViewHolder(LayoutInflater.from(parent.getContext())
+                                                        .inflate(R.layout.list_news_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(NewsAdapter.ViewHolder holder, int position) {
         HotNewsContent mDataBean = mNews.get(position).data;
-
         setupOnItemClick(holder, position, mDataBean);
         holder.setData(mDataBean, false);
         setDate(holder, mDataBean);
@@ -68,7 +71,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
 
-    protected void setupOnItemClick(final NewsAdapter.ViewHolder viewHolder, final int position,HotNewsContent dataBean) {
+    protected void setupOnItemClick(final NewsAdapter.ViewHolder viewHolder, final int position, HotNewsContent dataBean) {
         if (onItemOnClickListener != null)
             viewHolder.itemView.setOnClickListener(v -> onItemOnClickListener.onItemClick(viewHolder.itemView, position, dataBean));
     }
@@ -96,65 +99,83 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.list_news_img_avatar)
-        public CircleImageView mImgAvatar;
+        public CircleImageView    mImgAvatar;
         @Bind(R.id.list_news_text_nickname)
-        public TextView mTextName;
+        public TextView           mTextName;
         @Bind(R.id.list_news_text_time)
-        public TextView mTextTime;
+        public TextView           mTextTime;
         @Bind(R.id.expandable_text)
-        public TextView mTextContent;
+        public TextView           mTextContent;
         @Bind(R.id.autoNineLayout)
         public AutoNineGridlayout mAutoNineGridlayout;
         @Bind(R.id.list_news_btn_message)
-        public TextView mBtnMsg;
+        public TextView           mBtnMsg;
         @Bind(R.id.list_news_btn_favorites)
-        public TextView mBtnFavor;
+        public TextView           mBtnFavor;
         @Bind(R.id.textView_ex)
-        public TextView mTextView_ex;
+        public TextView           mTextView_ex;
         @Bind(R.id.expand_text_view)
         public ExpandableTextView mExpandableTextView;
+
+
+        @OnClick(R.id.list_news_img_avatar)
+        public void takeToPersonInfoActivity(View view) {
+            if (enableClick)
+                PersonInfoActivity.StartActivityWithData(view.getContext(), mHotNewsContent.user_head, mHotNewsContent.nick_name, mHotNewsContent.user_id);
+            Log.e("===>>>", mHotNewsContent.user_head + "\n" + mHotNewsContent.nick_name + "\n" + mHotNewsContent.user_id);
+        }
+
+        public View itemView;
+
+        HotNewsContent mHotNewsContent;
+
+
+        public boolean enableClick = true;
 
         public static final String TAG = "NewsAdapter.ViewHolder";
 
         public ViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             ButterKnife.bind(this, itemView);
         }
 
         public static void like(HotNewsContent dataBean, TextView textView) {
             RequestManager.getInstance()
-                    .addThumbsUp(dataBean.id, dataBean.type_id)
-                    .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
-                        @Override
-                        public void onCompleted() {
-                            super.onCompleted();
-                            dataBean.is_my_Like = true;
-                            textView.setText(Integer.parseInt(textView.getText().toString()) + 1 + "");
-                        }
+                          .addThumbsUp(dataBean.id, dataBean.type_id)
+                          .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
+                              @Override
+                              public void onCompleted() {
+                                  super.onCompleted();
+                                  dataBean.is_my_Like = true;
+                                  textView.setText(Integer.parseInt(textView.getText()
+                                                                            .toString()) + 1 + "");
+                              }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            super.onError(e);
-                        }
-                    }));
+                              @Override
+                              public void onError(Throwable e) {
+                                  super.onError(e);
+                              }
+                          }));
         }
 
         public static void dislike(HotNewsContent dataBean, TextView textView) {
             RequestManager.getInstance()
-                    .cancelThumbsUp(dataBean.id, dataBean.type_id)
-                    .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
-                        @Override
-                        public void onCompleted() {
-                            super.onCompleted();
-                            dataBean.is_my_Like = false;
-                            textView.setText(Integer.parseInt(textView.getText().toString()) - 1 + "");
-                        }
+                          .cancelThumbsUp(dataBean.id, dataBean.type_id)
+                          .subscribe(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
+                              @Override
+                              public void onCompleted() {
+                                  super.onCompleted();
+                                  dataBean.is_my_Like = false;
+                                  textView.setText(Integer.parseInt(textView.getText()
+                                                                            .toString()) - 1 + "");
+                              }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            super.onError(e);
-                        }
-                    }));
+                              @Override
+                              public void onError(Throwable e) {
+                                  super.onError(e);
+                              }
+                          }));
 
         }
 
@@ -169,45 +190,43 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             return mImgs;
         }
 
-
-        public void setData(HotNewsContent dataBean, boolean isSingle) {
-
-
-            mTextName.setText(dataBean.type_id < BBDDNews.BBDD ? dataBean.content.title : dataBean.nick_name);
-            mTextTime.setText(TimeUtils.getTimeDetail(dataBean.time));
-            mBtnFavor.setText(dataBean.like_num);
-            mBtnMsg.setText(dataBean.remark_num);
+        public void setData(HotNewsContent hotNewsContent, boolean isSingle) {
+            mHotNewsContent = hotNewsContent;
+            mTextName.setText(hotNewsContent.type_id < BBDDNews.BBDD ?/*dataBean.content.title*/ hotNewsContent
+                    .geType_id() : hotNewsContent.nick_name);
+            mTextTime.setText(TimeUtils.getTimeDetail(hotNewsContent.getTime()));
+            mBtnFavor.setText(hotNewsContent.like_num);
+            mBtnMsg.setText(hotNewsContent.remark_num);
 
 
             if (isSingle) {
-                mExpandableTextView.setText(Html.fromHtml(dataBean.content != null ? dataBean.content.content : ""));
+                mExpandableTextView.setText(Html.fromHtml(hotNewsContent.content != null ? hotNewsContent.content.content : ""));
                 mExpandableTextView.setmMaxCollapsedLines(1000000);
-            } else if (dataBean.type_id < BBDDNews.BBDD) {
-                mExpandableTextView.setText(dataBean.content.title != null ? dataBean.content.title : "");
+            } else if (hotNewsContent.type_id < BBDDNews.BBDD) {
+                mExpandableTextView.setText(hotNewsContent.content.title != null ? hotNewsContent.content.title : "");
             } else {
-                mExpandableTextView.setText(dataBean.content != null ? dataBean.content.content : "");
+                mExpandableTextView.setText(hotNewsContent.content != null ? hotNewsContent.content.content : "");
             }
 
-            ImageLoader.getInstance().loadAvatar(dataBean.user_head, mImgAvatar);
+            ImageLoader.getInstance().loadAvatar(hotNewsContent.user_head, mImgAvatar);
 
-            if (dataBean.content.address != null && !dataBean.content.address.equals(""))
+            if (hotNewsContent.content.address != null && !hotNewsContent.content.address.equals(""))
                 mTextView_ex.setVisibility(View.VISIBLE);
             else mTextView_ex.setVisibility(View.INVISIBLE);
 
             mBtnFavor.setOnClickListener(view -> {
-                if (dataBean.is_my_Like)
-                    NewsAdapter.ViewHolder.dislike(dataBean, mBtnFavor);
-                else NewsAdapter.ViewHolder.like(dataBean, mBtnFavor);
+                if (hotNewsContent.is_my_Like)
+                    NewsAdapter.ViewHolder.dislike(hotNewsContent, mBtnFavor);
+                else NewsAdapter.ViewHolder.like(hotNewsContent, mBtnFavor);
             });
 
-            mAutoNineGridlayout.setImagesData(getImgs(getUrls(dataBean.img.img_small_src)));
+            mAutoNineGridlayout.setImagesData(getImgs(getUrls(hotNewsContent.img.img_small_src)));
 
             mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) ->
-                    ImageActivity.startWithData(itemView.getContext(), dataBean, position)
+                    ImageActivity.startWithData(itemView.getContext(), hotNewsContent, position)
             );
 
         }
-
 
     }
 

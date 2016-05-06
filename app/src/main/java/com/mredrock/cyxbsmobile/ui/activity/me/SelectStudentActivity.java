@@ -14,7 +14,7 @@ import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbsmobile.model.Student;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
-import com.mredrock.cyxbsmobile.ui.adapter.mypage.SelectStudentAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.me.SelectStudentAdapter;
 
 import java.util.List;
 

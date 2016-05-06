@@ -27,7 +27,7 @@
     <!-- text颜色由深到浅 -->
     <color name="text_dark">#333333</color>
     <color name="text_light_1">#666666</color>
-    <color name="text_light_2">#999999</color>
+    <color name="text_light_2">#747474</color>
     <!-- layout点击ripple的颜色 -->
     <color name="ripple_normal">#CACCCB</color>
     <color name="ripple_dark">#B0B2B1</color>
@@ -38,7 +38,7 @@
     <color name="body_text_2">#8a000000</color>
     <color name="body_text_3">#60000000</color>
 
-    <color name="comment_item">#f2eeee</color>
+    <color name="comment_item">#f5f7f5f5</color>
 
     <color name="no_course_day_background">#f0f0f0</color>
     <color name="no_course_day">#4b4b4b</color>
@@ -60,7 +60,6 @@
     <color name="crop__button_bar">#f3f3f3</color>
     <color name="crop__button_text">#666666</color>
 
-
-    <color name="black_lightly">#000000</color>
+    <color name="black_lightly">#f0000000</color>
 
 </resources>

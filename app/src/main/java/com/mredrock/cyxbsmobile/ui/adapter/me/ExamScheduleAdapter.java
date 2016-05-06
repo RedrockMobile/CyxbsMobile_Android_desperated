@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.adapter.mypage;
+package com.mredrock.cyxbsmobile.ui.adapter.me;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Exam;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class ExamScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

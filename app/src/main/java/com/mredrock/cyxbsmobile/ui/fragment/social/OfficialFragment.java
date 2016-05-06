@@ -29,7 +29,6 @@ public class OfficialFragment extends BaseNewsFragment {
     protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
         super.setDate(holder, mDataBean);
         holder.mTextContent.setText(mDataBean.content.title);
-
         holder.mTextName.setText(mDataBean.content.getArticletype_id());
     }
 

@@ -21,7 +21,7 @@ import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
-import com.mredrock.cyxbsmobile.ui.adapter.mypage.EmptyAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.me.EmptyAdapter;
 import com.mredrock.cyxbsmobile.util.EmptyConverter;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;

@@ -2,7 +2,6 @@ package com.mredrock.cyxbsmobile.ui.activity.me;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +25,7 @@ import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
-import com.mredrock.cyxbsmobile.ui.adapter.mypage.NoCourseAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.me.NoCourseAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.mypage.NoCourseItemFragment;
 import com.mredrock.cyxbsmobile.util.NetUtils;
 

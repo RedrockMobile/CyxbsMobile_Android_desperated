@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.adapter.mypage;
+package com.mredrock.cyxbsmobile.ui.adapter.me;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

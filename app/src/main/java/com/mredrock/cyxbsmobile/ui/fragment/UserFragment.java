@@ -17,9 +17,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.config.Const;
@@ -47,20 +49,34 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
     public static final int REQUEST_EDIT_INFO = 10;
 
-    @Bind(R.id.my_page_edit_layout) LinearLayout myPageEditLayout;
-    @Bind(R.id.my_page_relate_layout) RelativeLayout myPageRelateLayout;
-    @Bind(R.id.my_page_trend_layout) RelativeLayout myPageTrendLayout;
-    @Bind(R.id.my_page_no_course_layout) RelativeLayout myPageNoCourseLayout;
-    @Bind(R.id.my_page_empty_layout) RelativeLayout myPageEmptyLayout;
-    @Bind(R.id.my_page_grade_layout) RelativeLayout myPageGradeLayout;
-    @Bind(R.id.my_page_calendar_layout) RelativeLayout myPageCalendarLayout;
-    @Bind(R.id.my_page_night_layout) RelativeLayout myPageNightLayout;
-    @Bind(R.id.my_page_setting_layout) RelativeLayout myPageSettingLayout;
-    @Bind(R.id.my_page_avatar) CircleImageView myPageAvatar;
-    @Bind(R.id.my_page_nick_name) TextView myPageNickName;
-    @Bind(R.id.my_page_gender) TextView myPageGender;
-    @Bind(R.id.my_page_introduce) TextView myPageIntroduce;
-    @Bind(R.id.my_page_switch_compat) SwitchCompat myPageSwitchCompat;
+    @Bind(R.id.my_page_edit_layout)
+    LinearLayout    myPageEditLayout;
+    @Bind(R.id.my_page_relate_layout)
+    RelativeLayout  myPageRelateLayout;
+    @Bind(R.id.my_page_trend_layout)
+    RelativeLayout  myPageTrendLayout;
+    @Bind(R.id.my_page_no_course_layout)
+    RelativeLayout  myPageNoCourseLayout;
+    @Bind(R.id.my_page_empty_layout)
+    RelativeLayout  myPageEmptyLayout;
+    @Bind(R.id.my_page_grade_layout)
+    RelativeLayout  myPageGradeLayout;
+    @Bind(R.id.my_page_calendar_layout)
+    RelativeLayout  myPageCalendarLayout;
+    @Bind(R.id.my_page_night_layout)
+    RelativeLayout  myPageNightLayout;
+    @Bind(R.id.my_page_setting_layout)
+    RelativeLayout  myPageSettingLayout;
+    @Bind(R.id.my_page_avatar)
+    CircleImageView myPageAvatar;
+    @Bind(R.id.my_page_nick_name)
+    TextView        myPageNickName;
+    @Bind(R.id.my_page_gender)
+    TextView        myPageGender;
+    @Bind(R.id.my_page_introduce)
+    TextView        myPageIntroduce;
+    @Bind(R.id.my_page_switch_compat)
+    SwitchCompat    myPageSwitchCompat;
 
     private User mUser;
 
@@ -80,7 +96,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        boolean isNight = (boolean) SPUtils.get(getContext(),Const.SP_KEY_IS_NIGHT,false);
+        boolean isNight = (boolean) SPUtils.get(getContext(), Const.SP_KEY_IS_NIGHT, false);
         myPageSwitchCompat.setChecked(isNight);
         myPageSwitchCompat.setOnCheckedChangeListener(this);
 
@@ -98,7 +114,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     }
 
     @OnClick(R.id.my_page_edit_layout)
-    void clickToEdit(){
+    void clickToEdit() {
         Intent intent = new Intent(getActivity(),
                 EditInfoActivity.class);
         intent.putExtra(Const.Extras.EDIT_USER, mUser);
@@ -106,52 +122,52 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     }
 
     @OnClick(R.id.my_page_relate_layout)
-    void clickToRelate(){
+    void clickToRelate() {
         startActivity(new Intent(getActivity(),
                 AboutMeActivity.class).putExtra(
                 Const.Extras.EDIT_USER, mUser));
     }
 
     @OnClick(R.id.my_page_trend_layout)
-    void clickToLatest(){
+    void clickToLatest() {
         startActivity(new Intent(getActivity(),
                 MyTrendActivity.class).putExtra(
                 Const.Extras.EDIT_USER, mUser));
     }
 
     @OnClick(R.id.my_page_no_course_layout)
-    void clickToNoCourse(){
+    void clickToNoCourse() {
         startActivity(new Intent(getActivity(), NoCourseActivity.class));
     }
 
     @OnClick(R.id.my_page_empty_layout)
-    void clickToEmpty(){
+    void clickToEmpty() {
         startActivity(new Intent(getActivity(), EmptyRoomActivity.class));
     }
 
     @OnClick(R.id.my_page_grade_layout)
-    void clickToGrade(){
+    void clickToGrade() {
         startActivity(new Intent(getActivity(), ExamAndGradeActivity.class));
     }
 
     @OnClick(R.id.my_page_calendar_layout)
-    void clickToCalendar(){
+    void clickToCalendar() {
         startActivity(new Intent(getActivity(), SchoolCalendarActivity.class));
     }
 
     @OnClick(R.id.my_page_night_layout)
-    void clickToNight(){
-        if(myPageSwitchCompat.isChecked()){
-            SPUtils.set(getContext(), Const.SP_KEY_IS_NIGHT,false);
+    void clickToNight() {
+        if (myPageSwitchCompat.isChecked()) {
+            SPUtils.set(getContext(), Const.SP_KEY_IS_NIGHT, false);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }else {
-            SPUtils.set(getContext(), Const.SP_KEY_IS_NIGHT,true);
+        } else {
+            SPUtils.set(getContext(), Const.SP_KEY_IS_NIGHT, true);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
     }
 
     @OnClick(R.id.my_page_setting_layout)
-    void clickToSetting(){
+    void clickToSetting() {
         startActivity(new Intent(getActivity(), SettingActivity.class));
     }
 
@@ -167,15 +183,15 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(buttonView.getId() == R.id.my_page_switch_compat){
-            if(isChecked){
-                SPUtils.set(getContext(), Const.SP_KEY_IS_NIGHT,true);
+        if (buttonView.getId() == R.id.my_page_switch_compat) {
+            if (isChecked) {
+                SPUtils.set(getContext(), Const.SP_KEY_IS_NIGHT, true);
                 UiModeManager uiModeManager = (UiModeManager) getActivity().getSystemService(Context.UI_MODE_SERVICE);
                 uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 //mMainActivity.getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            }else {
-                SPUtils.set(getContext(),Const.SP_KEY_IS_NIGHT,false);
+            } else {
+                SPUtils.set(getContext(), Const.SP_KEY_IS_NIGHT, false);
                 UiModeManager uiModeManager = (UiModeManager) getActivity().getSystemService(Context.UI_MODE_SERVICE);
                 uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -189,14 +205,16 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         RequestManager.getInstance()
                       .getPersonInfo(new SimpleSubscriber<>(getActivity(),
                               new SubscriberListener<User>() {
-                                  @Override public void onNext(User user) {
+                                  @Override
+                                  public void onNext(User user) {
                                       super.onNext(user);
                                       mUser = user;
                                       refreshEditLayout();
                                   }
 
 
-                                  @Override public void onCompleted() {
+                                  @Override
+                                  public void onCompleted() {
                                       super.onCompleted();
                                   }
                               }), mUser.stuNum, mUser.idNum);
@@ -208,11 +226,11 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
                    .loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
         myPageNickName.setText(mUser.nickname);
         myPageIntroduce.setText(mUser.introduction);
-        if(mUser.gender.equals("男")){
-            myPageGender.setTextColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
+        if (mUser.gender.equals("男")) {
+            myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
             myPageGender.setText("♂");
-        }else {
-            myPageGender.setTextColor(ContextCompat.getColor(getContext(),R.color.pink));
+        } else {
+            myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.pink));
             myPageGender.setText("♀");
         }
     }

@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.adapter.mypage;
+package com.mredrock.cyxbsmobile.ui.adapter.me;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

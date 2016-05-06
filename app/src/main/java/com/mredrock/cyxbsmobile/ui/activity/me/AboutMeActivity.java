@@ -20,7 +20,7 @@ import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.activity.social.SpecificNewsActivity;
-import com.mredrock.cyxbsmobile.ui.adapter.mypage.AboutMeAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.me.AboutMeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
