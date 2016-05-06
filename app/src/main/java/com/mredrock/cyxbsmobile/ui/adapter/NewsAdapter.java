@@ -169,7 +169,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             return mImgs;
         }
 
+
         public void setData(HotNewsContent dataBean, boolean isSingle) {
+
 
             mTextName.setText(dataBean.type_id < BBDDNews.BBDD ? dataBean.content.title : dataBean.nick_name);
             mTextTime.setText(TimeUtils.getTimeDetail(dataBean.time));

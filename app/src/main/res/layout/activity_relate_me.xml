@@ -4,15 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_relate_me"
-    android:orientation="vertical"
-    tools:context=".ui.activity.me.RelateMeActivity">
+    tools:context=".ui.activity.me.AboutMeActivity"
+    android:orientation="vertical">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/relate_me_recycler_View"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/about_me_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_relate_me" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/relate_me_recycler_View"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_relate_me"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

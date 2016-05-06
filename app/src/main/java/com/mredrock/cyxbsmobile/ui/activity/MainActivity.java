@@ -1,6 +1,7 @@
 package com.mredrock.cyxbsmobile.ui.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -54,9 +55,8 @@ public class MainActivity extends BaseActivity {
 //    BaseFragment exploreFragment;
 //    BaseFragment userFragment;
 
-
+    private Fragment myPageFragment;
     private Menu mMenu;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +112,7 @@ public class MainActivity extends BaseActivity {
 //                        userFragment = new UserFragment();
 //                    }
                     fragment = new UserFragment();
+                    myPageFragment = fragment;
                     setTitle(mStringMyPage);
                     break;
             }
@@ -172,6 +173,15 @@ public class MainActivity extends BaseActivity {
             }
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == UserFragment.REQUEST_EDIT_INFO) {
+            myPageFragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public TextView getToolbarTitle() {

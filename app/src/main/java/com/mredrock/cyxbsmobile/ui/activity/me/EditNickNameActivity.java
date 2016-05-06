@@ -1,14 +1,20 @@
 package com.mredrock.cyxbsmobile.ui.activity.me;
 
-import android.os.Bundle;
-import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
+import com.mredrock.cyxbsmobile.config.Const;
+import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
+import com.mredrock.cyxbsmobile.network.RequestManager;
+import rx.Subscriber;
 
-public class EditNickNameActivity extends BaseActivity {
+public class EditNickNameActivity extends EditCommonActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_nick_name);
+    protected void provideData(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String info) {
+        RequestManager.getInstance().setPersonNickName(subscriber,stuNum,
+                idNum,info);
+    }
+
+
+    @Override protected String getExtra() {
+        return Const.Extras.EDIT_NICK_NAME;
     }
 }

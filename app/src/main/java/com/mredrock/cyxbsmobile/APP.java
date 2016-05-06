@@ -3,6 +3,7 @@ package com.mredrock.cyxbsmobile;
 import android.app.Application;
 import android.content.Context;
 
+import android.support.v7.app.AppCompatDelegate;
 import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.User;
@@ -19,6 +20,7 @@ import timber.log.Timber;
  */
 public class APP extends Application {
     private static Context context;
+    private boolean isNight;
 
     public static Context getContext() {
         return context;
@@ -51,6 +53,7 @@ public class APP extends Application {
         }
         Logger.init("cyxbs_mobile");
         context = getApplicationContext();
+        initThemeMode();
     }
 
     @Override
@@ -63,4 +66,12 @@ public class APP extends Application {
         super.onTerminate();
     }
 
+    private void initThemeMode(){
+        isNight = (boolean) SPUtils.get(this,Const.SP_KEY_IS_NIGHT,false);
+        if(isNight){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
 }

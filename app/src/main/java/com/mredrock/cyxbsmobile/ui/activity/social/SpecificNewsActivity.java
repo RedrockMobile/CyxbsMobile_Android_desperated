@@ -100,7 +100,16 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
         //mCommentHeader = LayoutInflater.from(this).inflate(R.layout.list_comment_header, null, false);
         mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
-        dataBean = getIntent().getParcelableExtra(STRAT_DATA);
+        String article_id = getIntent().getStringExtra("article_id");
+        if(article_id != null){
+            getDataBeanById(article_id);
+        }else {
+            dataBean = getIntent().getParcelableExtra(STRAT_DATA);
+            mWrapView.setData(dataBean,true);
+            if (dataBean.content.getArticletype_id() != null)
+                doWithNews(mWrapView, dataBean.content);
+            requestComments();
+        }
         // itemViewHeight = getIntent().getIntExtra(ITEM_VIEW_HEIGHT, 100);
         init();
     }
@@ -118,10 +127,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
         //mHeaderViewRecyclerAdapter.addHeaderView(mCommentHeader);
 
-        mWrapView.setData(dataBean, true);
-        if (dataBean.content.articletype_id != null)
-            doWithNews(mWrapView, dataBean.content);
-        requestComments();
     }
 
     private void doWithNews(NewsAdapter.ViewHolder mWrapView, OfficeNewsContent bean) {
@@ -247,6 +252,20 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                         }
                     }));
 
+    }
+
+    private void getDataBeanById(String article_id){
+        RequestManager.getInstance().getTrendDetail("2014213983","26722X", 5,
+                article_id)
+                .subscribe(newses -> {
+                    if(newses != null && newses.size() > 0){
+                        dataBean = newses.get(0).data;
+                        mWrapView.setData(dataBean,false);
+                        requestComments();
+                    }
+                }, throwable -> {
+                    showUploadFail(throwable.getMessage());
+                });
     }
 
     @Override

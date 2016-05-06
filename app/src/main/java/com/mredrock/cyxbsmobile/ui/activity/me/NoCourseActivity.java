@@ -26,8 +26,8 @@ import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
-import com.mredrock.cyxbsmobile.ui.adapter.NoCourseAdapter;
-import com.mredrock.cyxbsmobile.ui.fragment.NoCourseItemFragment;
+import com.mredrock.cyxbsmobile.ui.adapter.mypage.NoCourseAdapter;
+import com.mredrock.cyxbsmobile.ui.fragment.mypage.NoCourseItemFragment;
 import com.mredrock.cyxbsmobile.util.NetUtils;
 
 import java.io.Serializable;

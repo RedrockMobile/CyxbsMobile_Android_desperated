@@ -17,6 +17,18 @@
         <attr name="multi_suppout" format="boolean"/>
         <attr name="max_select" format="integer"/>
     </declare-styleable>
+    <declare-styleable name="Toolbar">
+        <attr name="text_title" format="string" />
+        <attr name="text_left" format="string" />
+        <attr name="text_right" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_fill_color" format="color" />
+    </declare-styleable>
 
     <declare-styleable name="BottomButton" >
         <attr name="button_text" format="string" />

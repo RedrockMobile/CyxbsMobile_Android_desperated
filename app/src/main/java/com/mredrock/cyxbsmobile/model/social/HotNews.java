@@ -43,5 +43,18 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> {
         this.data = new HotNewsContent(new HotNewsContent.ImgBean(a, b), new OfficeNewsContent(content));
     }
 
-
+    public HotNews(BBDDDetail bbddDetail){
+        this.data = new HotNewsContent("bbdd"
+        ,bbddDetail.id
+        ,5
+        ,"userid"
+        ,""
+        ,""
+        ,bbddDetail.created_time
+        ,new OfficeNewsContent(bbddDetail.content)
+        ,new HotNewsContent.ImgBean(bbddDetail.thumbnail_src,bbddDetail.photo_src)
+        ,bbddDetail.like_num
+        ,bbddDetail.remark_num
+        ,false);
+    }
 }

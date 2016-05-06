@@ -7,7 +7,10 @@
     android:orientation="vertical"
     tools:context=".ui.activity.me.EditNickNameActivity">
 
-    <include layout="@layout/toolbar_edit_nick_name" />
+    <com.mredrock.cyxbsmobile.component.widget.Toolbar
+        android:id="@+id/edit_common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <View
         android:layout_width="match_parent"
@@ -22,30 +25,31 @@
         android:orientation="vertical">
 
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/edit_common_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="14dp"
             android:layout_marginStart="14dp"
             android:background="@null"
-            android:hint="请输入您的昵称"
+            android:hint="请输入您的信息"
             android:textColor="@color/text_dark"
             android:textColorHint="@color/text_light_2"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/edit_common_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
-            android:layout_toLeftOf="@+id/nick_name_delete"
-            android:layout_toStartOf="@+id/nick_name_delete"
-            android:text="7"
+            android:layout_toLeftOf="@+id/edit_common_delete"
+            android:layout_toStartOf="@+id/edit_common_delete"
             android:textColor="@color/text_light_2"
             android:textSize="13sp" />
 
         <ImageView
-            android:id="@+id/nick_name_delete"
+            android:id="@+id/edit_common_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

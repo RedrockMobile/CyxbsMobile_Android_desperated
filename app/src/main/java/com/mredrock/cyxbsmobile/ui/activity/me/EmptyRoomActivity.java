@@ -1,7 +1,9 @@
 package com.mredrock.cyxbsmobile.ui.activity.me;
 
 import android.os.Bundle;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -19,7 +21,7 @@ import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
-import com.mredrock.cyxbsmobile.ui.adapter.EmptyAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.mypage.EmptyAdapter;
 import com.mredrock.cyxbsmobile.util.EmptyConverter;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
@@ -38,26 +40,17 @@ public class EmptyRoomActivity extends BaseActivity
      */
     public static final String[] buildNumApiArray = {"2", "3", "4", "5", "8"};
 
-    /**
-     * 请求时传入的课时参数
-     */
-    public static final String[] sectionNumApiArray = {"0", "1", "2", "3", "4",
-            "5"};
+    /** 请求时传入的课时参数 */
+    public static final String[] sectionNumApiArray = {"0", "1", "2", "3", "4", "5"};
 
-    @Bind(R.id.empty_rfab_layout)
-    RapidFloatingActionLayout mEmptyRfabLayout;
-    @Bind(R.id.empty_rfab)
-    RapidFloatingActionButton mEmptyRfabButton;
-    @Bind(R.id.empty_iv_resultIcon)
-    ImageView mIvResultIcon;
-    @Bind(R.id.empty_tv_searchResult)
-    TextView mTvResult;
-    @Bind(R.id.empty_rv)
-    RecyclerView mEmptyListView;
-    @Bind(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    @Bind(R.id.empty_rfab_layout) RapidFloatingActionLayout mEmptyRfabLayout;
+    @Bind(R.id.empty_rfab) RapidFloatingActionButton mEmptyRfabButton;
+    @Bind(R.id.empty_iv_resultIcon) ImageView mIvResultIcon;
+    @Bind(R.id.empty_tv_searchResult) TextView mTvResult;
+    @Bind(R.id.empty_rv) RecyclerView mEmptyRecyclerView;
+    @Bind(R.id.toolbar_title) TextView toolbarTitle;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.empty_progress) ContentLoadingProgressBar emptyProgress;
 
     /**
      * 需要请求的次数
@@ -139,7 +132,8 @@ public class EmptyRoomActivity extends BaseActivity
     private void setupAdapter() {
         mEmptyRoomList = new ArrayList<>();
         mEmptyRoomAdapter = new EmptyAdapter(mEmptyRoomList, this);
-        mEmptyListView.setAdapter(mEmptyRoomAdapter);
+        mEmptyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mEmptyRecyclerView.setAdapter(mEmptyRoomAdapter);
     }
 
 
@@ -162,19 +156,39 @@ public class EmptyRoomActivity extends BaseActivity
         String week = String.valueOf(calendar.getWeekOfTerm());
         String weekday = String.valueOf(calendar.getDayOfWeek());
         for (String courseTime : courseTimeList) {
-            RequestManager.INSTANCE.getEmptyRoomList(
-                    new SimpleSubscriber<>(EmptyRoomActivity.this, true, new SubscriberListener<List<String>>() {
-                        @Override
-                        public void onNext(List<String> strings) {
-                            super.onNext(strings);
-                            mSuccessReqNum++;
-                            mConverter.setEmptyData(strings);
-                            if (mSuccessReqNum == mNeedReqNum) {
-                                updateEmptyAdapter();
-                            }
-                        }
-                    })
-                    , buildingNum, week, weekday, courseTime);
+            RequestManager.getInstance().getEmptyRoomList(
+                    new SimpleSubscriber<>(this,
+                            new SubscriberListener<List<String>>() {
+
+                                @Override public void onStart() {
+                                    super.onStart();
+                                    emptyProgress.setVisibility(View.VISIBLE);
+                                }
+
+
+                                @Override
+                                public void onNext(List<String> strings) {
+                                    super.onNext(strings);
+                                    mSuccessReqNum++;
+                                    mConverter.setEmptyData(strings);
+                                    if (mSuccessReqNum == mNeedReqNum) {
+                                        updateEmptyAdapter();
+                                    }
+                                    emptyProgress.setVisibility(View.GONE);
+                                }
+
+
+                                @Override public void onCompleted() {
+                                    super.onCompleted();
+                                }
+
+
+                                @Override public void onError(Throwable e) {
+                                    super.onError(e);
+                                    getDataFailed(e.getMessage());
+                                    emptyProgress.setVisibility(View.GONE);
+                                }
+                            }), buildingNum, week, weekday, courseTime);
         }
     }
 
@@ -190,12 +204,13 @@ public class EmptyRoomActivity extends BaseActivity
 
 
     private void updateEmptyAdapter() {
-        mEmptyRoomList = mConverter.convert();
-        if (mEmptyRoomList == null) {
-            mEmptyRoomList = new ArrayList<>();
-        }
+        mEmptyRoomList.addAll(mConverter.convert());
         mEmptyRoomAdapter.notifyDataSetChanged();
         mIvResultIcon.setVisibility(View.VISIBLE);
         mTvResult.setVisibility(View.VISIBLE);
+    }
+
+    private void getDataFailed(String reason) {
+        Toast.makeText(this,"获取数据失败"+reason,Toast.LENGTH_SHORT).show();
     }
 }

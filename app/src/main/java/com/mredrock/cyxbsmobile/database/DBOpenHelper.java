@@ -3,6 +3,7 @@ package com.mredrock.cyxbsmobile.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.mredrock.cyxbsmobile.config.Const;
 
 public class DBOpenHelper extends SQLiteOpenHelper {
 

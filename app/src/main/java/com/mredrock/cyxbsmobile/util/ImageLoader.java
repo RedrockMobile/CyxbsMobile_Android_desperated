@@ -1,5 +1,6 @@
 package com.mredrock.cyxbsmobile.util;
 
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -37,9 +38,10 @@ public class ImageLoader {
     public void loadImage(String url, ImageView imageView) {
         Glide.with(APP.getContext())
                 .load(url)
+                .asBitmap()
+                .centerCrop()
                 .placeholder(R.drawable.img_on_laoding)
                 .error(R.drawable.img_on_laoding)
-                .crossFade()
                 .into(imageView);
 
     }
@@ -72,6 +74,15 @@ public class ImageLoader {
                 .listener(listener)
                 .placeholder(R.mipmap.avatar_default)
                 .error(R.mipmap.avatar_default)
+                .into(simpleTarget);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void loadLocalImage(int resId,SimpleTarget<Bitmap> simpleTarget){
+        Glide.with(APP.getContext())
+                .load(resId)
+                .asBitmap()
+                .centerCrop()
                 .into(simpleTarget);
     }
 }

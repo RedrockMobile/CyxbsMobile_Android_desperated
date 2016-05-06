@@ -15,10 +15,10 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.NoCourse;
-import com.mredrock.cyxbsmobile.ui.adapter.NoCourseDialogAdapter;
-import com.mredrock.cyxbsmobile.util.DensityUtil;
+import com.mredrock.cyxbsmobile.ui.adapter.mypage.NoCourseDialogAdapter;
 import com.mredrock.cyxbsmobile.util.DensityUtils;
 
 import java.util.List;
@@ -71,8 +71,7 @@ public class NoScheduleView extends FrameLayout {
     }
 
 
-    private void createTextView(NoCourse noCourse, int week) {
-        if (!(noCourse.hash_day == 5 || noCourse.hash_day == 6)) {
+    private void createTextView(NoCourse noCourse,int week){
             TextView textView = new TextView(getContext());
             int top = height * noCourse.hash_lesson;
             int left = width * noCourse.hash_day;
@@ -118,7 +117,6 @@ public class NoScheduleView extends FrameLayout {
             } else if (noCourse.names.size() > 5) {
                 addDropTriangle(top, left);
             }
-        }
     }
 
     private void init() {
@@ -158,9 +156,9 @@ public class NoScheduleView extends FrameLayout {
         recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
         NoCourseDialogAdapter adapter = new NoCourseDialogAdapter(noCourse.names, context);
         recyclerView.setAdapter(adapter);
-        AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle("详情")
-                .setView(layout)
+        MaterialDialog dialog = new MaterialDialog.Builder(context)
+                .title("详情")
+                .customView(layout,true)
                 .show();
         certain.setOnClickListener(view -> dialog.dismiss());
     }

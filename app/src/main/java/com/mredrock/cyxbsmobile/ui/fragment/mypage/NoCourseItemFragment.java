@@ -1,14 +1,16 @@
-package com.mredrock.cyxbsmobile.ui.fragment;
+package com.mredrock.cyxbsmobile.ui.fragment.mypage;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ import com.mredrock.cyxbsmobile.model.NoCourse;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
+import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 import com.mredrock.cyxbsmobile.util.DensityUtils;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
 
@@ -40,14 +43,12 @@ public class NoCourseItemFragment extends BaseFragment {
     public static final String EXTRA_STU_NUM_LIST = "extra_stu_num_list";
     public static final String EXTRA_NAME_LIST = "extra_name_list";
 
-    @Bind(R.id.no_course_week)
-    LinearLayout noCourseWeek;
-    @Bind(R.id.no_course_time)
-    LinearLayout noCourseTime;
-    @Bind(R.id.no_course_schedule_content)
-    NoScheduleView noCourseScheduleContent;
-    @Bind(R.id.no_course_swipe_refresh_layout)
-    SwipeRefreshLayout noCourseSwipeRefreshLayout;
+    @Bind(R.id.no_course_week) LinearLayout noCourseWeek;
+    @Bind(R.id.no_course_time) LinearLayout noCourseTime;
+    @Bind(R.id.no_course_schedule_content) NoScheduleView
+            noCourseScheduleContent;
+    @Bind(R.id.no_course_swipe_refresh_layout) SwipeRefreshLayout
+            noCourseSwipeRefreshLayout;
 
     private Map<String, List<Course>> mCourseMap;
     private ArrayList<String> mStuNumList;
@@ -55,14 +56,17 @@ public class NoCourseItemFragment extends BaseFragment {
     private List<NoCourse> mNoCourseList;
 
     private int mWeek;
-    private int[] mTodayWeekIds = {R.id.view_no_course_today_7, R.id
-            .view_no_course_today_1, R.id.view_no_course_today_2,
-            R.id.view_no_course_today_3, R.id.view_no_course_today_4, R.id
-            .view_no_course_today_5, R.id.view_no_course_today_6};
+    private int count;
+    private int[] mTodayWeekIds = { R.id.view_no_course_today_7,
+            R.id.view_no_course_today_1, R.id.view_no_course_today_2,
+            R.id.view_no_course_today_3, R.id.view_no_course_today_4,
+            R.id.view_no_course_today_5, R.id.view_no_course_today_6 };
+
 
     public NoCourseItemFragment() {
 
     }
+
 
     public static NoCourseItemFragment newInstance(int week) {
         NoCourseItemFragment noCourseItemFragment = new NoCourseItemFragment();
@@ -77,10 +81,10 @@ public class NoCourseItemFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         parseArguments();
-        mStuNumList = getActivity().getIntent().getStringArrayListExtra
-                (EXTRA_STU_NUM_LIST);
-        mNameList = getActivity().getIntent().getStringArrayListExtra
-                (EXTRA_NAME_LIST);
+        mStuNumList = getActivity().getIntent()
+                                   .getStringArrayListExtra(EXTRA_STU_NUM_LIST);
+        mNameList = getActivity().getIntent()
+                                 .getStringArrayListExtra(EXTRA_NAME_LIST);
     }
 
 
@@ -90,7 +94,8 @@ public class NoCourseItemFragment extends BaseFragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity())
-                .inflate(R.layout.fragment_no_course_item, container, false);
+                                  .inflate(R.layout.fragment_no_course_item,
+                                          container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -109,36 +114,43 @@ public class NoCourseItemFragment extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
+
     private void parseArguments() {
         Bundle args = getArguments();
         mWeek = args.getInt(ARG_WEEK);
     }
 
+
     private void initView() {
         //星期和时间TextView
         TextView blank = new TextView(getActivity());
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) DensityUtils.dp2px(getContext(), 25f),
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                (int) DensityUtils.dp2px(getContext(), 25f),
                 (LinearLayout.LayoutParams.MATCH_PARENT));
         layoutParams.leftMargin = DensityUtils.dp2px(getContext(), 1f);
         blank.setLayoutParams(layoutParams);
-        blank.setBackgroundColor(getResources().getColor(R.color.no_course_day_background));
+        blank.setBackgroundColor(
+                getResources().getColor(R.color.no_course_day_background));
         noCourseWeek.addView(blank);
         String[] data = getResources().getStringArray(R.array.no_schedule_week);
         for (int i = 0; i < 7; i++) {
             TextView tv = new TextView(getActivity());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,
+                    LinearLayout.LayoutParams.MATCH_PARENT, 1);
             params.leftMargin = DensityUtils.dp2px(getContext(), 1f);
             tv.setLayoutParams(params);
             tv.setText(data[i]);
             tv.setTextColor(getResources().getColor(R.color.no_course_day));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
             tv.setGravity(Gravity.CENTER);
-            tv.setBackgroundColor(getResources().getColor(R.color.no_course_day_background));
+            tv.setBackgroundColor(
+                    getResources().getColor(R.color.no_course_day_background));
             noCourseWeek.addView(tv);
         }
         for (int i = 0; i < 12; i++) {
             TextView tv = new TextView(getActivity());
-            tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1));
+            tv.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, 0, 1));
             tv.setText(i + 1 + "");
             tv.setTextColor(getResources().getColor(R.color.no_course_time));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -147,19 +159,21 @@ public class NoCourseItemFragment extends BaseFragment {
             noCourseTime.addView(tv);
             if (i % 2 != 0) {
                 View divider = new TextView(getActivity());
-                divider.setLayoutParams(new LinearLayout.LayoutParams
-                        (LinearLayout.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(getActivity(), 1)));
-                divider.setBackgroundColor(getResources().getColor(R.color.no_course_time_divider));
+                divider.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        DensityUtils.dp2px(getActivity(), 1)));
+                divider.setBackgroundColor(getResources().getColor(
+                        R.color.no_course_time_divider));
                 noCourseTime.addView(divider);
             }
         }
         if (mWeek == new SchoolCalendar().getWeekOfTerm()) showTodayWeek();
 
         noCourseSwipeRefreshLayout.setColorSchemeColors(
-                ContextCompat.getColor(getContext(), R.color.colorAccent), ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                ContextCompat.getColor(getContext(), R.color.colorAccent),
+                ContextCompat.getColor(getContext(), R.color.colorPrimary));
         noCourseSwipeRefreshLayout.setOnRefreshListener(() -> {
             if (mStuNumList.size() != 0) {
-                noCourseSwipeRefreshLayout.setRefreshing(true);
                 loadWeekNoCourse();
             }
         });
@@ -167,38 +181,43 @@ public class NoCourseItemFragment extends BaseFragment {
         mCourseMap = new LinkedHashMap<>();
         mNoCourseList = new ArrayList<>();
         if (mStuNumList.size() != 0) {
-            noCourseSwipeRefreshLayout.setRefreshing(true);
-            loadWeekNoCourse();
+            showProgress();
         }
     }
 
 
     private void loadWeekNoCourse() {
-        for (int i = 0; i < mStuNumList.size(); i++) {
-            final int finalI = i;
-            RequestManager.INSTANCE.getCourse(new SimpleSubscriber<>(getActivity(), new SubscriberListener<List<Course>>() {
-                @Override
-                public void onNext(List<Course> courses) {
-                    super.onNext(courses);
-                    mCourseMap.put(String.valueOf(finalI), courses);
-                }
+        RequestManager.getInstance().getCourse(new
+                SimpleSubscriber<>(getActivity(), new SubscriberListener<List<Course>>() {
+
+            @Override public void onStart() {
+                super.onStart();
+                count = 0;
+            }
 
 
-                @Override
-                public void onCompleted() {
-                    super.onCompleted();
-                    if (noCourseSwipeRefreshLayout != null && noCourseSwipeRefreshLayout.isRefreshing()) {
-                        noCourseSwipeRefreshLayout.setRefreshing(false);
-                    }
-                    getNoCourseTable();
-                }
-            }), mStuNumList.get(i), "", String.valueOf(mWeek));
-        }
+            @Override public void onNext(List<Course> courses) {
+                super.onNext(courses);
+                mCourseMap.put(String.valueOf(count),courses);
+                count++;
+            }
+
+
+            @Override public void onCompleted() {
+                super.onCompleted();
+                dismissProgress();
+                getNoCourseTable();
+            }
+        }),mStuNumList,String.valueOf(mWeek));
     }
 
+
     private void showTodayWeek() {
-        if (getView() != null)
-            getView().findViewById(mTodayWeekIds[Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1]).setVisibility(View.VISIBLE);
+        if (getView() != null) {
+            getView().findViewById(mTodayWeekIds[
+                    Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1])
+                     .setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -206,7 +225,9 @@ public class NoCourseItemFragment extends BaseFragment {
         for (int i = 0; i < 7; i++) {
             //3或者4节连上标记
             List<Boolean> booleanList = new ArrayList<>();
-            for (int k = 0; k < mCourseMap.size(); k++) booleanList.add(false);
+            for (int k = 0; k < mCourseMap.size(); k++) {
+                booleanList.add(false);
+            }
 
             for (int j = 0; j < 6; j++) {
                 List<String> nameList = new ArrayList<>();
@@ -251,10 +272,13 @@ public class NoCourseItemFragment extends BaseFragment {
                             isNoCourse = false;
                         }
                     }
-                    if ((booleanList.size() == 0 || !booleanList.get(Integer.parseInt(entry.getKey()))) && isNoCourse) {
+                    if ((booleanList.size() == 0 ||
+                            !booleanList.get(Integer.parseInt(entry.getKey()))) && isNoCourse) {
                         nameList.add(mNameList.get(Integer.parseInt(entry.getKey())));
-                    } else if (mWeek == 0 && !isAllSemester) {
-                        String name = mNameList.get(Integer.parseInt(entry.getKey())) + "\n" + rawWeek;
+                    }else if (mWeek == 0 && !isAllSemester) {
+                        String name = mNameList.get(
+                                Integer.parseInt(entry.getKey())) + "\n" +
+                                rawWeek;
                         nameList.add(name);
                     }
                 }
@@ -270,6 +294,27 @@ public class NoCourseItemFragment extends BaseFragment {
         }
         if (noCourseScheduleContent != null) {
             noCourseScheduleContent.addContentView(mNoCourseList, mWeek);
+        }
+    }
+
+    private void showProgress(){
+        noCourseSwipeRefreshLayout.getViewTreeObserver()
+                      .addOnGlobalLayoutListener(
+                              new ViewTreeObserver.OnGlobalLayoutListener() {
+                                  @Override
+                                  public void onGlobalLayout() {
+                                      noCourseSwipeRefreshLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                                      noCourseSwipeRefreshLayout.setRefreshing(true);
+                                      loadWeekNoCourse();
+                                  }
+                              });
+    }
+
+    private void dismissProgress(){
+        if (noCourseSwipeRefreshLayout != null &&
+                noCourseSwipeRefreshLayout.isRefreshing()) {
+            noCourseSwipeRefreshLayout.setRefreshing(
+                    false);
         }
     }
 }

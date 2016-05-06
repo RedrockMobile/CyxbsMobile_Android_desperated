@@ -1,4 +1,4 @@
-package com.mredrock.cyxbsmobile.ui.adapter;
+package com.mredrock.cyxbsmobile.ui.adapter.mypage;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.NoScrollGridView;
 import com.mredrock.cyxbsmobile.model.EmptyRoom;
-
+import com.mredrock.cyxbsmobile.ui.adapter.BaseRecyclerViewAdapter;
 import java.util.List;
 
 

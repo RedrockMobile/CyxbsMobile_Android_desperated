@@ -4,18 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import butterknife.OnClick;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 
-public class SettingActivity extends BaseActivity
-        implements View.OnClickListener {
+public class SettingActivity extends BaseActivity{
 
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -37,33 +36,32 @@ public class SettingActivity extends BaseActivity
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         initToolbar();
-        settingRemindLayout.setOnClickListener(this);
-        settingFeedbackLayout.setOnClickListener(this);
-        settingAboutLayout.setOnClickListener(this);
-        settingExitLayout.setOnClickListener(this);
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.setting_remind_layout:
-                startActivity(new Intent(this, NewsRemindActivity.class));
-                break;
-            case R.id.setting_feedback_layout:
-                break;
-            case R.id.setting_about_layout:
-                break;
-            case R.id.setting_exit_layout:
-                break;
-        }
+    @OnClick(R.id.setting_remind_layout)
+    void clickToRemind(){
+        startActivity(new Intent(this, NewsRemindActivity.class));
     }
 
+    @OnClick(R.id.setting_feedback_layout)
+    void clickToFeedback(){
+
+    }
+
+    @OnClick(R.id.setting_about_layout)
+    void clickToAbout(){
+        startActivity(new Intent(this, AboutActivity.class));
+    }
+
+    @OnClick(R.id.setting_exit_layout)
+    void clickToExit(){
+
+    }
 
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
-            toolbarTitle.setText("没课约");
+            toolbarTitle.setText("设置");
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(
                     v -> SettingActivity.this.finish());

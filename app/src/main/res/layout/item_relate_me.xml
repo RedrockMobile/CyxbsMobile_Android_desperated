@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:background="@drawable/bg_layout"
-    android:orientation="vertical"
     android:paddingTop="15dp">
 
     <LinearLayout
@@ -18,6 +19,7 @@
         android:orientation="horizontal">
 
         <com.mredrock.cyxbsmobile.component.widget.CircleImageView
+            android:id="@+id/about_me_avatar"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_gravity="center_vertical"
@@ -37,34 +39,38 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/about_me_nick_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="慌乱的人"
+                    tools:text="慌乱的人"
                     android:textColor="@color/text_dark"
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/about_me_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="赞了我"
                     android:textColor="@color/text_light_1"
                     android:textSize="13sp" />
 
             </LinearLayout>
 
             <TextView
+                android:id="@+id/about_me_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="一分钟前"
-                android:textColor="@color/text_light_1"
-                android:textSize="12sp" />
+                tools:text="一分钟前"
+                android:textSize="12sp"
+                android:textColor="@color/text_light_1"/>
+
         </LinearLayout>
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/about_me_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
@@ -74,9 +80,9 @@
         android:layout_marginTop="12dp"
         android:ellipsize="end"
         android:maxLines="3"
-        android:text="你相不相信我昨天说的话？"
-        android:textColor="@color/text_dark"
-        android:textSize="16sp" />
+        tools:text="你相不相信我昨天说的话？"
+        android:textSize="16sp"
+        android:textColor="@color/text_dark"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -91,12 +97,13 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_default" />
+            android:id="@+id/about_me_new_img"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:scaleType="centerCrop"/>
 
         <TextView
+            android:id="@+id/about_me_new_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -107,8 +114,8 @@
             android:ellipsize="end"
             android:lineSpacingExtra="10dp"
             android:maxLines="2"
-            android:text="如果你无法简洁的表达你的思想，那只说明你还不够了解它。"
-            android:textColor="@color/text_dark" />
+            tools:text="如果你无法简洁的表达你的思想，那只说明你还不够了解它。"
+            android:textColor="@color/text_dark"/>
 
     </LinearLayout>
 

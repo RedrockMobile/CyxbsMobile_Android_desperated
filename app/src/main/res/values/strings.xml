@@ -100,6 +100,12 @@
         <item>AB节</item>
     </string-array>
 
+    <string-array name="exam_grade_tab_titles">
+        <item>成绩</item>
+        <item>考试安排</item>
+        <item>补考安排</item>
+    </string-array>
+
     <string name="my_page_introduce">简介：</string>
     <string name="my_page_relate">与我相关</string>
     <string name="my_page_trend">我的动态</string>
@@ -113,11 +119,21 @@
     <string name="edit_info_avatar">头像修改</string>
     <string name="edit_info_nick_name">昵称</string>
     <string name="edit_info_introduce">简介</string>
+    <string name="edit_info_qq">QQ</string>
+    <string name="edit_info_phone">电话</string>
 
     <string name="setting_news_remind">新消息提醒</string>
     <string name="setting_feedback">意见反馈</string>
     <string name="setting_about">关于</string>
     <string name="setting_exit">退出当前账号</string>
+
+    <string name="grade_title_name">名称</string>
+    <string name="grade_title_property">类型</string>
+    <string name="grade_title_score">成绩</string>
+
+    <string name="exam_unsure">时间待定</string>
+    <string name="exam_date">%1$s周周%2$s</string>
+    <string name="exam_detail_date">%1$s - %2$s</string>
 
     <string name="news_remind_hint">打开后将推送响应类型的消息</string>
     <string name="news_remind_comment">评论与回复</string>
