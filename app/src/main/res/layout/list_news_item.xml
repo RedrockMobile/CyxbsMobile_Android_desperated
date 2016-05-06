@@ -25,8 +25,7 @@
             <com.mredrock.cyxbsmobile.component.widget.CircleImageView
                 android:id="@+id/list_news_img_avatar"
                 android:layout_width="@dimen/information_img_avatar"
-                android:layout_height="@dimen/information_img_avatar"
-                android:src="@mipmap/avatar_default" />
+                android:layout_height="@dimen/information_img_avatar"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
