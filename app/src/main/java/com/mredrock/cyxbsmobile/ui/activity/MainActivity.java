@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbsmobile.ui.activity.social.PostNewsActivity;
+import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.UserFragment;
@@ -48,6 +49,11 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.bottom_bar)
     BottomBar mBottomBar;
 
+//    BaseFragment socialContainerFragment;
+//    BaseFragment courseContainerFragment;
+//    BaseFragment exploreFragment;
+//    BaseFragment userFragment;
+
 
     private Menu mMenu;
 
@@ -76,6 +82,10 @@ public class MainActivity extends BaseActivity {
 
             switch (position) {
                 case 0:
+//                    if (socialContainerFragment == null) {
+//                        socialContainerFragment = new SocialContainerFragment();
+//                    }
+//                    fragment = socialContainerFragment;
                     fragment = new SocialContainerFragment();
                     setTitle(mStringCommunity);
                     // mImageView.setVisibility(View.VISIBLE);
@@ -83,13 +93,24 @@ public class MainActivity extends BaseActivity {
 
                     break;
                 case 1:
+//                    if (courseContainerFragment == null) {
+//                        courseContainerFragment = new CourseContainerFragment();
+//                    }
+//                    fragment = courseContainerFragment;
                     fragment = new CourseContainerFragment();
                     break;
                 case 2:
+//                    if (exploreFragment == null) {
+//                        exploreFragment = new ExploreFragment();
+//                    }
+//                    fragment = exploreFragment;
                     fragment = new ExploreFragment();
                     setTitle(mStringExplore);
                     break;
                 case 3:
+//                    if (userFragment == null) {
+//                        userFragment = new UserFragment();
+//                    }
                     fragment = new UserFragment();
                     setTitle(mStringMyPage);
                     break;
@@ -155,5 +176,11 @@ public class MainActivity extends BaseActivity {
 
     public TextView getToolbarTitle() {
         return mToolbarTitle;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
     }
 }

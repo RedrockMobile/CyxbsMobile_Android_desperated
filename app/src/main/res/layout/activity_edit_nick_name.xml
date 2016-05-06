@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_grey"
     android:orientation="vertical"
-    tools:context=".ui.activity.mypage.EditNickNameActivity">
+    tools:context=".ui.activity.me.EditNickNameActivity">
 
     <include layout="@layout/toolbar_edit_nick_name" />
 

@@ -267,7 +267,7 @@ public enum RequestManager {
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part file_body = MultipartBody.Part.createFormData("fold", file.getName(), requestFile);
         RequestBody stuNum_body = RequestBody.create(MediaType.parse("multipart/form-data"), stuNum);
-        return redrockApiService.uploadImg(stuNum_body, file_body).map(new RedrockApiWrapperFunc<>());
+        return redrockApiService.uploadSocialImg(stuNum_body, file_body).map(new RedrockApiWrapperFunc<>());
 
     }
 
@@ -287,12 +287,12 @@ public enum RequestManager {
     }
 
     public Observable<List<HotNews>> getHotArticle(int size, int page, String stuNum, String idNum) {
-        return redrockApiService.getHotArticle(size, page, stuNum, idNum);
+        return redrockApiService.getSocialHotList(size, page, stuNum, idNum);
     }
 
 
     public Observable<List<OfficeNewsContent>> getListNews(int size, int page, String stuNum, String idNum, String type_id) {
-        return redrockApiService.getlistNews(size, page, stuNum, idNum, type_id).map(new RedrockApiWrapperFunc<>());
+        return redrockApiService.getSocialOfficialNewsList(size, page, stuNum, idNum, type_id).map(new RedrockApiWrapperFunc<>());
     }
 
     public Observable<List<HotNews>> getListNews(int size, int page) {
@@ -328,7 +328,7 @@ public enum RequestManager {
     }
 
     public Observable<List<HotNews>> getListArticle(int type_id, int size, int page, String stuNum, String idNum) {
-        return redrockApiService.getListArticle(type_id, size, page, stuNum, idNum)
+        return redrockApiService.getSocialBBDDList(type_id, size, page, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>())
                 .flatMap(bbddBeen -> Observable.just(bbddBeen)
                         .map(bbddBeen1 -> {
@@ -355,7 +355,7 @@ public enum RequestManager {
     }
 
     public Observable<List<CommentContent>> getRemarks(String article_id, int type_id, String user_id, String stuNum, String idNum) {
-        return redrockApiService.getReMark(article_id, type_id, user_id, stuNum, idNum)
+        return redrockApiService.getSocialCommentList(article_id, type_id, user_id, stuNum, idNum)
                 .map(comment -> {
                     comment.status = comment.state;
                     return comment;
@@ -369,7 +369,7 @@ public enum RequestManager {
     }
 
     public Observable<String> postReMarks(String article_id, int type_id, String content, String user_id, String stuNum, String idNum) {
-        return redrockApiService.postReMarks(article_id, type_id, content, user_id, stuNum, idNum)
+        return redrockApiService.addSocialComment(article_id, type_id, content, user_id, stuNum, idNum)
                 .map(comment -> {
                     comment.status = comment.state;
                     return comment;
@@ -383,7 +383,7 @@ public enum RequestManager {
     }
 
     public Observable<String> addThumbsUp(String article_id, int type_id, String stuNum, String idNum) {
-        return redrockApiService.addThumbsUp(article_id, type_id, stuNum, idNum)
+        return redrockApiService.socialLike(article_id, type_id, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>())
                 .subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
@@ -393,7 +393,7 @@ public enum RequestManager {
     }
 
     public Observable<String> cancelThumbsUp(String article_id, int type_id, String stuNum, String idNum) {
-        return redrockApiService.cancelThumbsUp(article_id, type_id, stuNum, idNum)
+        return redrockApiService.socialUnlike(article_id, type_id, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>())
                 .subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }

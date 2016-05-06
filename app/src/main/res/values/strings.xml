@@ -176,5 +176,6 @@
     <string name="alter">你没有输入任何东西哟</string>
     <string name="noContent">你没有输入消息哟!</string>
     <string name="loadingFailed">加载失败，点击重新加载</string>
+    <string name="title_activity_login">登录</string>
 
 </resources>
