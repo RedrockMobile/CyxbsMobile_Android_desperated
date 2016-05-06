@@ -31,6 +31,7 @@ import com.mredrock.cyxbsmobile.ui.adapter.SpecificNewsCommentAdapter;
 import com.mredrock.cyxbsmobile.util.Util;
 import com.mredrock.cyxbsmobile.util.download.DownloadHelper;
 import com.mredrock.cyxbsmobile.util.download.callback.OnDownloadListener;
+import com.orhanobut.logger.Logger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -97,8 +98,9 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         } else {
             dataBean = getIntent().getParcelableExtra(STRAT_DATA);
             mWrapView.setData(dataBean, true);
-            if (dataBean.content.getArticletype_id() != null)
+            if (dataBean.content != null) {
                 doWithNews(mWrapView, dataBean.content);
+            }
             requestComments();
         }
         // itemViewHeight = getIntent().getIntExtra(ITEM_VIEW_HEIGHT, 100);

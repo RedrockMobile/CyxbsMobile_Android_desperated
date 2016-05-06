@@ -14,7 +14,7 @@ import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.NoCourse;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
-import com.mredrock.cyxbsmobile.ui.fragment.mypage.NoCourseItemFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.me.NoCourseItemFragment;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
 import java.util.ArrayList;
 import java.util.Arrays;

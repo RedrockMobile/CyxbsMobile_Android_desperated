@@ -222,8 +222,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
 
     private void refreshEditLayout() {
-        ImageLoader.getInstance()
-                   .loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
+        ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
         myPageNickName.setText(mUser.nickname);
         myPageIntroduce.setText(mUser.introduction);
         if (mUser.gender.equals("男")) {
