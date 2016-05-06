@@ -26,6 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@string/specific_news_title"
                 android:textColor="@color/white" />
 
@@ -39,7 +41,7 @@
                 android:text="下载附件"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
         </android.support.v7.widget.Toolbar>
 

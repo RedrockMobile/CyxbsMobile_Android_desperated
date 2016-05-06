@@ -123,7 +123,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private void doWithNews(NewsAdapter.ViewHolder mWrapView, OfficeNewsContent bean) {
         mWrapView.mTextContent.setText(Html.fromHtml(dataBean.content != null ? dataBean.content.content : ""));
-        mWrapView.mTextName.setText(!bean.unit.equals("") ? bean.unit : getString(R.string.jwzx));
+        mWrapView.mTextName.setText(bean.getOfficeName());
         mWrapView.mTextView_ex.setVisibility(View.INVISIBLE);
         if (dataBean.content.content.charAt(0) == '<')
             mWrapView.mTextContent.setText(dataBean.content.title);
