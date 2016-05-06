@@ -59,15 +59,9 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     @Bind(R.id.downText)
     TextView mTextDown;
 
-/*    @Bind(R.id.comment_header)
-    View mHeaderView;*/
-
 
     private NewsAdapter.ViewHolder mWrapView;
 
-
-    // private View mCommentHeader;
-    //private int itemViewHeight;
 
     private View mHeaderView;
 
@@ -80,7 +74,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
 
     private View mFooterView;
-
 
     public static final void startActivityWithDataBean(Context context, HotNewsContent dataBean, int itemViewHeight) {
         Intent intent = new Intent(context, SpecificNewsActivity.class);
@@ -96,12 +89,9 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         setContentView(R.layout.activity_specific_news);
         ButterKnife.bind(this);
         mRefresh.setColorSchemeColors(R.color.colorAccent);
-        // sHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item, null, false);
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
-        //mCommentHeader = LayoutInflater.from(this).inflate(R.layout.list_comment_header, null, false);
         mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
         dataBean = getIntent().getParcelableExtra(STRAT_DATA);
-        // itemViewHeight = getIntent().getIntExtra(ITEM_VIEW_HEIGHT, 100);
         init();
     }
 
@@ -116,7 +106,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mSpecificNewsCommentAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
-        //mHeaderViewRecyclerAdapter.addHeaderView(mCommentHeader);
 
         mWrapView.setData(dataBean, true);
         if (dataBean.content.articletype_id != null)
@@ -126,7 +115,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private void doWithNews(NewsAdapter.ViewHolder mWrapView, OfficeNewsContent bean) {
         mWrapView.mTextContent.setText(Html.fromHtml(dataBean.content != null ? dataBean.content.content : ""));
-        mWrapView.mTextName.setText(!bean.unit.equals("") ? bean.unit : "教务在线");
+        mWrapView.mTextName.setText(!bean.unit.equals("") ? bean.unit : getString(R.string.jwzx));
         mWrapView.mTextView_ex.setVisibility(View.INVISIBLE);
         if (dataBean.content.content.charAt(0) == '<')
             mWrapView.mTextContent.setText(dataBean.content.title);
@@ -157,7 +146,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                     public void downloadFailed(String message) {
                         Util.toast(SpecificNewsActivity.this, getResources().getString(R.string.load_failed));
                         if (message != null) {
-                            Log.d("====>>>", "error is " + message);
+                            Log.d(TAG, "error is---->>> " + message);
                         }
                     }
                 });
@@ -186,20 +175,11 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private void removeFooterView() {
         mHeaderViewRecyclerAdapter.reMoveFooterView();
         mHeaderViewRecyclerAdapter.notifyDataSetChanged();
-
-        // mFooterView.findViewById(R.id.footer_remark).setVisibility(View.INVISIBLE);
-
     }
 
     private void addFooterView() {
         mFooterView = LayoutInflater.from(this).inflate(R.layout.list_footer_item_remark, mRecyclerView, false);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterView);
-       /* if (mFooterView == null) {
-            mFooterView = LayoutInflater.from(this).inflate(R.layout.list_footer_item_remark, mRecyclerView, false);
-            mHeaderViewRecyclerAdapter.addFooterView(mFooterView);
-        } else {
-            mFooterView.findViewById(R.id.footer_remark).setVisibility(View.VISIBLE);
-        }*/
     }
 
     private void initToolbar() {
@@ -214,15 +194,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         Toast.makeText(this, getString(R.string.erro), Toast.LENGTH_SHORT).show();
         Log.e(TAG, reason);
     }
-
-/*    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_send:
-                sendComment();
-                break;
-        }
-    }*/
 
     @OnClick(R.id.btn_send)
     public void sendComment(View view) {
@@ -263,11 +234,11 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     }
 
     private void showUploadFail(String reason) {
-        Log.d("===========>>>", "showUploadFail:" + reason);
+        Log.e(TAG, "showUploadFail---->>>" + reason);
     }
 
     private void showUploadSucess() {
-        Log.d("===========>>>", "showUploadSucess");
+        Log.d(TAG, "showUploadSuccess");
     }
 
 

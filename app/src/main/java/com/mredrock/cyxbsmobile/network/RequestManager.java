@@ -18,6 +18,8 @@ import com.mredrock.cyxbsmobile.model.social.BBDDNewsContent;
 import com.mredrock.cyxbsmobile.model.social.CommentContent;
 import com.mredrock.cyxbsmobile.model.social.HotNews;
 import com.mredrock.cyxbsmobile.model.social.OfficeNewsContent;
+import com.mredrock.cyxbsmobile.model.social.PersonInfo;
+import com.mredrock.cyxbsmobile.model.social.PersonLatest;
 import com.mredrock.cyxbsmobile.model.social.Stu;
 import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
 import com.mredrock.cyxbsmobile.network.exception.ApiException;
@@ -297,9 +299,9 @@ public enum RequestManager {
 
     public Observable<List<HotNews>> getListNews(int size, int page) {
         return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDDNews.LISTNEWS)
-                .map(contentBeen -> {
+                .map(content -> {
                     List<HotNews> aNews = new ArrayList<>();
-                    for (OfficeNewsContent bean : contentBeen) aNews.add(new HotNews(bean));
+                    for (OfficeNewsContent bean : content) aNews.add(new HotNews(bean));
                     return aNews;
                 })
                 .subscribeOn(Schedulers.newThread())
@@ -330,10 +332,10 @@ public enum RequestManager {
     public Observable<List<HotNews>> getListArticle(int type_id, int size, int page, String stuNum, String idNum) {
         return redrockApiService.getListArticle(type_id, size, page, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>())
-                .flatMap(bbddBeen -> Observable.just(bbddBeen)
-                        .map(bbddBeen1 -> {
+                .flatMap(bbdd -> Observable.just(bbdd)
+                        .map(mBBDD -> {
                             List<HotNews> aNews = new ArrayList<>();
-                            for (BBDDNewsContent bbddNewsContent : bbddBeen1)
+                            for (BBDDNewsContent bbddNewsContent : mBBDD)
                                 aNews.add(new HotNews(bbddNewsContent));
                             return aNews;
                         }));
@@ -356,10 +358,6 @@ public enum RequestManager {
 
     public Observable<List<CommentContent>> getRemarks(String article_id, int type_id, String user_id, String stuNum, String idNum) {
         return redrockApiService.getReMark(article_id, type_id, user_id, stuNum, idNum)
-                .map(comment -> {
-                    comment.status = comment.state;
-                    return comment;
-                })
                 .map(new RedrockApiWrapperFunc<>())
                 .subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
@@ -370,10 +368,6 @@ public enum RequestManager {
 
     public Observable<String> postReMarks(String article_id, int type_id, String content, String user_id, String stuNum, String idNum) {
         return redrockApiService.postReMarks(article_id, type_id, content, user_id, stuNum, idNum)
-                .map(comment -> {
-                    comment.status = comment.state;
-                    return comment;
-                })
                 .map(new RedrockApiWrapperFunc<>())
                 .subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
@@ -398,8 +392,37 @@ public enum RequestManager {
                 .subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    private class MovieResultFunc<T> implements Func1<MovieResult<T>, T> {
+    public Observable<PersonInfo> getPersonInfo(String otherStuNum, String stuNum, String idNum) {
+        return redrockApiService.getPersonInfo(otherStuNum, stuNum, idNum)
+                .map(new RedrockApiWrapperFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
+    public Observable<PersonInfo> getPersonInfo(String otherStuNum) {
+        return getPersonInfo(otherStuNum, Stu.STU_NUM, Stu.ID_NUM);
+    }
+
+
+    public Observable<List<HotNews>> getPersonLatestList(String otherStuNum, String stuNum, String idNum, String userName, String userHead) {
+        return redrockApiService.getPersonLatestList(otherStuNum, stuNum, idNum)
+                .map(new RedrockApiWrapperFunc<>())
+                .map(personLatests -> {
+                    List<HotNews> aNews = new ArrayList<>();
+                    for (PersonLatest personLatest : personLatests)
+                        aNews.add(new HotNews(personLatest, otherStuNum, userName, userHead));
+                    return aNews;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<HotNews>> getPersonLatestList(String otherStuNum, String userName, String userHead) {
+        return getPersonLatestList(otherStuNum, Stu.STU_NUM, Stu.ID_NUM,userName,userHead);
+    }
+
+
+    private class MovieResultFunc<T> implements Func1<MovieResult<T>, T> {
         @Override
         public T call(MovieResult<T> movieResult) {
             if (movieResult.count == 0) {

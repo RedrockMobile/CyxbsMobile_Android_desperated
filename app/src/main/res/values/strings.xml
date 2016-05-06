@@ -177,4 +177,9 @@
     <string name="noContent">你没有输入消息哟!</string>
     <string name="loadingFailed">加载失败，点击重新加载</string>
 
+
+    <string name="jwzx">教务在线</string>
+    <string name="person_info">详细资料</string>
+    <string name="latest">近期动态</string>
+
 </resources>

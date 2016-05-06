@@ -76,10 +76,8 @@ public class BaseActivity extends AppCompatActivity {
 
     private void setupActionBarAutoHide() {
         mActionBarAutoHideEnbale = true;
-        mActionBarAutoHideMinY =
-                getResources().getDimensionPixelOffset(R.dimen.action_bar_auto_hide_min_y);
-        mActionBarAutoHideSensitivity =
-                getResources().getDimensionPixelOffset(R.dimen.action_bar_auto_hide_sensitivity);
+        mActionBarAutoHideMinY = getResources().getDimensionPixelOffset(R.dimen.action_bar_auto_hide_min_y);
+        mActionBarAutoHideSensitivity = getResources().getDimensionPixelOffset(R.dimen.action_bar_auto_hide_sensitivity);
     }
 
     private void onHomeContentScrolled(int currentY, int deltaY) {

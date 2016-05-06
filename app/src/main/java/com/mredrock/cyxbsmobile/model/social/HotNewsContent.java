@@ -30,16 +30,52 @@ public class HotNewsContent implements Parcelable {
     public String user_head;
     public String time;
     public OfficeNewsContent content;
+    public ImgBean img;
+    public String like_num;
+    public String remark_num;
+    public boolean is_my_Like;
+
+
+    public String getTime() {
+        if (time.contains(":")) return time;
+        else if (time.contains("-")) return time + " 00:00:00";
+        else if (time.contains(".")) return time.replace(".", "-") + " 00:00:00";
+        else return "2015-01-01 00:00:00";
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String geType_id() {
+        String type = "红岩网校工作站";
+        switch (type_id) {
+            case 1:
+                type = "重邮新闻";
+                break;
+            case 2:
+                type = "教务新闻";
+                break;
+            case 3:
+                type = "E彩鎏光";
+                break;
+            case 4:
+                type = "校务公告";
+                break;
+            case 5:
+                type = "哔哔叨叨";
+                break;
+            default:
+                break;
+        }
+        return type;
+    }
 
     /**
      * img_small_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/thumbnail/1460427947_1265413131.png
      * img_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/1460427947_1265413131.png
      */
 
-    public ImgBean img;
-    public String like_num;
-    public String remark_num;
-    public boolean is_my_Like;
 
     public HotNewsContent(String type, String id, int type_id, String user_id, String nick_name,
                           String user_head, String time, OfficeNewsContent content, ImgBean img, String like_num,
