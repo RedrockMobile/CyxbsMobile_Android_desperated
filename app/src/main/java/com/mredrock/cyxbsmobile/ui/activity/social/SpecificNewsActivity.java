@@ -91,7 +91,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         HotNewsContent hotNewsContent = getIntent().getParcelableExtra(START_DATA);
         String article_id = getIntent().getStringExtra(ARTICLE_ID);
         if (hotNewsContent != null) {
-            Log.e("---->>>like_num", hotNewsContent.like_num);
             mHotNewsContent = hotNewsContent;
             mWrapView.setData(mHotNewsContent, true);
             if (mHotNewsContent.type_id < BBDDNews.BBDD || (mHotNewsContent.type_id == 6 && mHotNewsContent.user_id == null))

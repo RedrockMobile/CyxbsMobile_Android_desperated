@@ -58,7 +58,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
@@ -157,10 +156,7 @@ public enum RequestManager {
                               String idNum,
                               String week) {
         Observable<String> observable = redrockApiService.getCourse(stuNum, idNum, week)
-                .map(courseWrapper -> {
-                    return new Gson().toJson(courseWrapper);
-
-                });
+                .map(courseWrapper -> new Gson().toJson(courseWrapper));
         emitObservable(observable, subscriber);
     }
 
@@ -217,7 +213,7 @@ public enum RequestManager {
     public Subscription getFood(Subscriber<FoodDetail> subscriber, String restaurantKey) {
         Observable<FoodDetail> observable =
                 redrockApiService.getFoodDetail(restaurantKey)
-                .map(new RedrockApiWrapperFunc<>());
+                        .map(new RedrockApiWrapperFunc<>());
 
         return emitObservable(observable, subscriber);
     }
@@ -258,9 +254,10 @@ public enum RequestManager {
     }
 
     public void getCourse(Subscriber<List<Course>> subscriber, String stuNum, String
-            idNum, String week){
-            Observable<List<Course>> observable = redrockApiService.getCourse(stuNum, idNum, week).map(new RedrockApiWrapperFunc<>());
-        }
+            idNum, String week) {
+        Observable<List<Course>> observable = redrockApiService.getCourse(stuNum, idNum, week).map(new RedrockApiWrapperFunc<>());
+    }
+
     public void getCourse(Subscriber<List<Course>> subscriber,
                           List<String> stuNumList, String week) {
         Observable<List<Course>> observable = Observable.from(stuNumList)
@@ -426,7 +423,8 @@ public enum RequestManager {
         return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDDNews.LISTNEWS)
                 .map(content -> {
                     List<HotNews> aNews = new ArrayList<>();
-                    for (OfficeNewsContent officeNewsContent : content) aNews.add(new HotNews(officeNewsContent));
+                    for (OfficeNewsContent officeNewsContent : content)
+                        aNews.add(new HotNews(officeNewsContent));
                     return aNews;
                 })
                 .subscribeOn(Schedulers.newThread())

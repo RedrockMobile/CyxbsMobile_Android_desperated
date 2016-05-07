@@ -77,7 +77,6 @@ public class MainActivity extends BaseActivity {
             Fragment fragment = null;
             //  mImageView.setVisibility(View.GONE);
             hiddenMenu();
-
             switch (position) {
                 case 0:
 //                    if (socialContainerFragment == null) {
@@ -88,7 +87,6 @@ public class MainActivity extends BaseActivity {
                     setTitle(mStringCommunity);
                     // mImageView.setVisibility(View.VISIBLE);
                     showMenu();
-
                     break;
                 case 1:
 //                    if (courseContainerFragment == null) {

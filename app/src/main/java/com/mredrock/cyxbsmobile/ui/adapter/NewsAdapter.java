@@ -126,6 +126,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         @OnClick(R.id.news_item_card_view)
         public void onItemClick(View view) {
             if (!isSingle) {
+
                 registerObservable();
                 SpecificNewsActivity.startActivityWithDataBean(view.getContext(), mHotNewsContent, mHotNewsContent.article_id);
             }
