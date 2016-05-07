@@ -5,6 +5,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/apk/res-auto"
     android:background="@color/crop__button_bar"
     android:orientation="vertical">
 
@@ -46,12 +47,17 @@
                     android:textSize="18sp"
                     tool:text="我是昵称" />
 
-                <ImageView
+                <TextView
                     android:id="@+id/person_info_gender"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_page_famale" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
+                    android:paddingBottom="1dp"
+                    android:gravity="center"
+                    android:textColor="@color/pink"
+                    android:text="♂"
+                    android:textSize="18sp"/>
 
             </LinearLayout>
 

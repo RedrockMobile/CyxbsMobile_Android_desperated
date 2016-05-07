@@ -33,7 +33,6 @@ import com.mredrock.cyxbsmobile.ui.adapter.SpecificNewsCommentAdapter;
 import com.mredrock.cyxbsmobile.util.Util;
 import com.mredrock.cyxbsmobile.util.download.DownloadHelper;
 import com.mredrock.cyxbsmobile.util.download.callback.OnDownloadListener;
-import com.orhanobut.logger.Logger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +45,8 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
 
     public static final String START_DATA = "dataBean";
-    public static final String ITEM_VIEW_HEIGHT = "itemViewHeight";
+    public static final String ARTICLE_ID = "article_id";
+    public static final String TAG = "SpecificNewsActivity";
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -65,22 +65,18 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private NewsAdapter.ViewHolder mWrapView;
     private View mHeaderView;
-
-    public static final String TAG = "SpecificNewsActivity";
     private HotNewsContent mHotNewsContent;
-
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private List<CommentContent> mListComments = null;
     private View mFooterView;
 
-    public static void startActivityWithDataBean(Context context, HotNewsContent dataBean, int itemViewHeight) {
+    public static void startActivityWithDataBean(Context context, HotNewsContent hotNewsContent, String articleId) {
         Intent intent = new Intent(context, SpecificNewsActivity.class);
-        intent.putExtra(START_DATA, dataBean);
-        intent.putExtra(ITEM_VIEW_HEIGHT, itemViewHeight);
+        intent.putExtra(START_DATA, hotNewsContent);
+        intent.putExtra(ARTICLE_ID, articleId);
         context.startActivity(intent);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,17 +87,18 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mHeaderView = LayoutInflater.from(this)
                 .inflate(R.layout.list_news_item_header, null, false);
         mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
-        String article_id = getIntent().getStringExtra("article_id");
-        if (article_id != null) {
-            getDataBeanById(article_id);
-        } else {
-            mHotNewsContent = getIntent().getParcelableExtra(START_DATA);
+
+        HotNewsContent hotNewsContent = getIntent().getParcelableExtra(START_DATA);
+        String article_id = getIntent().getStringExtra(ARTICLE_ID);
+        if (hotNewsContent != null) {
+            Log.e("---->>>like_num", hotNewsContent.like_num);
+            mHotNewsContent = hotNewsContent;
             mWrapView.setData(mHotNewsContent, true);
             if (mHotNewsContent.type_id < BBDDNews.BBDD || (mHotNewsContent.type_id == 6 && mHotNewsContent.user_id == null))
                 doWithNews(mWrapView, mHotNewsContent.content);
-
             requestComments();
-        }
+        } else getDataBeanById(article_id);
+
         init();
     }
 
@@ -125,7 +122,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mWrapView.mTextView_ex.setVisibility(View.INVISIBLE);
         if (mHotNewsContent.content.content.charAt(0) == '<')
             mWrapView.mTextContent.setText(mHotNewsContent.content.title);
-        if (!bean.address.equals("")) {
+        if (bean.address != null && !bean.address.equals("")) {
             mTextDown.setVisibility(View.VISIBLE);
             String[] address = bean.address.split("\\|");
             String[] names = bean.name.split("\\|");
@@ -164,7 +161,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribe(reMarks -> {
                     mListComments = reMarks;
-                    Log.e("===>>>reMarks.size()", reMarks.size() + "");
                     if ((mListComments == null || mListComments.size() == 0) && mFooterView == null)
                         addFooterView();
                     if ((mListComments.size() != 0) && mFooterView != null)
@@ -230,12 +226,13 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     }
 
     private void getDataBeanById(String article_id) {
-        RequestManager.getInstance().getTrendDetail(Stu.STU_NUM, Stu.ID_NUM, 5,
+        RequestManager.getInstance().getTrendDetail(Stu.STU_NUM, Stu.ID_NUM,
+                mHotNewsContent == null ? BBDDNews.BBDD : mHotNewsContent.type_id,
                 article_id)
                 .subscribe(newses -> {
                     if (newses != null && newses.size() > 0) {
                         mHotNewsContent = newses.get(0).data;
-                        mWrapView.setData(mHotNewsContent, false);
+                        mWrapView.setData(mHotNewsContent, true);
                         requestComments();
                     }
                 }, throwable -> {

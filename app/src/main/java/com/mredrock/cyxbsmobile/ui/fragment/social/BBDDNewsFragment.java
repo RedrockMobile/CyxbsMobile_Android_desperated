@@ -35,7 +35,8 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent hotNewsContent) {
         super.setDate(holder, hotNewsContent);
         if (hotNewsContent.user_id.equals("0") || hotNewsContent.type_id < 5)
-            holder.enableClick = false;
+            holder.enableAvatarClick = false;
+        else holder.enableAvatarClick = true;
     }
 
     @Override

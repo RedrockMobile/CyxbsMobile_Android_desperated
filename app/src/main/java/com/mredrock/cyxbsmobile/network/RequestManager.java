@@ -1,7 +1,6 @@
 package com.mredrock.cyxbsmobile.network;
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.APP;
@@ -407,7 +406,7 @@ public enum RequestManager {
         return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDDNews.LISTNEWS)
                 .map(content -> {
                     List<HotNews> aNews = new ArrayList<>();
-                    for (OfficeNewsContent bean : content) aNews.add(new HotNews(bean));
+                    for (OfficeNewsContent officeNewsContent : content) aNews.add(new HotNews(officeNewsContent));
                     return aNews;
                 })
                 .subscribeOn(Schedulers.newThread())
@@ -485,8 +484,6 @@ public enum RequestManager {
                                                        String user_id,
                                                        String stuNum,
                                                        String idNum) {
-        Log.e("===>>article_id->", article_id);
-        Log.e("===>>type_id->", type_id + "");
         return redrockApiService.getSocialCommentList(article_id, type_id, user_id, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>())
                 .subscribeOn(Schedulers.newThread())
