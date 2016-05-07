@@ -38,10 +38,9 @@ public class ImageLoader {
     public void loadImage(String url, ImageView imageView) {
         Glide.with(APP.getContext())
                 .load(url)
-                .asBitmap()
-                .centerCrop()
-                .placeholder(R.drawable.img_on_laoding)
-                .error(R.drawable.img_on_laoding)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_placeholder)
+                .crossFade()
                 .into(imageView);
 
     }
@@ -62,8 +61,8 @@ public class ImageLoader {
         Glide.with(APP.getContext())
                 .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
                 .asBitmap()
-                .placeholder(R.drawable.img_on_laoding)
-                .error(R.drawable.img_on_laoding)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_placeholder)
                 .into(simpleTarget);
     }
 

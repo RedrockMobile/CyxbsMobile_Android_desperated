@@ -16,6 +16,22 @@
     <color name="tab_background_pressed">#1Affffff</color>
     <color name="tabText">#66000000</color>
 
+
+    <!--TextColor start -->
+    <color name="body_text_1">#de000000</color>
+    <color name="body_text_2">#8a000000</color>
+    <color name="body_text_3">#60000000</color>
+    <color name="body_text_disabled">#44000000</color>
+
+    <color name="body_text_1_inverse">#deffffff</color>
+    <color name="body_text_2_inverse">#8affffff</color>
+
+    <color name="text_dark">#333333</color>
+    <color name="text_light_1">#666666</color>
+    <color name="text_light_2">#999999</color>
+    <color name="text_light_3">#b5b5b5</color>
+    <!--TextColor end -->
+
     <color name="divider">#e3e3e8</color>
     <color name="divider_light">#e0e0e0</color>
     <color name="divider_relate_me">#cfcfcf</color>
@@ -24,19 +40,12 @@
 
     <color name="background_grey">#efeff4</color>
     <color name="background_relate_me">#ececec</color>
-    <!-- text颜色由深到浅 -->
-    <color name="text_dark">#333333</color>
-    <color name="text_light_1">#666666</color>
-    <color name="text_light_2">#747474</color>
+
     <!-- layout点击ripple的颜色 -->
     <color name="ripple_normal">#CACCCB</color>
     <color name="ripple_dark">#B0B2B1</color>
 
     <color name="relate_me_background">#f8f8f8</color>
-
-    <color name="body_text_1">#de000000</color>
-    <color name="body_text_2">#8a000000</color>
-    <color name="body_text_3">#60000000</color>
 
     <color name="comment_item">#FBFAFA</color>
 
@@ -54,7 +63,8 @@
     <color name="no_course_dialog_title">#19aafe</color>
     <color name="exam_grade_tab_text">#999999</color>
 
-    <color name="theme_Slate">#9da3a5</color>
+    <color name="img_placeholder">#9da3a5</color>
+
     <color name="tab_pading_color">#606B6A6A</color>
 
     <color name="crop__button_bar">#f3f3f3</color>

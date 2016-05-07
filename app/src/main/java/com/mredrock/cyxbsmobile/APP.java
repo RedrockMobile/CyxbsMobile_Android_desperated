@@ -10,6 +10,7 @@ import com.mredrock.cyxbsmobile.event.LoginEvent;
 import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.util.SPUtils;
 import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -21,8 +22,8 @@ import timber.log.Timber;
  */
 public class APP extends Application {
     private static Context context;
-    private        boolean isNight;
-    private static User    mUser;
+    private boolean isNight;
+    private static User mUser;
 
     public static Context getContext() {
         return context;
@@ -68,6 +69,7 @@ public class APP extends Application {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
+            Logger.init();
         }
         Logger.init("cyxbs_mobile");
         context = getApplicationContext();

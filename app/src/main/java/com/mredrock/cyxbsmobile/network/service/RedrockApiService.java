@@ -1,17 +1,19 @@
 package com.mredrock.cyxbsmobile.network.service;
 
 import com.mredrock.cyxbsmobile.config.Const;
+import com.mredrock.cyxbsmobile.model.AboutMe;
 import com.mredrock.cyxbsmobile.model.Course;
-import com.mredrock.cyxbsmobile.model.EatWhat;
 import com.mredrock.cyxbsmobile.model.Empty;
 import com.mredrock.cyxbsmobile.model.Exam;
+import com.mredrock.cyxbsmobile.model.Food;
+import com.mredrock.cyxbsmobile.model.FoodComment;
+import com.mredrock.cyxbsmobile.model.FoodDetail;
 import com.mredrock.cyxbsmobile.model.Grade;
-import com.mredrock.cyxbsmobile.model.AboutMe;
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
-import com.mredrock.cyxbsmobile.model.Restaurant;
-import com.mredrock.cyxbsmobile.model.RestaurantComment;
-import com.mredrock.cyxbsmobile.model.RestaurantDetail;
+import com.mredrock.cyxbsmobile.model.Shake;
 import com.mredrock.cyxbsmobile.model.Student;
+import com.mredrock.cyxbsmobile.model.User;
+import com.mredrock.cyxbsmobile.model.social.BBDDDetail;
 import com.mredrock.cyxbsmobile.model.social.BBDDNews;
 import com.mredrock.cyxbsmobile.model.social.Comment;
 import com.mredrock.cyxbsmobile.model.social.HotNews;
@@ -20,9 +22,6 @@ import com.mredrock.cyxbsmobile.model.social.PersonInfo;
 import com.mredrock.cyxbsmobile.model.social.PersonLatest;
 import com.mredrock.cyxbsmobile.model.social.RequestResponse;
 import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
-
-import com.mredrock.cyxbsmobile.model.User;
-import com.mredrock.cyxbsmobile.model.social.BBDDDetail;
 
 import java.util.List;
 
@@ -54,29 +53,31 @@ public interface RedrockApiService {
                                                @Field("idNum") String idNum,
                                                @Field("week") String week);
 
-    @GET(Const.API_EAT_WHAT)
-    Observable<RedrockApiWrapper<EatWhat>> getEatWhat();
+    //Explore start
+    @GET(Const.API_SHAKE)
+    Observable<RedrockApiWrapper<Shake>> getShake();
 
     @FormUrlEncoded
-    @POST(Const.API_AROUND_FOOD_RESTAURANTS)
-    Observable<RedrockApiWrapper<List<Restaurant>>> getRestaurantList(@Field("pid") String page);
+    @POST(Const.API_FOOD_LIST)
+    Observable<RedrockApiWrapper<List<Food>>> getFoodList(@Field("pid") String page);
 
     @FormUrlEncoded
-    @POST(Const.API_RESTAURANT_DETAIL)
-    Observable<RedrockApiWrapper<RestaurantDetail>> getRestaurantDetail(@Field("id") String id);
+    @POST(Const.API_FOOD_DETAIL)
+    Observable<RedrockApiWrapper<FoodDetail>> getFoodDetail(@Field("id") String id);
 
     @FormUrlEncoded
-    @POST(Const.API_RESTAURANT_COMMENTS)
-    Observable<RedrockApiWrapper<List<RestaurantComment>>> getRestaurantComments(@Field("shop_id") String id,
-                                                                                 @Field("pid") String page);
+    @POST(Const.API_FOOD_COMMENT_LIST)
+    Observable<RedrockApiWrapper<List<FoodComment>>> getFoodComments(@Field("shop_id") String id,
+                                                                     @Field("pid") String page);
 
     @FormUrlEncoded
-    @POST(Const.API_RESTAURANT_SEND_COMMENT)
-    Observable<RedrockApiWrapper<Object>> sendRestaurantComment(@Field("shop_id") String id,
-                                                                @Field("user_number") String userNumber,
-                                                                @Field("user_password") String userPassword,
-                                                                @Field("comment_content") String commentContent,
-                                                                @Field("comment_author_name") String commentAuthoName);
+    @POST(Const.API_SEND_FOOD_COMMENT)
+    Observable<RedrockApiWrapper<Object>> sendFoodComment(@Field("shop_id") String id,
+                                                          @Field("user_number") String userNumber,
+                                                          @Field("user_password") String userPassword,
+                                                          @Field("comment_content") String commentContent,
+                                                          @Field("comment_author_name") String commentAuthoName);
+    //Explore end
 
     @GET(Const.APT_SEARCH_STUDENT)
     Observable<Student.StudentWrapper> getStudent(@Query("stu") String stu);

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_normal"
+        android:paddingRight="@dimen/padding_normal">
+
+        <TextView
+            android:id="@+id/restaurant_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/padding_normal"
+            android:paddingTop="@dimen/padding_normal"
+            android:textColor="@color/body_text_1"
+            android:textSize="@dimen/app_text_size_large"
+            tools:text="@string/placeholder_explore_restaurant_name" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_normal">
+
+            <ImageView
+                android:id="@+id/restaurant_photo"
+                android:layout_width="@dimen/restaurant_photo_width"
+                android:layout_height="@dimen/restaurant_photo_height"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/restaurant_recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginStart="@dimen/padding_normal"
+                    android:textColor="@color/text_light_2"
+                    tools:text="@string/placeholder_explore_restaurant_recommend" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginTop="@dimen/padding_normal"
+                    android:gravity="bottom"
+                    android:text="@string/restaurant_average_cost"
+                    android:textColor="@color/text_light_2"
+                    tools:text="@string/placeholder_explore_restaurant_cost" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.mredrock.cyxbsmobile.component.widget.TextDrawableView
+            android:id="@+id/restaurant_phone"
+            style="@style/RestaurantTextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_restaurant_phone"
+            android:drawablePadding="@dimen/padding_normal"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/item_min_height_normal"
+            android:paddingBottom="@dimen/spacing_micro"
+            android:paddingTop="@dimen/spacing_micro"
+            app:drawable_height="@dimen/restaurant_icon_width"
+            app:drawable_width="@dimen/restaurant_icon_height"
+            tools:text="@string/placeholder_explore_restaurant_phone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/divider" />
+
+
+        <com.mredrock.cyxbsmobile.component.widget.TextDrawableView
+            android:id="@+id/restaurant_location"
+            style="@style/RestaurantTextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_restaurant_location"
+            android:drawablePadding="@dimen/padding_normal"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/item_min_height_normal"
+            android:paddingBottom="@dimen/spacing_micro"
+            android:paddingTop="@dimen/spacing_micro"
+            app:drawable_height="@dimen/restaurant_icon_width"
+            app:drawable_width="@dimen/restaurant_icon_height"
+            tools:text="@string/placeholder_explore_restaurant_location" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/divider" />
+
+        <com.mredrock.cyxbsmobile.component.widget.TextDrawableView
+            android:id="@+id/restaurant_promotion"
+            style="@style/RestaurantTextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_restaurant_promotion"
+            android:drawablePadding="@dimen/padding_normal"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/item_min_height_normal"
+            android:paddingBottom="@dimen/spacing_micro"
+            android:paddingTop="@dimen/spacing_micro"
+            android:text="@string/restaurant_promotion"
+            app:drawable_height="@dimen/restaurant_icon_width"
+            app:drawable_width="@dimen/restaurant_icon_height"
+            tools:text="@string/placeholder_explore_restaurant_promotion" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height_xxlarge"
+        android:background="@color/background_grey"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_normal"
+        android:paddingRight="@dimen/padding_normal">
+
+        <com.mredrock.cyxbsmobile.component.widget.TextDrawableView
+            android:id="@+id/restaurant_comment"
+            style="@style/RestaurantTextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_restaurant_comment"
+            android:drawablePadding="@dimen/padding_normal"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/item_min_height_normal"
+            android:paddingBottom="@dimen/spacing_micro"
+            android:paddingTop="@dimen/spacing_micro"
+            android:text="@string/restaurant_comment"
+            app:drawable_height="@dimen/restaurant_icon_width"
+            app:drawable_width="@dimen/restaurant_icon_height" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/divider" />
+
+    </LinearLayout>
+
+</LinearLayout>

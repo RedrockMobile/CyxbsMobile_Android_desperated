@@ -57,14 +57,11 @@
             android:screenOrientation="sensor"
             android:theme="@style/FinestWebViewTheme.Light" />
         <activity
-            android:name=".ui.activity.explore.AroundDishesActivity"
-            android:label="@string/around_food_activity_name" />
+            android:name=".ui.activity.explore.SurroundingFoodActivity"
+            android:label="@string/surrounding_food_activity_name" />
         <activity
-            android:name=".ui.activity.explore.EatWhatActivity"
-            android:label="@string/eat_what_activity_name" />
-        <activity
-            android:name=".ui.activity.explore.RestaurantDetailActivity"
-            android:label="@string/around_food_activity_name" />
+            android:name=".ui.activity.explore.WhatToEatActivity"
+            android:label="@string/what_to_eat_activity_name" />
         <activity
             android:name=".ui.activity.explore.MapActivity"
             android:launchMode="singleTask"

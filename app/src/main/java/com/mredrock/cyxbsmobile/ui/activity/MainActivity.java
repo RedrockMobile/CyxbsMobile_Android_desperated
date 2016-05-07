@@ -11,16 +11,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbsmobile.ui.activity.social.PostNewsActivity;
-import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
-import com.mredrock.cyxbsmobile.ui.fragment.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.UserFragment;
+import com.mredrock.cyxbsmobile.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.social.SocialContainerFragment;
 
 import butterknife.Bind;

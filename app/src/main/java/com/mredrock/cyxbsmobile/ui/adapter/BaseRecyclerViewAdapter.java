@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.mredrock.cyxbsmobile.util.Utils;
+
 import java.util.List;
 
 /**
@@ -62,6 +64,19 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
         if (data != null) {
             mDatas.addAll(data);
             notifyDataSetChanged();
+        }
+    }
+
+    public void updateDataWithAnimation(List<T> data) {
+        if (data != null) {
+            mDatas = data;
+            notifyItemRangeChanged(0, data.size());
+        }
+    }
+
+    public void updateDataWithAnimation() {
+        if (Utils.checkNotNullAndNotEmpty(mDatas)) {
+            notifyItemRangeChanged(0, mDatas.size());
         }
     }
 
