@@ -12,9 +12,9 @@ import com.squareup.picasso.Picasso;
 public class ExploreRollViewPagerAdapter extends LoopPagerAdapter {
 
     private static final int[] IMAGE_RES = {
-            R.drawable.image_cqupt1,
-            R.drawable.image_cqupt2,
-            R.drawable.image_cqupt3,
+            R.drawable.img_cqupt1,
+            R.drawable.img_cqupt2,
+            R.drawable.img_cqupt3,
     };
 
     public ExploreRollViewPagerAdapter(RollPagerView viewPager) {

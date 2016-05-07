@@ -28,22 +28,59 @@ public class HotNewsContent implements Parcelable {
     public String user_id;
     public String nick_name;
     public String user_head;
+    public String article_id;
     public String time;
     public OfficeNewsContent content;
+    public ImgBean img;
+    public String like_num;
+    public String remark_num;
+    public boolean is_my_Like;
+
+
+    public String getTime() {
+        if (time.contains(":")) return time;
+        else if (time.contains("-")) return time + " 00:00:00";
+        else if (time.contains(".")) return time.replace(".", "-") + " 00:00:00";
+        else return "2015-01-01 00:00:00";
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String geType_id() {
+        String type = "红岩网校工作站";
+        switch (type_id) {
+            case 1:
+                type = "重邮新闻";
+                break;
+            case 2:
+                type = "教务新闻";
+                break;
+            case 3:
+                type = "E彩鎏光";
+                break;
+            case 4:
+                type = "校务公告";
+                break;
+            case 5:
+                type = "哔哔叨叨";
+                break;
+            default:
+                break;
+        }
+        return type;
+    }
 
     /**
      * img_small_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/thumbnail/1460427947_1265413131.png
      * img_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/1460427947_1265413131.png
      */
 
-    public ImgBean img;
-    public String like_num;
-    public String remark_num;
-    public boolean is_my_Like;
 
     public HotNewsContent(String type, String id, int type_id, String user_id, String nick_name,
                           String user_head, String time, OfficeNewsContent content, ImgBean img, String like_num,
-                          String remark_num, boolean is_my_Like) {
+                          String remark_num, boolean is_my_Like, String article_id) {
         this.type = type;
         this.id = id;
         this.type_id = type_id;
@@ -56,6 +93,7 @@ public class HotNewsContent implements Parcelable {
         this.like_num = like_num;
         this.remark_num = remark_num;
         this.is_my_Like = is_my_Like;
+        this.article_id = article_id;
     }
 
     public HotNewsContent(OfficeNewsContent content) {
@@ -68,6 +106,7 @@ public class HotNewsContent implements Parcelable {
         this.id = content.id;
         this.img = new ImgBean("", "");
         this.like_num = content.read;
+        this.article_id = content.id;
 
     }
 
@@ -80,6 +119,7 @@ public class HotNewsContent implements Parcelable {
         this.time = TimeUtils.getTodayDate();
         this.like_num = "0";
         this.remark_num = "0";
+        this.article_id = content.id;
     }
 
     protected HotNewsContent(Parcel in) {
@@ -95,6 +135,7 @@ public class HotNewsContent implements Parcelable {
         like_num = in.readString();
         remark_num = in.readString();
         is_my_Like = in.readByte() != 0;
+        article_id = in.readString();
     }
 
 
@@ -117,6 +158,7 @@ public class HotNewsContent implements Parcelable {
         parcel.writeString(like_num);
         parcel.writeString(remark_num);
         parcel.writeByte((byte) (is_my_Like ? 1 : 0));
+        parcel.writeString(article_id);
     }
 
 

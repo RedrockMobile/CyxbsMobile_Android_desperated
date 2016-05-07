@@ -1,11 +1,13 @@
 package com.mredrock.cyxbsmobile.subscriber;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.BuildConfig;
 import com.mredrock.cyxbsmobile.component.task.progress.ProgressCancelListener;
 import com.mredrock.cyxbsmobile.component.task.progress.ProgressDialogHandler;
+import com.orhanobut.logger.Logger;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -59,7 +61,7 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
         } else if (e instanceof ConnectException) {
             Toast.makeText(context, "网络异常，请检查您的网络状态", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "ic_error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         if (BuildConfig.DEBUG) {
             e.printStackTrace();

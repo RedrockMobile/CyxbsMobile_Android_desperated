@@ -36,7 +36,8 @@ public class ProgressResponseBody extends ResponseBody {
 
     /**
      * 构造函数，赋值
-     * @param responseBody 待包装的响应体
+     *
+     * @param responseBody     待包装的响应体
      * @param progressListener 回调接口
      */
     public ProgressResponseBody(ResponseBody responseBody, ProgressListener progressListener) {
@@ -47,6 +48,7 @@ public class ProgressResponseBody extends ResponseBody {
 
     /**
      * 重写调用实际的响应体的contentType
+     *
      * @return MediaType
      */
     @Override
@@ -56,6 +58,7 @@ public class ProgressResponseBody extends ResponseBody {
 
     /**
      * 重写调用实际的响应体的contentLength
+     *
      * @return contentLength
      * @throws IOException 异常
      */
@@ -66,6 +69,7 @@ public class ProgressResponseBody extends ResponseBody {
 
     /**
      * 重写进行包装source
+     *
      * @return BufferedSource
      * @throws IOException 异常
      */
@@ -80,6 +84,7 @@ public class ProgressResponseBody extends ResponseBody {
 
     /**
      * 读取，回调进度接口
+     *
      * @param source Source
      * @return Source
      */

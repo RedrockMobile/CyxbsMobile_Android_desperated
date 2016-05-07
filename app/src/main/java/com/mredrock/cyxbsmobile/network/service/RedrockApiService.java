@@ -1,26 +1,28 @@
 package com.mredrock.cyxbsmobile.network.service;
 
 import com.mredrock.cyxbsmobile.config.Const;
+import com.mredrock.cyxbsmobile.model.AboutMe;
 import com.mredrock.cyxbsmobile.model.Course;
-import com.mredrock.cyxbsmobile.model.EatWhat;
 import com.mredrock.cyxbsmobile.model.Empty;
 import com.mredrock.cyxbsmobile.model.Exam;
+import com.mredrock.cyxbsmobile.model.Food;
+import com.mredrock.cyxbsmobile.model.FoodComment;
+import com.mredrock.cyxbsmobile.model.FoodDetail;
 import com.mredrock.cyxbsmobile.model.Grade;
-import com.mredrock.cyxbsmobile.model.AboutMe;
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
-import com.mredrock.cyxbsmobile.model.Restaurant;
-import com.mredrock.cyxbsmobile.model.RestaurantComment;
-import com.mredrock.cyxbsmobile.model.RestaurantDetail;
+import com.mredrock.cyxbsmobile.model.Shake;
 import com.mredrock.cyxbsmobile.model.Student;
+import com.mredrock.cyxbsmobile.model.User;
+import com.mredrock.cyxbsmobile.model.social.BBDDDetail;
 import com.mredrock.cyxbsmobile.model.social.BBDDNews;
 import com.mredrock.cyxbsmobile.model.social.Comment;
 import com.mredrock.cyxbsmobile.model.social.HotNews;
 import com.mredrock.cyxbsmobile.model.social.OfficeNews;
+import com.mredrock.cyxbsmobile.model.social.PersonInfo;
+import com.mredrock.cyxbsmobile.model.social.PersonLatest;
 import com.mredrock.cyxbsmobile.model.social.RequestResponse;
 import com.mredrock.cyxbsmobile.model.social.UploadImgResponse;
 
-import com.mredrock.cyxbsmobile.model.User;
-import com.mredrock.cyxbsmobile.model.social.BBDDDetail;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -41,35 +43,41 @@ import rx.Observable;
 public interface RedrockApiService {
 
     @FormUrlEncoded
+    @POST(Const.API_VERIFY)
+    Observable<User.UserWrapper> verify(@Field("stuNum") String stuNum, @Field("idNum") String idNum);
+
+    @FormUrlEncoded
     @Headers("API_APP: android")
     @POST(Const.API_PERSON_SCHEDULE)
     Observable<Course.CourseWrapper> getCourse(@Field("stuNum") String stuNum,
                                                @Field("idNum") String idNum,
                                                @Field("week") String week);
 
-    @GET(Const.API_EAT_WHAT)
-    Observable<RedrockApiWrapper<EatWhat>> getEatWhat();
+    //Explore start
+    @GET(Const.API_SHAKE)
+    Observable<RedrockApiWrapper<Shake>> getShake();
 
     @FormUrlEncoded
-    @POST(Const.API_AROUND_FOOD_RESTAURANTS)
-    Observable<RedrockApiWrapper<List<Restaurant>>> getRestaurantList(@Field("pid") String page);
+    @POST(Const.API_FOOD_LIST)
+    Observable<RedrockApiWrapper<List<Food>>> getFoodList(@Field("pid") String page);
 
     @FormUrlEncoded
-    @POST(Const.API_RESTAURANT_DETAIL)
-    Observable<RedrockApiWrapper<RestaurantDetail>> getRestaurantDetail(@Field("id") String id);
+    @POST(Const.API_FOOD_DETAIL)
+    Observable<RedrockApiWrapper<FoodDetail>> getFoodDetail(@Field("id") String id);
 
     @FormUrlEncoded
-    @POST(Const.API_RESTAURANT_COMMENTS)
-    Observable<RedrockApiWrapper<List<RestaurantComment>>> getRestaurantComments(@Field("shop_id") String id,
-                                                                                 @Field("pid") String page);
+    @POST(Const.API_FOOD_COMMENT_LIST)
+    Observable<RedrockApiWrapper<List<FoodComment>>> getFoodComments(@Field("shop_id") String id,
+                                                                     @Field("pid") String page);
 
     @FormUrlEncoded
-    @POST(Const.API_RESTAURANT_SEND_COMMENT)
-    Observable<RedrockApiWrapper<Object>> sendRestaurantComment(@Field("shop_id") String id,
-                                                                @Field("user_number") String userNumber,
-                                                                @Field("user_password") String userPassword,
-                                                                @Field("comment_content") String commentContent,
-                                                                @Field("comment_author_name") String commentAuthoName);
+    @POST(Const.API_SEND_FOOD_COMMENT)
+    Observable<RedrockApiWrapper<Object>> sendFoodComment(@Field("shop_id") String id,
+                                                          @Field("user_number") String userNumber,
+                                                          @Field("user_password") String userPassword,
+                                                          @Field("comment_content") String commentContent,
+                                                          @Field("comment_author_name") String commentAuthoName);
+    //Explore end
 
     @GET(Const.APT_SEARCH_STUDENT)
     Observable<Student.StudentWrapper> getStudent(@Query("stu") String stu);
@@ -83,7 +91,8 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_SCORE)
-    Observable<Grade.GradeWrapper> getGrade(@Field("stuNum") String stuNum, @Field("idNum") String idNum);
+    Observable<Grade.GradeWrapper> getGrade(@Field("stuNum") String stuNum,
+                                            @Field("idNum") String idNum);
 
     @FormUrlEncoded
     @POST(Const.API_EXAM_SCHEDULE)
@@ -95,61 +104,61 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
-    Observable<RedrockApiWrapper<Object>> setPersonInfo(@Field("stuNum") String stuNum,
-                                         @Field("idNum") String idNum,
-                                         @Field("photo_thumbnail_src") String photo_thumbnail_src,
-                                         @Field("photo_src") String photo_src);
+    Observable<RedrockApiWrapper> setPersonInfo(@Field("stuNum") String stuNum,
+                                                        @Field("idNum") String idNum,
+                                                        @Field("photo_thumbnail_src") String photo_thumbnail_src,
+                                                        @Field("photo_src") String photo_src);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
     Observable<RedrockApiWrapper<Object>> setPersonNickName(@Field("stuNum") String stuNum,
-                                                 @Field("idNum") String idNum,
-                                                 @Field("nickname") String nickname);
+                                                            @Field("idNum") String idNum,
+                                                            @Field("nickname") String nickname);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
     Observable<RedrockApiWrapper<Object>> setPersonQQ(@Field("stuNum") String stuNum,
-                                       @Field("idNum") String idNum,
-                                       @Field("qq") String qq);
+                                                      @Field("idNum") String idNum,
+                                                      @Field("qq") String qq);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
     Observable<RedrockApiWrapper<Object>> setPersonPhone(@Field("stuNum") String stuNum,
-                                          @Field("idNum") String idNum,
-                                          @Field("phone") String phone);
+                                                         @Field("idNum") String idNum,
+                                                         @Field("phone") String phone);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
     Observable<RedrockApiWrapper<Object>> setPersonIntroduction(@Field("stuNum") String stuNum,
-                                             @Field("idNum") String idNum,
-                                             @Field("introduction") String introduction);
+                                                                @Field("idNum") String idNum,
+                                                                @Field("introduction") String introduction);
 
     @FormUrlEncoded
     @POST(Const.API_GET_INFO)
     Observable<User.UserWrapper> getPersonInfo(@Field("stuNum") String stuNum,
-                                               @Field("idNum") String idNum );
+                                               @Field("idNum") String idNum);
 
     @FormUrlEncoded
     @POST(Const.API_ABOUT_ME)
     Observable<AboutMe.AboutMeWapper> getAboutMe(@Field("stuNum") String
-                                                            stuNum,
-                                                   @Field("idNum") String idNum);
+                                                         stuNum,
+                                                 @Field("idNum") String idNum);
 
     @FormUrlEncoded
     @POST(Const.API_TREND_DETAIL)
     Observable<BBDDDetail.BBDDDetailWrapper> getTrendDetail(@Field("stuNum") String stuNum,
-                                          @Field("idNum") String idNum,
-                                          @Field("type_id") int type_id,
-                                          @Field("article_id") String article_id);
+                                                            @Field("idNum") String idNum,
+                                                            @Field("type_id") int type_id,
+                                                            @Field("article_id") String article_id);
 
     @FormUrlEncoded
     @POST(Const.API_SEARCH_ARTICLE)
     Observable<BBDDDetail.BBDDDetailWrapper> searchTrends(@Field("stuNum") String stuNum,
-                                                @Field("idNum") String idNum);
+                                                          @Field("idNum") String idNum);
 
     Observable<BBDDDetail.BBDDDetailWrapper> searchOtherTrends(@Field("stuNum") String stuNum,
-                                                     @Field("idNum") String idNum,
-                                                     @Field("stunum_other") String stunum_other);
+                                                               @Field("idNum") String idNum,
+                                                               @Field("stunum_other") String stunum_other);
 
     @FormUrlEncoded
     @POST(Const.API_SOCIAL_OFFICIAL_NEWS_LIST)
@@ -225,4 +234,15 @@ public interface RedrockApiService {
                                              @Field("stuNum") String stuNum,
                                              @Field("idNum") String idNum);
 
+    @FormUrlEncoded
+    @POST(Const.API_GET_PERSON_INFO)
+    Observable<RedrockApiWrapper<PersonInfo>> getPersonInfo(@Field("stunum_other") String otherStuNum,
+                                                            @Field("stuNum") String stuNum,
+                                                            @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_GET_PERSON_LATEST)
+    Observable<RedrockApiWrapper<List<PersonLatest>>> getPersonLatestList(@Field("stunum_other") String otherStuNum,
+                                                                          @Field("stuNum") String stuNum,
+                                                                          @Field("idNum") String idNum);
 }

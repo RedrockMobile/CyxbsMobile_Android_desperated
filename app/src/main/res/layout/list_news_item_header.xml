@@ -24,7 +24,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:text="评论"
-                android:textSize="24sp" />
+                android:textColor="@color/text_light_2"
+                android:textSize="20sp" />
         </LinearLayout>
 
     </LinearLayout>

@@ -11,12 +11,14 @@ public class Const {
     public static final String API_PERSON_SCHEDULE = "/redapi2/api/kebiao";
 
     //Explore
-    public static final String API_EAT_WHAT = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shake";
-    public static final String API_AROUND_FOOD_RESTAURANTS = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shoplist";
-    public static final String API_RESTAURANT_DETAIL = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shopinfo";
-    public static final String API_RESTAURANT_COMMENTS = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/comList";
-    public static final String API_RESTAURANT_SEND_COMMENT = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/addCom";
+    public static final String API_SHAKE                      = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shake";
+    public static final String API_FOOD_LIST                  = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shoplist";
+    public static final String API_FOOD_DETAIL                = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shopinfo";
+    public static final String API_FOOD_COMMENT_LIST          = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/comList";
+    public static final String API_SEND_FOOD_COMMENT          = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/addCom";
+
     public static final String APT_SEARCH_STUDENT = "/cyxbsMobile/index.php/home/searchPeople/peopleList";
+
     public static final String API_SOCIAL_OFFICIAL_NEWS_LIST = "/cyxbsMobile/index.php/Home/Article/listNews";
     public static final String API_SOCIAL_HOT_LIST = "/cyxbsMobile/index.php/Home/Article/searchHotArticle";
     public static final String API_SOCIAL_BBDD_LIST = "/cyxbsMobile/index.php/Home/Article/listArticle";
@@ -26,9 +28,15 @@ public class Const {
     public static final String API_SOCIAL_COMMENT_ADD = "/cyxbsMobile/index.php/Home/ArticleRemark/postremarks";
     public static final String API_SOCIAL_LIKE = "/cyxbsMobile/index.php/Home/Praise/addone";
     public static final String API_SOCIAL_UNLIKE = "/cyxbsMobile/index.php/Home/Praise/cancel";
-    public static final String API_AVATAR_UPLOAD = "/cyxbsMobile/index.php/home/photo/upload";
 
-    public static final String API_EMPTYROOM = "/api/roomEmpty";
+
+    public static final String API_AVATAR_UPLOAD     = "/cyxbsMobile/index.php/home/photo/upload";
+    public static final String API_GET_PERSON_INFO   = "/cyxbsMobile/index.php/Home/Person/search";
+    public static final String API_GET_PERSON_LATEST = "/cyxbsMobile/index.php/Home/Article/searchtrends";
+
+    //登陆验证接口
+    public static final String API_VERIFY          = "/api/verify";
+    public static final String API_EMPTYROOM       = "/api/roomEmpty";
     //考试安排
     public static final String API_EXAM_SCHEDULE = "/api/examSchedule";
     //补考安排

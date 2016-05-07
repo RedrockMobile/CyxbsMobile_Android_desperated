@@ -15,7 +15,7 @@ import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.tag.FlowLayout;
 import com.mredrock.cyxbsmobile.component.widget.tag.TagAdapter;
 import com.mredrock.cyxbsmobile.component.widget.tag.TagFlowLayout;
-import com.mredrock.cyxbsmobile.ui.adapter.mypage.BuildingAdapter;
+import com.mredrock.cyxbsmobile.ui.adapter.me.BuildingAdapter;
 import com.mredrock.cyxbsmobile.util.DensityUtils;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.viewbase.RapidFloatingActionContentViewBase;
 import com.wangjie.shadowviewhelper.ShadowProperty;

@@ -10,7 +10,7 @@ import java.io.File;
 import okhttp3.ResponseBody;
 
 /**
- *  一个非常简单的下载信息订阅者，用于将下载的信息保存到文件，Toast显示保存信息
+ * 一个非常简单的下载信息订阅者，用于将下载的信息保存到文件，Toast显示保存信息
  */
 public class DownloadSubscriber extends SimpleSubscriber<ResponseBody> {
 

@@ -51,7 +51,7 @@ public abstract class UIProgressListener implements ProgressListener {
     /**
      * UI层回调抽象方法
      *
-     * @param currentBytes    当前的字节长度
+     * @param currentBytes  当前的字节长度
      * @param contentLength 总字节长度
      * @param done          是否写入完成
      */
@@ -59,9 +59,10 @@ public abstract class UIProgressListener implements ProgressListener {
 
     /**
      * UI层开始请求回调方法
-     * @param currentBytes 当前的字节长度
+     *
+     * @param currentBytes  当前的字节长度
      * @param contentLength 总字节长度
-     * @param done 是否写入完成
+     * @param done          是否写入完成
      */
     public void onUIStart(long currentBytes, long contentLength, boolean done) {
 
@@ -69,9 +70,10 @@ public abstract class UIProgressListener implements ProgressListener {
 
     /**
      * UI层结束请求回调方法
-     * @param currentBytes 当前的字节长度
+     *
+     * @param currentBytes  当前的字节长度
      * @param contentLength 总字节长度
-     * @param done 是否写入完成
+     * @param done          是否写入完成
      */
     public void onUIFinish(long currentBytes, long contentLength, boolean done) {
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/explore_shake_result_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/padding_normal"
+    android:paddingRight="@dimen/padding_normal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/restaurant_photo"
+        android:layout_width="@dimen/large_photo_width"
+        android:layout_height="@dimen/large_photo_height"
+        android:layout_margin="@dimen/padding_large"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/restaurant_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_large"
+        android:gravity="center_vertical"
+        android:textColor="@color/body_text_1"
+        android:textSize="@dimen/app_text_size_large"
+        tools:text="@string/placeholder_explore_restaurant_name"/>
+
+    <TextView
+        android:id="@+id/restaurant_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_normal"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/app_text_size_medium"
+        tools:text="@string/placeholder_explore_restaurant_location"/>
+
+    <TextView
+        android:id="@+id/shake_again"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_xxlarge"
+        android:layout_marginRight="@dimen/padding_large"
+        android:layout_gravity="end"
+        android:gravity="center_vertical"
+        android:text="@string/shake_again_text"
+        android:textSize="@dimen/app_text_size_medium"
+        android:textColor="@color/body_text_1"/>
+
+</LinearLayout>
+

@@ -2,14 +2,15 @@ package com.mredrock.cyxbsmobile.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.google.gson.annotations.SerializedName;
+
 
 /**
  * Info of user
  * <p>
  * Created by David on 15/5/15.
  */
-public class User implements Parcelable{
+
+public class User implements Parcelable {
     public User() {
     }
 
@@ -22,7 +23,6 @@ public class User implements Parcelable{
     public String college;
     public String grade;
     public String stu;
-    public String stunum;
     public String photo_thumbnail_src;
     public String photo_src;
     public String nickname;
@@ -41,7 +41,6 @@ public class User implements Parcelable{
         college = in.readString();
         grade = in.readString();
         stu = in.readString();
-        stunum = in.readString();
         photo_thumbnail_src = in.readString();
         photo_src = in.readString();
         nickname = in.readString();
@@ -52,23 +51,27 @@ public class User implements Parcelable{
 
 
     public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override public User createFromParcel(Parcel in) {
+        @Override
+        public User createFromParcel(Parcel in) {
             return new User(in);
         }
 
 
-        @Override public User[] newArray(int size) {
+        @Override
+        public User[] newArray(int size) {
             return new User[size];
         }
     };
 
 
-    @Override public int describeContents() {
+    @Override
+    public int describeContents() {
         return 0;
     }
 
 
-    @Override public void writeToParcel(Parcel dest, int flags) {
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(stuNum);
         dest.writeString(idNum);
         dest.writeString(name);
@@ -78,7 +81,6 @@ public class User implements Parcelable{
         dest.writeString(college);
         dest.writeString(grade);
         dest.writeString(stu);
-        dest.writeString(stunum);
         dest.writeString(photo_thumbnail_src);
         dest.writeString(photo_src);
         dest.writeString(nickname);
@@ -87,6 +89,37 @@ public class User implements Parcelable{
         dest.writeString(introduction);
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "classNum='" + classNum + '\'' +
+                ", stuNum='" + stuNum + '\'' +
+                ", idNum='" + idNum + '\'' +
+                ", name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", major='" + major + '\'' +
+                ", college='" + college + '\'' +
+                ", grade='" + grade + '\'' +
+                ", stu='" + stu + '\'' +
+                ", photo_thumbnail_src='" + photo_thumbnail_src + '\'' +
+                ", photo_src='" + photo_src + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", qq='" + qq + '\'' +
+                ", phone='" + phone + '\'' +
+                ", introduction='" + introduction + '\'' +
+                '}';
+    }
+
+    public static User cloneFromUserInfo(User userOrigin, User userCloned) {
+        userOrigin.stu = userCloned.stu;
+        userOrigin.photo_thumbnail_src = userCloned.photo_thumbnail_src;
+        userOrigin.photo_src = userCloned.photo_src;
+        userOrigin.nickname = userCloned.nickname;
+        userOrigin.qq = userCloned.qq;
+        userOrigin.phone = userCloned.phone;
+        userOrigin.introduction = userCloned.introduction;
+        return userOrigin;
+    }
 
     public static class UserWrapper extends RedrockApiWrapper<User> {
     }

@@ -2,7 +2,6 @@ package com.mredrock.cyxbsmobile.ui.activity.me;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,8 +25,8 @@ import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
 import com.mredrock.cyxbsmobile.ui.activity.BaseActivity;
-import com.mredrock.cyxbsmobile.ui.adapter.mypage.NoCourseAdapter;
-import com.mredrock.cyxbsmobile.ui.fragment.mypage.NoCourseItemFragment;
+import com.mredrock.cyxbsmobile.ui.adapter.me.NoCourseAdapter;
+import com.mredrock.cyxbsmobile.ui.fragment.me.NoCourseItemFragment;
 import com.mredrock.cyxbsmobile.util.NetUtils;
 
 import java.io.Serializable;
@@ -163,9 +162,9 @@ public class NoCourseActivity extends BaseActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SELECT && resultCode == RESULT_OK) {
             Student student = (Student) data.getExtras().getSerializable(EXTRA_NO_COURSE);
-            if(!stuNumList.contains(student.stunum)) {
+            if (!stuNumList.contains(student.stunum)) {
                 addStudent(student.stunum, student.name);
-            }else {
+            } else {
                 Snackbar.make(noCourseStu, "请不要重复添加！", Snackbar.LENGTH_SHORT)
                         .show();
             }

@@ -125,7 +125,7 @@ public class CourseFragment extends BaseFragment {
 
         mUser = APP.getUser(getActivity());
         // TODO 测试用户
-        testUser();
+//        testUser();
 
         if (mUser != null) loadWeekCourseFromDB(mWeek);
         if (mWeek == new SchoolCalendar().getWeekOfTerm()) showTodayWeek();
@@ -157,7 +157,7 @@ public class CourseFragment extends BaseFragment {
     public void onCourseLoadFinish(CourseLoadFinishEvent event) {
         mUser = APP.getUser(getActivity());
         //TODO
-        testUser();
+//        testUser();
         loadWeekCourseFromDB(mWeek);
     }
 
@@ -191,12 +191,5 @@ public class CourseFragment extends BaseFragment {
                 }
             }
         }
-    }
-
-    // TODO 测试用户
-    private void testUser() {
-        mUser = new User();
-        mUser.stuNum = "2015210408";
-        mUser.idNum = "";
     }
 }

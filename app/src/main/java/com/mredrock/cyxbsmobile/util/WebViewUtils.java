@@ -21,7 +21,7 @@ public class WebViewUtils {
                     .titleDefaultRes(R.string.portal_title)
                     .toolbarColorRes(R.color.colorPrimary)
                     .toolbarScrollFlags(0)
-                    .statusBarColorRes(R.color.colorPrimaryDark)
+                    .statusBarColorRes(R.color.colorPrimary)
                     .toolbarColorRes(R.color.colorPrimary)
                     .titleColorRes(R.color.finestWhite)
                     .urlColorRes(R.color.finestWhite)
@@ -44,7 +44,6 @@ public class WebViewUtils {
                     .webViewLoadWithOverviewMode(true)
                     .webViewDomStorageEnabled(true)
                     .webViewBuiltInZoomControls(true)
-                    .webViewDesktopMode(true)
                     .show(url);
         }
     }

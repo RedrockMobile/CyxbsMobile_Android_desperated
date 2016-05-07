@@ -57,18 +57,16 @@
             android:screenOrientation="sensor"
             android:theme="@style/FinestWebViewTheme.Light" />
         <activity
-            android:name=".ui.activity.explore.AroundDishesActivity"
-            android:label="@string/around_food_activity_name" />
+            android:name=".ui.activity.explore.SurroundingFoodActivity"
+            android:label="@string/surrounding_food_activity_name" />
         <activity
-            android:name=".ui.activity.explore.EatWhatActivity"
-            android:label="@string/eat_what_activity_name" />
-        <activity
-            android:name=".ui.activity.explore.RestaurantDetailActivity"
-            android:label="@string/around_food_activity_name" />
+            android:name=".ui.activity.explore.WhatToEatActivity"
+            android:label="@string/what_to_eat_activity_name" />
         <activity
             android:name=".ui.activity.explore.MapActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+
         <activity android:name=".ui.activity.me.EditInfoActivity" />
         <activity android:name=".ui.activity.me.AboutMeActivity" />
         <activity android:name=".ui.activity.me.MyTrendActivity" />
@@ -86,17 +84,16 @@
         <activity android:name=".ui.activity.me.EditQQActivity" />
         <activity android:name=".ui.activity.me.EditPhoneActivity" />
         <activity android:name=".ui.activity.social.PostNewsActivity" />
+        <activity android:name=".ui.activity.LoginActivity" />
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".ui.activity.social.ImageActivity" />
         <activity
-            android:name=".ui.activity.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.social.PersonInfoActivity" />
+
     </application>
 
 </manifest>

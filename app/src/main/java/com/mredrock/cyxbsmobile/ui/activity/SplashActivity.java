@@ -6,7 +6,7 @@ import android.os.Bundle;
 /**
  * Created by dayaa on 15/11/30.
  */
-public class SplashActivity extends Activity{
+public class SplashActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -21,7 +21,7 @@ public class Exam {
     public String date;
     public String time;
 
-    public static class ExamWapper extends RedrockApiWrapper<List<Exam>>{
+    public static class ExamWapper extends RedrockApiWrapper<List<Exam>> {
 
     }
 }

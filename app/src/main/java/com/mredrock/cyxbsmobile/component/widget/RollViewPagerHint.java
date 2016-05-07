@@ -21,7 +21,7 @@ public class RollViewPagerHint extends LinearLayout implements HintView {
     private GradientDrawable dot_normal;
     private GradientDrawable dot_focus;
 
-    public RollViewPagerHint(Context context){
+    public RollViewPagerHint(Context context) {
         super(context);
     }
 
@@ -36,13 +36,13 @@ public class RollViewPagerHint extends LinearLayout implements HintView {
         setOrientation(HORIZONTAL);
         switch (gravity) {
             case 0:
-                setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);
+                setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                 break;
             case 1:
                 setGravity(Gravity.CENTER);
                 break;
             case 2:
-                setGravity(Gravity.RIGHT| Gravity.CENTER_VERTICAL);
+                setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
                 break;
         }
 
@@ -61,9 +61,8 @@ public class RollViewPagerHint extends LinearLayout implements HintView {
         dot_normal.setSize(DensityUtils.dp2px(getContext(), 8), DensityUtils.dp2px(getContext(), 8));
 
 
-
         for (int i = 0; i < length; i++) {
-            mDots[i]=new ImageView(getContext());
+            mDots[i] = new ImageView(getContext());
             LayoutParams dotlp = new LayoutParams(
                     LayoutParams.WRAP_CONTENT,
                     LayoutParams.WRAP_CONTENT);

@@ -1,6 +1,7 @@
 package com.mredrock.cyxbsmobile.model.social;
 
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
+
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public class BBDDDetail {
     public String like_num;
     public String remark_num;
 
-    public static class BBDDDetailWrapper extends RedrockApiWrapper<List<BBDDDetail>>{
+    public static class BBDDDetailWrapper extends RedrockApiWrapper<List<BBDDDetail>> {
 
     }
 }

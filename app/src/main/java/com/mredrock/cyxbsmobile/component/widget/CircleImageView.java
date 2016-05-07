@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
 import com.mredrock.cyxbsmobile.util.CommonUtils;
 
 public class CircleImageView extends ImageView {
