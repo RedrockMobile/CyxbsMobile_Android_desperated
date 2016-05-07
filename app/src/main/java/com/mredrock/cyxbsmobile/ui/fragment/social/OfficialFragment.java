@@ -26,12 +26,11 @@ public class OfficialFragment extends BaseNewsFragment {
     }
 
     @Override
-    protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
-        super.setDate(holder, mDataBean);
-        holder.mTextContent.setText(mDataBean.content.title);
-        holder.mTextName.setText(mDataBean.content.getOfficeName());
-        holder.enableClick = false;
-
+    protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent hotNewsContent) {
+        super.setDate(holder, hotNewsContent);
+        holder.mTextContent.setText(hotNewsContent.content.title);
+        holder.mTextName.setText(hotNewsContent.content.getOfficeName());
+        holder.enableAvatarClick = false;
     }
 
 }

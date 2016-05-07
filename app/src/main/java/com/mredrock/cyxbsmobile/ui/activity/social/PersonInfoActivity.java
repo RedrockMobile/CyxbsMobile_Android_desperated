@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.CircleImageView;
 import com.mredrock.cyxbsmobile.model.social.HotNews;
@@ -59,7 +61,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
-    private List<HotNews> mDatas = null;
+    private List<HotNews> mHotNewsList = null;
     private BaseNewsFragment.FooterViewWrapper mFooterViewWrapper;
     protected NewsAdapter mNewsAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
@@ -77,38 +79,39 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
         init();
     }
 
+
+
     private void init() {
         initToolbar();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mNewsAdapter = new NewsAdapter(mDatas);
+        mNewsAdapter = new NewsAdapter(mHotNewsList);
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mNewsAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mHeaderViewWrapper.view);
 
         mSwipeRefreshLayout.setColorSchemeColors(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
         mHeaderViewWrapper.setData(mUserAvatar, mNickName);
-        showLaoding();
+
         requestData();
     }
 
     private void requestData() {
         RequestManager.getInstance().getPersonInfo(mUserId)
+                .doOnSubscribe(() -> showLaoding())
+                .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .subscribe(new SimpleSubscriber<>(this, new SubscriberListener<PersonInfo>() {
                     @Override
                     public void onNext(PersonInfo personInfo) {
                         super.onNext(personInfo);
-                        mHeaderViewWrapper.setIntroduction(personInfo.getIntroduction());
+                        mHeaderViewWrapper.setIntroduction(personInfo.getIntroduction(), personInfo.gender);
                     }
                 }));
 
         RequestManager.getInstance().getPersonLatestList(mUserId, mNickName, mUserAvatar)
-                .doOnSubscribe(() -> showLaoding())
-                .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .subscribe(newses -> {
-                    if (mDatas == null) {
+                    if (mHotNewsList == null) {
                         initAdapter(newses);
                         if (newses.size() == 0) mFooterViewWrapper.showLoadingNoData();
                     } else mNewsAdapter.replaceDatas(newses);
@@ -120,8 +123,8 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     }
 
     private void initAdapter(List<HotNews> datas) {
-        mDatas = datas;
-        mNewsAdapter = new NewsAdapter(mDatas) {
+        mHotNewsList = datas;
+        mNewsAdapter = new NewsAdapter(mHotNewsList) {
             @Override
             public void setDate(ViewHolder holder, HotNewsContent mDataBean) {
                 super.setDate(holder, mDataBean);
@@ -134,7 +137,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
                 ps.width = ScreenTools.instance(PersonInfoActivity.this).dip2px(42);
                 ps.height = ps.width;
                 holder.mImgAvatar.setLayoutParams(ps);
-                holder.enableClick = false;
+                holder.enableAvatarClick = false;
 
             }
         };
@@ -192,6 +195,8 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
         TextView mTextNickName;
         @Bind(R.id.person_info_introduction)
         TextView mTextIntroduction;
+        @Bind(R.id.person_info_gender)
+        TextView mTextGender;
 
 
         public HeaderViewWrapper(Context context, int layoutId) {
@@ -201,12 +206,19 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
 
         public void setData(String avatar, String nickname) {
-            ImageLoader.getInstance().loadAvatar(mUserAvatar, mCircleImageView);
-            mTextNickName.setText(mNickName);
+            ImageLoader.getInstance().loadAvatar(avatar, mCircleImageView);
+            mTextNickName.setText(nickname);
         }
 
-        public void setIntroduction(String introduction) {
+        public void setIntroduction(String introduction, String gender) {
             mTextIntroduction.setText(introduction);
+            if (gender.trim().equals("男")) {
+                mTextGender.setTextColor(ContextCompat.getColor(APP.getContext(), R.color.colorPrimary));
+                mTextGender.setText("♂");
+            } else {
+                mTextGender.setTextColor(ContextCompat.getColor(APP.getContext(), R.color.pink));
+                mTextGender.setText("♀");
+            }
         }
     }
 

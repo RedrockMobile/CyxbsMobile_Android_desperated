@@ -41,7 +41,7 @@
                 android:text="下载附件"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:visibility="visible" />
+                android:visibility="invisible" />
 
         </android.support.v7.widget.Toolbar>
 

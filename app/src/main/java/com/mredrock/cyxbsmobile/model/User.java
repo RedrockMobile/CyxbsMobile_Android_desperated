@@ -14,6 +14,7 @@ public class User implements Parcelable {
     public User() {
     }
 
+    public String id;
     public String stuNum;
     public String idNum;
     public String name;
@@ -47,6 +48,7 @@ public class User implements Parcelable {
         qq = in.readString();
         phone = in.readString();
         introduction = in.readString();
+        id = in.readString();
     }
 
 
@@ -87,6 +89,7 @@ public class User implements Parcelable {
         dest.writeString(qq);
         dest.writeString(phone);
         dest.writeString(introduction);
+        dest.writeString(id);
     }
 
     @Override
@@ -107,6 +110,7 @@ public class User implements Parcelable {
                 ", qq='" + qq + '\'' +
                 ", phone='" + phone + '\'' +
                 ", introduction='" + introduction + '\'' +
+                ",id=" + id + "\'" +
                 '}';
     }
 
@@ -118,6 +122,7 @@ public class User implements Parcelable {
         userOrigin.qq = userCloned.qq;
         userOrigin.phone = userCloned.phone;
         userOrigin.introduction = userCloned.introduction;
+        userOrigin.id = userCloned.id;
         return userOrigin;
     }
 

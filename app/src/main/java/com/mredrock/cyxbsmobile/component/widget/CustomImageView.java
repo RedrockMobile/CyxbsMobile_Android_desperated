@@ -54,6 +54,11 @@ public class CustomImageView extends ImageView {
         return this;
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setScaleType(ScaleType.CENTER_INSIDE);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

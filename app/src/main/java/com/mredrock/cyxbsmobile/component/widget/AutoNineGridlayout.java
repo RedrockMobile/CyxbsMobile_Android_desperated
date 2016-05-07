@@ -3,9 +3,11 @@ package com.mredrock.cyxbsmobile.component.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.mredrock.cyxbsmobile.model.social.Image;
+import com.mredrock.cyxbsmobile.util.ScreenTools;
 
 /**
  * Created by mathiasluo on 16-4-11.
@@ -24,13 +26,22 @@ public class AutoNineGridlayout extends NineGridlayout {
         int childrenCount = listData.size();
         switch (childrenCount) {
             case 1:
-                int singleWidth = totalWidth;
+                int singleWidth = ScreenTools.instance(getContext()).getScreenWidth();
                 int singleHeight = singleWidth / 3 * 2;
-                ViewGroup.LayoutParams params = getLayoutParams();
+
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getLayoutParams();
                 params.height = singleHeight * rows + gap * (rows - 1);
+                params.leftMargin = 0;
+                params.rightMargin = 0;
                 setLayoutParams(params);
 
                 CustomImageView childrenView = (CustomImageView) getChildAt(0);
+   /*             LayoutParams layoutParams = childrenView.getLayoutParams();
+                layoutParams.width = LayoutParams.MATCH_PARENT;
+                layoutParams.height =LayoutParams.MATCH_PARENT;
+                childrenView.setLayoutParams(layoutParams);*/
+                childrenView.setScaleType(ImageView.ScaleType.FIT_XY);
+
                 childrenView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -59,6 +70,11 @@ public class AutoNineGridlayout extends NineGridlayout {
                 break;
 
             default:
+                LinearLayout.LayoutParams param_1 = (LinearLayout.LayoutParams) getLayoutParams();
+                param_1.leftMargin = ScreenTools.instance(getContext()).dip2px(16);
+                param_1.rightMargin = param_1.leftMargin;
+                setLayoutParams(param_1);
+
                 super.layoutChildrenView();
                 break;
         }
