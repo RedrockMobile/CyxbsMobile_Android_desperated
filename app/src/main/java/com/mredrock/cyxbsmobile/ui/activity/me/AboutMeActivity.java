@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -49,8 +50,6 @@ public class AboutMeActivity extends BaseActivity implements
         mUser = new User();
         mUser.stunum = "2014213983";
         mUser.idNum = "26722X";
-        //mUser.stunum = "2014213983";
-        //mUser.idNum = "26722X";
 
         getCurrentData(false);
         showProgress();

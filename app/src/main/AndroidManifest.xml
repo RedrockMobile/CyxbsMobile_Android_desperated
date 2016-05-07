@@ -70,7 +70,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.me.EditInfoActivity" />
-        <activity android:name=".ui.activity.me.RelateMeActivity" />
+        <activity android:name=".ui.activity.me.AboutMeActivity" />
         <activity android:name=".ui.activity.me.MyTrendActivity" />
         <activity android:name=".ui.activity.me.SettingActivity" />
         <activity android:name=".ui.activity.me.NewsRemindActivity" />
@@ -80,6 +80,11 @@
         <activity android:name=".ui.activity.me.NoCourseActivity" />
         <activity android:name=".ui.activity.me.SelectStudentActivity" />
         <activity android:name=".ui.activity.me.EmptyRoomActivity" />
+        <activity android:name=".ui.activity.me.ExamAndGradeActivity" />
+        <activity android:name=".ui.activity.me.SchoolCalendarActivity" />
+        <activity android:name=".ui.activity.me.AboutActivity" />
+        <activity android:name=".ui.activity.me.EditQQActivity" />
+        <activity android:name=".ui.activity.me.EditPhoneActivity" />
         <activity android:name=".ui.activity.social.PostNewsActivity" />
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"

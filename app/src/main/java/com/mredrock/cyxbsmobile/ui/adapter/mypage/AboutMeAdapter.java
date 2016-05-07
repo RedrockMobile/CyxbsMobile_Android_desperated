@@ -41,11 +41,16 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
         ImageLoader.getInstance().loadAvatar(data.photo_src,holder.aboutMeAvatar);
         if(data.article_photo_src.equals("")){
             holder.aboutMeNewImg.setVisibility(View.GONE);
+        }else {
+            holder.aboutMeNewImg.setVisibility(View.VISIBLE);
+            ImageLoader.getInstance().loadImage(data.article_photo_src, holder.aboutMeNewImg);
         }
-        ImageLoader.getInstance().loadImage(data.article_photo_src,holder.aboutMeNewImg);
         if(data.type.equals(TYPE_PRAISE)){
             holder.aboutMeType.setText("赞了我");
             holder.aboutMeContent.setVisibility(View.GONE);
+        }else {
+            holder.aboutMeType.setText("");
+            holder.aboutMeContent.setVisibility(View.VISIBLE);
         }
         if(mOnItemClickListener != null) {
             holder.itemView.setOnClickListener(v -> mOnItemClickListener.onItemClick(holder.itemView, position, data));
