@@ -46,6 +46,8 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     public static final String START_DATA = "dataBean";
     public static final String ARTICLE_ID = "article_id";
+    public static final String IS_FROM_PERSON_INFO = "isFormPersonInfo";
+
     public static final String TAG = "SpecificNewsActivity";
 
     @Bind(R.id.toolbar)
@@ -71,10 +73,11 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private List<CommentContent> mListComments = null;
     private View mFooterView;
 
-    public static void startActivityWithDataBean(Context context, HotNewsContent hotNewsContent, String articleId) {
+    public static void startActivityWithDataBean(Context context, HotNewsContent hotNewsContent, String articleId, boolean isFromPersonInfo) {
         Intent intent = new Intent(context, SpecificNewsActivity.class);
         intent.putExtra(START_DATA, hotNewsContent);
         intent.putExtra(ARTICLE_ID, articleId);
+        intent.putExtra(IS_FROM_PERSON_INFO, isFromPersonInfo);
         context.startActivity(intent);
     }
 
@@ -88,8 +91,10 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 .inflate(R.layout.list_news_item_header, null, false);
         mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
 
+        mWrapView.isFromPersonInfo = getIntent().getBooleanExtra(IS_FROM_PERSON_INFO, false);
         HotNewsContent hotNewsContent = getIntent().getParcelableExtra(START_DATA);
         String article_id = getIntent().getStringExtra(ARTICLE_ID);
+
         if (hotNewsContent != null) {
             mHotNewsContent = hotNewsContent;
             mWrapView.setData(mHotNewsContent, true);

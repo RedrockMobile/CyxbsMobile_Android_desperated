@@ -21,7 +21,7 @@ import timber.log.Timber;
  */
 public class APP extends Application {
     private static Context context;
-    private static User    mUser;
+    private static User mUser;
     private static boolean login;
 
     public static Context getContext() {
@@ -32,6 +32,7 @@ public class APP extends Application {
         String userJson;
         mUser = user;
         if (user == null) {
+            APP.setLogin(false);
             userJson = "";
         } else {
             userJson = new Gson().toJson(user);
@@ -50,7 +51,9 @@ public class APP extends Application {
             mUser = new Gson().fromJson(json, User.class);
 
             if (mUser == null || mUser.stuNum == null || mUser.idNum == null) {
-                EventBus.getDefault().post(new LoginEvent());
+                if (EventBus.getDefault().hasSubscriberForEvent(LoginEvent.class)) {
+                    EventBus.getDefault().post(new LoginEvent());
+                }
                 return null;
             }
         }
@@ -75,10 +78,9 @@ public class APP extends Application {
         super.onCreate();
 
         if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
             Logger.init();
+            Logger.init("cyxbs_mobile");
         }
-        Logger.init("cyxbs_mobile");
         context = getApplicationContext();
         initThemeMode();
     }

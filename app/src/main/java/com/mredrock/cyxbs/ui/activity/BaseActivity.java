@@ -12,8 +12,10 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.ExitEvent;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.util.KeyboardUtils;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -25,6 +27,11 @@ import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity {
     private static final int HEADER_HIDE_ANIM_DURATION = 300;
+
+    public static final int REQUEST_CODE_LOGIN   = 10001;
+    public static final int REQUEST_CODE_SETTING = 10002;
+
+    public static final int RESULT_CODE_LOGIN_CANCELLED = 10001;
 
     private boolean mActionBarAutoHideEnbale = false;
     private boolean mActionBarShown;
@@ -156,10 +163,14 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginEvent(LoginEvent event) {
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onExitEvent(ExitEvent event) {
+        this.finish();
     }
 
     @Override

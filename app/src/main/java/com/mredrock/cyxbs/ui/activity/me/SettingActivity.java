@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 
 import butterknife.OnClick;
 
+import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.activity.LoginActivity;
@@ -57,10 +58,7 @@ public class SettingActivity extends BaseActivity {
 
     @OnClick(R.id.setting_exit_layout)
     void clickToExit() {
-
         startActivity(new Intent(this, LoginActivity.class));
-        this.finish();
-        //TODO exit MainActivity
     }
 
     private void initToolbar() {

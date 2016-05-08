@@ -55,7 +55,7 @@ public class Const {
     //动态查询
     public static final String API_SEARCH_ARTICLE = "/cyxbsMobile/index.php/Home/Article/searchtrends";
 
-    public static final String SP_KEY_USER = "user";
+    public static final String SP_KEY_USER = "cyxbsmobile_user";
     public static final String SP_KEY_IS_NIGHT = "is_night";
 
     public static final String COURSE_DB_NAME = "course.db";

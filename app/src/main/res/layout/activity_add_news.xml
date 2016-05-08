@@ -92,7 +92,7 @@
                 android:hint="@string/add_news_edit_hint"
                 android:minLines="5" />
 
-            <com.mredrock.cyxbs.component.widget.NineGridlayout
+            <com.mredrock.cyxbs.component.widget.ninelayout.NineGridlayout
                 android:id="@+id/iv_ngrid_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

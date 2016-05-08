@@ -8,7 +8,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.CustomImageView;
+import com.mredrock.cyxbs.component.widget.ninelayout.CustomImageView;
 
 import java.util.Random;
 

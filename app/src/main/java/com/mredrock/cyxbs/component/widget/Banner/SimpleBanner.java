@@ -23,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.util.LogUtils;
 
@@ -45,7 +44,7 @@ public class SimpleBanner extends RelativeLayout {
     private static final int RWC = LayoutParams.WRAP_CONTENT;
     private static final int LWC = LinearLayout.LayoutParams.WRAP_CONTENT;
 
-    private LoopViewPager mViewPager;
+    private com.mredrock.cyxbs.component.widget.banner.LoopViewPager mViewPager;
 
 
     /**
@@ -108,7 +107,7 @@ public class SimpleBanner extends RelativeLayout {
      */
     protected int currentPosition;
 
-    private BannerAdapter mBannerAdapter;
+    private com.mredrock.cyxbs.component.widget.banner.BannerAdapter mBannerAdapter;
 
     /**
      * 任务执行器
@@ -233,7 +232,7 @@ public class SimpleBanner extends RelativeLayout {
         mItemArrays = new SparseArray();
 
         //初始化ViewPager
-        mViewPager = new LoopViewPager(context);
+        mViewPager = new com.mredrock.cyxbs.component.widget.banner.LoopViewPager(context);
 
         //以matchParent的方式将viewPager填充到控件容器中
         addView(mViewPager, new LayoutParams(RMP, RMP));
@@ -332,7 +331,7 @@ public class SimpleBanner extends RelativeLayout {
     }
 
 
-    private final class ChangePointListener extends LoopViewPager.SimpleOnPageChangeListener {
+    private final class ChangePointListener extends com.mredrock.cyxbs.component.widget.banner.LoopViewPager.SimpleOnPageChangeListener {
         @Override
         public void onPageSelected(int position) {
             currentPosition = position % mData.size();
@@ -582,7 +581,7 @@ public class SimpleBanner extends RelativeLayout {
         mViewPager.addOnPageChangeListener(new ChangePointListener());
     }
 
-    public void setBannerAdapter(BannerAdapter adapter) {
+    public void setBannerAdapter(com.mredrock.cyxbs.component.widget.banner.BannerAdapter adapter) {
         mBannerAdapter = adapter;
         setSource();
     }

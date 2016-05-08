@@ -37,18 +37,18 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
     protected NewsAdapter mNewsAdapter;
     @Bind(R.id.information_RecyclerView)
-    RecyclerView       mRecyclerView;
+    RecyclerView mRecyclerView;
     @Bind(R.id.information_refresh)
     SwipeRefreshLayout refreshLayout;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
-    private LinearLayoutManager       mLinearLayoutManager;
-    private int                       currentIndex;
+    private LinearLayoutManager mLinearLayoutManager;
+    private int currentIndex;
     private List<HotNews> mListHotNews = null;
     private FooterViewWrapper mFooterViewWrapper;
 
-    public final static int    PER_PAGE_NUM     = 10;
-    public static final String TAG              = "BaseNewsFragment";
-    public final static int    FIRST_PAGE_INDEX = 0;
+    public static final int PER_PAGE_NUM = 10;
+    public static final String TAG = "BaseNewsFragment";
+    public static final int FIRST_PAGE_INDEX = 0;
 
 
     abstract Observable<List<HotNews>> provideData(int size, int page, boolean update);
@@ -69,6 +69,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         init();
     }
 
+
     protected void init() {
         refreshLayout.setColorSchemeColors(R.color.orange);
         refreshLayout.setOnRefreshListener(this);
@@ -84,8 +85,9 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
             }
         });
 
-//        getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, false);
-        //getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
+
+        //getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, false);
+        getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
 
     }
 
@@ -95,7 +97,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
     private void getDataFailed(String reason) {
-        Toast.makeText(getContext(), getString(R.string.erro), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getString(R.string.erro), Toast.LENGTH_SHORT).show();
         Log.e(TAG, reason);
     }
 
@@ -180,13 +182,13 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         @Bind(R.id.progressBar)
         CircleProgressBar mCircleProgressBar;
         @Bind(R.id.textLoadingFailed)
-        TextView          mTextLoadingFailed;
+        TextView mTextLoadingFailed;
 
         private View footerView;
 
         public FooterViewWrapper(Context context, ViewGroup parent) {
             footerView = LayoutInflater.from(context)
-                                       .inflate(R.layout.list_footer_item_news, parent, false);
+                    .inflate(R.layout.list_footer_item_news, parent, false);
             ButterKnife.bind(this, footerView);
         }
 

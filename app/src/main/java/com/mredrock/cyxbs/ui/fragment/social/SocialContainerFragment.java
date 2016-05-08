@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.Stu;
 import com.mredrock.cyxbs.network.RequestManager;
@@ -18,6 +19,8 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +38,8 @@ public class SocialContainerFragment extends BaseFragment {
     TabLayout mTabLayout;
     @Bind(R.id.community_ViewPager)
     ViewPager mViewPager;
+    private boolean firstLogin = false;
+    private int resumenCount = 0;
 
     private User mUser;
 
@@ -43,26 +48,46 @@ public class SocialContainerFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_social_container, container, false);
         ButterKnife.bind(this, view);
-        init();
+        getUserData();
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
+        if (firstLogin && resumenCount == 1) {
+            firstLogin = false;
+            getUserData();
+        }
+        ++resumenCount;
+    }
+
+    private void getUserData() {
         if (APP.isLogin()) {
             mUser = APP.getUser(getContext());
             new Stu(mUser.name, mUser.stuNum, mUser.idNum, mUser.id);
-            getPersonInfoData();
+            if (mUser.id == null) getPersonInfoData();
+            else init();
+        } else {
+            firstLogin = true;
+            EventBus.getDefault().post(new LoginEvent());
         }
+    }
 
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     private void getPersonInfoData() {
+        if (!APP.isLogin()) {
+            EventBus.getDefault().post(new LoginEvent());
+            return;
+        }
         if (mUser != null) {
             RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(getActivity(),
                     new SubscriberListener<User>() {
-
                         @Override
                         public void onNext(User user) {
                             super.onNext(user);
