@@ -6,16 +6,19 @@ package com.mredrock.cyxbs.config;
 public class Const {
     public static final int REDROCK_API_STATUS_SUCCESS = 200;
 
+    public static final String APP_HOME = "http://hongyan.cqupt.edu.cn/cyxbsMobile";
+
     public static final String END_POINT_REDROCK = "http://hongyan.cqupt.edu.cn";
     public static final String REDROCK_PORTAL = "http://hongyan.cqupt.edu.cn/portal";
     public static final String API_PERSON_SCHEDULE = "/redapi2/api/kebiao";
 
     //Explore
-    public static final String API_SHAKE                      = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shake";
-    public static final String API_FOOD_LIST                  = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shoplist";
-    public static final String API_FOOD_DETAIL                = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shopinfo";
-    public static final String API_FOOD_COMMENT_LIST          = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/comList";
-    public static final String API_SEND_FOOD_COMMENT          = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/addCom";
+    public static final String API_MAP_PICTURE       = "/welcome/2015/index.php/home/api/banner";
+    public static final String API_SHAKE             = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shake";
+    public static final String API_FOOD_LIST         = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shoplist";
+    public static final String API_FOOD_DETAIL       = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shopinfo";
+    public static final String API_FOOD_COMMENT_LIST = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/comList";
+    public static final String API_SEND_FOOD_COMMENT = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/addCom";
 
     public static final String APT_SEARCH_STUDENT = "/cyxbsMobile/index.php/home/searchPeople/peopleList";
 
@@ -28,7 +31,7 @@ public class Const {
     public static final String API_SOCIAL_COMMENT_ADD = "/cyxbsMobile/index.php/Home/ArticleRemark/postremarks";
     public static final String API_SOCIAL_LIKE = "/cyxbsMobile/index.php/Home/Praise/addone";
     public static final String API_SOCIAL_UNLIKE = "/cyxbsMobile/index.php/Home/Praise/cancel";
-
+    public static final String API_UPDATE_OLD               = "/app/cyxbsAppUpdate.xml";
 
     public static final String API_AVATAR_UPLOAD     = "/cyxbsMobile/index.php/home/photo/upload";
     public static final String API_GET_PERSON_INFO   = "/cyxbsMobile/index.php/Home/Person/search";
@@ -36,6 +39,7 @@ public class Const {
 
     //登陆验证接口
     public static final String API_VERIFY          = "/api/verify";
+    //无课表
     public static final String API_EMPTYROOM       = "/api/roomEmpty";
     //考试安排
     public static final String API_EXAM_SCHEDULE = "/api/examSchedule";
@@ -56,9 +60,6 @@ public class Const {
 
     public static final String SP_KEY_USER = "cyxbsmobile_user";
     public static final String SP_KEY_IS_NIGHT = "is_night";
-
-    public static final String COURSE_DB_NAME = "course.db";
-    public static final int COURSE_DB_VERSION = 1;
 
     public static final class Extras {
         public static final String EDIT_USER = "10";

@@ -15,7 +15,7 @@ import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.util.Util;
+import com.mredrock.cyxbs.util.Utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -65,11 +65,11 @@ public class LoginActivity extends AppCompatActivity {
         String stuNum = stuNumEdit.getText().toString();
         String idNum = idNumEdit.getText().toString();
         if (StringUtils.isBlank(stuNum) || stuNum.length() < 10) {
-            Util.toast(this, "请输入有效的学号");
+            Utils.toast(this, "请输入有效的学号");
             return;
         }
         if (StringUtils.isBlank(idNum) || idNum.length() < 6) {
-            Util.toast(this, "请输入有效的密码");
+            Utils.toast(this, "请输入有效的密码");
             return;
         }
         RequestManager.getInstance()
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                                   startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                   LoginActivity.this.finish();
                               } else {
-                                  Util.toast(LoginActivity.this, "登录失败, 返回了信息为空");
+                                  Utils.toast(LoginActivity.this, "登录失败, 返回了信息为空");
                               }
                           }
 

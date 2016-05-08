@@ -12,6 +12,7 @@ import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.Student;
+import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.BBDDDetail;
 import com.mredrock.cyxbs.model.social.BBDDNews;
@@ -22,6 +23,7 @@ import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.RequestResponse;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
+import com.mredrock.cyxbs.network.setting.annotation.*;
 
 import java.util.List;
 
@@ -42,6 +44,10 @@ import rx.Observable;
  */
 public interface RedrockApiService {
 
+    @GET(Const.API_UPDATE_OLD)
+    @XmlApi
+    Observable<UpdateInfo> update();
+
     @FormUrlEncoded
     @POST(Const.API_VERIFY)
     Observable<User.UserWrapper> verify(@Field("stuNum") String stuNum, @Field("idNum") String idNum);
@@ -54,6 +60,10 @@ public interface RedrockApiService {
                                                @Field("week") String week);
 
     //Explore start
+    @FormUrlEncoded
+    @POST(Const.API_MAP_PICTURE)
+    Observable<RedrockApiWrapper<List<String>>> getMapPicture(@Field("name") String name, @Field("path") String path);
+
     @GET(Const.API_SHAKE)
     Observable<RedrockApiWrapper<Shake>> getShake();
 
@@ -105,9 +115,9 @@ public interface RedrockApiService {
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
     Observable<RedrockApiWrapper> setPersonInfo(@Field("stuNum") String stuNum,
-                                                        @Field("idNum") String idNum,
-                                                        @Field("photo_thumbnail_src") String photo_thumbnail_src,
-                                                        @Field("photo_src") String photo_src);
+                                                @Field("idNum") String idNum,
+                                                @Field("photo_thumbnail_src") String photo_thumbnail_src,
+                                                @Field("photo_src") String photo_src);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)

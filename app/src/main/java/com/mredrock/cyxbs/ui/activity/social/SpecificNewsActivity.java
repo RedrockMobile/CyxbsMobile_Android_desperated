@@ -31,7 +31,7 @@ import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.ui.adapter.SpecificNewsCommentAdapter;
 import com.mredrock.cyxbs.util.RxBus;
-import com.mredrock.cyxbs.util.Util;
+import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.download.DownloadHelper;
 import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
 
@@ -159,7 +159,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
                     @Override
                     public void downloadFailed(String message) {
-                        Util.toast(SpecificNewsActivity.this, getResources().getString(R.string.load_failed));
+                        Utils.toast(SpecificNewsActivity.this, getResources().getString(R.string.load_failed));
                         if (message != null) {
                             Log.d(TAG, "explore_error is---->>> " + message);
                         }

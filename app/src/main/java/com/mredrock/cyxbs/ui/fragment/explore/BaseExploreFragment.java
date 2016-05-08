@@ -105,7 +105,7 @@ abstract class BaseExploreFragment extends BaseFragment
             if (shouldVisible) {
                 mErrorLayout.setVisibility(View.VISIBLE);
             } else {
-                mErrorLayout.setVisibility(View.INVISIBLE);
+                mErrorLayout.setVisibility(View.GONE);
             }
         }
     }

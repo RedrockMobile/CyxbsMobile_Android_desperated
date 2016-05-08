@@ -1,7 +1,5 @@
 package com.mredrock.cyxbs.network;
 
-import android.net.Uri;
-
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.config.Const;
@@ -14,6 +12,7 @@ import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.Shake;
+import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.BBDDNewsContent;
@@ -27,12 +26,13 @@ import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.network.func.CacheMapFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
+import com.mredrock.cyxbs.network.func.UpdateVerifyFunc;
 import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
 import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.network.service.RedrockApiService;
-import com.mredrock.cyxbs.network.service.UpDownloadService;
+import com.mredrock.cyxbs.network.setting.CacheProviders;
+import com.mredrock.cyxbs.network.setting.QualifiedTypeConverterFactory;
 import com.mredrock.cyxbs.util.BitmapUtil;
-import com.mredrock.cyxbs.util.OkHttpUtils;
 import com.mredrock.cyxbs.util.Utils;
 
 import java.io.File;
@@ -50,11 +50,11 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -62,27 +62,23 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-/**
- * RequestManager
- * 请求服务在 {@link RedrockApiService} 与 {@link UpDownloadService} 中定义
- * Created by cc on 16/1/20.
- */
 public enum RequestManager {
 
     INSTANCE;
 
     private static final int DEFAULT_TIMEOUT = 30;
-    private UpDownloadService upDownloadService;
     private RedrockApiService redrockApiService;
-    private CacheProviders cacheProviders;
+    private CacheProviders    cacheProviders;
+    private OkHttpClient      okHttpClient;
 
     RequestManager() {
-        OkHttpClient client = configureOkHttp(new OkHttpClient.Builder());
+        okHttpClient = configureOkHttp(new OkHttpClient.Builder());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Const.END_POINT_REDROCK)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .addConverterFactory(new QualifiedTypeConverterFactory(
+                        GsonConverterFactory.create(), SimpleXmlConverterFactory.create()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
@@ -90,7 +86,6 @@ public enum RequestManager {
                 .persistence(APP.getContext().getFilesDir())
                 .using(CacheProviders.class);
 
-        upDownloadService = retrofit.create(UpDownloadService.class);
         redrockApiService = retrofit.create(RedrockApiService.class);
     }
 
@@ -110,28 +105,21 @@ public enum RequestManager {
         return builder.build();
     }
 
-    public void download(String url, Subscriber<ResponseBody> subscriber) {
-        Observable<ResponseBody> observable = upDownloadService.download(url);
-
-        emitObservable(observable, subscriber);
+    public OkHttpClient getOkHttpClient() {
+        return okHttpClient;
     }
 
-    /* 测试上传文件 */
-    @Deprecated
-    public void uploadTest(Subscriber<String> subscriber, Uri fileUri) {
-        Observable<String> observable =
-                upDownloadService.uploadTest(
-                    /* 请求地址 */UpDownloadService.TEST_UPLOAD_URL,
-                    /* 除了文件，其他POST参数 *///OkHttpUtils.createStringRequestBody("values"),
-                    /* 文件，"file"是参数名 */OkHttpUtils.createFileRequestBody("file", fileUri))
-                        .map(wrapper -> wrapper.info);
+    public Subscription checkUpdate(Subscriber<UpdateInfo> subscriber, int versionCode) {
 
-        emitObservable(observable, subscriber);
+        Observable<UpdateInfo> observable = redrockApiService.update()
+                                                             .map(new UpdateVerifyFunc(versionCode));
+
+        return emitObservable(observable, subscriber);
     }
 
     public Subscription verify(Subscriber<User> subscriber, String stuNum, String idNum) {
         Observable<User> observable = redrockApiService.verify(stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>());
+                                                       .map(new RedrockApiWrapperFunc<>());
 
         return emitObservable(observable, subscriber);
     }
@@ -161,63 +149,82 @@ public enum RequestManager {
         return redrockApiService.getCourse(stuNum, idNum, "0").map(new RedrockApiWrapperFunc<>());
     }
 
+    public Subscription getMapPicture(Subscriber<List<String>> subscriber) {
+        Observable<List<String>> observable = redrockApiService.getMapPicture("overmap", "map")
+                                                               .map(wrapper -> {
+                                                                   if (wrapper.status != 204) {
+                                                                       throw new RedrockApiException(wrapper.info);
+                                                                   } else {
+                                                                       return wrapper.data;
+                                                                   }
+                                                               });
+        return emitObservable(observable, subscriber);
+    }
+
     public Subscription getShake(Subscriber<Shake> subscriber) {
         Observable<Shake> observable = redrockApiService.getShake()
-                .map(new RedrockApiWrapperFunc<>());
+                                                        .map(new RedrockApiWrapperFunc<>());
 
         return emitObservable(observable, subscriber);
     }
 
     public Subscription getFoodList(Subscriber<List<Food>> subscriber, String page) {
         Observable<List<Food>> observable = redrockApiService.getFoodList(page)
-                .map(new RedrockApiWrapperFunc<>())
-                .flatMap(foodList -> {
-                    for (Food food : foodList) {
-                        redrockApiService.getFoodDetail(food.id)
-                                .map(new RedrockApiWrapperFunc<>())
-                                .filter(foodDetail -> foodDetail != null)
+                                                             .map(new RedrockApiWrapperFunc<>())
+                                                             .flatMap(foodList -> {
+                                                                 for (Food food : foodList) {
+                                                                     redrockApiService.getFoodDetail(food.id)
+                                                                                      .map(new RedrockApiWrapperFunc<>())
+                                                                                      .filter(foodDetail -> foodDetail != null)
 
-                                .doOnNext(foodDetail -> foodDetail.shop_content =
-                                        foodDetail.shop_content.replaceAll("\t", "").replaceAll("\r\n", ""))
-                                .subscribe(foodDetail -> {
-                                    food.introduction = foodDetail.shop_content;
-                                });
-                    }
+                                                                                      .doOnNext(foodDetail -> foodDetail.shop_content =
+                                                                                              foodDetail.shop_content
+                                                                                                      .replaceAll("\t", "")
+                                                                                                      .replaceAll("\r\n", ""))
+                                                                                      .subscribe(foodDetail -> {
+                                                                                          food.introduction = foodDetail.shop_content;
+                                                                                      });
+                                                                 }
 
-                    return Observable.just(foodList);
-                });
+                                                                 return Observable.just(foodList);
+                                                             });
 
         return emitObservable(observable, subscriber);
     }
+
 
     public Subscription getFoodAndCommentList(Subscriber<FoodDetail> subscriber
             , String shopId, String page) {
 
         Observable<FoodDetail> observable =
                 redrockApiService.getFoodDetail(shopId)
-                        .map(new RedrockApiWrapperFunc<>())
-                        .filter(foodDetail -> foodDetail != null)
-                        .doOnNext(foodDetail -> foodDetail.shop_content =
-                                foodDetail.shop_content.replaceAll("\t", "").replaceAll("\r\n", ""))
-                        .flatMap(foodDetail -> {
-                            redrockApiService.getFoodComments(shopId, page)
-                                    .map(new RedrockApiWrapperFunc<>())
-                                    .filter(foodCommentList -> Utils.checkNotNullAndNotEmpty(foodCommentList))
-                                    .flatMap(Observable::from)
-                                    .toSortedList()
-                                    .subscribe(foodCommentList -> {
-                                        foodDetail.foodComments = foodCommentList;
-                                    });
+                                 .map(new RedrockApiWrapperFunc<>())
+                                 .filter(foodDetail -> foodDetail != null)
+                                 .doOnNext(foodDetail -> {
+                                     foodDetail.shop_content =
+                                             foodDetail.shop_content.replaceAll("\t", "")
+                                                                    .replaceAll("\r\n", "");
+                                     foodDetail.shop_tel = foodDetail.shop_tel.trim();
+                                 })
+                                 .flatMap(foodDetail -> {
+                                     redrockApiService.getFoodComments(shopId, page)
+                                                      .map(new RedrockApiWrapperFunc<>())
+                                                      .filter(foodCommentList -> Utils.checkNotNullAndNotEmpty(foodCommentList))
+                                                      .flatMap(Observable::from)
+                                                      .toSortedList()
+                                                      .subscribe(foodCommentList -> {
+                                                          foodDetail.foodComments = foodCommentList;
+                                                      });
 
-                            return Observable.just(foodDetail);
-                        });
+                                     return Observable.just(foodDetail);
+                                 });
 
         return emitObservable(observable, subscriber);
     }
 
     public Subscription getFood(Subscriber<FoodDetail> subscriber, String restaurantKey) {
         Observable<FoodDetail> observable = redrockApiService.getFoodDetail(restaurantKey)
-                .map(new RedrockApiWrapperFunc<>());
+                                                             .map(new RedrockApiWrapperFunc<>());
 
         return emitObservable(observable, subscriber);
     }
@@ -229,19 +236,19 @@ public enum RequestManager {
 
         Observable<List<FoodComment>> foodCommentObservable =
                 redrockApiService.getFoodComments(shopId, "1")
-                        .map(new RedrockApiWrapperFunc<>())
-                        .filter(foodCommentList -> Utils.checkNotNullAndNotEmpty(foodCommentList))
-                        .flatMap(Observable::from)
-                        .toSortedList();
+                                 .map(new RedrockApiWrapperFunc<>())
+                                 .filter(foodCommentList -> Utils.checkNotNullAndNotEmpty(foodCommentList))
+                                 .flatMap(Observable::from)
+                                 .toSortedList();
 
         Observable<List<FoodComment>> observable = Observable.zip(sendObservable, foodCommentObservable,
                 (wrapper, foodCommentList) -> {
-            if (wrapper.status == Const.REDROCK_API_STATUS_SUCCESS) {
-                return foodCommentList;
-            } else {
-                return null;
-            }
-        });
+                    if (wrapper.status == Const.REDROCK_API_STATUS_SUCCESS) {
+                        return foodCommentList;
+                    } else {
+                        return null;
+                    }
+                });
 
         return emitObservable(observable, subscriber);
     }
@@ -263,8 +270,8 @@ public enum RequestManager {
     public void getPublicCourse(Subscriber<List<Course>> subscriber,
                                 List<String> stuNumList, String week) {
         Observable<List<Course>> observable = Observable.from(stuNumList)
-                .flatMap(s -> redrockApiService.getCourse(s, "", week))
-                .map(new RedrockApiWrapperFunc<>());
+                                                        .flatMap(s -> redrockApiService.getCourse(s, "", week))
+                                                        .map(new RedrockApiWrapperFunc<>());
         emitObservable(observable, subscriber);
     }
 
@@ -272,7 +279,7 @@ public enum RequestManager {
     public void getStudent(Subscriber<List<com.mredrock.cyxbs.model.Student>> subscriber,
                            String stu) {
         Observable<List<com.mredrock.cyxbs.model.Student>> observable = redrockApiService.getStudent(stu)
-                .map(studentWrapper -> studentWrapper.data);
+                                                                                         .map(studentWrapper -> studentWrapper.data);
         emitObservable(observable, subscriber);
     }
 
@@ -291,7 +298,7 @@ public enum RequestManager {
                                                               .map(new RedrockApiWrapperFunc<>());
         cacheProviders.getCachedGradeList(observable, new DynamicKey
                 (stuNum), new EvictDynamicKey(update))
-                .map(Reply::getData);
+                      .map(Reply::getData);
         emitObservable(observable, subscriber);
     }
 
@@ -301,7 +308,7 @@ public enum RequestManager {
                 examWapper -> examWapper.data);
         cacheProviders.getCachedExamList(observable, new DynamicKey(stu), new
                 EvictDynamicKey(update))
-                .map(Reply::getData);
+                      .map(Reply::getData);
         emitObservable(observable, subscriber);
     }
 
@@ -311,7 +318,7 @@ public enum RequestManager {
                 examWapper -> examWapper.data);
         cacheProviders.getCachedExamList(observable, new DynamicKey(stu), new
                 EvictDynamicKey(update))
-                .map(Reply::getData);
+                      .map(Reply::getData);
         emitObservable(observable, subscriber);
     }
 
@@ -319,7 +326,7 @@ public enum RequestManager {
     public Observable<List<AboutMe>> getAboutMeList(String stuNum, String idNum, boolean update) {
 
         return getAboutMeList(stuNum, idNum).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                                            .observeOn(AndroidSchedulers.mainThread());
 //        return cacheProviders.getCacheRelateMes(getAboutMeList(stuNum, idNum), new DynamicKey(stuNum), new EvictDynamicKey(update))
 //                             .map(Reply::getData)
 //                             .subscribeOn(Schedulers.io())
@@ -328,9 +335,9 @@ public enum RequestManager {
 
     public Observable<List<AboutMe>> getAboutMeList(String stuNum, String idNum) {
         return redrockApiService.getAboutMe(stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                                .map(new RedrockApiWrapperFunc<>())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<List<HotNews>> getTrendDetail(String stuNum, String idNum, int type_id, String article_id) {
@@ -338,27 +345,27 @@ public enum RequestManager {
         List<HotNews> newsList = new ArrayList<>();
 
         return redrockApiService.getTrendDetail(stuNum, idNum, type_id, article_id)
-                .flatMap(bbddDetailWrapper -> Observable.from(bbddDetailWrapper.data))
-                .map(bbddDetail -> {
-                    HotNews news = new HotNews(bbddDetail);
-                    newsList.add(news);
-                    return newsList;
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                                .flatMap(bbddDetailWrapper -> Observable.from(bbddDetailWrapper.data))
+                                .map(bbddDetail -> {
+                                    HotNews news = new HotNews(bbddDetail);
+                                    newsList.add(news);
+                                    return newsList;
+                                })
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<List<HotNews>> getMyTrend(String stuNum, String idNum) {
         List<HotNews> newsList = new ArrayList<>();
         return redrockApiService.searchTrends(stuNum, idNum)
-                .flatMap(bbddDetailWrapper -> Observable.from(bbddDetailWrapper.data))
-                .map(bbddDetail -> {
-                    HotNews news = new HotNews(bbddDetail);
-                    newsList.add(news);
-                    return newsList;
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                                .flatMap(bbddDetailWrapper -> Observable.from(bbddDetailWrapper.data))
+                                .map(bbddDetail -> {
+                                    HotNews news = new HotNews(bbddDetail);
+                                    newsList.add(news);
+                                    return newsList;
+                                })
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -380,7 +387,7 @@ public enum RequestManager {
         MultipartBody.Part file_body = MultipartBody.Part.createFormData("fold", file.getName(), requestFile);
         RequestBody stuNum_body = RequestBody.create(MediaType.parse("multipart/form-data"), stuNum);
         return redrockApiService.uploadSocialImg(stuNum_body, file_body)
-                .map(new RedrockApiWrapperFunc<>());
+                                .map(new RedrockApiWrapperFunc<>());
 
     }
 
@@ -389,9 +396,9 @@ public enum RequestManager {
       /*  return getHotArticle(size, page).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());*/
         return cacheProviders.getCachedNews(getHotArticle(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
-                .map(Reply::getData)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                             .map(Reply::getData)
+                             .subscribeOn(Schedulers.io())
+                             .observeOn(AndroidSchedulers.mainThread());
 
     }
 
@@ -405,9 +412,9 @@ public enum RequestManager {
                                                    String stuNum,
                                                    String idNum) {
         return redrockApiService.getSocialHotList(size, page, stuNum, idNum)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                                .subscribeOn(Schedulers.io())
+                                .unsubscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread());
     }
 
 
@@ -417,7 +424,7 @@ public enum RequestManager {
                                                            String idNum,
                                                            String type_id) {
         return redrockApiService.getSocialOfficialNewsList(size, page, stuNum, idNum, type_id)
-                .map(new RedrockApiWrapperFunc<>());
+                                .map(new RedrockApiWrapperFunc<>());
     }
 
     public Observable<List<HotNews>> getListNews(int size, int page) {
@@ -434,10 +441,10 @@ public enum RequestManager {
 
     public Observable<List<HotNews>> getListNews(int size, int page, boolean update) {
         return cacheProviders.getCachedContentBean(getListNews(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
-                .map(listReply -> listReply.getData())
+                             .map(listReply -> listReply.getData())
 
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                             .subscribeOn(Schedulers.io())
+                             .observeOn(AndroidSchedulers.mainThread());
      /*   return getListNews(size, page)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -447,9 +454,9 @@ public enum RequestManager {
 
     public Observable<List<HotNews>> getListArticle(int type_id, int size, int page, boolean update) {
         return cacheProviders.getCachedNews(getListArticle(type_id, size, page), new DynamicKeyGroup(type_id, size), new EvictDynamicKey(update))
-                .map(listReply -> listReply.getData())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                             .map(listReply -> listReply.getData())
+                             .subscribeOn(Schedulers.io())
+                             .observeOn(AndroidSchedulers.mainThread());
         // return getListArticle(type_id, size, page);
 
     }
@@ -463,14 +470,14 @@ public enum RequestManager {
 
     public Observable<List<HotNews>> getListArticle(int type_id, int size, int page, String stuNum, String idNum) {
         return redrockApiService.getSocialBBDDList(type_id, size, page, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>())
-                .flatMap(bbdd -> Observable.just(bbdd)
-                        .map(mBBDD -> {
-                            List<HotNews> aNews = new ArrayList<>();
-                            for (BBDDNewsContent bbddNewsContent : mBBDD)
-                                aNews.add(new HotNews(bbddNewsContent));
-                            return aNews;
-                        }));
+                                .map(new RedrockApiWrapperFunc<>())
+                                .flatMap(bbdd -> Observable.just(bbdd)
+                                                           .map(mBBDD -> {
+                                                               List<HotNews> aNews = new ArrayList<>();
+                                                               for (BBDDNewsContent bbddNewsContent : mBBDD)
+                                                                   aNews.add(new HotNews(bbddNewsContent));
+                                                               return aNews;
+                                                           }));
     }
 
     public Observable<String> sendDynamic(int type_id,
@@ -492,7 +499,7 @@ public enum RequestManager {
                                           String stuNum,
                                           String idNum) {
         return redrockApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>());
+                                .map(new RedrockApiWrapperFunc<>());
     }
 
     public Observable<List<CommentContent>> getRemarks(String article_id, int type_id) {
@@ -505,9 +512,9 @@ public enum RequestManager {
                                                        String stuNum,
                                                        String idNum) {
         return redrockApiService.getSocialCommentList(article_id, type_id, user_id, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                                .map(new RedrockApiWrapperFunc<>())
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<String> postReMarks(String article_id, int type_id, String content) {
@@ -521,9 +528,9 @@ public enum RequestManager {
                                           String stuNum,
                                           String idNum) {
         return redrockApiService.addSocialComment(article_id, type_id, content, user_id, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                                .map(new RedrockApiWrapperFunc<>())
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<String> addThumbsUp(String article_id, int type_id) {
@@ -535,9 +542,9 @@ public enum RequestManager {
                                           String stuNum,
                                           String idNum) {
         return redrockApiService.socialLike(article_id, type_id, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                                .map(new RedrockApiWrapperFunc<>())
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<String> cancelThumbsUp(String article_id, int type_id) {
@@ -549,9 +556,9 @@ public enum RequestManager {
                                              String stuNum,
                                              String idNum) {
         return redrockApiService.socialUnlike(article_id, type_id, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                                .map(new RedrockApiWrapperFunc<>())
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @SuppressWarnings("unchecked")
@@ -570,9 +577,9 @@ public enum RequestManager {
 
     public Observable<PersonInfo> getPersonInfo(String otherStuNum, String stuNum, String idNum) {
         return redrockApiService.getPersonInfo(otherStuNum, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                                .map(new RedrockApiWrapperFunc<>())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<PersonInfo> getPersonInfo(String otherStuNum) {
@@ -583,15 +590,15 @@ public enum RequestManager {
     public Observable<List<HotNews>> getPersonLatestList(String otherStuNum, String stuNum, String idNum, String userName, String userHead) {
 
         return redrockApiService.getPersonLatestList(otherStuNum, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>())
-                .map(personLatestList -> {
-                    List<HotNews> aNews = new ArrayList<>();
-                    for (PersonLatest personLatest : personLatestList)
-                        aNews.add(new HotNews(personLatest, otherStuNum, userName, userHead));
-                    return aNews;
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                                .map(new RedrockApiWrapperFunc<>())
+                                .map(personLatestList -> {
+                                    List<HotNews> aNews = new ArrayList<>();
+                                    for (PersonLatest personLatest : personLatestList)
+                                        aNews.add(new HotNews(personLatest, otherStuNum, userName, userHead));
+                                    return aNews;
+                                })
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<List<HotNews>> getPersonLatestList(String otherStuNum, String userName, String userHead) {
@@ -610,7 +617,7 @@ public enum RequestManager {
     public void setPersonQQ(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String qq) {
 
         Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonQQ(stuNum, idNum, qq)
-                .map(new RedrockApiWrapperFunc());
+                                                                            .map(new RedrockApiWrapperFunc());
 
         emitObservable(observable, subscriber);
     }
@@ -619,15 +626,15 @@ public enum RequestManager {
     public void setPersonPhone(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String phone) {
 
         Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonPhone(stuNum, idNum, phone)
-                .map(new RedrockApiWrapperFunc());
+                                                                            .map(new RedrockApiWrapperFunc());
 
         emitObservable(observable, subscriber);
     }
 
     public void getPersonInfo(Subscriber<User> subscriber, String stuNum, String idNum) {
         Observable<User> observable = redrockApiService.getPersonInfo(stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>())
-                .map(new UserInfoVerifyFunc());
+                                                       .map(new RedrockApiWrapperFunc<>())
+                                                       .map(new UserInfoVerifyFunc());
         emitObservable(observable, subscriber);
     }
 

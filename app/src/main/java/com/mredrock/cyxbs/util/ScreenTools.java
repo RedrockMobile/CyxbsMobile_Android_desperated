@@ -8,7 +8,7 @@ import android.content.Context;
 public class ScreenTools {
 
     private static ScreenTools mScreenTools;
-    private Context context;
+    private        Context     context;
 
 
     public ScreenTools(Context context) {

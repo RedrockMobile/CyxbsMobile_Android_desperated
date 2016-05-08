@@ -26,6 +26,7 @@ import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
+import com.orhanobut.logger.Logger;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -173,6 +174,8 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
 
     private void setFoodData(final Shake data) {
         mRestaurantKey = data.id;
+
+        Logger.d("Key " + data.id);
 
         if (!mIsResultLayoutInflate) {
             mShakeImageView.setVisibility(View.GONE);

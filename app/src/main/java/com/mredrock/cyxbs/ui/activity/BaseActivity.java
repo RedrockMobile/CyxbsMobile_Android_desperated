@@ -28,11 +28,6 @@ import java.util.Map;
 public class BaseActivity extends AppCompatActivity {
     private static final int HEADER_HIDE_ANIM_DURATION = 300;
 
-    public static final int REQUEST_CODE_LOGIN   = 10001;
-    public static final int REQUEST_CODE_SETTING = 10002;
-
-    public static final int RESULT_CODE_LOGIN_CANCELLED = 10001;
-
     private boolean mActionBarAutoHideEnbale = false;
     private boolean mActionBarShown;
     private int mActionBarAutoHideMinY        = 0;
