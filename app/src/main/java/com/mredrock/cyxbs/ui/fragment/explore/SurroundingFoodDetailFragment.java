@@ -34,8 +34,8 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.BaseExploreActivity;
+import com.mredrock.cyxbs.ui.adapter.FoodCommentsAdapter;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
-import com.mredrock.cyxbs.ui.adapter.RestaurantCommentsAdapter;
 import com.mredrock.cyxbs.util.LogUtils;
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment {
 
     private List<FoodComment> mComments;
     private HeaderViewRecyclerAdapter mWrapperAdapter;
-    private RestaurantCommentsAdapter mAdapter;
+    private FoodCommentsAdapter mAdapter;
     private HeaderViewWrapper mHeaderViewWrapper;
 
     private int[] mDrawingStartLocation;
@@ -113,7 +113,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mFoodDetailRv.setLayoutManager(layoutManager);
-        mAdapter = new RestaurantCommentsAdapter(mComments, getActivity());
+        mAdapter = new FoodCommentsAdapter(mComments, getActivity());
         mWrapperAdapter = new HeaderViewRecyclerAdapter(mAdapter);
         mWrapperAdapter.addHeaderView(mHeaderViewWrapper.contentView);
         mFoodDetailRv.setAdapter(mWrapperAdapter);

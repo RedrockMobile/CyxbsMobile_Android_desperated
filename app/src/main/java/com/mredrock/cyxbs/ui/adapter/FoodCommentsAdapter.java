@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.FoodComment;
+import com.mredrock.cyxbs.util.GlideHelper;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 
 import java.util.List;
@@ -20,10 +21,13 @@ import butterknife.ButterKnife;
 /**
  * Created by Stormouble on 16/4/28.
  */
-public class RestaurantCommentsAdapter extends BaseRecyclerViewAdapter<FoodComment, RestaurantCommentsAdapter.RestaurantCommentsViewHolder>{
+public class FoodCommentsAdapter extends BaseRecyclerViewAdapter<FoodComment, FoodCommentsAdapter.RestaurantCommentsViewHolder>{
 
-    public RestaurantCommentsAdapter(List<FoodComment> mDatas, Context context) {
+    private GlideHelper mGlideHelper;
+
+    public FoodCommentsAdapter(List<FoodComment> mDatas, Context context) {
         super(mDatas, context);
+        mGlideHelper = new GlideHelper(context);
     }
 
     @Override
@@ -32,7 +36,6 @@ public class RestaurantCommentsAdapter extends BaseRecyclerViewAdapter<FoodComme
         holder.mCommentAuthor.setText(data.comment_author_name);
         holder.mCommentDate.setText(
                 new SchoolCalendar(Long.parseLong(data.comment_date)).getString("yyyy年MM月dd日HH:mm"));
-
     }
 
     @Override

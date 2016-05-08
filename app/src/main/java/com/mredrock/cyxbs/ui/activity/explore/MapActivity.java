@@ -32,7 +32,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Subscription;
 
 public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClickListener {
 
@@ -42,7 +41,6 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
     private AMap mAMap;
     private MapHelper mMapHelper;
     private MaterialDialog mProgressDialog;
-    private Subscription mSubscription;
 
     public static void startMapActivity(Activity startingActivity) {
         Intent intent = new Intent(startingActivity, MapActivity.class);
@@ -158,7 +156,6 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
         super.onDestroy();
         mMapView.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
-        mSubscription.unsubscribe();
         mMapHelper.cleanUp();
     }
 
@@ -199,15 +196,18 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
     }
 
     private void downloadMapPicture() {
-        mSubscription = RequestManager.getInstance().getMapPicture(
+        RequestManager.getInstance().getMapPicture(
                 new SimpleSubscriber<List<String>>(this, new SubscriberListener<List<String>>() {
-            @Override
-            public void onNext(List<String> urlList) {
-                mMapHelper.loadPicture(urlList.get(0));
+                    @Override
+                    public void onCompleted() {
+                        onLoadProgress();
+                    }
 
-                onLoadProgress();
-            }
-        }));
+                    @Override
+                    public void onNext(List<String> urlList) {
+                        mMapHelper.loadPicture(urlList.get(0));
+                    }
+                }));
 
     }
 
