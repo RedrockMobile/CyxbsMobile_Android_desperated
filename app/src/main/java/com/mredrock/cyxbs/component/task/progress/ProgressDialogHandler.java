@@ -6,18 +6,20 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 /**
  * Created by cc on 16/3/19.
  */
 public class ProgressDialogHandler extends Handler {
 
-    public static final int SHOW_PROGRESS_DIALOG = 1;
+    public static final int SHOW_PROGRESS_DIALOG    = 1;
     public static final int DISMISS_PROGRESS_DIALOG = 2;
 
-    private ProgressDialog pd;
+    private MaterialDialog pd;
 
-    private Context context;
-    private boolean cancelable;
+    private Context                context;
+    private boolean                cancelable;
     private ProgressCancelListener mProgressCancelListener;
 
     public ProgressDialogHandler(Context context, ProgressCancelListener mProgressCancelListener,
@@ -30,8 +32,10 @@ public class ProgressDialogHandler extends Handler {
 
     private void initProgressDialog() {
         if (pd == null) {
-            pd = new ProgressDialog(context);
-            pd.setMessage("Loading...");
+            pd = new MaterialDialog.Builder(context)
+                    .progress(true, 0)
+                    .build();
+            pd.setContent("Loading...");
 
             pd.setCancelable(cancelable);
 

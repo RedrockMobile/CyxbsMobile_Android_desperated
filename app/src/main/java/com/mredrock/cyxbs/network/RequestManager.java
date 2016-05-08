@@ -1,7 +1,5 @@
 package com.mredrock.cyxbs.network;
 
-import android.net.Uri;
-
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.config.Const;
@@ -14,6 +12,7 @@ import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.Shake;
+import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.BBDDNewsContent;
@@ -27,12 +26,13 @@ import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.network.func.CacheMapFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
+import com.mredrock.cyxbs.network.func.UpdateVerifyFunc;
 import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
 import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.network.service.RedrockApiService;
-import com.mredrock.cyxbs.network.service.UpDownloadService;
+import com.mredrock.cyxbs.network.setting.CacheProviders;
+import com.mredrock.cyxbs.network.setting.QualifiedTypeConverterFactory;
 import com.mredrock.cyxbs.util.BitmapUtil;
-import com.mredrock.cyxbs.util.OkHttpUtils;
 import com.mredrock.cyxbs.util.Utils;
 
 import java.io.File;
@@ -49,11 +49,11 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -61,17 +61,11 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-/**
- * RequestManager
- * 请求服务在 {@link RedrockApiService} 与 {@link UpDownloadService} 中定义
- * Created by cc on 16/1/20.
- */
 public enum RequestManager {
 
     INSTANCE;
 
     private static final int DEFAULT_TIMEOUT = 30;
-    private UpDownloadService upDownloadService;
     private RedrockApiService redrockApiService;
     private CacheProviders    cacheProviders;
 
@@ -81,7 +75,8 @@ public enum RequestManager {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Const.END_POINT_REDROCK)
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(new QualifiedTypeConverterFactory(
+                        GsonConverterFactory.create(), SimpleXmlConverterFactory.create()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
@@ -89,7 +84,6 @@ public enum RequestManager {
                 .persistence(APP.getContext().getFilesDir())
                 .using(CacheProviders.class);
 
-        upDownloadService = retrofit.create(UpDownloadService.class);
         redrockApiService = retrofit.create(RedrockApiService.class);
     }
 
@@ -109,23 +103,12 @@ public enum RequestManager {
         return builder.build();
     }
 
-    public void download(String url, Subscriber<ResponseBody> subscriber) {
-        Observable<ResponseBody> observable = upDownloadService.download(url);
+    public Subscription checkUpdate(Subscriber<UpdateInfo> subscriber, int versionCode) {
 
-        emitObservable(observable, subscriber);
-    }
+        Observable<UpdateInfo> observable = redrockApiService.update()
+                                                             .map(new UpdateVerifyFunc(versionCode));
 
-    /* 测试上传文件 */
-    @Deprecated
-    public void uploadTest(Subscriber<String> subscriber, Uri fileUri) {
-        Observable<String> observable =
-                upDownloadService.uploadTest(
-                    /* 请求地址 */UpDownloadService.TEST_UPLOAD_URL,
-                    /* 除了文件，其他POST参数 *///OkHttpUtils.createStringRequestBody("values"),
-                    /* 文件，"file"是参数名 */OkHttpUtils.createFileRequestBody("file", fileUri))
-                                 .map(wrapper -> wrapper.info);
-
-        emitObservable(observable, subscriber);
+        return emitObservable(observable, subscriber);
     }
 
     public Subscription verify(Subscriber<User> subscriber, String stuNum, String idNum) {
@@ -167,21 +150,23 @@ public enum RequestManager {
 
     public Subscription getFoodList(Subscriber<List<Food>> subscriber, String page) {
         Observable<List<Food>> observable = redrockApiService.getFoodList(page)
-                .map(new RedrockApiWrapperFunc<>())
-                .flatMap(foodList -> {
-                    for (Food food : foodList) {
-                        redrockApiService.getFoodDetail(food.id)
-                                .map(new RedrockApiWrapperFunc<>())
-                                .filter(foodDetail -> foodDetail != null)
-                                .doOnNext(foodDetail -> foodDetail.shop_content =
-                                        foodDetail.shop_content.replaceAll("\t", "").replaceAll("\r\n", ""))
-                                .subscribe(foodDetail -> {
-                                    food.introduction = foodDetail.shop_content;
-                                });
-                    }
+                                                             .map(new RedrockApiWrapperFunc<>())
+                                                             .flatMap(foodList -> {
+                                                                 for (Food food : foodList) {
+                                                                     redrockApiService.getFoodDetail(food.id)
+                                                                                      .map(new RedrockApiWrapperFunc<>())
+                                                                                      .filter(foodDetail -> foodDetail != null)
+                                                                                      .doOnNext(foodDetail -> foodDetail.shop_content =
+                                                                                              foodDetail.shop_content
+                                                                                                      .replaceAll("\t", "")
+                                                                                                      .replaceAll("\r\n", ""))
+                                                                                      .subscribe(foodDetail -> {
+                                                                                          food.introduction = foodDetail.shop_content;
+                                                                                      });
+                                                                 }
 
-                    return Observable.just(foodList);
-                });
+                                                                 return Observable.just(foodList);
+                                                             });
 
         return emitObservable(observable, subscriber);
     }
@@ -190,22 +175,23 @@ public enum RequestManager {
             , String shopId, String page) {
         Observable<FoodDetail> observable =
                 redrockApiService.getFoodDetail(shopId)
-                        .map(new RedrockApiWrapperFunc<>())
-                        .filter(foodDetail -> foodDetail != null)
-                        .doOnNext(foodDetail -> foodDetail.shop_content =
-                                foodDetail.shop_content.replaceAll("\t", "").replaceAll("\r\n", ""))
-                        .flatMap(foodDetail -> {
-                            redrockApiService.getFoodComments(shopId, page)
-                                    .map(new RedrockApiWrapperFunc<>())
-                                    .filter(foodCommentList -> Utils.checkNotNullAndNotEmpty(foodCommentList))
-                                    .flatMap(Observable::from)
-                                    .toSortedList()
-                                    .subscribe(foodCommentList -> {
-                                        foodDetail.foodComments = foodCommentList;
-                                    });
+                                 .map(new RedrockApiWrapperFunc<>())
+                                 .filter(foodDetail -> foodDetail != null)
+                                 .doOnNext(foodDetail -> foodDetail.shop_content =
+                                         foodDetail.shop_content.replaceAll("\t", "")
+                                                                .replaceAll("\r\n", ""))
+                                 .flatMap(foodDetail -> {
+                                     redrockApiService.getFoodComments(shopId, page)
+                                                      .map(new RedrockApiWrapperFunc<>())
+                                                      .filter(Utils::checkNotNullAndNotEmpty)
+                                                      .flatMap(Observable::from)
+                                                      .toSortedList()
+                                                      .subscribe(foodCommentList -> {
+                                                          foodDetail.foodComments = foodCommentList;
+                                                      });
 
-                            return Observable.just(foodDetail);
-                        });
+                                     return Observable.just(foodDetail);
+                                 });
 
         return emitObservable(observable, subscriber);
     }
@@ -224,19 +210,19 @@ public enum RequestManager {
 
         Observable<List<FoodComment>> foodCommentObservable =
                 redrockApiService.getFoodComments(shopId, "1")
-                        .map(new RedrockApiWrapperFunc<>())
-                        .filter(foodCommentList -> Utils.checkNotNullAndNotEmpty(foodCommentList))
-                        .flatMap(Observable::from)
-                        .toSortedList();
+                                 .map(new RedrockApiWrapperFunc<>())
+                                 .filter(foodCommentList -> Utils.checkNotNullAndNotEmpty(foodCommentList))
+                                 .flatMap(Observable::from)
+                                 .toSortedList();
 
         Observable<List<FoodComment>> observable = Observable.zip(sendObservable, foodCommentObservable,
                 (wrapper, foodCommentList) -> {
-            if (wrapper.status == Const.REDROCK_API_STATUS_SUCCESS) {
-                return foodCommentList;
-            } else {
-                return null;
-            }
-        });
+                    if (wrapper.status == Const.REDROCK_API_STATUS_SUCCESS) {
+                        return foodCommentList;
+                    } else {
+                        return null;
+                    }
+                });
 
         return emitObservable(observable, subscriber);
     }

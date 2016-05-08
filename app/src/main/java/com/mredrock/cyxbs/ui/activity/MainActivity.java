@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.ui.activity;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
@@ -23,7 +22,8 @@ import com.mredrock.cyxbs.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
-import com.mredrock.cyxbs.util.Util;
+import com.mredrock.cyxbs.util.UpdateUtil;
+import com.mredrock.cyxbs.util.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -70,6 +70,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
+        UpdateUtil.checkUpdate(this, false);
     }
 
     private void initView() {
@@ -144,7 +145,7 @@ public class MainActivity extends BaseActivity {
                 if (APP.isLogin()) {
                     PostNewsActivity.startActivity(this);
                 } else {
-                    Util.toast(getApplicationContext(), "尚未登录");
+                    Utils.toast(getApplicationContext(), "尚未登录");
                     EventBus.getDefault().post(new LoginEvent());
                 }
                 break;
@@ -179,4 +180,5 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+
 }

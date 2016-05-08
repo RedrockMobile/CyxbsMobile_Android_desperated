@@ -12,7 +12,7 @@ import java.util.TimeZone;
 
 /**
  * 学校日历工具类
- * Created by dayaa on 15/8/23.
+ * Created by cc on 15/8/23.
  */
 public class SchoolCalendar {
     Calendar firstDay = new GregorianCalendar(2015, Calendar.SEPTEMBER, 7);

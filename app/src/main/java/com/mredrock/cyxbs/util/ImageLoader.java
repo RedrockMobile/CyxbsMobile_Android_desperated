@@ -37,11 +37,11 @@ public class ImageLoader {
 
     public void loadImage(String url, ImageView imageView) {
         Glide.with(APP.getContext())
-                .load(url)
-                .placeholder(R.drawable.img_placeholder)
-                .error(R.drawable.img_placeholder)
-                .crossFade()
-                .into(imageView);
+             .load(url)
+             .placeholder(R.drawable.img_placeholder)
+             .error(R.drawable.img_placeholder)
+             .crossFade()
+             .into(imageView);
 
     }
 
@@ -49,39 +49,39 @@ public class ImageLoader {
     public void loadAvatar(String url, ImageView imageView) {
         int position = new Random().nextInt(3);
         Glide.with(APP.getContext())
-                .load(url)
-                .asBitmap()
-                .placeholder(circles[position])
-                .error(circles[position])
-                .into(imageView);
+             .load(url)
+             .asBitmap()
+             .placeholder(circles[position])
+             .error(circles[position])
+             .into(imageView);
     }
 
 
     public void loadImageWithTargetView(String url, SimpleTarget simpleTarget) {
         Glide.with(APP.getContext())
-                .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
-                .asBitmap()
-                .placeholder(R.drawable.img_placeholder)
-                .error(R.drawable.img_placeholder)
-                .into(simpleTarget);
+             .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
+             .asBitmap()
+             .placeholder(R.drawable.img_placeholder)
+             .error(R.drawable.img_placeholder)
+             .into(simpleTarget);
     }
 
     public void loadImageWithListener(String url, SimpleTarget simpleTarget, RequestListener listener) {
         Glide.with(APP.getContext())
-                .load(url)
-                .asBitmap()
-                .listener(listener)
-                .placeholder(R.mipmap.avatar_default)
-                .error(R.mipmap.avatar_default)
-                .into(simpleTarget);
+             .load(url)
+             .asBitmap()
+             .listener(listener)
+             .placeholder(R.mipmap.avatar_default)
+             .error(R.mipmap.avatar_default)
+             .into(simpleTarget);
     }
 
     @SuppressWarnings("unchecked")
     public void loadLocalImage(int resId, SimpleTarget<Bitmap> simpleTarget) {
         Glide.with(APP.getContext())
-                .load(resId)
-                .asBitmap()
-                .centerCrop()
-                .into(simpleTarget);
+             .load(resId)
+             .asBitmap()
+             .centerCrop()
+             .into(simpleTarget);
     }
 }

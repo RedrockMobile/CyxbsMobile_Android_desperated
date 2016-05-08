@@ -16,10 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.CircleImageView;
@@ -29,20 +25,22 @@ import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.ui.activity.MainActivity;
-import com.mredrock.cyxbs.ui.activity.me.MyTrendActivity;
 import com.mredrock.cyxbs.ui.activity.me.AboutMeActivity;
-import com.mredrock.cyxbs.ui.activity.me.ExamAndGradeActivity;
-import com.mredrock.cyxbs.ui.activity.me.SchoolCalendarActivity;
-import com.mredrock.cyxbs.util.ImageLoader;
-
 import com.mredrock.cyxbs.ui.activity.me.EditInfoActivity;
 import com.mredrock.cyxbs.ui.activity.me.EmptyRoomActivity;
+import com.mredrock.cyxbs.ui.activity.me.ExamAndGradeActivity;
+import com.mredrock.cyxbs.ui.activity.me.MyTrendActivity;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
+import com.mredrock.cyxbs.ui.activity.me.SchoolCalendarActivity;
 import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
+import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.SPUtils;
 
 import org.greenrobot.eventbus.EventBus;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 我的页面
@@ -148,7 +146,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
     @OnClick(R.id.my_page_setting_layout)
     void clickToSetting() {
-        startActivityForResult(new Intent(getActivity(), SettingActivity.class), MainActivity.REQUEST_CODE_SETTING);
+        startActivity(new Intent(getActivity(), SettingActivity.class));
     }
 
     @Override
