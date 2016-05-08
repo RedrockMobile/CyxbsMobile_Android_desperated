@@ -116,21 +116,23 @@ public class BaseActivity extends AppCompatActivity {
 
     private void onActionBarAutoShowOrHide(boolean shown) {
         updateSwipeRefreshProgressBarTop();
+        if (mHideableHeaderViews != null && mHideableHeaderViews.size() > 0) {
 
-        for (final View view : mHideableHeaderViews) {
-            if (shown) {
-                ViewCompat.animate(view)
-                          .translationY(0)
-                          .alpha(1)
-                          .setDuration(HEADER_HIDE_ANIM_DURATION)
-                          .withLayer();
-            } else {
-                ViewCompat.animate(view)
-                          .translationY(-view.getBottom())
-                          .alpha(1)
-                          .setDuration(HEADER_HIDE_ANIM_DURATION)
-                          .setInterpolator(new DecelerateInterpolator())
-                          .withLayer();
+            for (final View view : mHideableHeaderViews) {
+                if (shown) {
+                    ViewCompat.animate(view)
+                              .translationY(0)
+                              .alpha(1)
+                              .setDuration(HEADER_HIDE_ANIM_DURATION)
+                              .withLayer();
+                } else {
+                    ViewCompat.animate(view)
+                              .translationY(-view.getBottom())
+                              .alpha(1)
+                              .setDuration(HEADER_HIDE_ANIM_DURATION)
+                              .setInterpolator(new DecelerateInterpolator())
+                              .withLayer();
+                }
             }
         }
     }
