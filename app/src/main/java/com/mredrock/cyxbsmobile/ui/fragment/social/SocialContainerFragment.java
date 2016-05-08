@@ -43,14 +43,19 @@ public class SocialContainerFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_social_container, container, false);
         ButterKnife.bind(this, view);
-        mUser = APP.getUser(getContext());
-        if (mUser == null) return view;
-        if (mUser.id == null) getPersonInfoData();
-        else {
-            new Stu(mUser.name, mUser.stuNum, mUser.idNum, mUser.id);
-            init();
-        }
+        init();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (APP.isLogin()) {
+            mUser = APP.getUser(getContext());
+            new Stu(mUser.name, mUser.stuNum, mUser.idNum, mUser.id);
+            getPersonInfoData();
+        }
+
     }
 
     private void getPersonInfoData() {
@@ -85,7 +90,8 @@ public class SocialContainerFragment extends BaseFragment {
         fragmentLIst.add(mBBLLNewFragment);
         fragmentLIst.add(mOfficialFragment);
 
-        TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager(), fragmentLIst, Arrays.asList(getActivity().getResources().getStringArray(R.array.community_tab_tiles)));
+        TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager(), fragmentLIst, Arrays
+                .asList(getActivity().getResources().getStringArray(R.array.community_tab_tiles)));
 
         mViewPager.setAdapter(adapter);
         mViewPager.setOffscreenPageLimit(fragmentLIst.size());

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbsmobile.model.Student;
@@ -39,29 +40,29 @@ public class NoCourseActivity extends BaseActivity
         implements View.OnClickListener,
         NoCourseAdapter.OnItemButtonClickListener {
 
-    public static final int REQUEST_SELECT = 1;
+    public static final int    REQUEST_SELECT  = 1;
     public static final String EXTRA_NO_COURSE = "extra_no_course";
 
     @Bind(R.id.no_course_stu)
-    EditText noCourseStu;
+    EditText     noCourseStu;
     @Bind(R.id.no_course_add)
-    TextView noCourseAdd;
+    TextView     noCourseAdd;
     @Bind(R.id.no_course_have)
-    TextView noCourseHave;
+    TextView     noCourseHave;
     @Bind(R.id.no_course_change)
-    TextView noCourseChange;
+    TextView     noCourseChange;
     @Bind(R.id.no_course_recycler_view)
     RecyclerView noCourseRecyclerView;
     @Bind(R.id.no_course_search)
     LinearLayout noCourseSearch;
     @Bind(R.id.toolbar_title)
-    TextView toolbarTitle;
+    TextView     toolbarTitle;
     @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar      toolbar;
 
     private ArrayList<String> stuNumList;
     private ArrayList<String> nameList;
-    private NoCourseAdapter mNoCourseAdapter;
+    private NoCourseAdapter   mNoCourseAdapter;
 
     private int count = 0;
     private User mUser;
@@ -83,6 +84,9 @@ public class NoCourseActivity extends BaseActivity
         noCourseChange.setOnClickListener(this);
         stuNumList = new ArrayList<>();
         nameList = new ArrayList<>();
+        if (APP.isLogin()) {
+            mUser = APP.getUser(this);
+        }
         if (mUser != null) {
             addStudent(mUser.stuNum, mUser.name);
         }
@@ -240,8 +244,7 @@ public class NoCourseActivity extends BaseActivity
     public void onClickEnd(int position) {
         removeStudent(position);
         count--;
-        noCourseHave.setText(new StringBuilder("已添加").append(count).append
-                ("人"));
+        noCourseHave.setText(new StringBuilder("已添加").append(count).append("人"));
         if (nameList.size() == 0) {
             noCourseStu.setHint("请输入要查询的学号/姓名");
             noCourseChange.setText("修改");

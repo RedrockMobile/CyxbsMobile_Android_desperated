@@ -36,27 +36,27 @@ import butterknife.ButterKnife;
 
 public class CourseFragment extends BaseFragment {
 
-    public static final String BUNDLE_KEY = "WEEK_NUM";
-    private int[] mTodayWeekIds = {R.id.view_course_today_7, R.id.view_course_today_1, R.id.view_course_today_2,
+    public static final String BUNDLE_KEY    = "WEEK_NUM";
+    private             int[]  mTodayWeekIds = {R.id.view_course_today_7, R.id.view_course_today_1, R.id.view_course_today_2,
             R.id.view_course_today_3, R.id.view_course_today_4, R.id.view_course_today_5, R.id.view_course_today_6};
-    private int mWeek = 0;
+    private             int    mWeek         = 0;
     private User mUser;
     public static final String TAG = "BaseFragment";
 
     @Bind(R.id.course_swipe_refresh_layout)
     SwipeRefreshLayout mCourseSwipeRefreshLayout;
     @Bind(R.id.course_weeks)
-    LinearLayout mCourseWeeks;
+    LinearLayout       mCourseWeeks;
     @Bind(R.id.course_weekday)
-    LinearLayout mCourseWeekday;
+    LinearLayout       mCourseWeekday;
     @Bind(R.id.course_time)
-    LinearLayout mCourseTime;
+    LinearLayout       mCourseTime;
     @Bind(R.id.course_schedule_content)
-    ScheduleView mCourseScheduleContent;
+    ScheduleView       mCourseScheduleContent;
     @Bind(R.id.course_schedule_holder)
-    LinearLayout mCourseScheduleHolder;
+    LinearLayout       mCourseScheduleHolder;
     @Bind(R.id.course_month)
-    TextView mCourseMonth;
+    TextView           mCourseMonth;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,10 +123,9 @@ public class CourseFragment extends BaseFragment {
             mCourseTime.addView(tv);
         }
 
-        mUser = APP.getUser(getActivity());
-        // TODO 测试用户
-//        testUser();
-
+        if (APP.isLogin()) {
+            mUser = APP.getUser(getActivity());
+        }
         if (mUser != null) loadWeekCourseFromDB(mWeek);
         if (mWeek == new SchoolCalendar().getWeekOfTerm()) showTodayWeek();
 
@@ -156,14 +155,14 @@ public class CourseFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCourseLoadFinish(CourseLoadFinishEvent event) {
         mUser = APP.getUser(getActivity());
-        //TODO
-//        testUser();
         loadWeekCourseFromDB(mWeek);
     }
 
     private void showTodayWeek() {
         if (getView() != null)
-            getView().findViewById(mTodayWeekIds[Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1]).setVisibility(View.VISIBLE);
+            getView().findViewById(mTodayWeekIds[Calendar.getInstance()
+                                                         .get(Calendar.DAY_OF_WEEK) - 1])
+                     .setVisibility(View.VISIBLE);
     }
 
     private void loadWeekCourseFromDB(int mWeek) {

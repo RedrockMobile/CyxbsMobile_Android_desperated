@@ -1,12 +1,9 @@
 package com.mredrock.cyxbsmobile.ui.activity;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -14,8 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar;
+import com.mredrock.cyxbsmobile.event.LoginEvent;
 import com.mredrock.cyxbsmobile.ui.activity.social.PostNewsActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
@@ -23,8 +22,10 @@ import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.UserFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.social.SocialContainerFragment;
+import com.mredrock.cyxbsmobile.util.Util;
 
-import java.lang.reflect.Array;
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -101,6 +102,11 @@ public class MainActivity extends BaseActivity {
             if (position == 0) {
                 showMenu();
             }
+            if (position == 3) {
+                if (!APP.isLogin()) {
+                    EventBus.getDefault().post(new LoginEvent());
+                }
+            }
         });
     }
 
@@ -134,7 +140,12 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_news:
-                PostNewsActivity.startActivity(this);
+                if (APP.isLogin()) {
+                    PostNewsActivity.startActivity(this);
+                } else {
+                    Util.toast(getApplicationContext(), "尚未登录");
+                    EventBus.getDefault().post(new LoginEvent());
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -156,15 +167,6 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == UserFragment.REQUEST_EDIT_INFO) {
-            userFragment.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     public TextView getToolbarTitle() {

@@ -50,8 +50,8 @@ public class CourseContainerFragment extends BaseFragment {
 
     private TabPagerAdapter mAdapter;
     private List<Fragment> mFragmentList = new ArrayList<>();
-    private List<String> mTitles = new ArrayList<>();
-    private int mNowWeek;
+    private List<String>   mTitles       = new ArrayList<>();
+    private int  mNowWeek;
     private User mUser;
 
     private ViewPager.OnPageChangeListener mPageListener;
@@ -60,11 +60,13 @@ public class CourseContainerFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUser = APP.getUser(getActivity());
         EventBus.getDefault().register(this);
-        loadNowWeek();
-        loadAllCourses();
 
+        if (APP.isLogin()) {
+            mUser = APP.getUser(getActivity());
+            loadNowWeek();
+            loadAllCourses();
+        }
         mTitles = new ArrayList<>();
         mTitles.addAll(Arrays.asList(getResources().getStringArray(R.array.titles_weeks)));
 

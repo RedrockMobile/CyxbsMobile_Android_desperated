@@ -160,7 +160,6 @@ public class BaseActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginEvent(LoginEvent event) {
         startActivity(new Intent(this, LoginActivity.class));
-        this.finish();
     }
 
     @Override

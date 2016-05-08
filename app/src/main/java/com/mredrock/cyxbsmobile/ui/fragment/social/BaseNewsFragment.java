@@ -32,23 +32,23 @@ import rx.android.schedulers.AndroidSchedulers;
 /**
  * Created by mathiasluo on 16-4-26.
  */
-public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
 
     protected NewsAdapter mNewsAdapter;
     @Bind(R.id.information_RecyclerView)
-    RecyclerView mRecyclerView;
+    RecyclerView       mRecyclerView;
     @Bind(R.id.information_refresh)
     SwipeRefreshLayout refreshLayout;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
-    private LinearLayoutManager mLinearLayoutManager;
-    private int currentIndex;
+    private LinearLayoutManager       mLinearLayoutManager;
+    private int                       currentIndex;
     private List<HotNews> mListHotNews = null;
     private FooterViewWrapper mFooterViewWrapper;
 
-    public final static int PER_PAGE_NUM = 10;
-    public static final String TAG = "BaseNewsFragment";
-    public final static int FIRST_PAGE_INDEX = 0;
+    public final static int    PER_PAGE_NUM     = 10;
+    public static final String TAG              = "BaseNewsFragment";
+    public final static int    FIRST_PAGE_INDEX = 0;
 
 
     abstract Observable<List<HotNews>> provideData(int size, int page, boolean update);
@@ -60,8 +60,13 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         ButterKnife.bind(this, view);
-        init();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        init();
     }
 
     protected void init() {
@@ -164,7 +169,6 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -176,12 +180,13 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         @Bind(R.id.progressBar)
         CircleProgressBar mCircleProgressBar;
         @Bind(R.id.textLoadingFailed)
-        TextView mTextLoadingFailed;
+        TextView          mTextLoadingFailed;
 
         private View footerView;
 
         public FooterViewWrapper(Context context, ViewGroup parent) {
-            footerView = LayoutInflater.from(context).inflate(R.layout.list_footer_item_news, parent, false);
+            footerView = LayoutInflater.from(context)
+                                       .inflate(R.layout.list_footer_item_news, parent, false);
             ButterKnife.bind(this, footerView);
         }
 
