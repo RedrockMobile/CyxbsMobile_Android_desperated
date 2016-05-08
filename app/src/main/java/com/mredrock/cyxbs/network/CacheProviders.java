@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.network;
 
 import com.mredrock.cyxbs.model.AboutMe;
+import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.social.HotNews;
@@ -18,16 +19,17 @@ import rx.Observable;
  */
 public interface CacheProviders {
 
-    Observable<Reply<List<AboutMe>>> getCacheRelateMes(Observable<List<AboutMe>> oRelateMes, DynamicKey key, EvictDynamicKey evictDynamicKey);
+    Observable<Reply<List<AboutMe>>> getCachedRelateMes(Observable<List<AboutMe>> oRelateMes, DynamicKey key, EvictDynamicKey evictDynamicKey);
 
-    Observable<Reply<List<HotNews>>> getMyTrend(Observable<List<HotNews>> oNews, DynamicKey key, EvictDynamicKey evictDynamicKey);
+    Observable<Reply<List<HotNews>>> getCachedMyTrend(Observable<List<HotNews>> oNews, DynamicKey key, EvictDynamicKey evictDynamicKey);
 
-    Observable<Reply<List<Grade>>> getCacheGradeList(Observable<List<Grade>> oNews, DynamicKey key, EvictDynamicKey evictDynamicKey);
+    Observable<Reply<List<Grade>>> getCachedGradeList(Observable<List<Grade>> oNews, DynamicKey key, EvictDynamicKey evictDynamicKey);
 
-    Observable<Reply<List<Exam>>> getCacheExamList(Observable<List<Exam>> oNews, DynamicKey key, EvictDynamicKey evictDynamicKey);
+    Observable<Reply<List<Exam>>> getCachedExamList(Observable<List<Exam>> oNews, DynamicKey key, EvictDynamicKey evictDynamicKey);
 
-    Observable<Reply<List<HotNews>>> getCacheNews(Observable<List<HotNews>> oNews, DynamicKeyGroup key, EvictDynamicKey evictDynamicKey);
+    Observable<Reply<List<HotNews>>> getCachedNews(Observable<List<HotNews>> oNews, DynamicKeyGroup key, EvictDynamicKey evictDynamicKey);
 
-    Observable<Reply<List<HotNews>>> getCacheContentBean(Observable<List<HotNews>> oNews, DynamicKeyGroup key, EvictDynamicKey evictDynamicKey);
+    Observable<Reply<List<HotNews>>> getCachedContentBean(Observable<List<HotNews>> oNews, DynamicKeyGroup key, EvictDynamicKey evictDynamicKey);
 
+    Observable<Reply<List<Course>>> getCachedCourseList(Observable<List<Course>> oCourseList, DynamicKey key, EvictDynamicKey evictDynamicKey);
 }

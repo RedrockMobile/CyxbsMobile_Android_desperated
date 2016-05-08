@@ -26,7 +26,9 @@ import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.Stu;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
+import com.mredrock.cyxbs.network.func.CacheMapFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
+import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
 import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.network.service.RedrockApiService;
 import com.mredrock.cyxbs.network.service.UpDownloadService;
@@ -127,36 +129,34 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void verify(Subscriber<User> subscriber, String stuNum, String idNum) {
+    public Subscription verify(Subscriber<User> subscriber, String stuNum, String idNum) {
         Observable<User> observable = redrockApiService.verify(stuNum, idNum)
                                                        .map(new RedrockApiWrapperFunc<>());
 
-        emitObservable(observable, subscriber);
+        return emitObservable(observable, subscriber);
     }
 
-    public void getNowWeek(Subscriber<Integer> subscriber, String stuNum, String idNum) {
+    public Subscription getNowWeek(Subscriber<Integer> subscriber, String stuNum, String idNum) {
         Observable<Integer> observable = redrockApiService.getCourse(stuNum, idNum, "0")
                                                           .map(courseWrapper -> {
                                                               if (courseWrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
                                                                   throw new RedrockApiException();
                                                               }
-                                                              //Toast.makeText(APP.getContext(), courseWrapper.nowWeek, Toast.LENGTH_SHORT).show();
                                                               return Integer.parseInt(courseWrapper.nowWeek);
                                                           });
-        emitObservable(observable, subscriber);
+        return emitObservable(observable, subscriber);
     }
 
-    public void getAllCourseJson(Subscriber<String> subscriber, String stuNum, String idNum) {
-        getCourseJson(subscriber, stuNum, idNum, "0");
+    public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum, int week, boolean update) {
+        Observable<List<Course>> observable = cacheProviders.getCachedCourseList(getCourseList(stuNum, idNum), new DynamicKey(stuNum), new EvictDynamicKey(update))
+                                                            .map(new CacheMapFunc<>())
+                                                            .map(new UserCourseFilterFunc(week));
+
+        return emitObservable(observable, subscriber);
     }
 
-    public void getCourseJson(Subscriber<String> subscriber,
-                              String stuNum,
-                              String idNum,
-                              String week) {
-        Observable<String> observable = redrockApiService.getCourse(stuNum, idNum, week)
-                                                         .map(courseWrapper -> new Gson().toJson(courseWrapper));
-        emitObservable(observable, subscriber);
+    public Observable<List<Course>> getCourseList(String stuNum, String idNum) {
+        return redrockApiService.getCourse(stuNum, idNum, "0").map(new RedrockApiWrapperFunc<>());
     }
 
     public Subscription getShake(Subscriber<Shake> subscriber) {
@@ -229,21 +229,15 @@ public enum RequestManager {
         Observable<List<FoodComment>> observable =
                 redrockApiService.getFoodComments(shopId, page)
                                  .map(new RedrockApiWrapperFunc<>())
-                                 .filter(foodCommentList -> Utils.checkNotNullAndNotEmpty(foodCommentList))
+                                 .filter(Utils::checkNotNullAndNotEmpty)
                                  .flatMap(Observable::from)
                                  .toSortedList();
 
         return emitObservable(observable, subscriber);
     }
 
-    public void getCourse(Subscriber<List<Course>> subscriber, String stuNum, String
-            idNum, String week) {
-        Observable<List<Course>> observable = redrockApiService.getCourse(stuNum, idNum, week)
-                                                               .map(new RedrockApiWrapperFunc<>());
-    }
-
-    public void getCourse(Subscriber<List<Course>> subscriber,
-                          List<String> stuNumList, String week) {
+    public void getPublicCourse(Subscriber<List<Course>> subscriber,
+                                List<String> stuNumList, String week) {
         Observable<List<Course>> observable = Observable.from(stuNumList)
                                                         .flatMap(s -> redrockApiService.getCourse(s, "", week))
                                                         .map(new RedrockApiWrapperFunc<>());
@@ -270,7 +264,7 @@ public enum RequestManager {
             stuNum, String stuId, boolean update) {
         Observable<List<Grade>> observable = redrockApiService.getGrade(stuNum, stuId)
                                                               .map(new RedrockApiWrapperFunc<>());
-        cacheProviders.getCacheGradeList(observable, new DynamicKey
+        cacheProviders.getCachedGradeList(observable, new DynamicKey
                 (stuNum), new EvictDynamicKey(update))
                       .map(Reply::getData);
         emitObservable(observable, subscriber);
@@ -280,7 +274,7 @@ public enum RequestManager {
             stu, boolean update) {
         Observable<List<Exam>> observable = redrockApiService.getExam(stu).map(
                 examWapper -> examWapper.data);
-        cacheProviders.getCacheExamList(observable, new DynamicKey(stu), new
+        cacheProviders.getCachedExamList(observable, new DynamicKey(stu), new
                 EvictDynamicKey(update))
                       .map(Reply::getData);
         emitObservable(observable, subscriber);
@@ -290,7 +284,7 @@ public enum RequestManager {
             stu, boolean update) {
         Observable<List<Exam>> observable = redrockApiService.getReExam(stu).map(
                 examWapper -> examWapper.data);
-        cacheProviders.getCacheExamList(observable, new DynamicKey(stu), new
+        cacheProviders.getCachedExamList(observable, new DynamicKey(stu), new
                 EvictDynamicKey(update))
                       .map(Reply::getData);
         emitObservable(observable, subscriber);
@@ -369,7 +363,7 @@ public enum RequestManager {
 
         return getHotArticle(size, page).subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread());
-//        return cacheProviders.getCacheNews(getHotArticle(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
+//        return cacheProviders.getCachedNews(getHotArticle(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
 //                             .map(Reply::getData)
 //                             .subscribeOn(Schedulers.io())
 //                             .observeOn(AndroidSchedulers.mainThread());
@@ -414,7 +408,7 @@ public enum RequestManager {
     }
 
     public Observable<List<HotNews>> getListNews(int size, int page, boolean update) {
-//        return cacheProviders.getCacheContentBean(getListNews(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
+//        return cacheProviders.getCachedContentBean(getListNews(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
 //                             .map(listReply -> listReply.getData())
 //                             .subscribeOn(Schedulers.io())
 //                             .observeOn(AndroidSchedulers.mainThread());
@@ -426,7 +420,7 @@ public enum RequestManager {
 
 
     public Observable<List<HotNews>> getListArticle(int type_id, int size, int page, boolean update) {
-//        return cacheProviders.getCacheNews(getListArticle(type_id, size, page), new DynamicKeyGroup(type_id, size), new EvictDynamicKey(update))
+//        return cacheProviders.getCachedNews(getListArticle(type_id, size, page), new DynamicKeyGroup(type_id, size), new EvictDynamicKey(update))
 //                             .map(listReply -> listReply.getData())
 //                             .subscribeOn(Schedulers.io())
 //                             .observeOn(AndroidSchedulers.mainThread());
