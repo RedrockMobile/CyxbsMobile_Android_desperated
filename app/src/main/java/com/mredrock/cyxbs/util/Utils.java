@@ -1,7 +1,9 @@
 package com.mredrock.cyxbs.util;
 
-import android.os.Process;
+import android.content.Context;
+import android.os.Environment;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -36,5 +38,36 @@ public class Utils {
 
     public static boolean equal(Object a, Object b) {
         return a == b || (a != null && a.equals(b));
+    }
+
+    public static boolean isSDCardMounted() {
+        return Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED);
+    }
+
+    public static File getInternalCacheDir(Context context) {
+        if (isSDCardMounted()) {
+            return context.getCacheDir();
+        } else {
+            return null;
+        }
+    }
+
+    public static File getExternalCacheDir(Context context) {
+        if (isSDCardMounted()) {
+            return context.getExternalCacheDir();
+        } else {
+            return null;
+        }
+    }
+
+    public static File getDiskCacheDir(Context context) {
+        File diskCacheDir = null;
+        if (isSDCardMounted() || !Environment.isExternalStorageRemovable()) {
+            diskCacheDir = context.getExternalCacheDir();
+        } else {
+            diskCacheDir = context.getCacheDir();
+        }
+        return diskCacheDir;
     }
 }
