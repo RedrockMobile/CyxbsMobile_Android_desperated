@@ -20,7 +20,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp">
 
-            <com.mredrock.cyxbsmobile.component.widget.CircleImageView
+            <com.mredrock.cyxbs.component.widget.CircleImageView
                 android:id="@+id/list_news_img_avatar"
                 android:layout_width="@dimen/information_img_avatar"
                 android:layout_height="@dimen/information_img_avatar" />

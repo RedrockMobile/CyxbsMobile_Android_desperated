@@ -13,7 +13,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp">
 
-        <com.mredrock.cyxbsmobile.component.widget.CircleImageView
+        <com.mredrock.cyxbs.component.widget.CircleImageView
             android:id="@+id/list_information_img_avatar"
             android:layout_width="32dp"
             android:layout_height="32dp"

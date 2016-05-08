@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">掌上重邮</string>
+    <string name="app_name">掌上重邮V3.0</string>
     <string name="action_settings">Setting</string>
     <string name="community">社区</string>
     <string name="course">课表</string>
@@ -27,11 +27,6 @@
         <item>第十六周</item>
         <item>第十七周</item>
         <item>第十八周</item>
-        <item>第十九周</item>
-        <item>第二十周</item>
-        <item>第二十一周</item>
-        <item>第二十二周</item>
-        <item>第二十三周</item>
     </string-array>
 
     <string-array name="course_weekdays">

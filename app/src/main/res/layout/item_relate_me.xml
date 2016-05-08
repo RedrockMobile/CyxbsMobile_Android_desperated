@@ -18,7 +18,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.mredrock.cyxbsmobile.component.widget.CircleImageView
+        <com.mredrock.cyxbs.component.widget.CircleImageView
             android:id="@+id/about_me_avatar"
             android:layout_width="34dp"
             android:layout_height="34dp"

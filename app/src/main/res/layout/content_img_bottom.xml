@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <com.mredrock.cyxbsmobile.component.widget.CircleImageView
+        <com.mredrock.cyxbs.component.widget.CircleImageView
             android:id="@+id/user_avatar"
             android:layout_width="30dp"
             android:layout_height="30dp"

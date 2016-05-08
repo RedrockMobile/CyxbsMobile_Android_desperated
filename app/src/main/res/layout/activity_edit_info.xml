@@ -26,7 +26,7 @@
             android:textColor="@color/text_dark"
             android:textSize="15sp" />
 
-        <com.mredrock.cyxbsmobile.component.widget.CircleImageView
+        <com.mredrock.cyxbs.component.widget.CircleImageView
             android:id="@+id/edit_info_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
