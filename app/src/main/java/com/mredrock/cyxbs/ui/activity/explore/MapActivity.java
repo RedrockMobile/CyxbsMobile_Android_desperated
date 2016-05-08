@@ -69,7 +69,7 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
                     if (loadedBitmap != null) {
                         showCoveredMap((Bitmap) msg.obj);
                     } else {
-                        Toast.makeText(MapActivity.this, getResources().getString(R.string.map_load_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MapActivity.this, getResources().getString(R.string.error_text), Toast.LENGTH_SHORT).show();
                     }
                     onLoadProgressFinish();
                     break;
