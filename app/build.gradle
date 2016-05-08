@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion 23
@@ -11,8 +10,8 @@ android {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 20
+        versionName "3.0"
     }
 
     compileOptions {

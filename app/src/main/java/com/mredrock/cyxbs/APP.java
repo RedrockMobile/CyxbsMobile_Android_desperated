@@ -51,7 +51,9 @@ public class APP extends Application {
             mUser = new Gson().fromJson(json, User.class);
 
             if (mUser == null || mUser.stuNum == null || mUser.idNum == null) {
-                EventBus.getDefault().post(new LoginEvent());
+                if (EventBus.getDefault().hasSubscriberForEvent(LoginEvent.class)) {
+                    EventBus.getDefault().post(new LoginEvent());
+                }
                 return null;
             }
         }
@@ -76,10 +78,9 @@ public class APP extends Application {
         super.onCreate();
 
         if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
             Logger.init();
+            Logger.init("cyxbs_mobile");
         }
-        Logger.init("cyxbs_mobile");
         context = getApplicationContext();
         initThemeMode();
     }

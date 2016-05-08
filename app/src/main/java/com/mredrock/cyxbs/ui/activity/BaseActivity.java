@@ -170,7 +170,6 @@ public class BaseActivity extends AppCompatActivity {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onExitEvent(ExitEvent event) {
-        Logger.d("onExitEvent");
         this.finish();
     }
 
