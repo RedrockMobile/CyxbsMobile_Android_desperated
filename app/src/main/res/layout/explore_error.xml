@@ -3,5 +3,6 @@
     android:id="@+id/error_text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:text="@string/error_text"
     android:textSize="@dimen/app_text_size_large"
-    android:textColor="@color/body_text_1"/>
+    android:textColor="@color/body_text_2"/>

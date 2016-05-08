@@ -158,9 +158,21 @@ public enum RequestManager {
         return redrockApiService.getCourse(stuNum, idNum, "0").map(new RedrockApiWrapperFunc<>());
     }
 
+    public Subscription getMapPicture(Subscriber<List<String>> subscriber) {
+        Observable<List<String>> observable = redrockApiService.getMapPicture("overmap", "map")
+                .map(wrapper -> {
+                    if (wrapper.status != 204) {
+                        throw new RedrockApiException(wrapper.info);
+                    } else {
+                        return wrapper.data;
+                    }
+                });
+        return emitObservable(observable, subscriber);
+    }
+
     public Subscription getShake(Subscriber<Shake> subscriber) {
         Observable<Shake> observable = redrockApiService.getShake()
-                                                        .map(new RedrockApiWrapperFunc<>());
+                .map(new RedrockApiWrapperFunc<>());
 
         return emitObservable(observable, subscriber);
     }
@@ -192,8 +204,11 @@ public enum RequestManager {
                 redrockApiService.getFoodDetail(shopId)
                         .map(new RedrockApiWrapperFunc<>())
                         .filter(foodDetail -> foodDetail != null)
-                        .doOnNext(foodDetail -> foodDetail.shop_content =
-                                foodDetail.shop_content.replaceAll("\t", "").replaceAll("\r\n", ""))
+                        .doOnNext(foodDetail -> {
+                            foodDetail.shop_content =
+                                    foodDetail.shop_content.replaceAll("\t", "").replaceAll("\r\n", "");
+                            foodDetail.shop_tel = foodDetail.shop_tel.trim();
+                        })
                         .flatMap(foodDetail -> {
                             redrockApiService.getFoodComments(shopId, page)
                                     .map(new RedrockApiWrapperFunc<>())

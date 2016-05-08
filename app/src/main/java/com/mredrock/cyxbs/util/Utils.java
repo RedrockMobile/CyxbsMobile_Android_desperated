@@ -37,17 +37,4 @@ public class Utils {
     public static boolean equal(Object a, Object b) {
         return a == b || (a != null && a.equals(b));
     }
-
-    public static class WorkerThread extends Thread {
-
-        public WorkerThread(Runnable runnable) {
-            super(runnable);
-        }
-
-        @Override
-        public void run() {
-            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-            super.run();
-        }
-    }
 }

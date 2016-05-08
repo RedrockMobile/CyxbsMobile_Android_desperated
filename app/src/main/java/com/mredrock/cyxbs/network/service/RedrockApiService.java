@@ -54,6 +54,10 @@ public interface RedrockApiService {
                                                @Field("week") String week);
 
     //Explore start
+    @FormUrlEncoded
+    @POST(Const.API_MAP_PICTURE)
+    Observable<RedrockApiWrapper<List<String>>> getMapPicture(@Field("name") String name, @Field("path") String path);
+
     @GET(Const.API_SHAKE)
     Observable<RedrockApiWrapper<Shake>> getShake();
 
