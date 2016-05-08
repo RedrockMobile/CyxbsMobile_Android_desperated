@@ -1,5 +1,8 @@
 package com.mredrock.cyxbsmobile.model.social;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 
 import java.util.List;
@@ -7,7 +10,7 @@ import java.util.List;
 /**
  * Created by mathiasluo on 16-4-5.
  */
-public class HotNews extends RedrockApiWrapper<HotNewsContent> {
+public class HotNews extends RedrockApiWrapper<HotNewsContent> implements Parcelable {
 
 
     public String page;
@@ -64,9 +67,9 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> {
         this.data = new HotNewsContent("bbdd"
                 , bbddDetail.id
                 , 5
-                , "userid"
                 , ""
                 , ""
+                , bbddDetail.photo_src
                 , bbddDetail.created_time
                 , new OfficeNewsContent(bbddDetail.content)
                 , new HotNewsContent.ImgBean(bbddDetail.thumbnail_src, bbddDetail.photo_src)
@@ -74,5 +77,31 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> {
                 , bbddDetail.remark_num
                 , false
                 , bbddDetail.id);
+    }
+
+    protected HotNews(Parcel in) {
+        page = in.readString();
+    }
+
+    public static final Creator<HotNews> CREATOR = new Creator<HotNews>() {
+        @Override
+        public HotNews createFromParcel(Parcel in) {
+            return new HotNews(in);
+        }
+
+        @Override
+        public HotNews[] newArray(int size) {
+            return new HotNews[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(page);
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,18 +10,16 @@
     tools:context=".ui.activity.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <FrameLayout
-        android:id="@+id/main_fragment_container"
+    <com.mredrock.cyxbsmobile.component.widget.FixedViewPager
+        android:id="@+id/main_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-    </FrameLayout>
+        android:layout_weight="1"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/divider" />
+        android:background="@color/divider"/>
 
     <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar
         android:id="@+id/bottom_bar"
@@ -37,7 +36,7 @@
             app:button_image_normal="@drawable/ic_nearby"
             app:button_text="@string/community"
             app:color_choose="@color/colorPrimary"
-            app:color_normal="@color/tabText" />
+            app:color_normal="@color/tabText"/>
 
         <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomButton
             android:layout_width="0dp"
@@ -47,7 +46,7 @@
             app:button_image_normal="@drawable/ic_favorites"
             app:button_text="@string/course"
             app:color_choose="@color/colorPrimary"
-            app:color_normal="@color/tabText" />
+            app:color_normal="@color/tabText"/>
 
         <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomButton
             android:layout_width="0dp"
@@ -57,7 +56,7 @@
             app:button_image_normal="@drawable/ic_restaurants"
             app:button_text="@string/explore"
             app:color_choose="@color/colorPrimary"
-            app:color_normal="@color/tabText" />
+            app:color_normal="@color/tabText"/>
 
         <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomButton
             android:layout_width="0dp"
@@ -67,7 +66,7 @@
             app:button_image_normal="@drawable/ic_friends"
             app:button_text="@string/my_page"
             app:color_choose="@color/colorPrimary"
-            app:color_normal="@color/tabText" />
+            app:color_normal="@color/tabText"/>
 
     </com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar>
 

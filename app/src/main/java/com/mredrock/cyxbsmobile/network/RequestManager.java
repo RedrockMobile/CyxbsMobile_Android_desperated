@@ -1,7 +1,6 @@
 package com.mredrock.cyxbsmobile.network;
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.mredrock.cyxbsmobile.APP;
@@ -17,6 +16,7 @@ import com.mredrock.cyxbsmobile.model.Grade;
 import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.Shake;
 import com.mredrock.cyxbsmobile.model.User;
+import com.mredrock.cyxbsmobile.model.social.BBDDDetail;
 import com.mredrock.cyxbsmobile.model.social.BBDDNews;
 import com.mredrock.cyxbsmobile.model.social.BBDDNewsContent;
 import com.mredrock.cyxbsmobile.model.social.CommentContent;
@@ -59,7 +59,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
@@ -158,10 +157,7 @@ public enum RequestManager {
                               String idNum,
                               String week) {
         Observable<String> observable = redrockApiService.getCourse(stuNum, idNum, week)
-                .map(courseWrapper -> {
-                    return new Gson().toJson(courseWrapper);
-
-                });
+                .map(courseWrapper -> new Gson().toJson(courseWrapper));
         emitObservable(observable, subscriber);
     }
 
@@ -218,7 +214,7 @@ public enum RequestManager {
     public Subscription getFood(Subscriber<FoodDetail> subscriber, String restaurantKey) {
         Observable<FoodDetail> observable =
                 redrockApiService.getFoodDetail(restaurantKey)
-                .map(new RedrockApiWrapperFunc<>());
+                        .map(new RedrockApiWrapperFunc<>());
 
         return emitObservable(observable, subscriber);
     }
@@ -244,9 +240,10 @@ public enum RequestManager {
     }
 
     public void getCourse(Subscriber<List<Course>> subscriber, String stuNum, String
-            idNum, String week){
-            Observable<List<Course>> observable = redrockApiService.getCourse(stuNum, idNum, week).map(new RedrockApiWrapperFunc<>());
-        }
+            idNum, String week) {
+        Observable<List<Course>> observable = redrockApiService.getCourse(stuNum, idNum, week).map(new RedrockApiWrapperFunc<>());
+    }
+
     public void getCourse(Subscriber<List<Course>> subscriber,
                           List<String> stuNumList, String week) {
         Observable<List<Course>> observable = Observable.from(stuNumList)
@@ -334,12 +331,6 @@ public enum RequestManager {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<HotNews>> getMyTrend(String stuNum, String idNum, boolean update) {
-        return getMyTrend(stuNum, idNum)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
     public Observable<List<HotNews>> getMyTrend(String stuNum, String idNum) {
         List<HotNews> newsList = new ArrayList<>();
         return redrockApiService.searchTrends(stuNum, idNum)
@@ -412,7 +403,8 @@ public enum RequestManager {
         return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDDNews.LISTNEWS)
                 .map(content -> {
                     List<HotNews> aNews = new ArrayList<>();
-                    for (OfficeNewsContent bean : content) aNews.add(new HotNews(bean));
+                    for (OfficeNewsContent officeNewsContent : content)
+                        aNews.add(new HotNews(officeNewsContent));
                     return aNews;
                 })
                 .subscribeOn(Schedulers.newThread())
@@ -490,8 +482,6 @@ public enum RequestManager {
                                                        String user_id,
                                                        String stuNum,
                                                        String idNum) {
-        Log.e("===>>article_id->", article_id);
-        Log.e("===>>type_id->", type_id + "");
         return redrockApiService.getSocialCommentList(article_id, type_id, user_id, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>())
                 .subscribeOn(Schedulers.newThread())
@@ -541,16 +531,16 @@ public enum RequestManager {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<RedrockApiWrapper<Object>> setPersonInfo(String stuNum, String idNum, String photo_thumbnail_src, String photo_src) {
+    @SuppressWarnings("unchecked")
+    public Observable<RedrockApiWrapper> setPersonInfo(String stuNum, String idNum, String photo_thumbnail_src, String photo_src) {
 
-        return redrockApiService.setPersonInfo(stuNum, idNum, photo_thumbnail_src, photo_src)
-                .map(new RedrockApiWrapperFunc());
+        return redrockApiService.setPersonInfo(stuNum, idNum, photo_thumbnail_src, photo_src);
     }
 
+    @SuppressWarnings("unchecked")
     public void setPersonNickName(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String nickName) {
 
-        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonNickName(stuNum, idNum, nickName)
-                .map(new RedrockApiWrapperFunc());
+        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonNickName(stuNum, idNum, nickName);
 
         emitObservable(observable, subscriber);
     }
@@ -585,14 +575,15 @@ public enum RequestManager {
         return getPersonLatestList(otherStuNum, Stu.STU_NUM, Stu.ID_NUM, userName, userHead);
     }
 
+    @SuppressWarnings("unchecked")
     public void setPersonIntroduction(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String introduction) {
 
-        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonIntroduction(stuNum, idNum, introduction)
-                .map(new RedrockApiWrapperFunc());
+        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonIntroduction(stuNum, idNum, introduction);
 
         emitObservable(observable, subscriber);
     }
 
+    @SuppressWarnings("unchecked")
     public void setPersonQQ(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String qq) {
 
         Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonQQ(stuNum, idNum, qq)
@@ -601,6 +592,7 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
+    @SuppressWarnings("unchecked")
     public void setPersonPhone(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String phone) {
 
         Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonPhone(stuNum, idNum, phone)

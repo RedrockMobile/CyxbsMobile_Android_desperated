@@ -18,7 +18,6 @@ import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.social.HotNews;
 import com.mredrock.cyxbsmobile.model.social.HotNewsContent;
 import com.mredrock.cyxbsmobile.subscriber.EndlessRecyclerOnScrollListener;
-import com.mredrock.cyxbsmobile.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
@@ -33,7 +32,7 @@ import rx.android.schedulers.AndroidSchedulers;
 /**
  * Created by mathiasluo on 16-4-26.
  */
-public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, NewsAdapter.OnItemOnClickListener {
+public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
 
     protected NewsAdapter mNewsAdapter;
@@ -44,7 +43,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private int currentIndex;
-    private List<HotNews> mDatas = null;
+    private List<HotNews> mListHotNews = null;
     private FooterViewWrapper mFooterViewWrapper;
 
     public final static int PER_PAGE_NUM = 10;
@@ -112,7 +111,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .subscribe(newses -> {
-                    if (mDatas == null) {
+                    if (mListHotNews == null) {
                         initAdapter(newses);
                         if (newses.size() == 0) mFooterViewWrapper.showLoadingNoData();
                     } else mNewsAdapter.addDatas(newses);
@@ -125,15 +124,14 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
 
-    private void initAdapter(List<HotNews> datas) {
-        mDatas = datas;
-        mNewsAdapter = new NewsAdapter(mDatas) {
+    private void initAdapter(List<HotNews> listHotNews) {
+        mListHotNews = listHotNews;
+        mNewsAdapter = new NewsAdapter(mListHotNews) {
             @Override
             public void setDate(ViewHolder holder, HotNewsContent hotNewsContent) {
                 BaseNewsFragment.this.setDate(holder, hotNewsContent);
             }
         };
-        mNewsAdapter.setOnItemOnClickListener(this);
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mNewsAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         addFooterView(mHeaderViewRecyclerAdapter);
@@ -165,11 +163,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                         });
     }
 
-    @Override
-    public void onItemClick(View itemView, int position, HotNewsContent dataBean) {
-        int height = itemView.getHeight(); // 获取高度
-        SpecificNewsActivity.startActivityWithDataBean(getActivity(), dataBean, height);
-    }
+
 
     @Override
     public void onDestroyView() {

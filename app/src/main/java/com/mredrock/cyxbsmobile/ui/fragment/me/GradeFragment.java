@@ -15,6 +15,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Grade;
 import com.mredrock.cyxbsmobile.model.User;
@@ -79,9 +80,7 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
                 (getContext(), R.color.colorAccent), ContextCompat.getColor
                 (getContext(), R.color.colorPrimary));
 
-        mUser = new User();
-        mUser.stuNum = "2014213983";
-        mUser.idNum = "26722X";
+        mUser = APP.getUser(getActivity());
         if (mUser != null) {
             if (NetUtils.isNetWorkAvailable(getActivity())) {
                 showProgress();

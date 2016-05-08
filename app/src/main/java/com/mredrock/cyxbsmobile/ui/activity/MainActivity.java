@@ -7,6 +7,7 @@ import android.os.PersistableBundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,10 +17,15 @@ import android.widget.TextView;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbsmobile.ui.activity.social.PostNewsActivity;
+import com.mredrock.cyxbsmobile.ui.adapter.TabPagerAdapter;
+import com.mredrock.cyxbsmobile.ui.fragment.BaseFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.UserFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.social.SocialContainerFragment;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.BindString;
@@ -30,11 +36,16 @@ public class MainActivity extends BaseActivity {
 
 
     @Bind(R.id.main_toolbar_title)
-    TextView mToolbarTitle;
+    TextView          mToolbarTitle;
     @Bind(R.id.main_toolbar)
-    Toolbar mToolbar;
+    Toolbar           mToolbar;
     @Bind(R.id.main_coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
+    @Bind(R.id.bottom_bar)
+    BottomBar         mBottomBar;
+    @Bind(R.id.main_view_pager)
+    ViewPager         mViewPager;
+
     @BindString(R.string.community)
     String mStringCommunity;
     @BindString(R.string.course)
@@ -45,15 +56,11 @@ public class MainActivity extends BaseActivity {
     String mStringMyPage;
 
 
-    @Bind(R.id.bottom_bar)
-    BottomBar mBottomBar;
+    BaseFragment socialContainerFragment;
+    BaseFragment courseContainerFragment;
+    BaseFragment exploreFragment;
+    BaseFragment userFragment;
 
-//    BaseFragment socialContainerFragment;
-//    BaseFragment courseContainerFragment;
-//    BaseFragment exploreFragment;
-//    BaseFragment userFragment;
-
-    private Fragment myPageFragment;
     private Menu mMenu;
 
     @Override
@@ -64,58 +71,36 @@ public class MainActivity extends BaseActivity {
         initView();
     }
 
-    @Override
-    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onPostCreate(savedInstanceState, persistentState);
-    }
-
     private void initView() {
         initToolbar();
-        // mImageView.setOnClickListener(this);
+        socialContainerFragment = new SocialContainerFragment();
+        courseContainerFragment = new CourseContainerFragment();
+        exploreFragment = new ExploreFragment();
+        userFragment = new UserFragment();
+
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(socialContainerFragment);
+        fragments.add(courseContainerFragment);
+        fragments.add(exploreFragment);
+        fragments.add(userFragment);
+
+        ArrayList<String> titles = new ArrayList<>();
+        titles.add(mStringCommunity);
+        titles.add(mStringCourse);
+        titles.add(mStringExplore);
+        titles.add(mStringMyPage);
+
+        TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager(), fragments, titles);
+        mViewPager.setAdapter(adapter);
+        mViewPager.setOffscreenPageLimit(4);
+
         mBottomBar.setOnBottomViewClickListener((view, position) -> {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            Fragment fragment = null;
-            //  mImageView.setVisibility(View.GONE);
+            mViewPager.setCurrentItem(position);
             hiddenMenu();
-
-            switch (position) {
-                case 0:
-//                    if (socialContainerFragment == null) {
-//                        socialContainerFragment = new SocialContainerFragment();
-//                    }
-//                    fragment = socialContainerFragment;
-                    fragment = new SocialContainerFragment();
-                    setTitle(mStringCommunity);
-                    // mImageView.setVisibility(View.VISIBLE);
-                    showMenu();
-
-                    break;
-                case 1:
-//                    if (courseContainerFragment == null) {
-//                        courseContainerFragment = new CourseContainerFragment();
-//                    }
-//                    fragment = courseContainerFragment;
-                    fragment = new CourseContainerFragment();
-                    break;
-                case 2:
-//                    if (exploreFragment == null) {
-//                        exploreFragment = new ExploreFragment();
-//                    }
-//                    fragment = exploreFragment;
-                    fragment = new ExploreFragment();
-                    setTitle(mStringExplore);
-                    break;
-                case 3:
-//                    if (userFragment == null) {
-//                        userFragment = new UserFragment();
-//                    }
-                    fragment = new UserFragment();
-                    myPageFragment = fragment;
-                    setTitle(mStringMyPage);
-                    break;
+            setTitle(adapter.getPageTitle(position));
+            if (position == 0) {
+                showMenu();
             }
-            transaction.replace(R.id.main_fragment_container, fragment);
-            transaction.commit();
         });
     }
 
@@ -178,7 +163,7 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == UserFragment.REQUEST_EDIT_INFO) {
-            myPageFragment.onActivityResult(requestCode, resultCode, data);
+            userFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.Exam;
 import com.mredrock.cyxbsmobile.model.User;
@@ -102,8 +103,8 @@ public class ExamScheduleFragment extends BaseFragment {
                 (getContext(), R.color.colorAccent), ContextCompat.getColor(getContext(), R.color.colorPrimary));
 
 
-        mUser = new User();
-        mUser.stu = "2014213983";
+        mUser = APP.getUser(getActivity());
+        mUser.stu = mUser.stuNum;
         if (mUser != null) {
             if (NetUtils.isNetWorkAvailable(getActivity())) {
                 showProgress();

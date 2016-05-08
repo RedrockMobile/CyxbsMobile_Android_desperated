@@ -124,7 +124,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
     @OnClick(R.id.my_page_trend_layout)
     void clickToLatest() {
-        startActivity(new Intent(getActivity(), MyTrendActivity.class));
+        MyTrendActivity.startActivityWithUser(getActivity(),mUser);
     }
 
     @OnClick(R.id.my_page_no_course_layout)
@@ -151,9 +151,11 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     void clickToNight() {
         if (myPageSwitchCompat.isChecked()) {
             SPUtils.set(getContext(), Const.SP_KEY_IS_NIGHT, false);
+            myPageSwitchCompat.setChecked(false);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else {
             SPUtils.set(getContext(), Const.SP_KEY_IS_NIGHT, true);
+            myPageSwitchCompat.setChecked(true);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
     }

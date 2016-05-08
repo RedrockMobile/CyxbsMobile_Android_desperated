@@ -104,7 +104,7 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_INFO)
-    Observable<RedrockApiWrapper<Object>> setPersonInfo(@Field("stuNum") String stuNum,
+    Observable<RedrockApiWrapper> setPersonInfo(@Field("stuNum") String stuNum,
                                                         @Field("idNum") String idNum,
                                                         @Field("photo_thumbnail_src") String photo_thumbnail_src,
                                                         @Field("photo_src") String photo_src);
