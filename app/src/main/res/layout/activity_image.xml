@@ -7,7 +7,7 @@
     android:background="@color/black_lightly"
     android:fitsSystemWindows="true">
 
-    <com.mredrock.cyxbsmobile.component.widget.FixedViewPager
+    <com.mredrock.cyxbs.component.widget.FixedViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

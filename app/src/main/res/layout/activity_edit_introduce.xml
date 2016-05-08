@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.activity.me.EditIntroduceActivity">
 
-    <com.mredrock.cyxbsmobile.component.widget.Toolbar
+    <com.mredrock.cyxbs.component.widget.Toolbar
         android:id="@+id/edit_introduce_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

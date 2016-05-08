@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">掌上重邮</string>
+    <string name="app_name">掌上重邮V3.0</string>
     <string name="action_settings">Setting</string>
     <string name="community">社区</string>
     <string name="course">课表</string>
@@ -146,6 +146,8 @@
     </string-array>
 
     <!--explore page start-->
+    <string name="error_text">加载失败</string>
+
     <string name="explore_portal">红岩门户</string>
     <string name="explore_map">重邮地图</string>
     <string name="explore_eat">吃什么</string>

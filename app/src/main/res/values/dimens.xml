@@ -18,6 +18,8 @@
 
     <!--fab-->
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_elevation">6dp</dimen>
+    <dimen name="fab_translation_z">12dp</dimen>
 
     <!--divider-->
     <dimen name="divider_height">1dp</dimen>
