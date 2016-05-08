@@ -80,7 +80,6 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     }
 
 
-
     private void init() {
         initToolbar();
 
@@ -138,7 +137,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
                 ps.height = ps.width;
                 holder.mImgAvatar.setLayoutParams(ps);
                 holder.enableAvatarClick = false;
-
+                holder.isFromPersonInfo = true;
             }
         };
         mHeaderViewRecyclerAdapter.setAdapter(mNewsAdapter);

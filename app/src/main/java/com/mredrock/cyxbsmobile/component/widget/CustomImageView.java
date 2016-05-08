@@ -56,7 +56,6 @@ public class CustomImageView extends ImageView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setScaleType(ScaleType.CENTER_INSIDE);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -111,7 +110,6 @@ public class CustomImageView extends ImageView {
     public void setImageUrl(String url) {
         if (!TextUtils.isEmpty(url)) {
             this.url = url;
-
             if (isAttachedToWindow) {
                 Glide
                         .with(getContext())
@@ -127,7 +125,7 @@ public class CustomImageView extends ImageView {
         super.onDraw(canvas);
         if (type == Image.TYPE_NORMAL) {
             int w = canvas.getWidth();
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_delete_black_18dp);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete_img);
             canvas.drawBitmap(bitmap, w - DensityUtils.dp2px(getContext(), 18), 0, null);
         }
     }

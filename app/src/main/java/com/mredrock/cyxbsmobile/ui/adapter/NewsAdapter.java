@@ -110,14 +110,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public View itemView;
         HotNewsContent mHotNewsContent;
         public boolean enableAvatarClick = true;
+        public boolean isFromPersonInfo = false;
 
         private boolean isSingle = false;
+
 
         private Subscription mSubscription;
 
         @OnClick(R.id.list_news_img_avatar)
         public void takeToPersonInfoActivity(View view) {
-            if (enableAvatarClick) {
+            if (enableAvatarClick && !isFromPersonInfo) {
                 registerObservable();
                 PersonInfoActivity.StartActivityWithData(view.getContext(), mHotNewsContent.user_head, mHotNewsContent.nick_name, mHotNewsContent.user_id);
             }
@@ -126,9 +128,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         @OnClick(R.id.news_item_card_view)
         public void onItemClick(View view) {
             if (!isSingle) {
-
                 registerObservable();
-                SpecificNewsActivity.startActivityWithDataBean(view.getContext(), mHotNewsContent, mHotNewsContent.article_id);
+                SpecificNewsActivity.startActivityWithDataBean(view.getContext(), mHotNewsContent, mHotNewsContent.article_id, isFromPersonInfo);
             }
         }
 
@@ -210,14 +211,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public void setData(HotNewsContent hotNewsContent, boolean isSingleItem) {
             this.isSingle = isSingleItem;
             mHotNewsContent = hotNewsContent;
+
             mTextName.setText(hotNewsContent.type_id < BBDDNews.BBDD ? hotNewsContent.geType_id() : hotNewsContent.nick_name);
             mTextTime.setText(TimeUtils.getTimeDetail(hotNewsContent.getTime()));
             mBtnFavor.setText(hotNewsContent.like_num);
             mBtnMsg.setText(hotNewsContent.remark_num);
-
+            mExpandableTextView.setmMaxCollapsedLines(4);
             if (isSingle) {
                 mExpandableTextView.setText(Html.fromHtml(hotNewsContent.content != null ? hotNewsContent.content.content : ""));
-                mExpandableTextView.setmMaxCollapsedLines(1000000);
+                mExpandableTextView.setmMaxCollapsedLines(1000);
             } else if (hotNewsContent.type_id < BBDDNews.BBDD) {
                 mExpandableTextView.setText(hotNewsContent.content.title != null ? hotNewsContent.content.title : "");
             } else {
@@ -236,10 +238,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 else NewsAdapter.ViewHolder.this.like(mBtnFavor);
             });
 
-            if (hotNewsContent.type_id == 6) {
-                mTextContent.setText(hotNewsContent.content.title);
+
+            if (hotNewsContent.type_id == 6 && hotNewsContent.user_id != null && hotNewsContent.user_id.equals("0")) {
+                mExpandableTextView.setText(hotNewsContent.content.content);
+            } else if (hotNewsContent.type_id == 6) {
+                mExpandableTextView.setText(hotNewsContent.content.title);
                 mTextName.setText(hotNewsContent.content.getOfficeName());
             }
+
+            if (mExpandableTextView.getText().toString().equals(""))
+                mExpandableTextView.setVisibility(View.GONE);
 
             mAutoNineGridlayout.setImagesData(getImgs(getUrls(hotNewsContent.img.img_small_src)));
 
@@ -249,6 +257,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
 
         }
+
 
     }
 

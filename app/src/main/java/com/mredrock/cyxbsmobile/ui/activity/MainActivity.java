@@ -3,10 +3,8 @@ package com.mredrock.cyxbsmobile.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +22,6 @@ import com.mredrock.cyxbsmobile.ui.fragment.UserFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.social.SocialContainerFragment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -36,15 +33,15 @@ public class MainActivity extends BaseActivity {
 
 
     @Bind(R.id.main_toolbar_title)
-    TextView          mToolbarTitle;
+    TextView mToolbarTitle;
     @Bind(R.id.main_toolbar)
-    Toolbar           mToolbar;
+    Toolbar mToolbar;
     @Bind(R.id.main_coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
     @Bind(R.id.bottom_bar)
-    BottomBar         mBottomBar;
+    BottomBar mBottomBar;
     @Bind(R.id.main_view_pager)
-    ViewPager         mViewPager;
+    ViewPager mViewPager;
 
     @BindString(R.string.community)
     String mStringCommunity;

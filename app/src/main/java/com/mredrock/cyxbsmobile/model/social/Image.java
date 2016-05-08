@@ -4,10 +4,8 @@ package com.mredrock.cyxbsmobile.model.social;
  * Created by mathiasluo on 16-4-11.
  */
 public class Image {
-    public String url;
-    public int width;
-    public int height;
 
+    public String url;
 
     public static final int TYPE_ADD = 1;
     public static final int TYPE_NORMAL = 2;
@@ -29,10 +27,5 @@ public class Image {
         return this;
     }
 
-
-    @Override
-    public String toString() {
-        return "image---->>url=" + url + "width=" + width + "height" + height;
-    }
 
 }

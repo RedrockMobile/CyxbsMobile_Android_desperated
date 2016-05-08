@@ -71,7 +71,7 @@ public class NineGridlayout extends ViewGroup {
 
     }
 
-    protected void layoutChildrenView() {
+    protected void layoutChildrenView(Image first_Image) {
         int childrenCount = listData.size();
 
         int singleWidth = (totalWidth - gap * (3 - 1)) / 3;
@@ -171,7 +171,7 @@ public class NineGridlayout extends ViewGroup {
             i++;
         }
         listData = lists;
-        layoutChildrenView();
+        layoutChildrenView(lists.get(0));
     }
 
 

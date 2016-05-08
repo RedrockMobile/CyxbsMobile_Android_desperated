@@ -32,7 +32,7 @@ import rx.android.schedulers.AndroidSchedulers;
 /**
  * Created by mathiasluo on 16-4-26.
  */
-public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
 
     protected NewsAdapter mNewsAdapter;
@@ -80,7 +80,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         });
 
         getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, false);
-        //getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
+        getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
 
     }
 
@@ -162,7 +162,6 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                             getDataFailed(throwable.toString());
                         });
     }
-
 
 
     @Override
