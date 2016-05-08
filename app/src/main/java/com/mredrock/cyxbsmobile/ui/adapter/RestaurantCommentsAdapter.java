@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.model.FoodComment;
-import com.mredrock.cyxbsmobile.util.GlideHelper;
 import com.mredrock.cyxbsmobile.util.SchoolCalendar;
 
 import java.util.List;
@@ -23,11 +22,8 @@ import butterknife.ButterKnife;
  */
 public class RestaurantCommentsAdapter extends BaseRecyclerViewAdapter<FoodComment, RestaurantCommentsAdapter.RestaurantCommentsViewHolder>{
 
-    private GlideHelper mGlideHelper;
-
     public RestaurantCommentsAdapter(List<FoodComment> mDatas, Context context) {
         super(mDatas, context);
-        mGlideHelper = new GlideHelper(mContext, R.drawable.img_placeholder);
     }
 
     @Override

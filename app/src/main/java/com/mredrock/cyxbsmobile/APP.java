@@ -10,7 +10,6 @@ import com.mredrock.cyxbsmobile.event.LoginEvent;
 import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.util.SPUtils;
 import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -48,15 +47,12 @@ public class APP extends Application {
     public static User getUser(Context context) {
         if (mUser == null) {
             String json = (String) SPUtils.get(context, Const.SP_KEY_USER, "");
-            if (json == null || json.length() == 0) {
+            mUser = new Gson().fromJson(json, User.class);
+
+            if (mUser == null || mUser.stuNum == null || mUser.idNum == null) {
                 EventBus.getDefault().post(new LoginEvent());
                 return null;
             }
-            mUser = new Gson().fromJson(json, User.class);
-        }
-        if (mUser == null || mUser.stuNum == null || mUser.idNum == null) {
-            EventBus.getDefault().post(new LoginEvent());
-            return null;
         }
         return mUser;
     }

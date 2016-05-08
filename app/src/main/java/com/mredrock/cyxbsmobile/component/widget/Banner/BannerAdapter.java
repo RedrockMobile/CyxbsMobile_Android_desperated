@@ -3,10 +3,11 @@ package com.mredrock.cyxbsmobile.component.widget.banner;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mredrock.cyxbsmobile.util.LogUtils;
+
 import java.util.List;
 
 public abstract class BannerAdapter<T> {
-    private static final String TAG = "BannerAdapter";
     private List<T> mDatas;
 
     public List<T> getDatas() {

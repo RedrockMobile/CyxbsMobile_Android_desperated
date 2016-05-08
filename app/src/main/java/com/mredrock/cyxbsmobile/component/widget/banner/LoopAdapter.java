@@ -4,12 +4,12 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class SLooperAdapter extends PagerAdapter {
+public class LoopAdapter extends PagerAdapter {
     private PagerAdapter mAdapter;
 
     private int mItemCount=0;
 
-    public SLooperAdapter(PagerAdapter adapter) {
+    public LoopAdapter(PagerAdapter adapter) {
         mAdapter = adapter;
     }
 

@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 
 import com.mredrock.cyxbsmobile.R;
@@ -22,33 +22,27 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Stormouble on 16/5/3.
  */
-public abstract class BaseExploreFragment extends BaseFragment
+abstract class BaseExploreFragment extends BaseFragment
         implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = LogUtils.makeLogTag(BaseExploreFragment.class);
 
-    protected View mMainContent;
-    protected SwipeRefreshLayout mSwipeRefreshLayout;
+    View mMainContent;
+    ViewStub mErrorLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
-    protected CompositeSubscription mCompositeSubscription;
-    protected GlideHelper mGlideHelper;
+    CompositeSubscription mCompositeSubscription;
+    GlideHelper mGlideHelper;
 
-    public interface Listener {
-        void onFragmentSetup();
-
-        void onFragmentIntroAnimation(Bundle savedInstanceState);
-
-        void onFragmentLoadData(Bundle savedInstanceState);
-    }
-
-    public abstract int getLayoutID();
+    public abstract int layoutId();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(getLayoutID(), container, false);
+        final View view = inflater.inflate(layoutId(), container, false);
         ButterKnife.bind(this, view);
         mMainContent = view.findViewById(R.id.main_content);
+        mErrorLayout = (ViewStub) view.findViewById(R.id.error_stub);
         mSwipeRefreshLayout =
                 (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         return view;
@@ -62,14 +56,6 @@ public abstract class BaseExploreFragment extends BaseFragment
         mGlideHelper = new GlideHelper(getActivity(), R.drawable.img_placeholder);
 
         trySetupSwipeRefreshLayout();
-
-        if (this instanceof Listener) {
-            Listener listener = (Listener) this;
-
-            listener.onFragmentSetup();
-            listener.onFragmentIntroAnimation(savedInstanceState);
-            listener.onFragmentLoadData(savedInstanceState);
-        }
     }
 
     @Override
@@ -85,17 +71,42 @@ public abstract class BaseExploreFragment extends BaseFragment
     }
 
     protected void enableRevealBackground(RevealBackgroundView revealBackground
-            , int[] startLocation, RevealBackgroundView.OnStateChangeListener listener) {
-        if (startLocation != null) {
-            revealBackground.setOnStateChangeListener(listener);
-            revealBackground.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    revealBackground.getViewTreeObserver().removeOnPreDrawListener(this);
-                    revealBackground.startFromLocation(startLocation);
-                    return true;
-                }
-            });
+            , int[] startLocation, Bundle savedInstanceState, RevealBackgroundView.OnStateChangeListener listener) {
+        if (savedInstanceState == null) {
+            if (startLocation != null && startLocation.length == 2) {
+                revealBackground.setOnStateChangeListener(listener);
+                revealBackground.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        revealBackground.getViewTreeObserver().removeOnPreDrawListener(this);
+                        revealBackground.startFromLocation(startLocation);
+                        return true;
+                    }
+                });
+            }
+        } else {
+            revealBackground.setToFinishedFrame();
+        }
+
+    }
+
+    protected void onMainContentVisibleChanged(boolean shouldVisible) {
+        if (mMainContent != null) {
+            if (shouldVisible) {
+                mMainContent.setVisibility(View.VISIBLE);
+            } else {
+                mMainContent.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    protected void onErrorLayoutVisibleChanged(boolean shouldVisible) {
+        if (mErrorLayout != null) {
+            if (shouldVisible) {
+                mErrorLayout.setVisibility(View.VISIBLE);
+            } else {
+                mErrorLayout.setVisibility(View.INVISIBLE);
+            }
         }
     }
 

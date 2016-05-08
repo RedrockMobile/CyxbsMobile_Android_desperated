@@ -67,17 +67,25 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
         }
     }
 
+    public void updateDataWhenPagination(List<T> data) {
+        if (data != null) {
+            mDatas.addAll(data);
+
+            int currentSize = getItemCount();
+            notifyItemRangeChanged(currentSize, mDatas.size() - 1);
+        }
+    }
+
     public void updateDataWithAnimation(List<T> data) {
+        mDatas.clear();
         if (data != null) {
             mDatas = data;
-            notifyItemRangeChanged(0, data.size());
+            notifyItemRangeChanged(0, data.size() - 1);
         }
     }
 
     public void updateDataWithAnimation() {
-        if (Utils.checkNotNullAndNotEmpty(mDatas)) {
-            notifyItemRangeChanged(0, mDatas.size());
-        }
+        notifyItemRangeChanged(0, mDatas.size() - 1);
     }
 
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {

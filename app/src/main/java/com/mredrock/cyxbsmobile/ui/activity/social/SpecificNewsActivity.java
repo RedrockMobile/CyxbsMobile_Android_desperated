@@ -146,7 +146,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                     public void downloadFailed(String message) {
                         Util.toast(SpecificNewsActivity.this, getResources().getString(R.string.load_failed));
                         if (message != null) {
-                            Log.d(TAG, "error is---->>> " + message);
+                            Log.d(TAG, "explore_error is---->>> " + message);
                         }
                     }
                 });

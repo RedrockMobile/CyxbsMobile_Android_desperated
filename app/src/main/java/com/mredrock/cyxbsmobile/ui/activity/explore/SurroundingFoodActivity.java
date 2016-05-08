@@ -3,20 +3,12 @@ package com.mredrock.cyxbsmobile.ui.activity.explore;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.ViewTreeObserver;
 
 import com.mredrock.cyxbsmobile.R;
-import com.mredrock.cyxbsmobile.component.widget.RevealBackgroundView;
-import com.mredrock.cyxbsmobile.ui.fragment.explore.BaseExploreFragment;
 import com.mredrock.cyxbsmobile.ui.fragment.explore.SurroundingFoodFragment;
 import com.mredrock.cyxbsmobile.util.LogUtils;
 import com.mredrock.cyxbsmobile.util.UIUtils;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by Stormouble on 16/4/16.
