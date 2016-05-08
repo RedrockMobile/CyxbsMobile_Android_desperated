@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.ExitEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
@@ -17,6 +18,7 @@ import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.Util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -76,9 +78,14 @@ public class LoginActivity extends AppCompatActivity {
                           @Override
                           public void onNext(User user) {
                               super.onNext(user);
-                              APP.setUser(LoginActivity.this, user);
-                              startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                              LoginActivity.this.finish();
+                              if (user != null) {
+                                  APP.setUser(LoginActivity.this, user);
+                                  EventBus.getDefault().removeStickyEvent(ExitEvent.class);
+                                  startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                  LoginActivity.this.finish();
+                              } else {
+                                  Util.toast(LoginActivity.this, "登录失败, 返回了信息为空");
+                              }
                           }
 
                       }), stuNum, idNum);
@@ -91,4 +98,13 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.unbind(this);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (EventBus.getDefault().hasSubscriberForEvent(ExitEvent.class)) {
+            EventBus.getDefault().postSticky(new ExitEvent());
+        }
+
+        this.finish();
+    }
 }

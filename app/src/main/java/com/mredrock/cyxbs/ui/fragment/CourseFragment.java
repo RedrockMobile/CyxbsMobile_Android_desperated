@@ -153,7 +153,6 @@ public class CourseFragment extends BaseFragment {
 
     private void showTodayWeek() {
         if (getView() != null)
-            Logger.d("show today");
             getView().findViewById(mTodayWeekIds[Calendar.getInstance()
                                                          .get(Calendar.DAY_OF_WEEK) - 1])
                      .setVisibility(View.VISIBLE);

@@ -32,6 +32,7 @@ public class APP extends Application {
         String userJson;
         mUser = user;
         if (user == null) {
+            APP.setLogin(false);
             userJson = "";
         } else {
             userJson = new Gson().toJson(user);
