@@ -157,10 +157,12 @@
     <string name="portal_menu_copy">复制链接</string>
     <string name="portal_open_with">用浏览器打开</string>
 
-    <string name="map_dialog_title">流量警告</string>
-    <string name="map_dialog_content">当前不在wifi下哦，是否用流量下载重邮地图？</string>
-    <string name="map_dialog_positive">就是任性</string>
-    <string name="map_dialog_negative">还是算了</string>
+    <string name="map_flow_dialog_title">流量警告</string>
+    <string name="map_flow_dialog_content">当前不在wifi下哦，是否用流量下载重邮地图？</string>
+    <string name="map_flow_dialog_positive">就是任性</string>
+    <string name="map_flow_dialog_negative">还是算了</string>
+    <string name="map_progress_dialog_title">正在下载地图</string>
+    <string name="map_progress_dialog_content">请稍候</string>
 
     <string name="what_to_eat_activity_name">吃什么</string>
     <string name="shake_again_text">不想吃这个？再摇一摇</string>

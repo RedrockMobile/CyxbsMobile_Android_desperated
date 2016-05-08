@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.component.widget;
+package com.mredrock.cyxbs.component.widget.ninelayout;
 
 /**
  * Created by mathiasluo on 16-4-11.
@@ -71,7 +71,7 @@ public class NineGridlayout extends ViewGroup {
 
     }
 
-    protected void layoutChildrenView() {
+    protected void layoutChildrenView(Image first_Image) {
         int childrenCount = listData.size();
 
         int singleWidth = (totalWidth - gap * (3 - 1)) / 3;
@@ -171,7 +171,7 @@ public class NineGridlayout extends ViewGroup {
             i++;
         }
         listData = lists;
-        layoutChildrenView();
+        layoutChildrenView(lists.get(0));
     }
 
 

@@ -132,7 +132,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment {
         enableRevealBackground(mRevealBackground, mDrawingStartLocation,
                 savedInstanceState, state -> {
             if (RevealBackgroundView.STATE_FINISHED == state) {
-                getFoodAndCommentList(1);
+                getFoodAndCommentList(1, true);
             } else {
                 onMainContentVisibleChanged(false);
                 mFloatingActionButton.setVisibility(View.INVISIBLE);
@@ -143,15 +143,22 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment {
 
     @Override
     public void onRefresh() {
-        getFoodAndCommentList(1);
+        getFoodAndCommentList(1, false);
     }
 
     /**
      * Get food data and comments
      */
-    private void getFoodAndCommentList(int page) {
+    private void getFoodAndCommentList(int page, boolean shouldShowProgressDialog) {
         Subscription subscription = RequestManager.getInstance().getFoodAndCommentList(
-                new SimpleSubscriber<FoodDetail>(getActivity(), true, new SubscriberListener<FoodDetail>() {
+                new SimpleSubscriber<FoodDetail>(getActivity(), shouldShowProgressDialog, new SubscriberListener<FoodDetail>() {
+                    @Override
+                    public void onStart() {
+                        if (!shouldShowProgressDialog) {
+                            mSwipeRefreshLayout.post(() -> onRefreshingStateChanged(true));
+                        }
+                    }
+
                     @Override
                     public void onCompleted() {
                         onRefreshingStateChanged(false);

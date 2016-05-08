@@ -1,8 +1,7 @@
-package com.mredrock.cyxbs.component.widget;
+package com.mredrock.cyxbs.component.widget.ninelayout;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -22,19 +21,20 @@ public class AutoNineGridlayout extends NineGridlayout {
     }
 
     @Override
-    protected void layoutChildrenView() {
+    protected void layoutChildrenView(Image firstImage) {
         int childrenCount = listData.size();
         switch (childrenCount) {
             case 1:
                 int singleWidth = ScreenTools.instance(getContext()).getScreenWidth();
-                int singleHeight = singleWidth / 3 * 2;
+                int singleHeight = singleWidth / 6 * 7;
 
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getLayoutParams();
                 params.height = singleHeight * rows + gap * (rows - 1);
+                // params.height = LayoutParams.MATCH_PARENT;
                 params.leftMargin = 0;
                 params.rightMargin = 0;
                 setLayoutParams(params);
-
+                //Log.e("--->>>firstImage", firstImage.url);
                 CustomImageView childrenView = (CustomImageView) getChildAt(0);
    /*             LayoutParams layoutParams = childrenView.getLayoutParams();
                 layoutParams.width = LayoutParams.MATCH_PARENT;
@@ -42,22 +42,14 @@ public class AutoNineGridlayout extends NineGridlayout {
                 childrenView.setLayoutParams(layoutParams);*/
                 childrenView.setScaleType(ImageView.ScaleType.FIT_XY);
 
-                childrenView.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (((Image) listData.get(0)).getType() == Image.TYPE_ADD)
-                            if (mOnAddImagItemClickListener != null)
-                                mOnAddImagItemClickListener.onClick(view, 0);
-                            else if (mOnNormalImagItemClickListener != null)
-                                mOnNormalImagItemClickListener.onClick(view, 0);
-                    }
+                childrenView.setOnClickListener(view -> {
+                    if (((Image) listData.get(0)).getType() == Image.TYPE_ADD)
+                        if (mOnAddImagItemClickListener != null)
+                            mOnAddImagItemClickListener.onClick(view, 0);
+                        else if (mOnNormalImagItemClickListener != null)
+                            mOnNormalImagItemClickListener.onClick(view, 0);
                 });
-                childrenView.setOnClickDelecteLIstener(new CustomImageView.OnClickDelecteListener() {
-                    @Override
-                    public void onClickDelect(View v) {
-                        mOnClickDeletecteListener.onClickDelete(v, 0);
-                    }
-                });
+                childrenView.setOnClickDelecteLIstener(v -> mOnClickDeletecteListener.onClickDelete(v, 0));
                 childrenView.setImageUrl(((Image) listData.get(0)).url);
 
                 childrenView.setType(((Image) listData.get(0)).getType());
@@ -75,7 +67,7 @@ public class AutoNineGridlayout extends NineGridlayout {
                 param_1.rightMargin = param_1.leftMargin;
                 setLayoutParams(param_1);
 
-                super.layoutChildrenView();
+                super.layoutChildrenView(firstImage);
                 break;
         }
     }

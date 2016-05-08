@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.component.task.progress;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 
 import android.os.Handler;

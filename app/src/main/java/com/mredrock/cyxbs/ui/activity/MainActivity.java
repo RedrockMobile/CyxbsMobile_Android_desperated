@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.bottombar.BottomBar;
@@ -37,15 +38,15 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity {
 
     @Bind(R.id.main_toolbar_title)
-    TextView          mToolbarTitle;
+    TextView mToolbarTitle;
     @Bind(R.id.main_toolbar)
-    Toolbar           mToolbar;
+    Toolbar mToolbar;
     @Bind(R.id.main_coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
     @Bind(R.id.bottom_bar)
-    BottomBar         mBottomBar;
+    BottomBar mBottomBar;
     @Bind(R.id.main_view_pager)
-    ViewPager         mViewPager;
+    ViewPager mViewPager;
 
     @BindString(R.string.community)
     String mStringCommunity;

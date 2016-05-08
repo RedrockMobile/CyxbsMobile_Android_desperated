@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.component.widget;
+package com.mredrock.cyxbs.component.widget.ninelayout;
 
 /**
  * Created by mathiasluo on 16-4-11.
@@ -56,7 +56,6 @@ public class CustomImageView extends ImageView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setScaleType(ScaleType.CENTER_INSIDE);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -111,7 +110,6 @@ public class CustomImageView extends ImageView {
     public void setImageUrl(String url) {
         if (!TextUtils.isEmpty(url)) {
             this.url = url;
-
             if (isAttachedToWindow) {
                 Glide.with(getContext())
                      .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : BASE_IMG_URL + url)
@@ -126,8 +124,10 @@ public class CustomImageView extends ImageView {
         super.onDraw(canvas);
         if (type == Image.TYPE_NORMAL) {
             int w = canvas.getWidth();
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_delete_black_18dp);
-            canvas.drawBitmap(bitmap, w - DensityUtils.dp2px(getContext(), 18), 0, null);
+            //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_news_cancel);
+            Bitmap bitmapBack = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete);
+            canvas.drawBitmap(bitmapBack, w - DensityUtils.dp2px(getContext(), 22), 0, null);
+           // canvas.drawBitmap(bitmapBack, w - DensityUtils.dp2px(getContext(), 42), 0, null);
         }
     }
 

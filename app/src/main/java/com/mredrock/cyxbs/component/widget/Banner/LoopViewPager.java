@@ -10,7 +10,7 @@ import java.util.List;
 
 public class LoopViewPager extends ViewPager {
 
-    private LoopAdapter mAdapter;
+    private com.mredrock.cyxbs.component.widget.banner.LoopAdapter mAdapter;
 
     private List<OnPageChangeListener> mOnPageChangeListeners;
 
@@ -25,7 +25,7 @@ public class LoopViewPager extends ViewPager {
 
     @Override
     public void setAdapter(PagerAdapter adapter) {
-        mAdapter = new LoopAdapter(adapter);
+        mAdapter = new com.mredrock.cyxbs.component.widget.banner.LoopAdapter(adapter);
         super.setAdapter(mAdapter);
         setCurrentItem(0, false);
     }
