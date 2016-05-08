@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.mredrock.cyxbsmobile.component.widget.RevealBackgroundView
+    <com.mredrock.cyxbs.component.widget.RevealBackgroundView
         android:id="@+id/reveal_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

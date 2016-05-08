@@ -111,7 +111,7 @@
 
                         </LinearLayout>
 
-                        <com.mredrock.cyxbsmobile.component.widget.NoScheduleView
+                        <com.mredrock.cyxbs.component.widget.NoScheduleView
                             android:id="@+id/no_course_schedule_content"
                             android:layout_width="match_parent"
                             android:layout_height="600dp"/>

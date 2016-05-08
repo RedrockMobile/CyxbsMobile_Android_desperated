@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.mredrock.cyxbsmobile.component.widget.RedPagerView
+    <com.mredrock.cyxbs.component.widget.RedPagerView
         android:id="@+id/course_viewpager"
         android:layout_width="match_parent"
         android:layout_height="332dp"

@@ -10,7 +10,7 @@
     tools:context=".ui.activity.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <com.mredrock.cyxbsmobile.component.widget.FixedViewPager
+    <com.mredrock.cyxbs.component.widget.FixedViewPager
         android:id="@+id/main_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -21,14 +21,14 @@
         android:layout_height="1dp"
         android:background="@color/divider"/>
 
-    <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar
+    <com.mredrock.cyxbs.component.widget.bottombar.BottomBar
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomButton
+        <com.mredrock.cyxbs.component.widget.bottombar.BottomButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -38,7 +38,7 @@
             app:color_choose="@color/colorPrimary"
             app:color_normal="@color/tabText"/>
 
-        <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomButton
+        <com.mredrock.cyxbs.component.widget.bottombar.BottomButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -48,7 +48,7 @@
             app:color_choose="@color/colorPrimary"
             app:color_normal="@color/tabText"/>
 
-        <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomButton
+        <com.mredrock.cyxbs.component.widget.bottombar.BottomButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -58,7 +58,7 @@
             app:color_choose="@color/colorPrimary"
             app:color_normal="@color/tabText"/>
 
-        <com.mredrock.cyxbsmobile.component.widget.bottombar.BottomButton
+        <com.mredrock.cyxbs.component.widget.bottombar.BottomButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -68,6 +68,6 @@
             app:color_choose="@color/colorPrimary"
             app:color_normal="@color/tabText"/>
 
-    </com.mredrock.cyxbsmobile.component.widget.bottombar.BottomBar>
+    </com.mredrock.cyxbs.component.widget.bottombar.BottomBar>
 
 </LinearLayout>

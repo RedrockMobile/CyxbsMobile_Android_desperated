@@ -23,7 +23,7 @@
             app:layout_marginLeftPercent="4%"
             app:layout_marginRightPercent="1%" />
 
-        <com.mredrock.cyxbsmobile.component.widget.tag.TagFlowLayout
+        <com.mredrock.cyxbs.component.widget.tag.TagFlowLayout
             android:id="@+id/empty_fab_section_tagLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             android:layout_marginRight="4dp"
             android:gravity="center">
 
-        </com.mredrock.cyxbsmobile.component.widget.tag.TagFlowLayout>
+        </com.mredrock.cyxbs.component.widget.tag.TagFlowLayout>
 
         <Button
             android:id="@+id/empty_fab_btn_complete"

@@ -144,7 +144,7 @@
                         android:gravity="end"
                         android:orientation="vertical" />
 
-                    <com.mredrock.cyxbsmobile.component.widget.ScheduleView
+                    <com.mredrock.cyxbs.component.widget.ScheduleView
                         android:id="@+id/course_schedule_content"
                         android:layout_width="match_parent"
                         android:layout_height="600dp" />

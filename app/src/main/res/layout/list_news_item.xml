@@ -23,7 +23,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp">
 
-            <com.mredrock.cyxbsmobile.component.widget.CircleImageView
+            <com.mredrock.cyxbs.component.widget.CircleImageView
                 android:id="@+id/list_news_img_avatar"
                 android:layout_width="@dimen/information_img_avatar"
                 android:layout_height="@dimen/information_img_avatar"/>
@@ -68,7 +68,7 @@
         </RelativeLayout>
 
 
-        <com.mredrock.cyxbsmobile.component.widget.ExpandableTextView
+        <com.mredrock.cyxbs.component.widget.ExpandableTextView
             android:id="@+id/expand_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,10 +94,10 @@
                 android:layout_gravity="left|bottom"
                 android:background="@android:color/transparent"
                 android:textColor="@color/md_material_blue_800"/>
-        </com.mredrock.cyxbsmobile.component.widget.ExpandableTextView>
+        </com.mredrock.cyxbs.component.widget.ExpandableTextView>
 
 
-        <com.mredrock.cyxbsmobile.component.widget.AutoNineGridlayout
+        <com.mredrock.cyxbs.component.widget.AutoNineGridlayout
             android:id="@+id/autoNineLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
