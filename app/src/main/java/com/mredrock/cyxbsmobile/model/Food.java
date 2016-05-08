@@ -13,7 +13,7 @@ public class Food {
 	public String shop_address;
 	public String shopimg_src;
 
-	public String recommend;
+	public String introduction;
 
 	@Override
 	public boolean equals(Object o) {
@@ -24,12 +24,12 @@ public class Food {
 				&& Utils.equal(name, food.name)
 				&& Utils.equal(shop_address, food.shop_address)
 				&& Utils.equal(shopimg_src, food.shopimg_src)
-				&& Utils.equal(recommend, food.recommend);
+				&& Utils.equal(introduction, food.introduction);
 	}
 
 	@Override
 	public int hashCode() {
-		return Utils.hashCode(id, name, shop_address, shopimg_src, recommend);
+		return Utils.hashCode(id, name, shop_address, shopimg_src, introduction);
 	}
 
 	@Override

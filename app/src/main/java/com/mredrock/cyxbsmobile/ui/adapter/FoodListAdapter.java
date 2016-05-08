@@ -33,8 +33,8 @@ public class FoodListAdapter extends BaseRecyclerViewAdapter<Food, FoodListAdapt
     @Override
     protected void bindData(RestaurantsViewHolder holder, Food data, int position) {
         holder.title.setText(data.name);
-        holder.recommend.setText(data.recommend);
-        holder.address.setText(data.shop_address);
+        holder.introduction.setText(data.introduction);
+        holder.location.setText(data.shop_address);
         mGlideHelper.loadImage(data.shopimg_src, holder.shopImage);
     }
 
@@ -45,13 +45,13 @@ public class FoodListAdapter extends BaseRecyclerViewAdapter<Food, FoodListAdapt
     }
 
     public static class RestaurantsViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.item_food_restaurant_title)
+        @Bind(R.id.restaurant_name)
         TextView title;
-        @Bind(R.id.item_food_restaurant_recommend)
-        TextView recommend;
-        @Bind(R.id.item_food_restaurant_address)
-        TextView address;
-        @Bind(R.id.item_food_restaurant_img)
+        @Bind(R.id.restaurant_introduction)
+        TextView introduction;
+        @Bind(R.id.restaurant_location)
+        TextView location;
+        @Bind(R.id.restaurant_photo)
         ImageView shopImage;
 
         public RestaurantsViewHolder(View itemView) {

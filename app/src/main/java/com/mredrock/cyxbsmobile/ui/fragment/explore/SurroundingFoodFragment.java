@@ -93,7 +93,7 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
         });
         mSurroundingFoodListRv.setAdapter(mAdapter);
         mSurroundingFoodListRv.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        mSurroundingFoodListRv.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+        mSurroundingFoodListRv.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, 5) {
             @Override
             public void onLoadMore(int page, int totalItemCount) {
                 loadFoodList(page);
