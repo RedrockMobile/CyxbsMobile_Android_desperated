@@ -37,8 +37,7 @@ import rx.Subscription;
 /**
  * Created by Stormouble on 16/4/27.
  */
-public class WhatToEatFragment extends BaseExploreFragment
-        implements SensorEventListener, BaseExploreFragment.Listener {
+public class WhatToEatFragment extends BaseExploreFragment implements SensorEventListener{
 
     private static final String TAG = LogUtils.makeLogTag(WhatToEatFragment.class);
 
@@ -84,7 +83,7 @@ public class WhatToEatFragment extends BaseExploreFragment
     }
 
     @Override
-    public int getLayoutID() {
+    public int layoutId() {
         return R.layout.fragment_what_to_eat;
     }
 
@@ -100,37 +99,17 @@ public class WhatToEatFragment extends BaseExploreFragment
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        getActivity().findViewById(R.id.fab).setVisibility(View.GONE);
-    }
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-    @Override
-    public void onFragmentSetup() {
         mSensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
         mVibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         enableDisableSwipeRefresh(false);
-    }
 
-    @Override
-    public void onFragmentIntroAnimation(Bundle savedInstanceState) {
-        ViewCompat.setElevation(((WhatToEatActivity) getActivity()).getToolbar(), 0);
-        mMainContent.setScaleX(0.1f);
-        mMainContent.setScaleY(0.1f);
-        mMainContent.setPivotX(mDrawingStartLocation[0]);
-        mMainContent.setPivotY(mDrawingStartLocation[1]);
-
-        mMainContent.animate()
-                .scaleX(1.f)
-                .scaleY(1.f)
-                .setInterpolator(new AccelerateInterpolator())
-                .setDuration(MAIN_CONTENT_SCALE_DURATION);
-    }
-
-    @Override
-    public void onFragmentLoadData(Bundle savedInstanceState) {
-        //No need
+        if (savedInstanceState == null) {
+            startIntroAnimation();
+        }
     }
 
     @Override
@@ -177,6 +156,12 @@ public class WhatToEatFragment extends BaseExploreFragment
                         @Override
                         public void onCompleted() {
                             enableDisableSwipeRefresh(true);
+                            onErrorLayoutVisibleChanged(false);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            onErrorLayoutVisibleChanged(true);
                         }
 
                         @Override
@@ -208,10 +193,14 @@ public class WhatToEatFragment extends BaseExploreFragment
         mRestaurantAddress.setText(data.address);
         mGlideHelper.loadImage(data.img, mRestaurantImageView);
         mRestaurantAgain.setOnClickListener(v -> tryShake());
-        mRestaurantImageView.setOnClickListener(v ->
-                UIUtils.startAnotherFragment(getFragmentManager(), WhatToEatFragment.this,
-                        SurroundingFoodDetailFragment.newInstance(data.id),
-                        R.id.what_to_eat_contentFrame));
+        mRestaurantImageView.setOnClickListener(view -> {
+            int[] startLocation = new int[2];
+            view.getLocationOnScreen(startLocation);
+            startLocation[0] += view.getWidth() / 2;
+            UIUtils.startAnotherFragment(WhatToEatFragment.this.getFragmentManager(), WhatToEatFragment.this,
+                    SurroundingFoodDetailFragment.newInstance(data.id, startLocation),
+                    R.id.what_to_eat_contentFrame);
+        });
     }
 
     private void getFood() {
@@ -219,11 +208,13 @@ public class WhatToEatFragment extends BaseExploreFragment
             @Override
             public void onCompleted() {
                 onRefreshingStateChanged(false);
+                onErrorLayoutVisibleChanged(false);
             }
 
             @Override
             public void onError(Throwable e) {
                 onRefreshingStateChanged(false);
+                onErrorLayoutVisibleChanged(true);
             }
 
             @Override
@@ -235,5 +226,19 @@ public class WhatToEatFragment extends BaseExploreFragment
         }), mRestaurantKey);
 
         mCompositeSubscription.add(subscription);
+    }
+
+    private void startIntroAnimation() {
+        ViewCompat.setElevation(((WhatToEatActivity) getActivity()).getToolbar(), 0);
+        mMainContent.setScaleX(0.1f);
+        mMainContent.setScaleY(0.1f);
+        mMainContent.setPivotX(mDrawingStartLocation[0]);
+        mMainContent.setPivotY(mDrawingStartLocation[1]);
+
+        mMainContent.animate()
+                .scaleX(1.f)
+                .scaleY(1.f)
+                .setInterpolator(new AccelerateInterpolator())
+                .setDuration(MAIN_CONTENT_SCALE_DURATION);
     }
 }

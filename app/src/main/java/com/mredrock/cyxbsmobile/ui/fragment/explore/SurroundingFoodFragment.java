@@ -8,11 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.mredrock.cyxbsmobile.R;
 import com.mredrock.cyxbsmobile.component.widget.RevealBackgroundView;
 import com.mredrock.cyxbsmobile.component.widget.recycler.DividerItemDecoration;
+import com.mredrock.cyxbsmobile.component.widget.recycler.EndlessRecyclerViewScrollListener;
 import com.mredrock.cyxbsmobile.component.widget.recycler.RestaurantsItemAnimator;
 import com.mredrock.cyxbsmobile.model.Food;
 import com.mredrock.cyxbsmobile.network.RequestManager;
@@ -36,12 +38,9 @@ import rx.Subscription;
 /**
  * Created by Stormouble on 16/5/4.
  */
-public class SurroundingFoodFragment extends BaseExploreFragment
-        implements BaseExploreFragment.Listener{
+public class SurroundingFoodFragment extends BaseExploreFragment {
 
     private static final String TAG = LogUtils.makeLogTag(SurroundingFoodFragment.class);
-
-    private static final int PRELOAD_SIZE = 6;
 
     @Bind(R.id.reveal_background)
     RevealBackgroundView mRevealBackground;
@@ -49,10 +48,6 @@ public class SurroundingFoodFragment extends BaseExploreFragment
     RecyclerView mSurroundingFoodListRv;
 
     private int[] mDrawingStartLocation;
-
-    private int mLastItemPosition;
-    private int mPage = 1;
-    private boolean mFirstTimeTouchBottom = false;
 
     private FoodListAdapter mAdapter;
 
@@ -69,14 +64,8 @@ public class SurroundingFoodFragment extends BaseExploreFragment
     }
 
     @Override
-    public int getLayoutID() {
+    public int layoutId() {
         return R.layout.fragment_surrounding_food;
-    }
-
-    @Override
-    public void onRefresh() {
-        mPage = 1;
-        loadFoodList();
     }
 
     @Override
@@ -85,73 +74,51 @@ public class SurroundingFoodFragment extends BaseExploreFragment
         mDrawingStartLocation = getArguments().getIntArray(BaseExploreActivity.ARG_DRAWING_START_LOCATION);
     }
 
-
     @Override
-    public void onFragmentSetup() {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mSurroundingFoodListRv.setLayoutManager(layoutManager);
         mSurroundingFoodListRv.setItemAnimator(new RestaurantsItemAnimator());
         mSurroundingFoodListRv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.HORIZONTAL));
         mAdapter = new FoodListAdapter(getActivity(), new ArrayList<Food>());
-        mAdapter.setOnItemClickListener((parent, view1, position, id) ->
-                UIUtils.startAnotherFragment(getFragmentManager(), SurroundingFoodFragment.this,
-                        SurroundingFoodDetailFragment.newInstance(mAdapter.getItem(position).id),
-                        R.id.surrounding_food_contentFrame));
+        mAdapter.setOnItemClickListener((parent, view, position, id) -> {
+            int[] startLocation = new int[2];
+            view.getLocationOnScreen(startLocation);
+            startLocation[0] += view.getWidth() / 2;
+            UIUtils.startAnotherFragment(SurroundingFoodFragment.this.getFragmentManager(), SurroundingFoodFragment.this,
+                    SurroundingFoodDetailFragment.newInstance(mAdapter.getItem(position).id, startLocation),
+                    R.id.surrounding_food_contentFrame);
+        });
         mSurroundingFoodListRv.setAdapter(mAdapter);
         mSurroundingFoodListRv.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        mSurroundingFoodListRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mSurroundingFoodListRv.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (!mSwipeRefreshLayout.isRefreshing()
-                        && mLastItemPosition >= mAdapter.getItemCount() - PRELOAD_SIZE) {
-                    if (!mFirstTimeTouchBottom) {
-                        mPage++;
-                        onRefreshingStateChanged(true);
-                        loadFoodList();
-                    } else {
-                        mFirstTimeTouchBottom = true;
-                    }
-                }
+            public void onLoadMore(int page, int totalItemCount) {
+                loadFoodList(page);
             }
+        });
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                mLastItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+        enableRevealBackground(mRevealBackground, mDrawingStartLocation,
+                savedInstanceState, state -> {
+            if (RevealBackgroundView.STATE_FINISHED == state) {
+                onMainContentVisibleChanged(true);
+
+                loadFoodList(1);
+            } else {
+                onMainContentVisibleChanged(false);
             }
         });
     }
 
     @Override
-    public void onFragmentIntroAnimation(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            Log.d(TAG, "onFragmentIntroAnimation() invoked");
-            enableRevealBackground(mRevealBackground, mDrawingStartLocation, state -> {
-                if (RevealBackgroundView.STATE_FINISHED == state) {
-                    mMainContent.setVisibility(View.VISIBLE);
-
-                    loadFoodList();
-                } else {
-                    mMainContent.setVisibility(View.INVISIBLE);
-                }
-            });
-        } else {
-            mRevealBackground.setToFinishedFrame();
-        }
-    }
-
-    @Override
-    public void onFragmentLoadData(Bundle savedInstanceState) {
-        //Load data on animation end;
+    public void onRefresh() {
+        loadFoodList(1);
     }
 
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        getActivity().findViewById(R.id.fab).setVisibility(View.GONE);
-    }
-
-    private void loadFoodList() {
+    private void loadFoodList(int page) {
         Subscription subscription = RequestManager.getInstance().getFoodList(
                 new SimpleSubscriber<List<Food>>(getActivity(), new SubscriberListener<List<Food>>() {
 
@@ -163,22 +130,24 @@ public class SurroundingFoodFragment extends BaseExploreFragment
             @Override
             public void onCompleted() {
                 onRefreshingStateChanged(false);
+                onErrorLayoutVisibleChanged(false);
             }
 
             @Override
             public void onError(Throwable e) {
                 onRefreshingStateChanged(false);
+                onErrorLayoutVisibleChanged(true);
             }
 
             @Override
             public void onNext(List<Food> foodList) {
-                if (mPage == 1) {
+                if (page == 1) {
                     mAdapter.updateDataWithAnimation(foodList);
                 } else {
-                    mAdapter.addData(foodList);
+                    mAdapter.updateDataWhenPagination(foodList);
                 }
             }
-        }), String.valueOf(mPage));
+        }), String.valueOf(page));
 
         mCompositeSubscription.add(subscription);
     }

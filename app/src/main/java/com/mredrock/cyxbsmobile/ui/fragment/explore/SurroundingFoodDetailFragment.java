@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,19 +32,26 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.mredrock.cyxbsmobile.APP;
 import com.mredrock.cyxbsmobile.R;
+import com.mredrock.cyxbsmobile.component.widget.RevealBackgroundView;
 import com.mredrock.cyxbsmobile.component.widget.TextDrawableView;
+import com.mredrock.cyxbsmobile.component.widget.recycler.EndlessRecyclerViewScrollListener;
+import com.mredrock.cyxbsmobile.config.Const;
 import com.mredrock.cyxbsmobile.model.FoodComment;
 import com.mredrock.cyxbsmobile.model.FoodDetail;
+import com.mredrock.cyxbsmobile.model.RedrockApiWrapper;
 import com.mredrock.cyxbsmobile.model.User;
 import com.mredrock.cyxbsmobile.network.RequestManager;
 import com.mredrock.cyxbsmobile.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbsmobile.subscriber.SubscriberListener;
+import com.mredrock.cyxbsmobile.ui.activity.explore.BaseExploreActivity;
 import com.mredrock.cyxbsmobile.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbsmobile.ui.adapter.RestaurantCommentsAdapter;
 import com.mredrock.cyxbsmobile.util.LogUtils;
 import com.mredrock.cyxbsmobile.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -54,19 +62,20 @@ import rx.Subscription;
 /**
  * Created by Stormouble on 16/4/16.
  */
-public class SurroundingFoodDetailFragment extends BaseExploreFragment
-        implements BaseExploreFragment.Listener {
+public class SurroundingFoodDetailFragment extends BaseExploreFragment {
 
     private static final String TAG = LogUtils.makeLogTag(SurroundingFoodDetailFragment.class);
 
     private static final String RESTAURANT_KEY = "shop_key";
 
-    private static final int PRELOAD_SIZE = 3;
-
     private static final long ANIMATION_DURATION = 700;
 
+    @Bind(R.id.reveal_background)
+    RevealBackgroundView mRevealBackground;
     @Bind(R.id.surrounding_food_detail_rv)
     RecyclerView mFoodDetailRv;
+    @Bind(R.id.fab)
+    FloatingActionButton mFloatingActionButton;
 
     private LinearLayout mHeaderLayout;
     private ImageView mFoodRestaurantImage;
@@ -76,48 +85,39 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     private TextDrawableView mFoodRestaurantLocation;
     private TextDrawableView mFoodRestaurantPromotion;
     private TextDrawableView mFoodRestaurantComment;
-    private FloatingActionButton mFloatingActionButton;
 
-    private int mPage = 1;
-    private int mLastItemPosition;
     private String mRestaurantKey;
     private String mPhoneNumber;
-    private boolean mFirstTimeTouchBottom = false;
 
-    private List<FoodComment> mComments = new ArrayList<>();
+    private List<FoodComment> mComments;
     private HeaderViewRecyclerAdapter mWrapperAdapter;
     private RestaurantCommentsAdapter mAdapter;
 
+    private int[] mDrawingStartLocation;
 
     public SurroundingFoodDetailFragment() {
         //Requires empty public constructor
     }
 
-    public static SurroundingFoodDetailFragment newInstance(String restaurantKey) {
+    public static SurroundingFoodDetailFragment newInstance(String restaurantKey, int[] startLocation) {
         SurroundingFoodDetailFragment fragment = new SurroundingFoodDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(RESTAURANT_KEY, restaurantKey);
+        bundle.putIntArray(BaseExploreActivity.ARG_DRAWING_START_LOCATION, startLocation);
         fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
-    public int getLayoutID() {
+    public int layoutId() {
         return R.layout.fragment_surrounding_food_detail;
-    }
-
-    @Override
-    public void onRefresh() {
-        mPage = 1;
-        getFoodAndCommentList();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRestaurantKey = getArguments().getString(RESTAURANT_KEY);
-
-        Log.d(TAG, "Restaurant Key " + mRestaurantKey);
+        mDrawingStartLocation = getArguments().getIntArray(BaseExploreActivity.ARG_DRAWING_START_LOCATION);
     }
 
     @Nullable
@@ -125,13 +125,15 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mHeaderLayout =
                 (LinearLayout) inflater.inflate(R.layout.food_detail_header, container, false);
-        mFloatingActionButton =
-                (FloatingActionButton) getActivity().findViewById(R.id.fab);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public void onFragmentSetup() {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mComments = new ArrayList<>();
+
         mFoodRestaurantName = (TextView) mHeaderLayout.findViewById(R.id.restaurant_name);
         mFoodRestaurantImage = (ImageView) mHeaderLayout.findViewById(R.id.restaurant_photo);
         mFoodRestaurantRecommend = (TextView) mHeaderLayout.findViewById(R.id.restaurant_recommend);
@@ -148,64 +150,41 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
         mWrapperAdapter = new HeaderViewRecyclerAdapter(mAdapter);
         mWrapperAdapter.addHeaderView(mHeaderLayout);
         mFoodDetailRv.setAdapter(mWrapperAdapter);
-        mFoodDetailRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mFoodDetailRv.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (!mSwipeRefreshLayout.isRefreshing()
-                        && mLastItemPosition >= mAdapter.getItemCount() - PRELOAD_SIZE) {
-                    if (!mFirstTimeTouchBottom) {
-                        mPage++;
-                        mSwipeRefreshLayout.setRefreshing(true);
-                        getFoodAndCommentList();
-                    } else {
-                        mFirstTimeTouchBottom = true;
-                    }
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                mLastItemPosition = layoutManager.findLastVisibleItemPosition();
+            public void onLoadMore(int page, int totalItemCount) {
+                getFoodCommentList(page);
             }
         });
-
 
         mFloatingActionButton.setVisibility(View.VISIBLE);
         mFloatingActionButton.setImageResource(R.drawable.ic_add);
         mFloatingActionButton.setOnClickListener(v -> onFabClick());
-    }
 
-    @Override
-    public void onFragmentIntroAnimation(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            ViewGroup.MarginLayoutParams params =
-                    (ViewGroup.MarginLayoutParams) mFloatingActionButton.getLayoutParams();
-            mFloatingActionButton.setTranslationY(
-                    mFloatingActionButton.getHeight() + params.bottomMargin);
-            mFloatingActionButton.setAlpha(0.f);
-            mFloatingActionButton.animate()
-                    .alpha(1f)
-                    .translationY(0.f)
-                    .setInterpolator(new FastOutSlowInInterpolator())
-                    .setDuration(ANIMATION_DURATION)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            getFoodAndCommentList();
-                        }
-                    });
-        } else {
-            mAdapter.updateDataWithAnimation();
-        }
+
+        enableRevealBackground(mRevealBackground, mDrawingStartLocation,
+                savedInstanceState, state -> {
+            if (RevealBackgroundView.STATE_FINISHED == state) {
+                onMainContentVisibleChanged(true);
+                mFloatingActionButton.setVisibility(View.VISIBLE);
+
+                animateFab();
+
+                getFoodCommentList(1);
+            } else {
+                onMainContentVisibleChanged(false);
+                mFloatingActionButton.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
 
     @Override
-    public void onFragmentLoadData(Bundle savedInstanceState) {
-        //Load data on animation end;
+    public void onRefresh() {
+        getFoodAndCommentList(1);
     }
 
-    private void getFoodAndCommentList() {
+    private void getFoodAndCommentList(int page) {
         Subscription subscription = RequestManager.getInstance().getFoodAndCommentList(
                 new SimpleSubscriber<FoodDetail>(getActivity(), new SubscriberListener<FoodDetail>() {
                     @Override
@@ -216,11 +195,13 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                     @Override
                     public void onCompleted() {
                         onRefreshingStateChanged(false);
+                        onErrorLayoutVisibleChanged(false);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         onRefreshingStateChanged(false);
+                        onErrorLayoutVisibleChanged(true);
                     }
 
                     @Override
@@ -233,43 +214,42 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                         mFoodRestaurantRecommend.setText(foodDetail.shop_sale_content);
                         mGlideHelper.loadImage(foodDetail.shop_image[0], mFoodRestaurantImage);
 
-                        if (Utils.checkNotNullAndNotEmpty(foodDetail.foodComments)) {
-                            if (mPage == 1) {
-                                mAdapter.updateData(foodDetail.foodComments);
-                            } else {
-                                mAdapter.addData(foodDetail.foodComments);
-                            }
+                        if (page == 1) {
+                            mAdapter.updateData(foodDetail.foodComments);
+                        } else {
+                            mAdapter.updateDataWhenPagination(foodDetail.foodComments);
                         }
+
                     }
 
-                }), mRestaurantKey, String.valueOf(mPage));
+                }), mRestaurantKey, String.valueOf(page));
 
         mCompositeSubscription.add(subscription);
     }
 
-    private void getFoodCommentList() {
+    private void getFoodCommentList(int page) {
         Subscription subscription = RequestManager.getInstance().getFoodCommentList(
                 new SimpleSubscriber<List<FoodComment>>(getActivity(), new SubscriberListener<List<FoodComment>>() {
                     @Override
                     public void onStart() {
-                        super.onStart();
+                        mSwipeRefreshLayout.post(() -> onRefreshingStateChanged(true));
                     }
 
                     @Override
                     public void onCompleted() {
-                        super.onCompleted();
+                        onRefreshingStateChanged(false);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
+                        onRefreshingStateChanged(false);
                     }
 
                     @Override
                     public void onNext(List<FoodComment> foodCommentList) {
-                        super.onNext(foodCommentList);
+
                     }
-                }), mRestaurantKey, String.valueOf(mPage));
+                }), mRestaurantKey, String.valueOf(page));
 
         mCompositeSubscription.add(subscription);
     }
@@ -277,16 +257,45 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     private void sendCommentAndRefresh(String content) {
         User user = APP.getUser(getActivity());
         if (user != null) {
-            Subscription subscription = RequestManager.getInstance().sendCommentAndRefresh(
-                    new SimpleSubscriber<List<FoodComment>>(getActivity(), true, new SubscriberListener<List<FoodComment>>() {
+            Subscription subscription = RequestManager.getInstance().sendComment(
+                    new SimpleSubscriber<RedrockApiWrapper<Object>>(getActivity(), true, new SubscriberListener<RedrockApiWrapper<Object>>() {
                         @Override
-                        public void onNext(List<FoodComment> foodCommentList) {
+                        public void onNext(RedrockApiWrapper<Object> data) {
+                            if (data.status == Const.REDROCK_API_STATUS_SUCCESS) {
+                                FoodComment comment = new FoodComment();
+                                comment.comment_content = content;
+                                comment.comment_author_name = user.name;
+                                comment.comment_date = "";
 
+                                mComments.add(comment);
+                                Collections.sort(mComments, (Comparator<? super FoodComment>) new FoodComment());
+                            } else {
+                                Snackbar.make(mFloatingActionButton, "", Snackbar.LENGTH_SHORT);
+                            }
                         }
                     }), mRestaurantKey, user.stuNum, user.idNum, content, user.name);
 
             mCompositeSubscription.add(subscription);
         }
+    }
+
+    private void animateFab() {
+        ViewGroup.MarginLayoutParams params =
+                (ViewGroup.MarginLayoutParams) mFloatingActionButton.getLayoutParams();
+        mFloatingActionButton.setTranslationY(
+                mFloatingActionButton.getHeight() + params.bottomMargin);
+        mFloatingActionButton.setAlpha(0.f);
+        mFloatingActionButton.animate()
+                .alpha(1f)
+                .translationY(0.f)
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .setDuration(ANIMATION_DURATION)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        getFoodAndCommentList(1);
+                    }
+                });
     }
 
     private void onFabClick() {

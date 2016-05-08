@@ -8,24 +8,24 @@ import android.util.AttributeSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SLooperViewPager extends ViewPager {
+public class LoopViewPager extends ViewPager {
 
-    private SLooperAdapter mAdapter;
+    private LoopAdapter mAdapter;
 
     private List<OnPageChangeListener> mOnPageChangeListeners;
 
-    public SLooperViewPager(Context context) {
+    public LoopViewPager(Context context) {
         this(context, null);
     }
 
-    public SLooperViewPager(Context context, AttributeSet attrs) {
+    public LoopViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
     @Override
     public void setAdapter(PagerAdapter adapter) {
-        mAdapter = new SLooperAdapter(adapter);
+        mAdapter = new LoopAdapter(adapter);
         super.setAdapter(mAdapter);
         setCurrentItem(0, false);
     }
@@ -159,7 +159,7 @@ public class SLooperViewPager extends ViewPager {
         @Override
         public void onPageScrollStateChanged(int state) {
             if (mAdapter != null) {
-                int position = SLooperViewPager.super.getCurrentItem();
+                int position = LoopViewPager.super.getCurrentItem();
                 int realPosition = mAdapter.getInnerAdapterPosition(position);
                 if (state == ViewPager.SCROLL_STATE_IDLE && (position == 0 || position == mAdapter.getCount() - 1)) {
                     setCurrentItem(realPosition, false);

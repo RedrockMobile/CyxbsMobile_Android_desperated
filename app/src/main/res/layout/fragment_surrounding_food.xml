@@ -13,17 +13,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/main_content"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/surrounding_food_rv"
+            <LinearLayout
+                android:id="@+id/main_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
 
-        </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/surrounding_food_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <ViewStub
+                android:id="@+id/error_stub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:inflatedId="@+id/error_layout"
+                android:layout="@layout/explore_error" />
+
+        </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

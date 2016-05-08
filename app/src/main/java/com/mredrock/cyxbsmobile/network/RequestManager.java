@@ -223,26 +223,11 @@ public enum RequestManager {
         return emitObservable(observable, subscriber);
     }
 
-    public Subscription sendCommentAndRefresh(Subscriber<List<FoodComment>> subscriber
+    public Subscription sendComment(Subscriber<RedrockApiWrapper<Object>> subscriber
             , String shopId, String userId, String userPassword, String content, String authorName) {
-        Observable<RedrockApiWrapper<Object>> sendObservable = redrockApiService
+        Observable<RedrockApiWrapper<Object>> observable = redrockApiService
                 .sendFoodComment(shopId, userId, userPassword, content, authorName);
 
-        Observable<List<FoodComment>> foodCommentsObservable =
-                redrockApiService.getFoodComments(shopId, "1")
-                        .map(new RedrockApiWrapperFunc<>())
-                        .filter(foodCommentList -> Utils.checkNotNullAndNotEmpty(foodCommentList))
-                        .flatMap(Observable::from)
-                        .toSortedList();
-
-        Observable<List<FoodComment>> observable =
-                Observable.zip(sendObservable, foodCommentsObservable, (objectRedrockApiWrapper, restaurantComments) -> {
-                    if (objectRedrockApiWrapper.status == 200) {
-                        return restaurantComments;
-                    } else {
-                        return null;
-                    }
-                });
         return emitObservable(observable, subscriber);
     }
 

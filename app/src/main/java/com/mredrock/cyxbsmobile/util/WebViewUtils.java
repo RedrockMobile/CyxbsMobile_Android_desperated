@@ -21,7 +21,7 @@ public class WebViewUtils {
                     .titleDefaultRes(R.string.portal_title)
                     .toolbarColorRes(R.color.colorPrimary)
                     .toolbarScrollFlags(0)
-                    .statusBarColorRes(R.color.colorPrimary)
+                    .statusBarColorRes(R.color.colorPrimaryDark)
                     .toolbarColorRes(R.color.colorPrimary)
                     .titleColorRes(R.color.finestWhite)
                     .urlColorRes(R.color.finestWhite)

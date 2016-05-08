@@ -41,19 +41,12 @@ public class SimpleBanner extends RelativeLayout {
 
     private SparseArray<ImageView> mItemArrays;
 
-    /**
-     * 布局参数
-     */
     private static final int RMP = LayoutParams.MATCH_PARENT;
     private static final int RWC = LayoutParams.WRAP_CONTENT;
     private static final int LWC = LinearLayout.LayoutParams.WRAP_CONTENT;
-    /**
-     * 循环轮播的Viewpager
-     */
-    private SLooperViewPager mViewPager;
 
+    private LoopViewPager mViewPager;
 
-    //下面这两个控件，存放到一个相对布局中，由于不需要设成成员变量，故此没写
 
     /**
      * 轮播控件的提示文字
@@ -240,7 +233,7 @@ public class SimpleBanner extends RelativeLayout {
         mItemArrays = new SparseArray();
 
         //初始化ViewPager
-        mViewPager = new SLooperViewPager(context);
+        mViewPager = new LoopViewPager(context);
 
         //以matchParent的方式将viewPager填充到控件容器中
         addView(mViewPager, new LayoutParams(RMP, RMP));
@@ -339,7 +332,7 @@ public class SimpleBanner extends RelativeLayout {
     }
 
 
-    private final class ChangePointListener extends SLooperViewPager.SimpleOnPageChangeListener {
+    private final class ChangePointListener extends LoopViewPager.SimpleOnPageChangeListener {
         @Override
         public void onPageSelected(int position) {
             currentPosition = position % mData.size();

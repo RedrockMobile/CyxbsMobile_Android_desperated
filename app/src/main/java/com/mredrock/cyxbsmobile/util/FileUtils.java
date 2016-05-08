@@ -121,7 +121,7 @@ public class FileUtils {
             File file = new File(filePath, fileName);
             imageUri.getPath();
         } else {
-            Toast.makeText(context, "Unexpected error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Unexpected explore_error", Toast.LENGTH_SHORT).show();
         }
         return true;
     }
