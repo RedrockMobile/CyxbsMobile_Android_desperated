@@ -190,7 +190,7 @@ public class NoCourseItemFragment extends BaseFragment {
 
 
     private void loadWeekNoCourse() {
-        RequestManager.getInstance().getCourse(new
+        RequestManager.getInstance().getPublicCourse(new
                 SimpleSubscriber<>(getActivity(), new SubscriberListener<List<Course>>() {
 
             @Override

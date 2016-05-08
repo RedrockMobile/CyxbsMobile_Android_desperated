@@ -29,10 +29,10 @@ import com.mredrock.cyxbs.util.DensityUtils;
 public class CustomImageView extends ImageView {
 
 
-    private String url;
-    private boolean isAttachedToWindow;
+    private String                 url;
+    private boolean                isAttachedToWindow;
     private OnClickDelecteListener onClickDelecteListener;
-    private int type;
+    private int                    type;
     public static final String BASE_IMG_URL = "http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/";
 
 
@@ -111,11 +111,10 @@ public class CustomImageView extends ImageView {
         if (!TextUtils.isEmpty(url)) {
             this.url = url;
             if (isAttachedToWindow) {
-                Glide
-                        .with(getContext())
-                        .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : BASE_IMG_URL + url)
-                        .placeholder(new ColorDrawable(Color.parseColor("#f5f5f5")))
-                        .into(this);
+                Glide.with(getContext())
+                     .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : BASE_IMG_URL + url)
+                     .placeholder(new ColorDrawable(Color.parseColor("#f5f5f5")))
+                     .into(this);
             }
         }
     }

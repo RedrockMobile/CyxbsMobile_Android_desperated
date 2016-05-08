@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.ui.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
@@ -35,7 +36,6 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends BaseActivity {
-
 
     @Bind(R.id.main_toolbar_title)
     TextView mToolbarTitle;
@@ -109,6 +109,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+
     }
 
     private void initToolbar() {

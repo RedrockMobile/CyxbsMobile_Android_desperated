@@ -12,10 +12,6 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.database.DBEditHelper;
-import com.mredrock.cyxbs.event.CourseLoadFinishEvent;
-import com.mredrock.cyxbs.event.UpdateCourseEvent;
-import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
@@ -24,10 +20,6 @@ import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -35,6 +27,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class CourseContainerFragment extends BaseFragment {
@@ -46,13 +39,17 @@ public class CourseContainerFragment extends BaseFragment {
     @Bind(R.id.tab_course_viewpager)
     ViewPager mPager;
 
+    @OnClick(R.id.course_fab)
+    void clickToExchange() {
+        changeCurrentItem();
+    }
+
     private TextView mToolbarTitle;
 
     private TabPagerAdapter mAdapter;
     private List<Fragment> mFragmentList = new ArrayList<>();
     private List<String>   mTitles       = new ArrayList<>();
-    private int  mNowWeek;
-    private User mUser;
+    private int mNowWeek;
 
     private ViewPager.OnPageChangeListener mPageListener;
     private ViewPager.OnPageChangeListener mTabListener;
@@ -60,19 +57,16 @@ public class CourseContainerFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
+        init();
+    }
 
-        if (APP.isLogin()) {
-            mUser = APP.getUser(getActivity());
-            loadNowWeek();
-            loadAllCourses();
-        }
+    private void init() {
         mTitles = new ArrayList<>();
         mTitles.addAll(Arrays.asList(getResources().getStringArray(R.array.titles_weeks)));
 
         mNowWeek = new SchoolCalendar().getWeekOfTerm();
 
-        if (mNowWeek <= 23 && mNowWeek >= 1) {
+        if (mNowWeek <= 18 && mNowWeek >= 1) {
             mTitles.set(mNowWeek, getActivity().getResources().getString(R.string.now_week));
         }
 
@@ -85,7 +79,7 @@ public class CourseContainerFragment extends BaseFragment {
                 mFragmentList.add(temp);
             }
         }
-        mAdapter = new TabPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentList, mTitles);
+
     }
 
     @Nullable
@@ -93,6 +87,8 @@ public class CourseContainerFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_course_container, container, false);
         ButterKnife.bind(this, view);
+        mAdapter = new TabPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentList, mTitles);
+
         mToolbarTitle = ((MainActivity) getActivity()).getToolbarTitle();
         mPager.setAdapter(mAdapter);
         mPager.addOnPageChangeListener(mTabListener = new TabLayout.TabLayoutOnPageChangeListener(mTabs));
@@ -121,7 +117,8 @@ public class CourseContainerFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mNowWeek <= 23 && mNowWeek >= 1) setCurrentItem(mNowWeek);
+
+        if (mNowWeek <= 18 && mNowWeek >= 1) setCurrentItem(mNowWeek);
 
         if (mToolbarTitle != null) {
             mToolbarTitle.setOnClickListener(v -> {
@@ -134,6 +131,7 @@ public class CourseContainerFragment extends BaseFragment {
                 }
             });
         }
+        loadNowWeek();
     }
 
     @Override
@@ -147,39 +145,34 @@ public class CourseContainerFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     private void setCurrentItem(int position) {
-        mPager.setCurrentItem(position, true);
+        if (mPager != null) {
+            mPager.setCurrentItem(position, true);
+        }
     }
 
-
-    private void loadAllCourses() {
-        if (mUser != null) {
-            RequestManager.INSTANCE.getAllCourseJson(new SimpleSubscriber<>(APP.getContext(), new SubscriberListener<String>() {
-                @Override
-                public void onNext(String course) {
-                    DBEditHelper.addCourse(APP.getContext(), mUser.stuNum, course);
-                    EventBus.getDefault().post(new CourseLoadFinishEvent());
-                }
-            }), mUser.stuNum, mUser.idNum);
+    private void changeCurrentItem() {
+        int position = mPager.getCurrentItem();
+        if (position != mNowWeek) {
+            setCurrentItem(mNowWeek);
+        } else if (position != 0) {
+            setCurrentItem(0);
         }
     }
 
     private void loadNowWeek() {
-        if (mUser != null) {
-            RequestManager.INSTANCE.getNowWeek(new SimpleSubscriber<>(APP.getContext(), new SubscriberListener<Integer>() {
-                @Override
-                public void onNext(Integer i) {
-                    int nowWeek = i;
-                    updateFirstDay(nowWeek);
-                    if (mNowWeek <= 23 && mNowWeek >= 1) {
-                        setCurrentItem(mNowWeek);
-                    }
+        RequestManager.INSTANCE.getNowWeek(new SimpleSubscriber<>(APP.getContext(), new SubscriberListener<Integer>() {
+            @Override
+            public void onNext(Integer i) {
+                int nowWeek = i;
+                updateFirstDay(nowWeek);
+                if (mNowWeek <= 18 && mNowWeek >= 1) {
+                    setCurrentItem(mNowWeek);
                 }
-            }), mUser.stuNum, mUser.idNum);
-        }
+            }
+        }), "2013214151", "");
     }
 
     private void updateFirstDay(int nowWeek) {
@@ -187,11 +180,5 @@ public class CourseContainerFragment extends BaseFragment {
         now.add(Calendar.DATE, -((nowWeek - 1) * 7 + (now.get(Calendar.DAY_OF_WEEK) + 5) % 7));
         SPUtils.set(APP.getContext(), "first_day", now.getTimeInMillis());
         mNowWeek = new SchoolCalendar().getWeekOfTerm();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUpdate(UpdateCourseEvent event) {
-        mUser = APP.getUser(getActivity());
-        loadAllCourses();
     }
 }

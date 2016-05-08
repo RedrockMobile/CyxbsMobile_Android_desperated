@@ -27,11 +27,6 @@
         <item>第十六周</item>
         <item>第十七周</item>
         <item>第十八周</item>
-        <item>第十九周</item>
-        <item>第二十周</item>
-        <item>第二十一周</item>
-        <item>第二十二周</item>
-        <item>第二十三周</item>
     </string-array>
 
     <string-array name="course_weekdays">
@@ -184,6 +179,9 @@
     <string name="send_comment_dialog_prefill">""</string>
     <string name="send_comment_dialog_positive_text">发送</string>
     <string name="send_comment_dialog_negative_text">取消</string>
+    <string name="send_comment_fail">发送失败</string>
+    <string name="send_comment_fail_again">发送失败,请检查网络</string>
+    <string name="send_comment_again">重新发送</string>
 
     <string name="placeholder_explore_restaurant_name">九九牛肉馆</string>
     <string name="placeholder_explore_restaurant_recommend">新鲜大盘牛肉, 肉多耐嚼, 值得拥有</string>

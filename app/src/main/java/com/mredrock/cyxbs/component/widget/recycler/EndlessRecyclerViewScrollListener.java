@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
  */
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
-    private int visibleThreshold = 5;
 
     private int currentPage = 1;
 
@@ -18,9 +17,12 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 
     private int startingPageIndex = 1;
 
+    private int visibleThreshold = 5;
+
     private LinearLayoutManager mLinearLayoutManager;
 
-    public EndlessRecyclerViewScrollListener(LinearLayoutManager linearLayoutManager) {
+    public EndlessRecyclerViewScrollListener(LinearLayoutManager linearLayoutManager, int visibleThreshold) {
+        this.visibleThreshold = visibleThreshold;
         mLinearLayoutManager = linearLayoutManager;
     }
 

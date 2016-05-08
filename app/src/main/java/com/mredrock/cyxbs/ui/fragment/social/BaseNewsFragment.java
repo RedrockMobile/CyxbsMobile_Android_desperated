@@ -85,8 +85,10 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
             }
         });
 
-        getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, false);
+
+        //getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, false);
         getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
+
     }
 
     @Override

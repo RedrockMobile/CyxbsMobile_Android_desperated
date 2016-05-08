@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.util.SchoolCalendar;
@@ -45,7 +45,7 @@ public class RestaurantCommentsAdapter extends BaseRecyclerViewAdapter<FoodComme
         @Bind(R.id.food_detail_restaurant_comment_content)
         TextView mCommentContent;
         @Bind(R.id.food_detail_restaurant_comment_user_img)
-        ImageView mCommentUserIcon;
+        CircularImageView mCommentUserIcon;
         @Bind(R.id.food_detail_restaurant_comment_author)
         TextView mCommentAuthor;
         @Bind(R.id.food_detail_restaurant_comment_date)

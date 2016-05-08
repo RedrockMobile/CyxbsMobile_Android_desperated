@@ -111,7 +111,7 @@ public class ScheduleView extends FrameLayout {
         tv.setText(course.course + "@" + course.classroom);
 
         GradientDrawable gd = new GradientDrawable();
-        gd.setCornerRadius(DensityUtils.dp2px(getContext(), 2));
+        gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
         gd.setColor(colorSelector.getCourseColor(course.course));
         //gd.setColor(colorSelector.getCourseColor(course.begin_lesson, course.hash_day));
         tv.setBackgroundDrawable(gd);
