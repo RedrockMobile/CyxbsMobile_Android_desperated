@@ -102,7 +102,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_toLeftOf="@id/list_news_btn_message"
                 android:background="@drawable/news_button"
-                android:drawableLeft="@drawable/dianzhan"
+                android:drawableLeft="@drawable/ic_news_unlike"
                 android:drawablePadding="8dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="4dp"

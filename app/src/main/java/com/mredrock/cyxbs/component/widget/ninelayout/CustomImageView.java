@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.component.widget;
+package com.mredrock.cyxbs.component.widget.ninelayout;
 
 /**
  * Created by mathiasluo on 16-4-11.
@@ -125,8 +125,10 @@ public class CustomImageView extends ImageView {
         super.onDraw(canvas);
         if (type == Image.TYPE_NORMAL) {
             int w = canvas.getWidth();
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete_img);
-            canvas.drawBitmap(bitmap, w - DensityUtils.dp2px(getContext(), 18), 0, null);
+            //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_news_cancel);
+            Bitmap bitmapBack = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete);
+            canvas.drawBitmap(bitmapBack, w - DensityUtils.dp2px(getContext(), 22), 0, null);
+           // canvas.drawBitmap(bitmapBack, w - DensityUtils.dp2px(getContext(), 42), 0, null);
         }
     }
 

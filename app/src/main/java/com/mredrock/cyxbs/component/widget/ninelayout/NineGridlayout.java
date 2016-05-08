@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.component.widget;
+package com.mredrock.cyxbs.component.widget.ninelayout;
 
 /**
  * Created by mathiasluo on 16-4-11.

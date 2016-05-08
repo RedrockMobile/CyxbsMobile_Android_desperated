@@ -97,7 +97,7 @@
         </com.mredrock.cyxbs.component.widget.ExpandableTextView>
 
 
-        <com.mredrock.cyxbs.component.widget.AutoNineGridlayout
+        <com.mredrock.cyxbs.component.widget.ninelayout.AutoNineGridlayout
             android:id="@+id/autoNineLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_toLeftOf="@id/list_news_btn_message"
                 android:background="@drawable/news_button"
-                android:drawableLeft="@drawable/dianzhan"
+                android:drawableLeft="@drawable/ic_news_unlike"
                 android:drawablePadding="8dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="4dp"
