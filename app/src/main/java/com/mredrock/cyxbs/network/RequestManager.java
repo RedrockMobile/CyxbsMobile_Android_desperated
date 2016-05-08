@@ -392,13 +392,12 @@ public enum RequestManager {
     }
 
     public Observable<List<HotNews>> getHotArticle(int size, int page, boolean update) {
-
-      /*  return getHotArticle(size, page).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());*/
-        return cacheProviders.getCachedNews(getHotArticle(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
-                             .map(Reply::getData)
-                             .subscribeOn(Schedulers.io())
-                             .observeOn(AndroidSchedulers.mainThread());
+        return getHotArticle(size, page).subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread());
+//        return cacheProviders.getCachedNews(getHotArticle(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
+//                             .map(Reply::getData)
+//                             .subscribeOn(Schedulers.io())
+//                             .observeOn(AndroidSchedulers.mainThread());
 
     }
 
@@ -440,24 +439,24 @@ public enum RequestManager {
     }
 
     public Observable<List<HotNews>> getListNews(int size, int page, boolean update) {
-        return cacheProviders.getCachedContentBean(getListNews(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
-                             .map(listReply -> listReply.getData())
-
-                             .subscribeOn(Schedulers.io())
-                             .observeOn(AndroidSchedulers.mainThread());
-     /*   return getListNews(size, page)
+//        return cacheProviders.getCachedContentBean(getListNews(size, page), new DynamicKeyGroup(size, page), new EvictDynamicKey(update))
+//                             .map(listReply -> listReply.getData())
+//
+//                             .subscribeOn(Schedulers.io())
+//                             .observeOn(AndroidSchedulers.mainThread());
+        return getListNews(size, page)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());*/
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
 
     public Observable<List<HotNews>> getListArticle(int type_id, int size, int page, boolean update) {
-        return cacheProviders.getCachedNews(getListArticle(type_id, size, page), new DynamicKeyGroup(type_id, size), new EvictDynamicKey(update))
-                             .map(listReply -> listReply.getData())
-                             .subscribeOn(Schedulers.io())
-                             .observeOn(AndroidSchedulers.mainThread());
-        // return getListArticle(type_id, size, page);
+//        return cacheProviders.getCachedNews(getListArticle(type_id, size, page), new DynamicKeyGroup(type_id, size), new EvictDynamicKey(update))
+//                             .map(listReply -> listReply.getData())
+//                             .subscribeOn(Schedulers.io())
+//                             .observeOn(AndroidSchedulers.mainThread());
+        return getListArticle(type_id, size, page);
 
     }
 
