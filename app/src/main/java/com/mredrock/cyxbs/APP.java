@@ -13,8 +13,6 @@ import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 
-import timber.log.Timber;
-
 
 /**
  * Created by cc on 16/3/18.
