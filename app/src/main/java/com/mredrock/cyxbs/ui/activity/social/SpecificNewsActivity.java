@@ -227,6 +227,8 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                             super.onCompleted();
                             requestComments();
                             mNewsEdtComment.getText().clear();
+                           //mRecyclerView.scrollTo(100, 100);
+                            mRecyclerView.scrollToPosition(1);
                         }
 
                         @Override

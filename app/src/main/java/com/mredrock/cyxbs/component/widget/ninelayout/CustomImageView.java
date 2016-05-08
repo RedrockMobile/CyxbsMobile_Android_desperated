@@ -9,9 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -64,20 +62,20 @@ public class CustomImageView extends ImageView {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Drawable drawable = getDrawable();
+          /*      Drawable drawable = getDrawable();
                 if (drawable != null) {
                     drawable.mutate().setColorFilter(Color.GRAY,
                             PorterDuff.Mode.MULTIPLY);
-                }
+                }*/
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
-                Drawable drawableUp = getDrawable();
+              /*  Drawable drawableUp = getDrawable();
                 if (drawableUp != null) {
                     drawableUp.mutate().clearColorFilter();
-                }
+                }*/
                 int x = (int) event.getX();
                 int y = (int) event.getY();
                 int w = DensityUtils.dp2px(getContext(), 18);

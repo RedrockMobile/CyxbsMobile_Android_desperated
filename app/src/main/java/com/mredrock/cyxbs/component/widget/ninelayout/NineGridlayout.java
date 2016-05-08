@@ -83,8 +83,7 @@ public class NineGridlayout extends ViewGroup {
         setLayoutParams(params);
         for (int i = 0; i < childrenCount; i++) {
             CustomImageView childrenView = (CustomImageView) getChildAt(i);
-            childrenView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
+            childrenView.setFocusable(false);
             final int finalI = i;
             final int finalI1 = i;
             childrenView.setOnClickListener(new OnClickListener() {
@@ -207,10 +206,10 @@ public class NineGridlayout extends ViewGroup {
         }
     }
 
-    private CustomImageView generateImageView() {
+    protected CustomImageView generateImageView() {
         CustomImageView iv = new CustomImageView(getContext());
         iv.setBackgroundColor(Color.parseColor("#ffffff"));
-        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
         return iv;
     }
 

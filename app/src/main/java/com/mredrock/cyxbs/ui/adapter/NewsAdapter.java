@@ -160,6 +160,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
 
         public void like(TextView textView) {
+            Log.e("--->>>", mHotNewsContent.type_id + "");
             likeToSetDataAndView(textView);
             RequestManager.getInstance()
                     .addThumbsUp(mHotNewsContent.article_id, mHotNewsContent.type_id)
@@ -226,9 +227,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mTextName.setText(hotNewsContent.type_id < BBDDNews.BBDD ? hotNewsContent.geType_id() : hotNewsContent.nick_name);
             mTextTime.setText(TimeUtils.getTimeDetail(hotNewsContent.getTime()));
             mBtnMsg.setText(hotNewsContent.remark_num);
-            mBtnFavor.setText(hotNewsContent.like_num);
+            mBtnFavor.setText(mHotNewsContent.like_num);
 
-            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(APP.getContext().getResources().getDrawable(hotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
+            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(APP.getContext().getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
                     null, null, null);
 
 

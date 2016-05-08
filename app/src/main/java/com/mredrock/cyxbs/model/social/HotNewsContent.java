@@ -98,16 +98,17 @@ public class HotNewsContent implements Parcelable {
 
     public HotNewsContent(OfficeNewsContent content) {
         this.content = content;
-        this.type_id = 6;
+        this.type_id = 4;
         this.nick_name = content.name;
         this.user_head = content.head;
         this.time = content.date;
         this.remark_num = content.remark_num;
         this.id = content.id;
         this.img = new ImgBean("", "");
-        this.like_num = content.read;
-        this.article_id = content.id;
 
+        this.like_num = content.like_num;
+        this.is_my_Like = content.is_my_like;
+        this.article_id = content.id;
     }
 
     public HotNewsContent(ImgBean img, OfficeNewsContent content) {

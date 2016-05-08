@@ -14,7 +14,7 @@ public class BBDDNews extends RedrockApiWrapper<List<BBDDNewsContent>> {
     public static final int XSJZ = 3;
     public static final int XWGG = 4;
     public static final int BBDD = 5;
-    public static final String LISTNEWS = "6";
+    public static final String LISTNEWS = "4";
 
     public static final int SHOT_ARTICLE = 1;
     public static final int LIST_ARTICLE = 2;
