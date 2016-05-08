@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.ui.fragment.explore;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -49,7 +48,7 @@ public class ExploreFragment extends BaseFragment {
     @OnClick(R.id.explore_map_holder)
     void clickToMap() {
         if (isAdded()) {
-            startActivity(new Intent(getActivity(), MapActivity.class));
+            MapActivity.startMapActivity(getActivity());
         }
     }
 

@@ -16,7 +16,7 @@
         android:padding="@dimen/spacing_normal">
 
         <ImageView
-            android:id="@+id/item_food_restaurant_img"
+            android:id="@+id/restaurant_photo"
             android:layout_width="@dimen/restaurant_photo_width"
             android:layout_height="@dimen/restaurant_photo_height"
             android:layout_marginLeft="@dimen/spacing_normal"
@@ -31,7 +31,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/item_food_restaurant_title"
+                android:id="@+id/restaurant_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/body_text_1"
@@ -39,7 +39,7 @@
                 tools:text="@string/placeholder_explore_restaurant_name" />
 
             <TextView
-                android:id="@+id/item_food_restaurant_recommend"
+                android:id="@+id/restaurant_introduction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -48,7 +48,7 @@
                 tools:text="@string/placeholder_explore_restaurant_recommend" />
 
             <TextView
-                android:id="@+id/item_food_restaurant_address"
+                android:id="@+id/restaurant_location"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="bottom"
