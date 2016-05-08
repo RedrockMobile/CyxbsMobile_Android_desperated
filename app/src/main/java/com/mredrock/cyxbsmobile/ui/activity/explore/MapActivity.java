@@ -1,5 +1,7 @@
 package com.mredrock.cyxbsmobile.ui.activity.explore;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -23,8 +25,9 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
 
     private AMap mAmap;
 
-    public static void startMapActivity() {
-
+    public static void startMapActivity(Activity startingActivity) {
+        Intent intent = new Intent(startingActivity, MapActivity.class);
+        startingActivity.startActivity(intent);
     }
 
     @Override
@@ -85,7 +88,7 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
 //                }).show();
 //            }
 //        }
-
+        trySaveMap();
     }
 
 
@@ -145,6 +148,10 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
             marker.showInfoWindow();
         }
         return true;
+    }
+
+    private void trySaveMap() {
+
     }
 
 //    private void showMap(Bitmap bitmap) {

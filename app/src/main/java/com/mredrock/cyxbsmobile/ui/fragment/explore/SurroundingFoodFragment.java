@@ -96,7 +96,7 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
         mSurroundingFoodListRv.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager, 5) {
             @Override
             public void onLoadMore(int page, int totalItemCount) {
-                loadFoodList(page);
+                loadFoodList(page, false);
             }
         });
 
@@ -105,7 +105,7 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
             if (RevealBackgroundView.STATE_FINISHED == state) {
                 onMainContentVisibleChanged(true);
 
-                loadFoodList(1);
+                loadFoodList(1, true);
             } else {
                 onMainContentVisibleChanged(false);
             }
@@ -114,17 +114,19 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
 
     @Override
     public void onRefresh() {
-        loadFoodList(1);
+        loadFoodList(1, true);
     }
 
 
-    private void loadFoodList(int page) {
+    private void loadFoodList(int page, boolean shouldRefresh) {
         Subscription subscription = RequestManager.getInstance().getFoodList(
                 new SimpleSubscriber<List<Food>>(getActivity(), new SubscriberListener<List<Food>>() {
 
             @Override
             public void onStart() {
-                mSwipeRefreshLayout.post(() -> onRefreshingStateChanged(true));
+                if (shouldRefresh) {
+                    mSwipeRefreshLayout.post(() -> onRefreshingStateChanged(true));
+                }
             }
 
             @Override

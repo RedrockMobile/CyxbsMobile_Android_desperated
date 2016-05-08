@@ -40,9 +40,9 @@ public class Utils {
         return a == b || (a != null && a.equals(b));
     }
 
-    public static class BackgroundThread extends Thread {
+    public static class WorkerThread extends Thread {
 
-        public BackgroundThread(Runnable runnable) {
+        public WorkerThread(Runnable runnable) {
             super(runnable);
         }
 
