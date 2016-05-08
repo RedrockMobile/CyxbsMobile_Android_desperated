@@ -81,9 +81,10 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="4"
-            android:textColorHint="@color/gray_edit"
             android:background="@drawable/news_edt"
             android:hint="@string/news_edt"
+            android:selectAllOnFocus="true"
+            android:textColorHint="@color/gray_edit"
             android:textSize="16sp"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
 

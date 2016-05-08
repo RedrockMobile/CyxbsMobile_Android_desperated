@@ -30,6 +30,7 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.ui.adapter.SpecificNewsCommentAdapter;
+import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.download.DownloadHelper;
 import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
@@ -117,6 +118,15 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mSpecificNewsCommentAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
+
+        RxBus.getDefault().toObserverable(CommentContent.class)
+                .subscribe(commentContent -> {
+                    mNewsEdtComment.setText(" ");
+                    mNewsEdtComment.setText("回复 " + commentContent.getNickname() + " : ");
+                    mNewsEdtComment.setFocusable(true);
+
+                });
+
     }
 
     private void doWithNews(NewsAdapter.ViewHolder mWrapView, OfficeNewsContent bean) {

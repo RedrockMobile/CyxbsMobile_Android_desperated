@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
@@ -12,6 +13,7 @@ import com.mredrock.cyxbs.component.widget.CircleImageView;
 import com.mredrock.cyxbs.model.social.CommentContent;
 import com.mredrock.cyxbs.ui.activity.social.PersonInfoActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
+import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.TimeUtils;
 
 import java.util.List;
@@ -36,6 +38,10 @@ public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<CommentC
         holder.mTextViewNickName.setText(data.nickname);
         ImageLoader.getInstance().loadAvatar(data.photo_thumbnail_src, holder.mCircleImageView);
         holder.mCircleImageView.setOnClickListener(view -> PersonInfoActivity.StartActivityWithData(view.getContext(), data.photo_src, data.nickname, data.stunum));
+        holder.mLinearLayout.setOnLongClickListener(view -> {
+            RxBus.getDefault().post(data);
+            return false;
+        });
     }
 
     @Override
@@ -46,6 +52,8 @@ public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<CommentC
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        @Bind(R.id.list_item_comment)
+        LinearLayout mLinearLayout;
         @Bind(R.id.list_information_img_avatar)
         CircleImageView mCircleImageView;
         @Bind(R.id.list_information_text_nickname)
@@ -59,6 +67,7 @@ public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<CommentC
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
     }
 
 

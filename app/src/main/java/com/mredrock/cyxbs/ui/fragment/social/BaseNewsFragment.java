@@ -85,7 +85,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
             }
         });
 
-
+        initAdapter(null);
         //getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, false);
         getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
 
@@ -99,6 +99,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     private void getDataFailed(String reason) {
         Toast.makeText(getActivity(), getString(R.string.erro), Toast.LENGTH_SHORT).show();
         Log.e(TAG, reason);
+
     }
 
     private void showLoadingProgress() {
@@ -125,6 +126,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                     Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
                     closeLoadingProgress();
                 }, throwable -> {
+                    mFooterViewWrapper.showLoadingFailed();
                     closeLoadingProgress();
                     getDataFailed(throwable.toString());
                 });
@@ -142,6 +144,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mNewsAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         addFooterView(mHeaderViewRecyclerAdapter);
+        mFooterViewWrapper.mCircleProgressBar.setVisibility(View.INVISIBLE);
     }
 
     protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
@@ -199,7 +202,6 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         public void showLoading() {
             mCircleProgressBar.setVisibility(View.VISIBLE);
             mTextLoadingFailed.setVisibility(View.GONE);
-
         }
 
         public void showLoadingFailed() {

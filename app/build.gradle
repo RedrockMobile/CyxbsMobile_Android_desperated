@@ -19,12 +19,46 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    signingConfigs {
+
+        debug {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+
     buildTypes {
+        debug {
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.debug
+        }
 
         release {
             minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources true
+
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+
+        checkReleaseBuilds false
     }
 
     packagingOptions {
@@ -70,13 +104,12 @@ dependencies {
         exclude group: 'stax', module: 'stax-api'
         exclude group: 'stax', module: 'stax'
     }
-    compile 'com.liulishuo.filedownloader:library:0.2.8'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.5'
-    compile 'com.hwangjr.rxbus:rxbus:1.0.3'
+//    compile 'com.hwangjr.rxbus:rxbus:1.0.3'
     compile 'com.github.siyamed:android-shape-imageview:0.9.3@aar'
     compile 'com.thefinestartist:finestwebview:1.1.7'
     compile 'com.jude:rollviewpager:1.2.4'
@@ -88,10 +121,11 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.zhy:percent-support-extends:1.0.1'
     compile 'org.apache.commons:commons-lang3:3.0'
-    compile 'com.roughike:bottom-bar:1.3.3'
     compile 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
     compile 'com.afollestad:material-dialogs:0.7.5.5'
-    compile "com.github.VictorAlbertos:RxCache:1.2.6"
+    compile ("com.github.VictorAlbertos:RxCache:1.3.4") {
+        exclude module: 'guava'
+    }
     compile 'com.github.traex.rippleeffect:library:1.3'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'com.ms-square:expandableTextView:0.1.4'
