@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.util.Util;
+import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
 import com.mredrock.cyxbs.util.download.progress.ProgressHelper;
 import com.mredrock.cyxbs.util.download.progress.UIProgressListener;
@@ -223,8 +223,8 @@ public class DownloadHelper {
                     if (mIsSuccess) {
                         mDownloadListener.downloadSuccess();
 
-                        String path = Util.getExternalStoragePath() + "/Download";
-                        Util.toast(mContext, String.format(mContext.getResources().getString(R.string.load_file_path), path));
+                        String path = Utils.getExternalStoragePath() + "/Download";
+                        Utils.toast(mContext, String.format(mContext.getResources().getString(R.string.load_file_path), path));
                     } else {
                         mDownloadListener.downloadFailed("request failed");
                     }
@@ -232,14 +232,14 @@ public class DownloadHelper {
             }
         };
 
-        if (Util.getExternalStoragePath() != null) {
+        if (Utils.getExternalStoragePath() != null) {
             if (!mIsJWZXNews) {
                 showDialog(mProgressDialog);
             }
 
             showDialog(mProgressDialog);
             for (int i = 0; i < mUrls.size(); i++) {
-                String path = Util.getExternalStoragePath() + "/Download/" + mFileNames.get(i);
+                String path = Utils.getExternalStoragePath() + "/Download/" + mFileNames.get(i);
                 if (!mIsJWZXNews) {
                     String url = mUrls.get(i).replaceAll("localhost", "hongyan.cqupt.edu.cn");
                     tryLoad(url, path, progressListener);

@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.network;
+package com.mredrock.cyxbs.network.setting;
 
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.Course;

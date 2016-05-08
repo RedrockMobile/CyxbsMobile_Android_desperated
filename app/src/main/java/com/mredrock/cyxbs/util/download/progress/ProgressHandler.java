@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
 
 public abstract class ProgressHandler extends Handler {
     public static final int UPDATE = 0x01;
-    public static final int START = 0x02;
+    public static final int START  = 0x02;
     public static final int FINISH = 0x03;
     //弱引用
     private final WeakReference<UIProgressListener> mUIProgressListenerWeakReference;
@@ -28,7 +28,8 @@ public abstract class ProgressHandler extends Handler {
                     //获得进度实体类
                     ProgressModel progressModel = (ProgressModel) msg.obj;
                     //回调抽象方法
-                    progress(uiProgessListener, progressModel.getCurrentBytes(), progressModel.getContentLength(), progressModel.isDone());
+                    progress(uiProgessListener, progressModel.getCurrentBytes(), progressModel.getContentLength(), progressModel
+                            .isDone());
                 }
                 break;
             }
@@ -38,7 +39,8 @@ public abstract class ProgressHandler extends Handler {
                     //获得进度实体类
                     ProgressModel progressModel = (ProgressModel) msg.obj;
                     //回调抽象方法
-                    start(uiProgressListener, progressModel.getCurrentBytes(), progressModel.getContentLength(), progressModel.isDone());
+                    start(uiProgressListener, progressModel.getCurrentBytes(), progressModel.getContentLength(), progressModel
+                            .isDone());
 
                 }
                 break;
@@ -49,7 +51,8 @@ public abstract class ProgressHandler extends Handler {
                     //获得进度实体类
                     ProgressModel progressModel = (ProgressModel) msg.obj;
                     //回调抽象方法
-                    finish(uiProgressListener, progressModel.getCurrentBytes(), progressModel.getContentLength(), progressModel.isDone());
+                    finish(uiProgressListener, progressModel.getCurrentBytes(), progressModel.getContentLength(), progressModel
+                            .isDone());
                 }
                 break;
             }

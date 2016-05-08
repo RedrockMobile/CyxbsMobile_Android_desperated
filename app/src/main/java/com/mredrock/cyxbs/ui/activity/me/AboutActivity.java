@@ -13,8 +13,9 @@ import butterknife.OnClick;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.config.Constants;
-import com.mredrock.cyxbs.util.Util;
+import com.mredrock.cyxbs.config.Const;
+import com.mredrock.cyxbs.util.UpdateUtil;
+import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.WebViewUtils;
 
 public class AboutActivity extends AppCompatActivity {
@@ -26,31 +27,28 @@ public class AboutActivity extends AppCompatActivity {
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
     @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar  toolbar;
 
 
     @OnClick(R.id.about_website)
     void clickToWebsite() {
-        //WebActivity.startWebActivity(Constants.REDROCK_PORTAL, getActivity());
-        WebViewUtils.showPortalWebView(this, Constants.APP_HOME);
+        WebViewUtils.showPortalWebView(this, Const.APP_HOME);
     }
 
 
     @OnClick(R.id.about_legal)
     void clickToSee() {
         new MaterialDialog.Builder(this).title("使用条款")
-                .content("版权归红岩网校工作站所有,感谢您的使用")
-                .positiveText("确定")
-                .build()
-                .show();
+                                        .content("版权归红岩网校工作站所有,感谢您的使用")
+                                        .positiveText("确定")
+                                        .build()
+                                        .show();
     }
-
 
     @OnClick(R.id.about_update)
     void clickToUpdate() {
-
+        UpdateUtil.checkUpdate(this, true);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +56,8 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
         initializeToolbar();
-        aboutVersion.setText(new StringBuilder("Version ").append(
-                Util.getAppVersionName(this)));
+        aboutVersion.setText(new StringBuilder("Version ").append(Utils.getAppVersionName(this)));
     }
-
 
     protected void initializeToolbar() {
         if (toolbar != null) {
@@ -77,7 +73,6 @@ public class AboutActivity extends AppCompatActivity {
             }
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

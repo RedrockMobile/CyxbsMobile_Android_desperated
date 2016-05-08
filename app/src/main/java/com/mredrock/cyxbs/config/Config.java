@@ -14,4 +14,8 @@ public class Config {
     public static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
     public static final String SP_KEY_USER = "user";
+
+    public final static String dataFilePath = android.os.Environment.getExternalStorageDirectory() +"/"+"Android/data/com.mredrock.cyxbs/";
+    public final static String updateFilePath = android.os.Environment.getExternalStorageDirectory() +"/"+"download/";
+    public final static String updateFilename = "com.mredrock.cyxbs.apk";
 }

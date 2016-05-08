@@ -14,12 +14,14 @@ public class KeyboardUtils {
 
     public static void showInput(View v) {
         v.requestFocus();
-        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) v.getContext()
+                                                       .getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
     }
 
     public static void hideInput(View v) {
-        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) v.getContext()
+                                                       .getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 

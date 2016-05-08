@@ -25,7 +25,6 @@ import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.ui.activity.MainActivity;
 import com.mredrock.cyxbs.ui.activity.me.AboutMeActivity;
 import com.mredrock.cyxbs.ui.activity.me.EditInfoActivity;
 import com.mredrock.cyxbs.ui.activity.me.EmptyRoomActivity;
@@ -147,7 +146,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
     @OnClick(R.id.my_page_setting_layout)
     void clickToSetting() {
-        startActivityForResult(new Intent(getActivity(), SettingActivity.class), MainActivity.REQUEST_CODE_SETTING);
+        startActivity(new Intent(getActivity(), SettingActivity.class));
     }
 
     @Override
