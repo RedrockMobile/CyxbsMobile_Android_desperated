@@ -12,4 +12,8 @@ public class CommentContent {
     public String photo_thumbnail_src;
     public String created_time;
     public String content;
+
+    public String getNickname() {
+        return nickname != null && !nickname.equals("") ? nickname : username;
+    }
 }
