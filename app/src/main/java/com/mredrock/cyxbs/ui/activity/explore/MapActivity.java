@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
@@ -26,7 +27,6 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.MapHelper;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -41,8 +41,8 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
 
     private AMap mAMap;
     private MapHelper mMapHelper;
-
-    private MaterialDialog dialog;
+    private MaterialDialog mProgressDialog;
+    private Subscription mSubscription;
 
     public static void startMapActivity(Activity startingActivity) {
         Intent intent = new Intent(startingActivity, MapActivity.class);
@@ -60,20 +60,20 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
                 case MapHelper.READ_PICTURE:
                     Bitmap cachedBitmap = (Bitmap) msg.obj;
                     if (cachedBitmap != null) {
-                        Logger.d("Cache is not null");
-
                         showCoveredMap(cachedBitmap);
                     } else {
-                        Logger.d("Cache is null");
-
-                        //Prepare to download
                         showFlowWarningDialog();
                     }
                     break;
                 case MapHelper.LOAD_PICTURE:
-                    Logger.d("Load picture success");
-                    dismissProgressDialog();
-                    showCoveredMap((Bitmap) msg.obj);
+                    Bitmap loadedBitmap = (Bitmap) msg.obj;
+                    if (loadedBitmap != null) {
+                        showCoveredMap((Bitmap) msg.obj);
+                    } else {
+                        Toast.makeText(MapActivity.this, getResources().getString(R.string.map_load_error), Toast.LENGTH_SHORT).show();
+                    }
+
+                    onLoadProgressFinish();
                     break;
                 default:
                     throw new AssertionError("Unknown handler message received: " + msg.what);
@@ -92,8 +92,7 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
 
         setupMap();
 
-        //TODO external cache dir can use ?
-        mMapHelper = new MapHelper(mHandler, getExternalCacheDir());
+        mMapHelper = new MapHelper(this, mHandler);
         mMapHelper.readMapPictureFromCache();
     }
 
@@ -159,6 +158,8 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
         super.onDestroy();
         mMapView.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+        mSubscription.unsubscribe();
+        mMapHelper.cleanUp();
     }
 
     @Override
@@ -198,19 +199,20 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
     }
 
     private void downloadMapPicture() {
-        Subscription subscription = RequestManager.getInstance().getMapPicture(
-                new SimpleSubscriber<List<String>>(this, false, new SubscriberListener<List<String>>() {
+        mSubscription = RequestManager.getInstance().getMapPicture(
+                new SimpleSubscriber<List<String>>(this, new SubscriberListener<List<String>>() {
             @Override
             public void onNext(List<String> urlList) {
                 mMapHelper.loadPicture(urlList.get(0));
-                showProgressDialog();
+
+                onLoadProgress();
             }
         }));
 
     }
 
-    private void showProgressDialog() {
-        dialog = new MaterialDialog.Builder(this)
+    private void onLoadProgress() {
+        mProgressDialog = new MaterialDialog.Builder(this)
                 .title(getResources().getString(R.string.map_progress_dialog_title))
                 .content(getResources().getString(R.string.map_progress_dialog_content))
                 .theme(Theme.LIGHT)
@@ -219,7 +221,7 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
                 .show();
     }
 
-    private void dismissProgressDialog() {
-        dialog.dismiss();
+    private void onLoadProgressFinish() {
+        mProgressDialog.dismiss();
     }
 }
