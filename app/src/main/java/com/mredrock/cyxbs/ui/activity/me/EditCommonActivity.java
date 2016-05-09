@@ -80,7 +80,7 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
         }
         editCommonEt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Integer.parseInt(getExtra()))});
         editCommonEt.setText(editTextContent);
-        editCommonEt.setSelection(editTextContent == null ? 0 : editTextContent.length());
+        editCommonEt.setSelection(editCommonEt.getText().toString().length());
         editCommonCount.setText(String.valueOf(
                 Integer.parseInt(getExtra()) - (editTextContent == null ? 0 : editTextContent.length())));
         editCommonEt.addTextChangedListener(this);

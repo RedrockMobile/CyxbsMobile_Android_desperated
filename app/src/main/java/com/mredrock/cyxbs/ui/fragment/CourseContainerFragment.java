@@ -154,7 +154,7 @@ public class CourseContainerFragment extends BaseFragment {
 
     private void setCurrentItem(int position) {
         if (mPager != null) {
-            mPager.setCurrentItem(position, true);
+            mPager.setCurrentItem(position, false);
         }
     }
 

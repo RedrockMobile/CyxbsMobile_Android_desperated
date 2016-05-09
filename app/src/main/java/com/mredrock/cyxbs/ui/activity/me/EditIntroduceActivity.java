@@ -29,7 +29,7 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
 
     public static final String EXTRA_EDIT_INTRODUCE = "extra_edit_introduce";
 
-    public static final int    MAX_SIZE_TEXT        = 30;
+    public static final int MAX_SIZE_TEXT = 30;
     @Bind(R.id.edit_introduce_toolbar)
     Toolbar  editIntroduceToolbar;
     @Bind(R.id.edit_introduce_et)
@@ -54,7 +54,7 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
 
         editIntroduceEt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_SIZE_TEXT)});
         editIntroduceEt.setText(mUser.introduction);
-        editIntroduceEt.setSelection(mUser.introduction == null ? 0 : mUser.introduction.length());
+        editIntroduceEt.setSelection(editIntroduceEt.getText().toString().length());
         editIntroduceCount.setText(String.valueOf(
                 MAX_SIZE_TEXT - (mUser.introduction == null ? 0 : mUser.introduction.length())));
         editIntroduceEt.addTextChangedListener(this);

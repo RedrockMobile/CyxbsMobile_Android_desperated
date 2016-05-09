@@ -188,10 +188,16 @@ public class CourseFragment extends BaseFragment {
                                   @Override
                                   public void onCompleted() {
                                       super.onCompleted();
-                                      mCourseSwipeRefreshLayout.setRefreshing(false);
+
                                   }
                               }), mUser.stuNum, mUser.idNum, week, update);
             }
+        }
+    }
+
+    private void hideRefresh() {
+        if (mCourseSwipeRefreshLayout != null) {
+            mCourseSwipeRefreshLayout.setRefreshing(false);
         }
     }
 }
