@@ -38,15 +38,15 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity {
 
     @Bind(R.id.main_toolbar_title)
-    TextView mToolbarTitle;
+    TextView          mToolbarTitle;
     @Bind(R.id.main_toolbar)
-    Toolbar mToolbar;
+    Toolbar           mToolbar;
     @Bind(R.id.main_coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
     @Bind(R.id.bottom_bar)
-    BottomBar mBottomBar;
+    BottomBar         mBottomBar;
     @Bind(R.id.main_view_pager)
-    ViewPager mViewPager;
+    ViewPager         mViewPager;
 
     @BindString(R.string.community)
     String mStringCommunity;
@@ -101,13 +101,20 @@ public class MainActivity extends BaseActivity {
             mViewPager.setCurrentItem(position);
             hiddenMenu();
             setTitle(adapter.getPageTitle(position));
-            if (position == 0) {
-                showMenu();
-            }
-            if (position == 3) {
-                if (!APP.isLogin()) {
-                    EventBus.getDefault().post(new LoginEvent());
-                }
+            switch (position) {
+                case 0:
+                    showMenu();
+                    break;
+                case 1:
+                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
+                    break;
+                case 3:
+                    if (!APP.isLogin()) {
+                        EventBus.getDefault().post(new LoginEvent());
+                    }
+                    break;
+                default:
+                    break;
             }
         });
 
@@ -180,6 +187,10 @@ public class MainActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+    }
+
+    public int getCurrentPosition() {
+        return mViewPager.getCurrentItem();
     }
 
 }

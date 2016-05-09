@@ -114,7 +114,7 @@ dependencies {
     compile 'com.thefinestartist:finestwebview:1.1.7'
     compile 'com.jude:rollviewpager:1.2.4'
     compile 'com.github.orhanobut:logger:1.12'
-    compile 'com.yalantis:ucrop:1.3.+'
+    compile 'com.yalantis:ucrop:1.3.2'
     compile 'com.github.wangjiegulu:RapidFloatingActionButton:1.0.3'
     compile 'com.github.wangjiegulu:ShadowViewHelper:1.0.1'
     compile 'com.github.wangjiegulu:AndroidBucket:1.0.4'

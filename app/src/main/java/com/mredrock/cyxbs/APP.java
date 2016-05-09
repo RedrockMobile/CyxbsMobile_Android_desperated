@@ -75,12 +75,9 @@ public class APP extends Application {
     public void onCreate() {
         super.onCreate();
 
-        if (BuildConfig.DEBUG) {
-            Logger.init();
-            Logger.init("cyxbs_mobile");
-        }
         context = getApplicationContext();
         initThemeMode();
+        Logger.init("cyxbs_mobile");
     }
 
     @Override

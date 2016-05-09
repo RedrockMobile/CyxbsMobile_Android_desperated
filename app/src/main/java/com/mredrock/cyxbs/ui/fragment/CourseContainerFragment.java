@@ -45,6 +45,7 @@ public class CourseContainerFragment extends BaseFragment {
     }
 
     private TextView mToolbarTitle;
+    private String   title;
 
     private TabPagerAdapter mAdapter;
     private List<Fragment> mFragmentList = new ArrayList<>();
@@ -100,7 +101,11 @@ public class CourseContainerFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-                if (mToolbarTitle != null) mToolbarTitle.setText(mTitles.get(position));
+                title = mTitles.get(position);
+                if (((MainActivity) getActivity()).getCurrentPosition() == 1) {
+                    if (mToolbarTitle != null) mToolbarTitle.setText(title);
+                }
+
             }
 
             @Override
@@ -180,5 +185,13 @@ public class CourseContainerFragment extends BaseFragment {
         now.add(Calendar.DATE, -((nowWeek - 1) * 7 + (now.get(Calendar.DAY_OF_WEEK) + 5) % 7));
         SPUtils.set(APP.getContext(), "first_day", now.getTimeInMillis());
         mNowWeek = new SchoolCalendar().getWeekOfTerm();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
