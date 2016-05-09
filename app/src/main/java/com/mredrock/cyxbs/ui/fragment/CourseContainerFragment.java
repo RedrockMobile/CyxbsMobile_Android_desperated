@@ -188,7 +188,7 @@ public class CourseContainerFragment extends BaseFragment {
     }
 
     public String getTitle() {
-        return title;
+        return title == null ? "课表" : title;
     }
 
     public void setTitle(String title) {

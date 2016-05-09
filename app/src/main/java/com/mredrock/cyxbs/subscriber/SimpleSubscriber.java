@@ -9,6 +9,7 @@ import com.mredrock.cyxbs.component.task.progress.ProgressDialogHandler;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import rx.Subscriber;
 
@@ -16,7 +17,7 @@ import rx.Subscriber;
  * Created by cc on 16/3/19.
  */
 public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancelListener {
-    private Context context;
+    private Context               context;
     private SubscriberListener<T> listener;
     private ProgressDialogHandler mProgressDialogHandler;
 
@@ -58,8 +59,10 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
             Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
         } else if (e instanceof ConnectException) {
             Toast.makeText(context, "网络异常，请检查您的网络状态", Toast.LENGTH_SHORT).show();
+        } else if (e instanceof UnknownHostException) {
+            Toast.makeText(context, "网络异常，请检查您的网络状态", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "ic_error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         if (BuildConfig.DEBUG) {
             e.printStackTrace();
@@ -90,13 +93,15 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
 
     private void showProgressDialog() {
         if (mProgressDialogHandler != null) {
-            mProgressDialogHandler.obtainMessage(ProgressDialogHandler.SHOW_PROGRESS_DIALOG).sendToTarget();
+            mProgressDialogHandler.obtainMessage(ProgressDialogHandler.SHOW_PROGRESS_DIALOG)
+                                  .sendToTarget();
         }
     }
 
     private void dismissProgressDialog() {
         if (mProgressDialogHandler != null) {
-            mProgressDialogHandler.obtainMessage(ProgressDialogHandler.DISMISS_PROGRESS_DIALOG).sendToTarget();
+            mProgressDialogHandler.obtainMessage(ProgressDialogHandler.DISMISS_PROGRESS_DIALOG)
+                                  .sendToTarget();
             mProgressDialogHandler = null;
         }
     }

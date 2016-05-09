@@ -64,11 +64,11 @@ public class CustomImageView extends ImageView {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Drawable drawable = getDrawable();
-                if (drawable != null) {
-                    drawable.mutate().setColorFilter(Color.GRAY,
-                            PorterDuff.Mode.MULTIPLY);
-                }
+//                Drawable drawable = getDrawable();
+//                if (drawable != null) {
+//                    drawable.mutate().setColorFilter(Color.GRAY,
+//                            PorterDuff.Mode.MULTIPLY);
+//                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;

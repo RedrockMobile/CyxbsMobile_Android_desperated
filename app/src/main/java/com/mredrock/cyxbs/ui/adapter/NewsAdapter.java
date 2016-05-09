@@ -191,7 +191,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mHotNewsContent.is_my_Like = false;
             mHotNewsContent.like_num = likeNumber;
             textView.setText(likeNumber);
-            textView.setCompoundDrawablesWithIntrinsicBounds(APP.getContext().getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
+            textView.setCompoundDrawablesWithIntrinsicBounds(textView.getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
                     null, null, null);
         }
 
@@ -202,7 +202,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mHotNewsContent.is_my_Like = true;
 
             textView.setText(like_Number);
-            textView.setCompoundDrawablesWithIntrinsicBounds(APP.getContext().getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
+            textView.setCompoundDrawablesWithIntrinsicBounds(textView.getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
                     null, null, null);
 
         }
@@ -228,7 +228,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mBtnMsg.setText(hotNewsContent.remark_num);
             mBtnFavor.setText(hotNewsContent.like_num);
 
-            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(APP.getContext().getResources().getDrawable(hotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
+            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(mBtnFavor.getResources().getDrawable(hotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
                     null, null, null);
 
 
