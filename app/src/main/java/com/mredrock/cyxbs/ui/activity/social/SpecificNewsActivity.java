@@ -124,7 +124,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                     mNewsEdtComment.setText(" ");
                     mNewsEdtComment.setText("回复 " + commentContent.getNickname() + " : ");
                     mNewsEdtComment.clearFocus();
-                    mNewsEdtComment.setSelection(mNewsEdtComment.getText().length());
+                    mNewsEdtComment.setSelection(mNewsEdtComment.getText().toString().length());
                 });
 
     }
