@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         RequestManager.getInstance()
-                      .verify(new SimpleSubscriber<>(this, true, false, new SubscriberListener<User>() {
+                      .login(new SimpleSubscriber<>(this, true, false, new SubscriberListener<User>() {
 
                           @Override
                           public void onNext(User user) {

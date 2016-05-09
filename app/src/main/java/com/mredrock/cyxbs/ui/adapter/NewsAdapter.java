@@ -46,7 +46,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         this.mNews = mNews;
     }
 
-
     @Override
     public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new NewsAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_news_item, parent, false));
@@ -176,8 +175,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
 
         public void like(TextView textView) {
-            Log.e(TAG, "mHotNewsContent.is_my_Like" + mHotNewsContent.is_my_Like);
-            Log.e("--->>>", "mHotNewsContent.article_id--->>>" + mHotNewsContent.article_id + "\n" + "mHotNewsContent.type_id--->>" + mHotNewsContent.type_id);
+//            Log.e(TAG, "mHotNewsContent.is_my_Like" + mHotNewsContent.is_my_Like);
+//            Log.e("--->>>", "mHotNewsContent.article_id--->>>" + mHotNewsContent.article_id + "\n" + "mHotNewsContent.type_id--->>" + mHotNewsContent.type_id);
             likeToSetDataAndView(textView);
             RequestManager.getInstance()
                     .addThumbsUp(mHotNewsContent.article_id, mHotNewsContent.type_id)
@@ -192,8 +191,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         public void dislike(TextView textView) {
             disLikeToSetDataAndView(textView);
-            Log.e(TAG, "mHotNewsContent.is_my_Like" + mHotNewsContent.is_my_Like);
-            Log.e("--->>>", "mHotNewsContent.article_id--->>>" + mHotNewsContent.article_id + "\n" + "mHotNewsContent.type_id--->>" + mHotNewsContent.type_id);
+//            Log.e(TAG, "mHotNewsContent.is_my_Like" + mHotNewsContent.is_my_Like);
+//            Log.e("--->>>", "mHotNewsContent.article_id--->>>" + mHotNewsContent.article_id + "\n" + "mHotNewsContent.type_id--->>" + mHotNewsContent.type_id);
             RequestManager.getInstance()
                     .cancelThumbsUp(mHotNewsContent.article_id, mHotNewsContent.type_id)
                     .subscribe(s -> {
@@ -211,7 +210,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mHotNewsContent.is_my_Like = false;
             mHotNewsContent.like_num = likeNumber;
             textView.setText(likeNumber);
-            textView.setCompoundDrawablesWithIntrinsicBounds(APP.getContext().getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
+            textView.setCompoundDrawablesWithIntrinsicBounds(textView.getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
                     null, null, null);
         }
 
@@ -222,7 +221,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mHotNewsContent.is_my_Like = true;
 
             textView.setText(like_Number);
-            textView.setCompoundDrawablesWithIntrinsicBounds(APP.getContext().getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
+            textView.setCompoundDrawablesWithIntrinsicBounds(textView.getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
                     null, null, null);
 
         }
@@ -239,7 +238,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mBtnMsg.setText(hotNewsContent.remark_num);
             mBtnFavor.setText(mHotNewsContent.like_num);
 
-            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(APP.getContext().getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
+            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(mBtnFavor.getResources().getDrawable(hotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
                     null, null, null);
 
             mExpandableTextView.setmMaxCollapsedLines(4);

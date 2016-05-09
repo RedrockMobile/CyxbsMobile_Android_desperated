@@ -58,6 +58,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 
@@ -97,7 +98,7 @@ public enum RequestManager {
 
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addInterceptor(logging);
         }
 
@@ -116,11 +117,14 @@ public enum RequestManager {
         return emitObservable(observable, subscriber);
     }
 
-    public Subscription verify(Subscriber<User> subscriber, String stuNum, String idNum) {
+    public Subscription login(Subscriber<User> subscriber, String stuNum, String idNum) {
         Observable<User> observable = redrockApiService.verify(stuNum, idNum)
-                                                       .map(new RedrockApiWrapperFunc<>());
+                                                       .map(new RedrockApiWrapperFunc<>())
+                                                       .zipWith(redrockApiService.getPersonInfo(stuNum, idNum)
+                                                                                 .map(new RedrockApiWrapperFunc<>()), User::cloneFromUserInfo);
 
         return emitObservable(observable, subscriber);
+
     }
 
     public Subscription getNowWeek(Subscriber<Integer> subscriber, String stuNum, String idNum) {
@@ -368,7 +372,7 @@ public enum RequestManager {
     }
 
     /**
-     * 社区api
+     * api
      */
     public Observable<UploadImgResponse.Response> uploadNewsImg(String filePath) {
         return uploadNewsImg(Stu.STU_NUM, filePath);

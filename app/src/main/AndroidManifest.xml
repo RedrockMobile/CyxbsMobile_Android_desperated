@@ -36,6 +36,9 @@
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="c013592261f6ca0f07dbf8660e7fa505"/>
+        <meta-data
+            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+            android:value="GlideModule" />
 
         <activity
             android:name=".ui.activity.MainActivity"

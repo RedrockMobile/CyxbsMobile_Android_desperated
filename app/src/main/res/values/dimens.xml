@@ -56,4 +56,9 @@
     <dimen name="restaurant_icon_width">18dp</dimen>
     <dimen name="restaurant_icon_height">17.5dp</dimen>
 
+    <dimen name="news_card_margin_start">-2dp</dimen>
+    <dimen name="news_card_margin_end">-2dp</dimen>
+    <dimen name="news_card_margin_top">2dp</dimen>
+    <dimen name="news_card_margin_bottom">2dp</dimen>
+
 </resources>
