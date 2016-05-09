@@ -158,11 +158,6 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
                         }
 
                         @Override
-                        public void onError(Throwable e) {
-                            Toast.makeText(getActivity(), getResources().getString(R.string.error_text), Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
                         public void onNext(Shake data) {
                             setFoodData(data);
                         }

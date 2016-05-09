@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity {
         mViewPager.setOffscreenPageLimit(4);
 
         mBottomBar.setOnBottomViewClickListener((view, position) -> {
-            mViewPager.setCurrentItem(position);
+            mViewPager.setCurrentItem(position, false);
             hiddenMenu();
             setTitle(adapter.getPageTitle(position));
             switch (position) {

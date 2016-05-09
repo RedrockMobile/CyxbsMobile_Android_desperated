@@ -21,7 +21,6 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
-import com.orhanobut.logger.Logger;
 
 import java.util.Calendar;
 import java.util.List;
@@ -182,16 +181,22 @@ public class CourseFragment extends BaseFragment {
                                   @Override
                                   public void onError(Throwable e) {
                                       super.onError(e);
-                                      mCourseSwipeRefreshLayout.setRefreshing(false);
+                                      hideRefreshLoading();
                                   }
 
                                   @Override
                                   public void onCompleted() {
                                       super.onCompleted();
-                                      mCourseSwipeRefreshLayout.setRefreshing(false);
+                                      hideRefreshLoading();
                                   }
                               }), mUser.stuNum, mUser.idNum, week, update);
             }
+        }
+    }
+
+    private void hideRefreshLoading() {
+        if (mCourseSwipeRefreshLayout != null) {
+            mCourseSwipeRefreshLayout.setRefreshing(false);
         }
     }
 }

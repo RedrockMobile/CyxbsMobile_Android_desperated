@@ -74,7 +74,7 @@ public class AutoNineGridlayout extends NineGridlayout {
     }
 
     @Override
-    protected CustomImageView generateImageView() {
+    protected CustomImageView generateImageView(int i) {
         CustomImageView iv = new CustomImageView(getContext());
         iv.setBackgroundColor(Color.parseColor("#ffffff"));
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);

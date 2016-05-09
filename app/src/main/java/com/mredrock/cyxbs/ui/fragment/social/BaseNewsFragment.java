@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.ui.fragment.social;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
@@ -39,7 +41,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     @Bind(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
     @Bind(R.id.information_refresh)
-    SwipeRefreshLayout refreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private int currentIndex;
@@ -71,8 +73,11 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
 
     protected void init() {
-        refreshLayout.setColorSchemeColors(R.color.orange);
-        refreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
+                ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
+        );
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mLinearLayoutManager = new LinearLayoutManager(getParentFragment().getActivity());
 
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
@@ -103,14 +108,14 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
     private void showLoadingProgress() {
-        if (refreshLayout != null) {
-            refreshLayout.setRefreshing(true);
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(true);
         }
     }
 
     private void closeLoadingProgress() {
-        if (refreshLayout != null) {
-            refreshLayout.setRefreshing(false);
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
