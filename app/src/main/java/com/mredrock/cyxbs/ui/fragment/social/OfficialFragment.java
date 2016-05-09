@@ -31,6 +31,7 @@ public class OfficialFragment extends BaseNewsFragment {
         holder.mTextContent.setText(hotNewsContent.content.title);
         holder.mTextName.setText(hotNewsContent.content.getOfficeName());
         holder.enableAvatarClick = false;
+        holder.mBtnFavor.setOnClickListener(null);
     }
 
 }

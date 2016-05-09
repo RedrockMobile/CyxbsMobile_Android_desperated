@@ -20,7 +20,6 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
-import com.mredrock.cyxbs.util.DialogUtil;
 import com.mredrock.cyxbs.util.RxBus;
 
 import java.util.ArrayList;
@@ -30,7 +29,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class PostNewsActivity extends BaseActivity implements View.OnClickListener {
@@ -74,12 +72,12 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         mSaveText.setOnClickListener(this);
 
         mAddNewsEdit.setOnFocusChangeListener((view, b) -> {
-            EditText _e = (EditText) view;
+            EditText editText = (EditText) view;
             if (!b) {
-                _e.setHint(_e.getTag().toString());
+                editText.setHint(editText.getTag().toString());
             } else {
-                _e.setTag(_e.getHint().toString());
-                _e.setHint("");
+                editText.setTag(editText.getHint().toString());
+                editText.setHint("");
             }
         });
 
@@ -130,28 +128,10 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         if (currentImgs.size() > 0) observable = uploadWithImg(currentImgs, title, content, type);
         else observable = uploadWithoutImg(title, content, type);
 
-       /* observable.subscribe(okResponse -> {
-            if (okResponse.state == RequestResponse.RESPONSE_OK) {
-
-                closeLoadingProgress();
-                showUploadSucess(content);
-            }
-        }, throwable -> {
-            closeLoadingProgress();
-            showUploadFail(throwable.toString());
-        });*/
-        observable.subscribe(new SimpleSubscriber<>(this, new SubscriberListener<String>() {
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                closeLoadingProgress();
-                showUploadFail(e.toString());
-            }
-
+        observable.subscribe(new SimpleSubscriber<>(this, true, false, new SubscriberListener<Object>() {
             @Override
             public void onCompleted() {
                 super.onCompleted();
-                closeLoadingProgress();
                 showUploadSucess(content);
             }
         }));
@@ -162,8 +142,6 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         final String[] photoSrc = {""};
         final String[] thumbnailSrc = {""};
         return Observable.from(currentImgs)
-                .doOnSubscribe(() -> showLoadingProgress())
-                .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .observeOn(Schedulers.io())
                 .map(image -> image.url)
                 .flatMap(url -> RequestManager.getInstance().uploadNewsImg(Stu.STU_NUM, url))
@@ -172,7 +150,6 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                     for (UploadImgResponse.Response response : responseList) {
                         photoSrc[0] += photoSrc[0] + response.photosrc.split("/")[6] + ",";
                         thumbnailSrc[0] += thumbnailSrc[0] + response.photosrc.split("/")[6] + ",";
-
                     }
                     return RequestManager.getInstance().sendDynamic(type, title, content, thumbnailSrc[0], photoSrc[0]);
                 });
@@ -180,15 +157,13 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
 
     private Observable<String> uploadWithoutImg(String title, String content, int type) {
         return RequestManager.getInstance()
-                .sendDynamic(type, title, content, " ", " ")
-                .doOnSubscribe(() -> showLoadingProgress());
+                .sendDynamic(type, title, content, " ", " ");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE) {
-
             if (resultCode == RESULT_OK) {
                 // 获取返回的图片列表
                 List<String> pathList = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
@@ -197,7 +172,6 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                     for (int i = 0; i < pathList.size(); i++) {
                         if (image.url.equals(pathList.get(i))) pathList.remove(i);
                     }
-
 
                 // 处理你自己的逻辑 ....
                 if (mImgList.size() + pathList.size() > 10) {
@@ -224,31 +198,11 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private void showUploadFail(String reason) {
-        DialogUtil.showLoadSucess(this, "提示", "发表动态失败" + reason, "重新发表", "返回", new DialogUtil.DialogListener() {
-            @Override
-            public void onPositive() {
-                closeLoadingProgress();
-            }
-
-            @Override
-            public void onNegative() {
-                closeLoadingProgress();
-                PostNewsActivity.this.finish();
-            }
-        });
-    }
 
     private void showUploadSucess(String content) {
         RxBus.getDefault().post(new HotNews(content, mImgList));
         PostNewsActivity.this.finish();
     }
 
-    private void showLoadingProgress() {
-        DialogUtil.showLoadingDiaolog(this, "上传中");
-    }
 
-    private void closeLoadingProgress() {
-        DialogUtil.dismissDialog();
-    }
 }

@@ -12,13 +12,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
  */
 public class ProgressDialogHandler extends Handler {
 
-    public static final int SHOW_PROGRESS_DIALOG    = 1;
+    public static final int SHOW_PROGRESS_DIALOG = 1;
     public static final int DISMISS_PROGRESS_DIALOG = 2;
 
     private MaterialDialog pd;
 
-    private Context                context;
-    private boolean                cancelable;
+    private Context context;
+    private boolean cancelable;
     private ProgressCancelListener mProgressCancelListener;
 
     public ProgressDialogHandler(Context context, ProgressCancelListener mProgressCancelListener,
@@ -41,7 +41,6 @@ public class ProgressDialogHandler extends Handler {
             if (cancelable) {
                 pd.setOnCancelListener(dialogInterface -> mProgressCancelListener.onCancelProgress());
             }
-
             if (!pd.isShowing()) {
                 pd.show();
             }

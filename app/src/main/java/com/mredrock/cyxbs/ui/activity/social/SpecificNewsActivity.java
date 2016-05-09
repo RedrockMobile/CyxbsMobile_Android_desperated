@@ -35,6 +35,8 @@ import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.download.DownloadHelper;
 import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -130,10 +132,13 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     }
 
     private void doWithNews(NewsAdapter.ViewHolder mWrapView, OfficeNewsContent bean) {
+
         mWrapView.mTextContent.setText(Html.fromHtml(mHotNewsContent.content != null ? mHotNewsContent.content.content : ""));
         mWrapView.mTextName.setText(bean.getOfficeName());
         mWrapView.mTextView_ex.setVisibility(View.INVISIBLE);
-        if (mHotNewsContent.content.content.charAt(0) == '<')
+
+
+        if (StringUtils.startsWith(mHotNewsContent.content.content, "<div"))
             mWrapView.mTextContent.setText(mHotNewsContent.content.title);
         if (bean.address != null && !bean.address.equals("")) {
             mTextDown.setVisibility(View.VISIBLE);

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.CircleImageView;
 import com.mredrock.cyxbs.component.widget.ExpandableTextView;
@@ -210,7 +209,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mHotNewsContent.is_my_Like = false;
             mHotNewsContent.like_num = likeNumber;
             textView.setText(likeNumber);
-            textView.setCompoundDrawablesWithIntrinsicBounds(textView.getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
+            textView.setCompoundDrawablesWithIntrinsicBounds(textView.getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_support_like : R.drawable.ic_support_unlike),
                     null, null, null);
         }
 
@@ -221,7 +220,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mHotNewsContent.is_my_Like = true;
 
             textView.setText(like_Number);
-            textView.setCompoundDrawablesWithIntrinsicBounds(textView.getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
+            textView.setCompoundDrawablesWithIntrinsicBounds(textView.getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_support_like : R.drawable.ic_support_unlike),
                     null, null, null);
 
         }
@@ -235,10 +234,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             mTextName.setText(hotNewsContent.type_id < BBDDNews.BBDD ? hotNewsContent.geType_id() : hotNewsContent.nick_name);
             mTextTime.setText(TimeUtils.getTimeDetail(hotNewsContent.getTime()));
+
             mBtnMsg.setText(hotNewsContent.remark_num);
             mBtnFavor.setText(mHotNewsContent.like_num);
 
-            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(mBtnFavor.getResources().getDrawable(hotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
+            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(mBtnFavor.getResources().getDrawable(hotNewsContent.is_my_Like ? R.drawable.ic_support_like : R.drawable.ic_support_unlike),
                     null, null, null);
 
             mExpandableTextView.setmMaxCollapsedLines(4);
