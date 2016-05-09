@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
- * Created by cc on 16/5/9.
+ * Created by cc on 16/5/10.
  */
 public class MainViewPager extends ViewPager {
 
@@ -20,11 +20,13 @@ public class MainViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+
         return false;
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+
         return false;
     }
 }
