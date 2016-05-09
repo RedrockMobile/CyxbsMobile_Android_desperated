@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ import rx.schedulers.Schedulers;
 
 public class PostNewsActivity extends BaseActivity implements View.OnClickListener {
 
+
+    public static final String TAG = "PostNewsActivity";
     private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
     private final static int REQUEST_IMAGE = 0001;
     @Bind(R.id.toolbar_cancel)
@@ -139,19 +142,26 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private Observable<String> uploadWithImg(List<Image> currentImgs, String title, String content, int type) {
-        final String[] photoSrc = {""};
-        final String[] thumbnailSrc = {""};
+       /* final String[] photoSrc = {""};
+        final String[] thumbnailSrc = {""};*/
         return Observable.from(currentImgs)
                 .observeOn(Schedulers.io())
                 .map(image -> image.url)
-                .flatMap(url -> RequestManager.getInstance().uploadNewsImg(Stu.STU_NUM, url))
+                .flatMap(url -> {
+                    Log.i(TAG + "url--->>>", url);
+                    return RequestManager.getInstance().uploadNewsImg(Stu.STU_NUM, url);
+                })
                 .buffer(currentImgs.size())
                 .flatMap(responseList -> {
+                    String tUrl = "";
+                    String pUrl = "";
                     for (UploadImgResponse.Response response : responseList) {
-                        photoSrc[0] += photoSrc[0] + response.photosrc.split("/")[6] + ",";
-                        thumbnailSrc[0] += thumbnailSrc[0] + response.photosrc.split("/")[6] + ",";
+                        pUrl += response.photosrc.split("/")[6] + ",";
+                        tUrl += response.thumbnail_src.split("/")[7] + ",";
                     }
-                    return RequestManager.getInstance().sendDynamic(type, title, content, thumbnailSrc[0], photoSrc[0]);
+                    pUrl = pUrl.substring(0, pUrl.length() - 1);
+                    tUrl = tUrl.substring(0, tUrl.length() - 1);
+                    return RequestManager.getInstance().sendDynamic(type, title, content, tUrl, pUrl);
                 });
     }
 
@@ -172,7 +182,6 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                     for (int i = 0; i < pathList.size(); i++) {
                         if (image.url.equals(pathList.get(i))) pathList.remove(i);
                     }
-
                 // 处理你自己的逻辑 ....
                 if (mImgList.size() + pathList.size() > 10) {
                     Toast.makeText(this, "最多只能选9张图", Toast.LENGTH_SHORT).show();
