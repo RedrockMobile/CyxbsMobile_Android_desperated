@@ -10,12 +10,6 @@ import android.view.MotionEvent;
  */
 public class MainViewPager extends ViewPager {
 
-    private boolean canScrollHorizontally = false;
-
-    public void setCanScrollHorizontally(boolean canScrollHorizontally) {
-        this.canScrollHorizontally = canScrollHorizontally;
-    }
-
     public MainViewPager(Context context) {
         super(context);
     }
@@ -25,12 +19,12 @@ public class MainViewPager extends ViewPager {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return canScrollHorizontally && super.onInterceptTouchEvent(ev);
+    public boolean onTouchEvent(MotionEvent ev) {
+        return false;
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        return canScrollHorizontally && super.onTouchEvent(ev);
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return false;
     }
 }

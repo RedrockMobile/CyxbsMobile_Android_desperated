@@ -13,10 +13,12 @@ import butterknife.ButterKnife;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.CircleImageView;
+import com.mredrock.cyxbs.component.widget.ninelayout.CustomImageView;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
 import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.TimeUtils;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ import java.util.List;
  */
 public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdapter.ViewHolder> {
 
-    private static final String TYPE_PRAISE = "praise";
+    private static final String TYPE_PRAISE  = "praise";
     private static final String TYPE_COMMENT = "remark";
 
     private OnItemClickListener mOnItemClickListener;
@@ -42,20 +44,20 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
         holder.aboutMeTime.setText(TimeUtils.getTimeDetail(data.created_time));
         holder.aboutMeNewContent.setText(data.article_content);
         ImageLoader.getInstance().loadAvatar(data.photo_src, holder.aboutMeAvatar);
+        String url = data.article_photo_src.split(",")[0];
+
         if (data.article_photo_src.equals("")) {
             holder.aboutMeNewImg.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             holder.aboutMeNewImg.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().loadImage(data.article_photo_src, holder.aboutMeNewImg);
+            ImageLoader.getInstance().loadRedrockImage(url, holder.aboutMeNewImg);
         }
         if (data.type.equals(TYPE_PRAISE)) {
-            ImageLoader.getInstance().loadImage(data.article_photo_src, holder.aboutMeNewImg);
+            ImageLoader.getInstance().loadRedrockImage(url, holder.aboutMeNewImg);
             if (data.type.equals(TYPE_PRAISE)) {
                 holder.aboutMeType.setText("赞了我");
                 holder.aboutMeContent.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 holder.aboutMeType.setText("");
                 holder.aboutMeContent.setVisibility(View.VISIBLE);
             }
@@ -70,8 +72,8 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_relate_me,
-                        parent, false));
+                                            .inflate(R.layout.item_relate_me,
+                                                    parent, false));
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -87,17 +89,17 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
         @Bind(R.id.about_me_avatar)
         CircleImageView aboutMeAvatar;
         @Bind(R.id.about_me_nick_name)
-        TextView aboutMeNickName;
+        TextView        aboutMeNickName;
         @Bind(R.id.about_me_type)
-        TextView aboutMeType;
+        TextView        aboutMeType;
         @Bind(R.id.about_me_time)
-        TextView aboutMeTime;
+        TextView        aboutMeTime;
         @Bind(R.id.about_me_content)
-        TextView aboutMeContent;
+        TextView        aboutMeContent;
         @Bind(R.id.about_me_new_img)
-        ImageView aboutMeNewImg;
+        ImageView       aboutMeNewImg;
         @Bind(R.id.about_me_new_content)
-        TextView aboutMeNewContent;
+        TextView        aboutMeNewContent;
 
         public ViewHolder(View itemView) {
             super(itemView);

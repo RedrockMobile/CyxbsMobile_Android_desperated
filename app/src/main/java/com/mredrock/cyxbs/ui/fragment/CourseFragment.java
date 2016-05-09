@@ -125,10 +125,12 @@ public class CourseFragment extends BaseFragment {
         }
 
         mCourseSwipeRefreshLayout.setOnRefreshListener(() -> {
+            Logger.d("refresh!!!!!");
             if (mUser != null) {
                 loadCourse(mWeek, true);
             }
         });
+        mCourseSwipeRefreshLayout.setEnabled(true);
         mCourseSwipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getContext(), R.color.colorAccent),
                 ContextCompat.getColor(getContext(), R.color.colorPrimary));
@@ -182,7 +184,7 @@ public class CourseFragment extends BaseFragment {
                                   @Override
                                   public void onError(Throwable e) {
                                       super.onError(e);
-                                      mCourseSwipeRefreshLayout.setRefreshing(false);
+                                      hideRefresh();
                                   }
 
                                   @Override
