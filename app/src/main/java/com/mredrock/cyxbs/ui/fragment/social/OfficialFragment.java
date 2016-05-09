@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
 
+import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
@@ -31,6 +32,10 @@ public class OfficialFragment extends BaseNewsFragment {
         holder.mTextContent.setText(hotNewsContent.content.title);
         holder.mTextName.setText(hotNewsContent.content.getOfficeName());
         holder.enableAvatarClick = false;
+
+        //暂停点赞
+        holder.mBtnFavor.setOnClickListener(null);
+        holder.mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(holder.mBtnFavor.getResources().getDrawable(R.drawable.ic_support_unlike), null, null, null);
     }
 
 }

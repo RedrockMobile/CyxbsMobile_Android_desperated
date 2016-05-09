@@ -89,7 +89,10 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mHeaderViewWrapper.view);
 
-        mSwipeRefreshLayout.setColorSchemeColors(R.color.colorAccent);
+        mSwipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
+                ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
+        );
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mHeaderViewWrapper.setData(mUserAvatar, mNickName);
 

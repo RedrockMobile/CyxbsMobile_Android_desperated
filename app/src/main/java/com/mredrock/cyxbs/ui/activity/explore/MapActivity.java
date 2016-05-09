@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -26,6 +26,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.PermissionActivity;
 import com.mredrock.cyxbs.util.MapHelper;
 import com.mredrock.cyxbs.util.NetUtils;
 
@@ -34,7 +35,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClickListener {
+public class MapActivity extends PermissionActivity implements AMap.OnMarkerClickListener {
 
     @Bind(R.id.map)
     MapView mMapView;
@@ -108,7 +109,6 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
         addMarkerToMap();
     }
 
-
     private void addMarkerToMap() {
         mAMap.addMarker(new MarkerOptions().position(new LatLng(29.534221, 106.608603)).title("风雨操场").draggable(false).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_position)));
         mAMap.addMarker(new MarkerOptions().position(new LatLng(29.535127, 106.609209)).title("三教").draggable(false).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_position)));
@@ -143,6 +143,15 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
     protected void onPause() {
         super.onPause();
         mMapView.onPause();
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -207,7 +216,7 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
         RequestManager.getInstance().getMapPicture(
                 new SimpleSubscriber<List<String>>(this, new SubscriberListener<List<String>>() {
                     @Override
-                    public void onCompleted() {
+                    public void onStart() {
                         onLoadProgress();
                     }
 
