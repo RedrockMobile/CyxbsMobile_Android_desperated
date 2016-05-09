@@ -44,7 +44,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     SwipeRefreshLayout mSwipeRefreshLayout;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
-    private int currentIndex;
+    private int currentIndex = 0;
     private List<HotNews> mListHotNews = null;
     private FooterViewWrapper mFooterViewWrapper;
 
@@ -158,7 +158,12 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
         mFooterViewWrapper = new FooterViewWrapper(getContext(), mRecyclerView);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterViewWrapper.getFooterView());
-        mFooterViewWrapper.onFailedClick(view -> getNextPageData(PER_PAGE_NUM, currentIndex));
+        mFooterViewWrapper.onFailedClick(view -> {
+            if (currentIndex == 0) getCurrentData(PER_PAGE_NUM, currentIndex, true);
+            else {
+                getNextPageData(PER_PAGE_NUM, currentIndex);
+            }
+        });
     }
 
     private void getNextPageData(int size, int page) {

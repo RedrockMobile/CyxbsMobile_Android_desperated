@@ -13,19 +13,19 @@ import java.io.IOException;
  */
 public class BitmapUtil {
 
-    public static final int COMPRESSION_SIZE = 4;
+    public static final int COMPRESSION_SIZE = 2;
 
     public static File decodeBitmapFromRes(Context context, String path) throws IOException {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeFile(path, options);
 
-
-        if (getBitmapSize(bitmap) < 4) return new File(path);
-        while (getBitmapSize(bitmap) > 4) {
+        if (getBitmapSize(bitmap) < 6) return new File(path);
+        if (getBitmapSize(bitmap) > 6) {
             options.inSampleSize = COMPRESSION_SIZE;
             bitmap = BitmapFactory.decodeFile(path, options);
         }
+
         File file = new File(context.getCacheDir(), "cache.jpg");
         FileOutputStream fileOutputStream = new FileOutputStream(file);
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
