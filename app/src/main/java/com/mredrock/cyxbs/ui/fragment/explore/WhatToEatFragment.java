@@ -14,6 +14,7 @@ import android.view.ViewStub;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.FoodDetail;
@@ -154,12 +155,11 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
                         @Override
                         public void onCompleted() {
                             enableDisableSwipeRefresh(true);
-                            onErrorLayoutVisibleChanged(false);
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            onErrorLayoutVisibleChanged(true);
+                            Toast.makeText(getActivity(), getResources().getString(R.string.error_text), Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -174,8 +174,6 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
 
     private void setFoodData(final Shake data) {
         mRestaurantKey = data.id;
-
-        Logger.d("Key " + data.id);
 
         if (!mIsResultLayoutInflate) {
             mShakeImageView.setVisibility(View.GONE);
@@ -208,12 +206,14 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
             @Override
             public void onCompleted() {
                 onRefreshingStateChanged(false);
+                onMainContentVisibleChanged(true);
                 onErrorLayoutVisibleChanged(false);
             }
 
             @Override
             public void onError(Throwable e) {
                 onRefreshingStateChanged(false);
+                onMainContentVisibleChanged(false);
                 onErrorLayoutVisibleChanged(true);
             }
 

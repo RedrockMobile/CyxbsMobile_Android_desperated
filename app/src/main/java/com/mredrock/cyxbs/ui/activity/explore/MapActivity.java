@@ -27,6 +27,7 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.MapHelper;
+import com.mredrock.cyxbs.util.NetUtils;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
                     if (cachedBitmap != null) {
                         showCoveredMap(cachedBitmap);
                     } else {
-                        showFlowWarningDialog();
+                        tryDownload();
                     }
                     break;
                 case MapHelper.LOAD_PICTURE:
@@ -68,9 +69,8 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
                     if (loadedBitmap != null) {
                         showCoveredMap((Bitmap) msg.obj);
                     } else {
-                        Toast.makeText(MapActivity.this, getResources().getString(R.string.map_load_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MapActivity.this, getResources().getString(R.string.error_text), Toast.LENGTH_SHORT).show();
                     }
-
                     onLoadProgressFinish();
                     break;
                 default:
@@ -178,6 +178,14 @@ public class MapActivity extends AppCompatActivity implements AMap.OnMarkerClick
         mAMap.addGroundOverlay(new GroundOverlayOptions().anchor(0.5f, 0.5f).transparency(0.1f)
                 .image(BitmapDescriptorFactory.fromBitmap(bitmap))
                 .positionFromBounds(bounds));
+    }
+
+    private void tryDownload() {
+        if (!NetUtils.isWiFiEnabled(this)) {
+            showFlowWarningDialog();
+        } else {
+            downloadMapPicture();
+        }
     }
 
     private void showFlowWarningDialog() {
