@@ -39,7 +39,7 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
 
     @Override
     protected void bindData(ViewHolder holder, AboutMe data, int position) {
-        holder.aboutMeNickName.setText(data.nickname.equals("") ? data.stunum : data.nickname);
+        holder.aboutMeNickName.setText(data.nickname.equals("") ? "来自一位没有名字的同学" : data.nickname);
         holder.aboutMeContent.setText(data.content);
         holder.aboutMeTime.setText(TimeUtils.getTimeDetail(data.created_time));
         holder.aboutMeNewContent.setText(data.article_content);
