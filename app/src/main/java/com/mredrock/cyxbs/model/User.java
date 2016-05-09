@@ -3,6 +3,8 @@ package com.mredrock.cyxbs.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mredrock.cyxbs.model.social.PersonInfo;
+
 
 /**
  * Info of user
@@ -31,6 +33,9 @@ public class User implements Parcelable {
     public String phone;
     public String introduction;
 
+    public User(User user, PersonInfo personInfo) {
+        this.id = id;
+    }
 
     protected User(Parcel in) {
         stuNum = in.readString();
@@ -120,6 +125,20 @@ public class User implements Parcelable {
             userOrigin.photo_thumbnail_src = userCloned.photo_thumbnail_src;
             userOrigin.photo_src = userCloned.photo_src;
             userOrigin.nickname = userCloned.nickname;
+            userOrigin.qq = userCloned.qq;
+            userOrigin.phone = userCloned.phone;
+            userOrigin.introduction = userCloned.introduction;
+            userOrigin.id = userCloned.id;
+        }
+        return userOrigin;
+    }
+
+    public static User cloneFromUserInfo(User userOrigin, PersonInfo userCloned) {
+        if (userCloned != null) {
+            userOrigin.stu = userCloned.stuNum;
+            userOrigin.photo_thumbnail_src = userCloned.photoThumbnail;
+            userOrigin.photo_src = userCloned.photo;
+            userOrigin.nickname = userCloned.nickName;
             userOrigin.qq = userCloned.qq;
             userOrigin.phone = userCloned.phone;
             userOrigin.introduction = userCloned.introduction;

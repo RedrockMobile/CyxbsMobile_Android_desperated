@@ -13,6 +13,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.model.User;
+import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.Stu;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
@@ -86,7 +87,23 @@ public class SocialContainerFragment extends BaseFragment {
             return;
         }
         if (mUser != null) {
-            RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(getActivity(),
+            RequestManager.getInstance().getPersonInfo(mUser.stuNum, mUser.stuNum, mUser.idNum)
+                    .subscribe(new SimpleSubscriber<>(getContext(), new SubscriberListener<PersonInfo>() {
+                        @Override
+                        public void onNext(PersonInfo personInfo) {
+                            super.onNext(personInfo);
+                          /*  if (personInfo.id == null)
+                                RxBus.getDefault().post(new String());
+                            else {*/
+                            mUser = User.cloneFromUserInfo(mUser, personInfo);
+                            APP.setUser(getActivity(), mUser);
+                            new Stu(mUser.name, mUser.stuNum, mUser.idNum, mUser.id);
+                            //Toast.makeText(getContext(), "你还没有完善信息哟,赶快去完善信息吧", Toast.LENGTH_LONG).show();
+                            init();
+                            //}
+                        }
+                    }));
+          /*  RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(getActivity(),
                     new SubscriberListener<User>() {
                         @Override
                         public void onNext(User user) {
@@ -95,11 +112,17 @@ public class SocialContainerFragment extends BaseFragment {
                                 mUser = User.cloneFromUserInfo(mUser, user);
                                 APP.setUser(getActivity(), mUser);
                                 new Stu(mUser.name, mUser.stuNum, mUser.idNum, mUser.id);
+                                Log.e("---->>>", "我在这里----》》》" + Stu.UER_ID);
                                 init();
                             }
                         }
 
-                    }), mUser.stuNum, mUser.idNum);
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                            Log.e("---->>>CHUCUOLE","");
+                        }
+                    }), mUser.stuNum, mUser.idNum);*/
         }
     }
 

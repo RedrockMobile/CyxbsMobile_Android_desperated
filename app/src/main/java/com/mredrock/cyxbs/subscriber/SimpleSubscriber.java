@@ -18,7 +18,7 @@ import rx.Subscriber;
  */
 public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancelListener {
     private Context               context;
-    private SubscriberListener<T> listener;
+    protected SubscriberListener<T> listener;
     private ProgressDialogHandler mProgressDialogHandler;
 
     public SimpleSubscriber(Context context, SubscriberListener<T> listener) {
@@ -98,7 +98,7 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
         }
     }
 
-    private void dismissProgressDialog() {
+    protected void dismissProgressDialog() {
         if (mProgressDialogHandler != null) {
             mProgressDialogHandler.obtainMessage(ProgressDialogHandler.DISMISS_PROGRESS_DIALOG)
                                   .sendToTarget();

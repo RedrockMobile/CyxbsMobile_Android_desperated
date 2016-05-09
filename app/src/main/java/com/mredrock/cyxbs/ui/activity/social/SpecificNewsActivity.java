@@ -246,7 +246,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                     .postReMarks(mHotNewsContent.id, mHotNewsContent.type_id, mNewsEdtComment.getText()
                             .toString())
                     .doOnSubscribe(() -> showLoadingProgress())
-                    .subscribe(new SimpleSubscriber<>(this, new SubscriberListener<String>() {
+                    .subscribe(new SimpleSubscriber<String>(this, false, false, new SubscriberListener<String>() {
                         @Override
                         public void onCompleted() {
                             super.onCompleted();
@@ -266,7 +266,15 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                             super.onError(e);
                             showUploadFail(e.toString());
                         }
-                    }));
+                    }) {
+                        @Override
+                        public void onError(Throwable e) {
+                            this.dismissProgressDialog();
+                            if (this.listener != null) {
+                                listener.onError(e);
+                            }
+                        }
+                    });
 
     }
 
@@ -302,6 +310,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     }
 
     private void showUploadFail(String reason) {
+        closeLoadingProgress();
         Log.e(TAG, "showUploadFail---->>>" + reason);
     }
 

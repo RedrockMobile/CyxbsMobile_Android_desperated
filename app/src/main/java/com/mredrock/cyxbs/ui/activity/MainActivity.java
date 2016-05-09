@@ -16,6 +16,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbs.event.LoginEvent;
+import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.social.PostNewsActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
@@ -38,15 +39,15 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity {
 
     @Bind(R.id.main_toolbar_title)
-    TextView          mToolbarTitle;
+    TextView mToolbarTitle;
     @Bind(R.id.main_toolbar)
-    Toolbar           mToolbar;
+    Toolbar mToolbar;
     @Bind(R.id.main_coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
     @Bind(R.id.bottom_bar)
-    BottomBar         mBottomBar;
+    BottomBar mBottomBar;
     @Bind(R.id.main_view_pager)
-    ViewPager         mViewPager;
+    ViewPager mViewPager;
 
     @BindString(R.string.community)
     String mStringCommunity;
@@ -151,7 +152,13 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_add_news:
                 if (APP.isLogin()) {
-                    PostNewsActivity.startActivity(this);
+                    if (APP.getUser(this).id == null) {
+                        RequestManager.getInstance().checkWithUserId("还没有完善信息，不能发动态哟！");
+                        mViewPager.setCurrentItem(3);
+                        mBottomBar.setCurrentView(3);
+                        return super.onOptionsItemSelected(item);
+                    } else
+                        PostNewsActivity.startActivity(this);
                 } else {
                     Utils.toast(getApplicationContext(), "尚未登录");
                     EventBus.getDefault().post(new LoginEvent());
