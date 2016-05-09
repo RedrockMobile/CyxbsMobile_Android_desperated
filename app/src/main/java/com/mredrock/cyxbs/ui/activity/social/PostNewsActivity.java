@@ -119,7 +119,6 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     private void sendDynamic(String title, String content, int type) {
 
         if (content == null || content.equals("")) {
-
             Toast.makeText(PostNewsActivity.this, getString(R.string.noContent), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -169,8 +168,8 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                 .map(image -> image.url)
                 .flatMap(url -> RequestManager.getInstance().uploadNewsImg(Stu.STU_NUM, url))
                 .buffer(currentImgs.size())
-                .flatMap(responses -> {
-                    for (UploadImgResponse.Response response : responses) {
+                .flatMap(responseList -> {
+                    for (UploadImgResponse.Response response : responseList) {
                         photoSrc[0] += photoSrc[0] + response.photosrc.split("/")[6] + ",";
                         thumbnailSrc[0] += thumbnailSrc[0] + response.photosrc.split("/")[6] + ",";
 
@@ -192,13 +191,22 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
 
             if (resultCode == RESULT_OK) {
                 // 获取返回的图片列表
-                List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                List<String> pathList = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+
+                for (Image image : mImgList)
+                    for (int i = 0; i < pathList.size(); i++) {
+                        if (image.url.equals(pathList.get(i))) pathList.remove(i);
+                    }
+
+
                 // 处理你自己的逻辑 ....
-                if (mImgList.size() + path.size() > 10) {
+                if (mImgList.size() + pathList.size() > 10) {
                     Toast.makeText(this, "最多只能选9张图", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Observable.from(path)
+
+
+                Observable.from(pathList)
                         .map(s -> new Image(s, Image.TYPE_NORMAL))
                         .map(image -> {
                             mImgList.add(image);

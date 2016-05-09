@@ -229,6 +229,11 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                             mNewsEdtComment.getText().clear();
                             //mRecyclerView.scrollTo(100, 100);
                             mRecyclerView.scrollToPosition(1);
+
+                            String msgNumber = Integer.parseInt(mWrapView.mBtnMsg.getText().toString()) + 1 + "";
+                            mWrapView.mBtnMsg.setText(msgNumber);
+                            mHotNewsContent.remark_num = msgNumber;
+                            RxBus.getDefault().post(mHotNewsContent);
                         }
 
                         @Override
