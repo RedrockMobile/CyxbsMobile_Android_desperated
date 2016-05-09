@@ -115,14 +115,16 @@ public class User implements Parcelable {
     }
 
     public static User cloneFromUserInfo(User userOrigin, User userCloned) {
-        userOrigin.stu = userCloned.stu;
-        userOrigin.photo_thumbnail_src = userCloned.photo_thumbnail_src;
-        userOrigin.photo_src = userCloned.photo_src;
-        userOrigin.nickname = userCloned.nickname;
-        userOrigin.qq = userCloned.qq;
-        userOrigin.phone = userCloned.phone;
-        userOrigin.introduction = userCloned.introduction;
-        userOrigin.id = userCloned.id;
+        if (userCloned != null) {
+            userOrigin.stu = userCloned.stu;
+            userOrigin.photo_thumbnail_src = userCloned.photo_thumbnail_src;
+            userOrigin.photo_src = userCloned.photo_src;
+            userOrigin.nickname = userCloned.nickname;
+            userOrigin.qq = userCloned.qq;
+            userOrigin.phone = userCloned.phone;
+            userOrigin.introduction = userCloned.introduction;
+            userOrigin.id = userCloned.id;
+        }
         return userOrigin;
     }
 
