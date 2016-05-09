@@ -119,6 +119,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
             mHotNewsContent = hotNewsContent;
             mHotNewsContent.content.content = mHotNewsContent.content.content.replace("\\n", "\n");
             mWrapView.setData(mHotNewsContent, true, hotNewsContent.getType());
+
             if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
             mWrapView.mTextContent.setText(mHotNewsContent.content.content);
             if (mHotNewsContent.type_id < BBDDNews.BBDD || (mHotNewsContent.type_id == 6 && mHotNewsContent.user_id == null))
