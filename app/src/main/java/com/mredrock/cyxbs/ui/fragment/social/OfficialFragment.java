@@ -1,6 +1,9 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
 
+import android.util.Log;
+
+import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
@@ -32,6 +35,8 @@ public class OfficialFragment extends BaseNewsFragment {
         holder.mTextName.setText(hotNewsContent.content.getOfficeName());
         holder.enableAvatarClick = false;
 
+        Log.e("----->>>", hotNewsContent.content.toString());
+        holder.mImgAvatar.setImageResource(R.drawable.ic_official_notification);
 
      /*   //暂停点赞
         holder.mBtnFavor.setOnClickListener(null);

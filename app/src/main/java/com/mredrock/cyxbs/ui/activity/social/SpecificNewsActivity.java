@@ -157,6 +157,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mWrapView.mTextContent.setText(Html.fromHtml(mHotNewsContent.content != null ? mHotNewsContent.content.content : ""));
         mWrapView.mTextName.setText(bean.getOfficeName());
         mWrapView.mTextView_ex.setVisibility(View.INVISIBLE);
+        mWrapView.mImgAvatar.setImageResource(R.drawable.ic_official_notification);
 
 
         if (StringUtils.startsWith(mHotNewsContent.content.content, "<div"))
