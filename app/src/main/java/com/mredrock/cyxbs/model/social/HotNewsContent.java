@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.model.social;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.util.TimeUtils;
 
 /**
@@ -72,6 +73,16 @@ public class HotNewsContent implements Parcelable {
         return type;
     }
 
+
+    public int getType() {
+        String[] urls = NewsAdapter.ViewHolder.getUrls(img.img_src);
+        int type;
+        if (urls.length > 1)
+            type = NewsAdapter.ViewHolder.TYPE_NINE_IMG;
+        else type = NewsAdapter.ViewHolder.TYPE_SINGLE_IMG;
+        return type;
+    }
+
     /**
      * img_small_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/thumbnail/1460427947_1265413131.png
      * img_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/1460427947_1265413131.png
@@ -105,9 +116,10 @@ public class HotNewsContent implements Parcelable {
         this.remark_num = content.remark_num;
         this.id = content.id;
         this.img = new ImgBean("", "");
-        this.like_num = content.read;
-        this.article_id = content.id;
 
+        this.like_num = content.like_num;
+        this.is_my_Like = content.is_my_like;
+        this.article_id = content.id;
     }
 
     public HotNewsContent(ImgBean img, OfficeNewsContent content) {

@@ -52,7 +52,7 @@ public class BBDDNewsFragment extends BaseNewsFragment {
                     ((SocialContainerFragment) getParentFragment()).changeViewPagerIndex(1);
                     //注释掉的这句话是把 最新发送的推到顶部
                     //mNewsAdapter.addToFirst(s);
-                    getCurrentData(BaseNewsFragment.PER_PAGE_NUM, 1, true);
+                    getCurrentData(BaseNewsFragment.PER_PAGE_NUM, BaseNewsFragment.FIRST_PAGE_INDEX, true);
                     mRecyclerView.scrollToPosition(0);
 
                 }, throwable -> {

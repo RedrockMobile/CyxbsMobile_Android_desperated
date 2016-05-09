@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:expandableTextView="http://schemas.android.com/tools"
     android:id="@+id/news_item_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:layout_marginTop="8dp"
+    android:layout_marginBottom="@dimen/news_card_margin_bottom"
+    android:layout_marginEnd="@dimen/news_card_margin_end"
+    android:layout_marginLeft="@dimen/news_card_margin_start"
+    android:layout_marginRight="@dimen/news_card_margin_end"
+    android:layout_marginStart="@dimen/news_card_margin_start"
+    android:layout_marginTop="@dimen/news_card_margin_bottom"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="0dp">
 
     <LinearLayout
@@ -25,7 +30,7 @@
             <com.mredrock.cyxbs.component.widget.CircleImageView
                 android:id="@+id/list_news_img_avatar"
                 android:layout_width="@dimen/information_img_avatar"
-                android:layout_height="@dimen/information_img_avatar" />
+                android:layout_height="@dimen/information_img_avatar"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -42,7 +47,7 @@
                     android:maxLines="1"
                     android:text="我是昵称"
                     android:textColor="@color/body_text_1"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"/>
 
                 <TextView
                     android:id="@+id/list_news_text_time"
@@ -50,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:text="昨天12:00"
                     android:textColor="@color/crop__button_text"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
             </LinearLayout>
 
 
@@ -62,7 +67,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16dp"
                 android:text="@string/annex"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
         </RelativeLayout>
 
@@ -73,8 +78,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="16dp"
-            expandableTextView:animDuration="200"
-            expandableTextView:maxCollapsedLines="4">
+            app:animDuration="200"
+            app:maxCollapsedLines="4">
 
             <TextView
                 android:id="@+id/expandable_text"
@@ -84,7 +89,7 @@
                 android:lineSpacingMultiplier="1.2"
                 android:text="如果你无法简洁的表达你的想法，那么只能说你还不够了解他。"
                 android:textColor="@color/body_text_1"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@id/expand_collapse"
@@ -105,7 +110,18 @@
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="6dp" />
+            android:layout_marginTop="6dp"/>
+
+        <ImageView
+            android:id="@+id/singleImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="6dp"
+            android:maxHeight="600dp"
+            android:minHeight="200dp"
+            android:scaleType="fitXY"/>
 
 
         <RelativeLayout
@@ -126,7 +142,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="4dp"
                 android:text="15"
-                android:textColor="@color/body_text_2" />
+                android:textColor="@color/body_text_2"/>
 
             <TextView
                 android:id="@+id/list_news_btn_favorites"
@@ -142,7 +158,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="4dp"
                 android:text="13"
-                android:textColor="@color/body_text_2" />
+                android:textColor="@color/body_text_2"/>
 
         </RelativeLayout>
 

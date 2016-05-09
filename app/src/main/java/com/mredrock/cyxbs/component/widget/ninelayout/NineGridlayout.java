@@ -83,19 +83,16 @@ public class NineGridlayout extends ViewGroup {
         setLayoutParams(params);
         for (int i = 0; i < childrenCount; i++) {
             CustomImageView childrenView = (CustomImageView) getChildAt(i);
+            childrenView.setFocusable(false);
             childrenView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
             final int finalI = i;
             final int finalI1 = i;
-            childrenView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (((Image) listData.get(finalI)).getType() == Image.TYPE_ADD)
-                        if (mOnAddImagItemClickListener != null)
-                            mOnAddImagItemClickListener.onClick(view, finalI);
-                        else if (mOnNormalImagItemClickListener != null)
-                            mOnNormalImagItemClickListener.onClick(view, finalI1);
-                }
+            childrenView.setOnClickListener(view -> {
+                if (((Image) listData.get(finalI)).getType() == Image.TYPE_ADD)
+                    if (mOnAddImagItemClickListener != null)
+                        mOnAddImagItemClickListener.onClick(view, finalI);
+                    else if (mOnNormalImagItemClickListener != null)
+                        mOnNormalImagItemClickListener.onClick(view, finalI1);
             });
             childrenView.setOnClickDelecteLIstener(v -> mOnClickDeletecteListener.onClickDelete(v, finalI));
             childrenView.setImageUrl(((Image) listData.get(i)).url);
@@ -207,10 +204,10 @@ public class NineGridlayout extends ViewGroup {
         }
     }
 
-    private CustomImageView generateImageView() {
+    protected CustomImageView generateImageView() {
         CustomImageView iv = new CustomImageView(getContext());
         iv.setBackgroundColor(Color.parseColor("#ffffff"));
-        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
         return iv;
     }
 

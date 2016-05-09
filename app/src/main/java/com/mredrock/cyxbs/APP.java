@@ -11,6 +11,7 @@ import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.orhanobut.logger.Logger;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 
@@ -71,16 +72,18 @@ public class APP extends Application {
         APP.login = login;
     }
 
+    public static boolean hasSetInfo() {
+        User user = getUser(getContext());
+        return user != null && StringUtils.isNotBlank(user.id);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
-        if (BuildConfig.DEBUG) {
-            Logger.init();
-            Logger.init("cyxbs_mobile");
-        }
         context = getApplicationContext();
         initThemeMode();
+        Logger.init("cyxbs_mobile");
     }
 
     @Override
