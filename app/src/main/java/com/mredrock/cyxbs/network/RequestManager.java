@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.rx_cache.DynamicKey;
-import io.rx_cache.DynamicKeyGroup;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import io.rx_cache.internal.RxCache;
@@ -428,9 +427,9 @@ public enum RequestManager {
 
     public Observable<List<HotNews>> getListNews(int size, int page) {
         return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDDNews.LISTNEWS)
-                .map(content -> {
+                .map(officeNewsContentList -> {
                     List<HotNews> aNews = new ArrayList<>();
-                    for (OfficeNewsContent officeNewsContent : content)
+                    for (OfficeNewsContent officeNewsContent : officeNewsContentList)
                         aNews.add(new HotNews(officeNewsContent));
                     return aNews;
                 })

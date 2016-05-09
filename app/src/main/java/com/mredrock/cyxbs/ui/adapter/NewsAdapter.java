@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.APP;
@@ -38,6 +39,7 @@ import rx.Subscription;
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
+
     private List<HotNews> mNews;
 
     public NewsAdapter(List<HotNews> mNews) {
@@ -47,14 +49,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new NewsAdapter.ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_news_item, parent, false));
+        return new NewsAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_news_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(NewsAdapter.ViewHolder holder, int position) {
         HotNewsContent mDataBean = mNews.get(position).data;
-        holder.setData(mDataBean, false);
+        holder.setData(mDataBean, false, getItemViewType(position));
         setDate(holder, mDataBean);
     }
 
@@ -67,6 +68,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return mNews != null ? mNews.size() : 0;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        HotNewsContent hotNewsContent = mNews.get(position).data;
+        String[] urls = NewsAdapter.ViewHolder.getUrls(hotNewsContent.img.img_src);
+        if (urls.length > 1)
+            return NewsAdapter.ViewHolder.TYPE_NINE_IMG;
+        else return NewsAdapter.ViewHolder.TYPE_SINGLE_IMG;
+    }
 
     public void addDatas(List<HotNews> datas) {
         mNews.addAll(datas);
@@ -87,6 +96,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public static final String TAG = "NewsAdapter.ViewHolder";
+        public static final int TYPE_SINGLE_IMG = 1;
+        public static final int TYPE_NINE_IMG = 2;
+
 
         @Bind(R.id.list_news_img_avatar)
         public CircleImageView mImgAvatar;
@@ -96,8 +108,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public TextView mTextTime;
         @Bind(R.id.expandable_text)
         public TextView mTextContent;
-        @Bind(R.id.autoNineLayout)
-        public AutoNineGridlayout mAutoNineGridlayout;
+
         @Bind(R.id.list_news_btn_message)
         public TextView mBtnMsg;
         @Bind(R.id.list_news_btn_favorites)
@@ -107,6 +118,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         @Bind(R.id.expand_text_view)
         public ExpandableTextView mExpandableTextView;
 
+        @Bind(R.id.autoNineLayout)
+        public AutoNineGridlayout mAutoNineGridlayout;
+        @Bind(R.id.singleImg)
+        public ImageView mImageView;
+
 
         public View itemView;
         HotNewsContent mHotNewsContent;
@@ -114,7 +130,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public boolean isFromPersonInfo = false;
 
         private boolean isSingle = false;
-
+        public int mImgType;
 
         private Subscription mSubscription;
 
@@ -144,8 +160,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private void registerObservable() {
             mSubscription = RxBus.getDefault()
                     .toObserverable(HotNewsContent.class)
-                    .subscribe(s -> {
-                        setData(s, false);
+                    .subscribe(hotNewsContent -> {
+                        setData(hotNewsContent, false, hotNewsContent.getType());
                         unregisterObservable();
                     }, throwable -> {
                         unregisterObservable();
@@ -160,7 +176,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
 
         public void like(TextView textView) {
-            Log.e("--->>>", mHotNewsContent.type_id + "");
+            Log.e(TAG, "mHotNewsContent.is_my_Like" + mHotNewsContent.is_my_Like);
+            Log.e("--->>>", "mHotNewsContent.article_id--->>>" + mHotNewsContent.article_id + "\n" + "mHotNewsContent.type_id--->>" + mHotNewsContent.type_id);
             likeToSetDataAndView(textView);
             RequestManager.getInstance()
                     .addThumbsUp(mHotNewsContent.article_id, mHotNewsContent.type_id)
@@ -175,6 +192,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         public void dislike(TextView textView) {
             disLikeToSetDataAndView(textView);
+            Log.e(TAG, "mHotNewsContent.is_my_Like" + mHotNewsContent.is_my_Like);
+            Log.e("--->>>", "mHotNewsContent.article_id--->>>" + mHotNewsContent.article_id + "\n" + "mHotNewsContent.type_id--->>" + mHotNewsContent.type_id);
             RequestManager.getInstance()
                     .cancelThumbsUp(mHotNewsContent.article_id, mHotNewsContent.type_id)
                     .subscribe(s -> {
@@ -209,20 +228,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
 
 
-        public final static String[] getUrls(String url) {
-            return url != null ? url.split(",") : new String[]{""};
-        }
-
-        private List<Image> getImgs(String[] urls) {
-            List<Image> mImgs = new ArrayList<>();
-            for (String url : urls)
-                if (!url.equals("")) mImgs.add(new Image(url, Image.TYPE_ADD));
-            return mImgs;
-        }
-
-        public void setData(HotNewsContent hotNewsContent, boolean isSingleItem) {
+        public void setData(HotNewsContent hotNewsContent, boolean isSingleItem, int type) {
             this.isSingle = isSingleItem;
             mHotNewsContent = hotNewsContent;
+            mImgType = type;
+
 
             mTextName.setText(hotNewsContent.type_id < BBDDNews.BBDD ? hotNewsContent.geType_id() : hotNewsContent.nick_name);
             mTextTime.setText(TimeUtils.getTimeDetail(hotNewsContent.getTime()));
@@ -232,8 +242,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(APP.getContext().getResources().getDrawable(mHotNewsContent.is_my_Like ? R.drawable.ic_news_like : R.drawable.ic_news_unlike),
                     null, null, null);
 
-
             mExpandableTextView.setmMaxCollapsedLines(4);
+
             if (isSingle) {
                 mExpandableTextView.setText(Html.fromHtml(hotNewsContent.content != null ? hotNewsContent.content.content : ""));
                 mExpandableTextView.setmMaxCollapsedLines(1000);
@@ -266,12 +276,39 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             if (mExpandableTextView.getText().toString().equals(""))
                 mExpandableTextView.setVisibility(View.GONE);
 
-            mAutoNineGridlayout.setImagesData(getImgs(getUrls(hotNewsContent.img.img_small_src)));
+            List<Image> url = getImgs(getUrls(hotNewsContent.img.img_small_src));
 
-            mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) ->
-                    ImageActivity.startWithData(itemView.getContext(), hotNewsContent, position)
-            );
+            if (mImgType == TYPE_NINE_IMG) {
+                mAutoNineGridlayout.setVisibility(View.VISIBLE);
+                mImageView.setVisibility(View.GONE);
 
+                if (url.size() != 0) {
+                    mAutoNineGridlayout.setImagesData(getImgs(getUrls(hotNewsContent.img.img_small_src)));
+                    mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) -> ImageActivity.startWithData(itemView.getContext(), hotNewsContent, position));
+                } else
+                    mAutoNineGridlayout.setVisibility(View.GONE);
+
+            } else if (mImgType == TYPE_SINGLE_IMG) {
+                mAutoNineGridlayout.setVisibility(View.GONE);
+                mImageView.setVisibility(View.VISIBLE);
+
+                if (url.size() != 0) {
+                    ImageLoader.getInstance().loadSingleImage(url.get(0).url, mImageView);
+                    mImageView.setOnClickListener(view -> ImageActivity.startWithData(itemView.getContext(), hotNewsContent, 0));
+                } else
+                    mImageView.setVisibility(View.GONE);
+            }
+        }
+
+        public final static String[] getUrls(String url) {
+            return url != null ? url.split(",") : new String[]{""};
+        }
+
+        private List<Image> getImgs(String[] urls) {
+            List<Image> mImgs = new ArrayList<>();
+            for (String url : urls)
+                if (!url.equals("")) mImgs.add(new Image(url, Image.TYPE_ADD));
+            return mImgs;
         }
 
 

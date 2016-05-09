@@ -93,7 +93,7 @@
                 android:layout_gravity="left|bottom"
                 android:background="@android:color/transparent"
 
-                android:textColor="@color/md_material_blue_800"/>
+                android:textColor="@color/md_material_blue_800" />
         </com.mredrock.cyxbs.component.widget.ExpandableTextView>
 
 
@@ -106,6 +106,17 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="6dp" />
+
+        <ImageView
+            android:id="@+id/singleImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="6dp"
+            android:maxHeight="600dp"
+            android:minHeight="200dp"
+            android:scaleType="fitXY" />
 
 
         <RelativeLayout
