@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -116,7 +117,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public ExpandableTextView mExpandableTextView;
         @Bind(R.id.autoNineLayout)
         public AutoNineGridlayout mAutoNineGridlayout;
-        @Bind(R.id.singleImg)
+        @Bind(R.id.viewStub)
+        public ViewStub mStubView;
+
         public ImageView mImageView;
 
 
@@ -270,10 +273,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             if (mExpandableTextView.getText().toString().equals(""))
                 mExpandableTextView.setVisibility(View.GONE);
 
+
             List<Image> url = getImgs(getUrls(hotNewsContent.img.img_small_src));
-            if (mImgType == TYPE_NINE_IMG) {
+
+          /*  if (mImgType == TYPE_NINE_IMG) {
                 mAutoNineGridlayout.setVisibility(View.VISIBLE);
-                mImageView.setVisibility(View.GONE);
+
+                if (mImageView != null) mImageView.setVisibility(View.GONE);
 
                 if (url.size() != 0) {
                     mAutoNineGridlayout.setImagesData(getImgs(getUrls(hotNewsContent.img.img_small_src)));
@@ -283,14 +289,43 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             } else if (mImgType == TYPE_SINGLE_IMG) {
                 mAutoNineGridlayout.setVisibility(View.GONE);
-                mImageView.setVisibility(View.VISIBLE);
+
+                //mImageView.setVisibility(View.VISIBLE);
+                if (mImageView == null)
+                    mImageView = (ImageView) mStubView.inflate().findViewById(R.id.singleImg);
 
                 if (url.size() != 0) {
                     ImageLoader.getInstance().loadSingleImage(url.get(0).url, mImageView);
                     mImageView.setOnClickListener(view -> ImageActivity.startWithData(itemView.getContext(), hotNewsContent, 0));
                 } else
                     mImageView.setVisibility(View.GONE);
+            }*/
+            if (url.size() > 1) {
+                mAutoNineGridlayout.setVisibility(View.VISIBLE);
+
+                if (mImageView != null) mImageView.setVisibility(View.GONE);
+
+                if (url.size() != 0) {
+                    mAutoNineGridlayout.setImagesData(getImgs(getUrls(hotNewsContent.img.img_small_src)));
+                    mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) -> ImageActivity.startWithData(itemView.getContext(), hotNewsContent, position));
+                } else
+                    mAutoNineGridlayout.setVisibility(View.GONE);
+
+            } else {
+                mAutoNineGridlayout.setVisibility(View.GONE);
+
+                //mImageView.setVisibility(View.VISIBLE);
+                if (mImageView == null)
+                    mImageView = (ImageView) mStubView.inflate().findViewById(R.id.singleImg);
+                mImageView.setVisibility(View.VISIBLE);
+                if (url.size() != 0) {
+                    ImageLoader.getInstance().loadSingleImage(url.get(0).url, mImageView);
+                    mImageView.setOnClickListener(view -> ImageActivity.startWithData(itemView.getContext(), hotNewsContent, 0));
+                } else
+                    mImageView.setVisibility(View.GONE);
             }
+
+
         }
 
         public final static String[] getUrls(String url) {

@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,19 +14,19 @@ import java.io.IOException;
  */
 public class BitmapUtil {
 
-    public static final int COMPRESSION_SIZE = 2;
+    public static final int COMPRESSION_SIZE = 4;
 
     public static File decodeBitmapFromRes(Context context, String path) throws IOException {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeFile(path, options);
 
+
         if (getBitmapSize(bitmap) < 3) return new File(path);
         while (getBitmapSize(bitmap) > 3) {
             options.inSampleSize = COMPRESSION_SIZE;
             bitmap = BitmapFactory.decodeFile(path, options);
         }
-
         File file = new File(context.getCacheDir(), "cache.jpg");
         FileOutputStream fileOutputStream = new FileOutputStream(file);
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);

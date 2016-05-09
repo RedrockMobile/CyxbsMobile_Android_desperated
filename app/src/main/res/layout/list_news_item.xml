@@ -113,17 +113,22 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="6dp" />
 
-        <ImageView
-            android:id="@+id/singleImg"
+        <ViewStub
+            android:id="@+id/viewStub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="6dp"
-            android:maxHeight="600dp"
-            android:minHeight="200dp"
-            android:scaleType="fitXY" />
+            android:layout="@layout/item_single_img" />
 
+        <!--      <ImageView
+                  android:id="@+id/singleImg"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_horizontal"
+                  android:layout_marginBottom="6dp"
+                  android:layout_marginTop="6dp"
+                  android:maxHeight="600dp"
+                  android:minHeight="200dp"
+                  android:scaleType="fitXY" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"
