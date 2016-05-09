@@ -39,22 +39,22 @@ public class ImageLoader {
 
     public void loadImage(String url, ImageView imageView) {
         Glide.with(APP.getContext())
-             .load(url)
-             .placeholder(R.drawable.img_placeholder)
-             .error(R.drawable.img_placeholder)
-             .crossFade()
-             .into(imageView);
+                .load(url)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_placeholder)
+                .crossFade()
+                .into(imageView);
 
     }
 
     public void loadRedrockImage(String url, ImageView imageView) {
         if (url.length() > 0) {
             Glide.with(APP.getContext())
-                 .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
-                 .placeholder(R.drawable.img_placeholder)
-                 .error(R.drawable.img_placeholder)
-                 .crossFade()
-                 .into(imageView);
+                    .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_placeholder)
+                    .crossFade()
+                    .into(imageView);
 
         }
     }
@@ -62,11 +62,11 @@ public class ImageLoader {
 
     public void loadSingleImage(String url, ImageView imageView) {
         Glide.with(APP.getContext())
-             .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
-             .placeholder(new ColorDrawable(Color.parseColor("#f5f5f5")))
-             .error(R.drawable.img_placeholder)
-             .crossFade()
-             .into(imageView);
+                .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
+                .placeholder(new ColorDrawable(Color.parseColor("#f5f5f5")))
+                .error(R.drawable.img_placeholder)
+                .crossFade()
+                .into(imageView);
     }
 
 
@@ -79,40 +79,43 @@ public class ImageLoader {
                 .error(circles[position])
                 .into(imageView);*/
         Glide.with(APP.getContext())
-             .load(url)
-             .asBitmap()
-             .placeholder(R.drawable.ic_default_avatar)
-             .error(R.drawable.ic_default_avatar)
-             .into(imageView);
+                .load(url)
+                .asBitmap()
+                .placeholder(R.drawable.ic_default_avatar)
+                .error(R.drawable.ic_default_avatar)
+                .into(imageView);
+    }
 
+    public void loadDefaltNewsAvatar(ImageView imageView) {
+      imageView.setImageResource(R.drawable.ic_official_notification);
     }
 
 
     public void loadImageWithTargetView(String url, SimpleTarget simpleTarget) {
         Glide.with(APP.getContext())
-             .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
-             .asBitmap()
-             .placeholder(R.drawable.img_placeholder)
-             .error(R.drawable.img_placeholder)
-             .into(simpleTarget);
+                .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
+                .asBitmap()
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_placeholder)
+                .into(simpleTarget);
     }
 
     public void loadImageWithListener(String url, SimpleTarget simpleTarget, RequestListener listener) {
         Glide.with(APP.getContext())
-             .load(url)
-             .asBitmap()
-             .listener(listener)
-             .placeholder(R.mipmap.avatar_default)
-             .error(R.mipmap.avatar_default)
-             .into(simpleTarget);
+                .load(url)
+                .asBitmap()
+                .listener(listener)
+                .placeholder(R.mipmap.avatar_default)
+                .error(R.mipmap.avatar_default)
+                .into(simpleTarget);
     }
 
     @SuppressWarnings("unchecked")
     public void loadLocalImage(int resId, SimpleTarget<Bitmap> simpleTarget) {
         Glide.with(APP.getContext())
-             .load(resId)
-             .asBitmap()
-             .centerCrop()
-             .into(simpleTarget);
+                .load(resId)
+                .asBitmap()
+                .centerCrop()
+                .into(simpleTarget);
     }
 }

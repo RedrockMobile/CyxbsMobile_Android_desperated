@@ -265,6 +265,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             if (!(mHotNewsContent.type_id < BBDDNews.BBDD || (mHotNewsContent.type_id == 6 && mHotNewsContent.user_id == null)))
                 ImageLoader.getInstance().loadAvatar(hotNewsContent.user_head, mImgAvatar);
+            else ImageLoader.getInstance().loadDefaltNewsAvatar(mImgAvatar);
 
 
             if (hotNewsContent.content.address != null && !hotNewsContent.content.address.equals(""))
