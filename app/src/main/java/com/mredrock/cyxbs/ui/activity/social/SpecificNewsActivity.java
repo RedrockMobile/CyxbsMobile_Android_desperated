@@ -119,6 +119,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
             mHotNewsContent = hotNewsContent;
             mHotNewsContent.content.content = mHotNewsContent.content.content.replace("\\n", "\n");
             mWrapView.setData(mHotNewsContent, true, hotNewsContent.getType());
+
             if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
             mWrapView.mTextContent.setText(mHotNewsContent.content.content);
             if (mHotNewsContent.type_id < BBDDNews.BBDD || (mHotNewsContent.type_id == 6 && mHotNewsContent.user_id == null))
@@ -156,6 +157,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mWrapView.mTextContent.setText(Html.fromHtml(mHotNewsContent.content != null ? mHotNewsContent.content.content : ""));
         mWrapView.mTextName.setText(bean.getOfficeName());
         mWrapView.mTextView_ex.setVisibility(View.INVISIBLE);
+        mWrapView.mImgAvatar.setImageResource(R.drawable.ic_official_notification);
 
 
         if (StringUtils.startsWith(mHotNewsContent.content.content, "<div"))
@@ -185,9 +187,9 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                     @Override
                     public void downloadFailed(String message) {
                         Utils.toast(SpecificNewsActivity.this, getResources().getString(R.string.load_failed));
-                        if (message != null) {
-                            Log.d(TAG, "explore_error is---->>> " + message);
-                        }
+//                        if (message != null) {
+//                            Log.d(TAG, "explore_error is---->>> " + message);
+//                        }
                     }
                 });
 
@@ -233,7 +235,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private void getDataFailed(String reason) {
         Toast.makeText(this, getString(R.string.erro), Toast.LENGTH_SHORT).show();
-        Log.e(TAG, reason);
+//        Log.e(TAG, reason);
     }
 
     @OnClick(R.id.btn_send)
@@ -311,11 +313,11 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private void showUploadFail(String reason) {
         closeLoadingProgress();
-        Log.e(TAG, "showUploadFail---->>>" + reason);
+//        Log.e(TAG, "showUploadFail---->>>" + reason);
     }
 
     private void showUploadSucess() {
-        Log.d(TAG, "showUploadSuccess");
+//        Log.d(TAG, "showUploadSuccess");
     }
 
 

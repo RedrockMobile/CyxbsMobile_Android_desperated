@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +37,7 @@ import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.SPUtils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
@@ -52,33 +52,33 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     public static final int REQUEST_EDIT_INFO = 10;
 
     @Bind(R.id.my_page_edit_layout)
-    LinearLayout myPageEditLayout;
+    LinearLayout    myPageEditLayout;
     @Bind(R.id.my_page_relate_layout)
-    RelativeLayout myPageRelateLayout;
+    RelativeLayout  myPageRelateLayout;
     @Bind(R.id.my_page_trend_layout)
-    RelativeLayout myPageTrendLayout;
+    RelativeLayout  myPageTrendLayout;
     @Bind(R.id.my_page_no_course_layout)
-    RelativeLayout myPageNoCourseLayout;
+    RelativeLayout  myPageNoCourseLayout;
     @Bind(R.id.my_page_empty_layout)
-    RelativeLayout myPageEmptyLayout;
+    RelativeLayout  myPageEmptyLayout;
     @Bind(R.id.my_page_grade_layout)
-    RelativeLayout myPageGradeLayout;
+    RelativeLayout  myPageGradeLayout;
     @Bind(R.id.my_page_calendar_layout)
-    RelativeLayout myPageCalendarLayout;
+    RelativeLayout  myPageCalendarLayout;
     @Bind(R.id.my_page_night_layout)
-    RelativeLayout myPageNightLayout;
+    RelativeLayout  myPageNightLayout;
     @Bind(R.id.my_page_setting_layout)
-    RelativeLayout myPageSettingLayout;
+    RelativeLayout  myPageSettingLayout;
     @Bind(R.id.my_page_avatar)
     CircleImageView myPageAvatar;
     @Bind(R.id.my_page_nick_name)
-    TextView myPageNickName;
+    TextView        myPageNickName;
     @Bind(R.id.my_page_gender)
-    TextView myPageGender;
+    TextView        myPageGender;
     @Bind(R.id.my_page_introduce)
-    TextView myPageIntroduce;
+    TextView        myPageIntroduce;
     @Bind(R.id.my_page_switch_compat)
-    SwitchCompat myPageSwitchCompat;
+    SwitchCompat    myPageSwitchCompat;
 
     private User mUser;
 
@@ -224,7 +224,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
     private void refreshEditLayout() {
         ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
-        myPageNickName.setText(mUser.nickname);
+        myPageNickName.setText(StringUtils.isBlank(mUser.nickname) ? "点我完善个人信息" : mUser.nickname);
         myPageIntroduce.setText(mUser.introduction);
         if (mUser.gender.trim().equals("男")) {
             myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));

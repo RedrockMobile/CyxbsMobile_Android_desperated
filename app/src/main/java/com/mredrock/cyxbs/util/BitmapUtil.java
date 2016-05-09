@@ -3,7 +3,6 @@ package com.mredrock.cyxbs.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,8 +21,8 @@ public class BitmapUtil {
         Bitmap bitmap = BitmapFactory.decodeFile(path, options);
 
 
-        if (getBitmapSize(bitmap) < 3) return new File(path);
-        while (getBitmapSize(bitmap) > 3) {
+        if (getBitmapSize(bitmap) < 4) return new File(path);
+        while (getBitmapSize(bitmap) > 4) {
             options.inSampleSize = COMPRESSION_SIZE;
             bitmap = BitmapFactory.decodeFile(path, options);
         }

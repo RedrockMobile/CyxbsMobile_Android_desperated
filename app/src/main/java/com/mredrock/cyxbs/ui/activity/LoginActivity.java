@@ -16,6 +16,7 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.Utils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -80,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                         super.onNext(user);
                         if (user != null) {
                             APP.setUser(LoginActivity.this, user);
-
+                            MobclickAgent.onProfileSignIn(stuNum);
                             EventBus.getDefault().removeStickyEvent(ExitEvent.class);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             LoginActivity.this.finish();
