@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                         super.onNext(user);
                         if (user != null) {
                             APP.setUser(LoginActivity.this, user);
+
                             EventBus.getDefault().removeStickyEvent(ExitEvent.class);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             LoginActivity.this.finish();

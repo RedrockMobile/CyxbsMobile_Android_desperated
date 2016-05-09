@@ -106,7 +106,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public TextView mTextTime;
         @Bind(R.id.expandable_text)
         public TextView mTextContent;
-
         @Bind(R.id.list_news_btn_message)
         public TextView mBtnMsg;
         @Bind(R.id.list_news_btn_favorites)
@@ -115,7 +114,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public TextView mTextView_ex;
         @Bind(R.id.expand_text_view)
         public ExpandableTextView mExpandableTextView;
-
         @Bind(R.id.autoNineLayout)
         public AutoNineGridlayout mAutoNineGridlayout;
         @Bind(R.id.singleImg)
@@ -124,11 +122,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         public View itemView;
         HotNewsContent mHotNewsContent;
+
         public boolean enableAvatarClick = true;
         public boolean isFromPersonInfo = false;
-
+        public boolean isFromMyTrend = false;
         private boolean isSingle = false;
         public int mImgType;
+
 
         private Subscription mSubscription;
 
@@ -144,7 +144,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public void onItemClick(View view) {
             if (!isSingle) {
                 registerObservable();
-                SpecificNewsActivity.startActivityWithDataBean(view.getContext(), mHotNewsContent, mHotNewsContent.article_id, isFromPersonInfo);
+                SpecificNewsActivity.startActivityWithDataBean(view.getContext(), mHotNewsContent, mHotNewsContent.article_id, isFromPersonInfo, isFromMyTrend);
             }
         }
 
@@ -174,8 +174,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
 
         public void like(TextView textView) {
-//            Log.e(TAG, "mHotNewsContent.is_my_Like" + mHotNewsContent.is_my_Like);
-//            Log.e("--->>>", "mHotNewsContent.article_id--->>>" + mHotNewsContent.article_id + "\n" + "mHotNewsContent.type_id--->>" + mHotNewsContent.type_id);
             likeToSetDataAndView(textView);
             RequestManager.getInstance()
                     .addThumbsUp(mHotNewsContent.article_id, mHotNewsContent.type_id)
@@ -190,8 +188,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         public void dislike(TextView textView) {
             disLikeToSetDataAndView(textView);
-//            Log.e(TAG, "mHotNewsContent.is_my_Like" + mHotNewsContent.is_my_Like);
-//            Log.e("--->>>", "mHotNewsContent.article_id--->>>" + mHotNewsContent.article_id + "\n" + "mHotNewsContent.type_id--->>" + mHotNewsContent.type_id);
             RequestManager.getInstance()
                     .cancelThumbsUp(mHotNewsContent.article_id, mHotNewsContent.type_id)
                     .subscribe(s -> {
@@ -264,7 +260,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 else NewsAdapter.ViewHolder.this.like(mBtnFavor);
             });
 
-
             if (hotNewsContent.type_id == 6 && hotNewsContent.user_id != null && hotNewsContent.user_id.equals("0")) {
                 mExpandableTextView.setText(hotNewsContent.content.content);
             } else if (hotNewsContent.type_id == 6) {
@@ -276,7 +271,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 mExpandableTextView.setVisibility(View.GONE);
 
             List<Image> url = getImgs(getUrls(hotNewsContent.img.img_small_src));
-
             if (mImgType == TYPE_NINE_IMG) {
                 mAutoNineGridlayout.setVisibility(View.VISIBLE);
                 mImageView.setVisibility(View.GONE);

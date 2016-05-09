@@ -60,12 +60,19 @@ public class ImageLoader {
 
     public void loadAvatar(String url, ImageView imageView) {
         int position = new Random().nextInt(3);
-        Glide.with(APP.getContext())
+      /*  Glide.with(APP.getContext())
                 .load(url)
                 .asBitmap()
                 .placeholder(circles[position])
                 .error(circles[position])
+                .into(imageView);*/
+        Glide.with(APP.getContext())
+                .load(url)
+                .asBitmap()
+                .placeholder(R.drawable.ic_default_avatar)
+                .error(R.drawable.ic_default_avatar)
                 .into(imageView);
+
     }
 
 

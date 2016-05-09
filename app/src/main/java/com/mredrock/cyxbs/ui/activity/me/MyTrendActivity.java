@@ -61,14 +61,6 @@ public class MyTrendActivity extends BaseActivity
         getMyTrendData();
     }
 
-/*
-    @Override
-    public void onItemClick(View itemView, int position, HotNewsContent dataBean) {
-        Intent intent = new Intent(this, SpecificNewsActivity.class);
-        intent.putExtra(SpecificNewsActivity.START_DATA, dataBean);
-        startActivity(intent);
-    }
-*/
 
     private void init() {
         mUser = APP.getUser(this);
@@ -85,13 +77,13 @@ public class MyTrendActivity extends BaseActivity
             @Override
             public void onBindViewHolder(ViewHolder holder, int position) {
                 super.onBindViewHolder(holder, position);
-                ImageLoader.getInstance().loadAvatar(mUser
-                        .photo_thumbnail_src, holder.mImgAvatar);
+                ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, holder.mImgAvatar);
                 holder.mTextName.setText(mUser.nickname.equals("") ? mUser
                         .stuNum : mUser.nickname);
+                holder.mBtnFavor.setOnClickListener(null);
+                holder.isFromMyTrend = true;
             }
         };
-        // mNewsAdapter.setOnItemOnClickListener(this);
         myTrendRecyclerView.setAdapter(mNewsAdapter);
     }
 
@@ -113,43 +105,49 @@ public class MyTrendActivity extends BaseActivity
 
 
     private void getMyTrendData() {
-
         if (mUser != null) {
             Logger.d(mUser.toString());
             RequestManager.getInstance()
-                          .getMyTrend(mUser.stuNum, mUser.idNum)
-                          .subscribe(newses -> {
-                              dismissProgress();
-                              mNewsList.clear();
-                              mNewsList.addAll(newses);
-                              mNewsAdapter.notifyDataSetChanged();
-                          }, throwable -> {
-                              dismissProgress();
-                              getDataFailed(throwable.getMessage());
-                          });
+                    .getMyTrend(mUser.stuNum, mUser.idNum)
+                    .map(hotNewses -> {
+                        for (HotNews h : hotNewses) {
+                            h.data.nick_name = mUser.nickname.equals("") ? mUser.stuNum : mUser.nickname;
+                            h.data.user_head = mUser.photo_thumbnail_src;
+                        }
+                        return hotNewses;
+                    })
+                    .subscribe(newses -> {
+                        dismissProgress();
+                        mNewsList.clear();
+                        mNewsList.addAll(newses);
+                        mNewsAdapter.notifyDataSetChanged();
+                    }, throwable -> {
+                        dismissProgress();
+                        getDataFailed(throwable.getMessage());
+                    });
             dismissProgress();
         }
     }
 
 
     private void showProgress() {
-        if(mUser != null) {
+        if (mUser != null) {
             myTrendRefreshLayout.getViewTreeObserver()
-
-                                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                                    @Override public void onGlobalLayout() {
-                                        myTrendRefreshLayout.getViewTreeObserver()
-                                                            .removeGlobalOnLayoutListener(this);
-                                        myTrendRefreshLayout.setRefreshing(true);
-                                        getMyTrendData();
-                                    }
-                                });
+                    .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            myTrendRefreshLayout.getViewTreeObserver()
+                                    .removeGlobalOnLayoutListener(this);
+                            myTrendRefreshLayout.setRefreshing(true);
+                            getMyTrendData();
+                        }
+                    });
         }
     }
 
 
     private void dismissProgress() {
-        if(myTrendRefreshLayout != null && myTrendRefreshLayout.isRefreshing()) {
+        if (myTrendRefreshLayout != null && myTrendRefreshLayout.isRefreshing()) {
             myTrendRefreshLayout.setRefreshing(false);
         }
     }
