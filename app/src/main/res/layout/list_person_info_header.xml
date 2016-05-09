@@ -20,8 +20,7 @@
         <com.mredrock.cyxbs.component.widget.CircleImageView
             android:id="@+id/person_info_avatar"
             android:layout_width="@dimen/information_img_avatar"
-            android:layout_height="@dimen/information_img_avatar"
-            android:src="@mipmap/avatar_default" />
+            android:layout_height="@dimen/information_img_avatar"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -43,8 +42,8 @@
                     android:layout_height="match_parent"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/body_text_1"
-                    android:textSize="18sp"
+                    android:textColor="@color/text_dark"
+                    android:textSize="17sp"
                     tool:text="我是昵称" />
 
                 <TextView
@@ -57,7 +56,7 @@
                     android:gravity="center"
                     android:textColor="@color/pink"
                     android:text="♂"
-                    android:textSize="18sp"/>
+                    android:textSize="17sp"/>
 
             </LinearLayout>
 
@@ -69,7 +68,7 @@
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textColor="@color/crop__button_text"
+                android:textColor="@color/text_light_2"
                 android:textSize="12sp"
                 tool:text="简介：我是.............." />
 
@@ -87,8 +86,8 @@
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
         android:text="@string/latest"
-        android:textColor="@color/text_light_2"
-        android:textSize="18sp" />
+        android:textColor="@color/text_light_1"
+        android:textSize="16sp" />
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
