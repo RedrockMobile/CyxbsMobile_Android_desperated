@@ -161,6 +161,8 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                     }
                     pUrl = pUrl.substring(0, pUrl.length() - 1);
                     tUrl = tUrl.substring(0, tUrl.length() - 1);
+                    Log.i("----->>>pUrl",pUrl);
+                    Log.i("----->>>tUrl",tUrl);
                     return RequestManager.getInstance().sendDynamic(type, title, content, tUrl, pUrl);
                 });
     }
@@ -178,10 +180,11 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                 // 获取返回的图片列表
                 List<String> pathList = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
 
-                for (Image image : mImgList)
+                for (Image image : mImgList) {
                     for (int i = 0; i < pathList.size(); i++) {
                         if (image.url.equals(pathList.get(i))) pathList.remove(i);
                     }
+                }
                 // 处理你自己的逻辑 ....
                 if (mImgList.size() + pathList.size() > 10) {
                     Toast.makeText(this, "最多只能选9张图", Toast.LENGTH_SHORT).show();

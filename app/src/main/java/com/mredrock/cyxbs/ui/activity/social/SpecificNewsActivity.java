@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.ui.activity.social;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -101,7 +102,10 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_news);
         ButterKnife.bind(this);
-        mRefresh.setColorSchemeColors(R.color.colorAccent);
+        mRefresh.setColorSchemeColors(
+                ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
+                ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
+        );
         mHeaderView = LayoutInflater.from(this)
                 .inflate(R.layout.list_news_item_header, null, false);
         mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
