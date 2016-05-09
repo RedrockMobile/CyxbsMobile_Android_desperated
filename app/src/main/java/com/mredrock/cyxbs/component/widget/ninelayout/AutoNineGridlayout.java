@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.component.widget.ninelayout;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -70,5 +71,13 @@ public class AutoNineGridlayout extends NineGridlayout {
                 super.layoutChildrenView(firstImage);
                 break;
         }
+    }
+
+    @Override
+    protected CustomImageView generateImageView() {
+        CustomImageView iv = new CustomImageView(getContext());
+        iv.setBackgroundColor(Color.parseColor("#ffffff"));
+        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        return iv;
     }
 }

@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.rx_cache.DynamicKey;
-import io.rx_cache.DynamicKeyGroup;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import io.rx_cache.internal.RxCache;
@@ -59,6 +58,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 
@@ -117,11 +117,14 @@ public enum RequestManager {
         return emitObservable(observable, subscriber);
     }
 
-    public Subscription verify(Subscriber<User> subscriber, String stuNum, String idNum) {
+    public Subscription login(Subscriber<User> subscriber, String stuNum, String idNum) {
         Observable<User> observable = redrockApiService.verify(stuNum, idNum)
-                                                       .map(new RedrockApiWrapperFunc<>());
+                                                       .map(new RedrockApiWrapperFunc<>())
+                                                       .zipWith(redrockApiService.getPersonInfo(stuNum, idNum)
+                                                                                 .map(new RedrockApiWrapperFunc<>()), User::cloneFromUserInfo);
 
         return emitObservable(observable, subscriber);
+
     }
 
     public Subscription getNowWeek(Subscriber<Integer> subscriber, String stuNum, String idNum) {
@@ -369,7 +372,7 @@ public enum RequestManager {
     }
 
     /**
-     * 社区api
+     * api
      */
     public Observable<UploadImgResponse.Response> uploadNewsImg(String filePath) {
         return uploadNewsImg(Stu.STU_NUM, filePath);
@@ -428,9 +431,9 @@ public enum RequestManager {
 
     public Observable<List<HotNews>> getListNews(int size, int page) {
         return getListNews(size, page, Stu.STU_NUM, Stu.ID_NUM, BBDDNews.LISTNEWS)
-                .map(content -> {
+                .map(officeNewsContentList -> {
                     List<HotNews> aNews = new ArrayList<>();
-                    for (OfficeNewsContent officeNewsContent : content)
+                    for (OfficeNewsContent officeNewsContent : officeNewsContentList)
                         aNews.add(new HotNews(officeNewsContent));
                     return aNews;
                 })

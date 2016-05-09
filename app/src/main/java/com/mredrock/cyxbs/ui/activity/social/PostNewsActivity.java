@@ -49,7 +49,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     EditText mAddNewsEdit;
     @Bind(R.id.iv_ngrid_layout)
     NineGridlayout mNineGridlayout;
-    private List<Image> mImgs;
+    private List<Image> mImgList;
 
 
     public static final void startActivity(Context context) {
@@ -66,9 +66,9 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void init() {
-        mImgs = new ArrayList<>();
-        mImgs.add(new Image(ADD_IMG, Image.TYPE_ADD));
-        mNineGridlayout.setImagesData(mImgs);
+        mImgList = new ArrayList<>();
+        mImgList.add(new Image(ADD_IMG, Image.TYPE_ADD));
+        mNineGridlayout.setImagesData(mImgList);
         setSupportActionBar(mToolBar);
         mCancelText.setOnClickListener(this);
         mSaveText.setOnClickListener(this);
@@ -97,8 +97,8 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         });
 
         mNineGridlayout.setmOnClickDeletecteListener((v, position) -> {
-            mImgs.remove(position);
-            mNineGridlayout.setImagesData(mImgs);
+            mImgList.remove(position);
+            mNineGridlayout.setImagesData(mImgList);
         });
 
 
@@ -125,7 +125,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         }
         Observable<String> observable;
         List<Image> currentImgs = new ArrayList<>();
-        currentImgs.addAll(mImgs);
+        currentImgs.addAll(mImgList);
         currentImgs.remove(0);
 
         if (currentImgs.size() > 0) observable = uploadWithImg(currentImgs, title, content, type);
@@ -194,15 +194,15 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                 // 获取返回的图片列表
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 // 处理你自己的逻辑 ....
-                if (mImgs.size() + path.size() > 10) {
+                if (mImgList.size() + path.size() > 10) {
                     Toast.makeText(this, "最多只能选9张图", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Observable.from(path)
                         .map(s -> new Image(s, Image.TYPE_NORMAL))
                         .map(image -> {
-                            mImgs.add(image);
-                            return mImgs;
+                            mImgList.add(image);
+                            return mImgList;
                         })
                         .subscribe(new SimpleSubscriber<>(this, new SubscriberListener<List<Image>>() {
                             @Override
@@ -232,7 +232,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void showUploadSucess(String content) {
-        RxBus.getDefault().post(new HotNews(content, mImgs));
+        RxBus.getDefault().post(new HotNews(content, mImgList));
         PostNewsActivity.this.finish();
     }
 

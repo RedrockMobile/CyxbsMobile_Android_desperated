@@ -98,7 +98,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
         if (hotNewsContent != null) {
             mHotNewsContent = hotNewsContent;
-            mWrapView.setData(mHotNewsContent, true);
+            mWrapView.setData(mHotNewsContent, true, hotNewsContent.getType());
             if (mHotNewsContent.type_id < BBDDNews.BBDD || (mHotNewsContent.type_id == 6 && mHotNewsContent.user_id == null))
                 doWithNews(mWrapView, mHotNewsContent.content);
             requestComments();
@@ -123,8 +123,8 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 .subscribe(commentContent -> {
                     mNewsEdtComment.setText(" ");
                     mNewsEdtComment.setText("回复 " + commentContent.getNickname() + " : ");
-                    mNewsEdtComment.setFocusable(true);
-
+                    mNewsEdtComment.clearFocus();
+                    mNewsEdtComment.setSelection(mNewsEdtComment.getText().length());
                 });
 
     }
@@ -227,6 +227,8 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                             super.onCompleted();
                             requestComments();
                             mNewsEdtComment.getText().clear();
+                            //mRecyclerView.scrollTo(100, 100);
+                            mRecyclerView.scrollToPosition(1);
                         }
 
                         @Override
@@ -245,7 +247,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 .subscribe(newses -> {
                     if (newses != null && newses.size() > 0) {
                         mHotNewsContent = newses.get(0).data;
-                        mWrapView.setData(mHotNewsContent, true);
+                        mWrapView.setData(mHotNewsContent, true, mHotNewsContent.getType());
                         requestComments();
                     }
                 }, throwable -> {

@@ -7,22 +7,21 @@ import android.support.v7.widget.Toolbar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
-import butterknife.OnClick;
-
-import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.model.social.Stu;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.activity.LoginActivity;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SettingActivity extends BaseActivity {
 
     @Bind(R.id.toolbar_title)
-    TextView       toolbarTitle;
+    TextView toolbarTitle;
     @Bind(R.id.toolbar)
-    Toolbar        toolbar;
+    Toolbar toolbar;
     @Bind(R.id.setting_remind_layout)
     RelativeLayout settingRemindLayout;
     @Bind(R.id.setting_feedback_layout)
@@ -59,6 +58,7 @@ public class SettingActivity extends BaseActivity {
     @OnClick(R.id.setting_exit_layout)
     void clickToExit() {
         startActivity(new Intent(this, LoginActivity.class));
+        new Stu("", "", "", "");
     }
 
     private void initToolbar() {
