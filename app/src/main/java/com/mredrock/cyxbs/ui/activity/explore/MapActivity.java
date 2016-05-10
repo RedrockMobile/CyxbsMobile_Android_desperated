@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.ui.activity.explore;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -26,16 +28,21 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.ui.activity.PermissionActivity;
 import com.mredrock.cyxbs.util.MapHelper;
 import com.mredrock.cyxbs.util.NetUtils;
+import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
+import com.mredrock.cyxbs.util.permission.EasyPermissions;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MapActivity extends PermissionActivity implements AMap.OnMarkerClickListener {
+public class MapActivity extends AppCompatActivity
+        implements AMap.OnMarkerClickListener, EasyPermissions.PermissionCallbacks {
+
+    private static final int RC_STORAGE = 123;
 
     @Bind(R.id.map)
     MapView mMapView;
@@ -53,25 +60,13 @@ public class MapActivity extends PermissionActivity implements AMap.OnMarkerClic
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case MapHelper.SAVE_PICTURE_SUCCESS:
+                case MapHelper.LOAD_OVERLAY_SUCCESS:
+                    showOverlayedMap((Bitmap) msg.obj);
+                    onLoadProgressFinish();
                     break;
-                case MapHelper.SAVE_PICTURE_FAILED:
-                    break;
-                case MapHelper.READ_PICTURE:
-                    Bitmap cachedBitmap = (Bitmap) msg.obj;
-                    if (cachedBitmap != null) {
-                        showCoveredMap(cachedBitmap);
-                    } else {
-                        tryDownload();
-                    }
-                    break;
-                case MapHelper.LOAD_PICTURE:
-                    Bitmap loadedBitmap = (Bitmap) msg.obj;
-                    if (loadedBitmap != null) {
-                        showCoveredMap((Bitmap) msg.obj);
-                    } else {
-                        Toast.makeText(MapActivity.this, getResources().getString(R.string.error_text), Toast.LENGTH_SHORT).show();
-                    }
+                case MapHelper.LOAD_OVERLAY_FAILED:
+                    Toast.makeText(MapActivity.this,
+                            getResources().getString(R.string.error_text), Toast.LENGTH_SHORT).show();
                     onLoadProgressFinish();
                     break;
                 default:
@@ -79,7 +74,6 @@ public class MapActivity extends PermissionActivity implements AMap.OnMarkerClic
             }
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +86,7 @@ public class MapActivity extends PermissionActivity implements AMap.OnMarkerClic
         setupMap();
 
         mMapHelper = new MapHelper(this, mHandler);
-        mMapHelper.readMapPictureFromCache();
+        startLoading();
     }
 
     private void setupMap() {
@@ -147,14 +141,6 @@ public class MapActivity extends PermissionActivity implements AMap.OnMarkerClic
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mMapView.onSaveInstanceState(outState);
@@ -165,7 +151,14 @@ public class MapActivity extends PermissionActivity implements AMap.OnMarkerClic
         super.onDestroy();
         mMapView.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
-        mMapHelper.cleanUp();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
@@ -178,10 +171,37 @@ public class MapActivity extends PermissionActivity implements AMap.OnMarkerClic
         return true;
     }
 
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        tryDownload(false);
+    }
+
+    @AfterPermissionGranted(RC_STORAGE)
+    private void startLoading() {
+        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+        if (EasyPermissions.hasPermissions(this, permissions)) {
+            Bitmap bitmap = mMapHelper.getCachedOverlayImage();
+            if (bitmap != null) {
+                showOverlayedMap(bitmap);
+            } else {
+                tryDownload(true);
+            }
+        } else {
+            EasyPermissions.requestPermissions(this, getResources().getString(R.string.map_permission_explanation),
+                    RC_STORAGE, permissions);
+        }
+    }
+
     /**
      * Setting only show the area of cqupt
      */
-    private void showCoveredMap(Bitmap bitmap) {
+    private void showOverlayedMap(Bitmap bitmap) {
         LatLngBounds bounds = new LatLngBounds.Builder().include(new LatLng(29.537246, 106.602359))
                 .include(new LatLng(29.527575, 106.61341)).build();
         mAMap.addGroundOverlay(new GroundOverlayOptions().anchor(0.5f, 0.5f).transparency(0.1f)
@@ -189,15 +209,16 @@ public class MapActivity extends PermissionActivity implements AMap.OnMarkerClic
                 .positionFromBounds(bounds));
     }
 
-    private void tryDownload() {
+
+    private void tryDownload(boolean shouldCache) {
         if (!NetUtils.isWiFiEnabled(this)) {
-            showFlowWarningDialog();
+            showFlowWarningDialog(shouldCache);
         } else {
-            downloadMapPicture();
+            getMapOverlayImageUrl(shouldCache);
         }
     }
 
-    private void showFlowWarningDialog() {
+    private void showFlowWarningDialog(boolean shouldCache) {
         new MaterialDialog.Builder(this)
                 .title(getResources().getString(R.string.map_flow_dialog_title))
                 .content(getResources().getString(R.string.map_flow_dialog_content))
@@ -207,24 +228,24 @@ public class MapActivity extends PermissionActivity implements AMap.OnMarkerClic
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        downloadMapPicture();
+                        getMapOverlayImageUrl(shouldCache);
                     }
                 }).show();
     }
 
-    private void downloadMapPicture() {
-        RequestManager.getInstance().getMapPicture(
-                new SimpleSubscriber<List<String>>(this, new SubscriberListener<List<String>>() {
+    private void getMapOverlayImageUrl(boolean shouldCache) {
+        RequestManager.getInstance().getMapOverlayImageUrl(
+                new SimpleSubscriber<String>(this, new SubscriberListener<String>() {
                     @Override
                     public void onStart() {
                         onLoadProgress();
                     }
 
                     @Override
-                    public void onNext(List<String> urlList) {
-                        mMapHelper.loadPicture(urlList.get(0));
+                    public void onNext(String url) {
+                        mMapHelper.loadOverlayImage(url, shouldCache);
                     }
-                }));
+                }), "overmap", "map");
 
     }
 
@@ -239,6 +260,8 @@ public class MapActivity extends PermissionActivity implements AMap.OnMarkerClic
     }
 
     private void onLoadProgressFinish() {
-        mProgressDialog.dismiss();
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 }

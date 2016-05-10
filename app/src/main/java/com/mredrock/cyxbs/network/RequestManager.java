@@ -153,15 +153,18 @@ public enum RequestManager {
         return redrockApiService.getCourse(stuNum, idNum, "0").map(new RedrockApiWrapperFunc<>());
     }
 
-    public Subscription getMapPicture(Subscriber<List<String>> subscriber) {
-        Observable<List<String>> observable = redrockApiService.getMapPicture("overmap", "map")
+    public Subscription getMapOverlayImageUrl(Subscriber<String> subscriber, String name, String path) {
+        Observable<String> observable = redrockApiService.getMapOverlayImageUrl(name, path)
                 .map(wrapper -> {
                     if (wrapper.status != 204) {
                         throw new RedrockApiException(wrapper.info);
                     } else {
                         return wrapper.data;
                     }
-                });
+                })
+                .flatMap(urlList -> Observable.just(urlList.get(0)));
+
+
         return emitObservable(observable, subscriber);
     }
 

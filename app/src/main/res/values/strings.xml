@@ -163,6 +163,7 @@
     <string name="map_flow_dialog_negative">还是算了</string>
     <string name="map_progress_dialog_title">正在下载地图</string>
     <string name="map_progress_dialog_content">请稍候</string>
+    <string name="map_permission_explanation">使用缓存, 节省你的流量</string>
 
     <string name="what_to_eat_activity_name">吃什么</string>
     <string name="shake_again_text">不想吃这个？再摇一摇</string>
@@ -175,6 +176,7 @@
     <string name="phone_call_dialog_content">是否拨打该电话</string>
     <string name="phone_call_dialog_positive">好的</string>
     <string name="phone_call_dialog_negative">不了</string>
+    <string name="phone_permission_explanation">不给权限,我也没办法了,亲</string>
 
     <string name="send_comment_dialog_title">请输入评论</string>
     <string name="send_comment_dialog_hint">"请输入"</string>

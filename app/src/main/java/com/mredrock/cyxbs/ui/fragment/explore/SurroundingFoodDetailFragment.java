@@ -1,14 +1,17 @@
 package com.mredrock.cyxbs.ui.fragment.explore;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +40,8 @@ import com.mredrock.cyxbs.ui.activity.explore.BaseExploreActivity;
 import com.mredrock.cyxbs.ui.adapter.FoodCommentsAdapter;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.util.LogUtils;
+import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
+import com.mredrock.cyxbs.util.permission.EasyPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,12 +54,13 @@ import rx.Subscription;
 /**
  * Created by Stormouble on 16/4/16.
  */
-public class SurroundingFoodDetailFragment extends BaseExploreFragment {
+public class SurroundingFoodDetailFragment extends BaseExploreFragment
+        implements EasyPermissions.PermissionCallbacks{
 
     private static final String TAG = LogUtils.makeLogTag(SurroundingFoodDetailFragment.class);
-
     private static final String RESTAURANT_KEY = "shop_key";
 
+    private static final int RC_PHONE = 124;
     private static final long ANIMATION_DURATION = 700;
 
     @Bind(R.id.reveal_background)
@@ -101,7 +107,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mHeaderViewWrapper = new HeaderViewWrapper(inflater, container);
+        mHeaderViewWrapper = new HeaderViewWrapper(this, inflater, container);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -144,6 +150,23 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment {
     @Override
     public void onRefresh() {
         getFoodAndCommentList(1, false);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Toast.makeText(getActivity(), getResources().getString(R.string.phone_permission_explanation),
+                Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -281,9 +304,9 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment {
         @Bind(R.id.restaurant_promotion)
         TextDrawableView mRestaurantPromotion;
 
-        public final View contentView;
-
         private String phone;
+        private Fragment fragment;
+        public final View contentView;
 
         @OnClick(R.id.restaurant_phone)
         public void onRestaurantPhoneCall() {
@@ -300,21 +323,15 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment {
                                 return;
                             }
 
-                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                if (getContext().checkSelfPermission(Manifest.permission.CALL_PHONE) !=
-                                        PackageManager.PERMISSION_GRANTED) {
-                                    return;
-                                }
-                            }
-                            startActivity(intent);
+                            phoneCall();
                         }
                     })
                     .show();
         }
 
 
-        public HeaderViewWrapper(LayoutInflater inflater, ViewGroup container) {
+        public HeaderViewWrapper(Fragment fragment, LayoutInflater inflater, ViewGroup container) {
+            this.fragment = fragment;
             contentView = inflater.inflate(R.layout.food_detail_header, container, false);
             ButterKnife.bind(this, contentView);
         }
@@ -329,6 +346,17 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment {
             mGlideHelper.loadImage(imageUrl, mRestaurantPhoto);
 
             this.phone = phone;
+        }
+
+        @AfterPermissionGranted(RC_PHONE)
+        private void phoneCall() {
+            if (EasyPermissions.hasPermissions(getContext(), Manifest.permission.CALL_PHONE)) {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                startActivity(intent);
+            } else {
+                EasyPermissions.requestPermissions(fragment, getResources().getString(R.string.phone_permission_explanation),
+                        RC_PHONE, Manifest.permission.CALL_PHONE);
+            }
         }
     }
 }

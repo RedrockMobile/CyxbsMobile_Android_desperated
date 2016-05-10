@@ -38,6 +38,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +48,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.OkHttpClient;
+import okio.ByteString;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static android.view.View.GONE;
@@ -835,34 +841,57 @@ public class Utils {
         return a == b || (a != null && a.equals(b));
     }
 
+
+    public static void closeQuietly(InputStream is) {
+        if (is == null) return;
+        try {
+            is.close();
+        } catch (IOException ignored) {
+            // ignore
+        }
+    }
+
+    public static void closeQuietly(OutputStream os) {
+        if (os == null) return;
+        try {
+            os.close();
+        } catch (IOException ignored) {
+            // ignore
+        }
+    }
+
+    public static int getAppVersion(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return info.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
     public static boolean isSDCardMounted() {
         return Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED);
     }
 
-    public static File getInternalCacheDir(Context context) {
-        if (isSDCardMounted()) {
-            return context.getCacheDir();
-        } else {
-            return null;
-        }
-    }
-
-    public static File getExternalCacheDir(Context context) {
-        if (isSDCardMounted()) {
-            return context.getExternalCacheDir();
-        } else {
-            return null;
-        }
-    }
-
-    public static File getDiskCacheDir(Context context) {
-        File diskCacheDir = null;
+    public static File getDiskCacheDir(Context context, String uniqueName) {
+        String cachePath = null;
         if (isSDCardMounted() || !Environment.isExternalStorageRemovable()) {
-            diskCacheDir = context.getExternalCacheDir();
+            cachePath = context.getExternalCacheDir().getPath();
         } else {
-            diskCacheDir = context.getCacheDir();
+            cachePath = context.getCacheDir().getPath();
         }
-        return diskCacheDir;
+        return new File(cachePath + File.separator + uniqueName);
+    }
+
+    public static String md5Hex(String s) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            byte[] md5bytes = messageDigest.digest(s.getBytes("UTF-8"));
+            return ByteString.of(md5bytes).hex();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            throw new AssertionError(e);
+        }
     }
 }
