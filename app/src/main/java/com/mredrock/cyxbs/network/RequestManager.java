@@ -426,7 +426,7 @@ public enum RequestManager {
                                                            String stuNum,
                                                            String idNum,
                                                            String type_id) {
-        return redrockApiService.getSocialOfficialNewsList(size, page, stuNum, idNum, type_id)
+        return redrockApiService.getSocialOfficialNewsList(size, page, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>());
     }
 

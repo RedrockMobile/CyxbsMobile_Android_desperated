@@ -2,6 +2,7 @@ package com.mredrock.cyxbs.model.social;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.util.TimeUtils;
@@ -117,7 +118,8 @@ public class HotNewsContent implements Parcelable {
 
     public HotNewsContent(OfficeNewsContent content) {
         this.content = content;
-        this.type_id = 6;
+        this.type = content.articletype_id;
+        this.type_id = Integer.parseInt(content.articletype_id);
         this.nick_name = content.name;
         this.user_head = content.head;
         this.time = content.date;

@@ -51,6 +51,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     public static final int PER_PAGE_NUM = 10;
     public static final String TAG = "BaseNewsFragment";
     public static final int FIRST_PAGE_INDEX = 0;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
 
     abstract Observable<List<HotNews>> provideData(int size, int page, boolean update);
@@ -82,13 +83,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLinearLayoutManager) {
-            @Override
-            public void onLoadMore(int page) {
-                currentIndex = page;
-                getNextPageData(PER_PAGE_NUM, currentIndex);
-            }
-        });
+        addOnScrollListener();
 
         initAdapter(null);
         //getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, false);
@@ -96,9 +91,25 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
     }
 
+    private void addOnScrollListener() {
+        if (endlessRecyclerOnScrollListener != null)
+            mRecyclerView.removeOnScrollListener(endlessRecyclerOnScrollListener);
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(mLinearLayoutManager) {
+            @Override
+            public void onLoadMore(int page) {
+                currentIndex++;
+                getNextPageData(PER_PAGE_NUM, currentIndex);
+            }
+        };
+        mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
+
+    }
+
     @Override
     public void onRefresh() {
         getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
+        currentIndex = 0;
+        addOnScrollListener();
     }
 
     private void getDataFailed(String reason) {
@@ -160,9 +171,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         mHeaderViewRecyclerAdapter.addFooterView(mFooterViewWrapper.getFooterView());
         mFooterViewWrapper.onFailedClick(view -> {
             if (currentIndex == 0) getCurrentData(PER_PAGE_NUM, currentIndex, true);
-            else {
-                getNextPageData(PER_PAGE_NUM, currentIndex);
-            }
+            getNextPageData(PER_PAGE_NUM, currentIndex);
         });
     }
 
