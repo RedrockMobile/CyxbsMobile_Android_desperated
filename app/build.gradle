@@ -10,7 +10,7 @@ android {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 26
+        versionCode 27
         versionName "社区版 beta"
     }
 
