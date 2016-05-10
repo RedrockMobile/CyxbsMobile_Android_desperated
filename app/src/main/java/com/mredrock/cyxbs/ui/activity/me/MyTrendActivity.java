@@ -15,6 +15,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.HotNews;
+import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
@@ -80,6 +81,12 @@ public class MyTrendActivity extends BaseActivity
                 ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, holder.mImgAvatar);
                 holder.mTextName.setText(mUser.getNickname());
                 holder.mBtnFavor.setOnClickListener(null);
+                holder.isFromMyTrend = true;
+            }
+
+            @Override
+            public void setDate(ViewHolder holder, HotNewsContent mDataBean) {
+                super.setDate(holder, mDataBean);
                 holder.isFromMyTrend = true;
             }
         };
