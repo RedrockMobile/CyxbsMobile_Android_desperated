@@ -5,11 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.CircleImageView;
 import com.mredrock.cyxbs.model.social.CommentContent;
 import com.mredrock.cyxbs.ui.activity.social.PersonInfoActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
@@ -55,7 +55,7 @@ public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<CommentC
         @Bind(R.id.list_item_comment)
         LinearLayout mLinearLayout;
         @Bind(R.id.list_information_img_avatar)
-        CircleImageView mCircleImageView;
+        ImageView mCircleImageView;
         @Bind(R.id.list_information_text_nickname)
         TextView mTextViewNickName;
         @Bind(R.id.list_information_text_time)

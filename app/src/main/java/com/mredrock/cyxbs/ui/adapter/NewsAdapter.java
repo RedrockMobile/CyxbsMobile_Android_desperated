@@ -19,7 +19,6 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.CircleImageView;
 import com.mredrock.cyxbs.component.widget.ExpandableTextView;
 import com.mredrock.cyxbs.component.widget.ninelayout.AutoNineGridlayout;
 import com.mredrock.cyxbs.component.widget.ninelayout.CustomImageView;
@@ -111,7 +110,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
 
         @Bind(R.id.list_news_img_avatar)
-        public CircleImageView mImgAvatar;
+        public ImageView mImgAvatar;
         @Bind(R.id.list_news_text_nickname)
         public TextView mTextName;
         @Bind(R.id.list_news_text_time)

@@ -12,13 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.CircleImageView;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.model.User;
@@ -70,7 +70,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     @Bind(R.id.my_page_setting_layout)
     RelativeLayout  myPageSettingLayout;
     @Bind(R.id.my_page_avatar)
-    CircleImageView myPageAvatar;
+    ImageView myPageAvatar;
     @Bind(R.id.my_page_nick_name)
     TextView        myPageNickName;
     @Bind(R.id.my_page_gender)

@@ -8,26 +8,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.CircleImageView;
-import com.mredrock.cyxbs.component.widget.ninelayout.CustomImageView;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
 import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.TimeUtils;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by skylineTan on 2016/4/28 01:08.
  */
 public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdapter.ViewHolder> {
 
-    private static final String TYPE_PRAISE  = "praise";
+    private static final String TYPE_PRAISE = "praise";
     private static final String TYPE_COMMENT = "remark";
 
     private OnItemClickListener mOnItemClickListener;
@@ -72,8 +69,8 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                                            .inflate(R.layout.item_relate_me,
-                                                    parent, false));
+                .inflate(R.layout.item_relate_me,
+                        parent, false));
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -87,19 +84,19 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.about_me_avatar)
-        CircleImageView aboutMeAvatar;
+        ImageView aboutMeAvatar;
         @Bind(R.id.about_me_nick_name)
-        TextView        aboutMeNickName;
+        TextView aboutMeNickName;
         @Bind(R.id.about_me_type)
-        TextView        aboutMeType;
+        TextView aboutMeType;
         @Bind(R.id.about_me_time)
-        TextView        aboutMeTime;
+        TextView aboutMeTime;
         @Bind(R.id.about_me_content)
-        TextView        aboutMeContent;
+        TextView aboutMeContent;
         @Bind(R.id.about_me_new_img)
-        ImageView       aboutMeNewImg;
+        ImageView aboutMeNewImg;
         @Bind(R.id.about_me_new_content)
-        TextView        aboutMeNewContent;
+        TextView aboutMeNewContent;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -28,11 +28,16 @@
                 android:paddingStart="20dp"
                 android:paddingTop="15dp">
 
-                <com.mredrock.cyxbs.component.widget.CircleImageView
+
+
+                <com.github.siyamed.shapeimageview.CircularImageView
                     android:id="@+id/my_page_avatar"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_default_avatar" />
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

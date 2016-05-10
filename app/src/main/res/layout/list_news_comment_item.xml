@@ -14,11 +14,13 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp">
 
-        <com.mredrock.cyxbs.component.widget.CircleImageView
+
+        <com.github.siyamed.shapeimageview.CircularImageView
             android:id="@+id/list_information_img_avatar"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@mipmap/avatar_default" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_official_notification" />
 
         <LinearLayout
             android:layout_width="wrap_content"

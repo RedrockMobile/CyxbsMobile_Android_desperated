@@ -10,18 +10,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.CircleImageView;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
@@ -33,6 +29,9 @@ import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -53,7 +52,7 @@ public class EditInfoActivity extends BaseActivity {
     @Bind(R.id.edit_info_introduce_layout)
     RelativeLayout  editInfoIntroduceLayout;
     @Bind(R.id.edit_info_avatar)
-    CircleImageView editInfoAvatar;
+    ImageView editInfoAvatar;
     @Bind(R.id.edit_info_nick_name)
     TextView        editInfoNickName;
     @Bind(R.id.edit_info_introduce)
