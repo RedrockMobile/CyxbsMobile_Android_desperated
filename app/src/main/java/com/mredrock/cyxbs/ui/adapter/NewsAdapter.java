@@ -66,9 +66,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         HotNewsContent mDataBean = mNews.get(position).data;
         holder.setData(mDataBean, false, getItemViewType(position));
         setDate(holder, mDataBean);
+        setSdata(holder, mDataBean);
     }
 
     public void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
+
+    }
+    public void setSdata(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
 
     }
 

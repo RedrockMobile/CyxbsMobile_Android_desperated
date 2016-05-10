@@ -26,13 +26,11 @@
             android:layout_marginTop="8dp">
 
 
-
             <com.github.siyamed.shapeimageview.CircularImageView
                 android:id="@+id/list_news_img_avatar"
                 android:layout_width="@dimen/information_img_avatar"
                 android:layout_height="@dimen/information_img_avatar"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_official_notification" />
+                android:scaleType="fitCenter" />
             <!-- app:siBorderWidth="6dp"
              app:siBorderColor="@color/darkgray"/>-->
 
