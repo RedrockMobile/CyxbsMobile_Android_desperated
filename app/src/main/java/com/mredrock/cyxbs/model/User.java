@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.mredrock.cyxbs.model.social.PersonInfo;
 
+import org.apache.commons.lang3.StringUtils;
+
 
 /**
  * Info of user
@@ -76,6 +78,9 @@ public class User implements Parcelable {
         return 0;
     }
 
+    public String getNickname() {
+        return StringUtils.isEmpty(nickname) ? "来自一位没有名字的同学" : nickname;
+    }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

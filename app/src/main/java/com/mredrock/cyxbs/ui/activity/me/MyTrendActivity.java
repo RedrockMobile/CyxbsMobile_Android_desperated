@@ -78,8 +78,7 @@ public class MyTrendActivity extends BaseActivity
             public void onBindViewHolder(ViewHolder holder, int position) {
                 super.onBindViewHolder(holder, position);
                 ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, holder.mImgAvatar);
-                holder.mTextName.setText(mUser.nickname.equals("") ? mUser
-                        .stuNum : mUser.nickname);
+                holder.mTextName.setText(mUser.getNickname());
                 holder.mBtnFavor.setOnClickListener(null);
                 holder.isFromMyTrend = true;
             }
@@ -111,7 +110,7 @@ public class MyTrendActivity extends BaseActivity
                     .getMyTrend(mUser.stuNum, mUser.idNum)
                     .map(hotNewses -> {
                         for (HotNews h : hotNewses) {
-                            h.data.nick_name = mUser.nickname.equals("") ? mUser.stuNum : mUser.nickname;
+                            h.data.nick_name = mUser.getNickname();
                             h.data.user_head = mUser.photo_thumbnail_src;
                         }
                         return hotNewses;

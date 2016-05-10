@@ -2,7 +2,6 @@ package com.mredrock.cyxbs.model.social;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.util.TimeUtils;
@@ -28,7 +27,7 @@ public class HotNewsContent implements Parcelable {
 
 
     public String getNick_name() {
-        return StringUtils.isEmpty(nick_name) ? "来至一位没有名字的同学" : nick_name;
+        return StringUtils.isEmpty(nick_name) ? "来自一位没有名字的同学" : nick_name;
     }
 
 

@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -71,7 +72,7 @@ public class AboutMeActivity extends BaseActivity implements
      /*   Intent intent = new Intent(this, SpecificNewsActivity.class);
         intent.putExtra("article_id", aboutMe.article_id);
         startActivity(intent);*/
-        SpecificNewsActivity.startActivityWithArticleId(this,aboutMe.article_id,false,true);
+        SpecificNewsActivity.startActivityWithArticleId(this, aboutMe.article_id, false, true);
     }
 
     private void init() {
@@ -90,16 +91,17 @@ public class AboutMeActivity extends BaseActivity implements
 
     public void getCurrentData(boolean update) {
         RequestManager.getInstance()
-                      .getAboutMeList(mUser.stuNum, mUser.idNum, update)
-                      .subscribe(aboutMes -> {
-                          dismissProgress();
-                          mAboutMeList.clear();
-                          mAboutMeList.addAll(aboutMes);
-                          mAboutMeAdapter.notifyDataSetChanged();
-                      }, throwable -> {
-                          dismissProgress();
-                          getDataFailed(throwable.getMessage());
-                      });
+                .getAboutMeList(mUser.stuNum, mUser.idNum, update)
+                .subscribe(aboutMes -> {
+                    dismissProgress();
+                    Log.e("----->>>", aboutMes.size() + "");
+                    mAboutMeList.clear();
+                    mAboutMeList.addAll(aboutMes);
+                    mAboutMeAdapter.notifyDataSetChanged();
+                }, throwable -> {
+                    dismissProgress();
+                    getDataFailed(throwable.getMessage());
+                });
     }
 
     private void initToolbar() {
