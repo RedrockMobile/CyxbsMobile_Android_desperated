@@ -13,12 +13,12 @@ public class Const {
     public static final String API_PERSON_SCHEDULE = "/redapi2/api/kebiao";
 
     //Explore
-    public static final String API_MAP_PICTURE       = "/welcome/2015/index.php/home/api/banner";
-    public static final String API_SHAKE             = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shake";
-    public static final String API_FOOD_LIST         = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shoplist";
-    public static final String API_FOOD_DETAIL       = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shopinfo";
-    public static final String API_FOOD_COMMENT_LIST = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/comList";
-    public static final String API_SEND_FOOD_COMMENT = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/addCom";
+    public static final String API_MAP_PICTURE         = "/welcome/2015/index.php/home/api/banner";
+    public static final String API_SHAKE               = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shake";
+    public static final String API_FOOD_LIST           = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shoplist";
+    public static final String API_FOOD_DETAIL         = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shopinfo";
+    public static final String API_FOOD_COMMENT_LIST   = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/comList";
+    public static final String API_SEND_FOOD_COMMENT   = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/addCom";
 
     public static final String APT_SEARCH_STUDENT = "/cyxbsMobile/index.php/home/searchPeople/peopleList";
 

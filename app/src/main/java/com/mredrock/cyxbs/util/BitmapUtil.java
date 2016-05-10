@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,6 +35,12 @@ public class BitmapUtil {
         fileOutputStream.close();
         return file;
 
+    }
+
+    public static ByteArrayInputStream getBitmapOutStream(Bitmap bitmap) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+        return new ByteArrayInputStream(out.toByteArray());
     }
 
     //单位 M

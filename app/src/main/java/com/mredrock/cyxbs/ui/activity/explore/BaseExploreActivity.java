@@ -31,12 +31,11 @@ public abstract class BaseExploreActivity extends BaseActivity {
     private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
 
     @Bind(R.id.toolbar)
-    Toolbar  mToolbar;
+    Toolbar mToolbar;
     @Bind(R.id.toolbar_title)
     TextView mToolbarTitle;
     @Bind(R.id.main_content)
-    View     mMainContent;
-
+    View mMainContent;
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -46,9 +45,9 @@ public abstract class BaseExploreActivity extends BaseActivity {
         if (mMainContent != null) {
             mMainContent.setAlpha(0.f);
             mMainContent.animate()
-                        .alpha(1.f)
-                        .setDuration(MAIN_CONTENT_FADEIN_DURATION)
-                        .start();
+                    .alpha(1.f)
+                    .setDuration(MAIN_CONTENT_FADEIN_DURATION)
+                    .start();
         }
     }
 
@@ -123,6 +122,4 @@ public abstract class BaseExploreActivity extends BaseActivity {
             finish();
         }
     }
-
-
 }

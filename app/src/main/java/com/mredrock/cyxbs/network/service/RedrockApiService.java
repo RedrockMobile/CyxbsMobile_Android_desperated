@@ -62,7 +62,7 @@ public interface RedrockApiService {
     //Explore start
     @FormUrlEncoded
     @POST(Const.API_MAP_PICTURE)
-    Observable<RedrockApiWrapper<List<String>>> getMapPicture(@Field("name") String name, @Field("path") String path);
+    Observable<RedrockApiWrapper<List<String>>> getMapOverlayImageUrl(@Field("name") String name, @Field("path") String path);
 
     @GET(Const.API_SHAKE)
     Observable<RedrockApiWrapper<Shake>> getShake();
