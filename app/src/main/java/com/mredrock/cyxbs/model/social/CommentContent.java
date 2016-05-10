@@ -14,6 +14,6 @@ public class CommentContent {
     public String content;
 
     public String getNickname() {
-        return nickname != null && !nickname.equals("") ? nickname : username;
+        return nickname != null && !nickname.equals("") ? nickname : "来至一位没有姓名的同学";
     }
 }
