@@ -35,9 +35,9 @@ public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<CommentC
     protected void bindData(ViewHolder holder, CommentContent data, int position) {
         holder.mTextContent.setText(data.content);
         holder.mTextTime.setText(TimeUtils.getTimeDetail(data.created_time));
-        holder.mTextViewNickName.setText(data.nickname);
+        holder.mTextViewNickName.setText(data.getNickname());
         ImageLoader.getInstance().loadAvatar(data.photo_thumbnail_src, holder.mCircleImageView);
-        holder.mCircleImageView.setOnClickListener(view -> PersonInfoActivity.StartActivityWithData(view.getContext(), data.photo_src, data.nickname, data.stunum));
+        holder.mCircleImageView.setOnClickListener(view -> PersonInfoActivity.StartActivityWithData(view.getContext(), data.photo_src, data.getNickname(), data.stunum));
         holder.mLinearLayout.setOnLongClickListener(view -> {
             RxBus.getDefault().post(data);
             return false;
