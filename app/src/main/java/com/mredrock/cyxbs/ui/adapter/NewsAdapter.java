@@ -66,13 +66,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         HotNewsContent mDataBean = mNews.get(position).data;
         holder.setData(mDataBean, false, getItemViewType(position));
         setDate(holder, mDataBean);
-        setSdata(holder, mDataBean);
     }
 
     public void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
-
-    }
-    public void setSdata(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
 
     }
 
@@ -168,7 +164,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
         }
-
 
         private void registerObservable() {
             mSubscription = RxBus.getDefault()
@@ -288,32 +283,26 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 isFromPersonInfo = true;
                 mExpandableTextView.setText(hotNewsContent.content.title);
                 mTextName.setText(hotNewsContent.content.getOfficeName());
-            } else isFromPersonInfo = false;
-
+            } else {
+            }
             if (mExpandableTextView.getText().toString().equals(""))
                 mExpandableTextView.setVisibility(View.GONE);
 
+
             List<Image> url = getImgs(getUrls(hotNewsContent.img.img_small_src));
-            if (mImgType == TYPE_NINE_IMG) {
-                mAutoNineGridlayout.setVisibility(View.VISIBLE);
-                mImageView.setVisibility(View.GONE);
 
-                if (url.size() != 0) {
-                    mAutoNineGridlayout.setImagesData(getImgs(getUrls(hotNewsContent.img.img_small_src)));
-                    mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) -> ImageActivity
-                            .startWithData(itemView.getContext(), hotNewsContent, position));
-                } else
+            //来自官方
+            if (hotNewsContent.type_id == 6 && hotNewsContent.user_id != null && hotNewsContent.user_id.equals("0")) {
+                if (url.size() == 0) {
                     mAutoNineGridlayout.setVisibility(View.GONE);
-
-            } else if (mImgType == TYPE_SINGLE_IMG) {
-                mAutoNineGridlayout.setVisibility(View.GONE);
-                mImageView.setVisibility(View.VISIBLE);
-
-                if (url.size() != 0) {
+                    mImageView.setVisibility(View.GONE);
+                } else if (url.size() == 1) {
+                    mAutoNineGridlayout.setVisibility(View.GONE);
+                    mImageView.setVisibility(View.VISIBLE);
                     String realUrl = url.get(0).url;
                     Context context = mImageView.getContext();
                     Glide.with(APP.getContext())
-                            .load(realUrl.charAt(0) < 48 || realUrl.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + realUrl)
+                            .load(realUrl.charAt(0) < 48 || realUrl.charAt(0) > 57 ? realUrl : CustomImageView.BASE_IMG_URL + realUrl)
                             .placeholder(new ColorDrawable(Color.parseColor("#f5f5f5")))
                             .error(R.drawable.img_placeholder)
                             .crossFade()
@@ -354,9 +343,26 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                             })
                             .into(mImageView);
                     mImageView.setOnClickListener(view -> ImageActivity.startWithData(itemView.getContext(), hotNewsContent, 0));
-                } else
+                } else {
+                    mAutoNineGridlayout.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.GONE);
-
+                    if (url.size() != 0) {
+                        mAutoNineGridlayout.setImagesData(getImgs(getUrls(hotNewsContent.img.img_small_src)));
+                        mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) -> ImageActivity
+                                .startWithData(itemView.getContext(), hotNewsContent, position));
+                    } else
+                        mAutoNineGridlayout.setVisibility(View.GONE);
+                }
+            }//不是官方
+            else {
+                mAutoNineGridlayout.setVisibility(View.VISIBLE);
+                mImageView.setVisibility(View.GONE);
+                if (url.size() != 0) {
+                    mAutoNineGridlayout.setImagesData(getImgs(getUrls(hotNewsContent.img.img_small_src)));
+                    mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) -> ImageActivity
+                            .startWithData(itemView.getContext(), hotNewsContent, position));
+                } else
+                    mAutoNineGridlayout.setVisibility(View.GONE);
             }
         }
 
@@ -364,11 +370,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             return url != null ? url.split(",") : new String[]{""};
         }
 
-        private List<Image> getImgs(String[] urls) {
-            List<Image> mImgs = new ArrayList<>();
+        public final static List<Image> getImgs(String[] urls) {
+            List<Image> mImgList = new ArrayList<>();
             for (String url : urls)
-                if (!url.equals("")) mImgs.add(new Image(url, Image.TYPE_ADD));
-            return mImgs;
+                if (!url.equals("")) mImgList.add(new Image(url, Image.TYPE_ADD));
+            return mImgList;
         }
 
 
