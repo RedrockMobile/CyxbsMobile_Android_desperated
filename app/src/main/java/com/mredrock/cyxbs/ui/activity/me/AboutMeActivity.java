@@ -94,7 +94,6 @@ public class AboutMeActivity extends BaseActivity implements
                 .getAboutMeList(mUser.stuNum, mUser.idNum, update)
                 .subscribe(aboutMes -> {
                     dismissProgress();
-                    Log.e("----->>>", aboutMes.size() + "");
                     mAboutMeList.clear();
                     mAboutMeList.addAll(aboutMes);
                     mAboutMeAdapter.notifyDataSetChanged();
