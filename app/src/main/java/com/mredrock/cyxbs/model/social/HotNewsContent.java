@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.util.TimeUtils;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created by mathiasluo on 16-5-5.
  */
@@ -22,6 +24,12 @@ public class HotNewsContent implements Parcelable {
             return new HotNewsContent[size];
         }
     };
+
+
+    public String getNick_name() {
+        return StringUtils.isEmpty(nick_name) ? "来自一位没有名字的同学" : nick_name;
+    }
+
 
     public String type;
     public String id;
@@ -109,7 +117,8 @@ public class HotNewsContent implements Parcelable {
 
     public HotNewsContent(OfficeNewsContent content) {
         this.content = content;
-        this.type_id = 6;
+        this.type = content.articletype_id;
+        this.type_id = Integer.parseInt(content.articletype_id);
         this.nick_name = content.name;
         this.user_head = content.head;
         this.time = content.date;

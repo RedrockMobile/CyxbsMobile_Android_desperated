@@ -1,5 +1,7 @@
 package com.mredrock.cyxbs.network;
 
+import android.widget.Toast;
+
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.config.Const;
@@ -58,8 +60,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 
@@ -163,6 +163,8 @@ public enum RequestManager {
                     }
                 })
                 .flatMap(urlList -> Observable.just(urlList.get(0)));
+
+
         return emitObservable(observable, subscriber);
     }
 
@@ -427,7 +429,7 @@ public enum RequestManager {
                                                            String stuNum,
                                                            String idNum,
                                                            String type_id) {
-        return redrockApiService.getSocialOfficialNewsList(size, page, stuNum, idNum, type_id)
+        return redrockApiService.getSocialOfficialNewsList(size, page, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>());
     }
 
@@ -489,6 +491,7 @@ public enum RequestManager {
                                           String content,
                                           String thumbnail_src,
                                           String photo_src) {
+        checkWithUserId("没有完善信息,还想发动态？");
         return sendDynamic(type_id, title, Stu.UER_ID, content, thumbnail_src, photo_src, Stu.STU_NUM, Stu.ID_NUM)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -507,6 +510,7 @@ public enum RequestManager {
     }
 
     public Observable<List<CommentContent>> getRemarks(String article_id, int type_id) {
+        checkWithUserId("没有完善信息,连评论都不会给你看的。");
         return getRemarks(article_id, type_id, Stu.UER_ID, Stu.STU_NUM, Stu.ID_NUM);
     }
 
@@ -522,6 +526,7 @@ public enum RequestManager {
     }
 
     public Observable<String> postReMarks(String article_id, int type_id, String content) {
+        checkWithUserId("没有完善信息,能评论都不能发的。");
         return postReMarks(article_id, type_id, content, Stu.UER_ID, Stu.STU_NUM, Stu.ID_NUM);
     }
 
@@ -538,6 +543,7 @@ public enum RequestManager {
     }
 
     public Observable<String> addThumbsUp(String article_id, int type_id) {
+        checkWithUserId("没有完善信息,肯定不让你点赞呀");
         return addThumbsUp(article_id, type_id, Stu.STU_NUM, Stu.ID_NUM);
     }
 
@@ -647,6 +653,10 @@ public enum RequestManager {
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s);
+    }
+
+    public void checkWithUserId(String s) {
+        if (Stu.UER_ID == null) Toast.makeText(APP.getContext(), s, Toast.LENGTH_LONG).show();
     }
 }
 

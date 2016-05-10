@@ -22,8 +22,8 @@ public class BitmapUtil {
         options.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeFile(path, options);
 
-        if (getBitmapSize(bitmap) < 3) return new File(path);
-        while (getBitmapSize(bitmap) > 3) {
+        if (getBitmapSize(bitmap) < 6) return new File(path);
+        if (getBitmapSize(bitmap) > 6) {
             options.inSampleSize = COMPRESSION_SIZE;
             bitmap = BitmapFactory.decodeFile(path, options);
         }

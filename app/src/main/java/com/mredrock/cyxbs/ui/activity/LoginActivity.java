@@ -16,6 +16,7 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.Utils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -29,13 +30,13 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
     @Bind(R.id.toolbar)
-    Toolbar  toolbar;
+    Toolbar toolbar;
     @Bind(R.id.login_stu_num_edit)
     EditText stuNumEdit;
     @Bind(R.id.login_id_num_edit)
     EditText idNumEdit;
     @Bind(R.id.login_submit_button)
-    Button   submitButton;
+    Button submitButton;
 
     @OnClick(R.id.login_submit_button)
     void clickToLogin() {
@@ -73,22 +74,23 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         RequestManager.getInstance()
-                      .login(new SimpleSubscriber<>(this, true, false, new SubscriberListener<User>() {
+                .login(new SimpleSubscriber<>(this, true, false, new SubscriberListener<User>() {
 
-                          @Override
-                          public void onNext(User user) {
-                              super.onNext(user);
-                              if (user != null) {
-                                  APP.setUser(LoginActivity.this, user);
-                                  EventBus.getDefault().removeStickyEvent(ExitEvent.class);
-                                  startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                  LoginActivity.this.finish();
-                              } else {
-                                  Utils.toast(LoginActivity.this, "登录失败, 返回了信息为空");
-                              }
-                          }
+                    @Override
+                    public void onNext(User user) {
+                        super.onNext(user);
+                        if (user != null) {
+                            APP.setUser(LoginActivity.this, user);
+                            MobclickAgent.onProfileSignIn(stuNum);
+                            EventBus.getDefault().removeStickyEvent(ExitEvent.class);
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            LoginActivity.this.finish();
+                        } else {
+                            Utils.toast(LoginActivity.this, "登录失败, 返回了信息为空");
+                        }
+                    }
 
-                      }), stuNum, idNum);
+                }), stuNum, idNum);
 
     }
 

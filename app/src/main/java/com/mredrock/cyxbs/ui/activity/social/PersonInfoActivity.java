@@ -14,12 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.CircleImageView;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.model.social.PersonInfo;
@@ -89,7 +89,10 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mHeaderViewWrapper.view);
 
-        mSwipeRefreshLayout.setColorSchemeColors(R.color.colorAccent);
+        mSwipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
+                ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
+        );
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mHeaderViewWrapper.setData(mUserAvatar, mNickName);
 
@@ -189,7 +192,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     class HeaderViewWrapper {
         View view;
         @Bind(R.id.person_info_avatar)
-        CircleImageView mCircleImageView;
+        ImageView mCircleImageView;
         @Bind(R.id.peron_info_nickname)
         TextView mTextNickName;
         @Bind(R.id.person_info_introduction)

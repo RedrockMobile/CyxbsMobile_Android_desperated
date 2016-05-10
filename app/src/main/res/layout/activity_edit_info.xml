@@ -26,14 +26,25 @@
             android:textColor="@color/text_dark"
             android:textSize="15sp" />
 
-        <com.mredrock.cyxbs.component.widget.CircleImageView
+<!--        <com.mredrock.cyxbs.component.widget.CircleImageView
             android:id="@+id/edit_info_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/avatar_default" />
+            android:src="@drawable/avatar_default" />-->
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/edit_info_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_official_notification" />
+
+
 
     </RelativeLayout>
 

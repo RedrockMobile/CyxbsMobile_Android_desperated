@@ -12,16 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.CircleImageView;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.model.User;
+import com.mredrock.cyxbs.model.social.Stu;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
@@ -36,6 +37,7 @@ import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.SPUtils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
@@ -68,7 +70,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     @Bind(R.id.my_page_setting_layout)
     RelativeLayout  myPageSettingLayout;
     @Bind(R.id.my_page_avatar)
-    CircleImageView myPageAvatar;
+    ImageView myPageAvatar;
     @Bind(R.id.my_page_nick_name)
     TextView        myPageNickName;
     @Bind(R.id.my_page_gender)
@@ -205,14 +207,13 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         if (mUser != null) {
             RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(getActivity(),
                     new SubscriberListener<User>() {
-
                         @Override
                         public void onNext(User user) {
                             super.onNext(user);
                             if (user != null) {
                                 mUser = User.cloneFromUserInfo(mUser, user);
                                 APP.setUser(getActivity(), mUser);
-
+                                new Stu(mUser.name, mUser.stuNum, mUser.idNum, mUser.id);
                                 refreshEditLayout();
                             }
                         }
@@ -223,7 +224,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
     private void refreshEditLayout() {
         ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
-        myPageNickName.setText(mUser.nickname);
+        myPageNickName.setText(StringUtils.isBlank(mUser.nickname) ? "点我完善个人信息" : mUser.nickname);
         myPageIntroduce.setText(mUser.introduction);
         if (mUser.gender.trim().equals("男")) {
             myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));

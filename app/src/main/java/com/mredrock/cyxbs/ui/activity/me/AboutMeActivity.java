@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,14 +7,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
@@ -28,6 +24,9 @@ import com.mredrock.cyxbs.ui.adapter.me.AboutMeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class AboutMeActivity extends BaseActivity implements
         SwipeRefreshLayout.OnRefreshListener, AboutMeAdapter.OnItemClickListener {
@@ -70,9 +69,10 @@ public class AboutMeActivity extends BaseActivity implements
 
     @Override
     public void onItemClick(View itemView, int position, AboutMe aboutMe) {
-        Intent intent = new Intent(this, SpecificNewsActivity.class);
+     /*   Intent intent = new Intent(this, SpecificNewsActivity.class);
         intent.putExtra("article_id", aboutMe.article_id);
-        startActivity(intent);
+        startActivity(intent);*/
+        SpecificNewsActivity.startActivityWithArticleId(this, aboutMe.article_id, false, true);
     }
 
     private void init() {
@@ -91,16 +91,16 @@ public class AboutMeActivity extends BaseActivity implements
 
     public void getCurrentData(boolean update) {
         RequestManager.getInstance()
-                      .getAboutMeList(mUser.stuNum, mUser.idNum, update)
-                      .subscribe(aboutMes -> {
-                          dismissProgress();
-                          mAboutMeList.clear();
-                          mAboutMeList.addAll(aboutMes);
-                          mAboutMeAdapter.notifyDataSetChanged();
-                      }, throwable -> {
-                          dismissProgress();
-                          getDataFailed(throwable.getMessage());
-                      });
+                .getAboutMeList(mUser.stuNum, mUser.idNum, update)
+                .subscribe(aboutMes -> {
+                    dismissProgress();
+                    mAboutMeList.clear();
+                    mAboutMeList.addAll(aboutMes);
+                    mAboutMeAdapter.notifyDataSetChanged();
+                }, throwable -> {
+                    dismissProgress();
+                    getDataFailed(throwable.getMessage());
+                });
     }
 
     private void initToolbar() {

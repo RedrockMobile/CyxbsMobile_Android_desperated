@@ -14,6 +14,8 @@ import com.orhanobut.logger.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
+import im.fir.sdk.FIR;
+
 
 /**
  * Created by cc on 16/3/18.
@@ -83,6 +85,7 @@ public class APP extends Application {
 
         context = getApplicationContext();
         initThemeMode();
+        FIR.init(this);
         Logger.init("cyxbs_mobile");
     }
 

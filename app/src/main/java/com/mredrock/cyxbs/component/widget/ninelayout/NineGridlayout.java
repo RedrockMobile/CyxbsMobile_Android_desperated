@@ -84,7 +84,7 @@ public class NineGridlayout extends ViewGroup {
         for (int i = 0; i < childrenCount; i++) {
             CustomImageView childrenView = (CustomImageView) getChildAt(i);
             childrenView.setFocusable(false);
-            childrenView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            // childrenView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             final int finalI = i;
             final int finalI1 = i;
             childrenView.setOnClickListener(view -> {
@@ -140,6 +140,8 @@ public class NineGridlayout extends ViewGroup {
         this.setVisibility(VISIBLE);
         //初始化布局
         generateChildrenLayout(lists.size());
+
+
         //这里做一个重用view的处理
         /*  if (listData == null) {
             int i = 0;
@@ -160,10 +162,12 @@ public class NineGridlayout extends ViewGroup {
                 }
             }
         }*/
+
+
         removeAllViews();
         int i = 0;
         while (i < lists.size()) {
-            CustomImageView iv = generateImageView();
+            CustomImageView iv = generateImageView(i);
             addView(iv, generateDefaultLayoutParams());
             i++;
         }
@@ -204,10 +208,11 @@ public class NineGridlayout extends ViewGroup {
         }
     }
 
-    protected CustomImageView generateImageView() {
+    protected CustomImageView generateImageView(int i) {
         CustomImageView iv = new CustomImageView(getContext());
         iv.setBackgroundColor(Color.parseColor("#ffffff"));
-        iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        if (i == 0) iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        else iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         return iv;
     }
 

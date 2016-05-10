@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.ui.fragment.social;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
@@ -39,16 +41,17 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     @Bind(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
     @Bind(R.id.information_refresh)
-    SwipeRefreshLayout refreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
-    private int currentIndex;
+    private int currentIndex = 0;
     private List<HotNews> mListHotNews = null;
     private FooterViewWrapper mFooterViewWrapper;
 
     public static final int PER_PAGE_NUM = 10;
     public static final String TAG = "BaseNewsFragment";
     public static final int FIRST_PAGE_INDEX = 0;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
 
     abstract Observable<List<HotNews>> provideData(int size, int page, boolean update);
@@ -71,19 +74,16 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
 
     protected void init() {
-        refreshLayout.setColorSchemeColors(R.color.orange);
-        refreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
+                ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
+        );
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mLinearLayoutManager = new LinearLayoutManager(getParentFragment().getActivity());
 
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLinearLayoutManager) {
-            @Override
-            public void onLoadMore(int page) {
-                currentIndex = page;
-                getNextPageData(PER_PAGE_NUM, currentIndex);
-            }
-        });
+        addOnScrollListener();
 
         initAdapter(null);
         //getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, false);
@@ -91,9 +91,25 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
     }
 
+    private void addOnScrollListener() {
+        if (endlessRecyclerOnScrollListener != null)
+            mRecyclerView.removeOnScrollListener(endlessRecyclerOnScrollListener);
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(mLinearLayoutManager) {
+            @Override
+            public void onLoadMore(int page) {
+                currentIndex++;
+                getNextPageData(PER_PAGE_NUM, currentIndex);
+            }
+        };
+        mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
+
+    }
+
     @Override
     public void onRefresh() {
         getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
+        currentIndex = 0;
+        addOnScrollListener();
     }
 
     private void getDataFailed(String reason) {
@@ -103,14 +119,14 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
     private void showLoadingProgress() {
-        if (refreshLayout != null) {
-            refreshLayout.setRefreshing(true);
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(true);
         }
     }
 
     private void closeLoadingProgress() {
-        if (refreshLayout != null) {
-            refreshLayout.setRefreshing(false);
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -153,7 +169,10 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
         mFooterViewWrapper = new FooterViewWrapper(getContext(), mRecyclerView);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterViewWrapper.getFooterView());
-        mFooterViewWrapper.onFailedClick(view -> getNextPageData(PER_PAGE_NUM, currentIndex));
+        mFooterViewWrapper.onFailedClick(view -> {
+            if (currentIndex == 0) getCurrentData(PER_PAGE_NUM, currentIndex, true);
+            getNextPageData(PER_PAGE_NUM, currentIndex);
+        });
     }
 
     private void getNextPageData(int size, int page) {

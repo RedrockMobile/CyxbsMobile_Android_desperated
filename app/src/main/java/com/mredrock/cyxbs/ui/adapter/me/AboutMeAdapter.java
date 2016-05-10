@@ -8,17 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.CircleImageView;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
 import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.TimeUtils;
 
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by skylineTan on 2016/4/28 01:08.
@@ -37,25 +36,25 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
 
     @Override
     protected void bindData(ViewHolder holder, AboutMe data, int position) {
-        holder.aboutMeNickName.setText(data.nickname.equals("") ? data.stunum : data.nickname);
+        holder.aboutMeNickName.setText(data.nickname.equals("") ? "来自一位没有名字的同学" : data.nickname);
         holder.aboutMeContent.setText(data.content);
         holder.aboutMeTime.setText(TimeUtils.getTimeDetail(data.created_time));
         holder.aboutMeNewContent.setText(data.article_content);
         ImageLoader.getInstance().loadAvatar(data.photo_src, holder.aboutMeAvatar);
+        String url = data.article_photo_src.split(",")[0];
+
         if (data.article_photo_src.equals("")) {
             holder.aboutMeNewImg.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             holder.aboutMeNewImg.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().loadImage(data.article_photo_src, holder.aboutMeNewImg);
+            ImageLoader.getInstance().loadRedrockImage(url, holder.aboutMeNewImg);
         }
         if (data.type.equals(TYPE_PRAISE)) {
-            ImageLoader.getInstance().loadImage(data.article_photo_src, holder.aboutMeNewImg);
+            ImageLoader.getInstance().loadRedrockImage(url, holder.aboutMeNewImg);
             if (data.type.equals(TYPE_PRAISE)) {
                 holder.aboutMeType.setText("赞了我");
                 holder.aboutMeContent.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 holder.aboutMeType.setText("");
                 holder.aboutMeContent.setVisibility(View.VISIBLE);
             }
@@ -85,7 +84,7 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.about_me_avatar)
-        CircleImageView aboutMeAvatar;
+        ImageView aboutMeAvatar;
         @Bind(R.id.about_me_nick_name)
         TextView aboutMeNickName;
         @Bind(R.id.about_me_type)

@@ -175,8 +175,7 @@ public interface RedrockApiService {
     Observable<OfficeNews> getSocialOfficialNewsList(@Field("size") int size,
                                                      @Field("page") int page,
                                                      @Field("stuNum") String stuNum,
-                                                     @Field("idNum") String idNum,
-                                                     @Field("type_id") String type_id);
+                                                     @Field("idNum") String idNum);
 
     @FormUrlEncoded
     @POST(Const.API_SOCIAL_HOT_LIST)

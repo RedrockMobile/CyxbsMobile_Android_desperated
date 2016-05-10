@@ -6,13 +6,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ninelayout.CustomImageView;
-
-import java.util.Random;
 
 /**
  * Created by MathiasLuo on 2016/3/1.
@@ -47,6 +44,18 @@ public class ImageLoader {
 
     }
 
+    public void loadRedrockImage(String url, ImageView imageView) {
+        if (url.length() > 0) {
+            Glide.with(APP.getContext())
+                    .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_placeholder)
+                    .crossFade()
+                    .into(imageView);
+
+        }
+    }
+
 
     public void loadSingleImage(String url, ImageView imageView) {
         Glide.with(APP.getContext())
@@ -59,15 +68,17 @@ public class ImageLoader {
 
 
     public void loadAvatar(String url, ImageView imageView) {
-        int position = new Random().nextInt(3);
         Glide.with(APP.getContext())
                 .load(url)
                 .asBitmap()
-                .placeholder(circles[position])
-                .error(circles[position])
+                .placeholder(R.drawable.ic_default_avatar)
+                .error(R.drawable.ic_default_avatar)
                 .into(imageView);
     }
 
+    public void loadDefaltNewsAvatar(ImageView imageView) {
+        imageView.setImageResource(R.drawable.ic_official_notification);
+    }
 
     public void loadImageWithTargetView(String url, SimpleTarget simpleTarget) {
         Glide.with(APP.getContext())
@@ -78,15 +89,6 @@ public class ImageLoader {
                 .into(simpleTarget);
     }
 
-    public void loadImageWithListener(String url, SimpleTarget simpleTarget, RequestListener listener) {
-        Glide.with(APP.getContext())
-                .load(url)
-                .asBitmap()
-                .listener(listener)
-                .placeholder(R.mipmap.avatar_default)
-                .error(R.mipmap.avatar_default)
-                .into(simpleTarget);
-    }
 
     @SuppressWarnings("unchecked")
     public void loadLocalImage(int resId, SimpleTarget<Bitmap> simpleTarget) {
