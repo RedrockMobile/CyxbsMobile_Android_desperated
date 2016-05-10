@@ -284,7 +284,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 isFromPersonInfo = true;
                 mExpandableTextView.setText(hotNewsContent.content.title);
                 mTextName.setText(hotNewsContent.content.getOfficeName());
-            }
+            } else isFromPersonInfo = false;
 
             if (mExpandableTextView.getText().toString().equals(""))
                 mExpandableTextView.setVisibility(View.GONE);
