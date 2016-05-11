@@ -4,10 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import com.mredrock.cyxbs.model.social.Image;
-import com.mredrock.cyxbs.util.ScreenTools;
 
 /**
  * Created by mathiasluo on 16-4-11.
@@ -21,7 +17,7 @@ public class AutoNineGridlayout extends NineGridlayout {
         super(context, attrs);
     }
 
-    @Override
+    /*  *//*  @Override
     protected void layoutChildrenView(Image firstImage) {
         int childrenCount = listData.size();
         switch (childrenCount) {
@@ -37,10 +33,10 @@ public class AutoNineGridlayout extends NineGridlayout {
                 setLayoutParams(params);
                 //Log.e("--->>>firstImage", firstImage.url);
                 CustomImageView childrenView = (CustomImageView) getChildAt(0);
-   /*             LayoutParams layoutParams = childrenView.getLayoutParams();
+   *//**//*             LayoutParams layoutParams = childrenView.getLayoutParams();
                 layoutParams.width = LayoutParams.MATCH_PARENT;
                 layoutParams.height =LayoutParams.MATCH_PARENT;
-                childrenView.setLayoutParams(layoutParams);*/
+                childrenView.setLayoutParams(layoutParams);*//**//*
                 childrenView.setScaleType(ImageView.ScaleType.FIT_XY);
 
                 childrenView.setOnClickListener(view -> {
@@ -71,8 +67,7 @@ public class AutoNineGridlayout extends NineGridlayout {
                 super.layoutChildrenView(firstImage);
                 break;
         }
-    }
-
+    }*/
     @Override
     protected CustomImageView generateImageView(int i) {
         CustomImageView iv = new CustomImageView(getContext());
