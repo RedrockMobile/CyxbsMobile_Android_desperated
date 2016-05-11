@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 28
         versionName "社区版 beta"
     }

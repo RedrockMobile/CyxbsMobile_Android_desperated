@@ -29,9 +29,11 @@ public class UpdateService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent.getExtras() == null || task != null) {
-            task.stop();
-            task.cancel(true);
-            task = null;
+            if (task != null) {
+                task.stop();
+                task.cancel(true);
+                task = null;
+            }
             Utils.toast(UpdateService.this, "取消更新");
             return START_NOT_STICKY;
         }
