@@ -38,7 +38,6 @@ public class UIUtils {
     }
 
     private UIUtils() {
-        throw new UnsupportedOperationException("cannot be instantiated");
     }
 
 }

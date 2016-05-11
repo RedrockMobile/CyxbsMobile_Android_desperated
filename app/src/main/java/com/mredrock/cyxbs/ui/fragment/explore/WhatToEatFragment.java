@@ -40,11 +40,9 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
 
     private static final String TAG = LogUtils.makeLogTag(WhatToEatFragment.class);
 
-    private static final int MAIN_CONTENT_SCALE_DURATION = 200;
-
-    private static final int SHAKE_FORCE = 350;
-
     private static final int MIN_SHAKE_DURATION = 1000;
+    private static final int MAIN_CONTENT_SCALE_DURATION = 200;
+    private static final int SHAKE_FORCE = 350;
 
     @Bind(R.id.shake_photo)
     ImageView mShakeImageView;

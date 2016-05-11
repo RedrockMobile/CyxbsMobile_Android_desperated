@@ -169,8 +169,9 @@
     <string name="shake_again_text">不想吃这个？再摇一摇</string>
 
     <string name="surrounding_food_activity_name">周边美食</string>
-    <string name="restaurant_promotion">暂无促销信息</string>
-    <string name="restaurant_average_cost">人均消费: 暂无数据</string>
+    <string name="restaurant_default_intro">暂无本店简介</string>
+    <string name="restaurant_default_promotion">暂无促销信息</string>
+    <string name="restaurant_default_average_cost">人均消费: 暂无数据</string>
     <string name="restaurant_comment">评论</string>
     <string name="phone_call_dialog_title">拨打电话</string>
     <string name="phone_call_dialog_content">是否拨打该电话</string>

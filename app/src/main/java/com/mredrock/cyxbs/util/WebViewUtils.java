@@ -10,10 +10,6 @@ import com.thefinestartist.finestwebview.FinestWebView;
  */
 public class WebViewUtils {
 
-    private WebViewUtils() {
-
-    }
-
     public static void showPortalWebView(Activity activity, String url) {
         if (activity != null && url != null) {
             new FinestWebView.Builder(activity)
@@ -47,4 +43,8 @@ public class WebViewUtils {
                     .show(url);
         }
     }
+
+    private WebViewUtils() {
+    }
+
 }

@@ -59,7 +59,7 @@
                     android:layout_marginLeft="@dimen/padding_normal"
                     android:layout_marginTop="@dimen/padding_normal"
                     android:gravity="bottom"
-                    android:text="@string/restaurant_average_cost"
+                    android:text="@string/restaurant_default_average_cost"
                     android:textColor="@color/text_light_2"
                     tools:text="@string/placeholder_explore_restaurant_cost" />
 
@@ -123,7 +123,7 @@
             android:minHeight="@dimen/item_min_height_normal"
             android:paddingBottom="@dimen/spacing_micro"
             android:paddingTop="@dimen/spacing_micro"
-            android:text="@string/restaurant_promotion"
+            android:text="@string/restaurant_default_promotion"
             app:drawable_height="@dimen/restaurant_icon_width"
             app:drawable_width="@dimen/restaurant_icon_height"
             tools:text="@string/placeholder_explore_restaurant_promotion" />

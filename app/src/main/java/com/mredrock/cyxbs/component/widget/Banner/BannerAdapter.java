@@ -29,5 +29,4 @@ public abstract class BannerAdapter<T> {
 
     public abstract void bindImage(ImageView imageView, T t);
 
-
 }

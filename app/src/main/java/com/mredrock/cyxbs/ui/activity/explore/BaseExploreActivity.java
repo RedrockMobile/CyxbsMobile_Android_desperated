@@ -27,7 +27,6 @@ import butterknife.ButterKnife;
 public abstract class BaseExploreActivity extends BaseActivity {
 
     public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
-
     private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
 
     @Bind(R.id.toolbar)

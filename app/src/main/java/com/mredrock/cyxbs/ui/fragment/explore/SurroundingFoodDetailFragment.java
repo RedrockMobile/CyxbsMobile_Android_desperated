@@ -71,7 +71,6 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     FloatingActionButton mFloatingActionButton;
 
     private String mRestaurantKey;
-
     private List<FoodComment> mComments;
     private HeaderViewRecyclerAdapter mWrapperAdapter;
     private FoodCommentsAdapter mAdapter;

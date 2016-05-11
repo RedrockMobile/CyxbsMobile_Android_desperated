@@ -11,6 +11,7 @@ import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbs.component.widget.recycler.EndlessRecyclerViewScrollListener;
 import com.mredrock.cyxbs.component.widget.recycler.RestaurantsItemAnimator;
 import com.mredrock.cyxbs.model.Food;
+import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
@@ -38,7 +39,6 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
     RecyclerView mSurroundingFoodListRv;
 
     private int[] mDrawingStartLocation;
-
     private FoodListAdapter mAdapter;
 
     public SurroundingFoodFragment() {
@@ -67,7 +67,6 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mSurroundingFoodListRv.setLayoutManager(layoutManager);
         mSurroundingFoodListRv.setItemAnimator(new RestaurantsItemAnimator());
@@ -139,7 +138,7 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
                     mAdapter.updateDataWhenPagination(foodList);
                 }
             }
-        }), String.valueOf(page));
+        }), String.valueOf(page), getResources().getString(R.string.restaurant_default_intro));
 
         mCompositeSubscription.add(subscription);
     }

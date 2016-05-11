@@ -60,6 +60,8 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
@@ -175,15 +177,20 @@ public enum RequestManager {
         return emitObservable(observable, subscriber);
     }
 
-    public Subscription getFoodList(Subscriber<List<Food>> subscriber, String page) {
+    public Subscription getFoodList(Subscriber<List<Food>> subscriber, String page, String defaultIntro) {
         Observable<List<Food>> observable = redrockApiService.getFoodList(page)
                 .map(new RedrockApiWrapperFunc<>())
+                .filter(Utils::checkNotNullAndNotEmpty)
                 .flatMap(foodList -> {
                     for (Food food : foodList) {
                         redrockApiService.getFoodDetail(food.id)
                                 .map(new RedrockApiWrapperFunc<>())
                                 .filter(foodDetail -> foodDetail != null)
-
+                                .onErrorReturn(throwable -> {
+                                    FoodDetail defaultFoodDetail = new FoodDetail();
+                                    defaultFoodDetail.shop_content = defaultIntro;
+                                    return defaultFoodDetail;
+                                })
                                 .doOnNext(foodDetail -> foodDetail.shop_content =
                                         foodDetail.shop_content
                                                 .replaceAll("\t", "")
@@ -216,7 +223,8 @@ public enum RequestManager {
                         .flatMap(foodDetail -> {
                             redrockApiService.getFoodComments(shopId, page)
                                     .map(new RedrockApiWrapperFunc<>())
-                                    .filter(foodCommentList -> Utils.checkNotNullAndNotEmpty(foodCommentList))
+                                    .filter(Utils::checkNotNullAndNotEmpty)
+                                    .onErrorReturn(throwable -> new ArrayList<FoodComment>())
                                     .flatMap(Observable::from)
                                     .toSortedList()
                                     .subscribe(foodCommentList -> {
