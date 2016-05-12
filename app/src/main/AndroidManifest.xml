@@ -90,7 +90,7 @@
         <activity android:name=".ui.activity.social.PostNewsActivity"/>
         <activity android:name=".ui.activity.LoginActivity"/>
         <activity
-            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
+            android:name=".component.multi_image_selector.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize"/>
         <activity android:name=".ui.activity.social.ImageActivity"/>
         <activity

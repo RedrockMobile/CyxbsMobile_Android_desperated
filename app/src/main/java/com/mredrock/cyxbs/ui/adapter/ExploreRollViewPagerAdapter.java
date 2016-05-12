@@ -4,10 +4,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.LoopPagerAdapter;
 import com.mredrock.cyxbs.R;
-import com.squareup.picasso.Picasso;
 
 public class ExploreRollViewPagerAdapter extends LoopPagerAdapter {
 
@@ -24,7 +24,7 @@ public class ExploreRollViewPagerAdapter extends LoopPagerAdapter {
     @Override
     public View getView(ViewGroup viewGroup, int i) {
         ImageView view = new ImageView(viewGroup.getContext());
-        Picasso.with(viewGroup.getContext()).
+        Glide.with(viewGroup.getContext()).
                 load(IMAGE_RES[i]).
                 into(view);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);

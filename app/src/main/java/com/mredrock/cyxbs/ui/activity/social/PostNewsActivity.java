@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.component.multi_image_selector.MultiImageSelectorActivity;
 import com.mredrock.cyxbs.component.widget.ninelayout.NineGridlayout;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.HotNews;
@@ -28,7 +29,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
