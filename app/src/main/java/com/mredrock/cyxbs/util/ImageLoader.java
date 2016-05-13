@@ -37,8 +37,8 @@ public class ImageLoader {
     public void loadImage(String url, ImageView imageView) {
         Glide.with(APP.getContext())
                 .load(url)
-                .placeholder(R.drawable.img_placeholder)
-                .error(R.drawable.img_placeholder)
+                .placeholder(R.drawable.place_holder)
+                .error(R.drawable.place_holder)
                 .crossFade()
                 .into(imageView);
 
@@ -48,8 +48,8 @@ public class ImageLoader {
         if (url.length() > 0) {
             Glide.with(APP.getContext())
                     .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
-                    .placeholder(R.drawable.img_placeholder)
-                    .error(R.drawable.img_placeholder)
+                    .placeholder(R.drawable.place_holder)
+                    .error(R.drawable.place_holder)
                     .crossFade()
                     .into(imageView);
 
@@ -60,8 +60,8 @@ public class ImageLoader {
     public void loadSingleImage(String url, ImageView imageView) {
         Glide.with(APP.getContext())
                 .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
-                .placeholder(new ColorDrawable(Color.parseColor("#f5f5f5")))
-                .error(R.drawable.img_placeholder)
+                .placeholder(R.drawable.place_holder)
+                .error(R.drawable.place_holder)
                 .crossFade()
                 .into(imageView);
     }
@@ -84,8 +84,8 @@ public class ImageLoader {
         Glide.with(APP.getContext())
                 .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : CustomImageView.BASE_IMG_URL + url)
                 .asBitmap()
-                .placeholder(R.drawable.img_placeholder)
-                .error(R.drawable.img_placeholder)
+                .placeholder(R.drawable.place_holder)
+                .error(R.drawable.place_holder)
                 .into(simpleTarget);
     }
 

@@ -303,8 +303,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     Context context = mImageView.getContext();
                     Glide.with(APP.getContext())
                             .load(realUrl.charAt(0) < 48 || realUrl.charAt(0) > 57 ? realUrl : CustomImageView.BASE_IMG_URL + realUrl)
-                            .placeholder(new ColorDrawable(Color.parseColor("#f5f5f5")))
-                            .error(R.drawable.img_placeholder)
+                            .placeholder(R.drawable.place_holder)
+                            .error(R.drawable.place_holder)
                             .crossFade()
                             .transform(new BitmapTransformation(context) {
                                 @Override

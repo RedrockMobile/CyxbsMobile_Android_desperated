@@ -106,7 +106,7 @@ public class CustomImageView extends ImageView {
             if (isAttachedToWindow) {
                 Glide.with(getContext())
                      .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : BASE_IMG_URL + url)
-                     .placeholder(new ColorDrawable(Color.parseColor("#f5f5f5")))
+                     .placeholder(R.drawable.place_holder)
                      .into(this);
             }
         }
