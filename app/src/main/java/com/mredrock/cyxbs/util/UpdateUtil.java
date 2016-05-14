@@ -1,7 +1,9 @@
 package com.mredrock.cyxbs.util;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.config.Config;
@@ -10,6 +12,9 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.service.UpdateService;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.tbruyelle.rxpermissions.RxPermissions;
+
+import rx.functions.Action1;
 
 /**
  * Created by cc on 16/5/8.
@@ -38,7 +43,15 @@ public class UpdateUtil {
                                                       @Override
                                                       public void onPositive(MaterialDialog dialog) {
                                                           super.onPositive(dialog);
-                                                          startDownload(updateInfo.apkURL, context);
+                                                          RxPermissions.getInstance(context)
+                                                                       .request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                                                       .subscribe(granted -> {
+                                                                           if (granted) {
+                                                                               startDownload(updateInfo.apkURL, context);
+                                                                           } else {
+                                                                               Utils.toast(context, "没有赋予权限就不能更新哦");
+                                                                           }
+                                                                       });
                                                       }
                                                   })
                                                   .cancelable(false)

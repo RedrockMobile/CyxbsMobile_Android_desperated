@@ -9,9 +9,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.util.Utils;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,23 +30,25 @@ public class UpdateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.getExtras() == null || task != null) {
+        if (intent.getExtras() == null) {
             if (task != null) {
                 task.stop();
                 task.cancel(true);
                 task = null;
+                Utils.toast(UpdateService.this, "取消更新");
             }
-            Utils.toast(UpdateService.this, "取消更新");
             return START_NOT_STICKY;
         }
         String url = intent.getExtras().getString("url");
         String filepath = intent.getExtras().getString("path");
         String filename = intent.getExtras().getString("name");
 
-        if (url != null && Utils.isNetWorkAvilable(this) && task == null) {
+        if (url != null && Utils.isNetWorkAvilable(this)) {
             createNotification();
+            task = null;
             task = new DownloadAsyncTask();
             task.execute(url, filepath, filename);
+            Utils.toast(UpdateService.this, "新版掌上重邮开始下载了...");
         }
         return START_NOT_STICKY;
     }
