@@ -29,7 +29,7 @@ public class HotNewsFragment extends BaseNewsFragment {
     protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent hotNewsContent) {
         super.setDate(holder, hotNewsContent);
 
-        if (hotNewsContent.user_id.equals("0") || hotNewsContent.type_id < 5)
+        if (hotNewsContent.user_id.equals("0") || hotNewsContent.typeId < 5)
             holder.enableAvatarClick = false;
         else holder.enableAvatarClick = true;
 

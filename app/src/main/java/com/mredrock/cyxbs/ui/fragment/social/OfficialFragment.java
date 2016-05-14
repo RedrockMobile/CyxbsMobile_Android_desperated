@@ -1,8 +1,6 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
 
-import android.util.Log;
-
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
@@ -31,8 +29,8 @@ public class OfficialFragment extends BaseNewsFragment {
     @Override
     protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent hotNewsContent) {
         super.setDate(holder, hotNewsContent);
-        holder.mTextContent.setText(hotNewsContent.content.title);
-        holder.mTextName.setText(hotNewsContent.content.getOfficeName());
+        holder.mTextContent.setText(hotNewsContent.officeNewsContent.title);
+        holder.mTextName.setText(hotNewsContent.officeNewsContent.getOfficeName());
         holder.enableAvatarClick = false;
 
 //        Log.e("----->>>", hotNewsContent.content.toString());

@@ -3,7 +3,7 @@ package com.mredrock.cyxbs.model.social;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
+import com.google.gson.annotations.SerializedName;
 import com.mredrock.cyxbs.util.TimeUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +12,31 @@ import org.apache.commons.lang3.StringUtils;
  * Created by mathiasluo on 16-5-5.
  */
 public class HotNewsContent implements Parcelable {
+
+
+    public String type;
+    public String id;
+    @SerializedName("type_id")
+    public int typeId;
+    @SerializedName("user_id")
+    public String user_id;
+    @SerializedName("nick_name")
+    public String nickName;
+    @SerializedName("user_head")
+    public String userHead;
+    @SerializedName("article_id")
+    public String articleId;
+    public String time;
+    @SerializedName("content")
+    public OfficeNewsContent officeNewsContent;
+    public ImgBean img;
+    @SerializedName("like_num")
+    public String likeNum;
+    @SerializedName("remark_num")
+    public String remarkNum;
+    @SerializedName("is_my_Like")
+    public boolean isMyLike;
+
 
     public static final Creator<HotNewsContent> CREATOR = new Creator<HotNewsContent>() {
         @Override
@@ -26,24 +51,10 @@ public class HotNewsContent implements Parcelable {
     };
 
 
-    public String getNick_name() {
-        return StringUtils.isEmpty(nick_name) ? "来自一位没有名字的同学" : nick_name;
+    public String getNickName() {
+        String name = typeId < BBDDNews.BBDD ? geTypeId() : StringUtils.isEmpty(nickName) ? "来自一位没有名字的同学" : nickName;
+        return name;
     }
-
-
-    public String type;
-    public String id;
-    public int type_id;
-    public String user_id;
-    public String nick_name;
-    public String user_head;
-    public String article_id;
-    public String time;
-    public OfficeNewsContent content;
-    public ImgBean img;
-    public String like_num;
-    public String remark_num;
-    public boolean is_my_Like;
 
 
     public String getTime() {
@@ -53,13 +64,9 @@ public class HotNewsContent implements Parcelable {
         else return "2015-01-01 00:00:00";
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String geType_id() {
+    public String geTypeId() {
         String type = "红岩网校工作站";
-        switch (type_id) {
+        switch (typeId) {
             case 1:
                 type = "重邮新闻";
                 break;
@@ -82,81 +89,72 @@ public class HotNewsContent implements Parcelable {
     }
 
 
-    public int getType() {
-        String[] urls = NewsAdapter.ViewHolder.getUrls(img.img_src);
-        int type;
-        if (urls.length > 1)
-            type = NewsAdapter.ViewHolder.TYPE_NINE_IMG;
-        else type = NewsAdapter.ViewHolder.TYPE_SINGLE_IMG;
-        return type;
-    }
-
     /**
      * img_small_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/thumbnail/1460427947_1265413131.png
      * img_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/1460427947_1265413131.png
      */
 
 
-    public HotNewsContent(String type, String id, int type_id, String user_id, String nick_name,
+    public HotNewsContent(String type, String id, int typeId, String user_id, String nick_name,
                           String user_head, String time, OfficeNewsContent content, ImgBean img, String like_num,
                           String remark_num, boolean is_my_Like, String article_id) {
         this.type = type;
         this.id = id;
-        this.type_id = type_id;
+        this.typeId = typeId;
         this.user_id = user_id;
-        this.nick_name = nick_name;
-        this.user_head = user_head;
+        this.nickName = nick_name;
+        this.userHead = user_head;
         this.time = time;
-        this.content = content;
+        this.officeNewsContent = content;
         this.img = img;
-        this.like_num = like_num;
-        this.remark_num = remark_num;
-        this.is_my_Like = is_my_Like;
-        this.article_id = article_id;
+        this.likeNum = like_num;
+        this.remarkNum = remark_num;
+        this.isMyLike = is_my_Like;
+        this.articleId = article_id;
     }
 
     public HotNewsContent(OfficeNewsContent content) {
-        this.content = content;
-        this.type = content.articletype_id;
-        this.type_id = Integer.parseInt(content.articletype_id);
-        this.nick_name = content.name;
-        this.user_head = content.head;
+        this.officeNewsContent = content;
+        this.type = content.articletypeId;
+        this.typeId = Integer.parseInt(content.articletypeId);
+        this.nickName = content.name;
+        this.userHead = content.head;
         this.time = content.date;
-        this.remark_num = content.remark_num;
+        this.remarkNum = content.remarkNum;
         this.id = content.id;
         this.img = new ImgBean("", "");
 
-        this.like_num = content.like_num;
-        this.is_my_Like = content.is_my_like;
-        this.article_id = content.id;
+        this.likeNum = content.likeNum;
+        this.isMyLike = content.isMyLike;
+        this.articleId = content.id;
     }
 
     public HotNewsContent(ImgBean img, OfficeNewsContent content) {
         this.img = img;
-        this.content = content;
-        this.type_id = BBDDNews.BBDD;
+        this.officeNewsContent = content;
+        this.typeId = BBDDNews.BBDD;
 
-        this.nick_name = Stu.STU_NAME;
+        this.nickName = Stu.STU_NAME;
         this.time = TimeUtils.getTodayDate();
-        this.like_num = "0";
-        this.remark_num = "0";
-        this.article_id = content.id;
+        this.likeNum = "0";
+        this.remarkNum = "0";
+        this.articleId = content.id;
     }
 
     protected HotNewsContent(Parcel in) {
         type = in.readString();
         id = in.readString();
-        type_id = in.readInt();
+        typeId = in.readInt();
         user_id = in.readString();
-        nick_name = in.readString();
-        user_head = in.readString();
+        nickName = in.readString();
+        userHead = in.readString();
         time = in.readString();
-        content = in.readParcelable(OfficeNewsContent.class.getClassLoader());
+        officeNewsContent = in.readParcelable(OfficeNewsContent.class.getClassLoader());
         img = in.readParcelable(ImgBean.class.getClassLoader());
-        like_num = in.readString();
-        remark_num = in.readString();
-        is_my_Like = in.readByte() != 0;
-        article_id = in.readString();
+        likeNum = in.readString();
+        remarkNum = in.readString();
+        isMyLike = in.readByte() != 0;
+        articleId = in.readString();
     }
 
 
@@ -169,24 +167,26 @@ public class HotNewsContent implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(type);
         parcel.writeString(id);
-        parcel.writeInt(type_id);
+        parcel.writeInt(typeId);
         parcel.writeString(user_id);
-        parcel.writeString(nick_name);
-        parcel.writeString(user_head);
+        parcel.writeString(nickName);
+        parcel.writeString(userHead);
         parcel.writeString(time);
-        parcel.writeParcelable(content, i);
+        parcel.writeParcelable(officeNewsContent, i);
         parcel.writeParcelable(img, i);
-        parcel.writeString(like_num);
-        parcel.writeString(remark_num);
-        parcel.writeByte((byte) (is_my_Like ? 1 : 0));
-        parcel.writeString(article_id);
+        parcel.writeString(likeNum);
+        parcel.writeString(remarkNum);
+        parcel.writeByte((byte) (isMyLike ? 1 : 0));
+        parcel.writeString(articleId);
     }
 
 
     public static class ImgBean implements Parcelable {
 
-        public String img_small_src;
-        public String img_src;
+        @SerializedName("img_small_src")
+        public String smallImg;
+        @SerializedName("img_src")
+        public String normalImg;
 
         public static final Creator<ImgBean> CREATOR = new Creator<ImgBean>() {
             @Override
@@ -200,15 +200,14 @@ public class HotNewsContent implements Parcelable {
             }
         };
 
-
-        public ImgBean(String img_small_src, String img_src) {
-            this.img_small_src = img_small_src;
-            this.img_src = img_src;
+        public ImgBean(String smallImg, String normalImg) {
+            this.smallImg = smallImg;
+            this.normalImg = normalImg;
         }
 
         protected ImgBean(Parcel in) {
-            img_small_src = in.readString();
-            img_src = in.readString();
+            smallImg = in.readString();
+            normalImg = in.readString();
         }
 
 
@@ -219,8 +218,8 @@ public class HotNewsContent implements Parcelable {
 
         @Override
         public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeString(img_small_src);
-            parcel.writeString(img_src);
+            parcel.writeString(smallImg);
+            parcel.writeString(normalImg);
         }
     }
 

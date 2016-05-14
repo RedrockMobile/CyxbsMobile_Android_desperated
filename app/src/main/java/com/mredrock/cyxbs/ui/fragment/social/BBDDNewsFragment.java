@@ -34,9 +34,11 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     @Override
     protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent hotNewsContent) {
         super.setDate(holder, hotNewsContent);
-        if (hotNewsContent.user_id.equals("0") || hotNewsContent.type_id < 5)
+        if (hotNewsContent.user_id.equals("0") || hotNewsContent.typeId < 5) {
             holder.enableAvatarClick = false;
-        else holder.enableAvatarClick = true;
+        } else {
+            holder.enableAvatarClick = true;
+        }
     }
 
     @Override
@@ -54,16 +56,13 @@ public class BBDDNewsFragment extends BaseNewsFragment {
                     //mNewsAdapter.addToFirst(s);
                     getCurrentData(BaseNewsFragment.PER_PAGE_NUM, BaseNewsFragment.FIRST_PAGE_INDEX, true);
                     mRecyclerView.scrollToPosition(0);
-
-                }, throwable -> {
-
                 });
     }
 
     private void unregisterObservable() {
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) {
+        if (mSubscription != null && !mSubscription.isUnsubscribed())
             mSubscription.unsubscribe();
-        }
+
     }
 
     @Override

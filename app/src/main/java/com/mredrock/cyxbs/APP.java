@@ -22,7 +22,7 @@ import im.fir.sdk.FIR;
  */
 public class APP extends Application {
     private static Context context;
-    private static User    mUser;
+    private static User mUser;
     private static boolean login;
 
     public static Context getContext() {

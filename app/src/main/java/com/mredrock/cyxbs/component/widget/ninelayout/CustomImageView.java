@@ -8,8 +8,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -27,11 +25,13 @@ import com.mredrock.cyxbs.util.DensityUtils;
 public class CustomImageView extends ImageView {
 
 
-    private String                 url;
-    private boolean                isAttachedToWindow;
-    private OnClickDelecteListener onClickDelecteListener;
-    private int                    type;
-    public static final String BASE_IMG_URL = "http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/";
+    public static final String BASE_NORMAL_IMG_URL = "http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/";
+    public static final String BASE_THUMBNAIL_IMG_URL = BASE_NORMAL_IMG_URL + "/thumbnail";
+
+    private String url;
+    private boolean isAttachedToWindow;
+    private OnClickDeleteListener onClickDeleteListener;
+    private int type;
 
 
     public CustomImageView(Context context, AttributeSet attrs) {
@@ -67,17 +67,13 @@ public class CustomImageView extends ImageView {
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
-              /*  Drawable drawableUp = getDrawable();
-                if (drawableUp != null) {
-                    drawableUp.mutate().clearColorFilter();
-                }*/
                 int x = (int) event.getX();
                 int y = (int) event.getY();
                 int w = DensityUtils.dp2px(getContext(), 18);
 
                 if (x > getWidth() - 2 * w && y < 2 * w) {
-                    if (onClickDelecteListener != null && type == Image.TYPE_NORMAL)
-                        onClickDelecteListener.onClickDelect(this);
+                    if (onClickDeleteListener != null && type == Image.TYPE_NORMAL)
+                        onClickDeleteListener.onClickDelete(this);
                 }
                 break;
         }
@@ -105,9 +101,9 @@ public class CustomImageView extends ImageView {
             this.url = url;
             if (isAttachedToWindow) {
                 Glide.with(getContext())
-                     .load(url.charAt(0) < 48 || url.charAt(0) > 57 ? url : BASE_IMG_URL + url)
-                     .placeholder(R.drawable.place_holder)
-                     .into(this);
+                        .load(url.startsWith("http") ? url : BASE_THUMBNAIL_IMG_URL + url)
+                        .placeholder(R.drawable.place_holder)
+                        .into(this);
             }
         }
     }
@@ -117,18 +113,16 @@ public class CustomImageView extends ImageView {
         super.onDraw(canvas);
         if (type == Image.TYPE_NORMAL) {
             int w = canvas.getWidth();
-            //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_news_cancel);
             Bitmap bitmapBack = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete);
             canvas.drawBitmap(bitmapBack, w - DensityUtils.dp2px(getContext(), 22), 0, null);
-           // canvas.drawBitmap(bitmapBack, w - DensityUtils.dp2px(getContext(), 42), 0, null);
         }
     }
 
-    public void setOnClickDelecteLIstener(OnClickDelecteListener onClickDelecteListener) {
-        this.onClickDelecteListener = onClickDelecteListener;
+    public void setOnClickDeleteListener(OnClickDeleteListener onClickDeleteListener) {
+        this.onClickDeleteListener = onClickDeleteListener;
     }
 
-    public interface OnClickDelecteListener {
-        void onClickDelect(View v);
+    public interface OnClickDeleteListener {
+        void onClickDelete(View v);
     }
 }

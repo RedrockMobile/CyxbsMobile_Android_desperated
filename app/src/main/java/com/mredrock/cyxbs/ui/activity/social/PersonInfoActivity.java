@@ -51,6 +51,8 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
     @Bind(R.id.mToolbar)
     Toolbar mToolbar;
+    @Bind(R.id.recyclerView)
+    RecyclerView mRecyclerView;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -58,8 +60,6 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     private String mNickName;
     private String mUserId;
 
-    @Bind(R.id.recyclerView)
-    RecyclerView mRecyclerView;
 
     private List<HotNews> mHotNewsList = null;
     private BaseNewsFragment.FooterViewWrapper mFooterViewWrapper;
@@ -91,17 +91,15 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
         mSwipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
-                ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
-        );
+                ContextCompat.getColor(APP.getContext(), R.color.colorPrimary));
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mHeaderViewWrapper.setData(mUserAvatar, mNickName);
-
         requestData();
     }
 
     private void requestData() {
         RequestManager.getInstance().getPersonInfo(mUserId)
-                .doOnSubscribe(() -> showLaoding())
+                .doOnSubscribe(() -> showLoading())
                 .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
                 .subscribe(new SimpleSubscriber<>(this, new SubscriberListener<PersonInfo>() {
                     @Override
@@ -116,7 +114,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
                     if (mHotNewsList == null) {
                         initAdapter(newses);
                         if (newses.size() == 0) mFooterViewWrapper.showLoadingNoData();
-                    } else mNewsAdapter.replaceDatas(newses);
+                    } else mNewsAdapter.replaceDataList(newses);
                     closeLoading();
                 }, throwable -> {
                     closeLoading();
@@ -156,7 +154,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
 
     private void initToolbar() {
-        mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(view -> PersonInfoActivity.this.finish());
@@ -175,7 +173,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
         requestData();
     }
 
-    private void showLaoding() {
+    private void showLoading() {
         if (!mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(true);
     }
 
@@ -199,7 +197,6 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
         TextView mTextIntroduction;
         @Bind(R.id.person_info_gender)
         TextView mTextGender;
-
 
         public HeaderViewWrapper(Context context, int layoutId) {
             view = LayoutInflater.from(context).inflate(layoutId, null, false);
