@@ -11,7 +11,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 29
-        versionName "社区版 beta"
+        versionName "社区版"
     }
 
     compileOptions {
