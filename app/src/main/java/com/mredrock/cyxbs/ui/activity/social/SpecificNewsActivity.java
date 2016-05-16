@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -117,13 +116,13 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
         if (hotNewsContent != null) {
             mHotNewsContent = hotNewsContent;
-            mHotNewsContent.content.content = mHotNewsContent.content.content.replace("\\n", "\n");
-            mWrapView.setData(mHotNewsContent, true, hotNewsContent.getType());
+            mHotNewsContent.officeNewsContent.content = mHotNewsContent.officeNewsContent.content.replace("\\n", "\n");
+            mWrapView.setData(mHotNewsContent, true);
 
             if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
-            mWrapView.mTextContent.setText(mHotNewsContent.content.content);
-            if (mHotNewsContent.type_id < BBDDNews.BBDD || (mHotNewsContent.type_id == 6 && mHotNewsContent.user_id == null))
-                doWithNews(mWrapView, mHotNewsContent.content);
+            mWrapView.mTextContent.setText(mHotNewsContent.officeNewsContent.content);
+            if (mHotNewsContent.typeId < BBDDNews.BBDD || (mHotNewsContent.typeId == 6 && mHotNewsContent.user_id == null))
+                doWithNews(mWrapView, mHotNewsContent.officeNewsContent);
             requestComments();
         } else getDataBeanById(article_id);
 
@@ -154,14 +153,14 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private void doWithNews(NewsAdapter.ViewHolder mWrapView, OfficeNewsContent bean) {
 
-        mWrapView.mTextContent.setText(Html.fromHtml(mHotNewsContent.content != null ? mHotNewsContent.content.content : ""));
+        mWrapView.mTextContent.setText(Html.fromHtml(mHotNewsContent.officeNewsContent != null ? mHotNewsContent.officeNewsContent.content : ""));
         mWrapView.mTextName.setText(bean.getOfficeName());
-        mWrapView.mTextView_ex.setVisibility(View.INVISIBLE);
+        mWrapView.mTextViewEx.setVisibility(View.INVISIBLE);
         mWrapView.mImgAvatar.setImageResource(R.drawable.ic_official_notification);
 
 
-        if (StringUtils.startsWith(mHotNewsContent.content.content, "<div"))
-            mWrapView.mTextContent.setText(mHotNewsContent.content.title);
+        if (StringUtils.startsWith(mHotNewsContent.officeNewsContent.content, "<div"))
+            mWrapView.mTextContent.setText(mHotNewsContent.officeNewsContent.title);
         if (bean.address != null && !bean.address.equals("")) {
             mTextDown.setVisibility(View.VISIBLE);
             String[] address = bean.address.split("\\|");
@@ -197,7 +196,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private void requestComments() {
         RequestManager.getInstance()
-                .getRemarks(mHotNewsContent.article_id, mHotNewsContent.type_id)
+                .getRemarks(mHotNewsContent.articleId, mHotNewsContent.typeId)
                 .doOnSubscribe(() -> showLoadingProgress())
                 .subscribe(reMarks -> {
                     mListComments = reMarks;
@@ -226,7 +225,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     }
 
     private void initToolbar() {
-        mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
         mToolbar.setTitle("");
         mToolBarTitle.setText(getString(R.string.specific_news_title));
         setSupportActionBar(mToolbar);
@@ -245,7 +244,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                     .show();
         else
             RequestManager.getInstance()
-                    .postReMarks(mHotNewsContent.id, mHotNewsContent.type_id, mNewsEdtComment.getText()
+                    .postReMarks(mHotNewsContent.id, mHotNewsContent.typeId, mNewsEdtComment.getText()
                             .toString())
                     .doOnSubscribe(() -> showLoadingProgress())
                     .subscribe(new SimpleSubscriber<String>(this, false, false, new SubscriberListener<String>() {
@@ -259,7 +258,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
                             String msgNumber = Integer.parseInt(mWrapView.mBtnMsg.getText().toString()) + 1 + "";
                             mWrapView.mBtnMsg.setText(msgNumber);
-                            mHotNewsContent.remark_num = msgNumber;
+                            mHotNewsContent.remarkNum = msgNumber;
                             RxBus.getDefault().post(mHotNewsContent);
                         }
 
@@ -282,14 +281,14 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private void getDataBeanById(String article_id) {
         RequestManager.getInstance().getTrendDetail(Stu.STU_NUM, Stu.ID_NUM,
-                mHotNewsContent == null ? BBDDNews.BBDD : mHotNewsContent.type_id,
+                mHotNewsContent == null ? BBDDNews.BBDD : mHotNewsContent.typeId,
                 article_id)
                 .subscribe(newses -> {
                     if (newses != null && newses.size() > 0) {
                         mHotNewsContent = newses.get(0).data;
-                        mHotNewsContent.user_head = APP.getUser(SpecificNewsActivity.this).photo_thumbnail_src;
-                        mHotNewsContent.nick_name = APP.getUser(SpecificNewsActivity.this).nickname;
-                        mWrapView.setData(mHotNewsContent, true, mHotNewsContent.getType());
+                        mHotNewsContent.userHead = APP.getUser(SpecificNewsActivity.this).photo_thumbnail_src;
+                        mHotNewsContent.nickName = APP.getUser(SpecificNewsActivity.this).nickname;
+                        mWrapView.setData(mHotNewsContent, true);
                         if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
                         requestComments();
                     }

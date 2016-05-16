@@ -3,6 +3,8 @@ package com.mredrock.cyxbs.model.social;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -14,22 +16,27 @@ public class OfficeNewsContent implements Parcelable {
     public String title;
     public String date;
     public String content;
-    public String articletype_id;
     public String name;
     public String address;
-    public String articleid;
     public String read;
     public String head;
     public String unit;
-    public String remark_num;
-    public String like_num;
-    public boolean is_my_like;
+    @SerializedName("articletype_id")
+    public String articletypeId;
+    @SerializedName("articleid")
+    public String articleId;
+    @SerializedName("like_num")
+    public String likeNum;
+    @SerializedName("remark_num")
+    public String remarkNum;
+    @SerializedName("is_my_like")
+    public boolean isMyLike;
 
     public String getOfficeName() {
         int typeId = 0;
         String type = "红岩网校工作站";
-        if (StringUtils.isNotBlank(articletype_id)) {
-            typeId = Integer.parseInt(articletype_id);
+        if (StringUtils.isNotBlank(articletypeId)) {
+            typeId = Integer.parseInt(articletypeId);
             switch (typeId) {
                 case 1:
                     type = "重邮新闻";
@@ -53,6 +60,8 @@ public class OfficeNewsContent implements Parcelable {
         return type;
     }
 
+
+
     public OfficeNewsContent(String content) {
         this.content = content;
     }
@@ -75,16 +84,16 @@ public class OfficeNewsContent implements Parcelable {
         title = in.readString();
         date = in.readString();
         content = in.readString();
-        articletype_id = in.readString();
+        articletypeId = in.readString();
         name = in.readString();
         address = in.readString();
-        articleid = in.readString();
+        articleId = in.readString();
         read = in.readString();
         head = in.readString();
         unit = in.readString();
-        remark_num = in.readString();
-        like_num = in.readString();
-        is_my_like = in.readByte() != 0;
+        remarkNum = in.readString();
+        likeNum = in.readString();
+        isMyLike = in.readByte() != 0;
     }
 
     public static Creator<OfficeNewsContent> getCREATOR() {
@@ -103,16 +112,16 @@ public class OfficeNewsContent implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(date);
         parcel.writeString(content);
-        parcel.writeString(articletype_id);
+        parcel.writeString(articletypeId);
         parcel.writeString(name);
         parcel.writeString(address);
-        parcel.writeString(articleid);
+        parcel.writeString(articleId);
         parcel.writeString(read);
         parcel.writeString(head);
         parcel.writeString(unit);
-        parcel.writeString(remark_num);
-        parcel.writeString(like_num);
-        parcel.writeByte((byte) (is_my_like ? 1 : 0));
+        parcel.writeString(remarkNum);
+        parcel.writeString(likeNum);
+        parcel.writeByte((byte) (isMyLike ? 1 : 0));
     }
 
     @Override
@@ -123,15 +132,15 @@ public class OfficeNewsContent implements Parcelable {
                 ", title='" + title + '\'' +
                 ", date='" + date + '\'' +
                 ", content='" + content + '\'' +
-                ", articletype_id='" + articletype_id + '\'' +
+                ", articletype_id='" + articletypeId + '\'' +
                 ", name='" + name + '\'' +
-                ", articleid='" + articleid + '\'' +
+                ", articleid='" + articleId + '\'' +
                 ", read='" + read + '\'' +
                 ", head='" + head + '\'' +
                 ", unit='" + unit + '\'' +
-                ", remark_num='" + remark_num + '\'' +
-                ", like_num='" + like_num + '\'' +
-                ", is_my_like=" + is_my_like +
+                ", remark_num='" + remarkNum + '\'' +
+                ", like_num='" + likeNum + '\'' +
+                ", is_my_like=" + isMyLike +
                 '}';
     }
 }

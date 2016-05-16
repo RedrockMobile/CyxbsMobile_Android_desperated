@@ -117,8 +117,8 @@ public class MyTrendActivity extends BaseActivity
                     .getMyTrend(mUser.stuNum, mUser.idNum)
                     .map(hotNewses -> {
                         for (HotNews h : hotNewses) {
-                            h.data.nick_name = mUser.getNickname();
-                            h.data.user_head = mUser.photo_thumbnail_src;
+                            h.data.nickName = mUser.getNickname();
+                            h.data.userHead = mUser.photo_thumbnail_src;
                         }
                         return hotNewses;
                     })

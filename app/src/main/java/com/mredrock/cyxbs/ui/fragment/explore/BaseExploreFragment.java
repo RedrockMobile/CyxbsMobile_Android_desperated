@@ -51,7 +51,7 @@ abstract class BaseExploreFragment extends BaseFragment
         super.onActivityCreated(savedInstanceState);
 
         mCompositeSubscription = new CompositeSubscription();
-        mGlideHelper = new GlideHelper(getActivity(), R.drawable.img_placeholder);
+        mGlideHelper = new GlideHelper(getActivity(), R.drawable.place_holder);
 
         trySetupSwipeRefreshLayout();
     }

@@ -9,9 +9,9 @@ android {
     defaultConfig {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
-        targetSdkVersion 22
-        versionCode 28
-        versionName "社区版 beta"
+        targetSdkVersion 23
+        versionCode 29
+        versionName "社区版"
     }
 
     compileOptions {
@@ -129,6 +129,7 @@ dependencies {
     compile("com.github.VictorAlbertos:RxCache:1.3.4") {
         exclude module: 'guava'
     }
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     compile 'com.github.traex.rippleeffect:library:1.3'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'com.ms-square:expandableTextView:0.1.4'

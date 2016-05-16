@@ -30,9 +30,9 @@ public class NineGridlayout extends ViewGroup {
     protected int rows;//
     protected List listData;
     protected int totalWidth;
-    protected OnAddImagItemClickListener mOnAddImagItemClickListener;
-    protected OnNormalImagItemClickListener mOnNormalImagItemClickListener;
-    protected OnClickDeletecteListener mOnClickDeletecteListener;
+    protected OnAddImageItemClickListener onAddImageItemClickListener;
+    protected OnNormalImageItemClickListener mOnNormalImageItemClickListener;
+    protected OnClickDeleteListener mOnClickDeleteListener;
 
     public NineGridlayout(Context context) {
         super(context);
@@ -44,8 +44,8 @@ public class NineGridlayout extends ViewGroup {
         totalWidth = screenTools.getScreenWidth() - screenTools.dip2px(32);
     }
 
-    public void setmOnClickDeletecteListener(OnClickDeletecteListener mOnClickDeletecteListener) {
-        this.mOnClickDeletecteListener = mOnClickDeletecteListener;
+    public void setmOnClickDeletecteListener(OnClickDeleteListener onClickDeleteListener) {
+        this.mOnClickDeleteListener = onClickDeleteListener;
     }
 
     @Override
@@ -54,16 +54,16 @@ public class NineGridlayout extends ViewGroup {
     }
 
 
-    public void setOnAddImagItemClickListener(OnAddImagItemClickListener mOnAddImagItemClickListener) {
-        this.mOnAddImagItemClickListener = mOnAddImagItemClickListener;
+    public void setOnAddImagItemClickListener(OnAddImageItemClickListener onAddImagItemClickListener) {
+        this.onAddImageItemClickListener = onAddImagItemClickListener;
     }
 
-    public OnNormalImagItemClickListener getOnNormalImagItemClickListener() {
-        return mOnNormalImagItemClickListener;
+    public OnNormalImageItemClickListener getOnNormalImagItemClickListener() {
+        return mOnNormalImageItemClickListener;
     }
 
-    public void setOnNormalImagItemClickListener(OnNormalImagItemClickListener mOnNormalImagItemClickListener) {
-        this.mOnNormalImagItemClickListener = mOnNormalImagItemClickListener;
+    public void setOnNormalImagItemClickListener(OnNormalImageItemClickListener onNormalImageItemClickListener) {
+        this.mOnNormalImageItemClickListener = onNormalImageItemClickListener;
     }
 
     @Override
@@ -89,12 +89,12 @@ public class NineGridlayout extends ViewGroup {
             final int finalI1 = i;
             childrenView.setOnClickListener(view -> {
                 if (((Image) listData.get(finalI)).getType() == Image.TYPE_ADD)
-                    if (mOnAddImagItemClickListener != null)
-                        mOnAddImagItemClickListener.onClick(view, finalI);
-                    else if (mOnNormalImagItemClickListener != null)
-                        mOnNormalImagItemClickListener.onClick(view, finalI1);
+                    if (onAddImageItemClickListener != null)
+                        onAddImageItemClickListener.onClick(view, finalI);
+                    else if (mOnNormalImageItemClickListener != null)
+                        mOnNormalImageItemClickListener.onClick(view, finalI1);
             });
-            childrenView.setOnClickDelecteLIstener(v -> mOnClickDeletecteListener.onClickDelete(v, finalI));
+            childrenView.setOnClickDeleteListener(v -> mOnClickDeleteListener.onClickDelete(v, finalI));
             childrenView.setImageUrl(((Image) listData.get(i)).url);
 
             childrenView.setType(((Image) listData.get(i)).getType());
@@ -141,7 +141,6 @@ public class NineGridlayout extends ViewGroup {
         //初始化布局
         generateChildrenLayout(lists.size());
 
-
         //这里做一个重用view的处理
         /*  if (listData == null) {
             int i = 0;
@@ -162,7 +161,6 @@ public class NineGridlayout extends ViewGroup {
                 }
             }
         }*/
-
 
         removeAllViews();
         int i = 0;
@@ -216,15 +214,15 @@ public class NineGridlayout extends ViewGroup {
         return iv;
     }
 
-    public interface OnNormalImagItemClickListener {
+    public interface OnNormalImageItemClickListener {
         void onClick(View v, int position);
     }
 
-    public interface OnAddImagItemClickListener {
+    public interface OnAddImageItemClickListener {
         void onClick(View v, int position);
     }
 
-    public interface OnClickDeletecteListener {
+    public interface OnClickDeleteListener {
         void onClickDelete(View v, int position);
     }
 }

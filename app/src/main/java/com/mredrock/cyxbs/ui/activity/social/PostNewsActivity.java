@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.ui.activity.social;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.component.multi_image_selector.MultiImageSelectorActivity;
 import com.mredrock.cyxbs.component.widget.ninelayout.NineGridlayout;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.HotNews;
@@ -22,35 +24,38 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.RxBus;
+import com.mredrock.cyxbs.util.Utils;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
 public class PostNewsActivity extends BaseActivity implements View.OnClickListener {
 
 
-    public static final String TAG = "PostNewsActivity";
-    private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
-    private final static int REQUEST_IMAGE = 0001;
+    public static final  String TAG           = "PostNewsActivity";
+    private final static String ADD_IMG       = "file:///android_asset/add_news.jpg";
+    private final static int    REQUEST_IMAGE = 0001;
     @Bind(R.id.toolbar_cancel)
-    TextView mCancelText;
+    TextView       mCancelText;
     @Bind(R.id.toolbar_title)
-    TextView mTitleText;
+    TextView       mTitleText;
     @Bind(R.id.toolbar_save)
-    TextView mSaveText;
+    TextView       mSaveText;
     @Bind(R.id.toolbar)
-    Toolbar mToolBar;
+    Toolbar        mToolBar;
     @Bind(R.id.add_news_edit)
-    EditText mAddNewsEdit;
+    EditText       mAddNewsEdit;
     @Bind(R.id.iv_ngrid_layout)
     NineGridlayout mNineGridlayout;
     private List<Image> mImgList;
+
+    private boolean isGranted = false;
 
 
     public static final void startActivity(Context context) {
@@ -86,15 +91,26 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
 
 
         mNineGridlayout.setOnAddImagItemClickListener((v, position) -> {
-            Intent intent = new Intent(PostNewsActivity.this, MultiImageSelectorActivity.class);
-            // 是否显示调用相机拍照
-            intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
-            // 最大图片选择数量
-            intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 9);
-            // 设置模式 (支持 单选/MultiImageSelectorActivity.MODE_SINGLE 或者 多选/MultiImageSelectorActivity.MODE_MULTI)
-            intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
-            // 默认选择图片,回填选项(支持String ArrayList)
-            startActivityForResult(intent, REQUEST_IMAGE);
+            RxPermissions.getInstance(this)
+                         .request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                         .subscribe(granted -> {
+                             if (granted) {
+                                 // All requested permissions are granted
+
+                                 Intent intent = new Intent(PostNewsActivity.this, MultiImageSelectorActivity.class);
+                                 // 是否显示调用相机拍照
+                                 intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
+                                 // 最大图片选择数量
+                                 intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 9);
+                                 // 设置模式 (支持 单选/MultiImageSelectorActivity.MODE_SINGLE 或者 多选/MultiImageSelectorActivity.MODE_MULTI)
+                                 intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
+                                 // 默认选择图片,回填选项(支持String ArrayList)
+                                 startActivityForResult(intent, REQUEST_IMAGE);
+                             } else {
+                                 // At least one permission is denied
+                                 Utils.toast(this, "没有赋予权限哦");
+                             }
+                         });
         });
 
         mNineGridlayout.setmOnClickDeletecteListener((v, position) -> {
@@ -120,7 +136,8 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     private void sendDynamic(String title, String content, int type) {
 
         if (content == null || content.equals("")) {
-            Toast.makeText(PostNewsActivity.this, getString(R.string.noContent), Toast.LENGTH_SHORT).show();
+            Toast.makeText(PostNewsActivity.this, getString(R.string.noContent), Toast.LENGTH_SHORT)
+                 .show();
             return;
         }
         Observable<String> observable;
@@ -145,31 +162,32 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
        /* final String[] photoSrc = {""};
         final String[] thumbnailSrc = {""};*/
         return Observable.from(currentImgs)
-                .observeOn(Schedulers.io())
-                .map(image -> image.url)
-                .flatMap(url -> {
-                    Log.i(TAG + "url--->>>", url);
-                    return RequestManager.getInstance().uploadNewsImg(Stu.STU_NUM, url);
-                })
-                .buffer(currentImgs.size())
-                .flatMap(responseList -> {
-                    String tUrl = "";
-                    String pUrl = "";
-                    for (UploadImgResponse.Response response : responseList) {
-                        pUrl += response.photosrc.split("/")[6] + ",";
-                        tUrl += response.thumbnail_src.split("/")[7] + ",";
-                    }
-                    pUrl = pUrl.substring(0, pUrl.length() - 1);
-                    tUrl = tUrl.substring(0, tUrl.length() - 1);
-                    Log.i("----->>>pUrl",pUrl);
-                    Log.i("----->>>tUrl",tUrl);
-                    return RequestManager.getInstance().sendDynamic(type, title, content, tUrl, pUrl);
-                });
+                         .observeOn(Schedulers.io())
+                         .map(image -> image.url)
+                         .flatMap(url -> {
+                             Log.i(TAG + "url--->>>", url);
+                             return RequestManager.getInstance().uploadNewsImg(Stu.STU_NUM, url);
+                         })
+                         .buffer(currentImgs.size())
+                         .flatMap(responseList -> {
+                             String tUrl = "";
+                             String pUrl = "";
+                             for (UploadImgResponse.Response response : responseList) {
+                                 pUrl += response.photosrc.split("/")[6] + ",";
+                                 tUrl += response.thumbnail_src.split("/")[7] + ",";
+                             }
+                             pUrl = pUrl.substring(0, pUrl.length() - 1);
+                             tUrl = tUrl.substring(0, tUrl.length() - 1);
+                             Log.i("----->>>pUrl", pUrl);
+                             Log.i("----->>>tUrl", tUrl);
+                             return RequestManager.getInstance()
+                                                  .sendDynamic(type, title, content, tUrl, pUrl);
+                         });
     }
 
     private Observable<String> uploadWithoutImg(String title, String content, int type) {
         return RequestManager.getInstance()
-                .sendDynamic(type, title, content, " ", " ");
+                             .sendDynamic(type, title, content, " ", " ");
     }
 
     @Override
@@ -193,18 +211,18 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
 
 
                 Observable.from(pathList)
-                        .map(s -> new Image(s, Image.TYPE_NORMAL))
-                        .map(image -> {
-                            mImgList.add(image);
-                            return mImgList;
-                        })
-                        .subscribe(new SimpleSubscriber<>(this, new SubscriberListener<List<Image>>() {
-                            @Override
-                            public void onNext(List<Image> list) {
-                                super.onNext(list);
-                                mNineGridlayout.setImagesData(list);
-                            }
-                        }));
+                          .map(s -> new Image(s, Image.TYPE_NORMAL))
+                          .map(image -> {
+                              mImgList.add(image);
+                              return mImgList;
+                          })
+                          .subscribe(new SimpleSubscriber<>(this, new SubscriberListener<List<Image>>() {
+                              @Override
+                              public void onNext(List<Image> list) {
+                                  super.onNext(list);
+                                  mNineGridlayout.setImagesData(list);
+                              }
+                          }));
 
             }
         }

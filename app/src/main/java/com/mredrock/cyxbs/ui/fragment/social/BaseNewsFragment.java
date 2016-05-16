@@ -138,7 +138,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                     if (mListHotNews == null) {
                         initAdapter(newses);
                         if (newses.size() == 0) mFooterViewWrapper.showLoadingNoData();
-                    } else mNewsAdapter.replaceDatas(newses);
+                    } else mNewsAdapter.replaceDataList(newses);
                     Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
                     closeLoadingProgress();
                 }, throwable -> {
@@ -183,7 +183,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                                 mFooterViewWrapper.showLoadingNoMoreData();
                                 return;
                             }
-                            mNewsAdapter.addDatas(newses);
+                            mNewsAdapter.addDataList(newses);
                             Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
                         },
                         throwable -> {

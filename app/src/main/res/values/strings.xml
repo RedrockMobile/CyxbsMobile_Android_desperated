@@ -1,5 +1,6 @@
 <resources>
     <string name="cyxbsmobile">掌上重邮</string>
+    <string name="app_name">掌上重邮</string>
     <string name="action_settings">Setting</string>
     <string name="community">社区</string>
     <string name="course">课表</string>
@@ -232,4 +233,12 @@
     <string name="person_info">详细资料</string>
     <string name="latest">近期动态</string>
 
+    <!--multi image selector-->
+    <string name="folder_all">所有照片</string>
+    <string name="preview">预览</string>
+    <string name="msg_no_camera">没有系统相机</string>
+    <string name="msg_amount_limit">已经达到最高选择数量</string>
+    <string name="action_done">完成</string>
+    <string name="photo_unit">张</string>
+    <string name="tip_take_photo">拍摄照片</string>
 </resources>
