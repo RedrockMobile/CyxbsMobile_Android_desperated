@@ -10,6 +10,10 @@ import com.mredrock.cyxbs.ui.fragment.explore.SurroundingFoodFragment;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
 /**
  * Created by Stormouble on 16/4/16.
  */
@@ -40,20 +44,7 @@ public class SurroundingFoodActivity extends BaseExploreActivity {
         } else {
             tryHandleMultiFragmentRestored(savedInstanceState);
         }
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                tryHandleMultiFragmentBack();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        tryHandleMultiFragmentBack();
+        overridePendingTransition(0, 0);
     }
 }

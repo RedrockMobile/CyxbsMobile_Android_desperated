@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.RevealBackgroundView;
@@ -70,14 +71,10 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mSurroundingFoodListRv.setLayoutManager(layoutManager);
         mSurroundingFoodListRv.setItemAnimator(new RestaurantsItemAnimator());
-        mSurroundingFoodListRv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.HORIZONTAL));
         mAdapter = new FoodListAdapter(getActivity(), new ArrayList<Food>());
         mAdapter.setOnItemClickListener((parent, view, position, id) -> {
-            int[] startLocation = new int[2];
-            view.getLocationOnScreen(startLocation);
-            startLocation[0] += view.getWidth() / 2;
             UIUtils.startAnotherFragment(SurroundingFoodFragment.this.getFragmentManager(), SurroundingFoodFragment.this,
-                    SurroundingFoodDetailFragment.newInstance(mAdapter.getItem(position).id, startLocation),
+                    SurroundingFoodDetailFragment.newInstance(mAdapter.getItem(position).id),
                     R.id.surrounding_food_contentFrame);
         });
         mSurroundingFoodListRv.setAdapter(mAdapter);
@@ -92,11 +89,11 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
         enableRevealBackground(mRevealBackground, mDrawingStartLocation,
                 savedInstanceState, state -> {
             if (RevealBackgroundView.STATE_FINISHED == state) {
-                onMainContentVisibleChanged(true);
+                mSurroundingFoodListRv.setVisibility(View.VISIBLE);
 
                 loadFoodList(1, true);
             } else {
-                onMainContentVisibleChanged(false);
+                mSurroundingFoodListRv.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -121,13 +118,13 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
             @Override
             public void onCompleted() {
                 onRefreshingStateChanged(false);
-                onErrorLayoutVisibleChanged(false);
+                onErrorLayoutVisibleChanged(mSurroundingFoodListRv, false);
             }
 
             @Override
             public void onError(Throwable e) {
                 onRefreshingStateChanged(false);
-                onErrorLayoutVisibleChanged(true);
+                onErrorLayoutVisibleChanged(mSurroundingFoodListRv, true);
             }
 
             @Override

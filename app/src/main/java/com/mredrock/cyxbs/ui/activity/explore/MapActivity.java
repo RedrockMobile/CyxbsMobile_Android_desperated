@@ -9,7 +9,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,6 +32,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.MapHelper;
 import com.mredrock.cyxbs.util.NetUtils;
 import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
@@ -39,7 +44,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MapActivity extends AppCompatActivity
+public class MapActivity extends BaseExploreActivity
         implements AMap.OnMarkerClickListener, EasyPermissions.PermissionCallbacks {
 
     private static final int RC_STORAGE = 123;
@@ -87,6 +92,8 @@ public class MapActivity extends AppCompatActivity
 
         mMapHelper = new MapHelper(this, mHandler);
         startLoading();
+
+        overridePendingTransition(0, 0);
     }
 
     private void setupMap() {
@@ -137,13 +144,18 @@ public class MapActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         mMapView.onPause();
-
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mMapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
     }
 
     @Override

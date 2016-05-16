@@ -164,6 +164,7 @@ public enum RequestManager {
                         return wrapper.data;
                     }
                 })
+                .filter(Utils::checkNotNullAndNotEmpty)
                 .flatMap(urlList -> Observable.just(urlList.get(0)));
 
 
@@ -252,11 +253,12 @@ public enum RequestManager {
         Observable<List<FoodComment>> foodCommentObservable =
                 redrockApiService.getFoodComments(shopId, "1")
                         .map(new RedrockApiWrapperFunc<>())
-                        .filter(foodCommentList -> Utils.checkNotNullAndNotEmpty(foodCommentList))
+                        .filter(Utils::checkNotNullAndNotEmpty)
                         .flatMap(Observable::from)
                         .toSortedList();
 
-        Observable<List<FoodComment>> observable = Observable.zip(sendObservable, foodCommentObservable,
+        Observable<List<FoodComment>> observable =
+                Observable.zip(sendObservable, foodCommentObservable,
                 (wrapper, foodCommentList) -> {
                     if (wrapper.status == Const.REDROCK_API_STATUS_SUCCESS) {
                         return foodCommentList;

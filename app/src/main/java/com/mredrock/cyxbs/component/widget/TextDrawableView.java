@@ -48,31 +48,11 @@ public class TextDrawableView extends TextView {
 
     private void setupDrawable() {
         Drawable[] drawableList = getCompoundDrawables();
-        if (drawableList != null) {
-            for (int i = 0; i < drawableList.length; i++) {
-                Drawable drawable = drawableList[0];
-                if (drawable != null) {
-                    drawable.setBounds(0, 0, drawableWidth, drawableHeight);
-                }
+        for (int i = 0; i < drawableList.length; i++) {
+            Drawable drawable = drawableList[0];
+            if (drawable != null) {
+                drawable.setBounds(0, 0, drawableWidth, drawableHeight);
             }
         }
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-//        Drawable[] drawables = getCompoundDrawables();
-//        if (drawables != null) {
-//            Drawable drawableLeft = drawables[0];
-//            if (drawableLeft != null) {
-//                float textWidth = getPaint().measureText(getText().toString());
-//                int drawablePadding = getCompoundDrawablePadding();
-//                int drawableWidth = 0;
-//                drawableWidth = drawableLeft.getIntrinsicWidth();
-//                float bodyWidth = textWidth + drawableWidth + drawablePadding;
-//                canvas.translate((getWidth() - bodyWidth) / 2, 0);
-//            }
-//        }
-
-        super.onDraw(canvas);
     }
 }
