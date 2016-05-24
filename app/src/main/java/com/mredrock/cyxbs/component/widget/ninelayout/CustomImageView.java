@@ -26,7 +26,7 @@ public class CustomImageView extends ImageView {
 
 
     public static final String BASE_NORMAL_IMG_URL = "http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/";
-    public static final String BASE_THUMBNAIL_IMG_URL = BASE_NORMAL_IMG_URL + "/thumbnail";
+    public static final String BASE_THUMBNAIL_IMG_URL = BASE_NORMAL_IMG_URL + "thumbnail/";
 
     private String url;
     private boolean isAttachedToWindow;
@@ -59,7 +59,6 @@ public class CustomImageView extends ImageView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 break;
@@ -70,7 +69,6 @@ public class CustomImageView extends ImageView {
                 int x = (int) event.getX();
                 int y = (int) event.getY();
                 int w = DensityUtils.dp2px(getContext(), 18);
-
                 if (x > getWidth() - 2 * w && y < 2 * w) {
                     if (onClickDeleteListener != null && type == Image.TYPE_NORMAL)
                         onClickDeleteListener.onClickDelete(this);
@@ -95,13 +93,12 @@ public class CustomImageView extends ImageView {
         super.onDetachedFromWindow();
     }
 
-
     public void setImageUrl(String url) {
         if (!TextUtils.isEmpty(url)) {
             this.url = url;
             if (isAttachedToWindow) {
                 Glide.with(getContext())
-                        .load(url.startsWith("http") ? url : BASE_THUMBNAIL_IMG_URL + url)
+                        .load(url.startsWith("http") || url.startsWith("file:") || url.startsWith("/storage") ? url : BASE_THUMBNAIL_IMG_URL + url)
                         .placeholder(R.drawable.place_holder)
                         .into(this);
             }

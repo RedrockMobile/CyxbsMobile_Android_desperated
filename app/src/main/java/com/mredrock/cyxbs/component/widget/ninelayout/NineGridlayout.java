@@ -44,7 +44,7 @@ public class NineGridlayout extends ViewGroup {
         totalWidth = screenTools.getScreenWidth() - screenTools.dip2px(32);
     }
 
-    public void setmOnClickDeletecteListener(OnClickDeleteListener onClickDeleteListener) {
+    public void setOnClickDeletecteListener(OnClickDeleteListener onClickDeleteListener) {
         this.mOnClickDeleteListener = onClickDeleteListener;
     }
 
@@ -56,14 +56,6 @@ public class NineGridlayout extends ViewGroup {
 
     public void setOnAddImagItemClickListener(OnAddImageItemClickListener onAddImagItemClickListener) {
         this.onAddImageItemClickListener = onAddImagItemClickListener;
-    }
-
-    public OnNormalImageItemClickListener getOnNormalImagItemClickListener() {
-        return mOnNormalImageItemClickListener;
-    }
-
-    public void setOnNormalImagItemClickListener(OnNormalImageItemClickListener onNormalImageItemClickListener) {
-        this.mOnNormalImageItemClickListener = onNormalImageItemClickListener;
     }
 
     @Override
@@ -95,6 +87,7 @@ public class NineGridlayout extends ViewGroup {
                         mOnNormalImageItemClickListener.onClick(view, finalI1);
             });
             childrenView.setOnClickDeleteListener(v -> mOnClickDeleteListener.onClickDelete(v, finalI));
+
             childrenView.setImageUrl(((Image) listData.get(i)).url);
 
             childrenView.setType(((Image) listData.get(i)).getType());
@@ -141,26 +134,6 @@ public class NineGridlayout extends ViewGroup {
         //初始化布局
         generateChildrenLayout(lists.size());
 
-        //这里做一个重用view的处理
-        /*  if (listData == null) {
-            int i = 0;
-            while (i < lists.size()) {
-                CustomImageView iv = generateImageView();
-                addView(iv, generateDefaultLayoutParams());
-                i++;
-            }
-        } else {
-            int oldViewCount = listData.size();
-            int newViewCount = lists.size();
-            if (oldViewCount > newViewCount) {
-                removeViews(newViewCount - 1, oldViewCount - newViewCount);
-            } else if (oldViewCount < newViewCount) {
-                for (int i = 0; i < newViewCount - oldViewCount; i++) {
-                    CustomImageView iv = generateImageView();
-                    addView(iv, generateDefaultLayoutParams());
-                }
-            }
-        }*/
 
         removeAllViews();
         int i = 0;

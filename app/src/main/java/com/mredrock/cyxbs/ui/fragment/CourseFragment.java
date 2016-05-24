@@ -48,17 +48,17 @@ public class CourseFragment extends BaseFragment {
     @Bind(R.id.course_swipe_refresh_layout)
     SwipeRefreshLayout mCourseSwipeRefreshLayout;
     @Bind(R.id.course_weeks)
-    LinearLayout       mCourseWeeks;
+    LinearLayout mCourseWeeks;
     @Bind(R.id.course_weekday)
-    LinearLayout       mCourseWeekday;
+    LinearLayout mCourseWeekday;
     @Bind(R.id.course_time)
-    LinearLayout       mCourseTime;
+    LinearLayout mCourseTime;
     @Bind(R.id.course_schedule_content)
-    ScheduleView       mCourseScheduleContent;
+    ScheduleView mCourseScheduleContent;
     @Bind(R.id.course_schedule_holder)
-    LinearLayout       mCourseScheduleHolder;
+    LinearLayout mCourseScheduleHolder;
     @Bind(R.id.course_month)
-    TextView           mCourseMonth;
+    TextView mCourseMonth;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -153,8 +153,8 @@ public class CourseFragment extends BaseFragment {
     private void showTodayWeek() {
         if (getView() != null)
             getView().findViewById(mTodayWeekIds[Calendar.getInstance()
-                                                         .get(Calendar.DAY_OF_WEEK) - 1])
-                     .setVisibility(View.VISIBLE);
+                    .get(Calendar.DAY_OF_WEEK) - 1])
+                    .setVisibility(View.VISIBLE);
     }
 
     private void loadCourse(int week, boolean update) {
@@ -163,33 +163,33 @@ public class CourseFragment extends BaseFragment {
             mUser = APP.getUser(getActivity());
             if (mUser != null) {
                 RequestManager.getInstance()
-                              .getCourseList(new SimpleSubscriber<>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
-                                  @Override
-                                  public void onStart() {
-                                      super.onStart();
-                                      mCourseSwipeRefreshLayout.setRefreshing(true);
-                                  }
+                        .getCourseList(new SimpleSubscriber<>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                                mCourseSwipeRefreshLayout.setRefreshing(true);
+                            }
 
-                                  @Override
-                                  public void onNext(List<Course> courses) {
-                                      super.onNext(courses);
-                                      if (mCourseScheduleContent != null) {
-                                          mCourseScheduleContent.addContentView(courses);
-                                      }
-                                  }
+                            @Override
+                            public void onNext(List<Course> courses) {
+                                super.onNext(courses);
+                                if (mCourseScheduleContent != null) {
+                                    mCourseScheduleContent.addContentView(courses);
+                                }
+                            }
 
-                                  @Override
-                                  public void onError(Throwable e) {
-                                      super.onError(e);
-                                      hideRefreshLoading();
-                                  }
+                            @Override
+                            public void onError(Throwable e) {
+                                super.onError(e);
+                                hideRefreshLoading();
+                            }
 
-                                  @Override
-                                  public void onCompleted() {
-                                      super.onCompleted();
-                                      hideRefreshLoading();
-                                  }
-                              }), mUser.stuNum, mUser.idNum, week, update);
+                            @Override
+                            public void onCompleted() {
+                                super.onCompleted();
+                                hideRefreshLoading();
+                            }
+                        }), mUser.stuNum, mUser.idNum, week, update);
             }
         }
     }

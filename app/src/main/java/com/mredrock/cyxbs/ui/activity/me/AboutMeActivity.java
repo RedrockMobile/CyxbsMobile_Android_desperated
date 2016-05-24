@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -18,6 +17,8 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbs.ui.adapter.me.AboutMeAdapter;
@@ -69,9 +70,6 @@ public class AboutMeActivity extends BaseActivity implements
 
     @Override
     public void onItemClick(View itemView, int position, AboutMe aboutMe) {
-     /*   Intent intent = new Intent(this, SpecificNewsActivity.class);
-        intent.putExtra("article_id", aboutMe.article_id);
-        startActivity(intent);*/
         SpecificNewsActivity.startActivityWithArticleId(this, aboutMe.article_id, false, true);
     }
 
@@ -90,17 +88,23 @@ public class AboutMeActivity extends BaseActivity implements
     }
 
     public void getCurrentData(boolean update) {
-        RequestManager.getInstance()
-                .getAboutMeList(mUser.stuNum, mUser.idNum, update)
-                .subscribe(aboutMes -> {
-                    dismissProgress();
-                    mAboutMeList.clear();
-                    mAboutMeList.addAll(aboutMes);
-                    mAboutMeAdapter.notifyDataSetChanged();
-                }, throwable -> {
-                    dismissProgress();
-                    getDataFailed(throwable.getMessage());
-                });
+        RequestManager.getInstance().getAboutMeList(new SimpleSubscriber<>(this, new SubscriberListener<List<AboutMe>>() {
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                dismissProgress();
+                getDataFailed(e.getMessage());
+            }
+
+            @Override
+            public void onNext(List<AboutMe> aboutMes) {
+                super.onNext(aboutMes);
+                dismissProgress();
+                mAboutMeList.clear();
+                mAboutMeList.addAll(aboutMes);
+                mAboutMeAdapter.notifyDataSetChanged();
+            }
+        }), mUser.stuNum, mUser.idNum);
     }
 
     private void initToolbar() {

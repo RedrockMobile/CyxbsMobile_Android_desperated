@@ -17,6 +17,8 @@ import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.util.ImageLoader;
@@ -55,7 +57,6 @@ public class MyTrendActivity extends BaseActivity
         init();
         showProgress();
     }
-
 
     @Override
     public void onRefresh() {
@@ -113,24 +114,23 @@ public class MyTrendActivity extends BaseActivity
     private void getMyTrendData() {
         if (mUser != null) {
             Logger.d(mUser.toString());
-            RequestManager.getInstance()
-                    .getMyTrend(mUser.stuNum, mUser.idNum)
-                    .map(hotNewses -> {
-                        for (HotNews h : hotNewses) {
-                            h.data.nickName = mUser.getNickname();
-                            h.data.userHead = mUser.photo_thumbnail_src;
-                        }
-                        return hotNewses;
-                    })
-                    .subscribe(newses -> {
-                        dismissProgress();
-                        mNewsList.clear();
-                        mNewsList.addAll(newses);
-                        mNewsAdapter.notifyDataSetChanged();
-                    }, throwable -> {
-                        dismissProgress();
-                        getDataFailed(throwable.getMessage());
-                    });
+            RequestManager.getInstance().getMyTrend(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    dismissProgress();
+                    getDataFailed(e.getMessage());
+                }
+
+                @Override
+                public void onNext(List<HotNews> hotNewses) {
+                    super.onNext(hotNewses);
+                    dismissProgress();
+                    mNewsList.clear();
+                    mNewsList.addAll(hotNewses);
+                    mNewsAdapter.notifyDataSetChanged();
+                }
+            }), mUser.stuNum, mUser.idNum);
             dismissProgress();
         }
     }
@@ -151,14 +151,11 @@ public class MyTrendActivity extends BaseActivity
         }
     }
 
-
     private void dismissProgress() {
         if (myTrendRefreshLayout != null && myTrendRefreshLayout.isRefreshing()) {
             myTrendRefreshLayout.setRefreshing(false);
         }
     }
-
-
     private void getDataFailed(String reason) {
         Toast.makeText(MyTrendActivity.this, "获取数据失败，原因:" + reason, Toast.LENGTH_SHORT).show();
     }

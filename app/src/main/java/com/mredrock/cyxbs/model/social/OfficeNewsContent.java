@@ -21,6 +21,7 @@ public class OfficeNewsContent implements Parcelable {
     public String read;
     public String head;
     public String unit;
+
     @SerializedName("articletype_id")
     public String articletypeId;
     @SerializedName("articleid")
@@ -59,7 +60,6 @@ public class OfficeNewsContent implements Parcelable {
         }
         return type;
     }
-
 
 
     public OfficeNewsContent(String content) {

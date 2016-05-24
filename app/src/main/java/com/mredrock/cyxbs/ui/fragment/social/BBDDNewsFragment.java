@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
+import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
@@ -9,7 +10,7 @@ import com.mredrock.cyxbs.util.RxBus;
 
 import java.util.List;
 
-import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 
 /**
@@ -20,15 +21,8 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     private Subscription mSubscription;
 
     @Override
-    Observable<List<HotNews>> provideData(int size, int page, boolean update) {
-        return RequestManager.getInstance().getListArticle(BBDDNews.BBDD, size, page, update);
-
-    }
-
-    @Override
-    Observable<List<HotNews>> provideData(int size, int page) {
-        return RequestManager.getInstance().getListArticle(BBDDNews.BBDD, size, page);
-
+    void provideData(Subscriber<List<HotNews>> subscriber, int size, int page) {
+        RequestManager.getInstance().getListArticle(subscriber, BBDDNews.BBDD, size, page, APP.getUser(getActivity()).stuNum, APP.getUser(getActivity()).idNum);
     }
 
     @Override
@@ -40,6 +34,7 @@ public class BBDDNewsFragment extends BaseNewsFragment {
             holder.enableAvatarClick = true;
         }
     }
+
 
     @Override
     protected void init() {
@@ -53,8 +48,7 @@ public class BBDDNewsFragment extends BaseNewsFragment {
                 .subscribe(s -> {
                     ((SocialContainerFragment) getParentFragment()).changeViewPagerIndex(1);
                     //注释掉的这句话是把 最新发送的推到顶部
-                    //mNewsAdapter.addToFirst(s);
-                    getCurrentData(BaseNewsFragment.PER_PAGE_NUM, BaseNewsFragment.FIRST_PAGE_INDEX, true);
+                    getCurrentData(BaseNewsFragment.PER_PAGE_NUM, BaseNewsFragment.FIRST_PAGE_INDEX);
                     mRecyclerView.scrollToPosition(0);
                 });
     }
@@ -62,7 +56,6 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     private void unregisterObservable() {
         if (mSubscription != null && !mSubscription.isUnsubscribed())
             mSubscription.unsubscribe();
-
     }
 
     @Override

@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class HotNews extends RedrockApiWrapper<HotNewsContent> implements Parcelable {
 
-
     public String page;
 
     public HotNews(PersonLatest personLatest, String userId, String userName, String userHead) {
@@ -36,18 +35,18 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> implements Parcel
     }
 
     public HotNews(BBDDNewsContent bbddNewsContent) {
-        this.data = new HotNewsContent(bbddNewsContent.type_id
+        this.data = new HotNewsContent(bbddNewsContent.typeId
                 , bbddNewsContent.id
                 , 5
-                , bbddNewsContent.stunum
-                , bbddNewsContent.nickname
-                , bbddNewsContent.photo_src
-                , bbddNewsContent.created_time
+                , bbddNewsContent.stuNum
+                , bbddNewsContent.nickName
+                , bbddNewsContent.photoSrc
+                , bbddNewsContent.createdTime
                 , new OfficeNewsContent(bbddNewsContent.content)
-                , new HotNewsContent.ImgBean(bbddNewsContent.article_thumbnail_src, bbddNewsContent.article_photo_src)
-                , bbddNewsContent.like_num
-                , bbddNewsContent.remark_num
-                , bbddNewsContent.is_my_like
+                , new HotNewsContent.ImgBean(bbddNewsContent.articleThumbnailSrc, bbddNewsContent.articlePhotoSrc)
+                , bbddNewsContent.likeNum
+                , bbddNewsContent.remarkNum
+                , bbddNewsContent.isMyLike
                 , bbddNewsContent.id);
     }
 
@@ -66,15 +65,15 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> implements Parcel
     public HotNews(BBDDDetail bbddDetail) {
         this.data = new HotNewsContent("bbdd"
                 , bbddDetail.id
-                , 5
+                , BBDDNews.BBDD
                 , ""
                 , ""
-                , bbddDetail.photo_src
-                , bbddDetail.created_time
+                , bbddDetail.photoSrc
+                , bbddDetail.createdTime
                 , new OfficeNewsContent(bbddDetail.content)
-                , new HotNewsContent.ImgBean(bbddDetail.thumbnail_src, bbddDetail.photo_src)
-                , bbddDetail.like_num
-                , bbddDetail.remark_num
+                , new HotNewsContent.ImgBean(bbddDetail.thumbnailSrc, bbddDetail.photoSrc)
+                , bbddDetail.likeNum
+                , bbddDetail.remarkNum
                 , false
                 , bbddDetail.id);
     }

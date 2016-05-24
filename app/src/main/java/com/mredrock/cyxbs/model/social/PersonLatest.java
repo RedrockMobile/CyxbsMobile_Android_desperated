@@ -7,12 +7,13 @@ import com.google.gson.annotations.SerializedName;
  */
 public class PersonLatest {
 
+    public String content;
     public String id;
+
     @SerializedName("photo_src")
     public String photo;
     @SerializedName("thumbnail_src")
     public String thumbnailPhoto;
-    public String content;
     @SerializedName("type_id")
     public String typeId;
     @SerializedName("created_time")
@@ -23,6 +24,4 @@ public class PersonLatest {
     public String likeNum;
     @SerializedName("remark_num")
     public String remarkNum;
-
-
 }

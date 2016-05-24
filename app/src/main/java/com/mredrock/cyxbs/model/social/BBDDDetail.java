@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.model.social;
 
+import com.google.gson.annotations.SerializedName;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 
 import java.util.List;
@@ -10,14 +11,22 @@ import java.util.List;
 public class BBDDDetail {
 
     public String id;
-    public String photo_src;
-    public String thumbnail_src;
     public String content;
-    public String type_id;
-    public String updated_time;
-    public String created_time;
-    public String like_num;
-    public String remark_num;
+
+    @SerializedName("photo_src")
+    public String photoSrc;
+    @SerializedName("thumbnail_src")
+    public String thumbnailSrc;
+    @SerializedName("type_id")
+    public String typeId;
+    @SerializedName("updated_time")
+    public String updatedTime;
+    @SerializedName("created_time")
+    public String createdTime;
+    @SerializedName("like_num")
+    public String likeNum;
+    @SerializedName("remark_num")
+    public String remarkNum;
 
     public static class BBDDDetailWrapper extends RedrockApiWrapper<List<BBDDDetail>> {
 

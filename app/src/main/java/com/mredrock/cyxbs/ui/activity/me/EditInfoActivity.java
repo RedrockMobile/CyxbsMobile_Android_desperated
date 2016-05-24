@@ -42,29 +42,29 @@ public class EditInfoActivity extends BaseActivity {
     private static final String PATH_CROP_PICTURES = Environment.getExternalStorageDirectory() + "/cyxbsmobile/" + "Pictures";
 
     @Bind(R.id.toolbar_title)
-    TextView        toolbarTitle;
+    TextView toolbarTitle;
     @Bind(R.id.toolbar)
-    Toolbar         toolbar;
+    Toolbar toolbar;
     @Bind(R.id.edit_info_avatar_layout)
-    RelativeLayout  editInfoAvatarLayout;
+    RelativeLayout editInfoAvatarLayout;
     @Bind(R.id.edit_info_nick_layout)
-    RelativeLayout  editInfoNickLayout;
+    RelativeLayout editInfoNickLayout;
     @Bind(R.id.edit_info_introduce_layout)
-    RelativeLayout  editInfoIntroduceLayout;
+    RelativeLayout editInfoIntroduceLayout;
     @Bind(R.id.edit_info_avatar)
     ImageView editInfoAvatar;
     @Bind(R.id.edit_info_nick_name)
-    TextView        editInfoNickName;
+    TextView editInfoNickName;
     @Bind(R.id.edit_info_introduce)
-    TextView        editInfoIntroduce;
+    TextView editInfoIntroduce;
     @Bind(R.id.edit_info_qq)
-    TextView        editInfoQq;
+    TextView editInfoQq;
     @Bind(R.id.edit_info_qq_layout)
-    RelativeLayout  editInfoQqLayout;
+    RelativeLayout editInfoQqLayout;
     @Bind(R.id.edit_info_phone)
-    TextView        editInfoPhone;
+    TextView editInfoPhone;
     @Bind(R.id.edit_info_phone_layout)
-    RelativeLayout  editInfoPhoneLayout;
+    RelativeLayout editInfoPhoneLayout;
 
     private User mUser;
     private CharSequence[] dialogItems = {"拍照", "从相册中选择"};
@@ -78,7 +78,6 @@ public class EditInfoActivity extends BaseActivity {
         setContentView(R.layout.activity_edit_info);
         ButterKnife.bind(this);
         initToolbar();
-
         mUser = APP.getUser(this);
         initView();
     }
@@ -203,7 +202,6 @@ public class EditInfoActivity extends BaseActivity {
 
     private void showSelectDialog() {
         new MaterialDialog.Builder(this)
-//                .title("头像修改")
                 .items(dialogItems)
                 .itemsCallback(
                         (dialog, itemView, which, text) -> {
@@ -236,29 +234,29 @@ public class EditInfoActivity extends BaseActivity {
         if (resultUri != null) {
             showProgress();
             RequestManager.getInstance()
-                          .uploadNewsImg(mUser.stuNum, resultUri.getPath())
-                          .subscribeOn(Schedulers.io())
-                          .flatMap((Func1<UploadImgResponse.Response, Observable<?>>) response -> {
-                              mUser.photo_thumbnail_src = response.thumbnail_src;
-                              mUser.photo_src = response.photosrc;
-                              return RequestManager.getInstance()
-                                                   .setPersonInfo(mUser.stuNum,
-                                                           mUser.idNum,
-                                                           response.thumbnail_src,
-                                                           response.photosrc);
-                          })
-                          .observeOn(AndroidSchedulers.mainThread())
-                          .subscribe(okResponse -> {
-                              dismissProgress();
-                              Toast.makeText(this, "修改头像成功", Toast.LENGTH_SHORT)
-                                   .show();
-                              editInfoAvatar.setImageURI(resultUri);
-                          }, throwable -> {
-                              dismissProgress();
-                              Toast.makeText(this,
-                                      "修改头像失败：" + throwable.getMessage(),
-                                      Toast.LENGTH_SHORT).show();
-                          });
+                    .uploadNewsImg(mUser.stuNum, resultUri.getPath())
+                    .subscribeOn(Schedulers.io())
+                    .flatMap((Func1<UploadImgResponse.Response, Observable<?>>) response -> {
+                        mUser.photo_thumbnail_src = response.thumbnailSrc;
+                        mUser.photo_src = response.photoSrc;
+                        return RequestManager.getInstance()
+                                .setPersonInfo(mUser.stuNum,
+                                        mUser.idNum,
+                                        response.thumbnailSrc,
+                                        response.photoSrc);
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(okResponse -> {
+                        dismissProgress();
+                        Toast.makeText(this, "修改头像成功", Toast.LENGTH_SHORT)
+                                .show();
+                        editInfoAvatar.setImageURI(resultUri);
+                    }, throwable -> {
+                        dismissProgress();
+                        Toast.makeText(this,
+                                "修改头像失败：" + throwable.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    });
         }
     }
 
@@ -267,7 +265,7 @@ public class EditInfoActivity extends BaseActivity {
         Throwable cropError = UCrop.getError(result);
         if (cropError != null) {
             Toast.makeText(this, cropError.getMessage(), Toast.LENGTH_SHORT)
-                 .show();
+                    .show();
         } else {
             Toast.makeText(this, "Unexpected error", Toast.LENGTH_SHORT).show();
         }

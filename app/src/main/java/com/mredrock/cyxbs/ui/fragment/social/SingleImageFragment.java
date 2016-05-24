@@ -29,9 +29,9 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
 
 
     @Bind(R.id.fragment_progressBar)
-    ProgressBar    mProgressBar;
+    ProgressBar mProgressBar;
     @Bind(R.id.image_shot)
-    ImageView      mImageView;
+    ImageView mImageView;
     @Bind(R.id.layout)
     RelativeLayout layout;
     PhotoViewAttacher mAttacher;
@@ -65,17 +65,17 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
     @Override
     protected void onFirstUserVisible() {
         ImageLoader.getInstance()
-                   .loadImageWithTargetView(url, new SimpleTarget<Bitmap>() {
-                       @Override
-                       public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                           if (mImageView == null) return;
-                           mImageView.setImageBitmap(resource);
-                           closeProgress();
-                           mAttacher = new PhotoViewAttacher(mImageView);
-                           mAttacher.update();
-                           mAttacher.setOnPhotoTapListener(SingleImageFragment.this);
-                       }
-                   });
+                .loadImageWithTargetView(url, new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        if (mImageView == null) return;
+                        mImageView.setImageBitmap(resource);
+                        closeProgress();
+                        mAttacher = new PhotoViewAttacher(mImageView);
+                        mAttacher.update();
+                        mAttacher.setOnPhotoTapListener(SingleImageFragment.this);
+                    }
+                });
     }
 
     @Override

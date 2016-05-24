@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ExpandableTextView;
 import com.mredrock.cyxbs.component.widget.ninelayout.AutoNineGridlayout;
@@ -17,6 +18,8 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.model.social.Image;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.social.ImageActivity;
 import com.mredrock.cyxbs.ui.activity.social.PersonInfoActivity;
 import com.mredrock.cyxbs.ui.activity.social.SpecificNewsActivity;
@@ -167,28 +170,40 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         public void like(TextView textView) {
             likeToSetDataAndView(textView);
-            RequestManager.getInstance()
-                    .addThumbsUp(mHotNewsContent.articleId, mHotNewsContent.typeId)
-                    .subscribe(s -> {
-                        Log.i(TAG, "赞成功");
-                        if (isSingle) RxBus.getDefault().post(mHotNewsContent);
-                    }, throwable -> {
-                        Log.e(TAG, throwable.toString());
-                        disLikeToSetDataAndView(textView);
-                    });
+            RequestManager.getInstance().addThumbsUp(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    Log.e(TAG, e.toString());
+                    disLikeToSetDataAndView(textView);
+                }
+
+                @Override
+                public void onNext(String s) {
+                    super.onNext(s);
+                    Log.i(TAG, "赞成功");
+                    if (isSingle) RxBus.getDefault().post(mHotNewsContent);
+                }
+            }), mHotNewsContent.articleId, mHotNewsContent.typeId, APP.getUser(textView.getContext()).stuNum, APP.getUser(textView.getContext()).idNum);
         }
 
         public void dislike(TextView textView) {
             disLikeToSetDataAndView(textView);
-            RequestManager.getInstance()
-                    .cancelThumbsUp(mHotNewsContent.articleId, mHotNewsContent.typeId)
-                    .subscribe(s -> {
-                        Log.i(TAG, "取消赞成功");
-                        if (isSingle) RxBus.getDefault().post(mHotNewsContent);
-                    }, throwable -> {
-                        Log.e(TAG, throwable.toString());
-                        likeToSetDataAndView(textView);
-                    });
+            RequestManager.getInstance().cancelThumbsUp(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    Log.e(TAG, e.toString());
+                    likeToSetDataAndView(textView);
+                }
+
+                @Override
+                public void onNext(String s) {
+                    super.onNext(s);
+                    Log.i(TAG, "取消赞成功");
+                    if (isSingle) RxBus.getDefault().post(mHotNewsContent);
+                }
+            }), mHotNewsContent.articleId, mHotNewsContent.typeId, APP.getUser(textView.getContext()).stuNum, APP.getUser(textView.getContext()).idNum);
         }
 
         public void disLikeToSetDataAndView(TextView textView) {
@@ -222,7 +237,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private void showSingleImageView() {
             mAutoNineGridlayout.setVisibility(View.GONE);
             mImageView.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().loadOfficalImg(getImageList(getUrls(mHotNewsContent.img.smallImg)).get(0).url, mImageView, itemView);
+            ImageLoader.getInstance().loadOffcialImg(getImageList(getUrls(mHotNewsContent.img.smallImg)).get(0).url, mImageView, itemView);
             mImageView.setOnClickListener(view -> ImageActivity.startWithData(itemView.getContext(), mHotNewsContent, 0));
         }
 
@@ -286,6 +301,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             if (mExpandableTextView.getText().toString().equals(""))
                 mExpandableTextView.setVisibility(View.GONE);
+
 
             List<Image> url = getImageList(getUrls(hotNewsContent.img.smallImg));
             hideLayoutAndView();

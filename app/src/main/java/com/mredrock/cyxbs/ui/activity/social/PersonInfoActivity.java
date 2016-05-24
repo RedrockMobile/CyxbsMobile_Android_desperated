@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.model.social.PersonInfo;
@@ -37,7 +38,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by mathiasluo on 16-5-6.
@@ -59,13 +59,12 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     private String mUserAvatar;
     private String mNickName;
     private String mUserId;
-
-
     private List<HotNews> mHotNewsList = null;
     private BaseNewsFragment.FooterViewWrapper mFooterViewWrapper;
     protected NewsAdapter mNewsAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private HeaderViewWrapper mHeaderViewWrapper;
+    private User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +75,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
         mUserId = getIntent().getStringExtra(PERSON_USER_ID);
         mHeaderViewWrapper = new HeaderViewWrapper(this, R.layout.list_person_info_header);
         ButterKnife.bind(this);
+        mUser = APP.getUser(this);
         init();
     }
 
@@ -98,28 +98,40 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     }
 
     private void requestData() {
-        RequestManager.getInstance().getPersonInfo(mUserId)
-                .doOnSubscribe(() -> showLoading())
-                .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
-                .subscribe(new SimpleSubscriber<>(this, new SubscriberListener<PersonInfo>() {
-                    @Override
-                    public void onNext(PersonInfo personInfo) {
-                        super.onNext(personInfo);
-                        mHeaderViewWrapper.setIntroduction(personInfo.getIntroduction(), personInfo.gender);
-                    }
-                }));
 
-        RequestManager.getInstance().getPersonLatestList(mUserId, mNickName, mUserAvatar)
-                .subscribe(newses -> {
-                    if (mHotNewsList == null) {
-                        initAdapter(newses);
-                        if (newses.size() == 0) mFooterViewWrapper.showLoadingNoData();
-                    } else mNewsAdapter.replaceDataList(newses);
-                    closeLoading();
-                }, throwable -> {
-                    closeLoading();
-                    getDataFailed(throwable.toString());
-                });
+        RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(this, new SubscriberListener<PersonInfo>() {
+            @Override
+            public void onNext(PersonInfo personInfo) {
+                super.onNext(personInfo);
+                super.onNext(personInfo);
+                mHeaderViewWrapper.setIntroduction(personInfo.getIntroduction(), personInfo.gender);
+            }
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                showLoading();
+            }
+        }), mUserId, mUser.stuNum, mUser.idNum);
+
+        RequestManager.getInstance().getPersonLatestList(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                closeLoading();
+                getDataFailed(e.toString());
+            }
+
+            @Override
+            public void onNext(List<HotNews> hotNewses) {
+                super.onNext(hotNewses);
+                if (mHotNewsList == null) {
+                    initAdapter(hotNewses);
+                    if (hotNewses.size() == 0) mFooterViewWrapper.showLoadingNoData();
+                } else mNewsAdapter.replaceDataList(hotNewses);
+                closeLoading();
+            }
+        }), mUserId, mUser.stuNum, mUser.idNum, mNickName, mUserAvatar);
     }
 
     private void initAdapter(List<HotNews> datas) {

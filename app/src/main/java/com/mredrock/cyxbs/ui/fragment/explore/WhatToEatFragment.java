@@ -14,7 +14,6 @@ import android.view.ViewStub;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.FoodDetail;
@@ -27,7 +26,6 @@ import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
-import com.orhanobut.logger.Logger;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -195,7 +193,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
     }
 
     private void getFood() {
-        Subscription subscription = RequestManager.getInstance().getFood(new SimpleSubscriber<FoodDetail>(getActivity(), new SubscriberListener<FoodDetail>() {
+        Subscription subscription = RequestManager.getInstance().getFood(new SimpleSubscriber<>(getActivity(), new SubscriberListener<FoodDetail>() {
             @Override
             public void onCompleted() {
                 onRefreshingStateChanged(false);

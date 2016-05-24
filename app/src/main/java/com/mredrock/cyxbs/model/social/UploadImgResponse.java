@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.model.social;
 
+import com.google.gson.annotations.SerializedName;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 
 /**
@@ -8,11 +9,17 @@ import com.mredrock.cyxbs.model.RedrockApiWrapper;
 public class UploadImgResponse extends RedrockApiWrapper<UploadImgResponse.Response> {
 
     public static class Response {
-        public String stunum;
-        public String date;
-        public String photosrc;
-        public String thumbnail_src;
+
         public int state;
+        public String date;
+
+        @SerializedName("stunum")
+        public String stuNum;
+        @SerializedName("photosrc")
+        public String photoSrc;
+        @SerializedName("thumbnail_src")
+        public String thumbnailSrc;
+
     }
 
 }

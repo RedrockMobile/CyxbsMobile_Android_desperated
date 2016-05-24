@@ -8,7 +8,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.model.social.Stu;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.activity.LoginActivity;
 
@@ -58,7 +57,6 @@ public class SettingActivity extends BaseActivity {
     @OnClick(R.id.setting_exit_layout)
     void clickToExit() {
         startActivity(new Intent(this, LoginActivity.class));
-        new Stu("", "", "", "");
     }
 
     private void initToolbar() {

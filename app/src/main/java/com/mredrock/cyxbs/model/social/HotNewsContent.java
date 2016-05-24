@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.util.TimeUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,9 @@ public class HotNewsContent implements Parcelable {
 
     public String type;
     public String id;
+    public ImgBean img;
+    public String time;
+
     @SerializedName("type_id")
     public int typeId;
     @SerializedName("user_id")
@@ -26,10 +30,8 @@ public class HotNewsContent implements Parcelable {
     public String userHead;
     @SerializedName("article_id")
     public String articleId;
-    public String time;
     @SerializedName("content")
     public OfficeNewsContent officeNewsContent;
-    public ImgBean img;
     @SerializedName("like_num")
     public String likeNum;
     @SerializedName("remark_num")
@@ -134,7 +136,7 @@ public class HotNewsContent implements Parcelable {
         this.officeNewsContent = content;
         this.typeId = BBDDNews.BBDD;
 
-        this.nickName = Stu.STU_NAME;
+        this.nickName = APP.getUser(APP.getContext()).stuNum;
         this.time = TimeUtils.getTodayDate();
         this.likeNum = "0";
         this.remarkNum = "0";

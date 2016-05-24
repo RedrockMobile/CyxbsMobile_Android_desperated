@@ -20,6 +20,8 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.subscriber.EndlessRecyclerOnScrollListener;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
@@ -28,16 +30,17 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
+import rx.Subscriber;
 
 /**
  * Created by mathiasluo on 16-4-26.
  */
 public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    public static final int PER_PAGE_NUM = 10;
+    public static final String TAG = "BaseNewsFragment";
+    public static final int FIRST_PAGE_INDEX = 0;
 
-    protected NewsAdapter mNewsAdapter;
     @Bind(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
     @Bind(R.id.information_refresh)
@@ -48,15 +51,10 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     private List<HotNews> mListHotNews = null;
     private FooterViewWrapper mFooterViewWrapper;
 
-    public static final int PER_PAGE_NUM = 10;
-    public static final String TAG = "BaseNewsFragment";
-    public static final int FIRST_PAGE_INDEX = 0;
+    protected NewsAdapter mNewsAdapter;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
-
-    abstract Observable<List<HotNews>> provideData(int size, int page, boolean update);
-
-    abstract Observable<List<HotNews>> provideData(int size, int page);
+    abstract void provideData(Subscriber<List<HotNews>> subscriber, int size, int page);
 
     @Nullable
     @Override
@@ -72,7 +70,6 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         init();
     }
 
-
     protected void init() {
         mSwipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
@@ -82,13 +79,10 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         mLinearLayoutManager = new LinearLayoutManager(getParentFragment().getActivity());
 
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-
         addOnScrollListener();
 
         initAdapter(null);
-        //getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, false);
-        getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
-
+        getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX);
     }
 
     private void addOnScrollListener() {
@@ -107,7 +101,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
     @Override
     public void onRefresh() {
-        getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX, true);
+        getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX);
         currentIndex = 0;
         addOnScrollListener();
     }
@@ -130,22 +124,27 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         }
     }
 
-    public void getCurrentData(int size, int page, boolean update) {
-        provideData(size, page, update)
-                .doOnSubscribe(() -> showLoadingProgress())
-                .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
-                .subscribe(newses -> {
-                    if (mListHotNews == null) {
-                        initAdapter(newses);
-                        if (newses.size() == 0) mFooterViewWrapper.showLoadingNoData();
-                    } else mNewsAdapter.replaceDataList(newses);
-                    Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
-                    closeLoadingProgress();
-                }, throwable -> {
-                    mFooterViewWrapper.showLoadingFailed();
-                    closeLoadingProgress();
-                    getDataFailed(throwable.toString());
-                });
+    public void getCurrentData(int size, int page) {
+        showLoadingProgress();
+        provideData(new SimpleSubscriber<>(getActivity(), new SubscriberListener<List<HotNews>>() {
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                mFooterViewWrapper.showLoadingFailed();
+                closeLoadingProgress();
+                getDataFailed(e.toString());
+            }
+            @Override
+            public void onNext(List<HotNews> hotNewses) {
+                super.onNext(hotNewses);
+                if (mListHotNews == null) {
+                    initAdapter(hotNewses);
+                    if (hotNewses.size() == 0) mFooterViewWrapper.showLoadingNoData();
+                } else mNewsAdapter.replaceDataList(hotNewses);
+                Log.i("====>>>", "page===>>>" + page + "size==>>" + hotNewses.size());
+                closeLoadingProgress();
+            }
+        }), size, page);
     }
 
 
@@ -170,26 +169,32 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         mFooterViewWrapper = new FooterViewWrapper(getContext(), mRecyclerView);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterViewWrapper.getFooterView());
         mFooterViewWrapper.onFailedClick(view -> {
-            if (currentIndex == 0) getCurrentData(PER_PAGE_NUM, currentIndex, true);
+            if (currentIndex == 0) getCurrentData(PER_PAGE_NUM, currentIndex);
             getNextPageData(PER_PAGE_NUM, currentIndex);
         });
     }
 
     private void getNextPageData(int size, int page) {
-        provideData(size, page)
-                .doOnSubscribe(() -> mFooterViewWrapper.showLoading())
-                .subscribe(newses -> {
-                            if (newses.size() == 0) {
-                                mFooterViewWrapper.showLoadingNoMoreData();
-                                return;
-                            }
-                            mNewsAdapter.addDataList(newses);
-                            Log.i("====>>>", "page===>>>" + page + "size==>>" + newses.size());
-                        },
-                        throwable -> {
-                            mFooterViewWrapper.showLoadingFailed();
-                            getDataFailed(throwable.toString());
-                        });
+        mFooterViewWrapper.showLoading();
+        provideData(new SimpleSubscriber<>(getContext(), new SubscriberListener<List<HotNews>>() {
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                mFooterViewWrapper.showLoadingFailed();
+                getDataFailed(e.toString());
+            }
+
+            @Override
+            public void onNext(List<HotNews> hotNewses) {
+                super.onNext(hotNewses);
+                if (hotNewses.size() == 0) {
+                    mFooterViewWrapper.showLoadingNoMoreData();
+                    return;
+                }
+                mNewsAdapter.addDataList(hotNewses);
+                Log.i("====>>>", "page===>>>" + page + "size==>>" + hotNewses.size());
+            }
+        }), size, page);
     }
 
 

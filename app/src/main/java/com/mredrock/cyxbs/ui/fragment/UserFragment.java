@@ -22,7 +22,6 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.model.User;
-import com.mredrock.cyxbs.model.social.Stu;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
@@ -213,7 +212,6 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
                             if (user != null) {
                                 mUser = User.cloneFromUserInfo(mUser, user);
                                 APP.setUser(getActivity(), mUser);
-                                new Stu(mUser.name, mUser.stuNum, mUser.idNum, mUser.id);
                                 refreshEditLayout();
                             }
                         }

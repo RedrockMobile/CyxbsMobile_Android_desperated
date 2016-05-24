@@ -18,10 +18,7 @@ import com.mredrock.cyxbs.component.widget.ninelayout.CustomImageView;
  * Created by MathiasLuo on 2016/3/1.
  */
 public class ImageLoader {
-
     private static ImageLoader instance;
-
-
     private ImageLoader() {
 
     }
@@ -36,7 +33,7 @@ public class ImageLoader {
         return instance;
     }
 
-    public void loadOfficalImg(String url, ImageView imageView, View itemView) {
+    public void loadOffcialImg(String url, ImageView imageView, View itemView) {
         Context context = itemView.getContext();
         Glide.with(APP.getContext())
                 .load(url.startsWith("http") ? url : CustomImageView.BASE_THUMBNAIL_IMG_URL + url)
@@ -110,7 +107,7 @@ public class ImageLoader {
 
     public void loadImageWithTargetView(String url, SimpleTarget simpleTarget) {
         Glide.with(APP.getContext())
-                .load(url.startsWith("http") ? url : CustomImageView.BASE_THUMBNAIL_IMG_URL + url)
+                .load(url.startsWith("http") ? url : CustomImageView.BASE_NORMAL_IMG_URL + url)
                 .asBitmap()
                 .placeholder(R.drawable.place_holder)
                 .error(R.drawable.place_holder)

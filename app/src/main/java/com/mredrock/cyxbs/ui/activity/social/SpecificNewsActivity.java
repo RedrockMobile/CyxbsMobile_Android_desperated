@@ -19,11 +19,12 @@ import android.widget.Toast;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
+import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.CommentContent;
+import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.model.social.OfficeNewsContent;
-import com.mredrock.cyxbs.model.social.Stu;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
@@ -79,6 +80,8 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private View mFooterView;
     private boolean isFromMyTrend;
 
+    private User mUser;
+
     public static void startActivityWithDataBean(Context context, HotNewsContent hotNewsContent, String articleId, boolean isFromPersonInfo, boolean isFromMyTrend) {
         Intent intent = new Intent(context, SpecificNewsActivity.class);
         intent.putExtra(START_DATA, hotNewsContent);
@@ -101,16 +104,17 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_news);
         ButterKnife.bind(this);
+        mUser = APP.getUser(this);
         mRefresh.setColorSchemeColors(
                 ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
                 ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
         );
-        mHeaderView = LayoutInflater.from(this)
-                .inflate(R.layout.list_news_item_header, null, false);
+        mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
         mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
 
         mWrapView.isFromPersonInfo = getIntent().getBooleanExtra(IS_FROM_PERSON_INFO, false);
         HotNewsContent hotNewsContent = getIntent().getParcelableExtra(START_DATA);
+
         String article_id = getIntent().getStringExtra(ARTICLE_ID);
         isFromMyTrend = getIntent().getBooleanExtra(IS_FROM_MY_TREND, false);
 
@@ -118,14 +122,14 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
             mHotNewsContent = hotNewsContent;
             mHotNewsContent.officeNewsContent.content = mHotNewsContent.officeNewsContent.content.replace("\\n", "\n");
             mWrapView.setData(mHotNewsContent, true);
-
             if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
             mWrapView.mTextContent.setText(mHotNewsContent.officeNewsContent.content);
             if (mHotNewsContent.typeId < BBDDNews.BBDD || (mHotNewsContent.typeId == 6 && mHotNewsContent.user_id == null))
                 doWithNews(mWrapView, mHotNewsContent.officeNewsContent);
             requestComments();
-        } else getDataBeanById(article_id);
-
+        } else {
+            getDataBeanById(article_id);
+        }
         init();
     }
 
@@ -133,10 +137,8 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         initToolbar();
         mRefresh.setOnRefreshListener(this);
         mSpecificNewsCommentAdapter = new SpecificNewsCommentAdapter(mListComments, this);
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
-
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mSpecificNewsCommentAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
@@ -176,6 +178,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 new OnDownloadListener() {
                     @Override
                     public void startDownload() {
+
                     }
 
                     @Override
@@ -186,31 +189,39 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                     @Override
                     public void downloadFailed(String message) {
                         Utils.toast(SpecificNewsActivity.this, getResources().getString(R.string.load_failed));
-//                        if (message != null) {
-//                            Log.d(TAG, "explore_error is---->>> " + message);
-//                        }
                     }
                 });
 
     }
 
     private void requestComments() {
-        RequestManager.getInstance()
-                .getRemarks(mHotNewsContent.articleId, mHotNewsContent.typeId)
-                .doOnSubscribe(() -> showLoadingProgress())
-                .subscribe(reMarks -> {
-                    mListComments = reMarks;
-                    if ((mListComments == null || mListComments.size() == 0) && mFooterView == null)
-                        addFooterView();
-                    if ((mListComments.size() != 0) && mFooterView != null)
-                        removeFooterView();
-                    mSpecificNewsCommentAdapter = new SpecificNewsCommentAdapter(mListComments, SpecificNewsActivity.this);
-                    mHeaderViewRecyclerAdapter.setAdapter(mSpecificNewsCommentAdapter);
-                    closeLoadingProgress();
-                }, throwable -> {
-                    closeLoadingProgress();
-                    getDataFailed(throwable.toString());
-                });
+        RequestManager.getInstance().getRemarks(new SimpleSubscriber<>(this, new SubscriberListener<List<CommentContent>>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                showLoadingProgress();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                closeLoadingProgress();
+                getDataFailed();
+            }
+
+            @Override
+            public void onNext(List<CommentContent> commentContents) {
+                super.onNext(commentContents);
+                mListComments = commentContents;
+                if ((mListComments == null || mListComments.size() == 0) && mFooterView == null)
+                    addFooterView();
+                if ((mListComments.size() != 0) && mFooterView != null)
+                    removeFooterView();
+                mSpecificNewsCommentAdapter = new SpecificNewsCommentAdapter(mListComments, SpecificNewsActivity.this);
+                mHeaderViewRecyclerAdapter.setAdapter(mSpecificNewsCommentAdapter);
+                closeLoadingProgress();
+            }
+        }), mHotNewsContent.articleId, mHotNewsContent.typeId, mUser.id, mUser.stuNum, mUser.idNum);
     }
 
     private void removeFooterView() {
@@ -232,69 +243,61 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mToolbar.setNavigationOnClickListener(view -> SpecificNewsActivity.this.finish());
     }
 
-    private void getDataFailed(String reason) {
+    private void getDataFailed() {
         Toast.makeText(this, getString(R.string.erro), Toast.LENGTH_SHORT).show();
-//        Log.e(TAG, reason);
     }
 
     @OnClick(R.id.btn_send)
     public void sendComment(View view) {
         if (mNewsEdtComment.getText().toString().equals(""))
-            Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT)
-                    .show();
-        else
-            RequestManager.getInstance()
-                    .postReMarks(mHotNewsContent.id, mHotNewsContent.typeId, mNewsEdtComment.getText()
-                            .toString())
-                    .doOnSubscribe(() -> showLoadingProgress())
-                    .subscribe(new SimpleSubscriber<String>(this, false, false, new SubscriberListener<String>() {
-                        @Override
-                        public void onCompleted() {
-                            super.onCompleted();
-                            requestComments();
-                            mNewsEdtComment.getText().clear();
-                            //mRecyclerView.scrollTo(100, 100);
-                            mRecyclerView.scrollToPosition(1);
+            Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT).show();
+        else {
+            RequestManager.getInstance().postReMarks(new SimpleSubscriber<>(this, new SubscriberListener<String>() {
+                @Override
+                public void onCompleted() {
+                    super.onCompleted();
+                    requestComments();
+                    mNewsEdtComment.getText().clear();
+                    mRecyclerView.scrollToPosition(1);
+                    String msgNumber = Integer.parseInt(mWrapView.mBtnMsg.getText().toString()) + 1 + "";
+                    mWrapView.mBtnMsg.setText(msgNumber);
+                    mHotNewsContent.remarkNum = msgNumber;
+                    RxBus.getDefault().post(mHotNewsContent);
+                }
 
-                            String msgNumber = Integer.parseInt(mWrapView.mBtnMsg.getText().toString()) + 1 + "";
-                            mWrapView.mBtnMsg.setText(msgNumber);
-                            mHotNewsContent.remarkNum = msgNumber;
-                            RxBus.getDefault().post(mHotNewsContent);
-                        }
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    showUploadFail(e.toString());
+                }
+            }), mHotNewsContent.articleId, mHotNewsContent.typeId, mNewsEdtComment.getText().toString(), mUser.id, mUser.stuNum, mUser.idNum);
 
-                        @Override
-                        public void onError(Throwable e) {
-                            super.onError(e);
-                            showUploadFail(e.toString());
-                        }
-                    }) {
-                        @Override
-                        public void onError(Throwable e) {
-                            this.dismissProgressDialog();
-                            if (this.listener != null) {
-                                listener.onError(e);
-                            }
-                        }
-                    });
+        }
 
     }
 
-    private void getDataBeanById(String article_id) {
-        RequestManager.getInstance().getTrendDetail(Stu.STU_NUM, Stu.ID_NUM,
-                mHotNewsContent == null ? BBDDNews.BBDD : mHotNewsContent.typeId,
-                article_id)
-                .subscribe(newses -> {
-                    if (newses != null && newses.size() > 0) {
-                        mHotNewsContent = newses.get(0).data;
-                        mHotNewsContent.userHead = APP.getUser(SpecificNewsActivity.this).photo_thumbnail_src;
-                        mHotNewsContent.nickName = APP.getUser(SpecificNewsActivity.this).nickname;
-                        mWrapView.setData(mHotNewsContent, true);
-                        if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
-                        requestComments();
-                    }
-                }, throwable -> {
-                    showUploadFail(throwable.getMessage());
-                });
+    private void getDataBeanById(String articleId) {
+        RequestManager.getInstance().getTrendDetail(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                showUploadFail(e.getMessage());
+            }
+
+            @Override
+            public void onNext(List<HotNews> hotNewses) {
+                super.onNext(hotNewses);
+                if (hotNewses != null && hotNewses.size() > 0) {
+                    mHotNewsContent = hotNewses.get(0).data;
+                    mHotNewsContent.userHead = APP.getUser(SpecificNewsActivity.this).photo_thumbnail_src;
+                    mHotNewsContent.nickName = APP.getUser(SpecificNewsActivity.this).nickname;
+                    mWrapView.setData(mHotNewsContent, true);
+                    if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
+                    requestComments();
+                }
+            }
+        }), mUser.stuNum, mUser.idNum, mHotNewsContent == null ? BBDDNews.BBDD : mHotNewsContent.typeId, articleId);
+
     }
 
     @Override
@@ -312,12 +315,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private void showUploadFail(String reason) {
         closeLoadingProgress();
-//        Log.e(TAG, "showUploadFail---->>>" + reason);
     }
-
-    private void showUploadSucess() {
-//        Log.d(TAG, "showUploadSuccess");
-    }
-
 
 }
