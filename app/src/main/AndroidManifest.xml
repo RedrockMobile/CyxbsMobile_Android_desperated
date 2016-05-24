@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.mredrock.cyxbs">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mredrock.cyxbs">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -68,7 +68,9 @@
         <activity
             android:name=".ui.activity.explore.MapActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:label="@string/map_activity_name"/>
+
         <activity android:name=".ui.activity.me.EditInfoActivity"/>
         <activity android:name=".ui.activity.me.AboutMeActivity"/>
         <activity android:name=".ui.activity.me.MyTrendActivity"/>

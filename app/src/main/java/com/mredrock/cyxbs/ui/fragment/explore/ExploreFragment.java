@@ -2,6 +2,7 @@ package com.mredrock.cyxbs.ui.fragment.explore;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,8 +58,8 @@ public class ExploreFragment extends BaseFragment {
         if (isAdded()) {
             int[] startLocation = new int[2];
             mWhatToEatHolder.getLocationOnScreen(startLocation);
+            startLocation[0] += mWhatToEatHolder.getWidth() / 2;
             WhatToEatActivity.startWhatToEatActivity(startLocation, getActivity());
-            getActivity().overridePendingTransition(0, 0);
         }
     }
 
@@ -69,7 +70,6 @@ public class ExploreFragment extends BaseFragment {
             mSurroundingFoodHolder.getLocationOnScreen(startLocation);
             startLocation[0] += mSurroundingFoodHolder.getWidth() / 2;
             SurroundingFoodActivity.startSurroundingFoodActivity(startLocation, getActivity());
-            getActivity().overridePendingTransition(0, 0);
         }
     }
 

@@ -27,7 +27,6 @@ abstract class BaseExploreFragment extends BaseFragment
 
     private static final String TAG = LogUtils.makeLogTag(BaseExploreFragment.class);
 
-    View mMainContent;
     ViewStub mErrorLayout;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -41,7 +40,6 @@ abstract class BaseExploreFragment extends BaseFragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(layoutId(), container, false);
         ButterKnife.bind(this, view);
-        mMainContent = view.findViewById(R.id.main_content);
         mErrorLayout = (ViewStub) view.findViewById(R.id.error_stub);
         mSwipeRefreshLayout =
                 (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
@@ -90,21 +88,13 @@ abstract class BaseExploreFragment extends BaseFragment
 
     }
 
-    protected void onMainContentVisibleChanged(boolean shouldVisible) {
-        if (mMainContent != null) {
+    protected void onErrorLayoutVisibleChanged(View contentView, boolean shouldVisible) {
+        if (mErrorLayout != null && contentView != null) {
             if (shouldVisible) {
-                mMainContent.setVisibility(View.VISIBLE);
-            } else {
-                mMainContent.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-
-    protected void onErrorLayoutVisibleChanged(boolean shouldVisible) {
-        if (mErrorLayout != null) {
-            if (shouldVisible) {
+                contentView.setVisibility(View.INVISIBLE);
                 mErrorLayout.setVisibility(View.VISIBLE);
             } else {
+                contentView.setVisibility(View.VISIBLE);
                 mErrorLayout.setVisibility(View.GONE);
             }
         }

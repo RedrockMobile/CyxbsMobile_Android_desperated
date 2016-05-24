@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,7 +57,7 @@ import rx.Subscription;
  * Created by Stormouble on 16/4/16.
  */
 public class SurroundingFoodDetailFragment extends BaseExploreFragment
-        implements EasyPermissions.PermissionCallbacks{
+        implements EasyPermissions.PermissionCallbacks {
 
     private static final String TAG = LogUtils.makeLogTag(SurroundingFoodDetailFragment.class);
     private static final String RESTAURANT_KEY = "shop_key";
@@ -63,8 +65,6 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     private static final int RC_PHONE = 124;
     private static final long ANIMATION_DURATION = 700;
 
-    @Bind(R.id.reveal_background)
-    RevealBackgroundView mRevealBackground;
     @Bind(R.id.surrounding_food_detail_rv)
     RecyclerView mFoodDetailRv;
     @Bind(R.id.fab)
@@ -76,17 +76,15 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     private FoodCommentsAdapter mAdapter;
     private HeaderViewWrapper mHeaderViewWrapper;
 
-    private int[] mDrawingStartLocation;
 
     public SurroundingFoodDetailFragment() {
         //Requires empty public constructor
     }
 
-    public static SurroundingFoodDetailFragment newInstance(String restaurantKey, int[] startLocation) {
+    public static SurroundingFoodDetailFragment newInstance(String restaurantKey) {
         SurroundingFoodDetailFragment fragment = new SurroundingFoodDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(RESTAURANT_KEY, restaurantKey);
-        bundle.putIntArray(BaseExploreActivity.ARG_DRAWING_START_LOCATION, startLocation);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -100,7 +98,6 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRestaurantKey = getArguments().getString(RESTAURANT_KEY);
-        mDrawingStartLocation = getArguments().getIntArray(BaseExploreActivity.ARG_DRAWING_START_LOCATION);
     }
 
     @Nullable
@@ -133,16 +130,9 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
         mFloatingActionButton.setImageResource(R.drawable.ic_add);
         mFloatingActionButton.setOnClickListener(v -> onFabClick());
 
-
-        enableRevealBackground(mRevealBackground, mDrawingStartLocation,
-                savedInstanceState, state -> {
-            if (RevealBackgroundView.STATE_FINISHED == state) {
-                getFoodAndCommentList(1, true);
-            } else {
-                onMainContentVisibleChanged(false);
-                mFloatingActionButton.setVisibility(View.INVISIBLE);
-            }
-        });
+        mFoodDetailRv.setVisibility(View.INVISIBLE);
+        mFloatingActionButton.setVisibility(View.INVISIBLE);
+        getFoodAndCommentList(1, true);
     }
 
 
@@ -171,12 +161,12 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     /**
      * Get food data and comments
      */
-    private void getFoodAndCommentList(int page, boolean shouldShowProgressDialog) {
+    private void getFoodAndCommentList(int page, boolean firstLoaded) {
         Subscription subscription = RequestManager.getInstance().getFoodAndCommentList(
-                new SimpleSubscriber<FoodDetail>(getActivity(), shouldShowProgressDialog, new SubscriberListener<FoodDetail>() {
+                new SimpleSubscriber<FoodDetail>(getActivity(), firstLoaded, new SubscriberListener<FoodDetail>() {
                     @Override
                     public void onStart() {
-                        if (!shouldShowProgressDialog) {
+                        if (!firstLoaded) {
                             mSwipeRefreshLayout.post(() -> onRefreshingStateChanged(true));
                         }
                     }
@@ -184,17 +174,17 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                     @Override
                     public void onCompleted() {
                         onRefreshingStateChanged(false);
-                        onMainContentVisibleChanged(true);
-                        onErrorLayoutVisibleChanged(false);
+                        onErrorLayoutVisibleChanged(mFoodDetailRv,false);
 
-                        animateFab();
+                        if (firstLoaded) {
+                            animateFab();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         onRefreshingStateChanged(false);
-                        onMainContentVisibleChanged(false);
-                        onErrorLayoutVisibleChanged(true);
+                        onErrorLayoutVisibleChanged(mFoodDetailRv, true);
                     }
 
                     @Override
@@ -237,30 +227,26 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
 
     private void sendCommentAndRefresh(String content, boolean shouldRetry) {
         User user = APP.getUser(getActivity());
-        if (user != null) {
-            Subscription subscription = RequestManager.getInstance().sendCommentAndRefresh(
-                    new SimpleSubscriber<List<FoodComment>>(getActivity(), true, new SubscriberListener<List<FoodComment>>() {
-                        @Override
-                        public void onNext(List<FoodComment> commentList) {
-                            if (commentList != null) {
-                                mAdapter.updateData(commentList);
+        Subscription subscription = RequestManager.getInstance().sendCommentAndRefresh(
+                new SimpleSubscriber<List<FoodComment>>(getActivity(), true, new SubscriberListener<List<FoodComment>>() {
+                    @Override
+                    public void onNext(List<FoodComment> commentList) {
+                        if (commentList != null) {
+                            mAdapter.updateData(commentList);
+                        } else {
+                            if (shouldRetry) {
+                                Snackbar.make(mFloatingActionButton, getResources().getString(R.string.send_comment_fail), Snackbar.LENGTH_LONG)
+                                        .setAction(getResources().getString(R.string.send_comment_again), v -> {
+                                            sendCommentAndRefresh(content, false);
+                                        }).show();
                             } else {
-                                if (shouldRetry) {
-                                    Snackbar.make(mFloatingActionButton, getResources().getString(R.string.send_comment_fail), Snackbar.LENGTH_LONG)
-                                            .setAction(getResources().getString(R.string.send_comment_again), v -> {
-                                                sendCommentAndRefresh(content, false);
-                                            }).show();
-                                } else {
-                                    Toast.makeText(getActivity(), getResources().getString(R.string.send_comment_fail_again), Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(getActivity(), getResources().getString(R.string.send_comment_fail_again), Toast.LENGTH_SHORT).show();
                             }
                         }
-                    }), mRestaurantKey, user.stuNum, user.idNum, content, user.name);
+                    }
+                }), mRestaurantKey, user.stuNum, user.idNum, content, user.name);
 
-            mCompositeSubscription.add(subscription);
-        }
-
-
+        mCompositeSubscription.add(subscription);
     }
 
     private void animateFab() {
@@ -297,11 +283,13 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
         @Bind(R.id.restaurant_introduction)
         TextView mRestaurantIntroduction;
         @Bind(R.id.restaurant_phone)
-        TextDrawableView mRestaurantPhone;
+        TextView mRestaurantPhone;
         @Bind(R.id.restaurant_location)
-        TextDrawableView mRestaurantLocation;
+        TextView mRestaurantLocation;
         @Bind(R.id.restaurant_promotion)
-        TextDrawableView mRestaurantPromotion;
+        TextView mRestaurantPromotion;
+        @Bind(R.id.restaurant_comment)
+        TextView mRestaurantComment;
 
         private String phone;
         private Fragment fragment;
@@ -333,6 +321,26 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
             this.fragment = fragment;
             contentView = inflater.inflate(R.layout.food_detail_header, container, false);
             ButterKnife.bind(this, contentView);
+
+            setupTextLeftDrawable();
+        }
+
+        public void setupTextLeftDrawable() {
+            Drawable phoneDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_phone);
+            Drawable locationDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_location);
+            Drawable promotionDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_promotion);
+            Drawable commentDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_comment);
+
+            setDrawable(mRestaurantPhone, phoneDrawable);
+            setDrawable(mRestaurantLocation, locationDrawable);
+            setDrawable(mRestaurantPromotion, promotionDrawable);
+            setDrawable(mRestaurantComment, commentDrawable);
+        }
+
+        private void setDrawable(TextView textView, Drawable leftDrawable) {
+            leftDrawable.setBounds(0, 0, (int)getResources().getDimension(R.dimen.restaurant_icon_width), (int)getResources().getDimension(R.dimen.restaurant_icon_height));
+            textView.setCompoundDrawablePadding((int) getResources().getDimension(R.dimen.padding_normal));
+            textView.setCompoundDrawables(leftDrawable, null, null, null);
         }
 
         public void setData(String name, String introduction, String phone,
@@ -346,6 +354,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
 
             this.phone = phone;
         }
+
 
         @AfterPermissionGranted(RC_PHONE)
         private void phoneCall() {

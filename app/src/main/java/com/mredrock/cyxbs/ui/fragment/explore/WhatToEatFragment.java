@@ -9,9 +9,13 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,13 +32,14 @@ import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscription;
 
 /**
  * Created by Stormouble on 16/4/27.
  */
-public class WhatToEatFragment extends BaseExploreFragment implements SensorEventListener{
+public class WhatToEatFragment extends BaseExploreFragment implements SensorEventListener {
 
     private static final String TAG = LogUtils.makeLogTag(WhatToEatFragment.class);
 
@@ -42,23 +47,17 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
     private static final int MAIN_CONTENT_SCALE_DURATION = 200;
     private static final int SHAKE_FORCE = 350;
 
-    @Bind(R.id.shake_photo)
-    ImageView mShakeImageView;
-    @Bind(R.id.result_stub)
-    ViewStub mShakeResultLayout;
+    @Bind(R.id.what_to_eat_container)
+    FrameLayout mContainerLayout;
 
     private int[] mDrawingStartLocation;
-    private String mRestaurantKey;
     private long mLastTime;
-    private boolean mIsResultLayoutInflate = false;
-
-    private ImageView mRestaurantImageView;
-    private TextView mRestaurantName;
-    private TextView mRestaurantAddress;
-    private TextView mRestaurantAgain;
 
     private Vibrator mVibrator;
     private SensorManager mSensorManager;
+
+    private ImageView mShakePhoto;
+    private ResultViewWrapper mResultViewWrapper;
 
     public WhatToEatFragment() {
         // Requires ic_empty public constructor
@@ -70,11 +69,6 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
         bundle.putIntArray(SurroundingFoodActivity.ARG_DRAWING_START_LOCATION, startLocation);
         fragment.setArguments(bundle);
         return fragment;
-    }
-
-    @OnClick(R.id.shake_photo)
-    public void onClickShakeImage() {
-        tryShake();
     }
 
     @Override
@@ -91,6 +85,24 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDrawingStartLocation = getArguments().getIntArray(BaseExploreActivity.ARG_DRAWING_START_LOCATION);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mShakePhoto = new ImageView(getActivity());
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        mShakePhoto.setLayoutParams(layoutParams);
+        mShakePhoto.setPadding((int) getResources().getDimension(R.dimen.padding_xxlarge),
+                (int) getResources().getDimension(R.dimen.padding_xxlarge),
+                (int) getResources().getDimension(R.dimen.padding_xxlarge),
+                (int) getResources().getDimension(R.dimen.padding_xxlarge));
+        mShakePhoto.setImageResource(R.drawable.img_shake);
+        mShakePhoto.setAdjustViewBounds(true);
+        mShakePhoto.setOnClickListener(v -> tryShake());
+        mContainerLayout.addView(mShakePhoto);
     }
 
     @Override
@@ -149,11 +161,6 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
             Subscription subscription = RequestManager.getInstance().getShake(
                     new SimpleSubscriber<Shake>(getActivity(), new SubscriberListener<Shake>() {
                         @Override
-                        public void onCompleted() {
-                            enableDisableSwipeRefresh(true);
-                        }
-
-                        @Override
                         public void onNext(Shake data) {
                             setFoodData(data);
                         }
@@ -164,72 +171,88 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
     }
 
     private void setFoodData(final Shake data) {
-        mRestaurantKey = data.id;
+        if (mResultViewWrapper == null) {
+            View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.explore_shake_result, mContainerLayout, false);
+            mResultViewWrapper = new ResultViewWrapper(contentView, data.id);
 
-        if (!mIsResultLayoutInflate) {
-            mShakeImageView.setVisibility(View.GONE);
+            mContainerLayout.removeView(mShakePhoto);
+            mContainerLayout.addView(contentView);
 
-            final View contentView = mShakeResultLayout.inflate();
-            mRestaurantImageView = (ImageView) contentView.findViewById(R.id.restaurant_photo);
-            mRestaurantName = (TextView) contentView.findViewById(R.id.restaurant_name);
-            mRestaurantAddress = (TextView) contentView.findViewById(R.id.restaurant_location);
-            mRestaurantAgain = (TextView) contentView.findViewById(R.id.shake_again);
-
-            mIsResultLayoutInflate = true;
-        }
-
-        mRestaurantName.setText(data.name);
-        mRestaurantAddress.setText(data.address);
-        mGlideHelper.loadImage(data.img, mRestaurantImageView);
-        mRestaurantAgain.setOnClickListener(v -> tryShake());
-        mRestaurantImageView.setOnClickListener(view -> {
-            int[] startLocation = new int[2];
-            view.getLocationOnScreen(startLocation);
-            startLocation[0] += view.getWidth() / 2;
-            UIUtils.startAnotherFragment(WhatToEatFragment.this.getFragmentManager(), WhatToEatFragment.this,
-                    SurroundingFoodDetailFragment.newInstance(data.id, startLocation),
-                    R.id.what_to_eat_contentFrame);
-        });
+            enableDisableSwipeRefresh(true);
+        } 
+        mResultViewWrapper.mRestaurantName.setText(data.name);
+        mResultViewWrapper.mRestaurantAddress.setText(data.address);
+        mGlideHelper.loadImage(data.img, mResultViewWrapper.mRestaurantImageView);
     }
+
 
     private void getFood() {
         Subscription subscription = RequestManager.getInstance().getFood(new SimpleSubscriber<>(getActivity(), new SubscriberListener<FoodDetail>() {
             @Override
             public void onCompleted() {
                 onRefreshingStateChanged(false);
-                onMainContentVisibleChanged(true);
-                onErrorLayoutVisibleChanged(false);
+                onErrorLayoutVisibleChanged(mContainerLayout, false);
             }
 
             @Override
             public void onError(Throwable e) {
                 onRefreshingStateChanged(false);
-                onMainContentVisibleChanged(false);
-                onErrorLayoutVisibleChanged(true);
+                onErrorLayoutVisibleChanged(mContainerLayout, true);
             }
 
             @Override
             public void onNext(FoodDetail data) {
-                mRestaurantName.setText(data.shop_name);
-                mRestaurantAddress.setText(data.shop_address);
-                mGlideHelper.loadImage(data.shop_image[0], mRestaurantImageView);
+                mResultViewWrapper.mRestaurantName.setText(data.shop_name);
+                mResultViewWrapper.mRestaurantAddress.setText(data.shop_address);
+                mGlideHelper.loadImage(data.shop_image[0], mResultViewWrapper.mRestaurantImageView);
             }
-        }), mRestaurantKey);
+        }), mResultViewWrapper.mRestaurantKey);
 
         mCompositeSubscription.add(subscription);
     }
 
     private void startIntroAnimation() {
         ViewCompat.setElevation(((WhatToEatActivity) getActivity()).getToolbar(), 0);
-        mMainContent.setScaleX(0.1f);
-        mMainContent.setScaleY(0.1f);
-        mMainContent.setPivotX(mDrawingStartLocation[0]);
-        mMainContent.setPivotY(mDrawingStartLocation[1]);
+        mShakePhoto.setScaleX(0.1f);
+        mShakePhoto.setScaleY(0.1f);
+        mShakePhoto.setPivotX(mDrawingStartLocation[0]);
+        mShakePhoto.setPivotY(mDrawingStartLocation[1]);
 
-        mMainContent.animate()
+        mShakePhoto.animate()
                 .scaleX(1.f)
                 .scaleY(1.f)
                 .setInterpolator(new AccelerateInterpolator())
                 .setDuration(MAIN_CONTENT_SCALE_DURATION);
+
+    }
+
+    class ResultViewWrapper {
+        @Bind(R.id.restaurant_photo)
+        ImageView mRestaurantImageView;
+        @Bind(R.id.restaurant_name)
+        TextView mRestaurantName;
+        @Bind(R.id.restaurant_location)
+        TextView mRestaurantAddress;
+        @Bind(R.id.shake_again)
+        TextView mAgainText;
+        
+        @OnClick(R.id.restaurant_photo)
+        public void onPhotoClick() {
+            UIUtils.startAnotherFragment(WhatToEatFragment.this.getFragmentManager(), WhatToEatFragment.this,
+                    SurroundingFoodDetailFragment.newInstance(mRestaurantKey),
+                    R.id.what_to_eat_contentFrame);
+        }
+
+        @OnClick(R.id.shake_again)
+        public void onShakeAgainClick() {
+            tryShake();
+        }
+        
+        String mRestaurantKey;
+        
+        public ResultViewWrapper(View contentView, String restaurantKey) {
+            ButterKnife.bind(this, contentView);
+            mRestaurantKey = restaurantKey;
+        }
     }
 }

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,7 +28,9 @@ import butterknife.ButterKnife;
 public abstract class BaseExploreActivity extends BaseActivity {
 
     public static final String ARG_DRAWING_START_LOCATION = "arg_drawing_start_location";
+
     private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
+    private static final int MAIN_CONTENT_FADEOUT_DURATION = 150;
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -40,14 +43,7 @@ public abstract class BaseExploreActivity extends BaseActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        mMainContent = findViewById(R.id.main_content);
-        if (mMainContent != null) {
-            mMainContent.setAlpha(0.f);
-            mMainContent.animate()
-                    .alpha(1.f)
-                    .setDuration(MAIN_CONTENT_FADEIN_DURATION)
-                    .start();
-        }
+        animateMainContentFadeIn();
     }
 
     @Override
@@ -58,7 +54,7 @@ public abstract class BaseExploreActivity extends BaseActivity {
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
@@ -69,6 +65,21 @@ public abstract class BaseExploreActivity extends BaseActivity {
         if (mToolbarTitle != null) {
             mToolbarTitle.setText(title);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                tryHandleMultiFragmentBack();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        tryHandleMultiFragmentBack();
     }
 
     public Toolbar getToolbar() {
@@ -121,4 +132,26 @@ public abstract class BaseExploreActivity extends BaseActivity {
             finish();
         }
     }
+
+    protected void animateMainContentFadeIn() {
+        mMainContent = findViewById(R.id.main_content);
+        if (mMainContent != null) {
+            mMainContent.setAlpha(0.f);
+            mMainContent.animate()
+                    .alpha(1.f)
+                    .setDuration(MAIN_CONTENT_FADEIN_DURATION)
+                    .start();
+        }
+    }
+
+    protected void animateMainContentFadeOut() {
+        mMainContent = findViewById(R.id.main_content);
+        if (mMainContent != null) {
+            mMainContent.animate()
+                    .alpha(0.f)
+                    .setDuration(MAIN_CONTENT_FADEOUT_DURATION)
+                    .start();
+        }
+    }
+
 }

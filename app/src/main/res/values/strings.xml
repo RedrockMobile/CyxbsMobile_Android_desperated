@@ -158,6 +158,7 @@
     <string name="portal_menu_copy">复制链接</string>
     <string name="portal_open_with">用浏览器打开</string>
 
+    <string name="map_activity_name">重邮地图</string>
     <string name="map_flow_dialog_title">流量警告</string>
     <string name="map_flow_dialog_content">当前不在wifi下哦，是否用流量下载重邮地图？</string>
     <string name="map_flow_dialog_positive">就是任性</string>

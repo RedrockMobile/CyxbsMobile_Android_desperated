@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_layout"
+    android:clickable="true"
     android:minHeight="@dimen/item_min_height_large"
     android:orientation="vertical"
     android:paddingLeft="@dimen/padding_normal"

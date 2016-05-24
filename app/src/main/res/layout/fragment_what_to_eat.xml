@@ -4,42 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/what_to_eat_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
 
-        <LinearLayout
-            android:id="@+id/main_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/shake_photo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:padding="@dimen/padding_xxlarge"
-                android:src="@drawable/img_shake" />
-
-            <ViewStub
-                android:id="@+id/result_stub"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inflatedId="@+id/shake_result_layout"
-                android:layout="@layout/explore_shake_result" />
-
-        </LinearLayout>
-
-        <ViewStub
-            android:id="@+id/error_stub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:inflatedId="@+id/error_layout"
-            android:layout="@layout/explore_error" />
-
-    </RelativeLayout>
+    <ViewStub
+        android:id="@+id/error_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/error_layout"
+        android:layout="@layout/explore_error" />
 
 </android.support.v4.widget.SwipeRefreshLayout>
