@@ -83,14 +83,14 @@ public class MainActivity extends BaseActivity {
         userFragment = new UserFragment();
 
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(socialContainerFragment);
         fragments.add(courseContainerFragment);
+        fragments.add(socialContainerFragment);
         fragments.add(exploreFragment);
         fragments.add(userFragment);
 
         ArrayList<String> titles = new ArrayList<>();
-        titles.add(mStringCommunity);
         titles.add(mStringCourse);
+        titles.add(mStringCommunity);
         titles.add(mStringExplore);
         titles.add(mStringMyPage);
 
@@ -98,15 +98,16 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(adapter);
         mViewPager.setOffscreenPageLimit(4);
 
+        mBottomBar.post(() -> hiddenMenu());
         mBottomBar.setOnBottomViewClickListener((view, position) -> {
             mViewPager.setCurrentItem(position, false);
             hiddenMenu();
             setTitle(adapter.getPageTitle(position));
             switch (position) {
-                case 0:
+                case 1:
                     showMenu();
                     break;
-                case 1:
+                case 0:
                     setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
                     break;
                 case 3:

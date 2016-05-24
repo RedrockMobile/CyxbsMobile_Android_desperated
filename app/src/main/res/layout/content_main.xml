@@ -33,8 +33,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            app:button_image_normal="@drawable/ic_nearby"
-            app:button_text="@string/community"
+            app:button_image_normal="@drawable/ic_favorites"
+            app:button_text="@string/course"
             app:color_choose="@color/colorPrimary"
             app:color_normal="@color/tabText"/>
 
@@ -43,10 +43,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            app:button_image_normal="@drawable/ic_favorites"
-            app:button_text="@string/course"
+            app:button_image_normal="@drawable/ic_nearby"
+            app:button_text="@string/community"
             app:color_choose="@color/colorPrimary"
             app:color_normal="@color/tabText"/>
+
 
         <com.mredrock.cyxbs.component.widget.bottombar.BottomButton
             android:layout_width="0dp"
