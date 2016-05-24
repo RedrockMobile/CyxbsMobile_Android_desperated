@@ -80,7 +80,6 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         addOnScrollListener();
-
         initAdapter(null);
         getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX);
     }
@@ -96,7 +95,6 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-
     }
 
     @Override
@@ -125,7 +123,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
     public void getCurrentData(int size, int page) {
-        showLoadingProgress();
+        mSwipeRefreshLayout.post(() -> showLoadingProgress());
         provideData(new SimpleSubscriber<>(getActivity(), new SubscriberListener<List<HotNews>>() {
             @Override
             public void onError(Throwable e) {
@@ -134,6 +132,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
                 closeLoadingProgress();
                 getDataFailed(e.toString());
             }
+
             @Override
             public void onNext(List<HotNews> hotNewses) {
                 super.onNext(hotNewses);

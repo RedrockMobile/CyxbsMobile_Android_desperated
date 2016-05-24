@@ -133,7 +133,6 @@ dependencies {
     compile 'com.github.traex.rippleeffect:library:1.3'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'com.ms-square:expandableTextView:0.1.4'
-    compile 'com.github.lovetuzitong:MultiImageSelector:92c0404cfb'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'im.fir:fir-sdk:latest.integration@aar'
 }
