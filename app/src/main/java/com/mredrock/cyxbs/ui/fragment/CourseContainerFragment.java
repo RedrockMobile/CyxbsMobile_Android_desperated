@@ -19,6 +19,7 @@ import com.mredrock.cyxbs.ui.activity.MainActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -102,7 +103,7 @@ public class CourseContainerFragment extends BaseFragment {
             @Override
             public void onPageSelected(int position) {
                 title = mTitles.get(position);
-                if (((MainActivity) getActivity()).getCurrentPosition() == 1) {
+                if (((MainActivity) getActivity()).getCurrentPosition() == 0) {
                     if (mToolbarTitle != null) mToolbarTitle.setText(title);
                 }
 
@@ -132,6 +133,7 @@ public class CourseContainerFragment extends BaseFragment {
                         mTabs.setVisibility(View.GONE);
                     } else {
                         mTabs.setVisibility(View.VISIBLE);
+                        mTabs.setScrollPosition(mPager.getCurrentItem(), 0, true);
                     }
                 }
             });
