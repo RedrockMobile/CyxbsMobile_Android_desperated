@@ -36,7 +36,7 @@ public class ImageLoader {
     public void loadOffcialImg(String url, ImageView imageView, View itemView) {
         Context context = itemView.getContext();
         Glide.with(APP.getContext())
-                .load(url.startsWith("http") ? url : CustomImageView.BASE_THUMBNAIL_IMG_URL + url)
+                .load(url.startsWith("http") ? url : CustomImageView.BASE_NORMAL_IMG_URL + url)
                 .placeholder(R.drawable.place_holder)
                 .error(R.drawable.place_holder)
                 .crossFade()

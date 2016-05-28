@@ -29,8 +29,16 @@
                 android:textSize="18sp" />
 
         </android.support.v7.widget.Toolbar>
+
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/content_main"
+        android:id="@+id/include" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar2" />
 
 </android.support.design.widget.CoordinatorLayout>
