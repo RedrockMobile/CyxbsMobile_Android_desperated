@@ -31,6 +31,7 @@ import butterknife.ButterKnife;
 
 /**
  * 社区
+ * //TODO: Modify it
  */
 public class SocialContainerFragment extends BaseFragment {
 
@@ -49,6 +50,7 @@ public class SocialContainerFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_social_container, container, false);
         ButterKnife.bind(this, view);
         getUserData();
+        init();
         return view;
     }
 
@@ -69,7 +71,7 @@ public class SocialContainerFragment extends BaseFragment {
             else init();
         } else {
             firstLogin = true;
-            EventBus.getDefault().post(new LoginEvent());
+//            EventBus.getDefault().post(new LoginEvent());
         }
     }
 
@@ -81,7 +83,7 @@ public class SocialContainerFragment extends BaseFragment {
 
     private void getPersonInfoData() {
         if (!APP.isLogin()) {
-            EventBus.getDefault().post(new LoginEvent());
+//            EventBus.getDefault().post(new LoginEvent());
             return;
         }
         if (mUser != null) {
@@ -92,7 +94,7 @@ public class SocialContainerFragment extends BaseFragment {
                     super.onNext(personInfo);
                     mUser = User.cloneFromUserInfo(mUser, personInfo);
                     APP.setUser(getActivity(), mUser);
-                    init();
+//                    init();
                 }
             }), mUser.stuNum, mUser.stuNum, mUser.idNum);
         }

@@ -22,12 +22,12 @@ public class Const {
 
     public static final String APT_SEARCH_STUDENT = "/cyxbsMobile/index.php/home/searchPeople/peopleList";
 
-    public static final String API_SOCIAL_OFFICIAL_NEWS_LIST = "/cyxbsMobile/index.php/Home/Article/listNews";
-    public static final String API_SOCIAL_HOT_LIST = "/cyxbsMobile/index.php/Home/Article/searchHotArticle";
-    public static final String API_SOCIAL_BBDD_LIST = "/cyxbsMobile/index.php/Home/Article/listArticle";
+    public static final String API_SOCIAL_OFFICIAL_NEWS_LIST = "/cyxbsMobile/index.php/Home/NewArticle/listNews";
+    public static final String API_SOCIAL_HOT_LIST = "/cyxbsMobile/index.php/Home/NewArticle/searchHotArticle";
+    public static final String API_SOCIAL_BBDD_LIST = "/cyxbsMobile/index.php/Home/NewArticle/listArticle";
     public static final String API_SOCIAL_IMG_UPLOAD = "/cyxbsMobile/index.php/Home/Photo/uploadArticle";
     public static final String API_SOCIAL_ARTICLE_ADD = "/cyxbsMobile/index.php/Home/Article/addArticle";
-    public static final String API_SOCIAL_COMMENT_LIST = "/cyxbsMobile/index.php/Home/ArticleRemark/getremark";
+    public static final String API_SOCIAL_COMMENT_LIST = "/cyxbsMobile/index.php/Home/NewArticleRemark/getremark";
     public static final String API_SOCIAL_COMMENT_ADD = "/cyxbsMobile/index.php/Home/ArticleRemark/postremarks";
     public static final String API_SOCIAL_LIKE = "/cyxbsMobile/index.php/Home/Praise/addone";
     public static final String API_SOCIAL_UNLIKE = "/cyxbsMobile/index.php/Home/Praise/cancel";
@@ -56,7 +56,7 @@ public class Const {
     //根据id得到动态详情
     public static final String API_TREND_DETAIL = "/cyxbsMobile/index.php/Home/Article/searchContent";
     //动态查询
-    public static final String API_SEARCH_ARTICLE = "/cyxbsMobile/index.php/Home/Article/searchtrends";
+    public static final String API_SEARCH_ARTICLE = "/cyxbsMobile/index.php/Home/NewArticle/searchtrends";
 
     public static final String SP_KEY_USER = "cyxbsmobile_user";
     public static final String SP_KEY_IS_NIGHT = "is_night";

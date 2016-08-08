@@ -3,6 +3,7 @@ package com.mredrock.cyxbs;
 import android.app.Application;
 import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
+import android.text.format.DateUtils;
 
 import com.google.gson.Gson;
 import com.mredrock.cyxbs.config.Const;
@@ -13,6 +14,8 @@ import com.orhanobut.logger.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Date;
 
 import im.fir.sdk.FIR;
 
@@ -28,6 +31,8 @@ public class APP extends Application {
     public static Context getContext() {
         return context;
     }
+
+    // TODO: isLogin getUser setUser 使用的位置,逻辑
 
     public static void setUser(Context context, User user) {
         String userJson;
@@ -52,10 +57,7 @@ public class APP extends Application {
             mUser = new Gson().fromJson(json, User.class);
 
             if (mUser == null || mUser.stuNum == null || mUser.idNum == null) {
-                if (EventBus.getDefault().hasSubscriberForEvent(LoginEvent.class)) {
-                    EventBus.getDefault().post(new LoginEvent());
-                }
-                return null;
+                initializeFakeUser();
             }
         }
         return mUser;
@@ -65,9 +67,24 @@ public class APP extends Application {
         if (!login) {
             String json = (String) SPUtils.get(context, Const.SP_KEY_USER, "");
             User user = new Gson().fromJson(json, User.class);
-            login = user != null;
+            if (user != null && !user.stuNum.equals("0")) {
+                return true;
+            } else {
+                initializeFakeUser();
+            }
         }
         return login;
+    }
+
+    private static void initializeFakeUser() {
+        mUser = new User();
+        mUser.id = "0";
+        mUser.idNum = "0";
+        mUser.stuNum = "0";
+    }
+
+    public static boolean isFresh() {
+        return !isLogin() && mUser.stuNum.substring(0, 3).equals(DateUtils.YEAR_FORMAT);
     }
 
     public static void setLogin(boolean login) {
@@ -87,6 +104,7 @@ public class APP extends Application {
         initThemeMode();
         FIR.init(this);
         Logger.init("cyxbs_mobile");
+
     }
 
     @Override
@@ -95,7 +113,7 @@ public class APP extends Application {
     }
 
     @Override
-    public void onTerminate() {
+    public void onTerminate(){
         super.onTerminate();
     }
 

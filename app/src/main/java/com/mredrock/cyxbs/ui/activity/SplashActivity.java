@@ -11,11 +11,11 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!APP.isLogin() || APP.getUser(this) == null) {
-            startActivity(new Intent(this, LoginActivity.class));
-        } else {
+//        if (!APP.isLogin() || APP.getUser(this) == null) {
+//            startActivity(new Intent(this, LoginActivity.class));
+//        } else {
             startActivity(new Intent(this, MainActivity.class));
-        }
+//        }
         this.finish();
     }
 }

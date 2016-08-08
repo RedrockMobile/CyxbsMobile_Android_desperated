@@ -72,7 +72,8 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
-        UpdateUtil.checkUpdate(this, false);
+        //TODO: Recover it
+//        UpdateUtil.checkUpdate(this, false);
     }
 
     private void initView() {
@@ -112,7 +113,7 @@ public class MainActivity extends BaseActivity {
                     break;
                 case 3:
                     if (!APP.isLogin()) {
-                        EventBus.getDefault().post(new LoginEvent());
+//                        EventBus.getDefault().post(new LoginEvent());
                     }
                     break;
                 default:
