@@ -86,6 +86,7 @@ public class MainActivity extends BaseActivity {
         unLoginFragment = new UnLoginFragment();
 
         ArrayList<Fragment> fragments = new ArrayList<>();
+        //判断是否登陆
         if (APP.getUser(MainActivity.this) == null|| !APP.isLogin()) {
             fragments.add(unLoginFragment);
         } else {
