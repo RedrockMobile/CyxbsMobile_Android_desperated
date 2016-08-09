@@ -82,14 +82,20 @@ public class LoginActivity extends AppCompatActivity {
                         if (user != null) {
                             APP.setUser(LoginActivity.this, user);
                             MobclickAgent.onProfileSignIn(stuNum);
-                            EventBus.getDefault().removeStickyEvent(ExitEvent.class);
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            LoginActivity.this.finish();
+                       //     EventBus.getDefault().removeStickyEvent(ExitEvent.class);
+                      //      startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        //    onBackPressed();
                         } else {
                             Utils.toast(LoginActivity.this, "登录失败, 返回了信息为空");
                         }
                     }
 
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        finish();
+
+                    }
                 }), stuNum, idNum);
 
     }
@@ -103,10 +109,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (EventBus.getDefault().hasSubscriberForEvent(ExitEvent.class)) {
+        /*if (EventBus.getDefault().hasSubscriberForEvent(ExitEvent.class)) {
             EventBus.getDefault().postSticky(new ExitEvent());
-        }
+        }*/
 
-        this.finish();
+       // this.finish();
     }
 }

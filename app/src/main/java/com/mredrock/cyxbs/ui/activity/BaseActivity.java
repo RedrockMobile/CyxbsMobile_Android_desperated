@@ -11,7 +11,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.ExitEvent;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.util.KeyboardUtils;
@@ -175,9 +177,32 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(new Intent(this, LoginActivity.class));
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAskLoginEvent(AskLoginEvent event) {
+        new MaterialDialog.Builder(this)
+                .title("是否登录?")
+                .content(event.getMsg())
+                .positiveText("马上去登录")
+                .negativeText("我再看看")
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        EventBus.getDefault().post(new LoginEvent());
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                        dialog.dismiss();
+                    }
+                }).show();
+
+    }
+
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onExitEvent(ExitEvent event) {
-        this.finish();
+       // this.finish();
     }
 
     @Override

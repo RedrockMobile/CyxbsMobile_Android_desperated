@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.config.Const;
+import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.Exam;
@@ -35,6 +36,8 @@ import com.mredrock.cyxbs.network.setting.CacheProviders;
 import com.mredrock.cyxbs.network.setting.QualifiedTypeConverterFactory;
 import com.mredrock.cyxbs.util.BitmapUtil;
 import com.mredrock.cyxbs.util.Utils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -542,6 +545,7 @@ public enum RequestManager {
     public boolean checkWithUserId(String s) {
         if (!APP.isLogin()) {
             Toast.makeText(APP.getContext(), s, Toast.LENGTH_LONG).show();
+            EventBus.getDefault().post(new AskLoginEvent(s));
             return false;
         } else {
             return true;

@@ -7,15 +7,11 @@ import android.text.format.DateUtils;
 
 import com.google.gson.Gson;
 import com.mredrock.cyxbs.config.Const;
-import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.orhanobut.logger.Logger;
 
 import org.apache.commons.lang3.StringUtils;
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.Date;
 
 import im.fir.sdk.FIR;
 
@@ -78,7 +74,7 @@ public class APP extends Application {
 
     private static void initializeFakeUser() {
         mUser = new User();
-        mUser.id = "0";
+      //  mUser.id = "0";
         mUser.idNum = "0";
         mUser.stuNum = "0";
     }

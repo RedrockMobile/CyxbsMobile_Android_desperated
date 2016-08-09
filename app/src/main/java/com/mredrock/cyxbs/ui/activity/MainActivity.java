@@ -24,6 +24,7 @@ import com.mredrock.cyxbs.ui.fragment.CourseContainerFragment;
 import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
+import com.mredrock.cyxbs.ui.fragment.UnLoginFragment;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
 
@@ -63,6 +64,7 @@ public class MainActivity extends BaseActivity {
     BaseFragment courseContainerFragment;
     BaseFragment exploreFragment;
     BaseFragment userFragment;
+    BaseFragment unLoginFragment;
 
     private Menu mMenu;
 
@@ -82,9 +84,15 @@ public class MainActivity extends BaseActivity {
         courseContainerFragment = new CourseContainerFragment();
         exploreFragment = new ExploreFragment();
         userFragment = new UserFragment();
+        unLoginFragment = new UnLoginFragment();
 
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(courseContainerFragment);
+        //判断是否登陆
+        if (APP.getUser(MainActivity.this) == null|| !APP.isLogin()) {
+            fragments.add(unLoginFragment);
+        } else {
+            fragments.add(courseContainerFragment);
+        }
         fragments.add(socialContainerFragment);
         fragments.add(exploreFragment);
         fragments.add(userFragment);
