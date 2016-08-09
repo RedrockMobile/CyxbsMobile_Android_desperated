@@ -26,9 +26,9 @@ public class StudentNumberInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         String url = chain.request().url().toString();
         if (APP.isLogin() && (
-                   url.equals(Const.API_SOCIAL_HOT_LIST)
-                || url.equals(Const.API_SOCIAL_BBDD_LIST)
-                || url.equals(Const.API_GET_PERSON_LATEST))) {
+                   url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_HOT_LIST)
+                || url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_BBDD_LIST)
+                || url.equals(Const.END_POINT_REDROCK + Const.API_GET_PERSON_LATEST))) {
             return doIntercept(chain);
         } else {
             return chain.proceed(chain.request());
