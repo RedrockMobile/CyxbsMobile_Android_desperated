@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
 
-import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
@@ -19,7 +18,7 @@ public class OfficialFragment extends BaseNewsFragment {
 
     @Override
     void provideData(Subscriber<List<HotNews>> subscriber, int size, int page) {
-        RequestManager.getInstance().getListNews(subscriber, size, page, APP.getUser(getActivity()).stuNum, APP.getUser(getActivity()).idNum);
+        RequestManager.getInstance().getListNews(subscriber, size, page);
     }
 
     @Override

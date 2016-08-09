@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
 
-import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
@@ -17,7 +16,7 @@ import rx.Subscriber;
 public class HotNewsFragment extends BaseNewsFragment {
 
     void provideData(Subscriber<List<HotNews>> subscriber, int size, int page) {
-        RequestManager.getInstance().getHotArticle(subscriber, size, page, APP.getUser(getActivity()).stuNum, APP.getUser(getActivity()).idNum);
+        RequestManager.getInstance().getHotArticle(subscriber, size, page);
     }
 
 

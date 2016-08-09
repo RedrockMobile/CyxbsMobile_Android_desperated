@@ -131,7 +131,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
                 } else mNewsAdapter.replaceDataList(hotNewses);
                 closeLoading();
             }
-        }), mUserId, mUser.stuNum, mUser.idNum, mNickName, mUserAvatar);
+        }), mUserId, mNickName, mUserAvatar);
     }
 
     private void initAdapter(List<HotNews> datas) {

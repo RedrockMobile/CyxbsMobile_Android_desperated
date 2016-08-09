@@ -221,7 +221,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 mHeaderViewRecyclerAdapter.setAdapter(mSpecificNewsCommentAdapter);
                 closeLoadingProgress();
             }
-        }), mHotNewsContent.articleId, mHotNewsContent.typeId, mUser.id, mUser.stuNum, mUser.idNum);
+        }), mHotNewsContent.articleId, mHotNewsContent.typeId);
     }
 
     private void removeFooterView() {
@@ -296,7 +296,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                     requestComments();
                 }
             }
-        }), mUser.stuNum, mUser.idNum, mHotNewsContent == null ? BBDDNews.BBDD : mHotNewsContent.typeId, articleId);
+        }), mHotNewsContent == null ? BBDDNews.BBDD : mHotNewsContent.typeId, articleId);
 
     }
 

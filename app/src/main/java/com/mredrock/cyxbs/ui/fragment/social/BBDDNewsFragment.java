@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
-import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
@@ -22,7 +21,7 @@ public class BBDDNewsFragment extends BaseNewsFragment {
 
     @Override
     void provideData(Subscriber<List<HotNews>> subscriber, int size, int page) {
-        RequestManager.getInstance().getListArticle(subscriber, BBDDNews.BBDD, size, page, APP.getUser(getActivity()).stuNum, APP.getUser(getActivity()).idNum);
+        RequestManager.getInstance().getListArticle(subscriber, BBDDNews.BBDD, size, page);
     }
 
     @Override

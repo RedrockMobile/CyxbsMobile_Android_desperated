@@ -331,9 +331,9 @@ public enum RequestManager {
     }
 
 
-    public void getTrendDetail(Subscriber<List<HotNews>> subscriber, String stuNum, String idNum, int type_id, String article_id) {
+    public void getTrendDetail(Subscriber<List<HotNews>> subscriber, int type_id, String article_id) {
         List<HotNews> newsList = new ArrayList<>();
-        Observable<List<HotNews>> observable = redrockApiService.getTrendDetail(stuNum, idNum, type_id, article_id)
+        Observable<List<HotNews>> observable = redrockApiService.getTrendDetail(type_id, article_id)
                 .flatMap(bbddDetailWrapper -> Observable.from(bbddDetailWrapper.data))
                 .map(bbddDetail -> {
                     HotNews news = new HotNews(bbddDetail);
@@ -379,13 +379,13 @@ public enum RequestManager {
                 .map(new RedrockApiWrapperFunc<>());
     }
 
-    public void getHotArticle(Subscriber<List<HotNews>> subscriber, int size, int page, String stuNum, String idNum) {
-        Observable<List<HotNews>> observable = redrockApiService.getSocialHotList(size, page, stuNum, idNum);
+    public void getHotArticle(Subscriber<List<HotNews>> subscriber, int size, int page) {
+        Observable<List<HotNews>> observable = redrockApiService.getSocialHotList(size, page);
         emitObservable(observable, subscriber);
     }
 
-    public void getListNews(Subscriber<List<HotNews>> subscriber, int size, int page, String stuNum, String idNum) {
-        Observable<List<HotNews>> observable = redrockApiService.getSocialOfficialNewsList(size, page, stuNum, idNum)
+    public void getListNews(Subscriber<List<HotNews>> subscriber, int size, int page) {
+        Observable<List<HotNews>> observable = redrockApiService.getSocialOfficialNewsList(size, page)
                 .map(new RedrockApiWrapperFunc<>())
                 .map(officeNewsContentList -> {
                     List<HotNews> aNews = new ArrayList<>();
@@ -396,8 +396,8 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void getListArticle(Subscriber<List<HotNews>> subscriber, int type_id, int size, int page, String stuNum, String idNum) {
-        Observable<List<HotNews>> observable = redrockApiService.getSocialBBDDList(type_id, size, page, stuNum, idNum)
+    public void getListArticle(Subscriber<List<HotNews>> subscriber, int type_id, int size, int page) {
+        Observable<List<HotNews>> observable = redrockApiService.getSocialBBDDList(type_id, size, page)
                 .map(new RedrockApiWrapperFunc<>())
                 .flatMap(bbdd -> Observable.just(bbdd)
                         .map(mBBDD -> {
@@ -426,12 +426,8 @@ public enum RequestManager {
 
     public void getRemarks(Subscriber<List<CommentContent>> subscriber,
                            String article_id,
-                           int type_id,
-                           String user_id,
-                           String stuNum,
-                           String idNum) {
-        if (!checkWithUserId("没有完善信息,连评论都不会给你看的。")) return;
-        Observable<List<CommentContent>> observable = redrockApiService.getSocialCommentList(article_id, type_id, user_id, stuNum, idNum)
+                           int type_id) {
+        Observable<List<CommentContent>> observable = redrockApiService.getSocialCommentList(article_id, type_id)
                 .map(new RedrockApiWrapperFunc<>());
         emitObservable(observable, subscriber);
     }
@@ -490,8 +486,8 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void getPersonLatestList(Subscriber<List<HotNews>> subscriber, String otherStuNum, String stuNum, String idNum, String userName, String userHead) {
-        Observable<List<HotNews>> observable = redrockApiService.getPersonLatestList(otherStuNum, stuNum, idNum)
+    public void getPersonLatestList(Subscriber<List<HotNews>> subscriber, String otherStuNum, String userName, String userHead) {
+        Observable<List<HotNews>> observable = redrockApiService.getPersonLatestList(otherStuNum)
                 .map(new RedrockApiWrapperFunc<>())
                 .map(latestsList -> {
                     List<HotNews> aNews = new ArrayList<>();
@@ -542,8 +538,9 @@ public enum RequestManager {
                 .subscribe(s);
     }
 
+    // TODO: unlogin check bus
     public boolean checkWithUserId(String s) {
-        if (APP.getUser(APP.getContext()).id == null) {
+        if (!APP.isLogin()) {
             Toast.makeText(APP.getContext(), s, Toast.LENGTH_LONG).show();
             return false;
         } else {
