@@ -22,11 +22,15 @@ public class Const {
 
     public static final String APT_SEARCH_STUDENT = "/cyxbsMobile/index.php/home/searchPeople/peopleList";
 
+    // TODO: API Modified
     public static final String API_SOCIAL_OFFICIAL_NEWS_LIST = "/cyxbsMobile/index.php/Home/NewArticle/listNews";
+    // TODO: API Modified
     public static final String API_SOCIAL_HOT_LIST = "/cyxbsMobile/index.php/Home/NewArticle/searchHotArticle";
+    // TODO: API Modified
     public static final String API_SOCIAL_BBDD_LIST = "/cyxbsMobile/index.php/Home/NewArticle/listArticle";
     public static final String API_SOCIAL_IMG_UPLOAD = "/cyxbsMobile/index.php/Home/Photo/uploadArticle";
     public static final String API_SOCIAL_ARTICLE_ADD = "/cyxbsMobile/index.php/Home/Article/addArticle";
+    // TODO: API Modified
     public static final String API_SOCIAL_COMMENT_LIST = "/cyxbsMobile/index.php/Home/NewArticleRemark/getremark";
     public static final String API_SOCIAL_COMMENT_ADD = "/cyxbsMobile/index.php/Home/ArticleRemark/postremarks";
     public static final String API_SOCIAL_LIKE = "/cyxbsMobile/index.php/Home/Praise/addone";
@@ -35,7 +39,8 @@ public class Const {
 
     public static final String API_AVATAR_UPLOAD     = "/cyxbsMobile/index.php/home/photo/upload";
     public static final String API_GET_PERSON_INFO   = "/cyxbsMobile/index.php/Home/Person/search";
-    public static final String API_GET_PERSON_LATEST = "/cyxbsMobile/index.php/Home/Article/searchtrends";
+    // TODO: API Modified
+    public static final String API_GET_PERSON_LATEST = "/cyxbsMobile/index.php/Home/NewArticle/searchtrends";
 
     //登陆验证接口
     public static final String API_VERIFY          = "/api/verify";
@@ -54,7 +59,8 @@ public class Const {
     //与我相关
     public static final String API_ABOUT_ME = "/cyxbsMobile/index.php/Home/Article/aboutme";
     //根据id得到动态详情
-    public static final String API_TREND_DETAIL = "/cyxbsMobile/index.php/Home/Article/searchContent";
+    // TODO: API Modified
+    public static final String API_TREND_DETAIL = "/cyxbsMobile/index.php/Home/NewArticle/searchContent";
     //动态查询
     public static final String API_SEARCH_ARTICLE = "/cyxbsMobile/index.php/Home/NewArticle/searchtrends";
 

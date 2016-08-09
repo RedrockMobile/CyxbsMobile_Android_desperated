@@ -13,6 +13,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ExpandableTextView;
 import com.mredrock.cyxbs.component.widget.ninelayout.AutoNineGridlayout;
+import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
@@ -26,6 +27,8 @@ import com.mredrock.cyxbs.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.TimeUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,6 +152,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             } else {
                 NewsAdapter.ViewHolder.this.like(mBtnFavor);
             }
+
         }
 
         private void registerObservable() {

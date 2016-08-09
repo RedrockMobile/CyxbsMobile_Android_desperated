@@ -78,7 +78,7 @@ public class APP extends Application {
 
     private static void initializeFakeUser() {
         mUser = new User();
-        mUser.id = "0";
+      //  mUser.id = "0";
         mUser.idNum = "0";
         mUser.stuNum = "0";
     }
