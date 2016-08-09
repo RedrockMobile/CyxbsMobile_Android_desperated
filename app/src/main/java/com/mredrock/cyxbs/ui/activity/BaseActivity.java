@@ -2,11 +2,13 @@ package com.mredrock.cyxbs.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -16,6 +18,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.ExitEvent;
 import com.mredrock.cyxbs.event.LoginEvent;
+import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -177,9 +180,10 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onAskLoginEvent(AskLoginEvent event) {
-        new MaterialDialog.Builder(this)
+        Handler handler = new Handler(getMainLooper());
+        handler.post(() -> new MaterialDialog.Builder(this)
                 .title("是否登录?")
                 .content(event.getMsg())
                 .positiveText("马上去登录")
@@ -196,8 +200,15 @@ public class BaseActivity extends AppCompatActivity {
                         super.onNegative(dialog);
                         dialog.dismiss();
                     }
-                }).show();
+                }).show());
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginStateChanageEvent(LoginStateChangeEvent event) {
+        // Override this method in sub activity
+        // event.getNewState() == true : user login
+        // event.getNewState() == false : user logout
+        Log.d("LoginStateChangeEvent", event.getNewState() + "");
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)

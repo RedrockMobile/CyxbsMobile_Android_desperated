@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.event.ExitEvent;
+import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
@@ -93,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted() {
                         super.onCompleted();
+                        EventBus.getDefault().post(new LoginStateChangeEvent(true));
                         finish();
 
                     }

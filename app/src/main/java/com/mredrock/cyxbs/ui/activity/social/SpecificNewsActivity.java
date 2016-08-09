@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
+import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.CommentContent;
@@ -38,6 +39,9 @@ import com.mredrock.cyxbs.util.download.DownloadHelper;
 import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -317,4 +321,10 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         closeLoadingProgress();
     }
 
+    @Override
+    @Subscribe(priority = 1, threadMode = ThreadMode.POSTING)
+    public void onAskLoginEvent(AskLoginEvent event) {
+        super.onAskLoginEvent(event);
+        EventBus.getDefault().cancelEventDelivery(event);
+    }
 }

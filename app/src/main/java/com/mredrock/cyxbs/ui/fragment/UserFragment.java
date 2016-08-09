@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
+import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
@@ -95,7 +96,8 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), AboutMeActivity.class));
         } else {
-            EventBus.getDefault().post(new LoginEvent());
+            // TODO: 可能需要修改的文案（下面几个方法也是）
+            EventBus.getDefault().post(new AskLoginEvent("登录后才能查看与我相关哦"));
         }
     }
 
@@ -104,13 +106,17 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), MyTrendActivity.class));
         } else {
-            EventBus.getDefault().post(new LoginEvent());
+            EventBus.getDefault().post(new AskLoginEvent("登录后才能查看我的动态哦"));
         }
     }
 
     @OnClick(R.id.my_page_no_course_layout)
     void clickToNoCourse() {
-        startActivity(new Intent(getActivity(), NoCourseActivity.class));
+        if (APP.isLogin()) {
+            startActivity(new Intent(getActivity(), NoCourseActivity.class));
+        } else {
+            EventBus.getDefault().post(new AskLoginEvent("登录后才能使用没课约哦"));
+        }
     }
 
     @OnClick(R.id.my_page_empty_layout)
@@ -123,7 +129,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), ExamAndGradeActivity.class));
         } else {
-            EventBus.getDefault().post(new LoginEvent());
+            EventBus.getDefault().post(new AskLoginEvent("登录后才能查看考试成绩哦"));
         }
     }
 

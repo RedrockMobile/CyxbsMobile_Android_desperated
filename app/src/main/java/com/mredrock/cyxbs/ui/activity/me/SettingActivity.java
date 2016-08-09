@@ -7,9 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
-import com.mredrock.cyxbs.ui.activity.LoginActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,7 +59,10 @@ public class SettingActivity extends BaseActivity {
 
     @OnClick(R.id.setting_exit_layout)
     void clickToExit() {
-        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+        // init user
+        APP.setUser(this, null);
+        EventBus.getDefault().post(new LoginStateChangeEvent(false));
     }
 
     private void initToolbar() {

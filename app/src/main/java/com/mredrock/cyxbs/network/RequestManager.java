@@ -1,7 +1,5 @@
 package com.mredrock.cyxbs.network;
 
-import android.widget.Toast;
-
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.config.Const;
@@ -65,6 +63,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
+// TODO: UI 层解除登录强制要求之后，请务必检查这里有没有未检查的 API 调用
 public enum RequestManager {
 
     INSTANCE;
@@ -443,6 +442,7 @@ public enum RequestManager {
                             String user_id,
                             String stuNum,
                             String idNum) {
+        if (!checkWithUserId("没有完善信息,还想发回复？")) return;
         Observable<String> observable = redrockApiService.addSocialComment(article_id, type_id, content, user_id, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>());
         emitObservable(observable, subscriber);
@@ -544,7 +544,6 @@ public enum RequestManager {
     // TODO: unlogin check bus
     public boolean checkWithUserId(String s) {
         if (!APP.isLogin()) {
-            Toast.makeText(APP.getContext(), s, Toast.LENGTH_LONG).show();
             EventBus.getDefault().post(new AskLoginEvent(s));
             return false;
         } else {
