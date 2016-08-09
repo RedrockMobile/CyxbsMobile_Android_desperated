@@ -196,15 +196,15 @@ public class ExamScheduleFragment extends BaseFragment {
     }
 
     private void showProgress() {
-        examSwipeRefreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(new
-                                                                                       ViewTreeObserver.OnGlobalLayoutListener() {
-                                                                                           @Override
-                                                                                           public void onGlobalLayout() {
-                                                                                               examSwipeRefreshLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                                                                                               examSwipeRefreshLayout.setRefreshing(true);
-                                                                                               loadExamList(false);
-                                                                                           }
-                                                                                       });
+        examSwipeRefreshLayout.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        examSwipeRefreshLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        examSwipeRefreshLayout.setRefreshing(true);
+                        loadExamList(false);
+                    }
+                });
     }
 
     private void dismissProgress() {
