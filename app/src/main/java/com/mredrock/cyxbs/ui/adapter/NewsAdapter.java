@@ -152,7 +152,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             } else {
                 NewsAdapter.ViewHolder.this.like(mBtnFavor);
             }
-
         }
 
         private void registerObservable() {
@@ -173,38 +172,39 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
 
         public void like(TextView textView) {
-            likeToSetDataAndView(textView);
             RequestManager.getInstance().addThumbsUp(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
                 @Override
                 public void onError(Throwable e) {
                     super.onError(e);
                     Log.e(TAG, e.toString());
-                    disLikeToSetDataAndView(textView);
+                    //disLikeToSetDataAndView(textView);
                 }
 
                 @Override
                 public void onNext(String s) {
                     super.onNext(s);
                     Log.i(TAG, "赞成功");
+                    likeToSetDataAndView(textView);
+
                     if (isSingle) RxBus.getDefault().post(mHotNewsContent);
                 }
             }), mHotNewsContent.articleId, mHotNewsContent.typeId, APP.getUser(textView.getContext()).stuNum, APP.getUser(textView.getContext()).idNum);
         }
 
         public void dislike(TextView textView) {
-            disLikeToSetDataAndView(textView);
             RequestManager.getInstance().cancelThumbsUp(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
                 @Override
                 public void onError(Throwable e) {
                     super.onError(e);
                     Log.e(TAG, e.toString());
-                    likeToSetDataAndView(textView);
+                   // likeToSetDataAndView(textView);
                 }
 
                 @Override
                 public void onNext(String s) {
                     super.onNext(s);
                     Log.i(TAG, "取消赞成功");
+                    disLikeToSetDataAndView(textView);
                     if (isSingle) RxBus.getDefault().post(mHotNewsContent);
                 }
             }), mHotNewsContent.articleId, mHotNewsContent.typeId, APP.getUser(textView.getContext()).stuNum, APP.getUser(textView.getContext()).idNum);
