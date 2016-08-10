@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.LoginEvent;
+import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
@@ -227,16 +229,29 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     }
 
     private void refreshEditLayout() {
-        ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
-        myPageNickName.setText(StringUtils.isBlank(mUser.nickname) ? "点我完善个人信息" : mUser.nickname);
-        myPageIntroduce.setText(mUser.introduction);
-        if (mUser.gender.trim().equals("男")) {
-            myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-            myPageGender.setText("♂");
-        } else {
-            myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.pink));
-            myPageGender.setText("♀");
+        if (APP.isLogin()){
+            ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
+            myPageNickName.setText(StringUtils.isBlank(mUser.nickname) ? "点我完善个人信息" : mUser.nickname);
+            myPageIntroduce.setText(mUser.introduction);
+            if (mUser.gender.trim().equals("男")) {
+                myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                myPageGender.setText("♂");
+            } else {
+                myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.pink));
+                myPageGender.setText("♀");
+            }
+        }else{
+            myPageNickName.setText("点我登录");
+            myPageAvatar.setImageResource(R.drawable.ic_default_avatar);
+            myPageIntroduce.setText("");
+            myPageGender.setText("");
         }
     }
 
+
+    @Override
+    public void onLoginStateChanageEvent(LoginStateChangeEvent event) {
+        super.onLoginStateChanageEvent(event);
+        refreshEditLayout();
+    }
 }

@@ -25,6 +25,7 @@ public class HotNewsFragment extends BaseNewsFragment {
         super.setDate(holder, hotNewsContent);
         if (hotNewsContent.user_id.equals("0") || hotNewsContent.typeId < 5)
             holder.enableAvatarClick = false;
-        else holder.enableAvatarClick = true;
+        else
+            holder.enableAvatarClick = true;
     }
 }

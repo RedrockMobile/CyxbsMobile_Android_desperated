@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.subscriber.EndlessRecyclerOnScrollListener;
@@ -25,6 +26,10 @@ import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -47,7 +52,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     SwipeRefreshLayout mSwipeRefreshLayout;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
-    private int currentIndex = 0;
+    public int currentIndex = 0;
     private List<HotNews> mListHotNews = null;
     private FooterViewWrapper mFooterViewWrapper;
 
@@ -249,5 +254,13 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
             mTextLoadingFailed.setOnClickListener(onClickListener::onClick);
         }
 
+    }
+
+
+    @Override
+    public void onLoginStateChanageEvent(LoginStateChangeEvent event) {
+        super.onLoginStateChanageEvent(event);
+        mListHotNews.clear();
+        getCurrentData((currentIndex + 1) * PER_PAGE_NUM,0);
     }
 }

@@ -88,7 +88,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/shape_login_btn"
-            android:text="登陆"
+            android:text="@string/title_activity_login"
             android:textColor="#ffffff"
             android:textSize="18sp" />
     </LinearLayout>
