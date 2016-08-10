@@ -230,6 +230,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
     private void refreshEditLayout() {
         if (APP.isLogin()){
+            mUser = APP.getUser(getActivity());
             ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
             myPageNickName.setText(StringUtils.isBlank(mUser.nickname) ? "点我完善个人信息" : mUser.nickname);
             myPageIntroduce.setText(mUser.introduction);
@@ -250,8 +251,8 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
 
     @Override
-    public void onLoginStateChanageEvent(LoginStateChangeEvent event) {
-        super.onLoginStateChanageEvent(event);
+    public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
+        super.onLoginStateChangeEvent(event);
         refreshEditLayout();
     }
 }

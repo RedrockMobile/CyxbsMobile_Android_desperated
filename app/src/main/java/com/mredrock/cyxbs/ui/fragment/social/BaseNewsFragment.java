@@ -26,6 +26,7 @@ import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
+import com.mredrock.cyxbs.ui.fragment.BaseLazyFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -40,11 +41,13 @@ import rx.Subscriber;
 /**
  * Created by mathiasluo on 16-4-26.
  */
-public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class BaseNewsFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final int PER_PAGE_NUM = 10;
     public static final String TAG = "BaseNewsFragment";
     public static final int FIRST_PAGE_INDEX = 0;
+
+    private  boolean hasLoginStateChanged = false;
 
     @Bind(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
@@ -86,6 +89,11 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         addOnScrollListener();
         initAdapter(null);
+    }
+
+
+    @Override
+    protected void onFirstUserVisible() {
         getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX);
     }
 
@@ -203,6 +211,17 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (hasLoginStateChanged){
+            Log.e(TAG,"   hasLoginStateChanged=============");
+            mListHotNews.clear();
+            getCurrentData(PER_PAGE_NUM,0);
+            hasLoginStateChanged = false;
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
@@ -258,9 +277,10 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
 
 
     @Override
-    public void onLoginStateChanageEvent(LoginStateChangeEvent event) {
-        super.onLoginStateChanageEvent(event);
-        mListHotNews.clear();
-        getCurrentData((currentIndex + 1) * PER_PAGE_NUM,0);
+    public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
+        super.onLoginStateChangeEvent(event);
+        hasLoginStateChanged = true;
+        Log.e(TAG,"==========hasLoginStateChanged=============");
+
     }
 }

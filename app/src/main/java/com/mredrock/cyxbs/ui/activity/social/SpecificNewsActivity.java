@@ -108,7 +108,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_news);
         ButterKnife.bind(this);
-        mUser = APP.getUser(this);
+      //  mUser = APP.getUser(this);
         mRefresh.setColorSchemeColors(
                 ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
                 ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
@@ -302,6 +302,12 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
             }
         }), mHotNewsContent == null ? BBDDNews.BBDD : mHotNewsContent.typeId, articleId);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mUser = APP.getUser(this);
     }
 
     @Override

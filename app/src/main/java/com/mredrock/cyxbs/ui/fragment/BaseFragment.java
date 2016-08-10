@@ -37,7 +37,7 @@ public class BaseFragment extends Fragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginStateChanageEvent(LoginStateChangeEvent event) {
+    public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
     }
 
 
