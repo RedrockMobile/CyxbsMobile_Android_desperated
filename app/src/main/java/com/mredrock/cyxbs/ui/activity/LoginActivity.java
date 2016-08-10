@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.iv_login_password)
     ImageView mIvLoginPassword;
 
+    public static final String TAG = "LoginActivity";
+
     @OnClick(R.id.login_submit_button)
     void clickToLogin() {
         attemptLogin();
@@ -56,8 +61,21 @@ public class LoginActivity extends AppCompatActivity {
         initView();
         initUser();
         iconColorChangerFn();
+        autoSendFn();
         submitButton.setEnabled(false);
         submitButton.setBackgroundColor(getResources().getColor(R.color.gray_edit));
+    }
+
+    /***
+     *软键盘回车登陆
+     */
+    private void autoSendFn() {
+        idNumEdit.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                attemptLogin();
+            }
+            return false;
+        });
     }
 
     /**
