@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.event.LoginStateChangedEvent;
+import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.subscriber.EndlessRecyclerOnScrollListener;
@@ -66,7 +66,6 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         ButterKnife.bind(this, view);
-        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -207,7 +206,6 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        EventBus.getDefault().unregister(this);
     }
 
     public static class FooterViewWrapper {
@@ -259,8 +257,10 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginStateChangedEvent(LoginStateChangedEvent event){
-        getCurrentData(PER_PAGE_NUM * (currentIndex + 1),0);
+    @Override
+    public void onLoginStateChanageEvent(LoginStateChangeEvent event) {
+        super.onLoginStateChanageEvent(event);
+        mListHotNews.clear();
+        getCurrentData((currentIndex + 1) * PER_PAGE_NUM,0);
     }
 }

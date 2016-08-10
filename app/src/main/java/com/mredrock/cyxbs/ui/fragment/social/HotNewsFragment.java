@@ -1,14 +1,10 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
 
-import com.mredrock.cyxbs.event.LoginStateChangedEvent;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
