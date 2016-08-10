@@ -161,7 +161,8 @@ public class MapActivity extends BaseExploreActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mMapView.onDestroy();
+        if (mMapView != null)
+            mMapView.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
     }
 

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.LoginStateChangedEvent;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.subscriber.EndlessRecyclerOnScrollListener;
@@ -25,6 +26,10 @@ import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -47,7 +52,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     SwipeRefreshLayout mSwipeRefreshLayout;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
-    private int currentIndex = 0;
+    public int currentIndex = 0;
     private List<HotNews> mListHotNews = null;
     private FooterViewWrapper mFooterViewWrapper;
 
@@ -61,6 +66,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -201,6 +207,7 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     public static class FooterViewWrapper {
@@ -249,5 +256,11 @@ public abstract class BaseNewsFragment extends BaseFragment implements SwipeRefr
             mTextLoadingFailed.setOnClickListener(onClickListener::onClick);
         }
 
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginStateChangedEvent(LoginStateChangedEvent event){
+        getCurrentData(PER_PAGE_NUM * (currentIndex + 1),0);
     }
 }
