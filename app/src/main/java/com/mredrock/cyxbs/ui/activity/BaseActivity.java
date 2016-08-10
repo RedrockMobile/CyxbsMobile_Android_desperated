@@ -192,7 +192,7 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
-                        EventBus.getDefault().post(new LoginEvent());
+                        onLoginEvent(new LoginEvent());
                     }
 
                     @Override
@@ -208,7 +208,7 @@ public class BaseActivity extends AppCompatActivity {
         // Override this method in sub activity
         // event.getNewState() == true : user login
         // event.getNewState() == false : user logout
-        Log.d("LoginStateChangeEvent", event.getNewState() + "");
+        Log.d("LoginStateChangeEvent", "in" + getLocalClassName() + "login state: " + event.getNewState() + "");
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
