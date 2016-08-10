@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbs.event.LoginEvent;
+import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.social.PostNewsActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
@@ -65,6 +67,10 @@ public class MainActivity extends BaseActivity {
     BaseFragment unLoginFragment;
 
     private Menu mMenu;
+    private ArrayList<Fragment> mFragments;
+    private TabPagerAdapter mAdapter;
+
+    public static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,16 +90,16 @@ public class MainActivity extends BaseActivity {
         userFragment = new UserFragment();
         unLoginFragment = new UnLoginFragment();
 
-        ArrayList<Fragment> fragments = new ArrayList<>();
+        mFragments = new ArrayList<>();
         //判断是否登陆
         if (!APP.isLogin()) {
-            fragments.add(unLoginFragment);
+            mFragments.add(unLoginFragment);
         } else {
-            fragments.add(courseContainerFragment);
+            mFragments.add(courseContainerFragment);
         }
-        fragments.add(socialContainerFragment);
-        fragments.add(exploreFragment);
-        fragments.add(userFragment);
+        mFragments.add(socialContainerFragment);
+        mFragments.add(exploreFragment);
+        mFragments.add(userFragment);
 
         ArrayList<String> titles = new ArrayList<>();
         titles.add(mStringCourse);
@@ -101,15 +107,21 @@ public class MainActivity extends BaseActivity {
         titles.add(mStringExplore);
         titles.add(mStringMyPage);
 
-        TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager(), fragments, titles);
-        mViewPager.setAdapter(adapter);
+        if (mFragments.get(0) instanceof UnLoginFragment) {
+            Log.d(TAG, "initView: " + "unLoginFragment");
+        } else {
+            Log.d(TAG, "initView: " + "courseContainerFragment");
+        }
+
+        mAdapter = new TabPagerAdapter(getSupportFragmentManager(), mFragments, titles);
+        mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
 
         mBottomBar.post(() -> hiddenMenu());
         mBottomBar.setOnBottomViewClickListener((view, position) -> {
             mViewPager.setCurrentItem(position, false);
             hiddenMenu();
-            setTitle(adapter.getPageTitle(position));
+            setTitle(mAdapter.getPageTitle(position));
             switch (position) {
                 case 1:
                     showMenu();
@@ -127,6 +139,25 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
+        super.onLoginStateChangeEvent(event);
+        Log.d(TAG, "onLoginStateChangeEvent: " + event.getNewState() + " count: " + mFragments.size());
+        String isLogin = String.valueOf(event.getNewState());
+        switch (isLogin) {
+            case "true":
+                mFragments.remove(0);
+                mFragments.add(0, new CourseContainerFragment());
+                mAdapter.notifyDataSetChanged();
+                break;
+            case "false":
+                mFragments.remove(0);
+                mFragments.add(0, new UnLoginFragment());
+                mAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 
     private void initToolbar() {

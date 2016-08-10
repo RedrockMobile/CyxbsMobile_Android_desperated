@@ -133,7 +133,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public void takeToPersonInfoActivity(View view) {
             if (enableAvatarClick && !isFromPersonInfo) {
                 registerObservable();
-                PersonInfoActivity.StartActivityWithData(view.getContext(), mHotNewsContent.userHead, mHotNewsContent.getNickName(), mHotNewsContent.user_id);
+                PersonInfoActivity.StartActivityWithData(view.getContext(), mHotNewsContent.userHead,
+                        mHotNewsContent.getNickName(), mHotNewsContent.user_id);
             }
         }
 
@@ -141,7 +142,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public void onItemClick(View view) {
             if (!isSingle) {
                 registerObservable();
-                SpecificNewsActivity.startActivityWithDataBean(view.getContext(), mHotNewsContent, mHotNewsContent.articleId, isFromPersonInfo, isFromMyTrend);
+                SpecificNewsActivity.startActivityWithDataBean(view.getContext(), mHotNewsContent,
+                        mHotNewsContent.articleId, isFromPersonInfo, isFromMyTrend);
             }
         }
 
@@ -172,7 +174,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
 
         public void like(TextView textView) {
-            RequestManager.getInstance().addThumbsUp(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
+            RequestManager.getInstance().addThumbsUp(new SimpleSubscriber<>(textView.getContext()
+                    , new SubscriberListener<String>() {
                 @Override
                 public void onError(Throwable e) {
                     super.onError(e);
@@ -188,11 +191,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
                     if (isSingle) RxBus.getDefault().post(mHotNewsContent);
                 }
-            }), mHotNewsContent.articleId, mHotNewsContent.typeId, APP.getUser(textView.getContext()).stuNum, APP.getUser(textView.getContext()).idNum);
+            }),
+                    mHotNewsContent.articleId, mHotNewsContent.typeId,
+                    APP.getUser(textView.getContext()).stuNum,
+                    APP.getUser(textView.getContext()).idNum);
         }
 
         public void dislike(TextView textView) {
-            RequestManager.getInstance().cancelThumbsUp(new SimpleSubscriber<>(textView.getContext(), new SubscriberListener<String>() {
+            RequestManager.getInstance().cancelThumbsUp(new SimpleSubscriber<>(textView.getContext()
+                    , new SubscriberListener<String>() {
                 @Override
                 public void onError(Throwable e) {
                     super.onError(e);
@@ -207,7 +214,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     disLikeToSetDataAndView(textView);
                     if (isSingle) RxBus.getDefault().post(mHotNewsContent);
                 }
-            }), mHotNewsContent.articleId, mHotNewsContent.typeId, APP.getUser(textView.getContext()).stuNum, APP.getUser(textView.getContext()).idNum);
+            }), mHotNewsContent.articleId, mHotNewsContent.typeId,
+                    APP.getUser(textView.getContext()).stuNum,
+                    APP.getUser(textView.getContext()).idNum);
         }
 
         public void disLikeToSetDataAndView(TextView textView) {

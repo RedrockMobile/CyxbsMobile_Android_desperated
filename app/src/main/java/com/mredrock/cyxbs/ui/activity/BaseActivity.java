@@ -204,7 +204,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginStateChanageEvent(LoginStateChangeEvent event) {
+    public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
         // Override this method in sub activity
         // event.getNewState() == true : user login
         // event.getNewState() == false : user logout
