@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.bottombar.BottomBar;
@@ -21,11 +20,10 @@ import com.mredrock.cyxbs.ui.activity.social.PostNewsActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.ui.fragment.CourseContainerFragment;
+import com.mredrock.cyxbs.ui.fragment.UnLoginFragment;
 import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
-import com.mredrock.cyxbs.ui.fragment.UnLoginFragment;
-import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -88,7 +86,7 @@ public class MainActivity extends BaseActivity {
 
         ArrayList<Fragment> fragments = new ArrayList<>();
         //判断是否登陆
-        if (APP.getUser(MainActivity.this) == null|| !APP.isLogin()) {
+        if (!APP.isLogin()) {
             fragments.add(unLoginFragment);
         } else {
             fragments.add(courseContainerFragment);
@@ -162,7 +160,7 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_add_news:
                 if (APP.isLogin()) {
-                    if (APP.getUser(this).id == null) {
+                    if (APP.getUser(this).id == null || APP.getUser(this).id.equals("0")) {
                         RequestManager.getInstance().checkWithUserId("还没有完善信息，不能发动态哟！");
                         mViewPager.setCurrentItem(3);
                         mBottomBar.setCurrentView(3);
