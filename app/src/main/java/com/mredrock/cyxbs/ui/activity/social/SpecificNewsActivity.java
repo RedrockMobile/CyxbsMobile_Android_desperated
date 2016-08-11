@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbs.event.AskLoginEvent;
+import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.CommentContent;
@@ -83,6 +85,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private List<CommentContent> mListComments = null;
     private View mFooterView;
     private boolean isFromMyTrend;
+    String article_id;
 
     private User mUser;
 
@@ -119,7 +122,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mWrapView.isFromPersonInfo = getIntent().getBooleanExtra(IS_FROM_PERSON_INFO, false);
         HotNewsContent hotNewsContent = getIntent().getParcelableExtra(START_DATA);
 
-        String article_id = getIntent().getStringExtra(ARTICLE_ID);
+        article_id = getIntent().getStringExtra(ARTICLE_ID);
         isFromMyTrend = getIntent().getBooleanExtra(IS_FROM_MY_TREND, false);
 
         if (hotNewsContent != null) {
@@ -293,8 +296,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 super.onNext(hotNewses);
                 if (hotNewses != null && hotNewses.size() > 0) {
                     mHotNewsContent = hotNewses.get(0).data;
-                    mHotNewsContent.userHead = APP.getUser(SpecificNewsActivity.this).photo_thumbnail_src;
-                    mHotNewsContent.nickName = APP.getUser(SpecificNewsActivity.this).nickname;
+                    Log.d(getLocalClassName(), "nickName: " + hotNewses.get(0).data.nickName);
                     mWrapView.setData(mHotNewsContent, true);
                     if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
                     requestComments();
@@ -332,5 +334,11 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     public void onAskLoginEvent(AskLoginEvent event) {
         super.onAskLoginEvent(event);
         EventBus.getDefault().cancelEventDelivery(event);
+    }
+
+    @Override
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
+        getDataBeanById(article_id);
     }
 }

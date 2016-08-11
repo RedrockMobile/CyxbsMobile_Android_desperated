@@ -27,6 +27,12 @@ public class BBDDDetail {
     public String likeNum;
     @SerializedName("remark_num")
     public String remarkNum;
+    @SerializedName("is_my_like")
+    public boolean isMyLike;
+    @SerializedName("user_photo")
+    public String userHead;
+    @SerializedName("nickname")
+    public String nickName;
 
     public static class BBDDDetailWrapper extends RedrockApiWrapper<List<BBDDDetail>> {
 

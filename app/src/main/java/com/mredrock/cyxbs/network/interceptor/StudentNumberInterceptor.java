@@ -28,7 +28,8 @@ public class StudentNumberInterceptor implements Interceptor {
         if (APP.isLogin() && (
                    url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_HOT_LIST)
                 || url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_BBDD_LIST)
-                || url.equals(Const.END_POINT_REDROCK + Const.API_GET_PERSON_LATEST))) {
+                || url.equals(Const.END_POINT_REDROCK + Const.API_GET_PERSON_LATEST)
+                || url.equals(Const.END_POINT_REDROCK + Const.API_TREND_DETAIL))) {
             return doIntercept(chain);
         } else {
             return chain.proceed(chain.request());

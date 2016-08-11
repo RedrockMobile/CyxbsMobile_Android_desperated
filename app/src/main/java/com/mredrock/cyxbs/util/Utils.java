@@ -49,7 +49,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.OkHttpClient;
 import okio.ByteString;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
@@ -892,6 +891,21 @@ public class Utils {
             return ByteString.of(md5bytes).hex();
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new AssertionError(e);
+        }
+    }
+
+    /**
+     * Check null, return default value if it is null
+     * @param object the object which need to be checked
+     * @param defaultValue the default value which will be return when the object == null
+     * @param <T> the type of object
+     * @return object when it not equal to null, or defaultValue when object == null
+     */
+    public static <T> T checkNotNullWithDefaultValue(T object, T defaultValue) {
+        if (object != null) {
+            return object;
+        } else {
+            return defaultValue;
         }
     }
 }

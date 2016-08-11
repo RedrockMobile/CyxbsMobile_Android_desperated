@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
+import com.mredrock.cyxbs.util.Utils;
 
 import java.util.List;
 
@@ -67,14 +68,14 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> implements Parcel
                 , bbddDetail.id
                 , BBDDNews.BBDD
                 , ""
-                , ""
-                , bbddDetail.photoSrc
+                , Utils.checkNotNullWithDefaultValue(bbddDetail.nickName, "")
+                , Utils.checkNotNullWithDefaultValue(bbddDetail.userHead, "")
                 , bbddDetail.createdTime
                 , new OfficeNewsContent(bbddDetail.content)
                 , new HotNewsContent.ImgBean(bbddDetail.thumbnailSrc, bbddDetail.photoSrc)
                 , bbddDetail.likeNum
                 , bbddDetail.remarkNum
-                , false
+                , bbddDetail.isMyLike
                 , bbddDetail.id);
     }
 
