@@ -260,7 +260,6 @@ public class EditInfoActivity extends BaseActivity {
         }
     }
 
-
     private void handleCropError(Intent result) {
         Throwable cropError = UCrop.getError(result);
         if (cropError != null) {
