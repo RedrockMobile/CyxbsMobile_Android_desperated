@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.ItemChangedEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
@@ -279,7 +280,25 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
         super.onLoginStateChangeEvent(event);
         hasLoginStateChanged = true;
-        Log.e(TAG,"==========hasLoginStateChanged=============");
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onItemChangedEvent(ItemChangedEvent event) {
+        if (mListHotNews == null)
+            return;
+        int index = -1;
+        for (HotNews hotNews : mListHotNews){
+            index++;
+            if (hotNews.data.articleId.equals(event.getArticleId())){
+                /*Log.i("onItemChangedEvent","index ="+ index
+                        +"   "+event.getArticleId()+"hotNews.data.isMyLike"+ hotNews.data.isMyLike
+                        +"  event.isMyLike()"+event.isMyLike());*/
+                hotNews.data.isMyLike = event.isMyLike();
+                hotNews.data.likeNum = event.getNum();
+                mNewsAdapter.notifyItemChanged(index);
+            }
+
+        }
     }
 }

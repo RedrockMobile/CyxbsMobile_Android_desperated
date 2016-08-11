@@ -2,6 +2,7 @@ package com.mredrock.cyxbs.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ExpandableTextView;
 import com.mredrock.cyxbs.component.widget.ninelayout.AutoNineGridlayout;
 import com.mredrock.cyxbs.event.AskLoginEvent;
+import com.mredrock.cyxbs.event.ItemChangedEvent;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
@@ -187,7 +189,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 public void onNext(String s) {
                     super.onNext(s);
                     Log.i(TAG, "赞成功");
-                    likeToSetDataAndView(textView);
+                    String likeNumber = Integer.parseInt(textView.getText().toString()) + 1 + "";
+
+                    EventBus.getDefault().post(new ItemChangedEvent(likeNumber,
+                            mHotNewsContent.articleId,true));
+                    likeToSetDataAndView(textView,likeNumber);
+
 
                     if (isSingle) RxBus.getDefault().post(mHotNewsContent);
                 }
@@ -211,7 +218,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 public void onNext(String s) {
                     super.onNext(s);
                     Log.i(TAG, "取消赞成功");
-                    disLikeToSetDataAndView(textView);
+                    String likeNumber = Integer.parseInt(textView.getText().toString()) - 1 + "";
+
+                    EventBus.getDefault().post(new ItemChangedEvent(likeNumber,
+                            mHotNewsContent.articleId,false));
+                    disLikeToSetDataAndView(textView,likeNumber);
                     if (isSingle) RxBus.getDefault().post(mHotNewsContent);
                 }
             }), mHotNewsContent.articleId, mHotNewsContent.typeId,
@@ -219,8 +230,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     APP.getUser(textView.getContext()).idNum);
         }
 
-        public void disLikeToSetDataAndView(TextView textView) {
-            String likeNumber = Integer.parseInt(textView.getText().toString()) - 1 + "";
+        public void disLikeToSetDataAndView(TextView textView,String likeNumber) {
 
             mHotNewsContent.isMyLike = false;
             mHotNewsContent.likeNum = likeNumber;
@@ -230,12 +240,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     null, null, null);
         }
 
-        public void likeToSetDataAndView(TextView textView) {
-            String like_Number = Integer.parseInt(textView.getText().toString()) + 1 + "";
-            mHotNewsContent.likeNum = like_Number;
+        public void likeToSetDataAndView(TextView textView,String likeNumber) {
+            mHotNewsContent.likeNum = likeNumber;
             mHotNewsContent.isMyLike = true;
 
-            textView.setText(like_Number);
+            textView.setText(likeNumber);
             textView.setCompoundDrawablesWithIntrinsicBounds(textView.getResources()
                             .getDrawable(mHotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike),
                     null, null, null);
