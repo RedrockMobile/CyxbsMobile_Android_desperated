@@ -1,7 +1,10 @@
 package com.mredrock.cyxbs.ui.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -35,6 +38,10 @@ public class CourseContainerFragment extends BaseFragment {
 
     public static final String TAG = "CourseContainerFragment";
 
+    public static final String SP_COLUMN_LAUNCH = "CourseContainerFragment_first_time_launch";
+
+    private boolean mIsFirstLaunch;
+
     @Bind(R.id.tab_course_tabs)
     TabLayout mTabs;
     @Bind(R.id.tab_course_viewpager)
@@ -46,11 +53,11 @@ public class CourseContainerFragment extends BaseFragment {
     }
 
     private TextView mToolbarTitle;
-    private String   title;
+    private String title;
 
     private TabPagerAdapter mAdapter;
     private List<Fragment> mFragmentList = new ArrayList<>();
-    private List<String>   mTitles       = new ArrayList<>();
+    private List<String> mTitles = new ArrayList<>();
     private int mNowWeek;
 
     private ViewPager.OnPageChangeListener mPageListener;
@@ -60,20 +67,25 @@ public class CourseContainerFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+        getInfoFromSP();
+    }
+
+    private void getInfoFromSP() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        mIsFirstLaunch = sp.getBoolean(SP_COLUMN_LAUNCH, true);
     }
 
     private void init() {
         mTitles = new ArrayList<>();
         mTitles.addAll(Arrays.asList(getResources().getStringArray(R.array.titles_weeks)));
-
         mNowWeek = new SchoolCalendar().getWeekOfTerm();
-
         if (mNowWeek <= 18 && mNowWeek >= 1) {
             mTitles.set(mNowWeek, getActivity().getResources().getString(R.string.now_week));
         }
 
         if (mFragmentList.isEmpty()) {
             for (int i = 0; i < mTitles.size(); i++) {
+
                 CourseFragment temp = new CourseFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt(CourseFragment.BUNDLE_KEY, i);
@@ -81,7 +93,12 @@ public class CourseContainerFragment extends BaseFragment {
                 mFragmentList.add(temp);
             }
         }
+    }
 
+    private void saveInfoToSP() {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+        editor.putBoolean(SP_COLUMN_LAUNCH, false);
+        editor.apply();
     }
 
     @Nullable
@@ -139,6 +156,16 @@ public class CourseContainerFragment extends BaseFragment {
             });
         }
         loadNowWeek();
+        remindFn(view);
+    }
+
+    private void remindFn(View view) {
+        if (APP.isLogin() && mIsFirstLaunch) {
+            Snackbar.make(view, "点击标题栏可以打开隐藏关卡", Snackbar.LENGTH_LONG).setAction("试试看", v -> {
+                view.postDelayed(() -> mToolbarTitle.performClick(), 300);
+                saveInfoToSP();
+            }).show();
+        }
     }
 
     @Override
