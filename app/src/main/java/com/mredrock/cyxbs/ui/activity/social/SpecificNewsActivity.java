@@ -81,6 +81,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private HotNewsContent mHotNewsContent;
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
+    private DividerItemDecoration mDividerItemDecoration;
     private List<CommentContent> mListComments = null;
     private View mFooterView;
     private boolean isFromMyTrend;
@@ -145,7 +146,8 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mRefresh.setOnRefreshListener(this);
         mSpecificNewsCommentAdapter = new SpecificNewsCommentAdapter(mListComments, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
+        mDividerItemDecoration = new DividerItemDecoration(this, LinearLayout.VERTICAL);
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mSpecificNewsCommentAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
@@ -234,12 +236,15 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private void removeFooterView() {
         mHeaderViewRecyclerAdapter.reMoveFooterView();
         mHeaderViewRecyclerAdapter.notifyDataSetChanged();
+        mRecyclerView.removeItemDecoration(mDividerItemDecoration);
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
     }
 
     private void addFooterView() {
         mFooterView = LayoutInflater.from(this)
                 .inflate(R.layout.list_footer_item_remark, mRecyclerView, false);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterView);
+        mRecyclerView.removeItemDecoration(mDividerItemDecoration);
     }
 
     private void initToolbar() {

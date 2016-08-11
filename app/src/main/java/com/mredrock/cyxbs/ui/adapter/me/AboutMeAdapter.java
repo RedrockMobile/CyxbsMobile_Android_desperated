@@ -2,12 +2,16 @@ package com.mredrock.cyxbs.ui.adapter.me;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
@@ -39,7 +43,10 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
         holder.aboutMeNickName.setText(data.nickname.equals("") ? "来自一位没有名字的同学" : data.nickname);
         holder.aboutMeContent.setText(data.content);
         holder.aboutMeTime.setText(TimeUtils.getTimeDetail(data.created_time));
-        holder.aboutMeNewContent.setText(data.article_content);
+        String myNickName = APP.getUser(APP.getContext()).nickname;
+        SpannableStringBuilder aboutMeNewContentSpanText = new SpannableStringBuilder(myNickName + "：" + data.article_content);
+        aboutMeNewContentSpanText.setSpan(new ForegroundColorSpan(APP.getContext().getResources().getColor(R.color.link_blue)), 0, myNickName.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        holder.aboutMeNewContent.setText(aboutMeNewContentSpanText);
         ImageLoader.getInstance().loadAvatar(data.photo_src, holder.aboutMeAvatar);
         String url = data.article_photo_src.split(",")[0];
 

@@ -92,6 +92,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:background="@color/relate_me_background"
         android:orientation="horizontal">
 

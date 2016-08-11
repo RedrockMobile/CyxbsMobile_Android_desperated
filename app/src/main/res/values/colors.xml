@@ -75,4 +75,6 @@
     <color name="gray_edit">#A9A7A9</color>
     <color name="gray_edit_back">#ECECEF</color>
 
+    <color name="link_blue">#295998</color>
+
 </resources>
