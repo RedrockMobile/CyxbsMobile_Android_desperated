@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -122,6 +121,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mWrapView.isFromPersonInfo = getIntent().getBooleanExtra(IS_FROM_PERSON_INFO, false);
         HotNewsContent hotNewsContent = getIntent().getParcelableExtra(START_DATA);
 
+        mHotNewsContent = hotNewsContent;
         article_id = getIntent().getStringExtra(ARTICLE_ID);
         isFromMyTrend = getIntent().getBooleanExtra(IS_FROM_MY_TREND, false);
 
@@ -295,8 +295,14 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
             public void onNext(List<HotNews> hotNewses) {
                 super.onNext(hotNewses);
                 if (hotNewses != null && hotNewses.size() > 0) {
+                    // cache old mHotNewsContent for there is no such field in the result of API_TREND_DETAIL
+                    HotNewsContent oldHotNewsContent = mHotNewsContent;
                     mHotNewsContent = hotNewses.get(0).data;
-                    Log.d(getLocalClassName(), "nickName: " + hotNewses.get(0).data.nickName);
+                    if (oldHotNewsContent != null) {
+                        if (mHotNewsContent.user_id == null || mHotNewsContent.user_id.equals("")) {
+                            mHotNewsContent.user_id = oldHotNewsContent.user_id;
+                        }
+                    }
                     mWrapView.setData(mHotNewsContent, true);
                     if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
                     requestComments();
