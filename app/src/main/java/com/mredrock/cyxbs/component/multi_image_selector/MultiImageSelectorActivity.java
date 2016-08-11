@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.component.multi_image_selector.bean.Image;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
     public static final String EXTRA_RESULT                = "select_result";
     /** 默认选择集 */
     public static final String EXTRA_DEFAULT_SELECTED_LIST = "default_list";
+
+    public static final String EXTRA_SELECTED_List = "selected_list";
 
     /** 单选 */
     public static final int MODE_SINGLE = 0;

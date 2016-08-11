@@ -111,6 +111,14 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                                 // 设置模式 (支持 单选/MultiImageSelectorActivity.MODE_SINGLE 或者 多选/MultiImageSelectorActivity.MODE_MULTI)
                                 intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
                                 // 默认选择图片,回填选项(支持String ArrayList)
+                                ArrayList<String> results = new ArrayList<String>();
+                                for (Image i : mImgList){
+                                    if (i.getType() != Image.TYPE_ADD)
+                                        results.add(i.url);
+                                }
+
+                                if (mImgList.size() != 0)
+                                    intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST,results);
                                 startActivityForResult(intent, REQUEST_IMAGE);
                             } else {
                                 Utils.toast(this, "没有赋予权限哦");

@@ -214,7 +214,6 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     public void onResume() {
         super.onResume();
         if (hasLoginStateChanged){
-            Log.e(TAG,"   hasLoginStateChanged=============");
             mListHotNews.clear();
             getCurrentData(PER_PAGE_NUM,0);
             hasLoginStateChanged = false;

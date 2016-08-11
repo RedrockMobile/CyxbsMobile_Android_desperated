@@ -132,6 +132,8 @@ public class MultiImageSelectorFragment extends Fragment {
             }
         }
 
+
+
         // 是否显示照相机
         mIsShowCamera = getArguments().getBoolean(EXTRA_SHOW_CAMERA, true);
         mImageAdapter = new ImageGridAdapter(getActivity(), mIsShowCamera, 3);

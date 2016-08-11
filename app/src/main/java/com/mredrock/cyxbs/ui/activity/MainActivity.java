@@ -199,7 +199,7 @@ public class MainActivity extends BaseActivity {
                     } else
                         PostNewsActivity.startActivity(this);
                 } else {
-                    Utils.toast(getApplicationContext(), "尚未登录");
+                   // Utils.toast(getApplicationContext(), "尚未登录");
                     EventBus.getDefault().post(new LoginEvent());
                 }
                 break;

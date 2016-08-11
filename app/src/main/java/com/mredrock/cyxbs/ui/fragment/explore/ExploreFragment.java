@@ -78,14 +78,15 @@ public class ExploreFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
         ButterKnife.bind(this, view);
+        mRollViewPager.setAdapter(new ExploreRollViewPagerAdapter(mRollViewPager));
+        mRollViewPager.setHintView(new RollViewPagerHint(getContext()));
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRollViewPager.setAdapter(new ExploreRollViewPagerAdapter(mRollViewPager));
-        mRollViewPager.setHintView(new RollViewPagerHint(getContext()));
+
     }
 
     @Override
