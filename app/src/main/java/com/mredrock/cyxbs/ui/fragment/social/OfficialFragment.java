@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
 
-import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
@@ -24,10 +23,7 @@ public class OfficialFragment extends BaseNewsFragment {
     @Override
     protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent hotNewsContent) {
         super.setDate(holder, hotNewsContent);
-        holder.mTextContent.setText(hotNewsContent.officeNewsContent.title);
-        holder.mTextName.setText(hotNewsContent.officeNewsContent.getOfficeName());
-        holder.enableAvatarClick = false;
-        holder.mImgAvatar.setImageResource(R.drawable.ic_official_notification);
+        holder.setData(hotNewsContent, false);
     }
 
 }

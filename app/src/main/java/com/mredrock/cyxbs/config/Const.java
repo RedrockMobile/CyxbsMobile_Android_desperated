@@ -83,4 +83,16 @@ public class Const {
         public static final int EDIT_QQ = 5;
         public static final int EDIT_PHONE = 6;
     }
+
+    /**
+     * type_id of some red rock api
+     */
+    public static final class TypeId {
+        public static final int CYXW = 1;
+        public static final int JWZX = 2;
+        public static final int XSJZ = 3;
+        public static final int XWGG = 4;
+        public static final int BBDD = 5;
+        public static final int NOTICE = 6;
+    }
 }

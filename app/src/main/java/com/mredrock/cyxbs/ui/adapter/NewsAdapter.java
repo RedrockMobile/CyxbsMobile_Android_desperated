@@ -2,7 +2,6 @@ package com.mredrock.cyxbs.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ExpandableTextView;
 import com.mredrock.cyxbs.component.widget.ninelayout.AutoNineGridlayout;
-import com.mredrock.cyxbs.event.AskLoginEvent;
+import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.event.ItemChangedEvent;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.HotNews;
@@ -304,6 +303,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 mExpandableTextView.setText(hotNewsContent.officeNewsContent.title);
             } else {
                 mExpandableTextView.setText(hotNewsContent.officeNewsContent.content);
+            }
+
+            // official news from school or red rock
+            if (hotNewsContent.typeId == Const.TypeId.CYXW
+                    || hotNewsContent.typeId == Const.TypeId.JWZX
+                    || hotNewsContent.typeId == Const.TypeId.XSJZ
+                    || hotNewsContent.typeId == Const.TypeId.XWGG
+                    || hotNewsContent.typeId == Const.TypeId.NOTICE) {
+                enableAvatarClick = false;
+                mImgAvatar.setImageResource(R.drawable.ic_official_notification);
             }
 
             if (!(mHotNewsContent.typeId < BBDDNews.BBDD || (mHotNewsContent.typeId == 6 && mHotNewsContent.user_id == null)))
