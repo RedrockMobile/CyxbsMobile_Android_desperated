@@ -14,11 +14,15 @@
         android:layout_height="0.5dp"
         android:background="@color/divider" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@android:color/transparent"/>
+
     <RelativeLayout
         android:id="@+id/setting_remind_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="15dp"
         android:background="@drawable/bg_layout"
         android:orientation="vertical">
 
