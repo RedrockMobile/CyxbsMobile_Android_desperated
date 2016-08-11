@@ -42,7 +42,6 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolbar();
         if (!APP.isLogin()){
-            settingRemindLayout.setVisibility(View.GONE);
             settingExitLayout.setVisibility(View.GONE);
         }
     }
