@@ -75,11 +75,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     public void addDataList(List<HotNews> dataList) {
         mNews.addAll(dataList);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(mNews.size(),dataList.size());
     }
 
     public void replaceDataList(List<HotNews> dataList) {
-        mNews = dataList;
+     //   mNews = dataList;
+        mNews.clear();
+        mNews.addAll(dataList);
         notifyDataSetChanged();
     }
 
