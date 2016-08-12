@@ -71,11 +71,12 @@
         android:background="@color/crop__button_bar"
         android:orientation="horizontal">
 
-
         <EditText
             android:id="@+id/news_edt_comment"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
+            android:maxHeight="140dp"
+            android:minHeight="32dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="8dp"
@@ -86,20 +87,19 @@
             android:selectAllOnFocus="true"
             android:textColorHint="@color/gray_edit"
             android:textSize="16sp"
+            android:scrollbars="vertical"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
 
         <TextView
             android:id="@+id/btn_send"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:layout_alignTop="@+id/news_edt_comment"
-            android:layout_marginBottom="8dp"
             android:layout_marginRight="6dp"
             android:layout_marginTop="8dp"
-            android:layout_toRightOf="@+id/news_edt_comment"
             android:layout_weight="1"
             android:background="@drawable/news_button"
             android:gravity="center"
+            android:layout_gravity="bottom"
             android:text="发送" />
     </LinearLayout>
 
