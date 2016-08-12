@@ -77,6 +77,7 @@
             android:layout_height="wrap_content"
             android:maxHeight="140dp"
             android:minHeight="32dp"
+            android:maxLength="500"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="8dp"

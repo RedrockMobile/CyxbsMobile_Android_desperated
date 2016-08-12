@@ -12,9 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.mredrock.cyxbs.APP;
@@ -27,6 +24,8 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import rx.Subscriber;
 
 /**
@@ -66,14 +65,17 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
 
         switch (getExtra()) {
             case Const.Extras.EDIT_QQ:
+                editCommonEt.setHint("客官，留个QQ呗～");
                 editTextContent = mUser.qq;
                 editCommonToolbar.setTitle("QQ");
                 break;
             case Const.Extras.EDIT_PHONE:
+                editCommonEt.setHint("客官，留个电话呗～");
                 editTextContent = mUser.phone;
                 editCommonToolbar.setTitle("电话");
                 break;
             case Const.Extras.EDIT_NICK_NAME:
+                editCommonEt.setHint("怎么可以没有昵称");
                 editTextContent = mUser.nickname;
                 editCommonToolbar.setTitle("昵称");
                 break;

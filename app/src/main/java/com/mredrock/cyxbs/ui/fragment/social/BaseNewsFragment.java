@@ -26,10 +26,8 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
-import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.ui.fragment.BaseLazyFragment;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -260,7 +258,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         public void showLoadingNoMoreData() {
             mCircleProgressBar.setVisibility(View.INVISIBLE);
             mTextLoadingFailed.setVisibility(View.VISIBLE);
-            mTextLoadingFailed.setText("已经到底了,没有更多数据了哟!");
+            mTextLoadingFailed.setText("没有更多内容啦，你来发布吧！");
         }
 
         public void showLoadingNoData() {

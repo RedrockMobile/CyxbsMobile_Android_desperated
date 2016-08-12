@@ -26,7 +26,7 @@
             android:layout_height="153dp"
             android:background="@null"
             android:gravity="top"
-            android:hint="请输入您的简介"
+            android:hint="向大家秀出自己吧"
             android:textColorHint="@color/text_light_2"
             android:paddingLeft="15dp"
             android:paddingTop="14dp"
