@@ -125,12 +125,15 @@ public class MainActivity extends BaseActivity {
             switch (position) {
                 case 1:
                     showMenu();
+                    Log.d(TAG, "initView: 1");
                     break;
                 case 0:
+                    Log.d(TAG, "initView: 0");
                     setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
                     break;
                 case 3:
                     if (!APP.isLogin()) {
+                        Log.d(TAG, "initView: 3");
 //                        EventBus.getDefault().post(new LoginEvent());
                     }
                     break;
@@ -150,6 +153,7 @@ public class MainActivity extends BaseActivity {
             case "true":
                 mFragments.remove(0);
                 mFragments.add(0, new CourseContainerFragment());
+                mBottomBar.setCurrentView(0);
                 mAdapter.notifyDataSetChanged();
                 break;
             case "false":

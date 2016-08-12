@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,10 +83,8 @@ public class CourseContainerFragment extends BaseFragment {
         if (mNowWeek <= 18 && mNowWeek >= 1) {
             mTitles.set(mNowWeek, getActivity().getResources().getString(R.string.now_week));
         }
-
         if (mFragmentList.isEmpty()) {
             for (int i = 0; i < mTitles.size(); i++) {
-
                 CourseFragment temp = new CourseFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt(CourseFragment.BUNDLE_KEY, i);
@@ -107,7 +106,6 @@ public class CourseContainerFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_course_container, container, false);
         ButterKnife.bind(this, view);
         mAdapter = new TabPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentList, mTitles);
-
         mToolbarTitle = ((MainActivity) getActivity()).getToolbarTitle();
         mPager.setAdapter(mAdapter);
         mPager.addOnPageChangeListener(mTabListener = new TabLayout.TabLayoutOnPageChangeListener(mTabs));
@@ -140,9 +138,7 @@ public class CourseContainerFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         if (mNowWeek <= 18 && mNowWeek >= 1) setCurrentItem(mNowWeek);
-
         if (mToolbarTitle != null) {
             mToolbarTitle.setOnClickListener(v -> {
                 if (isVisible()) {
