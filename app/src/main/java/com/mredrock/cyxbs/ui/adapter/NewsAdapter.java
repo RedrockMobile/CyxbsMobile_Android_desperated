@@ -152,6 +152,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         @OnClick(R.id.list_news_btn_favorites)
         public void clickLikeAndDisLike() {
+            mBtnFavor.setClickable(false);
             if (mHotNewsContent.isMyLike) {
                 NewsAdapter.ViewHolder.this.dislike(mBtnFavor);
             } else {
@@ -199,6 +200,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
                     if (isSingle) RxBus.getDefault().post(mHotNewsContent);
                 }
+
+                @Override
+                public void onCompleted() {
+                    super.onCompleted();
+                    mBtnFavor.setClickable(true);
+                }
             }),
                     mHotNewsContent.articleId, mHotNewsContent.typeId,
                     APP.getUser(textView.getContext()).stuNum,
@@ -226,7 +233,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     disLikeToSetDataAndView(textView,likeNumber);
                     if (isSingle) RxBus.getDefault().post(mHotNewsContent);
                 }
-            }), mHotNewsContent.articleId, mHotNewsContent.typeId,
+
+                        @Override
+                        public void onCompleted() {
+                            super.onCompleted();
+                            mBtnFavor.setClickable(true);
+                        }
+                    }), mHotNewsContent.articleId, mHotNewsContent.typeId,
                     APP.getUser(textView.getContext()).stuNum,
                     APP.getUser(textView.getContext()).idNum);
         }

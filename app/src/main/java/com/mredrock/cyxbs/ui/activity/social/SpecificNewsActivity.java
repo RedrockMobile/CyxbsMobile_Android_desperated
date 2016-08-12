@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.ui.activity.social;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
@@ -33,6 +35,7 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.ui.adapter.SpecificNewsCommentAdapter;
@@ -273,7 +276,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mToolbar.setTitle("");
         mToolBarTitle.setText(getString(R.string.specific_news_title));
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(view -> SpecificNewsActivity.this.finish());
+        mToolbar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
     private void getDataFailed() {
@@ -336,6 +339,34 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
             }
         }), mHotNewsContent == null ? BBDDNews.BBDD : mHotNewsContent.typeId, articleId);
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (mNewsEdtComment.getText().toString().isEmpty()){
+            super.onBackPressed();
+        }else {
+            Handler handler = new Handler(getMainLooper());
+            handler.post(() -> new MaterialDialog.Builder(this)
+                    .title("退出编辑?")
+                    .content("是否放弃编辑内容并且退出?")
+                    .positiveText("退出")
+                    .negativeText("取消")
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            super.onPositive(dialog);
+                            finish();
+                        }
+
+                        @Override
+                        public void onNegative(MaterialDialog dialog) {
+                            super.onNegative(dialog);
+                            dialog.dismiss();
+                        }
+                    }).show());
+        }
     }
 
     @Override
