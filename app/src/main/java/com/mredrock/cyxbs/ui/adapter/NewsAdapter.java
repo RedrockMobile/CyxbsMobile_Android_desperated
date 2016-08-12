@@ -152,7 +152,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         @OnClick(R.id.list_news_btn_favorites)
         public void clickLikeAndDisLike() {
-            mBtnFavor.setClickable(false);
+            if (APP.isLogin())
+                mBtnFavor.setClickable(false);
             if (mHotNewsContent.isMyLike) {
                 NewsAdapter.ViewHolder.this.dislike(mBtnFavor);
             } else {
@@ -295,7 +296,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 if (!url.equals("")) mImgList.add(new Image(url, Image.TYPE_ADD));
             return mImgList;
         }
-
 
         public void setData(HotNewsContent hotNewsContent, boolean isSingleItem) {
             this.isSingle = isSingleItem;
