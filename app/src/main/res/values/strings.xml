@@ -242,5 +242,4 @@
     <string name="photo_unit">张</string>
     <string name="tip_take_photo">拍摄照片</string>
     <string name="un_login">还没有登录</string>
-    <string name="bt_login_hint">带我去</string>
 </resources>

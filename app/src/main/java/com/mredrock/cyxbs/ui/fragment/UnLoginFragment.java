@@ -20,7 +20,7 @@ import butterknife.OnClick;
  * Have a good day.
  */
 public class UnLoginFragment extends BaseFragment {
-    @Bind(R.id.bt_login)
+    @Bind(R.id.tv_login)
     Button mBtLogin;
 
     @Nullable
@@ -37,7 +37,7 @@ public class UnLoginFragment extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick(R.id.bt_login)
+    @OnClick(R.id.tv_login)
     public void onClick() {
         Intent intent = new Intent();
         intent.setClass(getActivity(), LoginActivity.class);

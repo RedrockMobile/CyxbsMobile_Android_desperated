@@ -106,13 +106,6 @@ public class MainActivity extends BaseActivity {
         titles.add(mStringCommunity);
         titles.add(mStringExplore);
         titles.add(mStringMyPage);
-
-        if (mFragments.get(0) instanceof UnLoginFragment) {
-            Log.d(TAG, "initView: " + "unLoginFragment");
-        } else {
-            Log.d(TAG, "initView: " + "courseContainerFragment");
-        }
-
         mAdapter = new TabPagerAdapter(getSupportFragmentManager(), mFragments, titles);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
