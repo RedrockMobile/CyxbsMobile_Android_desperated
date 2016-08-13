@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.LoginActivity;
@@ -21,7 +22,7 @@ import butterknife.OnClick;
  */
 public class UnLoginFragment extends BaseFragment {
     @Bind(R.id.tv_login)
-    Button mBtLogin;
+    TextView mTvLogin;
 
     @Nullable
     @Override

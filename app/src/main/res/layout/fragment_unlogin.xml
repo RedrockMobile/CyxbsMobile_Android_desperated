@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <ImageView
-        android:layout_marginTop="110dp"
-        android:src="@drawable/no_course"
         android:id="@+id/iv_un_login"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_marginTop="141dp"
+        android:src="@drawable/no_course"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:layout_gravity="bottom"
+    <TextView
         android:id="@+id/tv_login"
-        android:textColor="@color/white"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/no_course_blue"
-        android:text="课表菌，你不能死！！！！"
+        android:textSize="17sp"
         android:layout_width="match_parent"
-        android:gravity="center"
-        style="?android:attr/buttonStyleSmall"
         android:layout_height="wrap_content"
-        android:layout_marginTop="89dp"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="点击登录，拯救课表菌"
+        android:textColor="@color/no_course_blue"
         android:layout_below="@+id/iv_un_login"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
