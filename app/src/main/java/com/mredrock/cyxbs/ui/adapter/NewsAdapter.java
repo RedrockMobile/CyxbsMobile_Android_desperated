@@ -191,7 +191,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 @Override
                 public void onNext(String s) {
                     super.onNext(s);
-                    Log.i(TAG, "赞成功");
+                    //Log.i(TAG, "赞成功");
                     String likeNumber = Integer.parseInt(textView.getText().toString()) + 1 + "";
 
                     EventBus.getDefault().post(new ItemChangedEvent(likeNumber,

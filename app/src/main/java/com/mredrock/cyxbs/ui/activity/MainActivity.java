@@ -26,6 +26,7 @@ import com.mredrock.cyxbs.ui.fragment.UnLoginFragment;
 import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
+import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -78,8 +79,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
-        //TODO: Recover it
-//        UpdateUtil.checkUpdate(this, false);
+        UpdateUtil.checkUpdate(this, false);
     }
 
     private void initView() {

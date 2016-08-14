@@ -203,7 +203,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
                     return;
                 }
                 mNewsAdapter.addDataList(hotNewses);
-                Log.i("====>>>", "page===>>>" + page + "size==>>" + hotNewses.size());
+                //Log.i("====>>>", "page===>>>" + page + "size==>>" + hotNewses.size());
             }
         }), size, page);
     }

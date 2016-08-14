@@ -26,6 +26,8 @@ import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.network.exception.UnsetUserInfoException;
+import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.me.AboutMeActivity;
@@ -98,7 +100,6 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), AboutMeActivity.class));
         } else {
-            // TODO: 可能需要修改的文案（下面几个方法也是）
             EventBus.getDefault().post(new AskLoginEvent("登录后才能查看与我相关哦"));
         }
     }

@@ -259,7 +259,6 @@ public class MapActivity extends BaseExploreActivity
                         mMapHelper.loadOverlayImage(url, shouldCache);
                     }
                 }), "overmap", "map");
-
     }
 
     private void onLoadProgress() {
