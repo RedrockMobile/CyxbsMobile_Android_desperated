@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.mredrock.cyxbs.util.Utils;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -122,7 +123,7 @@ public class HotNewsContent implements Parcelable {
 
         this.officeNewsContent = content;
         this.type = content.articletypeId;
-        this.typeId = Integer.parseInt(content.articletypeId);
+        this.typeId = Integer.parseInt(Utils.checkNotNullWithDefaultValue(content.articletypeId, "5"));
         this.nickName = content.name;
         this.userHead = content.head;
         this.time = content.date;
