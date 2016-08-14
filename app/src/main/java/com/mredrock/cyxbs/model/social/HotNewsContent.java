@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
-import com.mredrock.cyxbs.APP;
-import com.mredrock.cyxbs.util.TimeUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -116,6 +114,12 @@ public class HotNewsContent implements Parcelable {
     }
 
     public HotNewsContent(OfficeNewsContent content) {
+        this(new ImgBean("", ""), content);
+    }
+
+    public HotNewsContent(ImgBean img, OfficeNewsContent content) {
+        this.img = img;
+
         this.officeNewsContent = content;
         this.type = content.articletypeId;
         this.typeId = Integer.parseInt(content.articletypeId);
@@ -124,22 +128,9 @@ public class HotNewsContent implements Parcelable {
         this.time = content.date;
         this.remarkNum = content.remarkNum;
         this.id = content.id;
-        this.img = new ImgBean("", "");
 
         this.likeNum = content.likeNum;
         this.isMyLike = content.isMyLike;
-        this.articleId = content.id;
-    }
-
-    public HotNewsContent(ImgBean img, OfficeNewsContent content) {
-        this.img = img;
-        this.officeNewsContent = content;
-        this.typeId = BBDDNews.BBDD;
-
-        this.nickName = APP.getUser(APP.getContext()).stuNum;
-        this.time = TimeUtils.getTodayDate();
-        this.likeNum = "0";
-        this.remarkNum = "0";
         this.articleId = content.id;
     }
 

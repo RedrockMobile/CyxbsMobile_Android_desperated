@@ -23,6 +23,8 @@ public class BBDDDetail {
     public String updatedTime;
     @SerializedName("created_time")
     public String createdTime;
+    @SerializedName("date")
+    public String date;
     @SerializedName("like_num")
     public String likeNum;
     @SerializedName("remark_num")

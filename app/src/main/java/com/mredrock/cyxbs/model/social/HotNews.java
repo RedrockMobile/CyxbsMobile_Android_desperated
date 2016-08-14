@@ -66,13 +66,13 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> implements Parcel
     public HotNews(BBDDDetail bbddDetail) {
         this.data = new HotNewsContent("bbdd"
                 , bbddDetail.id
-                , BBDDNews.BBDD
+                , Integer.parseInt(bbddDetail.typeId)
                 , ""
                 , Utils.checkNotNullWithDefaultValue(bbddDetail.nickName, "")
                 , Utils.checkNotNullWithDefaultValue(bbddDetail.userHead, "")
-                , bbddDetail.createdTime
+                , Utils.checkNotNullWithDefaultValue(bbddDetail.createdTime != null ? bbddDetail.createdTime : bbddDetail.date, "")
                 , new OfficeNewsContent(bbddDetail.content)
-                , new HotNewsContent.ImgBean(bbddDetail.thumbnailSrc, bbddDetail.photoSrc)
+                , new HotNewsContent.ImgBean(Utils.checkNotNullWithDefaultValue(bbddDetail.thumbnailSrc, ""), Utils.checkNotNullWithDefaultValue(bbddDetail.photoSrc, ""))
                 , bbddDetail.likeNum
                 , bbddDetail.remarkNum
                 , bbddDetail.isMyLike
