@@ -12,9 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Grade;
@@ -24,10 +21,14 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.me.GradeAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
+import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.NetUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by skylineTan on 2016/4/21 19:08.
@@ -126,7 +127,9 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
             public void onError(Throwable e) {
                 super.onError(e);
                 dismissProgress();
-                gradeTvNothing.setVisibility(View.VISIBLE);
+                if (gradeTvNothing != null) {
+                    gradeTvNothing.setVisibility(View.VISIBLE);
+                }
 
             }
 
@@ -144,11 +147,15 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
     }
 
     private void refresh(List<Grade> gradeList) {
-        mGradeList.clear();
-        addTitleToList();
-        mGradeList.addAll(gradeList);
-        mGradeAdapter.notifyDataSetChanged();
-        gradeTvNothing.setVisibility(View.GONE);
+        try {
+            mGradeList.clear();
+            addTitleToList();
+            mGradeList.addAll(gradeList);
+            mGradeAdapter.notifyDataSetChanged();
+            gradeTvNothing.setVisibility(View.GONE);
+        } catch (NullPointerException e) {
+            LogUtils.LOGW(getClass().getName(), "Callback after activity destroy", e);
+        }
     }
 
     private void addTitleToList() {

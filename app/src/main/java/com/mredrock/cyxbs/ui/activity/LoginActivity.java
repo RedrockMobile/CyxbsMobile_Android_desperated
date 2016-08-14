@@ -16,6 +16,7 @@ import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.me.EditNickNameActivity;
 import com.mredrock.cyxbs.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -142,7 +143,9 @@ public class LoginActivity extends AppCompatActivity {
                         super.onCompleted();
                         EventBus.getDefault().post(new LoginStateChangeEvent(true));
                         finish();
-
+                        if (!APP.hasNickName()) {
+                            EditNickNameActivity.start(APP.getContext());
+                        }
                     }
                 }), stuNum, idNum);
 

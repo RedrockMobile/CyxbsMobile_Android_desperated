@@ -98,7 +98,7 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
     }
 
 
-    private void setPersonInfo() {
+    protected void setPersonInfo() {
         provideData(new SimpleSubscriber<>(this, true,
                 new SubscriberListener<RedrockApiWrapper<Object>>() {
 

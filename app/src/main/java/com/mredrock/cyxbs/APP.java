@@ -3,8 +3,6 @@ package com.mredrock.cyxbs;
 import android.app.Application;
 import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
-import android.text.format.DateUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.mredrock.cyxbs.config.Const;
@@ -91,6 +89,10 @@ public class APP extends Application {
     public static boolean hasSetInfo() {
         User user = getUser(getContext());
         return user != null && StringUtils.isNotBlank(user.id);
+    }
+
+    public static boolean hasNickName() {
+        return getUser(getContext()).nickname != null && !getUser(getContext()).nickname.equals("");
     }
 
     @Override

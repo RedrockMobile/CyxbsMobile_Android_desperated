@@ -13,9 +13,6 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Exam;
@@ -25,11 +22,14 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.me.ExamScheduleAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
+import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.NetUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import rx.Subscriber;
 
 /**
@@ -158,19 +158,27 @@ public class ExamScheduleFragment extends BaseFragment {
                 @Override
                 public void onError(Throwable e) {
                     super.onError(e);
-                    examSwipeRefreshLayout.setRefreshing(false);
-                    examTvNothing.setVisibility(View.VISIBLE);
+                    try {
+                        examSwipeRefreshLayout.setRefreshing(false);
+                        examTvNothing.setVisibility(View.VISIBLE);
+                    } catch (NullPointerException ex) {
+                        LogUtils.LOGW(getClass().getName(), "Callback after activity destroy", ex);
+                    }
                 }
 
 
                 @Override
                 public void onNext(List<Exam> examList) {
                     super.onNext(examList);
-                    examSwipeRefreshLayout.setRefreshing(false);
-                    if (examList == null || examList.size() == 0) {
-                        examTvNothing.setVisibility(View.VISIBLE);
-                    } else {
-                        refresh(examList);
+                    try {
+                        examSwipeRefreshLayout.setRefreshing(false);
+                        if (examList == null || examList.size() == 0) {
+                            examTvNothing.setVisibility(View.VISIBLE);
+                        } else {
+                            refresh(examList);
+                        }
+                    } catch (NullPointerException e) {
+                        LogUtils.LOGW(getClass().getName(), "Callback after activity destroy", e);
                     }
                 }
 

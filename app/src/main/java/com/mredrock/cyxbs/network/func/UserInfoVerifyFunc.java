@@ -1,7 +1,8 @@
 package com.mredrock.cyxbs.network.func;
 
+import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.model.User;
-import com.mredrock.cyxbs.network.exception.UnsetUserInfoException;
+import com.mredrock.cyxbs.ui.activity.me.EditNickNameActivity;
 
 import rx.functions.Func1;
 
@@ -12,7 +13,7 @@ public class UserInfoVerifyFunc implements Func1<User, User>{
     @Override
     public User call(User user) {
         if (user == null) {
-            throw new UnsetUserInfoException("同学你还没有完善信息哦");
+            EditNickNameActivity.start(APP.getContext());
         }
         return user;
     }

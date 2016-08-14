@@ -40,6 +40,17 @@ public class Toolbar extends FrameLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    public void setLeftText(CharSequence text) {
+        leftText = text;
+        left.setText(text);
+    }
+
+    public void setRightText(CharSequence text) {
+        rightText = text;
+        right.setText(text);
+    }
+
+
     public void setLeftTextListener(OnClickListener listener) {
         left.setOnClickListener(listener);
     }
