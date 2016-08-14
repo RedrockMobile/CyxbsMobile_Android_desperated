@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 30
         versionName "端午版"
     }
@@ -134,5 +134,5 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'com.ms-square:expandableTextView:0.1.4'
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'im.fir:fir-sdk:latest.integration@aar'
+   // compile 'im.fir:fir-sdk:latest.integration@aar'
 }

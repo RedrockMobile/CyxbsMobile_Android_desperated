@@ -33,7 +33,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            app:button_image_normal="@drawable/ic_favorites"
+            app:button_image_normal="@drawable/ic_course"
+            app:button_image_choose="@drawable/ic_course_select"
             app:button_text="@string/course"
             app:color_choose="@color/colorPrimary"
             app:color_normal="@color/tabText"/>
@@ -43,7 +44,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            app:button_image_normal="@drawable/ic_nearby"
+            app:button_image_normal="@drawable/ic_home"
+            app:button_image_choose="@drawable/ic_home_select"
             app:button_text="@string/community"
             app:color_choose="@color/colorPrimary"
             app:color_normal="@color/tabText"/>
@@ -54,7 +56,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            app:button_image_normal="@drawable/ic_restaurants"
+            app:button_image_normal="@drawable/ic_explore"
+            app:button_image_choose="@drawable/ic_explore_select"
             app:button_text="@string/explore"
             app:color_choose="@color/colorPrimary"
             app:color_normal="@color/tabText"/>
@@ -64,7 +67,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            app:button_image_normal="@drawable/ic_friends"
+            app:button_image_normal="@drawable/ic_me"
+            app:button_image_choose="@drawable/ic_me_select"
             app:button_text="@string/my_page"
             app:color_choose="@color/colorPrimary"
             app:color_normal="@color/tabText"/>

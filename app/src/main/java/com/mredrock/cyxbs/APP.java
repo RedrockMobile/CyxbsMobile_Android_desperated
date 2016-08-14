@@ -13,7 +13,6 @@ import com.orhanobut.logger.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 
-import im.fir.sdk.FIR;
 
 
 /**
@@ -98,7 +97,7 @@ public class APP extends Application {
 
         context = getApplicationContext();
         initThemeMode();
-        FIR.init(this);
+      //  FIR.init(this);
         Logger.init("cyxbs_mobile");
 
     }

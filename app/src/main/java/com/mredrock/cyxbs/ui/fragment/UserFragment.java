@@ -208,6 +208,10 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
 
     private void getPersonInfoData() {
         if (!APP.isLogin()) {
+            myPageNickName.setText("点我登录");
+            myPageAvatar.setImageResource(R.drawable.ic_default_avatar);
+            myPageIntroduce.setText("");
+            myPageGender.setText("");
             return;
         }
         mUser = APP.getUser(getActivity());

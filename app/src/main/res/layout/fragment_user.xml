@@ -57,7 +57,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="12dp"
                             android:layout_marginStart="12dp"
-                            android:text="点我完善个人信息"
                             android:textColor="@color/text_dark"
                             android:textSize="15sp"/>
 

@@ -114,7 +114,7 @@ public class BottomButton extends RelativeLayout implements IBottomView {
         mTextView.setTextColor(mTextChooseColor);
         mImageView.setColorFilter(mImageChooseColor, PorterDuff.Mode.SRC_IN);
         if (mChooseImage != null && mNormalImage != null) {
-            mImageView.setImageDrawable(mNormalImage);
+            mImageView.setImageDrawable(mChooseImage);
         }
     }
 
@@ -123,7 +123,7 @@ public class BottomButton extends RelativeLayout implements IBottomView {
         mTextView.setTextColor(mTextNormalColor);
         mImageView.setColorFilter(mImageNormalColor, PorterDuff.Mode.SRC_IN);
         if (mChooseImage != null) {
-            mImageView.setImageDrawable(mChooseImage);
+            mImageView.setImageDrawable(mNormalImage);
         }
     }
 
