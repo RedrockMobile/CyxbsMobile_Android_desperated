@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.EditText;
 
@@ -59,6 +60,7 @@ public class EditNickNameActivity extends EditCommonActivity {
 
     @Override
     public void onBackPressed() {
+        Snackbar.make(editCommonEt,"要有昵称才能浏览哦~~~",Snackbar.LENGTH_SHORT).show();
         if (!isForceModify) {
             super.onBackPressed();
         }
@@ -71,6 +73,7 @@ public class EditNickNameActivity extends EditCommonActivity {
 
     public static void start(Context context) {
         Intent starter = new Intent(context, EditNickNameActivity.class);
+        starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(starter);
     }
 

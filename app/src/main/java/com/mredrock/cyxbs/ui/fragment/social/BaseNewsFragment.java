@@ -117,7 +117,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     }
 
     private void getDataFailed(String reason) {
-        Toast.makeText(getActivity(), getString(R.string.erro), Toast.LENGTH_SHORT).show();
+        Toast.makeText(APP.getContext(), getString(R.string.erro), Toast.LENGTH_SHORT).show();
         Log.e(TAG, reason);
 
     }
