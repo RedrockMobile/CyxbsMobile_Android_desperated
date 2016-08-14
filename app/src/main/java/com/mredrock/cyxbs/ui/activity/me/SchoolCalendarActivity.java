@@ -1,30 +1,22 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.mredrock.cyxbs.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.util.ImageLoader;
-
 public class SchoolCalendarActivity extends AppCompatActivity {
 
-    @Bind(R.id.calendar_img)
-    ImageView calendarImg;
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +24,7 @@ public class SchoolCalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_school_calendar);
         ButterKnife.bind(this);
         initToolbar();
-        ImageLoader.getInstance().loadLocalImage(R.drawable.img_calendar,
-                new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        calendarImg.setImageBitmap(resource);
-                    }
-                });
     }
-
 
     private void initToolbar() {
         if (toolbar != null) {
