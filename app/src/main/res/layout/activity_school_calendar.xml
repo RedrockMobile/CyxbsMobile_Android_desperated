@@ -16,10 +16,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/calendar_img"
+                android:src="@drawable/img_calendar_s1"
+                android:id="@+id/calendar_img_s1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <ImageView
+                android:id="@+id/calendar_img_s2"
+                android:src="@drawable/img_calendar_s2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>
