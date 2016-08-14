@@ -24,4 +24,6 @@ public class PersonLatest {
     public String likeNum;
     @SerializedName("remark_num")
     public String remarkNum;
+    @SerializedName("is_my_like")
+    public boolean isMyLike;
 }
