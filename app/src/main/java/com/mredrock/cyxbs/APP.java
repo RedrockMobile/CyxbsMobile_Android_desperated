@@ -81,7 +81,7 @@ public class APP extends Application {
     }
 
     public static boolean isFresh() {
-        return isLogin() && mUser.stuNum.substring(0, 4).equals("2016");
+        return isLogin() && getUser(getContext()).stuNum.substring(0, 4).equals("2016");
     }
 
     public static void setLogin(boolean login) {
