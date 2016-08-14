@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.model.social;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.util.Utils;
 
@@ -27,7 +28,7 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> implements Parcel
                 , new HotNewsContent.ImgBean(personLatest.thumbnailPhoto, personLatest.photo)
                 , personLatest.likeNum
                 , personLatest.remarkNum
-                , true
+                , personLatest.isMyLike
                 , personLatest.id);
     }
 
@@ -38,7 +39,7 @@ public class HotNews extends RedrockApiWrapper<HotNewsContent> implements Parcel
     public HotNews(BBDDNewsContent bbddNewsContent) {
         this.data = new HotNewsContent(bbddNewsContent.typeId
                 , bbddNewsContent.id
-                , 5
+                , Const.TypeId.BBDD
                 , bbddNewsContent.stuNum
                 , bbddNewsContent.nickName
                 , bbddNewsContent.photoSrc
