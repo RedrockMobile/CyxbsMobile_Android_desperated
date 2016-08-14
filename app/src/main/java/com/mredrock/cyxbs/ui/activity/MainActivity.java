@@ -140,20 +140,17 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
         super.onLoginStateChangeEvent(event);
-        Log.d(TAG, "onLoginStateChangeEvent: " + event.getNewState() + " count: " + mFragments.size());
-        String isLogin = String.valueOf(event.getNewState());
-        switch (isLogin) {
-            case "true":
-                mFragments.remove(0);
-                mFragments.add(0, new CourseContainerFragment());
-                mBottomBar.setCurrentView(0);
-                mAdapter.notifyDataSetChanged();
-                break;
-            case "false":
-                mFragments.remove(0);
-                mFragments.add(0, new UnLoginFragment());
-                mAdapter.notifyDataSetChanged();
-                break;
+        boolean isLogin = event.getNewState();
+        Log.d(TAG, "onLoginStateChangeEvent: "+APP.isFresh());
+        if (!isLogin || APP.isFresh()) {
+            mFragments.remove(0);
+            mFragments.add(0, new UnLoginFragment());
+            mAdapter.notifyDataSetChanged();
+        } else {
+            mFragments.remove(0);
+            mFragments.add(0, new CourseContainerFragment());
+            mBottomBar.setCurrentView(0);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -196,7 +193,7 @@ public class MainActivity extends BaseActivity {
                     } else
                         PostNewsActivity.startActivity(this);
                 } else {
-                   // Utils.toast(getApplicationContext(), "尚未登录");
+                    // Utils.toast(getApplicationContext(), "尚未登录");
                     EventBus.getDefault().post(new LoginEvent());
                 }
                 break;

@@ -124,14 +124,6 @@ public class LoginActivity extends AppCompatActivity {
     public void attemptLogin() {
         String stuNum = stuNumEdit.getText().toString();
         String idNum = idNumEdit.getText().toString();
-/*        if (StringUtils.isBlank(stuNum) || stuNum.length() < 10) {
-            stuNumEdit.setError("请输入有效的学号");
-            return;
-        }
-        if (StringUtils.isBlank(idNum) || idNum.length() < 6) {
-            Utils.toast(this, "请输入有效的密码");
-            return;
-        }*/
         RequestManager.getInstance()
                 .login(new SimpleSubscriber<>(this, true, false, new SubscriberListener<User>() {
                     @Override
@@ -140,9 +132,6 @@ public class LoginActivity extends AppCompatActivity {
                         if (user != null) {
                             APP.setUser(LoginActivity.this, user);
                             MobclickAgent.onProfileSignIn(stuNum);
-                            //     EventBus.getDefault().removeStickyEvent(ExitEvent.class);
-                            //      startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            //    onBackPressed();
                         } else {
                             Utils.toast(LoginActivity.this, "登录失败, 返回了信息为空");
                         }

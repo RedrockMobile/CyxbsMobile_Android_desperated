@@ -17,6 +17,8 @@
         android:textSize="17sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_gravity="bottom"
         android:layout_marginTop="24dp"
         android:gravity="center"

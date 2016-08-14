@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.mredrock.cyxbs.config.Const;
@@ -14,7 +15,6 @@ import com.orhanobut.logger.Logger;
 import org.apache.commons.lang3.StringUtils;
 
 
-
 /**
  * Created by cc on 16/3/18.
  */
@@ -22,6 +22,8 @@ public class APP extends Application {
     private static Context context;
     private static User mUser;
     private static boolean login;
+
+    public static final String TAG = "myAPP";
 
     public static Context getContext() {
         return context;
@@ -73,13 +75,13 @@ public class APP extends Application {
 
     private static void initializeFakeUser() {
         mUser = new User();
-      //  mUser.id = "0";
+        //  mUser.id = "0";
         mUser.idNum = "0";
         mUser.stuNum = "0";
     }
 
     public static boolean isFresh() {
-        return !isLogin() && mUser.stuNum.substring(0, 3).equals(DateUtils.YEAR_FORMAT);
+        return isLogin() && mUser.stuNum.substring(0, 4).equals("2016");
     }
 
     public static void setLogin(boolean login) {
@@ -97,7 +99,7 @@ public class APP extends Application {
 
         context = getApplicationContext();
         initThemeMode();
-      //  FIR.init(this);
+        //  FIR.init(this);
         Logger.init("cyxbs_mobile");
 
     }
@@ -108,7 +110,7 @@ public class APP extends Application {
     }
 
     @Override
-    public void onTerminate(){
+    public void onTerminate() {
         super.onTerminate();
     }
 
