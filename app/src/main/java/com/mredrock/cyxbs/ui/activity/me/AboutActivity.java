@@ -1,5 +1,7 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +34,9 @@ public class AboutActivity extends AppCompatActivity {
 
     @OnClick(R.id.about_website)
     void clickToWebsite() {
-        WebViewUtils.showPortalWebView(this, Const.APP_HOME);
+       // WebViewUtils.showPortalWebView(this, Const.APP_HOME);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Const.APP_HOME));
+        startActivity(intent);
     }
 
 

@@ -42,7 +42,7 @@ public class OrganizationFragment extends Fragment implements View.OnClickListen
             textView.setOnClickListener(this);
         }
         textViews[0].setBackgroundResource(R.color.background);
-        detail.setText(Html.fromHtml(StyleData.ORGANIZATION[0])+"/n");
+        detail.setText(Html.fromHtml(StyleData.ORGANIZATION[0])+"\n");
     }
 
     @Override

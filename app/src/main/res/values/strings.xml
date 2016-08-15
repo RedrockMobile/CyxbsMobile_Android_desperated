@@ -144,7 +144,7 @@
     <!--explore page start-->
     <string name="error_text">加载失败</string>
 
-    <string name="explore_portal">红岩门户</string>
+    <string name="explore_portal">关于红岩</string>
     <string name="explore_map">重邮地图</string>
     <string name="explore_eat">吃什么</string>
     <string name="explore_around_food">周边美食</string>
