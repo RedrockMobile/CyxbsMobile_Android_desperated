@@ -123,9 +123,9 @@ public class DiskCache implements Closeable, Flushable {
             }
             return DiskLruCache.open(cacheDir, appVersion, valueCount, maxSize);
         } catch (IOException e) {
-            LogUtils.LOGE(TAG, "Couldn't open disk cache.");
+            e.printStackTrace();
+            throw new RuntimeException("can't initialize lru cache for failure in creating cache file");
         }
-        return null;
     }
 
     private String md5HexKey(String key) {

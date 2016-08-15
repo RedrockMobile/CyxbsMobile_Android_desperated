@@ -33,14 +33,18 @@ public class MapHelper {
     private static final String DEFAULT_MAP_KEY = Utils.md5Hex(Const.END_POINT_REDROCK);
 
     private final Context mContext;
-    private final DiskCache mDiskCache;
+    private DiskCache mDiskCache;
     private final Handler mMainHandler;
 
     public MapHelper(Context context, Handler mainHandler) {
         mContext = context;
         mMainHandler = mainHandler;
-        mDiskCache =
-                new DiskCache(Utils.getDiskCacheDir(context, "bitmap"), MAX_DISK_CACHE_BYTES);
+        try {
+            mDiskCache = new DiskCache(Utils.getDiskCacheDir(context, "bitmap"), MAX_DISK_CACHE_BYTES);
+        } catch (RuntimeException e) {
+            LogUtils.LOGW(getClass().getName(), "ConstructorMethod", e);
+            mDiskCache = new DiskCache(Utils.getDiskCacheDirInternal(context, "bitmap"), MAX_DISK_CACHE_BYTES);
+        }
     }
 
 

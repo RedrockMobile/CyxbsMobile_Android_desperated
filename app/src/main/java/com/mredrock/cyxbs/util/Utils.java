@@ -884,6 +884,16 @@ public class Utils {
         return new File(cachePath + File.separator + uniqueName);
     }
 
+    public static File getDiskCacheDirInternal(Context context, String uniqueName) {
+        String cachePath = context.getCacheDir().getPath();
+        return new File(cachePath + File.separator + uniqueName);
+    }
+
+    public static File getDiskCacheDirExternal(Context context, String uniqueName) {
+        String cachePath = context.getExternalCacheDir().getPath();
+        return new File(cachePath + File.separator + uniqueName);
+    }
+
     public static String md5Hex(String s) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
