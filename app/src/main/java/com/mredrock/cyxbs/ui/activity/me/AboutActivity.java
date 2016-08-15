@@ -7,16 +7,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.WebViewUtils;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -62,7 +62,7 @@ public class AboutActivity extends AppCompatActivity {
     protected void initializeToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
-            toolbarTitle.setText("与我相关");
+            toolbarTitle.setText("关于");
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(
                     v -> AboutActivity.this.finish());
