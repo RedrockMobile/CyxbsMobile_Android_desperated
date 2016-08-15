@@ -47,6 +47,7 @@ public class FreshmanMainActivity extends AppCompatActivity implements View.OnCl
 
     public static void start(Context context) {
         Intent starter = new Intent(context, FreshmanMainActivity.class);
+        starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(starter);
     }
 }
