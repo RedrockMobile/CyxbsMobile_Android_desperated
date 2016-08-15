@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
@@ -33,6 +34,9 @@ import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.ui.fragment.social.BaseNewsFragment;
 import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.ScreenTools;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -231,6 +235,12 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
                 mTextGender.setText("♀");
             }
         }
+    }
+
+    @Override
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
+        requestData();
     }
 
 }
