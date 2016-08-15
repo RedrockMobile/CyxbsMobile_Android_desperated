@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.excitingboat.freshmanspecial.App;
 import com.google.gson.Gson;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.User;
@@ -103,6 +104,8 @@ public class APP extends Application {
         initThemeMode();
         //  FIR.init(this);
         Logger.init("cyxbs_mobile");
+        // Initialize FreshSpecial As library
+        App.initializeLibrary(getContext());
 
     }
 

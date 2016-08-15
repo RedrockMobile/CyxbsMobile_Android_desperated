@@ -2,14 +2,15 @@ package com.mredrock.cyxbs.ui.fragment.explore;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.excitingboat.freshmanspecial.view.activity.FreshmanMainActivity;
 import com.jude.rollviewpager.RollPagerView;
+import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.RollViewPagerHint;
 import com.mredrock.cyxbs.config.Const;
@@ -71,6 +72,11 @@ public class ExploreFragment extends BaseFragment {
             startLocation[0] += mSurroundingFoodHolder.getWidth() / 2;
             SurroundingFoodActivity.startSurroundingFoodActivity(startLocation, getActivity());
         }
+    }
+
+    @OnClick(R.id.explore_fresher_special_holder)
+    void clickToFreshmanSpecial() {
+        FreshmanMainActivity.start(APP.getContext());
     }
 
     @Override

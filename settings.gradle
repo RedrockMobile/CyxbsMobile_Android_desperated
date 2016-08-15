@@ -1,1 +1,3 @@
 include ':app'
+include ':freshman-special'
+include ':yellowcake'
