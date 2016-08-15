@@ -18,6 +18,7 @@ import com.excitingboat.freshmanspecial.view.adapter.LinearRecyclerAdapter;
 import com.excitingboat.freshmanspecial.view.iview.IGetInformation;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by PinkD on 2016/8/9.
@@ -46,9 +47,13 @@ public class VideoListFragment extends Fragment implements IGetInformation<Video
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        recyclerView.setAdapter(linearRecyclerAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        presenter.getInformation(new int[]{currentPage, 15});
+        try {
+            recyclerView.setAdapter(linearRecyclerAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            presenter.getInformation(new int[]{currentPage, 15});
+        }catch (Exception e){
+
+        }
     }
 
     @Override

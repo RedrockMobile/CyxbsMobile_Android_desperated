@@ -34,14 +34,15 @@ public class OrganizationFragment extends Fragment implements View.OnClickListen
                 (TextView) view.findViewById(R.id.org_text_3),
                 (TextView) view.findViewById(R.id.org_text_4),
                 (TextView) view.findViewById(R.id.org_text_5),
-                (TextView) view.findViewById(R.id.org_text_6)
+                (TextView) view.findViewById(R.id.org_text_6),
+                (TextView)view.findViewById(R.id.org_text_red)
         };
         detail = (TextView) view.findViewById(R.id.org_detail);
         for (TextView textView : textViews) {
             textView.setOnClickListener(this);
         }
         textViews[0].setBackgroundResource(R.color.background);
-        detail.setText(Html.fromHtml(StyleData.ORGANIZATION[0]));
+        detail.setText(Html.fromHtml(StyleData.ORGANIZATION[0])+"/n");
     }
 
     @Override
@@ -53,23 +54,25 @@ public class OrganizationFragment extends Fragment implements View.OnClickListen
         v.setBackgroundResource(R.color.background);
         int i = v.getId();
         if (i == R.id.org_text_1) {
-            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[0]));
+            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[0])+"\n");
 
         } else if (i == R.id.org_text_2) {
-            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[1]));
+            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[1])+"\n");
 
         } else if (i == R.id.org_text_3) {
-            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[2]));
+            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[2])+"\n");
 
         } else if (i == R.id.org_text_4) {
-            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[3]));
+            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[3])+"\n");
 
         } else if (i == R.id.org_text_5) {
-            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[4]));
+            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[4])+"\n");
 
         } else if (i == R.id.org_text_6) {
-            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[5]));
+            detail.setText(Html.fromHtml(StyleData.ORGANIZATION[5])+"\n");
 
+        } else if (i == R.id.org_text_red){
+            detail.setText(StyleData.ORGANIZATION[6]);
         }
 
     }

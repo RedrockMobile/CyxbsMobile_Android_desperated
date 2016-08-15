@@ -1,6 +1,8 @@
 package com.mredrock.cyxbs.ui.fragment.explore;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -43,7 +45,10 @@ public class ExploreFragment extends BaseFragment {
     @OnClick(R.id.explore_portal_holder)
     void clickToPortal() {
         if (isAdded()) {
-            WebViewUtils.showPortalWebView(getActivity(), Const.REDROCK_PORTAL);
+           // WebViewUtils.showPortalWebView(getActivity(), Const.REDROCK_PORTAL);
+            Uri uri = Uri.parse(Const.REDROCK_PORTAL);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            getActivity().startActivity(intent);
         }
     }
 

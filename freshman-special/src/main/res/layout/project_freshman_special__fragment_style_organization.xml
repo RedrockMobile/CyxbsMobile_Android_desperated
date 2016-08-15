@@ -7,8 +7,7 @@
     <LinearLayout
         android:layout_width="60dp"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="120">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/org_text_1"
@@ -18,7 +17,17 @@
             android:gravity="center"
             android:text="团委直属部门"
             android:textSize="15.5sp"
-            android:padding="10dp"/>
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/org_text_red"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:gravity="center"
+            android:text="红岩网校"
+            android:textSize="15.5sp"
+            android:padding="8dp"/>
 
         <TextView
             android:id="@+id/org_text_2"
@@ -82,6 +91,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:paddingBottom="4dp"
             android:id="@+id/org_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
