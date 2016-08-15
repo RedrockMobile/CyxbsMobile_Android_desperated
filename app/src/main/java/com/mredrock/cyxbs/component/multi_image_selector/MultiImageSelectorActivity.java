@@ -83,16 +83,13 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
             updateDoneText();
             mSubmitButton.setEnabled(true);
         }
-        mSubmitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(resultList != null && resultList.size() >0){
-                    // 返回已选择的图片数据
-                    Intent data = new Intent();
-                    data.putStringArrayListExtra(EXTRA_RESULT, resultList);
-                    setResult(RESULT_OK, data);
-                    finish();
-                }
+        mSubmitButton.setOnClickListener(view -> {
+            if(resultList != null && resultList.size() >0){
+                // 返回已选择的图片数据
+                Intent data = new Intent();
+                data.putStringArrayListExtra(EXTRA_RESULT, resultList);
+                setResult(RESULT_OK, data);
+                finish();
             }
         });
     }
