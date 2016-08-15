@@ -57,7 +57,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/specific_news_title"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
 
 
             </android.support.v7.widget.Toolbar>

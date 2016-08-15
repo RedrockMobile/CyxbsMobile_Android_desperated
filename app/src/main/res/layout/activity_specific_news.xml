@@ -30,7 +30,8 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/specific_news_title"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/downText"
