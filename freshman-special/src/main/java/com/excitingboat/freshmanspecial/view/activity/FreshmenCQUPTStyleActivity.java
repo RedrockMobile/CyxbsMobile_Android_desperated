@@ -26,7 +26,7 @@ public class FreshmenCQUPTStyleActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ArrayList<Fragment> fragments;
-    private String[] titles = {"学生组织", "原创重邮", "美在重邮", "优秀学子", "优秀教师"};
+    private String[] titles = {"学生组织", "原创重邮", "美在重邮", "学生代表", "教师代表"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -33,7 +33,7 @@ public class FreshmenGuideActivity extends AppCompatActivity {
     //储存fragment的数组
     private ArrayList<Fragment> mFragments;
     //tab条目中的标题
-    private String[] titles = {"入学须知", "须知路线", "寝室概况", "必备清单", "QQ群", "日常生活", "周边美食", "周边美景"};
+    private String[] titles = {"安全须知", "须知路线", "寝室概况", "必备清单", "QQ群", "日常生活", "周边美食", "周边美景"};
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

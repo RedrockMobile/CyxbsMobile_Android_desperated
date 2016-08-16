@@ -37,7 +37,7 @@
             android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:src="@drawable/dormitory1"
+            android:src="@drawable/image1"
             android:scaleType="centerCrop"
             app:roundDegree="10dp" />
 
@@ -55,16 +55,17 @@
             android:id="@+id/picture_2"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:src="@drawable/dormitory2"
+            android:src="@drawable/image2"
             android:scaleType="centerCrop"
             android:layout_margin="5dp"
             app:roundDegree="10dp" />
+
 
         <TextView
             android:id="@+id/dormitory_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="15-20 栋分布在太极运动场的南边与东边。 周边有学校的兴业院食堂及众多的超市、 商铺，校车从这里穿过。 寝室内部均设有独立卫生间，并在一些楼层设有洗衣机供大家使用，根据每栋宿舍不同，楼层不同分为 4 人间、 6 人间两种。 4 人间基本情况与 8-12 栋一样，而 6 人间则是上下铺与上床下桌的混搭。"
+            android:text="15-20 栋分布在太极运动场的南边与东边。 周边有学校的兴业院食堂及众多的超市、 商铺，校车从这里穿过。 寝室内部均设有独立卫生间，并在一些楼层设有洗衣机供大家使用，根据每栋宿舍不同，楼层不同分为 4 人间、 6 人间两种。 4 人间基本情况与 8-12 栋一样，而 6 人间则是上下铺与上床下桌的混搭。\n"
             android:layout_margin="5dp"
             android:textSize="13sp"/>
 
@@ -73,10 +74,11 @@
             android:id="@+id/picture_3"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:src="@drawable/dormitory"
+            android:src="@drawable/image3"
             android:scaleType="centerCrop"
             android:layout_margin="5dp"
             app:roundDegree="10dp" />
+
 
         <TextView
             android:id="@+id/dormitory_4"

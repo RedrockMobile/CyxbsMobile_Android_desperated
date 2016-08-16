@@ -24,15 +24,15 @@ import com.excitingboat.freshmanspecial.R;
 public class EnrolInformationFragment extends Fragment implements View.OnClickListener{
     public boolean isShow = false;
     View view;
-    TextView  ReportInformation;
+   // TextView  ReportInformation;
     TextView SafetyInformation;
-    TextView ScholarshipInformation;
-    TextView HandbookInformation;
+   // TextView ScholarshipInformation;
+  ///  TextView HandbookInformation;
 
-    ImageButton IV1;
-    ImageButton IV2;
-    ImageButton IV3;
-    ImageButton IV4;
+  //  ImageButton IV1;
+   // ImageButton IV2;
+  //  ImageButton IV3;
+  //  ImageButton IV4;
 
 
 
@@ -48,23 +48,23 @@ public class EnrolInformationFragment extends Fragment implements View.OnClickLi
 
 
     private void initview() {
-        ReportInformation = (TextView) view.findViewById(R.id.report_information_content);
-        ReportInformation.setOnClickListener(this);
-        SafetyInformation = (TextView) view .findViewById(R.id.safety_information_content);
-        SafetyInformation.setOnClickListener(this);
-        ScholarshipInformation = (TextView) view .findViewById(R.id.scholarship_information_content);
-        ScholarshipInformation.setOnClickListener(this);
-        HandbookInformation = (TextView) view .findViewById(R.id.handbook_information_content);
-        HandbookInformation.setOnClickListener(this);
-
-        IV1 = (ImageButton) view.findViewById(R.id.ib_report_information);
-        IV1.setOnClickListener(this);
-        IV2 = (ImageButton) view.findViewById(R.id.ib_safety_information);
-        IV2.setOnClickListener(this);
-        IV3 = (ImageButton) view.findViewById(R.id.ib_scholarship_information);
-        IV3.setOnClickListener(this);
-        IV4 = (ImageButton) view.findViewById(R.id.ib_handbook_information);
-        IV4.setOnClickListener(this);
+//      //  ReportInformation = (TextView) view.findViewById(R.id.report_information_content);
+//      //  ReportInformation.setOnClickListener(this);
+       SafetyInformation = (TextView) view .findViewById(R.id.safety_information_content);
+//        SafetyInformation.setOnClickListener(this);
+//      //  ScholarshipInformation = (TextView) view .findViewById(R.id.scholarship_information_content);
+//      //  ScholarshipInformation.setOnClickListener(this);
+//     //   HandbookInformation = (TextView) view .findViewById(R.id.handbook_information_content);
+//      //  HandbookInformation.setOnClickListener(this);
+//
+//      //  IV1 = (ImageButton) view.findViewById(R.id.ib_report_information);
+//      //  IV1.setOnClickListener(this);
+//      ////  IV2 = (ImageButton) view.findViewById(R.id.ib_safety_information);
+//     //   IV2.setOnClickListener(this);
+//     ////   IV3 = (ImageButton) view.findViewById(R.id.ib_scholarship_information);
+//        IV3.setOnClickListener(this);
+//        IV4 = (ImageButton) view.findViewById(R.id.ib_handbook_information);
+//        IV4.setOnClickListener(this);
 
 
 
@@ -74,60 +74,60 @@ public class EnrolInformationFragment extends Fragment implements View.OnClickLi
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onClick(View view) {
-        int i = view.getId();
-        if (i == R.id.ib_report_information || i == R.id.report_information_content) {
-            if (isShow) {
-                ReportInformation.setMaxLines(3);
-                IV1.setBackground(getContext().getResources().getDrawable(R.drawable.more_content));
-                isShow = false;
-            } else {
-                ReportInformation.setMaxLines(10000);
-                IV1.setBackground(getContext().getResources().getDrawable(R.drawable.hint_content));
-                isShow = true;
-            }
-
-        } else if (i == R.id.ib_safety_information || i == R.id.safety_information_content) {
-            if (isShow) {
-                SafetyInformation.setMaxLines(3);
-                IV2.setBackground(getContext().getResources().getDrawable(R.drawable.more_content));
-                isShow = false;
-            } else {
-                SafetyInformation.setMaxLines(10000);
-                IV2.setBackground(getContext().getResources().getDrawable(R.drawable.hint_content));
-                isShow = true;
-            }
-
-        } else if (i == R.id.ib_scholarship_information || i == R.id.scholarship_information_content) {
-            if (isShow) {
-                ScholarshipInformation.setMaxLines(3);
-                IV3.setBackground(getContext().getResources().getDrawable(R.drawable.more_content));
-                isShow = false;
-            } else {
-                ScholarshipInformation.setMaxLines(10000);
-                IV3.setBackground(getContext().getResources().getDrawable(R.drawable.hint_content));
-                isShow = true;
-            }
-
-        } else if (i == R.id.ib_handbook_information || i == R.id.handbook_information_content) {
-            if (isShow) {
-                HandbookInformation.setMaxLines(3);
-                IV4.setBackground(getContext().getResources().getDrawable(R.drawable.more_content));
-                isShow = false;
-            } else {
-                HandbookInformation.setMaxLines(10000);
-                IV4.setBackground(getContext().getResources().getDrawable(R.drawable.hint_content));
-                isShow = true;
-            }
-
-        } else {
-        }
+//        int i = view.getId();
+//        if (i == R.id.ib_report_information || i == R.id.report_information_content) {
+//            if (isShow) {
+//                ReportInformation.setMaxLines(3);
+//                IV1.setBackground(getContext().getResources().getDrawable(R.drawable.more_content));
+//                isShow = false;
+//            } else {
+//                ReportInformation.setMaxLines(10000);
+//                IV1.setBackground(getContext().getResources().getDrawable(R.drawable.hint_content));
+//                isShow = true;
+//            }
+//
+//        } else if (i == R.id.ib_safety_information || i == R.id.safety_information_content) {
+//            if (isShow) {
+//                SafetyInformation.setMaxLines(3);
+//                IV2.setBackground(getContext().getResources().getDrawable(R.drawable.more_content));
+//                isShow = false;
+//            } else {
+//                SafetyInformation.setMaxLines(10000);
+//                IV2.setBackground(getContext().getResources().getDrawable(R.drawable.hint_content));
+//                isShow = true;
+//            }
+//
+//        } else if (i == R.id.ib_scholarship_information || i == R.id.scholarship_information_content) {
+//            if (isShow) {
+//                ScholarshipInformation.setMaxLines(3);
+//                IV3.setBackground(getContext().getResources().getDrawable(R.drawable.more_content));
+//                isShow = false;
+//            } else {
+//                ScholarshipInformation.setMaxLines(10000);
+//                IV3.setBackground(getContext().getResources().getDrawable(R.drawable.hint_content));
+//                isShow = true;
+//            }
+//
+//        } else if (i == R.id.ib_handbook_information || i == R.id.handbook_information_content) {
+//            if (isShow) {
+//                HandbookInformation.setMaxLines(3);
+//                IV4.setBackground(getContext().getResources().getDrawable(R.drawable.more_content));
+//                isShow = false;
+//            } else {
+//                HandbookInformation.setMaxLines(10000);
+//                IV4.setBackground(getContext().getResources().getDrawable(R.drawable.hint_content));
+//                isShow = true;
+//            }
+//
+//        } else {
+//        }
     }
 
 
 
 
     private void initData() {
-        ReportInformation.setText("一、新生入学时间：2016年9月7日、8日。\n" +
+      /*  ReportInformation.setText("一、新生入学时间：2016年9月7日、8日。\n" +
                 "新生报到需要物品：报到时需持我校新生录取通知书、高考准考证及身份证三证入学报到，因故不能及时报道者，需要及时向学校请假。未请假或逾期未报道者视为放弃入学资格。\n" +
                 "二、报道地点为：重庆邮电大学风雨操场\n" +
                 "三、新生档案、户口、党团关系及其他事项办理须知 ：\n" +
@@ -196,7 +196,7 @@ public class EnrolInformationFragment extends Fragment implements View.OnClickLi
                 "5.\t请家长和新生认真阅读《致2016级新同学的一封信》，积极参加社会实践活动，认真观看新生入学教育视频，并在入学报到时将社会实践报告（如有图片、视频等资料请一并上交）和视频观后感交至各学院。 \n" +
                 "6.\t新生入学报到，在途中请注意人身及财产安全，严防现金、证件、行李等财物被盗或遗失。在学校报到期间，千万不要委托他人代办入学报到手续，更不要把现金、存折、信用卡交给不相识的人，以免上当受骗。  \n" +
                 "7.\t关于新生参加重庆市南岸区城乡合作医疗保险的说明：新生入学即可参加重庆市南岸区城乡合作医疗保险，城乡低保、农村五保、享受国家助学金大学生以及重度（一、二级）残疾大学生等困难学生参保需提供其困难证明的原件及复印件。参保学生个人缴费标准：10-120元/人/年，另外政府补助参保学生200～260元/人/年。具体的就诊和报销办法见入学体检时发放的《重庆邮电大学学生参加南岸区城乡合作医疗保险告知书》。住院可选有住院资格的校医院、区内定点医院、区外三甲医院，在区外住院的须选择公立医院，报销的最高限额14-16.8万元。\n"
-               );
+               );*/
 
         SafetyInformation.setText("1、\t防止上当受骗。一些不法分子利用新生刚入学不熟悉的情况，以老师，学长或者老乡的身份骗取新生信任，然后以代缴学费、减免学费等多种方式进行诈骗。\n" +
                 "2、\t不携带过多现金。数额较大的现金应该及时存入银行，存折、银行卡、身份证尽量分开放；使用银行卡要谨慎，以防密码泄露。\n" +
@@ -206,7 +206,7 @@ public class EnrolInformationFragment extends Fragment implements View.OnClickLi
                 "6、\t注意交通安全。不乘坐“黑车”和存在安全隐患的车辆\n" +
                 "7、\t遇到情况及时与公安机关联系。在遇到不法侵害时，要及时与公安机关（110）或者学校保卫处联系（62461018,62460110）\n");
 
-        ScholarshipInformation.setText("我校奖助学金面向全体学生，符合条件者均可申请。奖助学金种类多、金额高、覆盖面广（享受奖学金的学生约占总人数的30%），具体设置如下：\n" +
+       /* ScholarshipInformation.setText("我校奖助学金面向全体学生，符合条件者均可申请。奖助学金种类多、金额高、覆盖面广（享受奖学金的学生约占总人数的30%），具体设置如下：\n" +
                 "1.新生奖学金\n" +
                 "（1）IT精英培养资助计划\n" +
                 "入选对象：河北、河南、湖北、湖南、安徽、广西、四川、云南、贵州、重庆、陕西等11个省区当年参加普通高考的理工类考生。\n" +
@@ -281,7 +281,7 @@ public class EnrolInformationFragment extends Fragment implements View.OnClickLi
         //用ImageSpan对象替换replace字符串
         spannableString.setSpan(imageSpan,120,127, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         //将图像显示在TextView上
-        HandbookInformation.setText(spannableString);
+        HandbookInformation.setText(spannableString);*/
     }
 
 

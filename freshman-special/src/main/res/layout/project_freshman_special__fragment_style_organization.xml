@@ -96,7 +96,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="请选择一个组织"
-            android:gravity="center"
             android:background="@color/background"
             android:layout_margin="15dp"
 
