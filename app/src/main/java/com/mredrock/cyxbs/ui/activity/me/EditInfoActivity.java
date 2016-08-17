@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -25,9 +26,12 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.DialogUtil;
 import com.mredrock.cyxbs.util.ImageLoader;
+import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
+import com.mredrock.cyxbs.util.permission.EasyPermissions;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,7 +41,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class EditInfoActivity extends BaseActivity {
+public class EditInfoActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
     private static final String PATH_CROP_PICTURES = Environment.getExternalStorageDirectory() + "/cyxbsmobile/" + "Pictures";
 
@@ -271,18 +275,38 @@ public class EditInfoActivity extends BaseActivity {
     }
 
 
+    @AfterPermissionGranted(1)
     private void getImageFromAlbum() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI,
-                "image/*");
-        startActivityForResult(intent, Const.Requests.SELECT_PICTURE);
+
+        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+        if (EasyPermissions.hasPermissions(this, permissions)) {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI,
+                    "image/*");
+            startActivityForResult(intent, Const.Requests.SELECT_PICTURE);
+        } else {
+            EasyPermissions.requestPermissions(this, "读取图片需要访问您的存储空间哦~",
+                    1, permissions);
+        }
+
     }
 
 
+    @AfterPermissionGranted(2)
     private void getImageFromCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
-        startActivityForResult(intent, Const.Requests.SELECT_CAMERA);
+        String[] permissions = {Manifest.permission.CAMERA};
+
+        if (EasyPermissions.hasPermissions(this, permissions)) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
+            startActivityForResult(intent, Const.Requests.SELECT_CAMERA);
+        } else {
+            EasyPermissions.requestPermissions(this, "拍照需要访问你的相机哦~",
+                    2, permissions);
+        }
+
     }
 
 
@@ -293,5 +317,24 @@ public class EditInfoActivity extends BaseActivity {
 
     private void dismissProgress() {
         DialogUtil.dismissDialog();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+
     }
 }
