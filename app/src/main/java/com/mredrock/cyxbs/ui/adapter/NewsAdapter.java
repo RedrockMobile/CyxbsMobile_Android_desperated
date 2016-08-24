@@ -26,6 +26,7 @@ import com.mredrock.cyxbs.ui.activity.social.ImageActivity;
 import com.mredrock.cyxbs.ui.activity.social.PersonInfoActivity;
 import com.mredrock.cyxbs.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
+import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.TimeUtils;
 
@@ -184,7 +185,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 @Override
                 public void onError(Throwable e) {
                     super.onError(e);
-                    Log.e(TAG, e.toString());
+                    LogUtils.LOGE(TAG, "like", e);
                     //disLikeToSetDataAndView(textView);
                 }
 
