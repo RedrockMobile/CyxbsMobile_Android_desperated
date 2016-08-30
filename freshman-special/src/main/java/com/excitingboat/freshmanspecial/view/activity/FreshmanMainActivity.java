@@ -24,7 +24,7 @@ public class FreshmanMainActivity extends AppCompatActivity implements View.OnCl
         findViewById(R.id.freshman_big_data_card).setOnClickListener(this);
         findViewById(R.id.freshman_cqupt_card).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_toolbar_title);
-        title.setText("2016年新生专题网");
+        title.setText("2016迎新网");
     }
 
     @Override
@@ -41,7 +41,6 @@ public class FreshmanMainActivity extends AppCompatActivity implements View.OnCl
 
         } else if (i == R.id.bt_toolbar_back) {
             finish();
-
         }
     }
 

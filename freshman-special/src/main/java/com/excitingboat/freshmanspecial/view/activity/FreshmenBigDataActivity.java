@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.excitingboat.freshmanspecial.R;
 import com.excitingboat.freshmanspecial.view.adapter.BigDataAdapter_1;
 import com.excitingboat.freshmanspecial.view.adapter.BigDataAdapter_2;
-import com.excitingboat.freshmanspecial.view.adapter.BigDataAdapter_3;
 import com.excitingboat.freshmanspecial.view.adapter.FreshmanPagerAdapter;
 import com.excitingboat.freshmanspecial.view.fragment.BigData.BigDataFragmentCake_1;
 import com.excitingboat.freshmanspecial.view.fragment.BigData.BigDataFragmentCake_2;
@@ -23,7 +22,7 @@ public class FreshmenBigDataActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ArrayList<Fragment> fragments;
-    private String[] titles = {"男女比例", "最难科目", "毕业去向"};
+    private String[] titles = {"男女比例", "最难科目"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +43,13 @@ public class FreshmenBigDataActivity extends AppCompatActivity {
         fragments = new ArrayList<>();
         BigDataFragmentCake_1 fragment1 = new BigDataFragmentCake_1();
         BigDataFragmentCake_2 fragment2 = new BigDataFragmentCake_2();
-        BigDataFragmentCake_2 fragment3 = new BigDataFragmentCake_2();
+        //BigDataFragmentCake_2 fragment3 = new BigDataFragmentCake_2();
         fragment1.setBigDataAdapter(new BigDataAdapter_1());
         fragment2.setBigDataAdapter(new BigDataAdapter_2());
-        fragment3.setBigDataAdapter(new BigDataAdapter_3());
+        //fragment3.setBigDataAdapter(new BigDataAdapter_3());
         fragments.add(fragment1);
         fragments.add(fragment2);
-        fragments.add(fragment3);
+        //fragments.add(fragment3);
         tabLayout = (TabLayout) findViewById(R.id.freshmen_big_data_tabLayout);
         viewPager = (ViewPager) findViewById(R.id.freshmen_big_data_viewPager);
         tabLayout.setupWithViewPager(viewPager);
