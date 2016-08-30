@@ -3,9 +3,9 @@ package com.mredrock.cyxbs.subscriber;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.component.task.progress.ProgressCancelListener;
 import com.mredrock.cyxbs.component.task.progress.ProgressDialogHandler;
+import com.mredrock.cyxbs.util.LogUtils;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -68,9 +68,7 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
         }else {
             Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        if (BuildConfig.DEBUG) {
-            e.printStackTrace();
-        }
+        LogUtils.LOGE("SimpleSubscriber", "onError", e);
         dismissProgressDialog();
         if (listener != null) {
             listener.onError(e);

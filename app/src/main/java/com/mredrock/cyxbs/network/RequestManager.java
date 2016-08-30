@@ -102,8 +102,8 @@ public enum RequestManager {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addInterceptor(logging);
-            builder.addInterceptor(new StudentNumberInterceptor());
         }
+        builder.addInterceptor(new StudentNumberInterceptor());
 
         return builder.build();
     }
