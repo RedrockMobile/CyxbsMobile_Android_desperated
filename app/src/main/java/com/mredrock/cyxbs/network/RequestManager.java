@@ -23,12 +23,12 @@ import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
-import com.mredrock.cyxbs.network.func.CacheMapFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
 import com.mredrock.cyxbs.network.func.UpdateVerifyFunc;
 import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
 import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.network.interceptor.StudentNumberInterceptor;
+import com.mredrock.cyxbs.network.observable.CourseListProvider;
 import com.mredrock.cyxbs.network.service.RedrockApiService;
 import com.mredrock.cyxbs.network.setting.CacheProviders;
 import com.mredrock.cyxbs.network.setting.QualifiedTypeConverterFactory;
@@ -52,6 +52,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -143,8 +144,7 @@ public enum RequestManager {
     }
 
     public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum, int week, boolean update) {
-        Observable<List<Course>> observable = cacheProviders.getCachedCourseList(getCourseList(stuNum, idNum), new DynamicKey(stuNum), new EvictDynamicKey(update))
-                .map(new CacheMapFunc<>())
+        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update)
                 .map(new UserCourseFilterFunc(week));
 
         return emitObservable(observable, subscriber);
@@ -153,6 +153,11 @@ public enum RequestManager {
 
     public Observable<List<Course>> getCourseList(String stuNum, String idNum) {
         return redrockApiService.getCourse(stuNum, idNum, "0").map(new RedrockApiWrapperFunc<>());
+    }
+
+    public List<Course> getCourseListSync(String stuNum, String idNum) throws IOException {
+        Response<Course.CourseWrapper> response = redrockApiService.getCourseCall(stuNum, idNum, "0").execute();
+        return response.body().data;
     }
 
     public Subscription getMapOverlayImageUrl(Subscriber<String> subscriber, String name, String path) {

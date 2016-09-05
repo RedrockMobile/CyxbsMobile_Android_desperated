@@ -23,7 +23,7 @@ import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.RequestResponse;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
-import com.mredrock.cyxbs.network.setting.annotation.*;
+import com.mredrock.cyxbs.network.setting.annotation.XmlApi;
 
 import java.util.List;
 
@@ -58,6 +58,13 @@ public interface RedrockApiService {
     Observable<Course.CourseWrapper> getCourse(@Field("stuNum") String stuNum,
                                                @Field("idNum") String idNum,
                                                @Field("week") String week);
+
+    @FormUrlEncoded
+    @Headers("API_APP: android")
+    @POST(Const.API_PERSON_SCHEDULE)
+    retrofit2.Call<Course.CourseWrapper> getCourseCall(@Field("stuNum") String stuNum,
+                                                   @Field("idNum") String idNum,
+                                                   @Field("week") String week);
 
     //Explore start
     @FormUrlEncoded

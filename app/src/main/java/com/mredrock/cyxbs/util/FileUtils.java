@@ -6,15 +6,20 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
-
+import android.util.Log;
 import android.widget.Toast;
 
 import com.mredrock.cyxbs.APP;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
+import java.io.Writer;
 
 import okhttp3.ResponseBody;
 
@@ -124,6 +129,63 @@ public class FileUtils {
             Toast.makeText(context, "Unexpected explore_error", Toast.LENGTH_SHORT).show();
         }
         return true;
+    }
+
+    /**
+     * 从文件中读取字符串
+     * @param src 文件名
+     * @return 读取的字符串
+     */
+    public static String readStringFromFile(File src) {
+        Reader reader = null;
+        try {
+            reader = new FileReader(src);
+            char[] flush = new char[10];
+            int len;
+            StringBuilder sb = new StringBuilder();
+            while (-1 != (len = reader.read(flush))) {
+                sb.append(flush, 0, len);
+            }
+            return sb.toString();
+        } catch (FileNotFoundException e) {
+            Log.e("FileUtils", "readStringFromFile", e);
+            return null;
+        } catch (IOException e) {
+            Log.e("FileUtils", "readStringFromFile", e);
+            return null;
+        } finally {
+            if (null != reader) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    Log.e("FileUtils", "readStringFromFile", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * 向文件中写入字符串
+     * @param text 要写入的字符串
+     * @param dest 文件名
+     */
+    public static void writeStringToFile(String text, File dest) {
+        Writer wr = null;
+        try {
+            wr = new FileWriter(dest);
+            wr.write(text);
+            wr.flush();
+        } catch (IOException e) {
+            Log.e("FileUtils", "writeStringToFile", e);
+        } finally {
+            if (null != wr) {
+                try {
+                    wr.close();
+                } catch (IOException e) {
+                    Log.e("FileUtils", "writeStringToFile", e);
+                }
+            }
+        }
     }
 
 }
