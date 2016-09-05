@@ -335,6 +335,5 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-
     }
 }
