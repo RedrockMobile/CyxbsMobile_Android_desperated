@@ -10,7 +10,7 @@ android {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 33
+        versionCode 34
         versionName "小鲜肉版"
     }
 
