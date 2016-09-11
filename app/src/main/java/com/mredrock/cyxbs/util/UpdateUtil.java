@@ -3,7 +3,6 @@ package com.mredrock.cyxbs.util;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.config.Config;
@@ -13,8 +12,6 @@ import com.mredrock.cyxbs.service.UpdateService;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.tbruyelle.rxpermissions.RxPermissions;
-
-import rx.functions.Action1;
 
 /**
  * Created by cc on 16/5/8.
@@ -57,8 +54,7 @@ public class UpdateUtil {
                                                   .cancelable(false)
                                                   .show();
 
-                                      }
-                                      if (shouldReturnResult) {
+                                      } else if (shouldReturnResult) {
                                           Utils.toast(context.getApplicationContext(), "已经是最新版了");
                                       }
                                   }
