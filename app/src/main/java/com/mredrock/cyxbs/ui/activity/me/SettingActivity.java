@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -35,6 +36,8 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout settingAboutLayout;
     @Bind(R.id.setting_exit_layout)
     RelativeLayout settingExitLayout;
+    @Bind(R.id.setting_share_layout)
+    RelativeLayout mSettingShareLayout;
 
 
     @Override
@@ -43,7 +46,7 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         initToolbar();
-        if (!APP.isLogin()){
+        if (!APP.isLogin()) {
             settingExitLayout.setVisibility(View.GONE);
         }
     }
@@ -100,5 +103,11 @@ public class SettingActivity extends BaseActivity {
                 actionBar.setHomeButtonEnabled(true);
             }
         }
+    }
+
+    @OnClick(R.id.setting_share_layout)
+    public void onClick() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.dialog_share).create().show();
     }
 }
