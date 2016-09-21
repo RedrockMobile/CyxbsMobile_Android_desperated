@@ -1,12 +1,15 @@
 package com.mredrock.cyxbs.ui.activity;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +21,9 @@ import com.mredrock.cyxbs.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
+import com.mredrock.cyxbs.ui.activity.me.NewsRemindActivity;
+import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
 import com.mredrock.cyxbs.ui.activity.social.PostNewsActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
@@ -27,7 +33,6 @@ import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
 import com.mredrock.cyxbs.util.UpdateUtil;
-import com.mredrock.cyxbs.util.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -80,6 +85,32 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
         UpdateUtil.checkUpdate(this, false);
+        InterFilter();
+    }
+
+    /**
+     * 适配魅族 3D TOUCH
+     */
+    private void InterFilter() {
+        Uri data = getIntent().getData();
+        if (data != null && TextUtils.equals("forcetouch", data.getScheme())) {
+            Log.d(TAG, "InterFilter: ");
+            if (TextUtils.equals("/schedule", data.getPath())) {
+                Log.d(TAG, "InterFilter: 进入主页");
+            }
+            if (TextUtils.equals("/new", data.getPath())) {
+                Intent intent = new Intent(this, NewsRemindActivity.class);
+                startActivity(intent);
+            }
+            if (TextUtils.equals("/foods", data.getPath())) {
+                Intent intent = new Intent(this, SurroundingFoodActivity.class);
+                startActivity(intent);
+            }
+            if (TextUtils.equals("/date", data.getPath())) {
+                Intent intent = new Intent(this, NoCourseActivity.class);
+                startActivity(intent);
+            }
+        }
     }
 
     private void initView() {

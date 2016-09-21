@@ -243,4 +243,8 @@
     <string name="photo_unit">张</string>
     <string name="tip_take_photo">拍摄照片</string>
     <string name="un_login">还没有登录</string>
+    <string name="schedule">我的课表</string>
+    <string name="news">我的动态</string>
+    <string name="foods">周边美食</string>
+    <string name="date">没课约</string>
 </resources>

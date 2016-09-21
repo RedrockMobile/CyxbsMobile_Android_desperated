@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launcher_menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <menu
+        data="flyme_3dtouch://com.meizu.media.reader/schedule"
+        icon="&#xe0a3;"
+        android:title="@string/schedule"/>
+    <menu
+        data="flyme_3dtouch://com.meizu.media.reader/new"
+        icon="&#xe05c;"
+        android:title="@string/news"/>
+    <menu
+        data="flyme_3dtouch://com.meizu.media.reader/foods"
+        icon="&#xe01b;"
+        android:title="@string/foods"/>
+    <menu
+        data="flyme_3dtouch://com.meizu.media.reader/date"
+        icon="&#xe09f;"
+        android:title="@string/date"/>
+</launcher_menu>

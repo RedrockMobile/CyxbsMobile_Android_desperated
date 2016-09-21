@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mredrock.cyxbs">
+          package="com.mredrock.cyxbs">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE"/>
 
     <application
         android:name=".APP"
@@ -24,85 +24,117 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.DayNight.NoActionBar">
+        <!--        魅族 3D TOUCH 适配-->
+        <meta-data
+            android:name="android.3dtouch.launcher_menu"
+            android:resource="@xml/launcher_menu"/>
+        <!--        魅族 3D TOUCH 适配-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="c85d4fb11d552c7112543bc0317d2da0" />
+            android:value="c85d4fb11d552c7112543bc0317d2da0"/>
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="55d88b23e0f55a71ec007365" />
+            android:value="55d88b23e0f55a71ec007365"/>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="official" />
+            android:value="official"/>
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
-            android:value="c013592261f6ca0f07dbf8660e7fa505" />
+            android:value="c013592261f6ca0f07dbf8660e7fa505"/>
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
-            android:value="GlideModule" />
+            android:value="GlideModule"/>
 
         <activity
             android:name=".ui.activity.MainActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name">
+            <!--        魅族 3D TOUCH 适配-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="com.meizu.media.reader"
+                    android:path="/schedule"
+                    android:scheme="flyme_3dtouch"/>
+                <data
+                    android:host="com.meizu.media.reader"
+                    android:path="/new"
+                    android:scheme="flyme_3dtouch"/>
+                <data
+                    android:host="com.meizu.media.reader"
+                    android:path="/foods"
+                    android:scheme="flyme_3dtouch"/>
+                <data
+                    android:host="com.meizu.media.reader"
+                    android:path="/date"
+                    android:scheme="flyme_3dtouch"/>
+            </intent-filter>
+            <!--        魅族 3D TOUCH 适配-->
+        </activity>
         <activity
             android:name=".ui.activity.SplashActivity"
             android:theme="@style/APPTheme.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.social.SpecificNewsActivity" />
+        <activity android:name=".ui.activity.social.SpecificNewsActivity"/>
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
-            android:theme="@style/FinestWebViewTheme.Light" />
+            android:theme="@style/FinestWebViewTheme.Light"/>
         <activity
             android:name=".ui.activity.explore.SurroundingFoodActivity"
-            android:label="@string/surrounding_food_activity_name" />
+            android:label="@string/surrounding_food_activity_name"/>
         <activity
             android:name=".ui.activity.explore.WhatToEatActivity"
-            android:label="@string/what_to_eat_activity_name" />
+            android:label="@string/what_to_eat_activity_name"/>
         <activity
             android:name=".ui.activity.explore.MapActivity"
             android:label="@string/map_activity_name"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.activity.me.EditInfoActivity" />
-        <activity android:name=".ui.activity.me.AboutMeActivity" />
-        <activity android:name=".ui.activity.me.MyTrendActivity" />
-        <activity android:name=".ui.activity.me.SettingActivity" />
-        <activity android:name=".ui.activity.me.NewsRemindActivity" />
-        <activity android:name=".ui.activity.me.EditNickNameActivity"
+        <activity android:name=".ui.activity.me.EditInfoActivity"/>
+        <activity android:name=".ui.activity.me.AboutMeActivity"/>
+        <activity android:name=".ui.activity.me.MyTrendActivity"/>
+        <activity android:name=".ui.activity.me.SettingActivity"/>
+        <activity android:name=".ui.activity.me.NewsRemindActivity"/>
+        <activity
+            android:name=".ui.activity.me.EditNickNameActivity"
             android:launchMode="singleTask"/>
-        <activity android:name=".ui.activity.me.EditIntroduceActivity" />
-        <activity android:name=".ui.activity.me.NoCourseContainerActivity" />
-        <activity android:name=".ui.activity.me.NoCourseActivity" />
-        <activity android:name=".ui.activity.me.SelectStudentActivity" />
-        <activity android:name=".ui.activity.me.EmptyRoomActivity" />
-        <activity android:name=".ui.activity.me.ExamAndGradeActivity" />
-        <activity android:name=".ui.activity.me.SchoolCalendarActivity" />
-        <activity android:name=".ui.activity.me.AboutActivity" />
-        <activity android:name=".ui.activity.me.EditQQActivity" />
-        <activity android:name=".ui.activity.me.EditPhoneActivity" />
-        <activity android:name=".ui.activity.social.PostNewsActivity" />
-        <activity android:name=".ui.activity.LoginActivity"
+        <activity android:name=".ui.activity.me.EditIntroduceActivity"/>
+        <activity android:name=".ui.activity.me.NoCourseContainerActivity"/>
+        <activity android:name=".ui.activity.me.NoCourseActivity"/>
+        <activity android:name=".ui.activity.me.SelectStudentActivity"/>
+        <activity android:name=".ui.activity.me.EmptyRoomActivity"/>
+        <activity android:name=".ui.activity.me.ExamAndGradeActivity"/>
+        <activity android:name=".ui.activity.me.SchoolCalendarActivity"/>
+        <activity android:name=".ui.activity.me.AboutActivity"/>
+        <activity android:name=".ui.activity.me.EditQQActivity"/>
+        <activity android:name=".ui.activity.me.EditPhoneActivity"/>
+        <activity android:name=".ui.activity.social.PostNewsActivity"/>
+        <activity
+            android:name=".ui.activity.LoginActivity"
             android:launchMode="singleTask"/>
         <activity
             android:name=".component.multi_image_selector.MultiImageSelectorActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity android:name=".ui.activity.social.ImageActivity" />
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ui.activity.social.ImageActivity"/>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.social.PersonInfoActivity" />
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.social.PersonInfoActivity"/>
 
         <service
             android:name=".service.UpdateService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"/>
     </application>
 
 </manifest>
