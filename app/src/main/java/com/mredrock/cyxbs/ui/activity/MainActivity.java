@@ -65,7 +65,6 @@ public class MainActivity extends BaseActivity {
     @BindString(R.string.my_page)
     String mStringMyPage;
 
-
     BaseFragment socialContainerFragment;
     BaseFragment courseContainerFragment;
     BaseFragment exploreFragment;
@@ -141,7 +140,7 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
 
-        mBottomBar.post(() -> hiddenMenu());
+        mBottomBar.post(this::hiddenMenu);
         mBottomBar.setOnBottomViewClickListener((view, position) -> {
             mViewPager.setCurrentItem(position, false);
             hiddenMenu();

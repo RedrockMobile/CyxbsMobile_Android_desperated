@@ -14,7 +14,6 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
-import com.mredrock.cyxbs.util.WebViewUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
