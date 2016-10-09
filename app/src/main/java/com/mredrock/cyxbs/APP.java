@@ -7,11 +7,17 @@ import android.support.v7.app.AppCompatDelegate;
 import com.excitingboat.freshmanspecial.App;
 import com.google.gson.Gson;
 import com.mredrock.cyxbs.config.Const;
+import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
+import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.orhanobut.logger.Logger;
 
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
+
+import rx.Subscriber;
 
 
 /**
@@ -106,7 +112,24 @@ public class APP extends Application {
         Logger.init("cyxbs_mobile");
         // Initialize FreshSpecial As library
         App.initializeLibrary(getContext());
+        // Refresh Course List When Start
+        reloadCourseList();
+    }
 
+    public void reloadCourseList() {
+        if (isLogin()) {
+            User user = getUser(getContext());
+            RequestManager.getInstance().getCourseList(new Subscriber<List<Course>>() {
+                                                           @Override
+                                                           public void onCompleted() {}
+
+                                                           @Override
+                                                           public void onError(Throwable e) {}
+
+                                                           @Override
+                                                           public void onNext(List<Course> courses) {}
+                                                       }, user.stuNum, user.idNum, 0, true);
+        }
     }
 
     @Override
