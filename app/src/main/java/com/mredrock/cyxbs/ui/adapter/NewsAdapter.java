@@ -48,6 +48,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<HotNews> mNews;
 
     public NewsAdapter(List<HotNews> mNews) {
+        if (mNews == null) {
+            mNews = new ArrayList<>(0);
+        }
         this.mNews = mNews;
     }
 
