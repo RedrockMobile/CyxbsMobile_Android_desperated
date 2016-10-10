@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--App Widget-->
+    <dimen name="widget_margin">0dp</dimen>
+
+</resources>

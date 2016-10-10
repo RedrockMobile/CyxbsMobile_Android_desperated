@@ -140,7 +140,7 @@
         <item>哔哔叨叨</item>
         <item>官方资讯</item>
     </string-array>
-？
+    ？
     <!--explore page start-->
     <string name="error_text">加载失败</string>
 
@@ -247,4 +247,6 @@
     <string name="news">我的动态</string>
     <string name="foods">周边美食</string>
     <string name="date">没课约</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
