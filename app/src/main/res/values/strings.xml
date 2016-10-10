@@ -247,6 +247,4 @@
     <string name="news">我的动态</string>
     <string name="foods">周边美食</string>
     <string name="date">没课约</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
 </resources>

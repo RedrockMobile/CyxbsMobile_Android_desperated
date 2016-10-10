@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:background="#FFFFFF"
                 android:padding="@dimen/widget_margin">
 
@@ -15,9 +17,13 @@
         android:textSize="@dimen/app_text_size_large" />
 
     <ListView
-        android:id="@+id/lv_app_widget_list"
+        android:id="@+id/lv_app_widget_course_list"
         android:layout_below="@id/tv_app_widget_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:divider="@android:color/transparent"
+        android:foreground="@android:color/transparent"
+        android:listSelector="@android:color/transparent"/>
 
 </RelativeLayout>

@@ -22,6 +22,10 @@ public class Course implements Serializable {
     // 连上几节
     public int period;
 
+    public String toCourseString() {
+        return course + '@' + classroom;
+    }
+
     public static class CourseWrapper extends RedrockApiWrapper<List<Course>> {
         public String term;
         public String stuNum;

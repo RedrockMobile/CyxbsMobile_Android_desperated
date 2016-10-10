@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.ui.widget;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.mredrock.cyxbs.R;
@@ -15,10 +16,11 @@ public class CourseListAppWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+
+        Intent serviceIntent = new Intent(context, CourseListRemoteViewsService.class);
+        views.setRemoteAdapter(R.id.lv_app_widget_course_list, serviceIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -41,5 +43,6 @@ public class CourseListAppWidget extends AppWidgetProvider {
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
     }
+
 }
 

@@ -43,6 +43,18 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
         return Observable.create(new CourseListProvider(stuNum, idNum, preferRefresh));
     }
 
+    /**
+     * sync method of call for {@link com.mredrock.cyxbs.ui.widget.CourseListRemoteViewsService}
+     *
+     * @param stuNum        student number
+     * @param idNum         id number
+     * @param preferRefresh if true, we will try network first, or try cache first
+     * @return a list of course
+     */
+    public static List<Course> exec(String stuNum, String idNum, boolean preferRefresh) {
+        return new CourseListProvider(stuNum, idNum, preferRefresh).doubleTryLoadSync();
+    }
+
     private CourseListProvider(String stuNum, String idNum, boolean preferRefresh) {
         this.stuNum = stuNum;
         this.idNum = idNum;
@@ -53,6 +65,28 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
     @Override
     public void call(Subscriber<? super List<Course>> subscriber) {
         doubleTryLoad(subscriber);
+    }
+
+    private List<Course> doubleTryLoadSync() {
+        try {
+            if (preferRefresh) {
+                return getCourseFromNetwork();
+            } else {
+                return getCourseFromCache();
+            }
+        } catch (Throwable e) {
+            try {
+                if (preferRefresh) {
+                    return getCourseFromCache();
+                } else {
+                    return getCourseFromNetwork();
+                }
+            } catch (Throwable ex) {
+                LogUtils.LOGE("CourseProviderObservable", preferRefresh ? "NetworkError" : "CacheError", e);
+                LogUtils.LOGE("CourseProviderObservable", preferRefresh ? "CacheError" : "NetworkError", ex);
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     private void doubleTryLoad(Subscriber<? super List<Course>> subscriber) {

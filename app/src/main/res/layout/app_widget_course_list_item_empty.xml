@@ -17,16 +17,4 @@
         android:paddingBottom="5dp"
         android:gravity="center_horizontal" />
 
-    <TextView
-        android:id="@+id/tv_app_widget_course_item_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="3dp"
-        tools:text="高等数学@2117"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:layout_margin="1.5dp"
-        android:ellipsize="end"
-        android:background="@color/Color_IndianRed"/>
-
 </LinearLayout>

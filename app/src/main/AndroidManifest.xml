@@ -147,6 +147,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/course_list_app_widget_info"/>
         </receiver>
+
+        <service android:name=".ui.widget.CourseListRemoteViewsService"
+                 android:permission="android.permission.BIND_REMOTEVIEWS"
+                 android:exported="false"
+                 android:process=":AppWidget"/>
     </application>
 
 </manifest>
