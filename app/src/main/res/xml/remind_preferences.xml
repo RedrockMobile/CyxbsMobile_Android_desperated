@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="每节课之前告诉我就好啦">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="remind_every_class"
+            android:summary="每节课前将受到通知提醒"
+            android:title="每课推送"/>
+        <ListPreference
+            android:dialogTitle="提前时间"
+            android:defaultValue="30分钟"
+            android:entries="@array/remind_every_class"
+            android:entryValues="@array/remind_every_class"
+            android:key="remind_every_class_delay"
+            android:summary="每节课开始前多少时间会受到通知"
+            android:title="提前时间"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="每天告诉我一次就好啦">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="remind_every_day"
+            android:summary="每天会在约定的时间发送明天的课表"
+            android:title="每日推送"/>
+        <ListPreference
+            android:entries="@array/remind_every_day"
+            android:entryValues="@array/remind_every_day"
+            android:key="remind_every_day_time"
+            android:defaultValue="22:00"
+            android:summary="我觉得每天晚上10点差不多呢"
+            android:title="通知时间"/>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -29,14 +29,12 @@
                 android:paddingTop="15dp">
 
 
-
                 <com.github.siyamed.shapeimageview.CircularImageView
                     android:id="@+id/my_page_avatar"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_default_avatar" />
-
+                    android:src="@drawable/ic_default_avatar"/>
 
 
                 <LinearLayout
@@ -309,6 +307,41 @@
                     android:layout_marginStart="24dp"
                     android:layout_toRightOf="@+id/my_page_iv_calendar"
                     android:text="@string/my_page_calendar"
+                    android:textColor="@color/text_dark"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="44dp"
+                    android:background="@color/divider_light"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/my_page_remind_layout"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/bg_layout"
+                android:paddingLeft="24dp"
+                android:paddingStart="24dp">
+
+                <ImageView
+                    android:id="@+id/my_page_iv_remind"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_my_page_remind"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_toRightOf="@+id/my_page_iv_remind"
+                    android:text="课前提醒"
                     android:textColor="@color/text_dark"/>
 
             </RelativeLayout>

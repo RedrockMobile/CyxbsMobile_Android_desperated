@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +25,6 @@ import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.network.exception.UnsetUserInfoException;
-import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.me.AboutMeActivity;
@@ -36,6 +33,7 @@ import com.mredrock.cyxbs.ui.activity.me.EmptyRoomActivity;
 import com.mredrock.cyxbs.ui.activity.me.ExamAndGradeActivity;
 import com.mredrock.cyxbs.ui.activity.me.MyTrendActivity;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
+import com.mredrock.cyxbs.ui.activity.me.RemindActivity;
 import com.mredrock.cyxbs.ui.activity.me.SchoolCalendarActivity;
 import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
@@ -56,33 +54,53 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     public static final int REQUEST_EDIT_INFO = 10;
 
     @Bind(R.id.my_page_edit_layout)
-    LinearLayout    myPageEditLayout;
+    LinearLayout myPageEditLayout;
     @Bind(R.id.my_page_relate_layout)
-    RelativeLayout  myPageRelateLayout;
+    RelativeLayout myPageRelateLayout;
     @Bind(R.id.my_page_trend_layout)
-    RelativeLayout  myPageTrendLayout;
+    RelativeLayout myPageTrendLayout;
     @Bind(R.id.my_page_no_course_layout)
-    RelativeLayout  myPageNoCourseLayout;
+    RelativeLayout myPageNoCourseLayout;
     @Bind(R.id.my_page_empty_layout)
-    RelativeLayout  myPageEmptyLayout;
+    RelativeLayout myPageEmptyLayout;
     @Bind(R.id.my_page_grade_layout)
-    RelativeLayout  myPageGradeLayout;
+    RelativeLayout myPageGradeLayout;
     @Bind(R.id.my_page_calendar_layout)
-    RelativeLayout  myPageCalendarLayout;
+    RelativeLayout myPageCalendarLayout;
     @Bind(R.id.my_page_night_layout)
-    RelativeLayout  myPageNightLayout;
+    RelativeLayout myPageNightLayout;
     @Bind(R.id.my_page_setting_layout)
-    RelativeLayout  myPageSettingLayout;
+    RelativeLayout myPageSettingLayout;
     @Bind(R.id.my_page_avatar)
     ImageView myPageAvatar;
     @Bind(R.id.my_page_nick_name)
-    TextView        myPageNickName;
+    TextView myPageNickName;
     @Bind(R.id.my_page_gender)
-    TextView        myPageGender;
+    TextView myPageGender;
     @Bind(R.id.my_page_introduce)
-    TextView        myPageIntroduce;
+    TextView myPageIntroduce;
     @Bind(R.id.my_page_switch_compat)
-    SwitchCompat    myPageSwitchCompat;
+    SwitchCompat myPageSwitchCompat;
+    @Bind(R.id.my_page_iv_relate)
+    ImageView mMyPageIvRelate;
+    @Bind(R.id.my_page_iv_trend)
+    ImageView mMyPageIvTrend;
+    @Bind(R.id.my_page_iv_no_course)
+    ImageView mMyPageIvNoCourse;
+    @Bind(R.id.my_page_iv_empty)
+    ImageView mMyPageIvEmpty;
+    @Bind(R.id.my_page_iv_grade)
+    ImageView mMyPageIvGrade;
+    @Bind(R.id.my_page_iv_calendar)
+    ImageView mMyPageIvCalendar;
+    @Bind(R.id.my_page_iv_remind)
+    ImageView mMyPageIvRemind;
+    @Bind(R.id.my_page_remind_layout)
+    RelativeLayout mMyPageRemindLayout;
+    @Bind(R.id.my_page_iv_night)
+    ImageView mMyPageIvNight;
+    @Bind(R.id.my_page_iv_setting)
+    ImageView mMyPageIvSetting;
 
     private User mUser;
 
@@ -139,6 +157,15 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     @OnClick(R.id.my_page_calendar_layout)
     void clickToCalendar() {
         startActivity(new Intent(getActivity(), SchoolCalendarActivity.class));
+    }
+
+    @OnClick(R.id.my_page_remind_layout)
+    public void onClick() {
+        if (APP.isLogin()) {
+            startActivity(new Intent(getActivity(), RemindActivity.class));
+        } else {
+            EventBus.getDefault().post(new AskLoginEvent("登录后才能使用课前提醒哟"));
+        }
     }
 
     @OnClick(R.id.my_page_night_layout)
@@ -234,7 +261,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     }
 
     private void refreshEditLayout() {
-        if (APP.isLogin()){
+        if (APP.isLogin()) {
             mUser = APP.getUser(getActivity());
             ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
             myPageNickName.setText(StringUtils.isBlank(mUser.nickname) ? "点我完善个人信息" : mUser.nickname);
@@ -246,7 +273,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
                 myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.pink));
                 myPageGender.setText("♀");
             }
-        }else{
+        } else {
             myPageNickName.setText("点我登录");
             myPageAvatar.setImageResource(R.drawable.ic_default_avatar);
             myPageIntroduce.setText("");
@@ -260,4 +287,5 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         super.onLoginStateChangeEvent(event);
         refreshEditLayout();
     }
+
 }
