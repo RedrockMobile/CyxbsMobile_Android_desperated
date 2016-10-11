@@ -108,7 +108,7 @@ public class ScheduleView extends FrameLayout {
         tv.setTextColor(Color.WHITE);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
         tv.setGravity(Gravity.CENTER);
-        tv.setText(course.course + "@" + course.classroom);
+        tv.setText(course.toCourseString());
 
         GradientDrawable gd = new GradientDrawable();
         gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
