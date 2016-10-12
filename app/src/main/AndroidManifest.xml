@@ -149,12 +149,12 @@
                 android:resource="@xml/course_list_app_widget_info"/>
         </receiver>
 
-        <service android:name=".ui.widget.CourseListRemoteViewsService"
-                 android:permission="android.permission.BIND_REMOTEVIEWS"
-                 android:exported="false"
-                 android:process=":AppWidget"/>
+        <service
+            android:name=".ui.widget.CourseListRemoteViewsService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
-        <!--用于课表提醒-->
+        <!-- 用于课表提醒 -->
         <receiver
             android:name=".receiver.RemindReceiver"
             android:enabled="false">
@@ -165,6 +165,7 @@
 
         <activity android:name=".ui.activity.me.RemindActivity">
         </activity>
+
     </application>
 
 </manifest>

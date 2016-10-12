@@ -1,7 +1,10 @@
 package com.mredrock.cyxbs.ui.widget;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
@@ -11,14 +14,16 @@ import android.widget.RemoteViewsService;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Course;
-import com.mredrock.cyxbs.network.func.UserCourseFilterByWeekDayFunc;
-import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
-import com.mredrock.cyxbs.network.observable.CourseListProvider;
+import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import rx.Subscriber;
 
 /**
  * @author Haruue Icymoon haruue@caoyue.com.cn
@@ -26,36 +31,137 @@ import java.util.List;
 
 public class CourseListRemoteViewsService extends RemoteViewsService {
 
+    public static final String ACTION_NOTIFY_DATA_CHANGED = "com.mredrock.cyxbs.ui.widget.ACTION_NOTIFY_DATA_CHANGED";
+
+    Factory factory;
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        if (!APP.isLogin()) {
-            return new ErrorFactory(getApplicationContext(), ErrorFactory.ERROR_TYPE_UN_LOGIN);
-        }
-        List<Course> data;
-        try {
-            data = CourseListProvider.exec(APP.getUser(APP.getContext()).stuNum, APP.getUser(APP.getContext()).idNum, false);
-            data = new UserCourseFilterFunc(new SchoolCalendar().getWeekOfTerm()).call(data);
-            data = new UserCourseFilterByWeekDayFunc(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)).call(data);
-        } catch (Exception ignored) {
-            return new ErrorFactory(getApplicationContext(), ErrorFactory.ERROR_TYPE_NETWORK);
-        }
-        if (data == null || data.size() == 0) {
-            return new ErrorFactory(getApplicationContext(), ErrorFactory.ERROR_TYPE_NO_COURSE);
-        }
-        return new Factory(getApplicationContext(), intent, data);
+        Log.d("RemoteFactory", "Service onGetViewFactory");
+        factory = new Factory(this, intent);
+        return factory;
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.i("RemoteFactory", "ServiceCreate, " + (factory != null));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("RemoteFactory", "ServiceDestroy, " + (factory != null));
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        if (intent != null && intent.getAction() != null && intent.getAction().equals(ACTION_NOTIFY_DATA_CHANGED)) {
+            return binder;
+        }
+        return super.onBind(intent);
+    }
+
+    public class Binder extends android.os.Binder {
+        public void refresh() {
+            if (factory != null) {
+                factory.refresh();
+            }
+        }
+    }
+
+    public final Binder binder = new Binder();
 
     private class Factory implements RemoteViewsService.RemoteViewsFactory {
 
         Context context;
         Intent intent;
         SparseArray<Item> items = new SparseArray<>(12);
+        int factoryType;
+        ArrayList<RemoteViews> views = new ArrayList<>(12);
 
-        Factory(Context context, Intent intent, List<Course> data) {
+        static final int FACTORY_TYPE_NORMAL = 0;
+        static final int FACTORY_TYPE_ERROR = -1;
+        static final int FACTORY_TYPE_LOADING = -2;
+
+        Factory(Context context, Intent intent) {
             this.context = context;
             this.intent = intent;
-            generateItem(data);
+        }
+
+        private void refresh() {
+            items.clear();
+            if (!APP.isLogin()) {
+                setError("请先登录");
+                return;
+            }
+            setLoading();
+            RequestManager.getInstance().getCourseList(new Subscriber<List<Course>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    LogUtils.LOGE("RemoteFactory", "refresh onError", e);
+                    setError("获取课表失败");
+                }
+
+                @Override
+                public void onNext(List<Course> courses) {
+                    if (courses == null || courses.size() == 0) {
+                        setError("今天没有课");
+                        return;
+                    }
+                    generateItem(courses);
+                    setNormal();
+                }
+            }, APP.getUser(context).stuNum, APP.getUser(context).idNum,
+                    new SchoolCalendar().getWeekOfTerm(),
+                    new GregorianCalendar().get(Calendar.DAY_OF_WEEK), false);
+        }
+
+        private void setError(String message) {
+            Log.i("RemoteFactory", "setError: " + message);
+            this.factoryType = FACTORY_TYPE_ERROR;
+            this.views.clear();
+            RemoteViews errorViews = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item_error);
+            errorViews.setTextViewText(R.id.tv_app_widget_course_item_error, message);
+            this.views.add(errorViews);
+            notifyDataSetChanged();
+        }
+
+        private void setNormal() {
+            Log.i("RemoteFactory", "setNormal");
+            this.factoryType = FACTORY_TYPE_NORMAL;
+            this.views.clear();
+            for (int i = 0; i < items.size(); i++) {
+                RemoteViews views;
+                Item item = items.valueAt(i);
+                if (item.getText() == null) {  // empty course
+                    Log.d("getViewAt", "Position: " + i + ", Empty: " + item.getOrderString());
+                    views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item_empty);
+                    views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
+                } else {
+                    Log.d("getViewAt", "Position: " + i + ", Normal: " + item.getOrderString() + ", \n" + item.getText());
+                    views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item);
+                    views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
+                    views.setTextViewText(R.id.tv_app_widget_course_item_content, item.getText());
+                }
+                this.views.add(views);
+            }
+            notifyDataSetChanged();
+        }
+
+        private void setLoading() {
+            Log.i("RemoteFactory", "setLoading");
+            this.factoryType = FACTORY_TYPE_LOADING;
+            this.views.clear();
+            RemoteViews loadingViews = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item_error);
+            loadingViews.setTextViewText(R.id.tv_app_widget_course_item_error, "正在加载中...");
+            this.views.add(loadingViews);
+            notifyDataSetChanged();
         }
 
         private void generateItem(@Nullable List<Course> data) {
@@ -88,12 +194,16 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
 
         @Override
         public void onCreate() {
-
+            Log.d("RemoteFactory", "onCreate");
+            refresh();
         }
 
         @Override
         public void onDataSetChanged() {
-
+            Log.d("RemoteFactory", "onDataSetChanged");
+            // Do not call {@link #refresh()} here because it will cause a recursive call
+            // If you want to refresh data, call {@link #refresh()}
+            // If you changed views and want to reload it, call {@link #notifyDataSetChanged()}
         }
 
         @Override
@@ -103,24 +213,12 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
 
         @Override
         public int getCount() {
-            return items.size();
+            return this.views.size();
         }
 
         @Override
         public RemoteViews getViewAt(int position) {
-            Item item = items.valueAt(position);
-            RemoteViews views;
-            if (item.getText() == null) {  // empty course
-                Log.d("getViewAt", "Position: " + position + ", Empty: " + item.getOrderString());
-                views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item_empty);
-                views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
-            } else {
-                Log.d("getViewAt", "Position: " + position + ", Normal: " + item.getOrderString() + ", \n" + item.getText());
-                views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item);
-                views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
-                views.setTextViewText(R.id.tv_app_widget_course_item_content, item.getText());
-            }
-            return views;
+            return this.views.get(position);
         }
 
         @Override
@@ -130,7 +228,7 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
 
         @Override
         public int getViewTypeCount() {
-            return 2;
+            return 3;
         }
 
         @Override
@@ -141,6 +239,12 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
         @Override
         public boolean hasStableIds() {
             return false;
+        }
+
+        public void notifyDataSetChanged() {
+            AppWidgetManager manager = AppWidgetManager.getInstance(context);
+            int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(context, CourseListAppWidget.class));
+            manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_app_widget_course_list);
         }
 
         private class Item {
@@ -194,85 +298,6 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             private String text;
         }
 
-    }
-
-    private class ErrorFactory implements RemoteViewsFactory {
-
-        Context context;
-        private int errorType = -1;
-        private String tip = null;
-
-        public static final int ERROR_TYPE_UN_LOGIN = 32001;
-        public static final int ERROR_TYPE_NETWORK = 32002;
-        public static final int ERROR_TYPE_NO_COURSE = 32003;
-
-        ErrorFactory(Context context, int errorType) {
-            this.context = context;
-            this.errorType = errorType;
-        }
-
-        ErrorFactory(Context context, String tip) {
-            this.context = context;
-            this.tip = tip;
-        }
-
-        @Override
-        public void onCreate() {
-
-        }
-
-        @Override
-        public void onDataSetChanged() {
-
-        }
-
-        @Override
-        public void onDestroy() {
-
-        }
-
-        @Override
-        public int getCount() {
-            return 1;
-        }
-
-        @Override
-        public RemoteViews getViewAt(int position) {
-            switch (errorType) {
-                case ERROR_TYPE_NETWORK:
-                    tip = "获取课表失败";
-                    break;
-                case ERROR_TYPE_NO_COURSE:
-                    tip = "今天没有课";
-                    break;
-                case ERROR_TYPE_UN_LOGIN:
-                    tip = "请先登录";
-                    break;
-            }
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item_error);
-            views.setTextViewText(R.id.tv_app_widget_course_item_error, tip);
-            return views;
-        }
-
-        @Override
-        public RemoteViews getLoadingView() {
-            return null;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 1;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
     }
 
 }

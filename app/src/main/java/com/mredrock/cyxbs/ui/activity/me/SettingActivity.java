@@ -15,6 +15,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.mredrock.cyxbs.ui.widget.CourseListAppWidget;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -80,6 +81,7 @@ public class SettingActivity extends BaseActivity {
                         super.onPositive(dialog);
                         finish();
                         APP.setUser(SettingActivity.this, null);
+                        CourseListAppWidget.updateNow(SettingActivity.this);
                         EventBus.getDefault().post(new LoginStateChangeEvent(false));
                     }
 

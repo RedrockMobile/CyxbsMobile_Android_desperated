@@ -19,6 +19,7 @@ import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.widget.CourseListAppWidget;
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 
@@ -188,6 +189,7 @@ public class CourseFragment extends BaseFragment {
                             public void onCompleted() {
                                 super.onCompleted();
                                 hideRefreshLoading();
+                                CourseListAppWidget.updateNow(getActivity());
                             }
                         }), mUser.stuNum, mUser.idNum, week, update);
             }

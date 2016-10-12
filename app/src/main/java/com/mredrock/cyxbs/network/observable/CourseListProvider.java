@@ -75,6 +75,7 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
                 return getCourseFromCache();
             }
         } catch (Throwable e) {
+            LogUtils.LOGW("CourseProviderObservable", "Ignored " + (preferRefresh ? "NetworkError" : "CacheError"), e);
             try {
                 if (preferRefresh) {
                     return getCourseFromCache();
