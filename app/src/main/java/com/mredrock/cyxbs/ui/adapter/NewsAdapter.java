@@ -169,7 +169,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mSubscription = RxBus.getDefault()
                     .toObserverable(HotNewsContent.class)
                     .subscribe(hotNewsContent -> {
-                        setData(hotNewsContent, false);
+//                        setData(hotNewsContent, false);
                         unregisterObservable();
                     }, throwable -> {
                         unregisterObservable();
@@ -203,7 +203,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     likeToSetDataAndView(textView,likeNumber);
 
 
-                    if (isSingle) RxBus.getDefault().post(mHotNewsContent);
+//                    if (isSingle) RxBus.getDefault().post(mHotNewsContent);
+                    if (isSingle) setData(mHotNewsContent, false);
                 }
 
                 @Override
@@ -236,7 +237,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     EventBus.getDefault().post(new ItemChangedEvent(likeNumber,
                             mHotNewsContent.articleId,false));
                     disLikeToSetDataAndView(textView,likeNumber);
-                    if (isSingle) RxBus.getDefault().post(mHotNewsContent);
+//                    if (isSingle) RxBus.getDefault().post(mHotNewsContent);
+                    if (isSingle) setData(mHotNewsContent, false);
                 }
 
                         @Override
