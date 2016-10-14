@@ -1,76 +1,37 @@
 package com.mredrock.cyxbs.ui.widget;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.config.Config;
 import com.mredrock.cyxbs.model.Course;
-import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.util.LogUtils;
-import com.mredrock.cyxbs.util.SchoolCalendar;
+import com.mredrock.cyxbs.util.FileUtils;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import rx.Subscriber;
-
 /**
+ * ListView Remote Adapter of {@link com.mredrock.cyxbs.R.id#lv_app_widget_course_list} in {@link CourseListAppWidget}
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
 public class CourseListRemoteViewsService extends RemoteViewsService {
 
-    public static final String ACTION_NOTIFY_DATA_CHANGED = "com.mredrock.cyxbs.ui.widget.ACTION_NOTIFY_DATA_CHANGED";
-
-    Factory factory;
-
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         Log.d("RemoteFactory", "Service onGetViewFactory");
-        factory = new Factory(this, intent);
-        return factory;
+        return new Factory(this, intent);
     }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Log.i("RemoteFactory", "ServiceCreate, " + (factory != null));
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i("RemoteFactory", "ServiceDestroy, " + (factory != null));
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        if (intent != null && intent.getAction() != null && intent.getAction().equals(ACTION_NOTIFY_DATA_CHANGED)) {
-            return binder;
-        }
-        return super.onBind(intent);
-    }
-
-    public class Binder extends android.os.Binder {
-        public void refresh() {
-            if (factory != null) {
-                factory.refresh();
-            }
-        }
-    }
-
-    public final Binder binder = new Binder();
 
     private class Factory implements RemoteViewsService.RemoteViewsFactory {
 
@@ -91,35 +52,19 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
 
         private void refresh() {
             items.clear();
-            if (!APP.isLogin()) {
-                setError("请先登录");
+            setLoading();
+            List<Course> courses;
+            try {
+                courses = getCourseList();
+            } catch (Exception e) {
+                courses = null;
+            }
+            if (courses == null || courses.size() == 0) {
+                setError("今天没有课");
                 return;
             }
-            setLoading();
-            RequestManager.getInstance().getCourseList(new Subscriber<List<Course>>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    LogUtils.LOGE("RemoteFactory", "refresh onError", e);
-                    setError("获取课表失败");
-                }
-
-                @Override
-                public void onNext(List<Course> courses) {
-                    if (courses == null || courses.size() == 0) {
-                        setError("今天没有课");
-                        return;
-                    }
-                    generateItem(courses);
-                    setNormal();
-                }
-            }, APP.getUser(context).stuNum, APP.getUser(context).idNum,
-                    new SchoolCalendar().getWeekOfTerm(),
-                    new GregorianCalendar().get(Calendar.DAY_OF_WEEK), false);
+            generateItem(courses);
+            setNormal();
         }
 
         private void setError(String message) {
@@ -129,7 +74,6 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             RemoteViews errorViews = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item_error);
             errorViews.setTextViewText(R.id.tv_app_widget_course_item_error, message);
             this.views.add(errorViews);
-            notifyDataSetChanged();
         }
 
         private void setNormal() {
@@ -151,7 +95,6 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                 }
                 this.views.add(views);
             }
-            notifyDataSetChanged();
         }
 
         private void setLoading() {
@@ -161,7 +104,6 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             RemoteViews loadingViews = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item_error);
             loadingViews.setTextViewText(R.id.tv_app_widget_course_item_error, "正在加载中...");
             this.views.add(loadingViews);
-            notifyDataSetChanged();
         }
 
         private void generateItem(@Nullable List<Course> data) {
@@ -192,18 +134,20 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             Log.v("finalItems", items.toString());
         }
 
+        private List<Course> getCourseList() {
+            String json = FileUtils.readStringFromFile(new File(APP.getContext().getFilesDir().getAbsolutePath() + "/" + Config.APP_WIDGET_CACHE_FILE_NAME));
+            return new Gson().fromJson(json, new TypeToken<List<Course>>() {}.getType());
+        }
+
         @Override
         public void onCreate() {
             Log.d("RemoteFactory", "onCreate");
-            refresh();
         }
 
         @Override
         public void onDataSetChanged() {
             Log.d("RemoteFactory", "onDataSetChanged");
-            // Do not call {@link #refresh()} here because it will cause a recursive call
-            // If you want to refresh data, call {@link #refresh()}
-            // If you changed views and want to reload it, call {@link #notifyDataSetChanged()}
+            refresh();
         }
 
         @Override
@@ -239,12 +183,6 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
         @Override
         public boolean hasStableIds() {
             return false;
-        }
-
-        public void notifyDataSetChanged() {
-            AppWidgetManager manager = AppWidgetManager.getInstance(context);
-            int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(context, CourseListAppWidget.class));
-            manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_app_widget_course_list);
         }
 
         private class Item {

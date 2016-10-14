@@ -24,6 +24,7 @@ import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
+import com.mredrock.cyxbs.network.func.AppWidgetCacheAndUpdateFunc;
 import com.mredrock.cyxbs.network.func.UpdateVerifyFunc;
 import com.mredrock.cyxbs.network.func.UserCourseFilterByWeekDayFunc;
 import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
@@ -146,6 +147,7 @@ public enum RequestManager {
 
     public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum, int week, boolean update) {
         Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update)
+                .map(new AppWidgetCacheAndUpdateFunc())
                 .map(new UserCourseFilterFunc(week));
 
         return emitObservable(observable, subscriber);

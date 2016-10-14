@@ -17,7 +17,6 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.me.EditNickNameActivity;
-import com.mredrock.cyxbs.ui.widget.CourseListAppWidget;
 import com.mredrock.cyxbs.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -133,7 +132,6 @@ public class LoginActivity extends AppCompatActivity {
                         super.onNext(user);
                         if (user != null) {
                             APP.setUser(LoginActivity.this, user);
-                            CourseListAppWidget.updateNow(LoginActivity.this);
                             MobclickAgent.onProfileSignIn(stuNum);
                         } else {
                             Utils.toast(LoginActivity.this, "登录失败, 返回了信息为空");

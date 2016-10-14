@@ -17,4 +17,6 @@ public class Config {
     public final static String dataFilePath = android.os.Environment.getExternalStorageDirectory() +"/"+"Android/data/com.mredrock.cyxbs/";
     public final static String updateFilePath = android.os.Environment.getExternalStorageDirectory() +"/"+"download/";
     public final static String updateFilename = "com.mredrock.cyxbs.apk";
+
+    public static final String APP_WIDGET_CACHE_FILE_NAME = "AppWidgetCache.json";
 }

@@ -128,8 +128,7 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
     private List<Course> getCourseFromCache() {
         LogUtils.LOGI("CourseProviderObservable", "onGetFromCache");
         String json = FileUtils.readStringFromFile(new File(cacheFilePath));
-        List<Course> courses = new Gson().fromJson(json, new TypeToken<List<Course>>() {
-        }.getType());
+        List<Course> courses = new Gson().fromJson(json, new TypeToken<List<Course>>() {}.getType());
         if (courses == null || courses.size() == 0) {
             throw new NullPointerException();
         } else {
