@@ -167,6 +167,11 @@
         <activity android:name=".ui.activity.me.RemindActivity">
         </activity>
 
+        <service
+            android:name=".ui.widget.CourseListAppWidgetUpdateService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

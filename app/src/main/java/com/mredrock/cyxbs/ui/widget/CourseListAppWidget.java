@@ -1,20 +1,28 @@
 package com.mredrock.cyxbs.ui.widget;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.mredrock.cyxbs.R;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Course List App Widget Provider
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 public class CourseListAppWidget extends AppWidgetProvider {
+
+    PendingIntent updatePendingIntent;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -36,21 +44,37 @@ public class CourseListAppWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        // set alarm first
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(context, CourseListAppWidgetUpdateService.class);
+        if (updatePendingIntent == null) {
+            updatePendingIntent = PendingIntent.getService(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC, getTomorrowTimeInMillis(), updatePendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC, getTomorrowTimeInMillis(), updatePendingIntent);
+        }
+        // refresh app widget
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
 
-    @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
-        // TODO: register a alarm clock here for auto refresh in 0:00
+    private long getTomorrowTimeInMillis() {
+        GregorianCalendar calendar = new GregorianCalendar();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar = new GregorianCalendar(year, month, day, 0, 0, 1);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        return calendar.getTimeInMillis();
     }
 
     @Override
     public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
-        // TODO: unregister the alarm clock which register in onEnable
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(updatePendingIntent);
     }
 
     public static void updateNow(Context context) {
