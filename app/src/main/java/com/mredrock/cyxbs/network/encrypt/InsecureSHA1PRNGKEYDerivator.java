@@ -1,4 +1,3 @@
-package com.mredrock.cyxbs.network.encrypt;
 /*
  *  Licensed to the Apache Software Foundation (ASF) under one or more
  *  contributor license agreements.  See the NOTICE file distributed with
@@ -15,6 +14,10 @@ package com.mredrock.cyxbs.network.encrypt;
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
+
+package com.mredrock.cyxbs.network.encrypt;
+
 /**
  * Stripped-down version of the SHA1PRNG provided by the Crypto provider.
  *
