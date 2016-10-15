@@ -3,6 +3,7 @@ package com.mredrock.cyxbs;
 import android.app.Application;
 import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 
 import com.excitingboat.freshmanspecial.App;
 import com.google.gson.Gson;
@@ -35,6 +36,8 @@ public class APP extends Application {
         return context;
     }
 
+    private static UserInfoEncryption userInfoEncryption;
+
     // TODO: isLogin getUser setUser 使用的位置,逻辑
 
     public static void setUser(Context context, User user) {
@@ -47,7 +50,7 @@ public class APP extends Application {
             userJson = new Gson().toJson(user);
             APP.setLogin(true);
         }
-        String encryptedJson = new UserInfoEncryption().encrypt(userJson);
+        String encryptedJson = userInfoEncryption.encrypt(userJson);
         SPUtils.set(context, Const.SP_KEY_USER, encryptedJson);
     }
 
@@ -58,7 +61,8 @@ public class APP extends Application {
     public static User getUser(Context context) {
         if (mUser == null) {
             String encryptedJson = (String) SPUtils.get(context, Const.SP_KEY_USER, "");
-            String json = new UserInfoEncryption().decrypt(encryptedJson);
+            String json = userInfoEncryption.decrypt(encryptedJson);
+            Log.d("userinfo", json);
             mUser = new Gson().fromJson(json, User.class);
 
             if (mUser == null || mUser.stuNum == null || mUser.idNum == null) {
@@ -71,7 +75,7 @@ public class APP extends Application {
     public static boolean isLogin() {
         if (!login) {
             String encryptedJson = (String) SPUtils.get(context, Const.SP_KEY_USER, "");
-            String json = new UserInfoEncryption().decrypt(encryptedJson);
+            String json = userInfoEncryption.decrypt(encryptedJson);
             User user = new Gson().fromJson(json, User.class);
             if (user != null && !user.stuNum.equals("0")) {
                 return true;
@@ -114,6 +118,8 @@ public class APP extends Application {
         initThemeMode();
         //  FIR.init(this);
         Logger.init("cyxbs_mobile");
+        // Initialize UserInfoEncrypted
+        userInfoEncryption = new UserInfoEncryption();
         // Initialize FreshSpecial As library
         App.initializeLibrary(getContext());
         // Refresh Course List When Start
@@ -128,7 +134,9 @@ public class APP extends Application {
                                                            public void onCompleted() {}
 
                                                            @Override
-                                                           public void onError(Throwable e) {}
+                                                           public void onError(Throwable e) {
+                                                               Log.e("CSET", "reloadCourseList", e);
+                                                           }
 
                                                            @Override
                                                            public void onNext(List<Course> courses) {}
