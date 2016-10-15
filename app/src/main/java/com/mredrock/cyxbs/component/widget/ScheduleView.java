@@ -4,15 +4,19 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Course;
+import com.mredrock.cyxbs.ui.activity.LoginActivity;
 import com.mredrock.cyxbs.util.DensityUtils;
+import com.mredrock.cyxbs.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +30,7 @@ public class ScheduleView extends FrameLayout {
     private int height = (int) DensityUtils.dp2px(getContext(), 100);
     private CourseColorSelector colorSelector = new CourseColorSelector();
     public CourseList[][] course = new CourseList[7][7];
+
     private Context context;
 
     public ScheduleView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -131,6 +136,44 @@ public class ScheduleView extends FrameLayout {
     public static class CourseList {
         public ArrayList<Course> list = new ArrayList<>();
     }
+
+  /*  @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.d(LogUtils.makeLogTag(this.getClass()),getWidth()+"   "+event.getX()+"   "+getHeight()+"   "+event.getY());
+      //  Log.d(LogUtils.makeLogTag(this.getClass()),event.getRawX() +"   "+event.getRawY());
+        if (event.getAction() == MotionEvent.ACTION_UP){
+            int x = (int) (event.getX() / getWidth() * 7);
+            int y = (int) (event.getY() / getHeight() * 12);
+            Log.d(LogUtils.makeLogTag(this.getClass()),x +"   "+y);
+
+
+            TextView tv = new TextView(context);
+            int mTop = height * y / 2;
+            int mLeft = width * x;
+            int mWidth = width;
+            int mHeight = (int) (height * (float) 1 / 2);
+
+            LayoutParams flParams = new LayoutParams((mWidth - DensityUtils.dp2px(getContext(), 1f)), (mHeight - DensityUtils.dp2px(getContext(), 1f)));
+            flParams.topMargin = (mTop + DensityUtils.dp2px(getContext(), 1f));
+            flParams.leftMargin = (mLeft + DensityUtils.dp2px(getContext(), 1f));
+            tv.setLayoutParams(flParams);
+            tv.setTextColor(Color.BLACK);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+            tv.setGravity(Gravity.CENTER);
+
+            tv.setText("-----------");
+            GradientDrawable gd = new GradientDrawable();
+            gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
+
+            tv.setBackgroundDrawable(gd);
+            addView(tv);
+           // invalidate();
+
+        }
+
+
+        return true;
+    }*/
 
     public static class CourseColorSelector {
         private int[] colors = new int[]{

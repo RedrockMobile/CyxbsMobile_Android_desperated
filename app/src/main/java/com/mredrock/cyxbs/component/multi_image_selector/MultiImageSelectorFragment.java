@@ -176,7 +176,6 @@ public class MultiImageSelectorFragment extends Fragment {
                 // TODO 预览
             }
         });
-
         mGridView = (GridView) view.findViewById(R.id.grid);
         mGridView.setAdapter(mImageAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

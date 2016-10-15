@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:mce="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -24,9 +24,9 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="TextAppearance.Title" parent="TextAppearance.AppCompat.Title">
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -72,6 +72,11 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="PopupAnimation" parent="android:Animation" mce_bogus="1">
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>
+    </style>
 
     <style name="RestaurantTextButton">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
@@ -83,5 +88,9 @@
     <style name="SwitchStyle">
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
+
+
+
+
 
 </resources>

@@ -197,8 +197,7 @@ public class NoCourseActivity extends BaseActivity
 
 
     private void doAddAction() {
-        if (stuNumList.contains(noCourseStu.getText().toString()) ||
-                nameList.contains(noCourseStu.getText().toString())) {
+        if (stuNumList.contains(noCourseStu.getText().toString())) {
             Snackbar.make(noCourseStu, "请不要重复添加！", Snackbar.LENGTH_SHORT)
                     .show();
         } else if (!NetUtils.isNetWorkAvailable(this)) {
