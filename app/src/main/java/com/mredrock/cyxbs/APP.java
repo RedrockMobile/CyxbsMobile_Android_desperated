@@ -10,6 +10,7 @@ import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.network.encrypt.UserInfoEncryption;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.orhanobut.logger.Logger;
 
@@ -46,7 +47,8 @@ public class APP extends Application {
             userJson = new Gson().toJson(user);
             APP.setLogin(true);
         }
-        SPUtils.set(context, Const.SP_KEY_USER, userJson);
+        String encryptedJson = new UserInfoEncryption().encrypt(userJson);
+        SPUtils.set(context, Const.SP_KEY_USER, encryptedJson);
     }
 
     /**
@@ -55,7 +57,8 @@ public class APP extends Application {
      */
     public static User getUser(Context context) {
         if (mUser == null) {
-            String json = (String) SPUtils.get(context, Const.SP_KEY_USER, "");
+            String encryptedJson = (String) SPUtils.get(context, Const.SP_KEY_USER, "");
+            String json = new UserInfoEncryption().decrypt(encryptedJson);
             mUser = new Gson().fromJson(json, User.class);
 
             if (mUser == null || mUser.stuNum == null || mUser.idNum == null) {
@@ -67,7 +70,8 @@ public class APP extends Application {
 
     public static boolean isLogin() {
         if (!login) {
-            String json = (String) SPUtils.get(context, Const.SP_KEY_USER, "");
+            String encryptedJson = (String) SPUtils.get(context, Const.SP_KEY_USER, "");
+            String json = new UserInfoEncryption().decrypt(encryptedJson);
             User user = new Gson().fromJson(json, User.class);
             if (user != null && !user.stuNum.equals("0")) {
                 return true;
