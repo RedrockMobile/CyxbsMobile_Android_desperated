@@ -234,6 +234,8 @@
     <string name="person_info">详细资料</string>
     <string name="latest">近期动态</string>
 
+    <string name="action_appwidget_item_on_click" translatable="false">com.mredrock.cyxbs.action.ON_APPWIDGET_ITEM_ONCLICK</string>
+
     <!--multi image selector-->
     <string name="folder_all">所有照片</string>
     <string name="preview">预览</string>

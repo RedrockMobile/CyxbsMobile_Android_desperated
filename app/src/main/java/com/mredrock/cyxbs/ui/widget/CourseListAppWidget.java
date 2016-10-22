@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.ui.activity.MainActivity;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -23,6 +24,7 @@ import java.util.GregorianCalendar;
 public class CourseListAppWidget extends AppWidgetProvider {
 
     PendingIntent updatePendingIntent;
+    public static final String EXTRA_COURSES = "appwidget_extra_courses";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -39,6 +41,12 @@ public class CourseListAppWidget extends AppWidgetProvider {
 
         Intent serviceIntent = new Intent(context, CourseListRemoteViewsService.class);
         views.setRemoteAdapter(R.id.lv_app_widget_course_list, serviceIntent);
+
+
+        Intent itemClickIntent = new Intent(context, MainActivity.class);
+        itemClickIntent.setAction(context.getResources().getString(R.string.action_appwidget_item_on_click));
+        views.setPendingIntentTemplate(R.id.lv_app_widget_course_list, PendingIntent.getActivity(context, 0, itemClickIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+
         return views;
     }
 
