@@ -10,7 +10,6 @@ import com.mredrock.cyxbs.util.SchoolCalendar;
 
 import java.io.File;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import rx.functions.Func1;
@@ -25,7 +24,8 @@ public class AppWidgetCacheAndUpdateFunc implements Func1<List<Course>, List<Cou
     @Override
     public List<Course> call(List<Course> courses) {
         List<Course> weekCourses = new UserCourseFilterFunc(new SchoolCalendar().getWeekOfTerm()).call(courses);
-        List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)).call(weekCourses);
+        // List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)).call(weekCourses);
+        List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(Calendar.THURSDAY).call(weekCourses);
         FileUtils.writeStringToFile(new Gson().toJson(dayCourses), new File(APP.getContext().getFilesDir().getAbsolutePath() + "/" + Config.APP_WIDGET_CACHE_FILE_NAME));
         CourseListAppWidget.updateNow(APP.getContext());
         return courses;

@@ -18,7 +18,8 @@
         android:textColor="@color/tc_app_widget_course_list_item_order"
         android:textSize="@dimen/ts_app_widget_course_list_item_order"
         android:lineSpacingExtra="10dp"
-        android:padding="0dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:layout_margin="0dp"
         android:gravity="center_horizontal" />
 
@@ -27,12 +28,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="3dp"
-        tools:text=""
-        android:textColor="@color/transparent"
+        tools:text="高等数学@2117"
+        android:textColor="@color/white"
         android:gravity="center"
         android:layout_margin="1.5dp"
         android:ellipsize="end"
-        android:foreground="@color/transparent"
-        android:background="@color/transparent"/>
+        android:foreground="@drawable/bg_selectable_item"
+        android:background="@color/Color_IndianRed"/>
 
 </LinearLayout>

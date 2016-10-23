@@ -96,6 +96,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
         UpdateUtil.checkUpdate(this, false);
+        // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
         intentFilterFor3DTouch();
         intentFilterForAppWidget();
     }
@@ -126,6 +127,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void intentFilterForAppWidget() {
+        Log.d("MainActivity", "intentFilterForAppWidget: intent: " + getIntent().toString());
         Intent intent = getIntent();
         String action = intent.getAction();
         if (action != null && action.equals(getString(R.string.action_appwidget_item_on_click))) {
@@ -134,7 +136,10 @@ public class MainActivity extends BaseActivity {
             if (courses != null && courses.size() != 0) {
                 ScheduleView.CourseList courseList = new ScheduleView.CourseList();
                 courseList.list = courses;
+                Log.d("MainActivity", "intentFilterForAppWidget: call Course Dialog with: " + courses.toString());
                 CourseDialog.show(MainActivity.this, courseList);
+            } else {
+                Log.w("MainActivity", "intentFilterForAppWidget: empty courses.");
             }
         }
     }

@@ -160,6 +160,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
 
 
     private void initAdapter(List<HotNews> listHotNews) {
+        if (mRecyclerView == null) return;  // prevent it be called before lazy loading
         mListHotNews = listHotNews;
         mNewsAdapter = new NewsAdapter(mListHotNews) {
             @Override

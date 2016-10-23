@@ -54,8 +54,8 @@ public class CourseListAppWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // set alarm first
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent alarmIntent = new Intent(context, CourseListAppWidgetUpdateService.class);
         if (updatePendingIntent == null) {
+            Intent alarmIntent = new Intent(context, CourseListAppWidgetUpdateService.class);
             updatePendingIntent = PendingIntent.getService(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -82,6 +82,10 @@ public class CourseListAppWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (updatePendingIntent == null) {
+            Intent alarmIntent = new Intent(context, CourseListAppWidgetUpdateService.class);
+            updatePendingIntent = PendingIntent.getService(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         alarmManager.cancel(updatePendingIntent);
     }
 

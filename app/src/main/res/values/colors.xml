@@ -77,4 +77,7 @@
 
     <color name="link_blue">#295998</color>
 
+    <color name="transparent">#00000000</color>
+    <color name="tc_app_widget_course_list_item_order">@color/grey_hex_5c</color>
+
 </resources>

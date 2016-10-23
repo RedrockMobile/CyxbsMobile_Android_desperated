@@ -4,6 +4,9 @@
               android:background="@android:color/transparent"
               android:foreground="@android:color/transparent"
               android:orientation="horizontal"
+              android:padding="0dp"
+              android:layout_margin="0dp"
+              android:minHeight="0dp"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
@@ -12,9 +15,11 @@
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         tools:text="1\n2"
+        android:textColor="@color/tc_app_widget_course_list_item_order"
+        android:textSize="@dimen/ts_app_widget_course_list_item_order"
         android:lineSpacingExtra="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:padding="0dp"
+        android:layout_margin="0dp"
         android:gravity="center_horizontal" />
 
     <TextView
@@ -27,6 +32,7 @@
         android:gravity="center"
         android:layout_margin="1.5dp"
         android:ellipsize="end"
+        android:foreground="@drawable/bg_selectable_item"
         android:background="@color/Color_IndianRed"/>
 
 </LinearLayout>
