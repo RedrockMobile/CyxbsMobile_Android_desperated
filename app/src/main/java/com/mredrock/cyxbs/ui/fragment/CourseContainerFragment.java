@@ -23,7 +23,6 @@ import com.mredrock.cyxbs.ui.activity.MainActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -197,6 +196,7 @@ public class CourseContainerFragment extends BaseFragment {
             @Override
             public void onNext(Integer i) {
                 int nowWeek = i;
+                Log.d(TAG, "onNext: now week: " + i);
                 updateFirstDay(nowWeek);
                 if (mNowWeek <= 18 && mNowWeek >= 1) {
                     setCurrentItem(mNowWeek);

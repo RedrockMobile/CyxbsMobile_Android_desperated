@@ -9,9 +9,9 @@
             android:title="每课推送"/>
         <ListPreference
             android:dialogTitle="提前时间"
-            android:defaultValue="30分钟"
+            android:defaultValue="30"
             android:entries="@array/remind_every_class"
-            android:entryValues="@array/remind_every_class"
+            android:entryValues="@array/remind_every_class_back"
             android:key="remind_every_class_delay"
             android:summary="每节课开始前多少时间会受到通知"
             android:title="提前时间"/>
@@ -26,9 +26,9 @@
             android:title="每日推送"/>
         <ListPreference
             android:entries="@array/remind_every_day"
-            android:entryValues="@array/remind_every_day"
+            android:entryValues="@array/remind_every_day_back"
             android:key="remind_every_day_time"
-            android:defaultValue="22:00"
+            android:defaultValue="22"
             android:summary="我觉得每天晚上10点差不多呢"
             android:title="通知时间"/>
     </PreferenceCategory>
