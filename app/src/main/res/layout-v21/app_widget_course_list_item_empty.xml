@@ -18,7 +18,8 @@
         android:textColor="@color/tc_app_widget_course_list_item_order"
         android:textSize="@dimen/ts_app_widget_course_list_item_order"
         android:lineSpacingExtra="10dp"
-        android:padding="0dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:layout_margin="0dp"
         android:gravity="center_horizontal" />
 

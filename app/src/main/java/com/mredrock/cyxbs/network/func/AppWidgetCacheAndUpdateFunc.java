@@ -26,6 +26,7 @@ public class AppWidgetCacheAndUpdateFunc implements Func1<List<Course>, List<Cou
     public List<Course> call(List<Course> courses) {
         List<Course> weekCourses = new UserCourseFilterFunc(new SchoolCalendar().getWeekOfTerm()).call(courses);
         List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)).call(weekCourses);
+        // List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(Calendar.THURSDAY).call(weekCourses);
         FileUtils.writeStringToFile(new Gson().toJson(dayCourses), new File(APP.getContext().getFilesDir().getAbsolutePath() + "/" + Config.APP_WIDGET_CACHE_FILE_NAME));
         CourseListAppWidget.updateNow(APP.getContext());
         return courses;

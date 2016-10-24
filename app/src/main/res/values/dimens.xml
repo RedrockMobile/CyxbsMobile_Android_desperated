@@ -71,5 +71,6 @@
 
     <!--App Widget-->
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="ts_app_widget_course_list_item_order">14sp</dimen>
 
 </resources>

@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.component.widget.ScheduleView;
 import com.mredrock.cyxbs.config.Config;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.util.FileUtils;
@@ -40,6 +41,7 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
         SparseArray<Item> items = new SparseArray<>(12);
         int factoryType;
         ArrayList<RemoteViews> views = new ArrayList<>(12);
+        ScheduleView.CourseColorSelector colorSelector = new ScheduleView.CourseColorSelector();
 
         static final int FACTORY_TYPE_NORMAL = 0;
         static final int FACTORY_TYPE_ERROR = -1;
@@ -62,6 +64,9 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             if (courses == null || courses.size() == 0) {
                 setError("今天没有课");
                 return;
+            }
+            for (Course c: courses) {
+                colorSelector.addCourse(c.course);
             }
             generateItem(courses);
             setNormal();
@@ -92,6 +97,10 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                     views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item);
                     views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
                     views.setTextViewText(R.id.tv_app_widget_course_item_content, item.getText());
+                    views.setInt(R.id.tv_app_widget_course_item_content, "setBackgroundColor", colorSelector.getCourseColor(item.getCourses().get(0).course));
+                    Intent coursesIntent = new Intent();
+                    coursesIntent.putParcelableArrayListExtra(CourseListAppWidget.EXTRA_COURSES, item.getCourses());
+                    views.setOnClickFillInIntent(R.id.tv_app_widget_course_item_content, coursesIntent);
                 }
                 this.views.add(views);
             }
@@ -172,7 +181,7 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
 
         @Override
         public int getViewTypeCount() {
-            return 3;
+            return 20;
         }
 
         @Override
@@ -191,6 +200,8 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                 start = course.begin_lesson;
                 end = course.begin_lesson + course.period;
                 text = course.toCourseString();
+                courses = new ArrayList<>(1);
+                courses.add(course);
             }
 
             Item addCourse(Course course) {
@@ -198,7 +209,12 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                 if (end < start + course.period) {
                     end = start + course.period;
                 }
-                text += "，" + course.toCourseString();
+                // Don't use merged course text according to 产品规划运营部
+                // text += "，" + course.toCourseString();
+                if (courses == null) {
+                    courses = new ArrayList<>(1);
+                }
+                courses.add(course);
                 return this;
             }
 
@@ -206,6 +222,7 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                 this.start = start;
                 this.end = start + 1;
                 this.text = null;
+                courses = null;
             }
 
             String getText() {
@@ -222,18 +239,24 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                 return builder.toString();
             }
 
+            public ArrayList<Course> getCourses() {
+                return courses;
+            }
+
+            public boolean hasCourses() {
+                return courses != null && courses.size() != 0;
+            }
+
+            @SuppressWarnings("StringBufferReplaceableByString")
             @Override
             public String toString() {
-                return "Item{" +
-                        "start=" + start +
-                        ", end=" + end +
-                        ", text='" + text + '\'' +
-                        '}';
+                return new StringBuilder().append("Item{").append("start=").append(start).append(", end=").append(end).append(", text='").append(text).append('\'').append('}').toString();
             }
 
             private int start;  // 三四节的 start 是 3
             private int end;  // 三四节课的 end 是 5
             private String text;
+            private ArrayList<Course> courses;
         }
 
     }

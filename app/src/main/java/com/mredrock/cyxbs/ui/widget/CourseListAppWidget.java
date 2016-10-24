@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.ui.activity.MainActivity;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -23,6 +24,7 @@ import java.util.GregorianCalendar;
 public class CourseListAppWidget extends AppWidgetProvider {
 
     PendingIntent updatePendingIntent;
+    public static final String EXTRA_COURSES = "appwidget_extra_courses";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -39,6 +41,12 @@ public class CourseListAppWidget extends AppWidgetProvider {
 
         Intent serviceIntent = new Intent(context, CourseListRemoteViewsService.class);
         views.setRemoteAdapter(R.id.lv_app_widget_course_list, serviceIntent);
+
+
+        Intent itemClickIntent = new Intent(context, MainActivity.class);
+        itemClickIntent.setAction(context.getResources().getString(R.string.action_appwidget_item_on_click));
+        views.setPendingIntentTemplate(R.id.lv_app_widget_course_list, PendingIntent.getActivity(context, 0, itemClickIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+
         return views;
     }
 
@@ -46,8 +54,8 @@ public class CourseListAppWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // set alarm first
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent alarmIntent = new Intent(context, CourseListAppWidgetUpdateService.class);
         if (updatePendingIntent == null) {
+            Intent alarmIntent = new Intent(context, CourseListAppWidgetUpdateService.class);
             updatePendingIntent = PendingIntent.getService(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -74,6 +82,10 @@ public class CourseListAppWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (updatePendingIntent == null) {
+            Intent alarmIntent = new Intent(context, CourseListAppWidgetUpdateService.class);
+            updatePendingIntent = PendingIntent.getService(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         alarmManager.cancel(updatePendingIntent);
     }
 

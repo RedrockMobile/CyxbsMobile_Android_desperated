@@ -19,15 +19,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.component.widget.CourseDialog;
+import com.mredrock.cyxbs.component.widget.ScheduleView;
 import com.mredrock.cyxbs.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
+import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.me.NewsRemindActivity;
@@ -40,6 +42,7 @@ import com.mredrock.cyxbs.ui.fragment.UnLoginFragment;
 import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
+import com.mredrock.cyxbs.ui.widget.CourseListAppWidget;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
 
@@ -93,13 +96,15 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
         UpdateUtil.checkUpdate(this, false);
-        InterFilter();
+        // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
+        intentFilterFor3DTouch();
+        intentFilterForAppWidget();
     }
 
     /**
      * 适配魅族 3D TOUCH
      */
-    private void InterFilter() {
+    private void intentFilterFor3DTouch() {
         Uri data = getIntent().getData();
         if (data != null && TextUtils.equals("forcetouch", data.getScheme())) {
             Log.d(TAG, "InterFilter: ");
@@ -117,6 +122,24 @@ public class MainActivity extends BaseActivity {
             if (TextUtils.equals("/date", data.getPath())) {
                 Intent intent = new Intent(this, NoCourseActivity.class);
                 startActivity(intent);
+            }
+        }
+    }
+
+    private void intentFilterForAppWidget() {
+        Log.d("MainActivity", "intentFilterForAppWidget: intent: " + getIntent().toString());
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (action != null && action.equals(getString(R.string.action_appwidget_item_on_click))) {
+            mBottomBar.setCurrentView(0);
+            ArrayList<Course> courses = intent.getParcelableArrayListExtra(CourseListAppWidget.EXTRA_COURSES);
+            if (courses != null && courses.size() != 0) {
+                ScheduleView.CourseList courseList = new ScheduleView.CourseList();
+                courseList.list = courses;
+                Log.d("MainActivity", "intentFilterForAppWidget: call Course Dialog with: " + courses.toString());
+                CourseDialog.show(MainActivity.this, courseList);
+            } else {
+                Log.w("MainActivity", "intentFilterForAppWidget: empty courses.");
             }
         }
     }
