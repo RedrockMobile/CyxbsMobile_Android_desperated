@@ -161,7 +161,16 @@
         <!-- 用于课表提醒 -->
         <receiver
             android:name=".receiver.RemindReceiver"
-          >
+            >
+        </receiver>
+
+        <!-- 开机自启 -->
+        <receiver
+            android:name=".receiver.RebootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
         </receiver>
 
         <activity android:name=".ui.activity.me.RemindActivity">

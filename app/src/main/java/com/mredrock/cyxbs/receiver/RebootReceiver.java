@@ -1,0 +1,150 @@
+package com.mredrock.cyxbs.receiver;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.model.Course;
+import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.fragment.me.RemindFragment;
+import com.mredrock.cyxbs.util.CourseTimeUtils;
+import com.mredrock.cyxbs.util.SchoolCalendar;
+
+import java.util.Calendar;
+import java.util.List;
+
+import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.INTENT_FLAG_BY_DAY;
+import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.INTENT_MODE;
+import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_CLASS;
+import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_CLASS_DELAY;
+import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_DAY;
+import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_DAY_TIME;
+
+/**
+ * Created by simonla on 2016/10/24.
+ * 下午4:38
+ */
+
+public class RebootReceiver extends BroadcastReceiver {
+
+    private static final String TAG = "RebootReceiver";
+    private SharedPreferences mSp;
+    private AlarmManager mAlarmManager;
+    public static final String EXTRA_COURSE_CLASSROOM = "course_classroom";
+    public static final String EXTRA_COURSE_NAME = "course_name";
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        mSp = PreferenceManager.getDefaultSharedPreferences(context);
+        mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        int mode = intent.getIntExtra(INTENT_MODE, 1);
+        if (mode == RemindFragment.INTENT_FLAG_BY_CLASS) {
+            byClass(context,mode);
+        }
+        if (mode == INTENT_FLAG_BY_DAY) {
+            byDay(context,mode);
+        }
+    }
+
+    private void byClass(Context context,int mode) {
+        getCourseList(new CourseCallback() {
+            @Override
+            public void onSuccess(List<Course> courses) {
+                for (Course c : courses) {
+                    Calendar calendar = CourseTimeUtils.CourseToCalendar(c);
+                    int hourDelay = calendar.get(Calendar.MINUTE) - mSp.
+                            getInt(SP_REMIND_EVERY_CLASS_DELAY, 0) < 0 ? 1 : 0;
+                    calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) - hourDelay);
+                    if (hourDelay != 0) {
+                        calendar.set(Calendar.MINUTE, 60 + calendar.get(Calendar.MINUTE) - mSp.
+                                getInt(SP_REMIND_EVERY_CLASS_DELAY, 0));
+                    }
+                    Intent intent = new Intent(context, RemindReceiver.class);
+                    intent.putExtra(INTENT_MODE, mode);
+                    intent.putExtra(EXTRA_COURSE_NAME, c.course);
+                    intent.putExtra(EXTRA_COURSE_CLASSROOM, c.classroom);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, c.hash_lesson+10, intent, 0);
+                    if (mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
+                        mAlarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    } else {
+                        mAlarmManager.cancel(pendingIntent);
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(Throwable e) {
+                Log.d(TAG, "onFail: "+e);
+            }
+        },context);
+    }
+
+    private void byDay(Context context,int mode) {
+        Intent intent = new Intent(context, RemindReceiver.class);
+        intent.putExtra(INTENT_MODE, mode);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 2, intent, 0);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(mSp.getString(SP_REMIND_EVERY_DAY_TIME, "22")));
+        calendar.set(Calendar.MINUTE, 0);
+
+        if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
+            mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
+                    , AlarmManager.INTERVAL_DAY, pendingIntent);
+        } else {
+            mAlarmManager.cancel(pendingIntent);
+        }
+/*        //test
+        Log.d(TAG, "byDay: receiver");
+        mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, RemindReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() +
+                        10 * 1000, pendingIntent);*/
+    }
+
+    private void getCourseList(CourseCallback courseCallback, Context context) {
+        RequestManager.getInstance().getCourseList(new SimpleSubscriber<>(context, false
+                        , false, new SubscriberListener<List<Course>>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        e.printStackTrace();
+                        courseCallback.onFail(e);
+                    }
+
+                    @Override
+                    public void onNext(List<Course> courses) {
+                        super.onNext(courses);
+                        courseCallback.onSuccess(courses);
+                    }
+                }),
+                APP.getUser(context).stuNum, APP.getUser(context).idNum, new SchoolCalendar()
+                        .getWeekOfTerm(), false);
+    }
+
+    private interface CourseCallback {
+        void onSuccess(List<Course> courses);
+
+        void onFail(Throwable e);
+    }
+}

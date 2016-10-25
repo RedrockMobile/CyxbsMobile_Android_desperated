@@ -32,15 +32,21 @@ import static android.R.attr.mode;
 public class RemindReceiver extends BroadcastReceiver {
 
     public static final String TAG = "RemindReceiver";
-    private int mMode;
 
     private List<Course> mCourses;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        mMode = intent.getIntExtra(RemindFragment.INTENT_MODE, RemindFragment.INTENT_FLAG_BY_DAY);
+        int mode1 = intent.getIntExtra(RemindFragment.INTENT_MODE, RemindFragment.INTENT_FLAG_BY_DAY);
         Log.d(TAG, "onReceive: receive mode: " + mode);
-        getCourseList(context);
+        if (mode1 == RemindFragment.INTENT_FLAG_BY_CLASS) {
+            Log.d(TAG, "onCompleted mode：byClass");
+            byClass(context, intent);
+        }
+        if (mode1 == RemindFragment.INTENT_FLAG_BY_DAY) {
+            Log.d(TAG, "onCompleted mode: byDay");
+            getCourseList(context);
+        }
     }
 
     private boolean tomorrowHaveCourse() {
@@ -50,8 +56,6 @@ public class RemindReceiver extends BroadcastReceiver {
             return false;
         } else {
             for (Course c : mCourses) {
-                Log.d(TAG, "tomorrowHaveCourse: hash_day:" + c.hash_day);
-                Log.d(TAG, "tomorrowHaveCourse: " + dayOfWeek);
                 if (c.hash_day + 2 == dayOfWeek % 7) {
                     return true;
                 }
@@ -90,7 +94,7 @@ public class RemindReceiver extends BroadcastReceiver {
 
     private void getCourseList(Context context) {
         RequestManager.getInstance().getCourseList(new SimpleSubscriber<List<Course>>(context,
-                false, false, new SubscriberListener<List<Course>>() {
+                        false, false, new SubscriberListener<List<Course>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -99,14 +103,7 @@ public class RemindReceiver extends BroadcastReceiver {
                     @Override
                     public void onCompleted() {
                         super.onCompleted();
-                        if (mMode == RemindFragment.INTENT_FLAG_BY_CLASS) {
-                            Log.d(TAG, "onCompleted mode：byClass");
-                            byClass(context);
-                        }
-                        if (mMode == RemindFragment.INTENT_FLAG_BY_DAY) {
-                            Log.d(TAG, "onCompleted mode: byDay");
-                            byDay(context);
-                        }
+                        byDay(context);
                     }
 
                     @Override
@@ -132,7 +129,31 @@ public class RemindReceiver extends BroadcastReceiver {
         }
     }
 
-    private void byClass(Context context) {
-
+    private void byClass(Context context, Intent intent) {
+        Intent openMain = new Intent(context, MainActivity.class);
+        NotificationCompat.Builder builder;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            builder = new NotificationCompat.Builder(context)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setAutoCancel(true)
+                    .setContentTitle(intent.getStringExtra(RebootReceiver.EXTRA_COURSE_NAME))
+                    .setContentText(intent.getStringExtra(RebootReceiver.EXTRA_COURSE_CLASSROOM));
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+            stackBuilder.addNextIntent(openMain);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openMain,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(pendingIntent);
+        } else {
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openMain,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            builder = new NotificationCompat.Builder(context)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setContentTitle(intent.getStringExtra(RebootReceiver.EXTRA_COURSE_NAME))
+                    .setContentText(intent.getStringExtra(RebootReceiver.EXTRA_COURSE_CLASSROOM));
+        }
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(1, builder.build());
     }
 }
