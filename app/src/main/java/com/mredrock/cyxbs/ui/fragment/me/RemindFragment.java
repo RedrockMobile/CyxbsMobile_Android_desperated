@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -148,8 +149,19 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                     PackageManager.DONT_KILL_APP);
         }
-        //test
-/*        mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        //似乎还应该立即生效一次
+        mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent2 = new Intent(getActivity(), RebootReceiver.class);
+
+        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getActivity(), 0, intent2, 0);
+        if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
+            mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() +
+                            10 * 500, pendingIntent2);
+
+/*             //test
+       mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getActivity(), RebootReceiver.class);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
@@ -158,6 +170,7 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
                     SystemClock.elapsedRealtime() +
                             10 * 500, pendingIntent);
         }*/
+        }
     }
 
     private void remindByClass() {
