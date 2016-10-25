@@ -119,31 +119,6 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
         if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
             rebootAutoStart(INTENT_FLAG_BY_DAY);
         }
-
-/*        Intent intent = new Intent(getActivity(), RemindReceiver.class);
-        intent.putExtra(INTENT_MODE, INTENT_FLAG_BY_DAY);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(mSp.getString(SP_REMIND_EVERY_DAY_TIME, "22")));
-        calendar.set(Calendar.MINUTE, 0);
-
-        if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
-            mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
-                    , AlarmManager.INTERVAL_DAY, pendingIntent);
-            Log.d(TAG, "remindByDay: push successful...");
-        } else {
-            Log.d(TAG, "remindByDay: push cancel...");
-            mAlarmManager.cancel(pendingIntent);
-        }*/
-
-/*        //just for test...
-        mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getActivity(), RemindReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-        mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() +
-                        10 * 1000, pendingIntent);*/
     }
 
     private void rebootAutoStart(int mode) {
@@ -153,7 +128,6 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
         pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
-
         //每天启动一次
         Intent intent = new Intent(getActivity(), RebootReceiver.class);
         intent.putExtra(INTENT_MODE, mode);
@@ -174,33 +148,21 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                     PackageManager.DONT_KILL_APP);
         }
-/*        //test
-        mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getActivity(), RemindReceiver.class);
+        //test
+/*        mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), RebootReceiver.class);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-        mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() +
-                        10 * 1000, pendingIntent);*/
+        if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
+            mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() +
+                            10 * 500, pendingIntent);
+        }*/
     }
 
     private void remindByClass() {
         if (mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
             rebootAutoStart(INTENT_FLAG_BY_CLASS);
         }
-/*        Intent intent = new Intent(getActivity(), RemindReceiver.class);
-        intent.putExtra(INTENT_MODE, INTENT_FLAG_BY_CLASS);
-        getCourseList(new CourseCallback() {
-            @Override
-            public void onSuccess(List<Course> courses) {
-
-            }
-
-            @Override
-            public void onFail(Throwable e) {
-                Toast.makeText(getActivity(), "发生错误：" + e.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });*/
     }
-
-
 }

@@ -35,8 +35,8 @@ public class CourseTimeUtils {
                 calendar.set(Calendar.MINUTE, 0);
                 break;
             case 5:
-                calendar.set(Calendar.HOUR_OF_DAY, 22);
-                calendar.set(Calendar.HOUR_OF_DAY, 5);
+                calendar.set(Calendar.HOUR_OF_DAY, 20);
+                calendar.set(Calendar.HOUR_OF_DAY, 50);
                 break;
         }
         return calendar;
