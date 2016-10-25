@@ -54,7 +54,6 @@
             android:launchMode="singleTask">
 
             <intent-filter>
-                <action android:name="@string/action_appwidget_item_on_click"/>
                 <!-- 魅族 3D TOUCH 适配 START -->
                 <action android:name="android.intent.action.VIEW"/>
 
