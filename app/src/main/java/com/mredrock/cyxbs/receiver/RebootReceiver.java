@@ -116,7 +116,7 @@ public class RebootReceiver extends BroadcastReceiver {
                     if (hourDelay != 0) {
                         courseCalendar.set(Calendar.MINUTE, 60 + courseCalendar.get(Calendar.MINUTE) -
                                 Integer.valueOf(mSp.
-                                getString(SP_REMIND_EVERY_CLASS_DELAY, "0")));
+                                        getString(SP_REMIND_EVERY_CLASS_DELAY, "0")));
                     }
 
                     Log.d(TAG, "byClass: 下一节课时间是：" + courseCalendar.get(Calendar.HOUR_OF_DAY) +
@@ -124,7 +124,7 @@ public class RebootReceiver extends BroadcastReceiver {
                             c.course + "教室：" + c.classroom);
 
                     Log.d(TAG, "onSuccess: name:" + c.course + " time: " +
-                            TimeUtils.timeStampToStr(courseCalendar.getTimeInMillis()/1000));
+                            TimeUtils.timeStampToStr(courseCalendar.getTimeInMillis() / 1000));
                     Intent intent = new Intent(context, RemindReceiver.class);
                     intent.putExtra(INTENT_MODE, mode);
                     intent.putExtra(EXTRA_COURSE_NAME, c.course);
@@ -155,8 +155,9 @@ public class RebootReceiver extends BroadcastReceiver {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(mSp.getString(SP_REMIND_EVERY_DAY_TIME, "22")));
         calendar.set(Calendar.MINUTE, 0);
+        Log.d(TAG, "byDay: 好像5.0以上不允许精确闹钟了，fuck！");
         if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
-            mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
+            mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
                     , AlarmManager.INTERVAL_DAY, pendingIntent);
         } else {
             mAlarmManager.cancel(pendingIntent);
