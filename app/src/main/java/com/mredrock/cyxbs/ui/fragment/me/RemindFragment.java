@@ -2,26 +2,20 @@ package com.mredrock.cyxbs.ui.fragment.me;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.mredrock.cyxbs.APP;
-import com.mredrock.cyxbs.model.Course;
-import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.receiver.RemindReceiver;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
-import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.util.SchoolCalendar;
+import com.mredrock.cyxbs.receiver.RebootReceiver;
 
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by simonla on 2016/10/11.
@@ -123,79 +117,49 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
     }
 
     private void remindByDay() {
-        Intent intent = new Intent(getActivity(), RemindReceiver.class);
-        intent.putExtra(INTENT_MODE, INTENT_FLAG_BY_DAY);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(mSp.getString(SP_REMIND_EVERY_DAY_TIME, "22")));
-        calendar.set(Calendar.MINUTE, 0);
-
         if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
+            rebootAutoStart(INTENT_FLAG_BY_DAY);
+        }
+    }
+
+    private void rebootAutoStart(int mode) {
+        //开机自启
+        ComponentName receiver = new ComponentName(getActivity(), RebootReceiver.class);
+        PackageManager pm = getActivity().getPackageManager();
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+        //每天启动一次
+        Intent intent = new Intent(getActivity(), RebootReceiver.class);
+        intent.putExtra(INTENT_MODE, mode);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
+        if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(Calendar.HOUR_OF_DAY, 7);
+            calendar.set(Calendar.MINUTE, 0);
             mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
                     , AlarmManager.INTERVAL_DAY, pendingIntent);
-            Log.d(TAG, "remindByDay: push successful...");
-        } else {
-            Log.d(TAG, "remindByDay: push cancel...");
+            //似乎还应该立即生效一次
+            Intent intent2 = new Intent(getActivity(), RebootReceiver.class);
+            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getActivity(), 30, intent2, 0);
+            mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() +
+                            10 * 500, pendingIntent2);
+        }else {
+            //取消开机自启
             mAlarmManager.cancel(pendingIntent);
+            ComponentName receiver2 = new ComponentName(getActivity(), RebootReceiver.class);
+            PackageManager pm2 = getActivity().getPackageManager();
+            pm2.setComponentEnabledSetting(receiver2,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP);
         }
-
-/*        //just for test...
-        mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getActivity(), RemindReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-        mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() +
-                        10 * 1000, pendingIntent);*/
     }
 
     private void remindByClass() {
-        Intent intent = new Intent(getActivity(), RemindReceiver.class);
-        intent.putExtra(INTENT_MODE, INTENT_FLAG_BY_CLASS);
-        getCourseList(new CourseCallback() {
-            @Override
-            public void onSuccess(List<Course> courses) {
-
-            }
-
-            @Override
-            public void onFail(Throwable e) {
-                Toast.makeText(getActivity(), "发生错误：" + e.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void getCourseList(CourseCallback courseCallback) {
-        RequestManager.getInstance().getCourseList(new SimpleSubscriber<List<Course>>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        super.onCompleted();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        e.printStackTrace();
-                        courseCallback.onFail(e);
-                    }
-
-                    @Override
-                    public void onNext(List<Course> courses) {
-                        super.onNext(courses);
-                        courseCallback.onSuccess(courses);
-                    }
-                }),
-                APP.getUser(getActivity()).stuNum, APP.getUser(getActivity()).idNum, new SchoolCalendar().getWeekOfTerm(), false);
-    }
-
-    private interface CourseCallback {
-        void onSuccess(List<Course> courses);
-
-        void onFail(Throwable e);
+        if (mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
+            rebootAutoStart(INTENT_FLAG_BY_CLASS);
+        }
     }
 }
