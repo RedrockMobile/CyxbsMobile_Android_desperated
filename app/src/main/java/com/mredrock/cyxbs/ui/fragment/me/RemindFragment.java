@@ -134,19 +134,19 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
         intent.putExtra(INTENT_MODE, mode);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
         if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(Calendar.HOUR_OF_DAY, 7);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 7);
             calendar.set(Calendar.MINUTE, 0);
             mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
                     , AlarmManager.INTERVAL_DAY, pendingIntent);
             //似乎还应该立即生效一次
             Intent intent2 = new Intent(getActivity(), RebootReceiver.class);
-            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getActivity(), 30, intent2, 0);
+            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getActivity(), 50, intent2, 0);
             mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     SystemClock.elapsedRealtime() +
                             10 * 500, pendingIntent2);
-        }else {
+        } else {
             //取消开机自启
             mAlarmManager.cancel(pendingIntent);
             ComponentName receiver2 = new ComponentName(getActivity(), RebootReceiver.class);

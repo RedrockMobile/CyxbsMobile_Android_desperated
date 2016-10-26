@@ -31,5 +31,9 @@
             android:defaultValue="22"
             android:summary="我觉得每天晚上10点差不多呢"
             android:title="通知时间"/>
+        <ListPreference
+            android:key="remind_every_day_time"
+            android:enabled="false"
+            android:summary="注意：本功能为试验性功能。如遇到不能正常提醒，请在安全软件或系统管理中添加掌上重邮到白名单"/>
     </PreferenceCategory>
 </PreferenceScreen>

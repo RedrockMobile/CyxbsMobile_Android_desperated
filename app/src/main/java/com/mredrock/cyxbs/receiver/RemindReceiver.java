@@ -24,7 +24,6 @@ import com.mredrock.cyxbs.util.SchoolCalendar;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.R.attr.mode;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_CLASS;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_DAY;
 
@@ -45,9 +44,11 @@ public class RemindReceiver extends BroadcastReceiver {
         int mode1 = intent.getIntExtra(RemindFragment.INTENT_MODE, RemindFragment.INTENT_FLAG_BY_DAY);
         if (mode1 == RemindFragment.INTENT_FLAG_BY_CLASS && sp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
             byClass(context, intent);
+            Log.d(TAG, "onReceive: receive by class!");
         }
         if (mode1 == RemindFragment.INTENT_FLAG_BY_DAY && sp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
             getCourseList(context);
+            Log.d(TAG, "onReceive: receive by day!");
         }
     }
 
@@ -142,12 +143,12 @@ public class RemindReceiver extends BroadcastReceiver {
                     .setContentText(intent.getStringExtra(RebootReceiver.EXTRA_COURSE_CLASSROOM));
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
             stackBuilder.addNextIntent(openMain);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openMain,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 61, openMain,
+                    0);
             builder.setContentIntent(pendingIntent);
         } else {
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openMain,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 62, openMain,
+                    0);
             builder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setAutoCancel(true)
