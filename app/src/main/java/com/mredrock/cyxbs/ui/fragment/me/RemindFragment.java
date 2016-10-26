@@ -133,43 +133,27 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
         Intent intent = new Intent(getActivity(), RebootReceiver.class);
         intent.putExtra(INTENT_MODE, mode);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 7);
-        calendar.set(Calendar.MINUTE, 0);
         if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(Calendar.HOUR_OF_DAY, 7);
+            calendar.set(Calendar.MINUTE, 0);
             mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
                     , AlarmManager.INTERVAL_DAY, pendingIntent);
-        } else {
-            mAlarmManager.cancel(pendingIntent);
+            //似乎还应该立即生效一次
+            Intent intent2 = new Intent(getActivity(), RebootReceiver.class);
+            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getActivity(), 30, intent2, 0);
+            mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() +
+                            10 * 500, pendingIntent2);
+        }else {
             //取消开机自启
+            mAlarmManager.cancel(pendingIntent);
             ComponentName receiver2 = new ComponentName(getActivity(), RebootReceiver.class);
             PackageManager pm2 = getActivity().getPackageManager();
             pm2.setComponentEnabledSetting(receiver2,
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                     PackageManager.DONT_KILL_APP);
-        }
-
-        //似乎还应该立即生效一次
-        mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent2 = new Intent(getActivity(), RebootReceiver.class);
-
-        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getActivity(), 0, intent2, 0);
-        if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
-            mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() +
-                            10 * 500, pendingIntent2);
-
-/*             //test
-       mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getActivity(), RebootReceiver.class);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-        if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
-            mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() +
-                            10 * 500, pendingIntent);
-        }*/
         }
     }
 

@@ -6,6 +6,8 @@ import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -23,6 +25,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import static android.R.attr.mode;
+import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_CLASS;
+import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_DAY;
 
 /**
  * Created by simonla on 2016/10/10.
@@ -37,14 +41,12 @@ public class RemindReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         int mode1 = intent.getIntExtra(RemindFragment.INTENT_MODE, RemindFragment.INTENT_FLAG_BY_DAY);
-        Log.d(TAG, "onReceive: receive mode: " + mode);
-        if (mode1 == RemindFragment.INTENT_FLAG_BY_CLASS) {
-            Log.d(TAG, "onCompleted mode：byClass");
+        if (mode1 == RemindFragment.INTENT_FLAG_BY_CLASS && sp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
             byClass(context, intent);
         }
-        if (mode1 == RemindFragment.INTENT_FLAG_BY_DAY) {
-            Log.d(TAG, "onCompleted mode: byDay");
+        if (mode1 == RemindFragment.INTENT_FLAG_BY_DAY && sp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
             getCourseList(context);
         }
     }
@@ -93,7 +95,7 @@ public class RemindReceiver extends BroadcastReceiver {
     }
 
     private void getCourseList(Context context) {
-        RequestManager.getInstance().getCourseList(new SimpleSubscriber<List<Course>>(context,
+        RequestManager.getInstance().getCourseList(new SimpleSubscriber<>(context,
                         false, false, new SubscriberListener<List<Course>>() {
                     @Override
                     public void onStart() {

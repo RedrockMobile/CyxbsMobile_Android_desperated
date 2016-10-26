@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -62,6 +63,7 @@ public class RebootReceiver extends BroadcastReceiver {
     private void reRegister(Context context, Intent intent) {
         if (intent.getAction() != null) {
             if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
+                Log.d(TAG, "reRegister: 开机自启");
                 Intent intent2 = new Intent(context, RebootReceiver.class);
                 intent2.putExtra(INTENT_MODE, mode);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
@@ -72,6 +74,12 @@ public class RebootReceiver extends BroadcastReceiver {
                 if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
                     mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
                             , AlarmManager.INTERVAL_DAY, pendingIntent);
+                    //似乎还应该立即生效一次
+                    Intent intent3 = new Intent(context, RebootReceiver.class);
+                    PendingIntent pendingIntent3 = PendingIntent.getBroadcast(context, 30, intent3, 0);
+                    mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                            SystemClock.elapsedRealtime() +
+                                    10 * 500, pendingIntent3);
                 } else {
                     mAlarmManager.cancel(pendingIntent);
                     //取消开机自启
@@ -81,16 +89,6 @@ public class RebootReceiver extends BroadcastReceiver {
                             PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                             PackageManager.DONT_KILL_APP);
                 }
-                //test
-/*                Log.d(TAG, "reRegister: 开机自启");
-                mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                Intent intent2 = new Intent(context, RemindReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 10, intent2, 0);
-                if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
-                    mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                            SystemClock.elapsedRealtime() +
-                                    10 * 500, pendingIntent);
-                }*/
             }
         }
     }
@@ -100,21 +98,31 @@ public class RebootReceiver extends BroadcastReceiver {
             @Override
             public void onSuccess(List<Course> courses) {
                 for (Course c : courses) {
-                    Calendar calendar = CourseTimeUtils.CourseToCalendar(c);
-                    int hourDelay = calendar.get(Calendar.MINUTE) - mSp.
-                            getInt(SP_REMIND_EVERY_CLASS_DELAY, 0) < 0 ? 1 : 0;
-                    calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) - hourDelay);
-                    if (hourDelay != 0) {
-                        calendar.set(Calendar.MINUTE, 60 + calendar.get(Calendar.MINUTE) - mSp.
-                                getInt(SP_REMIND_EVERY_CLASS_DELAY, 0));
+                    Calendar today = Calendar.getInstance();
+                    today.setTimeInMillis(System.currentTimeMillis());
+                    Calendar courseCalendar = CourseTimeUtils.CourseToCalendar(c);
+                    //如果不是今天的课就退出
+                    if (courseCalendar.get(Calendar.DAY_OF_WEEK)!= today.get(Calendar.DAY_OF_WEEK)) {
+                        continue;
                     }
+                    int hourDelay = courseCalendar.get(Calendar.MINUTE) - Integer.valueOf(mSp.
+                            getString(SP_REMIND_EVERY_CLASS_DELAY, "0")) < 0 ? 1 : 0;
+                    courseCalendar.set(Calendar.HOUR_OF_DAY, courseCalendar.get(Calendar.HOUR_OF_DAY) - hourDelay);
+                    if (hourDelay != 0) {
+                        courseCalendar.set(Calendar.MINUTE, 60 + courseCalendar.get(Calendar.MINUTE) - Integer.valueOf(mSp.
+                                getString(SP_REMIND_EVERY_CLASS_DELAY, "0")));
+                    }
+
+                    Log.d(TAG, "byDay: 下一节课时间是：" + c.hash_day + "---" + courseCalendar.get(Calendar.HOUR_OF_DAY) +
+                            " : " + courseCalendar.get(Calendar.MINUTE) + "课程名:" + c.course + "教室：" + c.classroom);
+
                     Intent intent = new Intent(context, RemindReceiver.class);
                     intent.putExtra(INTENT_MODE, mode);
                     intent.putExtra(EXTRA_COURSE_NAME, c.course);
                     intent.putExtra(EXTRA_COURSE_CLASSROOM, c.classroom);
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(context, c.hash_lesson + 10, intent, 0);
                     if (mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
-                        mAlarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                        mAlarmManager.set(AlarmManager.RTC_WAKEUP, courseCalendar.getTimeInMillis(), pendingIntent);
                     } else {
                         mAlarmManager.cancel(pendingIntent);
                     }
@@ -136,7 +144,6 @@ public class RebootReceiver extends BroadcastReceiver {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(mSp.getString(SP_REMIND_EVERY_DAY_TIME, "22")));
         calendar.set(Calendar.MINUTE, 0);
-
         if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
             mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
                     , AlarmManager.INTERVAL_DAY, pendingIntent);
