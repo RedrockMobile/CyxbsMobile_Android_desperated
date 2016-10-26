@@ -1,14 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_edit_affair"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:fitsSystemWindows="true"
     tools:context="com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity">
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
 
-</RelativeLayout>
+                  android:orientation="vertical">
+        <include
+            android:id="@+id/affair_toolbar"
+            layout="@layout/toolbar_save_cancel"/>
+        <EditText
+            android:id="@+id/add_affair_title_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/white"
+            android:gravity="top"
+            android:maxLength="15"
+            android:hint="@string/add_affair_edit_hint"
+            android:maxLines="1"
+            android:padding="10dp"/>
+        <EditText
+            android:id="@+id/add_affair_content_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/white"
+            android:gravity="top"
+            android:maxLength="50"
+            android:hint="@string/add_affair_edit_hint"
+            android:minLines="5"
+            android:padding="10dp"/>
+        <android.support.v7.widget.AppCompatButton
+
+            android:id="@+id/add_affair_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/Color_SkyBlue"
+            android:text="时间"
+            android:textSize="16sp"/>
+        <android.support.v7.widget.AppCompatButton
+
+            android:id="@+id/add_affair_week"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/Color_SkyBlue"
+            android:text="周数"
+            android:textSize="16sp"/>
+
+        <android.support.v7.widget.AppCompatButton
+
+            android:id="@+id/add_affair_remind_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/Color_SkyBlue"
+            android:text="提醒"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="200dp"
+        android:background="#50000000"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+       <android.support.v7.widget.RecyclerView
+           android:id="@+id/affair_list_choose_week"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+       </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</android.support.design.widget.CoordinatorLayout>

@@ -180,6 +180,15 @@
             android:enabled="true"
             android:exported="false">
         </service>
+
+        <activity
+            android:name=".ui.activity.affair.EditAffairActivity"
+            android:launchMode="singleTop">
+        </activity>
+        <activity android:name=".ui.activity.affair.WeekChooseActivity">
+        </activity>
+        <activity android:name=".ui.activity.affair.TimeChooseActivity">
+        </activity>
     </application>
 
 </manifest>

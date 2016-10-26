@@ -31,6 +31,7 @@ import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.me.NewsRemindActivity;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
@@ -285,6 +286,11 @@ public class MainActivity extends BaseActivity {
         popWind.setOutsideTouchable(true); //点击外部关闭。
         popWind.setAnimationStyle(R.style.PopupAnimation);    //设置一个动画。
         //设置Gravity，让它显示在右上角。
+        if (popWind.getContentView() != null)
+            popWind.getContentView().setOnClickListener((v -> {
+                EditAffairActivity.editAffairActivityStart(this,null);
+                popWind.dismiss();
+            }));
         popWind.showAtLocation(parentView, Gravity.RIGHT | Gravity.TOP,
                 yOffset, xOffset);
     }

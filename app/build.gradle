@@ -136,4 +136,5 @@ dependencies {
    // compile 'im.fir:fir-sdk:latest.integration@aar'
     compile project(':freshman-special')
 
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 }
