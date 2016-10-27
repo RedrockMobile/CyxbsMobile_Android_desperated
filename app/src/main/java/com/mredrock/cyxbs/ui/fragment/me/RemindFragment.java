@@ -12,6 +12,7 @@ import android.os.SystemClock;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.mredrock.cyxbs.receiver.RebootReceiver;
 
@@ -108,10 +109,10 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        if (key.equals(SP_REMIND_EVERY_CLASS)) {
+        if (key.equals(SP_REMIND_EVERY_CLASS)||key.equals(SP_REMIND_EVERY_CLASS_DELAY)) {
             remindByClass();
         }
-        if (key.equals(SP_REMIND_EVERY_DAY)) {
+        if (key.equals(SP_REMIND_EVERY_DAY)||key.equals(SP_REMIND_EVERY_DAY_TIME)) {
             remindByDay();
         }
     }
@@ -123,6 +124,7 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
     }
 
     private void rebootAutoStart(int mode) {
+        Log.d(TAG, "rebootAutoStart: 自启 ");
         //开机自启
         ComponentName receiver = new ComponentName(getActivity(), RebootReceiver.class);
         PackageManager pm = getActivity().getPackageManager();

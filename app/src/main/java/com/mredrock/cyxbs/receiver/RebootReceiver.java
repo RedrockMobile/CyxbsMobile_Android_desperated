@@ -52,7 +52,6 @@ public class RebootReceiver extends BroadcastReceiver {
         mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         reRegister(context, intent);
         int mode = intent.getIntExtra(INTENT_MODE, 3);
-
         if (mode == RemindFragment.INTENT_FLAG_BY_CLASS && mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
             byClass(context, mode);
             Log.d(TAG, "onReceive: Receive by class! ");
@@ -156,6 +155,7 @@ public class RebootReceiver extends BroadcastReceiver {
         calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(mSp.getString(SP_REMIND_EVERY_DAY_TIME, "22")));
         calendar.set(Calendar.MINUTE, 0);
         Log.d(TAG, "byDay: 好像5.0以上不允许精确闹钟了，fuck！");
+        Log.d(TAG, "byDay time:  " + TimeUtils.timeStampToStr(calendar.getTimeInMillis() / 1000));
         if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
             mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
                     , AlarmManager.INTERVAL_DAY, pendingIntent);
