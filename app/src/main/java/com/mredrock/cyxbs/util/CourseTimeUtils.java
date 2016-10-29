@@ -39,6 +39,29 @@ public class CourseTimeUtils {
                 calendar.set(Calendar.HOUR_OF_DAY, 50);
                 break;
         }
+        switch (course.hash_day) {
+            case 0:
+                calendar.set(Calendar.DAY_OF_WEEK, 2);
+                break;
+            case 1:
+                calendar.set(Calendar.DAY_OF_WEEK, 3);
+                break;
+            case 2:
+                calendar.set(Calendar.DAY_OF_WEEK, 4);
+                break;
+            case 3:
+                calendar.set(Calendar.DAY_OF_WEEK, 5);
+                break;
+            case 4:
+                calendar.set(Calendar.DAY_OF_WEEK, 6);
+                break;
+            case 5:
+                calendar.set(Calendar.DAY_OF_WEEK, 7);
+                break;
+            case 6:
+                calendar.set(Calendar.DAY_OF_WEEK, 1);
+                break;
+        }
         return calendar;
     }
 

@@ -12,6 +12,7 @@ import android.os.SystemClock;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.mredrock.cyxbs.receiver.RebootReceiver;
 
@@ -108,10 +109,10 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        if (key.equals(SP_REMIND_EVERY_CLASS)) {
+        if (key.equals(SP_REMIND_EVERY_CLASS)||key.equals(SP_REMIND_EVERY_CLASS_DELAY)) {
             remindByClass();
         }
-        if (key.equals(SP_REMIND_EVERY_DAY)) {
+        if (key.equals(SP_REMIND_EVERY_DAY)||key.equals(SP_REMIND_EVERY_DAY_TIME)) {
             remindByDay();
         }
     }
@@ -123,6 +124,7 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
     }
 
     private void rebootAutoStart(int mode) {
+        Log.d(TAG, "rebootAutoStart: 自启 ");
         //开机自启
         ComponentName receiver = new ComponentName(getActivity(), RebootReceiver.class);
         PackageManager pm = getActivity().getPackageManager();
@@ -133,43 +135,27 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
         Intent intent = new Intent(getActivity(), RebootReceiver.class);
         intent.putExtra(INTENT_MODE, mode);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 7);
-        calendar.set(Calendar.MINUTE, 0);
         if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 7);
+            calendar.set(Calendar.MINUTE, 0);
             mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
                     , AlarmManager.INTERVAL_DAY, pendingIntent);
+            //似乎还应该立即生效一次
+            Intent intent2 = new Intent(getActivity(), RebootReceiver.class);
+            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getActivity(), 50, intent2, 0);
+            mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() +
+                            10 * 500, pendingIntent2);
         } else {
-            mAlarmManager.cancel(pendingIntent);
             //取消开机自启
+            mAlarmManager.cancel(pendingIntent);
             ComponentName receiver2 = new ComponentName(getActivity(), RebootReceiver.class);
             PackageManager pm2 = getActivity().getPackageManager();
             pm2.setComponentEnabledSetting(receiver2,
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                     PackageManager.DONT_KILL_APP);
-        }
-
-        //似乎还应该立即生效一次
-        mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent2 = new Intent(getActivity(), RebootReceiver.class);
-
-        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getActivity(), 0, intent2, 0);
-        if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
-            mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() +
-                            10 * 500, pendingIntent2);
-
-/*             //test
-       mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getActivity(), RebootReceiver.class);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-        if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
-            mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() +
-                            10 * 500, pendingIntent);
-        }*/
         }
     }
 
