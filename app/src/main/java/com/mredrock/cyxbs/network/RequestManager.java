@@ -48,6 +48,7 @@ import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import io.rx_cache.internal.RxCache;
+import io.victoralbertos.jolyglot.JacksonSpeaker;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -87,7 +88,7 @@ public enum RequestManager {
                 .build();
 
         cacheProviders = new RxCache.Builder()
-                .persistence(APP.getContext().getFilesDir())
+                .persistence(APP.getContext().getFilesDir(), new JacksonSpeaker())
                 .using(CacheProviders.class);
 
         redrockApiService = retrofit.create(RedrockApiService.class);
