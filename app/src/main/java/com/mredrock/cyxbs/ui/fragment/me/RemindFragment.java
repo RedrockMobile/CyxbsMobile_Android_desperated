@@ -124,7 +124,7 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
     }
 
     private void rebootAutoStart(int mode) {
-        Log.d(TAG, "rebootAutoStart: 自启 ");
+        Log.d(TAG, "rebootAutoStart 自启方式： "+mode);
         //开机自启
         ComponentName receiver = new ComponentName(getActivity(), RebootReceiver.class);
         PackageManager pm = getActivity().getPackageManager();
@@ -140,14 +140,14 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
             calendar.setTimeInMillis(System.currentTimeMillis());
             calendar.set(Calendar.HOUR_OF_DAY, 7);
             calendar.set(Calendar.MINUTE, 0);
-            mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
+            mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
                     , AlarmManager.INTERVAL_DAY, pendingIntent);
             //似乎还应该立即生效一次
             Intent intent2 = new Intent(getActivity(), RebootReceiver.class);
-            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getActivity(), 50, intent2, 0);
+            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getActivity(), 1, intent2, 0);
             mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     SystemClock.elapsedRealtime() +
-                            10 * 500, pendingIntent2);
+                            10 * 200, pendingIntent2);
         } else {
             //取消开机自启
             mAlarmManager.cancel(pendingIntent);

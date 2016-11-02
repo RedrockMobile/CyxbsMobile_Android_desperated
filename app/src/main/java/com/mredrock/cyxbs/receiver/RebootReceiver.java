@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -69,20 +70,20 @@ public class RebootReceiver extends BroadcastReceiver {
                 Log.d(TAG, "reRegister: 开机自启");
                 Intent intent2 = new Intent(context, RebootReceiver.class);
                 intent2.putExtra(INTENT_MODE, mode);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 51, intent, 0);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
                 calendar.set(Calendar.HOUR_OF_DAY, 7);
                 calendar.set(Calendar.MINUTE, 0);
                 if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
-                    mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
+                    mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
                             , AlarmManager.INTERVAL_DAY, pendingIntent);
                     //似乎还应该立即生效一次
                     Intent intent3 = new Intent(context, RebootReceiver.class);
-                    PendingIntent pendingIntent3 = PendingIntent.getBroadcast(context, 52, intent3, 0);
+                    PendingIntent pendingIntent3 = PendingIntent.getBroadcast(context, 1, intent3, 0);
                     mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                             SystemClock.elapsedRealtime() +
-                                    10 * 500, pendingIntent3);
+                                    10 * 200, pendingIntent3);
                 } else {
                     mAlarmManager.cancel(pendingIntent);
                     //取消开机自启
@@ -105,7 +106,8 @@ public class RebootReceiver extends BroadcastReceiver {
                     today.setTimeInMillis(System.currentTimeMillis());
                     Calendar courseCalendar = CourseTimeUtils.CourseToCalendar(c);
                     //如果不是今天的课就退出
-                    if (courseCalendar.get(Calendar.DAY_OF_WEEK) != today.get(Calendar.DAY_OF_WEEK)) {
+                    if (courseCalendar.get(Calendar.DAY_OF_WEEK) != today.get(Calendar.DAY_OF_WEEK)||
+                            System.currentTimeMillis()> courseCalendar.getTimeInMillis()) {
                         continue;
                     }
                     int hourDelay = courseCalendar.get(Calendar.MINUTE) - Integer.valueOf(mSp.
@@ -117,13 +119,9 @@ public class RebootReceiver extends BroadcastReceiver {
                                 Integer.valueOf(mSp.
                                         getString(SP_REMIND_EVERY_CLASS_DELAY, "0")));
                     }
-
                     Log.d(TAG, "byClass: 下一节课时间是：" + courseCalendar.get(Calendar.HOUR_OF_DAY) +
                             " : " + courseCalendar.get(Calendar.MINUTE) + "课程名:" +
-                            c.course + "教室：" + c.classroom);
-
-                    Log.d(TAG, "onSuccess: name:" + c.course + " time: " +
-                            TimeUtils.timeStampToStr(courseCalendar.getTimeInMillis() / 1000));
+                            c.course + "教室：" + c.classroom + " intent_flag:" + c.hash_lesson + 10);
                     Intent intent = new Intent(context, RemindReceiver.class);
                     intent.putExtra(INTENT_MODE, mode);
                     intent.putExtra(EXTRA_COURSE_NAME, c.course);
@@ -131,8 +129,19 @@ public class RebootReceiver extends BroadcastReceiver {
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(context, c.hash_lesson +
                             10, intent, 0);
                     if (mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
-                        mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, courseCalendar.getTimeInMillis(),
-                                pendingIntent);
+                        Log.d(TAG, "onSuccess: name:" + c.course + " time: " +
+                                TimeUtils.timeStampToStr(courseCalendar.getTimeInMillis() / 1000));
+                        // FIXME: 2016/11/2  bug!
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, courseCalendar.
+                                    getTimeInMillis(), pendingIntent);
+                        }else {
+                            mAlarmManager.set(AlarmManager.RTC_WAKEUP, courseCalendar.
+                                    getTimeInMillis(), pendingIntent);
+                        }
+                        //mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, courseCalendar.
+                        // getTimeInMillis(),
+                        //        AlarmManager.INTERVAL_DAY, pendingIntent);
                     } else {
                         mAlarmManager.cancel(pendingIntent);
                     }
@@ -149,12 +158,11 @@ public class RebootReceiver extends BroadcastReceiver {
     private void byDay(Context context, int mode) {
         Intent intent = new Intent(context, RemindReceiver.class);
         intent.putExtra(INTENT_MODE, mode);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 53, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 2, intent, 0);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(mSp.getString(SP_REMIND_EVERY_DAY_TIME, "22")));
         calendar.set(Calendar.MINUTE, 0);
-        Log.d(TAG, "byDay: 好像5.0以上不允许精确闹钟了，fuck！");
         Log.d(TAG, "byDay time:  " + TimeUtils.timeStampToStr(calendar.getTimeInMillis() / 1000));
         if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
             mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()

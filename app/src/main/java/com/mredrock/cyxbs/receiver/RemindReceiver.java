@@ -44,7 +44,10 @@ public class RemindReceiver extends BroadcastReceiver {
         int mode1 = intent.getIntExtra(RemindFragment.INTENT_MODE, RemindFragment.INTENT_FLAG_BY_DAY);
         if (mode1 == RemindFragment.INTENT_FLAG_BY_CLASS && sp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
             byClass(context, intent);
-            Log.d(TAG, "onReceive: receive by class!");
+            Log.d(TAG, "onReceive: receive by class! name: " + intent.
+                    getStringExtra(RebootReceiver.EXTRA_COURSE_NAME) + " classroom: " +
+                    intent.getStringExtra(RebootReceiver.EXTRA_COURSE_CLASSROOM)
+            );
         }
         if (mode1 == RemindFragment.INTENT_FLAG_BY_DAY && sp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
             getCourseList(context);
@@ -155,6 +158,7 @@ public class RemindReceiver extends BroadcastReceiver {
                     .setContentIntent(pendingIntent)
                     .setContentTitle(intent.getStringExtra(RebootReceiver.EXTRA_COURSE_NAME))
                     .setContentText(intent.getStringExtra(RebootReceiver.EXTRA_COURSE_CLASSROOM));
+
         }
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(1, builder.build());
