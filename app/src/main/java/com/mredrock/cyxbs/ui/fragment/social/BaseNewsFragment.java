@@ -115,13 +115,6 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         addOnScrollListener();
     }
 
-    private void getDataFailed(String reason) {
-        // TODO: this cause IllegalStateException, please check life cycle first
-//        Toast.makeText(APP.getContext(), getString(R.string.erro), Toast.LENGTH_SHORT).show();
-        Log.e(TAG, reason);
-
-    }
-
     private void showLoadingProgress() {
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(true);
@@ -138,11 +131,11 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         mSwipeRefreshLayout.post(() -> showLoadingProgress());
         provideData(new SimpleSubscriber<>(getActivity(), new SubscriberListener<List<HotNews>>() {
             @Override
-            public void onError(Throwable e) {
+            public boolean onError(Throwable e) {
                 super.onError(e);
                 mFooterViewWrapper.showLoadingFailed();
                 closeLoadingProgress();
-                getDataFailed(e.toString());
+                return false;
             }
 
             @Override
@@ -190,10 +183,10 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         mFooterViewWrapper.showLoading();
         provideData(new SimpleSubscriber<>(getContext(), new SubscriberListener<List<HotNews>>() {
             @Override
-            public void onError(Throwable e) {
+            public boolean onError(Throwable e) {
                 super.onError(e);
                 mFooterViewWrapper.showLoadingFailed();
-                getDataFailed(e.toString());
+                return true;
             }
 
             @Override

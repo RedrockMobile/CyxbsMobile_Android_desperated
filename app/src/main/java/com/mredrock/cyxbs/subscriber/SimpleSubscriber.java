@@ -55,16 +55,20 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
 
     @Override
     public void onError(Throwable e) {
-        if (e instanceof SocketTimeoutException || e instanceof ConnectException || e instanceof UnknownHostException) {
-            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
-        } else if (e.getMessage().equals("authentication error")){
-            Toast.makeText(context,"学号或者密码错误,请检查输入",Toast.LENGTH_SHORT).show();
-        } else if(e.getMessage().equals("student id error")){
-            Toast.makeText(context,"学号不存在,请检查输入",Toast.LENGTH_SHORT).show();
+        if (listener != null && listener.onError(e)) {
+            LogUtils.LOGI("SimpleSubscribe", "onError: Handled by listener", e);
         } else {
-            Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            if (e instanceof SocketTimeoutException || e instanceof ConnectException || e instanceof UnknownHostException) {
+                Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
+            } else if (e.getMessage().equals("authentication error")) {
+                Toast.makeText(context, "学号或者密码错误,请检查输入", Toast.LENGTH_SHORT).show();
+            } else if (e.getMessage().equals("student id error")) {
+                Toast.makeText(context, "学号不存在,请检查输入", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+            LogUtils.LOGE("SimpleSubscriber", "onError", e);
         }
-        LogUtils.LOGE("SimpleSubscriber", "onError", e);
         dismissProgressDialog();
     }
 

@@ -184,10 +184,11 @@ public class NotificationService extends Service {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public boolean onError(Throwable e) {
                         super.onError(e);
                         e.printStackTrace();
                         courseCallback.onFail(e);
+                        return false;
                     }
 
                     @Override

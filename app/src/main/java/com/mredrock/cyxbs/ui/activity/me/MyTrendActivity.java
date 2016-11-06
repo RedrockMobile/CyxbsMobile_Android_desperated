@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
@@ -116,10 +115,10 @@ public class MyTrendActivity extends BaseActivity
             Logger.d(mUser.toString());
             RequestManager.getInstance().getMyTrend(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
                 @Override
-                public void onError(Throwable e) {
+                public boolean onError(Throwable e) {
                     super.onError(e);
                     dismissProgress();
-                    getDataFailed(e.getMessage());
+                    return false;
                 }
 
                 @Override
@@ -155,8 +154,5 @@ public class MyTrendActivity extends BaseActivity
         if (myTrendRefreshLayout != null && myTrendRefreshLayout.isRefreshing()) {
             myTrendRefreshLayout.setRefreshing(false);
         }
-    }
-    private void getDataFailed(String reason) {
-        Toast.makeText(MyTrendActivity.this, "获取数据失败，原因:" + reason, Toast.LENGTH_SHORT).show();
     }
 }

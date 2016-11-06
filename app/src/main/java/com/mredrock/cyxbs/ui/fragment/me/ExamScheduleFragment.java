@@ -156,7 +156,7 @@ public class ExamScheduleFragment extends BaseFragment {
             Subscriber<List<Exam>> subscriber = new SimpleSubscriber<>(
                     getActivity(), new SubscriberListener<List<Exam>>() {
                 @Override
-                public void onError(Throwable e) {
+                public boolean onError(Throwable e) {
                     super.onError(e);
                     try {
                         examSwipeRefreshLayout.setRefreshing(false);
@@ -164,6 +164,7 @@ public class ExamScheduleFragment extends BaseFragment {
                     } catch (NullPointerException ex) {
                         LogUtils.LOGW(getClass().getName(), "Callback after activity destroy", ex);
                     }
+                    return false;
                 }
 
 

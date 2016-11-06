@@ -235,10 +235,11 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
             }
 
             @Override
-            public void onError(Throwable e) {
+            public boolean onError(Throwable e) {
                 super.onError(e);
                 closeLoadingProgress();
                 getDataFailed();
+                return false;
             }
 
             @Override
@@ -301,9 +302,10 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 }
 
                 @Override
-                public void onError(Throwable e) {
+                public boolean onError(Throwable e) {
                     super.onError(e);
                     showUploadFail(e.toString());
+                    return false;
                 }
             }), mHotNewsContent.articleId, mHotNewsContent.typeId, mNewsEdtComment.getText().toString(), mUser.id, mUser.stuNum, mUser.idNum);
 
@@ -314,9 +316,10 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private void getDataBeanById(String articleId) {
         RequestManager.getInstance().getTrendDetail(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
             @Override
-            public void onError(Throwable e) {
+            public boolean onError(Throwable e) {
                 super.onError(e);
                 showUploadFail(e.getMessage());
+                return false;
             }
 
             @Override

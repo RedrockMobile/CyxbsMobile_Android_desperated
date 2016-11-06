@@ -179,9 +179,10 @@ public class CourseFragment extends BaseFragment {
                             }
 
                             @Override
-                            public void onError(Throwable e) {
+                            public boolean onError(Throwable e) {
                                 super.onError(e);
                                 hideRefreshLoading();
+                                return false;
                             }
 
                             @Override

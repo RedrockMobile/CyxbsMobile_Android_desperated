@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
@@ -113,11 +112,10 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
 
 
                     @Override
-                    public void onError(Throwable e) {
+                    public boolean onError(Throwable e) {
                         super.onError(e);
-                        Toast.makeText(EditCommonActivity.this, "修改失败，原因：" + e.getMessage(), Toast.LENGTH_SHORT)
-                             .show();
                         finish();
+                        return false;
                     }
 
                 }), mUser.stuNum, mUser.idNum, editCommonEt.getText().toString());

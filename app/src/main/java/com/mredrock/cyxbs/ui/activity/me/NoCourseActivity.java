@@ -240,13 +240,13 @@ public class NoCourseActivity extends BaseActivity
                                 }
 
                                 @Override
-                                public void onError(Throwable e) {
+                                public boolean onError(Throwable e) {
                                     if (e instanceof JsonSyntaxException) {
                                         Snackbar.make(noCourseStu, "没有找到这个人哦~",
                                                 Snackbar.LENGTH_SHORT).show();
-                                    } else {
-                                        super.onError(e);
+                                        return true;
                                     }
+                                    return false;
                                 }
                             }), noCourseStu.getText().toString());
         }
