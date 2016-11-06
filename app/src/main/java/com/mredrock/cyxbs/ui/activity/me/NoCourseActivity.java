@@ -14,9 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
+import com.google.gson.JsonSyntaxException;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
@@ -35,6 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class NoCourseActivity extends BaseActivity
         implements View.OnClickListener,
@@ -235,6 +236,16 @@ public class NoCourseActivity extends BaseActivity
                                     } else {
                                         Snackbar.make(noCourseStu, "没有找到这个人哦~",
                                                 Snackbar.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    if (e instanceof JsonSyntaxException) {
+                                        Snackbar.make(noCourseStu, "没有找到这个人哦~",
+                                                Snackbar.LENGTH_SHORT).show();
+                                    } else {
+                                        super.onError(e);
                                     }
                                 }
                             }), noCourseStu.getText().toString());

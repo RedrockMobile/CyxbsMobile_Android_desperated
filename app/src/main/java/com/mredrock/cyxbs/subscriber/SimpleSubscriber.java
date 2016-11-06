@@ -55,24 +55,17 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
 
     @Override
     public void onError(Throwable e) {
-        if (e instanceof SocketTimeoutException) {
+        if (e instanceof SocketTimeoutException || e instanceof ConnectException || e instanceof UnknownHostException) {
             Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
-        } else if (e instanceof ConnectException) {
-            Toast.makeText(context, "网络异常，请检查您的网络状态", Toast.LENGTH_SHORT).show();
-        } else if (e instanceof UnknownHostException) {
-            Toast.makeText(context, "网络异常，请检查您的网络状态", Toast.LENGTH_SHORT).show();
         } else if (e.getMessage().equals("authentication error")){
             Toast.makeText(context,"学号或者密码错误,请检查输入",Toast.LENGTH_SHORT).show();
-        }else if(e.getMessage().equals("student id error")){
+        } else if(e.getMessage().equals("student id error")){
             Toast.makeText(context,"学号不存在,请检查输入",Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         LogUtils.LOGE("SimpleSubscriber", "onError", e);
         dismissProgressDialog();
-        if (listener != null) {
-            listener.onError(e);
-        }
     }
 
     @Override
