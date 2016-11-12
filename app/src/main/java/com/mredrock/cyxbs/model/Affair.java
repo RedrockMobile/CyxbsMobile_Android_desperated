@@ -45,6 +45,9 @@ public class Affair extends Course {
     // 连上几节
     public int period;*/
 
+    public String uid;
+    public int time;
+
 
     public Affair(){
         day = "";

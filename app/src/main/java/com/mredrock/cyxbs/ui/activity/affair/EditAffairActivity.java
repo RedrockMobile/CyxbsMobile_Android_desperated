@@ -22,16 +22,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.excitingboat.freshmanspecial.App;
+import com.google.gson.Gson;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Position;
-import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
+import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
-import com.mredrock.cyxbs.ui.fragment.affair.TimeChooseFragment;
 import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.StatusBarUtil;
+import com.mredrock.cyxbs.util.database.DBManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,38 +41,31 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.mredrock.cyxbs.util.LogUtils.LOGE;
-import static u.aly.av.P;
-import static u.aly.av.S;
-import static u.aly.av.c;
-import static u.aly.av.p;
-import static u.aly.av.s;
+import static java.sql.Types.TIME;
 
 
 public class EditAffairActivity extends AppCompatActivity {
 
     private static final String COURSE_KEY = "course";
     private final String[] TIMES = new String[]{"不提醒", "提前5分钟", "提前10分钟", "提前20分钟", "提前30分钟", "提前一个小时"};
+    private final int[] TIME_MINUTE = new int[]{0, 5, 10, 20, 30, 60};
+
     private final String[] WEEKS = {"周一","周二","周三","周四","周五","周六","周日"};
     private final String[] CLASSES = {"一二节","三四节","五六节","七八节","九十节","AB节"};
     BottomSheetBehavior behavior;
-
-    @Bind(R.id.add_affair_title_edit)
-    EditText mEditTitle;
-    @Bind(R.id.add_affair_content_edit)
-    EditText mEditContent;
+    
 
     @Bind(R.id.edit_affair_remind_layout)
     RelativeLayout chooseRemindTimeLayout;
@@ -96,6 +91,7 @@ public class EditAffairActivity extends AppCompatActivity {
     private List<Integer> weeks = new ArrayList<>();
     private WeekAdapter mWeekAdapter;
     private ArrayList<Position> positions = new ArrayList<>();
+    private int time = 0;
 
 
     @OnClick(R.id.edit_affair_remind_layout)
@@ -103,8 +99,8 @@ public class EditAffairActivity extends AppCompatActivity {
         KeyboardUtils.hideInput(v);
         new AlertDialog.Builder(this).setTitle("选择提醒时间")
                 .setItems(TIMES,(dialog,i)->{
-                    LOGE("EditAffairActivity",i+"");
                     mRemindTimeText.setText(TIMES[i]);
+                    time = TIME_MINUTE[i];
                 }).show();
 
     }
@@ -140,8 +136,32 @@ public class EditAffairActivity extends AppCompatActivity {
         KeyboardUtils.hideInput(v);
         String title = mTitleEdit.getText().toString();
         String content = mContentEdit.getText().toString();
-        if (!title.trim().isEmpty() && !content.trim().isEmpty()){
+        if (title.trim().isEmpty() || content.trim().isEmpty()){
             Toast.makeText(APP.getContext(),"标题和内容不能为空哦",Toast.LENGTH_SHORT).show();
+        }else {
+            DBManager dbManager = new DBManager(this) ;
+            Gson g = new Gson();
+            for (int i = 0; i < positions.size(); i++) {
+                int x;//定义两变量
+                Random ne=new Random();//实例化一个random的对象ne
+                x=ne.nextInt(9999-1000+1)+1000;//为变量赋随机值1000-9999
+                Affair affair = new Affair();
+                affair.uid = System.currentTimeMillis() +"" +x;
+                affair.hash_day = positions.get(i).getX();
+                affair.hash_lesson = positions.get(i).getY();
+                affair.period = 2 ;
+                affair.course = title;
+                affair.teacher = content;
+                affair.classroom =" ";
+                affair.begin_lesson = 2 * affair.hash_day;
+                affair.type = "提醒";
+                affair.time = time;
+                affair.week = weeks;
+                affair.rawWeek = " ";
+                LOGE("EditAffairActivity",g.toJson(affair));
+                dbManager.insert(affair.uid, APP.getUser(this).stuNum,g.toJson(affair));
+            }
+            dbManager.close();
         }
 
     }
@@ -163,11 +183,11 @@ public class EditAffairActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mEditContent.setOnFocusChangeListener((view, b) -> {
+        mTitleEdit.setOnFocusChangeListener((view, b) -> {
             if (b)
                 behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         });
-        mEditTitle.setOnFocusChangeListener((view, b) -> {
+        mContentEdit.setOnFocusChangeListener((view, b) -> {
             if (b)
                 behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         });

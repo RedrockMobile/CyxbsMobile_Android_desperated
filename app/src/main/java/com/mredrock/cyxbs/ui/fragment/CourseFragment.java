@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
+import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
@@ -21,9 +23,12 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
+import com.mredrock.cyxbs.util.database.DBManager;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -162,6 +167,17 @@ public class CourseFragment extends BaseFragment {
         if (APP.isLogin()) {
             mUser = APP.getUser(getActivity());
             if (mUser != null) {
+//                DBManager dbManager = new DBManager(getActivity());
+//                List<String> data = dbManager.query(mUser.stuNum);
+//                List<Course> courses1 = new ArrayList<>();
+//                Gson s = new Gson();
+//
+//                for (String a : data){
+//                    Affair affair =  s.fromJson(a,Affair.class);
+//                    courses1.add(affair);
+//                }
+//                dbManager.close();
+
                 RequestManager.getInstance()
                         .getCourseList(new SimpleSubscriber<>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
                             @Override
@@ -173,6 +189,7 @@ public class CourseFragment extends BaseFragment {
                             @Override
                             public void onNext(List<Course> courses) {
                                 super.onNext(courses);
+//                                courses.addAll(courses1);
                                 if (mCourseScheduleContent != null) {
                                     mCourseScheduleContent.addContentView(courses);
                                 }
