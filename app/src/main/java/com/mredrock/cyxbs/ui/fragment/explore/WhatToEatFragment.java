@@ -9,11 +9,9 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -35,6 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscription;
+import rx.functions.Action1;
 
 /**
  * Created by Stormouble on 16/4/27.
@@ -195,9 +194,10 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
             }
 
             @Override
-            public void onError(Throwable e) {
+            public boolean onError(Throwable e) {
                 onRefreshingStateChanged(false);
                 onErrorLayoutVisibleChanged(mContainerLayout, true);
+                return true;
             }
 
             @Override

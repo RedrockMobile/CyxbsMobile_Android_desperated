@@ -11,9 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.RapidFloatingContentListView;
 import com.mredrock.cyxbs.model.EmptyRoom;
@@ -31,6 +28,9 @@ import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class EmptyRoomActivity extends BaseActivity
         implements RapidFloatingContentListView.OnCompleteButtonClickListener {
@@ -197,10 +197,10 @@ public class EmptyRoomActivity extends BaseActivity
 
 
                                 @Override
-                                public void onError(Throwable e) {
+                                public boolean onError(Throwable e) {
                                     super.onError(e);
-                                    getDataFailed(e.getMessage());
                                     emptyProgress.setVisibility(View.GONE);
+                                    return false;
                                 }
                             }), buildingNum, week, weekday, courseTime);
         }
@@ -224,7 +224,4 @@ public class EmptyRoomActivity extends BaseActivity
         mTvResult.setVisibility(View.VISIBLE);
     }
 
-    private void getDataFailed(String reason) {
-        Toast.makeText(this, "获取数据失败" + reason, Toast.LENGTH_SHORT).show();
-    }
 }

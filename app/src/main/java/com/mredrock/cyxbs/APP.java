@@ -1,7 +1,7 @@
 package com.mredrock.cyxbs;
 
-import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
@@ -25,7 +25,7 @@ import rx.Subscriber;
 /**
  * Created by cc on 16/3/18.
  */
-public class APP extends Application {
+public class APP extends MultiDexApplication {
     private static Context context;
     private static User mUser;
     private static boolean login;

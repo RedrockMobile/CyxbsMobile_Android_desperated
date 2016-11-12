@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.mredrock.cyxbs.receiver.RebootReceiver;
+import com.mredrock.cyxbs.service.NotificationService;
+import com.mredrock.cyxbs.util.TimeUtils;
 
 import java.util.Calendar;
 
@@ -33,6 +35,9 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
 
     public static final int INTENT_FLAG_BY_CLASS = 0;
     public static final int INTENT_FLAG_BY_DAY = 1;
+
+    public static final int ALARM_FLAG_REBOOT = 0;
+    public static final int ALARM_FLAG_BY_DAY = 2;
 
     public static final String INTENT_MODE = "remind_fragment_intent_mode";
 
@@ -108,21 +113,27 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        if (key.equals(SP_REMIND_EVERY_CLASS)) {
+        if (key.equals(SP_REMIND_EVERY_CLASS) || key.equals(SP_REMIND_EVERY_CLASS_DELAY)) {
             remindByClass();
         }
-        if (key.equals(SP_REMIND_EVERY_DAY)) {
+        if (key.equals(SP_REMIND_EVERY_DAY) || key.equals(SP_REMIND_EVERY_DAY_TIME)) {
             remindByDay();
         }
     }
 
     private void remindByDay() {
         if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
-            rebootAutoStart(INTENT_FLAG_BY_DAY);
+            startRebootAuto();
+            startRemindService();
         }
     }
 
-    private void rebootAutoStart(int mode) {
+    private void startRemindService() {
+        Intent intent = new Intent(getActivity(), NotificationService.class);
+        getActivity().startService(intent);
+    }
+
+    private void startRebootAuto() {
         //开机自启
         ComponentName receiver = new ComponentName(getActivity(), RebootReceiver.class);
         PackageManager pm = getActivity().getPackageManager();
@@ -131,22 +142,19 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
                 PackageManager.DONT_KILL_APP);
         //每天启动一次
         Intent intent = new Intent(getActivity(), RebootReceiver.class);
-        intent.putExtra(INTENT_MODE, mode);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-        if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) || mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(Calendar.HOUR_OF_DAY, 7);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),
+                ALARM_FLAG_REBOOT, intent, 0);
+        if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) ||
+                mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 7);
             calendar.set(Calendar.MINUTE, 0);
-            mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
+            Log.d(TAG, "startRebootAuto: 循环自启时间" +
+                    TimeUtils.timeStampToStr(calendar.getTimeInMillis() / 1000));
+            mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
                     , AlarmManager.INTERVAL_DAY, pendingIntent);
-            //似乎还应该立即生效一次
-            Intent intent2 = new Intent(getActivity(), RebootReceiver.class);
-            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getActivity(), 30, intent2, 0);
-            mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() +
-                            10 * 500, pendingIntent2);
-        }else {
+        } else {
             //取消开机自启
             mAlarmManager.cancel(pendingIntent);
             ComponentName receiver2 = new ComponentName(getActivity(), RebootReceiver.class);
@@ -159,7 +167,8 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
 
     private void remindByClass() {
         if (mSp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
-            rebootAutoStart(INTENT_FLAG_BY_CLASS);
+            startRebootAuto();
+            startRemindService();
         }
     }
 }

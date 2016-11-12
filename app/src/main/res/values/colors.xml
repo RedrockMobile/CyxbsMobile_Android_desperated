@@ -11,6 +11,7 @@
     <!--Common-->
     <color name="colorPrimary">#00aae8</color>
     <color name="colorPrimaryDark">#0088ba</color>
+    <!--<color name="colorPrimaryDark">#ffffff</color>-->
     <color name="colorAccent">#f76060</color>
     <color name="tabIndicatorColor">#c9c9c9</color>
     <color name="tab_background_pressed">#1Affffff</color>
@@ -74,10 +75,12 @@
     
     <color name="gray_edit">#A9A7A9</color>
     <color name="gray_edit_back">#ECECEF</color>
+    <color name="white_black">#ffffff</color>
 
     <color name="link_blue">#295998</color>
 
     <color name="transparent">#00000000</color>
-    <color name="tc_app_widget_course_list_item_order">@color/grey_hex_5c</color>
+    <color name="tc_app_widget_course_list_item_order">#74797d</color>
+    <color name="bg_app_widget">#d9d7dee4</color>
 
 </resources>

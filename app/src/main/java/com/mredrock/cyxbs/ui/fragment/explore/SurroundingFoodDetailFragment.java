@@ -1,12 +1,9 @@
 package com.mredrock.cyxbs.ui.fragment.explore;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,8 +26,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.RevealBackgroundView;
-import com.mredrock.cyxbs.component.widget.TextDrawableView;
 import com.mredrock.cyxbs.component.widget.recycler.EndlessRecyclerViewScrollListener;
 import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.model.FoodDetail;
@@ -38,7 +33,6 @@ import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.ui.activity.explore.BaseExploreActivity;
 import com.mredrock.cyxbs.ui.adapter.FoodCommentsAdapter;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.util.LogUtils;
@@ -182,9 +176,10 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public boolean onError(Throwable e) {
                         onRefreshingStateChanged(false);
                         onErrorLayoutVisibleChanged(mFoodDetailRv, true);
+                        return true;
                     }
 
                     @Override

@@ -186,10 +186,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             RequestManager.getInstance().addThumbsUp(new SimpleSubscriber<>(textView.getContext()
                     , new SubscriberListener<String>() {
                 @Override
-                public void onError(Throwable e) {
+                public boolean onError(Throwable e) {
                     super.onError(e);
                     LogUtils.LOGE(TAG, "like", e);
                     //disLikeToSetDataAndView(textView);
+                    return false;
                 }
 
                 @Override
@@ -222,10 +223,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             RequestManager.getInstance().cancelThumbsUp(new SimpleSubscriber<>(textView.getContext()
                     , new SubscriberListener<String>() {
                 @Override
-                public void onError(Throwable e) {
+                public boolean onError(Throwable e) {
                     super.onError(e);
                     Log.e(TAG, e.toString());
                    // likeToSetDataAndView(textView);
+                    return false;
                 }
 
                 @Override

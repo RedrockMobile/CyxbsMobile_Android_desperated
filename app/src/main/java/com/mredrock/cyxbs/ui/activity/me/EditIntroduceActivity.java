@@ -8,10 +8,6 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
@@ -24,6 +20,9 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
 
@@ -88,11 +87,10 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
 
 
                                       @Override
-                                      public void onError(Throwable e) {
+                                      public boolean onError(Throwable e) {
                                           super.onError(e);
-                                          Toast.makeText(EditIntroduceActivity.this, "修改简介失败，原因：" + e.getMessage(), Toast.LENGTH_SHORT)
-                                               .show();
                                           finish();
+                                          return false;
                                       }
                                   }), mUser.stuNum, mUser.idNum,
                                   editIntroduceEt.getText().toString());

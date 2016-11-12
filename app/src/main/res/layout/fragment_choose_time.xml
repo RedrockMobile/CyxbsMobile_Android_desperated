@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <FrameLayout
+        android:id="@+id/course_scheduleview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <!--就只是七个选中今日的底色-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/view_course_today_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFBEB"
+                android:visibility="invisible" />
+
+            <View
+                android:id="@+id/view_course_today_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFBEB"
+                android:visibility="invisible" />
+
+            <View
+                android:id="@+id/view_course_today_3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFBEB"
+                android:visibility="invisible" />
+
+            <View
+                android:id="@+id/view_course_today_4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFBEB"
+                android:visibility="invisible" />
+
+            <View
+                android:id="@+id/view_course_today_5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFBEB"
+                android:visibility="invisible" />
+
+            <View
+                android:id="@+id/view_course_today_6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFBEB"
+                android:visibility="invisible" />
+
+            <View
+                android:id="@+id/view_course_today_7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFBEB"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/course_schedule_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp">
+
+            <LinearLayout
+                android:id="@+id/course_time"
+                android:layout_width="40dp"
+                android:layout_height="600dp"
+                android:gravity="end"
+                android:orientation="vertical" />
+
+            <com.mredrock.cyxbs.component.widget.TimeChooseView
+                android:id="@+id/course_schedule_content"
+                android:layout_width="match_parent"
+                android:layout_height="600dp" />
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+</LinearLayout>

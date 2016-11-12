@@ -124,13 +124,13 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
                 getActivity(), new SubscriberListener<List<Grade>>() {
 
             @Override
-            public void onError(Throwable e) {
+            public boolean onError(Throwable e) {
                 super.onError(e);
                 dismissProgress();
                 if (gradeTvNothing != null) {
                     gradeTvNothing.setVisibility(View.VISIBLE);
                 }
-
+                return false;
             }
 
 

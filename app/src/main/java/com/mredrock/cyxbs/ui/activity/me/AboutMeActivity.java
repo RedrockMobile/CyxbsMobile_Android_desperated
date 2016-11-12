@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
@@ -90,10 +89,10 @@ public class AboutMeActivity extends BaseActivity implements
     public void getCurrentData(boolean update) {
         RequestManager.getInstance().getAboutMeList(new SimpleSubscriber<>(this, new SubscriberListener<List<AboutMe>>() {
             @Override
-            public void onError(Throwable e) {
+            public boolean onError(Throwable e) {
                 super.onError(e);
                 dismissProgress();
-                getDataFailed(e.getMessage());
+                return false;
             }
 
             @Override
@@ -142,7 +141,4 @@ public class AboutMeActivity extends BaseActivity implements
         }
     }
 
-    private void getDataFailed(String reason) {
-        Toast.makeText(AboutMeActivity.this, "获取数据失败，原因:" + reason, Toast.LENGTH_SHORT).show();
-    }
 }

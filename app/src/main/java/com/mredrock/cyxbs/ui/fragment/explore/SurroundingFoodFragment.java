@@ -8,11 +8,9 @@ import android.view.View;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.RevealBackgroundView;
-import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbs.component.widget.recycler.EndlessRecyclerViewScrollListener;
 import com.mredrock.cyxbs.component.widget.recycler.RestaurantsItemAnimator;
 import com.mredrock.cyxbs.model.Food;
-import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
@@ -122,9 +120,10 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
             }
 
             @Override
-            public void onError(Throwable e) {
+            public boolean onError(Throwable e) {
                 onRefreshingStateChanged(false);
                 onErrorLayoutVisibleChanged(mSurroundingFoodListRv, true);
+                return false;
             }
 
             @Override

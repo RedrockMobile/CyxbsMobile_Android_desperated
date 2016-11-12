@@ -120,10 +120,11 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
         RequestManager.getInstance().getPersonLatestList(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
             @Override
-            public void onError(Throwable e) {
+            public boolean onError(Throwable e) {
                 super.onError(e);
                 closeLoading();
                 getDataFailed(e.toString());
+                return true;
             }
 
             @Override
