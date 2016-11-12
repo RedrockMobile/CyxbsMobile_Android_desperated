@@ -10,9 +10,9 @@
 
     <TextView
         android:id="@+id/tv_app_widget_course_item_error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:gravity="center"
         tools:text="今天没有课"
         android:textSize="20sp"
         android:textStyle="bold|italic"/>
