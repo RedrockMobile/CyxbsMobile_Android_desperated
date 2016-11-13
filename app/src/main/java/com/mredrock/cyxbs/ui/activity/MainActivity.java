@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -26,7 +27,6 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.CourseDialog;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
-import com.mredrock.cyxbs.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.Course;
@@ -64,8 +64,6 @@ public class MainActivity extends BaseActivity {
     Toolbar mToolbar;
     @Bind(R.id.main_coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
-    @Bind(R.id.bottom_bar)
-    BottomBar mBottomBar;
     @Bind(R.id.main_view_pager)
     ViewPager mViewPager;
 
@@ -83,6 +81,8 @@ public class MainActivity extends BaseActivity {
     BaseFragment exploreFragment;
     BaseFragment userFragment;
     BaseFragment unLoginFragment;
+    @Bind(R.id.bottom_view)
+    BottomNavigationView mBottomView;
 
     private Menu mMenu;
     private ArrayList<Fragment> mFragments;
@@ -132,7 +132,7 @@ public class MainActivity extends BaseActivity {
         Intent intent = getIntent();
         String action = intent.getAction();
         if (action != null && action.equals(getString(R.string.action_appwidget_item_on_click))) {
-            mBottomBar.setCurrentView(0);
+            //mBottomBar.setCurrentView(0);
             ArrayList<Course> courses = intent.getParcelableArrayListExtra(CourseListAppWidget.EXTRA_COURSES);
             if (courses != null && courses.size() != 0) {
                 ScheduleView.CourseList courseList = new ScheduleView.CourseList();
@@ -173,8 +173,34 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
 
-     //   mBottomBar.post(this::hiddenMenu);
-        mBottomBar.setOnBottomViewClickListener((view, position) -> {
+        mBottomView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.item1:
+                    showMenu();
+                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
+                    mViewPager.setCurrentItem(0,false);
+                    break;
+                case R.id.item2:
+                    showMenu();
+                    setTitle("社区");
+                    mViewPager.setCurrentItem(1,false);
+                    break;
+                case R.id.item3:
+                    setTitle("发现");
+                    hiddenMenu();
+                    mViewPager.setCurrentItem(2,false);
+                    break;
+                case R.id.item4:
+                    setTitle("我的");
+                    hiddenMenu();
+                    mViewPager.setCurrentItem(3,false);
+                    break;
+            }
+            return true;
+        });
+
+        //   mBottomBar.post(this::hiddenMenu);
+/*        mBottomBar.setOnBottomViewClickListener((view, position) -> {
             mViewPager.setCurrentItem(position, false);
             hiddenMenu();
             setTitle(mAdapter.getPageTitle(position));
@@ -197,7 +223,7 @@ public class MainActivity extends BaseActivity {
                 default:
                     break;
             }
-        });
+        });*/
 
     }
 
@@ -213,7 +239,7 @@ public class MainActivity extends BaseActivity {
         } else {
             mFragments.remove(0);
             mFragments.add(0, new CourseContainerFragment());
-            mBottomBar.setCurrentView(0);
+            //mBottomBar.setCurrentView(0);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -249,15 +275,15 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_add_news:
                 if (APP.isLogin()) {
-                    if (mViewPager.getCurrentItem() == 1){
+                    if (mViewPager.getCurrentItem() == 1) {
                         if (APP.getUser(this).id == null || APP.getUser(this).id.equals("0")) {
                             RequestManager.getInstance().checkWithUserId("还没有完善信息，不能发动态哟！");
                             mViewPager.setCurrentItem(3);
-                            mBottomBar.setCurrentView(3);
+                            //mBottomBar.setCurrentView(3);
                             return super.onOptionsItemSelected(item);
                         } else
                             PostNewsActivity.startActivity(this);
-                    }else{
+                    } else {
                         showPopupWindow();
                     }
                 } else {
@@ -273,7 +299,7 @@ public class MainActivity extends BaseActivity {
     public void showPopupWindow() {
         Rect frame = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-        int xOffset = frame.top+mToolbar.getHeight() - 60;//减去阴影宽度，适配UI.
+        int xOffset = frame.top + mToolbar.getHeight() - 60;//减去阴影宽度，适配UI.
         int yOffset = Utils.dip2px(this, 15f); //设置x方向offset为5dp
         View parentView = getLayoutInflater().inflate(R.layout.activity_main, null);
         View popView = getLayoutInflater().inflate(
@@ -288,13 +314,12 @@ public class MainActivity extends BaseActivity {
         //设置Gravity，让它显示在右上角。
         if (popWind.getContentView() != null)
             popWind.getContentView().setOnClickListener((v -> {
-                EditAffairActivity.editAffairActivityStart(this,null);
+                EditAffairActivity.editAffairActivityStart(this, null);
                 popWind.dismiss();
             }));
         popWind.showAtLocation(parentView, Gravity.RIGHT | Gravity.TOP,
                 yOffset, xOffset);
     }
-
 
 
     private void hiddenMenu() {
