@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.mredrock.cyxbs.R;
@@ -26,15 +27,23 @@ public class ImageActivity extends AppCompatActivity {
     private HotNewsContent mDataBean;
     private ViewPagerAdapter mAdapter;
     private int mPosition;
+    private String mUrl;
 
     public static final String DATA = "data";
     public static final String POSITION = "position";
+    public static final String URL = "urlOfAvator";
 
 
     public static final void startWithData(Context context, HotNewsContent dataBean, int position) {
         Intent intent = new Intent(context, ImageActivity.class);
         intent.putExtra(DATA, dataBean);
         intent.putExtra(POSITION, position);
+        context.startActivity(intent);
+    }
+
+    public static final void startWithData(Context context, String url) {
+        Intent intent = new Intent(context, ImageActivity.class);
+        intent.putExtra(URL, url);
         context.startActivity(intent);
     }
 
@@ -45,16 +54,32 @@ public class ImageActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_image);
         ButterKnife.bind(this);
-        mDataBean = getIntent().getParcelableExtra(DATA);
         mPosition = getIntent().getIntExtra(POSITION, 0);
-        init();
+        if (getIntent().getParcelableExtra(DATA)!= null){
+            mDataBean = getIntent().getParcelableExtra(DATA);
+            init();
+        }
+        if (getIntent().getStringExtra(URL) != null){
+            mUrl = getIntent().getStringExtra(URL);
+            init(mUrl);
+        }
     }
 
     private void init() {
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mViewPager, mDataBean);
+        if (mUrl != null){
+            mAdapter = new ViewPagerAdapter(getSupportFragmentManager(),mViewPager,mUrl);
+        }
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mPosition);
+        //这里加长按下载图片的逻辑
     }
 
+    private void init(String url) {
+        mAdapter = new ViewPagerAdapter(getSupportFragmentManager(),mViewPager,url);
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.setCurrentItem(mPosition);
+        //这里加长按下载图片的逻辑
+    }
 
 }
