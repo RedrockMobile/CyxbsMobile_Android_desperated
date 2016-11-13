@@ -20,7 +20,6 @@ import com.mredrock.cyxbs.util.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -28,8 +27,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.mredrock.cyxbs.R.string.date;
-import static com.umeng.analytics.a.p;
 
 public class TimeChooseActivity extends AppCompatActivity {
 
@@ -66,9 +63,6 @@ public class TimeChooseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_time_choose);
         ButterKnife.bind(this);
         initWeekView();
-        ArrayList<Position> pos = (ArrayList<Position>) getIntent().getSerializableExtra(BUNDLE_KEY);
-        if (pos.size() != 0)
-            timeChooseView.setPositions(pos);
     }
 
 
@@ -115,5 +109,11 @@ public class TimeChooseActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        ArrayList<Position> pos = (ArrayList<Position>) getIntent().getSerializableExtra(BUNDLE_KEY);
+        if (pos.size() != 0)
+            timeChooseView.setPositions(pos);
+    }
 }
