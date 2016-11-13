@@ -283,7 +283,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mAutoNineGridlayout.setVisibility(View.GONE);
             mImageView.setVisibility(View.VISIBLE);
             ImageLoader.getInstance().loadOffcialImg(getImageList(getUrls(mHotNewsContent.img.smallImg)).get(0).url, mImageView, itemView);
-            mImageView.setOnClickListener(view -> ImageActivity.startWithData(itemView.getContext(), mHotNewsContent, 0));
+            mImageView.setOnClickListener(view -> ImageActivity.startWithData(itemView.getContext(), mHotNewsContent, 0));//恩，这里是点击图片放大的逻辑
+            //这里加长按下载图片
         }
 
         private void showNineLayout() {
@@ -292,6 +293,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mAutoNineGridlayout.setImagesData(getImageList(getUrls(mHotNewsContent.img.smallImg)));
             mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) -> ImageActivity
                     .startWithData(itemView.getContext(), mHotNewsContent, position));
+            //恩，这里也要加长按下载图片
         }
 
         public final static String[] getUrls(String url) {

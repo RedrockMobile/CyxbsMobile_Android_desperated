@@ -139,5 +139,5 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.coolerfall:android-app-daemon:1.2.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 }
