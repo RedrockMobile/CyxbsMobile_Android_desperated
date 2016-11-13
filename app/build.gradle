@@ -45,7 +45,7 @@ android {
         }
 
         release {
-            minifyEnabled true
+            minifyEnabled false
             zipAlignEnabled true
             shrinkResources true
 
