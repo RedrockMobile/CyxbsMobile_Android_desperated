@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.component.multi_image_selector.utils.TimeUtils;
 import com.mredrock.cyxbs.model.Affair;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import static u.aly.av.S;
 import static u.aly.av.d;
 import static u.aly.av.j;
 import static u.aly.av.n;
+import static u.aly.av.t;
 
 /**
  * Created by ：AceMurder
@@ -32,16 +34,19 @@ public class DBManager {
         db = helper.getWritableDatabase();
     }
 
-    public void insert(String uid,String stuNum,String json) {
+    public boolean insert(String uid,String stuNum,String json) {
         db.beginTransaction();  //开始事务
         try {
             db.execSQL("INSERT INTO affair(uid,stuNum,isUpload,data) VALUES ('" + uid
                     +"','"+stuNum +"','"+false+"','"+json+"');");
-                  //  new Object[]{uid,stuNum, false,json});
             db.setTransactionSuccessful();  //设置事务成功完成
+
+        } catch (Exception e){
+            return false;
         } finally {
             db.endTransaction();    //结束事务
         }
+        return true;
     }
 
 

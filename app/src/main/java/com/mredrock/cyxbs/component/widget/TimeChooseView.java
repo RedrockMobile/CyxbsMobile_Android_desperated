@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.SparseArray;
-import android.util.SparseIntArray;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -13,19 +11,10 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.LogUtils;
-import com.mredrock.cyxbs.util.permission.EasyPermissions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static u.aly.av.H;
-import static u.aly.av.I;
-import static u.aly.av.P;
-import static u.aly.av.f;
-import static u.aly.av.p;
-import static u.aly.av.t;
 
 /**
  * Created by ：AceMurder
@@ -36,10 +25,12 @@ import static u.aly.av.t;
 
 public class TimeChooseView extends FrameLayout {
     private final int width = (int) ((DensityUtils.getScreenWidth(getContext()) - DensityUtils.dp2px(getContext(), 50)) / 7);
-    private int height = (int) DensityUtils.dp2px(getContext(), 95);
+    private int height = (int) DensityUtils.dp2px(getContext(), 85);
     private Context context;
     private TextView[][] chooseTextView = new TextView[7][7];
     private List<Position> positions = new ArrayList<>();
+    private int startX, startY, endX, endY;
+
 
     public TimeChooseView(Context context) {
         super(context);
@@ -63,11 +54,20 @@ public class TimeChooseView extends FrameLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN){
+            startX = (int) event.getX();
+            startY = (int) event.getY();
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_UP){
+            endX = (int) event.getX();
+            endY = (int) event.getY();
+        }
+        int distance = (int) Math.sqrt(Math.pow(startX - endX,2) + Math.pow(startY - endY , 2));
+        if (distance <= 20){
             int x = (int) (event.getX() / getWidth() * 7);
             int y = (int) (event.getY() / getHeight() * 6);
             Log.d(LogUtils.makeLogTag(this.getClass()),x +"   "+y);
             createTextView(x,y);
-
         }
         return true;
     }
@@ -93,10 +93,11 @@ public class TimeChooseView extends FrameLayout {
         if (chooseTextView[x][y] == null){
             chooseTextView[x][y] = new TextView(context);
             chooseTextView[x][y].setBackgroundColor(Color.parseColor("#41a2ff"));
-            int mTop = height * y ;
+            int mTop = getHeight() / 6 * y ;
             int mLeft = width * x;
             int mWidth = width;
             int mHeight = height;
+            mHeight = getHeight() / 6;
             LayoutParams flParams = new LayoutParams((mWidth - DensityUtils.dp2px(getContext(), 1f)), (mHeight - DensityUtils.dp2px(getContext(), 1f)));
             flParams.topMargin = (mTop + DensityUtils.dp2px(getContext(), 1f));
             flParams.leftMargin = (mLeft + DensityUtils.dp2px(getContext(), 1f));

@@ -34,6 +34,7 @@ public class ScheduleView extends FrameLayout {
 
     private Context context;
     private ImageView mClickImageView;
+    private int startX, startY, endX, endY;
 
 
 
@@ -42,8 +43,8 @@ public class ScheduleView extends FrameLayout {
 
 
 
-    interface OnImageViewClickListener{
-        void onClick();
+    public interface OnImageViewClickListener{
+        void onClick(int x, int y);
     }
 
     public ScheduleView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -154,14 +155,26 @@ public class ScheduleView extends FrameLayout {
         public ArrayList<Course> list = new ArrayList<>();
     }
 
+
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-       // Log.d(LogUtils.makeLogTag(this.getClass()),getWidth()+"   "+event.getX()+"   "+getHeight()+"   "+event.getY());
-      //  Log.d(LogUtils.makeLogTag(this.getClass()),event.getRawX() +"   "+event.getRawY());
+
         if (event.getAction() == MotionEvent.ACTION_DOWN){
+            startX = (int) event.getX();
+            startY = (int) event.getY();
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_UP){
+            endX = (int) event.getX();
+            endY = (int) event.getY();
+        }
+        int distance = (int) Math.sqrt(Math.pow(startX - endX,2) + Math.pow(startY - endY , 2));
+        LogUtils.LOGD("ScheduleView",distance+"");
+        if (distance <= 20){
             int x = (int) (event.getX() / getWidth() * 7);
             int y = (int) (event.getY() / getHeight() * 12);
-            Log.d(LogUtils.makeLogTag(this.getClass()),x +"   "+y);
+          //  Log.d(LogUtils.makeLogTag(this.getClass()),x +"   "+y);
 
 
            // ImageView iv = new ImageView(context);
@@ -170,9 +183,10 @@ public class ScheduleView extends FrameLayout {
                 mClickImageView.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.ic_add_circle));
                 mClickImageView.setBackgroundColor(Color.parseColor("#60000000"));
                 mClickImageView.setScaleType(ImageView.ScaleType.CENTER);
-                if (onImageViewClickListener != null){
-                    mClickImageView.setOnClickListener((view -> onImageViewClickListener.onClick()));
-                }
+
+            }
+            if (onImageViewClickListener != null){
+                mClickImageView.setOnClickListener((view -> onImageViewClickListener.onClick(x , y)));
             }
             int mTop = height * y / 2;
             int mLeft = width * x;

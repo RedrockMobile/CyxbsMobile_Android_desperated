@@ -100,12 +100,6 @@
         android:layout_height="1dp"
         android:background="@color/divider" />
 
-    <!--<FrameLayout-->
-    <!--android:id="@+id/course_scheduleview"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@color/white">-->
-
     <LinearLayout
         android:id="@+id/course_schedule_holder"
         android:layout_width="match_parent"
@@ -116,7 +110,7 @@
         <LinearLayout
             android:id="@+id/course_time"
             android:layout_width="40dp"
-            android:layout_height="565dp"
+            android:layout_height="550dp"
             android:layout_marginTop="0dp"
             android:gravity="end"
             android:orientation="vertical" />
@@ -124,10 +118,7 @@
         <com.mredrock.cyxbs.component.widget.TimeChooseView
             android:id="@+id/time_choose_content"
             android:layout_width="match_parent"
-            android:layout_height="600dp" />
+            android:layout_height="550dp" />
     </LinearLayout>
-
-
-    <!--</FrameLayout>-->
 
 </LinearLayout>

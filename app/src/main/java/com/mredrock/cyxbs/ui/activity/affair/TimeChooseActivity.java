@@ -28,18 +28,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.mredrock.cyxbs.R.string.date;
+import static com.umeng.analytics.a.p;
+
 public class TimeChooseActivity extends AppCompatActivity {
 
 
     public static final String BUNDLE_KEY = "TIME_CHOOSE";
-
-
-
-
-
-
-    //  private int mWeek = 0;
-
 
     @Bind(R.id.course_weeks)
     LinearLayout mCourseWeeks;
@@ -52,6 +47,8 @@ public class TimeChooseActivity extends AppCompatActivity {
 
     @Bind(R.id.time_choose_content)
     TimeChooseView timeChooseView;
+
+
 
     @OnClick({R.id.choose_time_iv_back,R.id.time_choose_iv_ok})
     public void onTitleClick(View v){
@@ -78,10 +75,13 @@ public class TimeChooseActivity extends AppCompatActivity {
     public void initWeekView() {
         String[] date = getResources().getStringArray(R.array.course_weekdays);
         int screeHeight = DensityUtils.getScreenHeight(this);
-        if (DensityUtils.px2dp(this, screeHeight) > 700) {
-            mCourseTime.setLayoutParams(new LinearLayout.LayoutParams(DensityUtils.dp2px(this, 40), screeHeight));
-            timeChooseView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, screeHeight));
-        }
+
+
+        int height = (screeHeight - findViewById(R.id.affair_toolbar).getHeight() - mCourseWeeks.getHeight()) / 6 * 5 - DensityUtils.dp2px(this,3);
+
+        mCourseTime.setLayoutParams(new LinearLayout.LayoutParams(DensityUtils.dp2px(this, 40), height));
+        timeChooseView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height));
+
         for (int i = 0; i < 7; i++) {
             TextView tv = new TextView(this);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);

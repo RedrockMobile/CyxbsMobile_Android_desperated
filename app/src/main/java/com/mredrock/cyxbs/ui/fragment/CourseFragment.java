@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.component.widget.Position;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
@@ -21,7 +23,9 @@ import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.util.DensityUtils;
+import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.database.DBManager;
 
@@ -36,6 +40,7 @@ import butterknife.ButterKnife;
 public class CourseFragment extends BaseFragment {
 
     public static final String BUNDLE_KEY = "WEEK_NUM";
+
 
     private int[] mTodayWeekIds = {
             R.id.view_course_today_7,
@@ -90,6 +95,14 @@ public class CourseFragment extends BaseFragment {
             mCourseTime.setLayoutParams(new LinearLayout.LayoutParams(DensityUtils.dp2px(getContext(), 40), screeHeight));
             mCourseScheduleContent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, screeHeight));
         }
+        Intent intent = new Intent(getActivity(), EditAffairActivity.class);
+        mCourseScheduleContent.setOnImageViewClickListener((x,y)->{
+            int day = x;
+            int lesson = y / 2;
+            Position position = new Position(day , lesson);
+            intent.putExtra(EditAffairActivity.BUNDLE_KEY,position);
+            startActivity(intent);
+        });
 
         if (mWeek != 0) mCourseMonth.setText(month);
         int today = (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + 5) % 7;

@@ -43,6 +43,7 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
         url = getArguments().getString("url");
         View view = inflater.inflate(R.layout.content_img, container, false);
         ButterKnife.bind(this, view);
+
         showProgress();
         return view;
     }

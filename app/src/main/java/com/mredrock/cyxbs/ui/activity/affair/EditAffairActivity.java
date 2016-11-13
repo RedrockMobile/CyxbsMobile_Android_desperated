@@ -30,6 +30,8 @@ import com.mredrock.cyxbs.component.widget.Position;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.StatusBarUtil;
@@ -51,6 +53,11 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.mredrock.cyxbs.util.LogUtils.LOGE;
 import static java.sql.Types.TIME;
@@ -58,6 +65,7 @@ import static java.sql.Types.TIME;
 
 public class EditAffairActivity extends AppCompatActivity {
 
+    public static  final String BUNDLE_KEY = "position";
     private static final String COURSE_KEY = "course";
     private final String[] TIMES = new String[]{"不提醒", "提前5分钟", "提前10分钟", "提前20分钟", "提前30分钟", "提前一个小时"};
     private final int[] TIME_MINUTE = new int[]{0, 5, 10, 20, 30, 60};
@@ -65,7 +73,7 @@ public class EditAffairActivity extends AppCompatActivity {
     private final String[] WEEKS = {"周一","周二","周三","周四","周五","周六","周日"};
     private final String[] CLASSES = {"一二节","三四节","五六节","七八节","九十节","AB节"};
     BottomSheetBehavior behavior;
-    
+
 
     @Bind(R.id.edit_affair_remind_layout)
     RelativeLayout chooseRemindTimeLayout;
@@ -131,38 +139,70 @@ public class EditAffairActivity extends AppCompatActivity {
         intro();
     }
 
-    @OnClick(R.id.edit_affair_iv_save)
+    @OnClick({R.id.edit_affair_iv_save,R.id.edit_affair_iv_back})
     public void onSaveClick(View v){
         KeyboardUtils.hideInput(v);
-        String title = mTitleEdit.getText().toString();
-        String content = mContentEdit.getText().toString();
-        if (title.trim().isEmpty() || content.trim().isEmpty()){
-            Toast.makeText(APP.getContext(),"标题和内容不能为空哦",Toast.LENGTH_SHORT).show();
-        }else {
-            DBManager dbManager = new DBManager(this) ;
-            Gson g = new Gson();
-            for (int i = 0; i < positions.size(); i++) {
-                int x;//定义两变量
-                Random ne=new Random();//实例化一个random的对象ne
-                x=ne.nextInt(9999-1000+1)+1000;//为变量赋随机值1000-9999
-                Affair affair = new Affair();
-                affair.uid = System.currentTimeMillis() +"" +x;
-                affair.hash_day = positions.get(i).getX();
-                affair.hash_lesson = positions.get(i).getY();
-                affair.period = 2 ;
-                affair.course = title;
-                affair.teacher = content;
-                affair.classroom =" ";
-                affair.begin_lesson = 2 * affair.hash_day;
-                affair.type = "提醒";
-                affair.time = time;
-                affair.week = weeks;
-                affair.rawWeek = " ";
-                LOGE("EditAffairActivity",g.toJson(affair));
-                dbManager.insert(affair.uid, APP.getUser(this).stuNum,g.toJson(affair));
+        if (v.getId() == R.id.edit_affair_iv_save){
+            String title = mTitleEdit.getText().toString();
+            String content = mContentEdit.getText().toString();
+            if (title.trim().isEmpty() || content.trim().isEmpty()){
+                Toast.makeText(APP.getContext(),"标题和内容不能为空哦",Toast.LENGTH_SHORT).show();
+            }else {
+                DBManager dbManager = new DBManager(this) ;
+                Observable<Boolean> observable = Observable.create((subscriber)->{
+
+                    Gson g = new Gson();
+                    for (int i = 0; i < positions.size(); i++) {
+                        int x;//定义两变量
+                        Random ne=new Random();//实例化一个random的对象ne
+                        x=ne.nextInt(9999-1000+1)+1000;//为变量赋随机值1000-9999
+                        Affair affair = new Affair();
+                        affair.uid = System.currentTimeMillis() +"" +x;
+                        affair.hash_day = positions.get(i).getX();
+                        affair.hash_lesson = positions.get(i).getY();
+                        affair.period = 2 ;
+                        affair.course = title;
+                        affair.teacher = content;
+                        affair.classroom =" ";
+                        affair.begin_lesson = 2 * affair.hash_day;
+                        affair.type = "提醒";
+                        affair.time = time;
+                        affair.week = weeks;
+                        affair.rawWeek = " ";
+                        subscriber.onNext(dbManager.insert(affair.uid, APP.getUser(this).stuNum,g.toJson(affair)));
+                    }
+                    subscriber.onCompleted();
+                    dbManager.close();
+
+                });
+                SimpleSubscriber<Boolean> subscriber = new SimpleSubscriber<Boolean>(this, false, new SubscriberListener<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        dbManager.close();
+                        onBackPressed();
+                    }
+
+                    @Override
+                    public boolean onError(Throwable e) {
+                        Toast.makeText(APP.getContext(),"添加失败，请重试！",Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        super.onNext(aBoolean);
+                    }
+                });
+                observable.subscribeOn(Schedulers.io())
+                        .unsubscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(subscriber);
             }
-            dbManager.close();
+        }else {
+            onBackPressed();
         }
+
 
     }
 
@@ -177,12 +217,17 @@ public class EditAffairActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_affair);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        behavior = BottomSheetBehavior.from(findViewById(R.id.scroll));
-        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         initView();
+        Position position = (Position) getIntent().getSerializableExtra(BUNDLE_KEY);
+        if (position != null){
+            positions.add(position);
+            mTimeChooseText.setText(WEEKS[position.getX()]+CLASSES[position.getY()]);
+        }
     }
 
     private void initView() {
+        behavior = BottomSheetBehavior.from(findViewById(R.id.scroll));
+        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         mTitleEdit.setOnFocusChangeListener((view, b) -> {
             if (b)
                 behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
