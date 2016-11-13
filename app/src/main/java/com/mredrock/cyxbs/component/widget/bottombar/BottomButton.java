@@ -112,6 +112,7 @@ public class BottomButton extends RelativeLayout implements IBottomView {
     @Override
     public void onChoose() {
         mTextView.setTextColor(mTextChooseColor);
+        mTextView.setVisibility(VISIBLE);
         mImageView.setColorFilter(mImageChooseColor, PorterDuff.Mode.SRC_IN);
         if (mChooseImage != null && mNormalImage != null) {
             mImageView.setImageDrawable(mChooseImage);
@@ -120,6 +121,7 @@ public class BottomButton extends RelativeLayout implements IBottomView {
 
     @Override
     public void onNormal() {
+        mTextView.setVisibility(GONE);
         mTextView.setTextColor(mTextNormalColor);
         mImageView.setColorFilter(mImageNormalColor, PorterDuff.Mode.SRC_IN);
         if (mChooseImage != null) {
