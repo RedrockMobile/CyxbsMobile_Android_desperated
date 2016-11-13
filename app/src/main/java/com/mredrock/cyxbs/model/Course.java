@@ -7,6 +7,10 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Course implements Serializable, Parcelable {
+
+    public static final int TYPE = 1;
+    protected int courseType = TYPE;
+
     public int hash_day;
     public int hash_lesson;
     public int begin_lesson;
@@ -100,4 +104,7 @@ public class Course implements Serializable, Parcelable {
         dest.writeInt(period);
     }
 
+    public int getCourseType() {
+        return courseType;
+    }
 }

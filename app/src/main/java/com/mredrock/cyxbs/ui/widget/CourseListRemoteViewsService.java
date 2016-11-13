@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -14,6 +15,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
 import com.mredrock.cyxbs.config.Config;
+import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.util.FileUtils;
 
@@ -89,21 +91,30 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             for (int i = 0; i < items.size(); i++) {
                 RemoteViews views;
                 Item item = items.valueAt(i);
-                if (item.getText() == null) {  // empty course
-                    Log.d("getViewAt", "Position: " + i + ", Empty: " + item.getOrderString());
-                    views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item_empty);
+                if ((item.getType() & Item.ITEM_TYPE_COURSE_ONLY) == 0) {  // empty or affair only
+                    Log.d("getViewAt", "Position: " + i + ", Empty: " + item.getOrderString() + ", Type: " + item.getType());
+                    views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item);
                     views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
+                    if ((item.getType() & Item.ITEM_TYPE_AFFAIR_ONLY) != 0) { // affair only
+                        Intent coursesIntent = new Intent();
+                        coursesIntent.putParcelableArrayListExtra(CourseListAppWidget.EXTRA_COURSES, item.getCourses());
+                        views.setOnClickFillInIntent(R.id.rl_app_widget_course_item_content, coursesIntent);
+                        views.setImageViewResource(R.id.iv_app_widget_course_item_corner, Math.random() < 0.5 ? R.drawable.ic_regular_triangle_orange : R.drawable.ic_regular_triangle_teal);  // colorful
+                        views.setInt(R.id.iv_app_widget_course_item_corner, "setVisibility", View.VISIBLE);
+                    }
                 } else {
-                    Log.d("getViewAt", "Position: " + i + ", Normal: " + item.getOrderString() + ", \n" + item.getText());
+                    Log.d("getViewAt", "Position: " + i + ", Normal: " + item.getOrderString() + ", \n" + item.getText() + ", Type: " + item.getType());
                     views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item);
                     views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
                     views.setTextViewText(R.id.tv_app_widget_course_item_name, item.getText().split("@")[0]);
                     views.setTextViewText(R.id.tv_app_widget_course_item_room, item.getText().split("@")[1]);
-                    // views.setInt(R.id.iv_app_widget_course_item_corer, "setVisibility", View.VISIBLE);
                     views.setInt(R.id.rl_app_widget_course_item_content, "setBackgroundColor", colorSelector.getCourseColor(item.getCourses().get(0).course));
                     Intent coursesIntent = new Intent();
                     coursesIntent.putParcelableArrayListExtra(CourseListAppWidget.EXTRA_COURSES, item.getCourses());
                     views.setOnClickFillInIntent(R.id.rl_app_widget_course_item_content, coursesIntent);
+                    if ((item.getType() & Item.ITEM_TYPE_AFFAIR_ONLY) != 0) { // affair & course
+                        views.setInt(R.id.iv_app_widget_course_item_corner, "setVisibility", View.VISIBLE);
+                    }
                 }
                 this.views.add(views);
             }
@@ -199,11 +210,21 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
 
         private class Item {
 
+            public static final int ITEM_TYPE_EMPTY = 0b00;
+            public static final int ITEM_TYPE_COURSE_ONLY = 0b01;
+            public static final int ITEM_TYPE_AFFAIR_ONLY = 0b10;
+            public static final int ITEM_TYPE_COURSE_AFFAIR = 0b11;
+
             Item(Course course) {
                 start = course.begin_lesson;
                 end = course.begin_lesson + course.period;
                 text = course.toCourseString();
                 courses = new ArrayList<>(1);
+                if (course.getCourseType() == Affair.TYPE) {
+                    type |= ITEM_TYPE_AFFAIR_ONLY;
+                } else {
+                    type |= ITEM_TYPE_COURSE_ONLY;
+                }
                 courses.add(course);
             }
 
@@ -216,6 +237,11 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                 // text += "，" + course.toCourseString();
                 if (courses == null) {
                     courses = new ArrayList<>(1);
+                }
+                if (course.getCourseType() == Affair.TYPE) {
+                    type |= ITEM_TYPE_AFFAIR_ONLY;
+                } else {
+                    type |= ITEM_TYPE_COURSE_ONLY;
                 }
                 courses.add(course);
                 return this;
@@ -246,8 +272,8 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                 return courses;
             }
 
-            public boolean hasCourses() {
-                return courses != null && courses.size() != 0;
+            public int getType() {
+                return type;
             }
 
             @SuppressWarnings("StringBufferReplaceableByString")
@@ -260,6 +286,7 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             private int end;  // 三四节课的 end 是 5
             private String text;
             private ArrayList<Course> courses;
+            private int type = ITEM_TYPE_EMPTY;
         }
 
     }

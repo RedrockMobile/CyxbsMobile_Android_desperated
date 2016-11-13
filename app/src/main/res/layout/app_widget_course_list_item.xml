@@ -33,18 +33,8 @@
         android:layout_marginBottom="0dp"
         android:ellipsize="end"
         android:foreground="@drawable/bg_selectable_item"
-        android:background="@color/Color_IndianRed">
-
-        <TextView
-            android:id="@+id/tv_app_widget_course_item_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="高等数学"
-            android:textColor="@color/white"
-            android:layout_marginLeft="5dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            />
+        tools:background="@color/Color_IndianRed"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/tv_app_widget_course_item_room"
@@ -56,15 +46,30 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"/>
 
-        <ImageView
-            android:id="@+id/iv_app_widget_course_item_corer"
+        <TextView
+            android:id="@+id/tv_app_widget_course_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_corner_right_bottom"
+            tools:text="高等数学"
+            android:textColor="@color/white"
+            android:layout_toLeftOf="@id/tv_app_widget_course_item_room"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            />
+
+        <ImageView
+            android:id="@+id/iv_app_widget_course_item_corner"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="-3dp"
+            android:layout_marginRight="-3dp"
+            android:background="@drawable/ic_regular_triangle_white"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:scaleType="fitCenter"
-            android:rotation="270"/>
+            android:rotation="45"
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 
