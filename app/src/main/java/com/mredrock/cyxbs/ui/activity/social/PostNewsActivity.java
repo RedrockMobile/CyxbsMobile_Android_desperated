@@ -67,7 +67,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    public static final void startActivity(Context context) {
+    public static void startActivity(Context context) {
         Intent intent = new Intent(context, PostNewsActivity.class);
         context.startActivity(intent);
     }

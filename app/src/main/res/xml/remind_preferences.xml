@@ -29,7 +29,7 @@
             android:entryValues="@array/remind_every_day_back"
             android:key="remind_every_day_time"
             android:defaultValue="22"
-            android:summary="我觉得每天晚上10点差不多呢"
+            android:summary="每晚会收到推送的时间"
             android:title="通知时间"/>
         <ListPreference
             android:key="remind_every_day_time"

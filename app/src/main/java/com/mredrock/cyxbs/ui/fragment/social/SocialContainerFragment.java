@@ -1,8 +1,8 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -12,19 +12,14 @@ import android.view.ViewGroup;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.network.exception.UnsetUserInfoException;
-import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.ui.activity.me.EditInfoActivity;
+import com.mredrock.cyxbs.ui.activity.social.PostNewsActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +38,8 @@ public class SocialContainerFragment extends BaseFragment {
     TabLayout mTabLayout;
     @Bind(R.id.community_ViewPager)
     ViewPager mViewPager;
+    @Bind(R.id.fab_main)
+    FloatingActionButton mFabMain;
     private boolean firstLogin = false;
     private int resumenCount = 0;
 
@@ -55,6 +52,12 @@ public class SocialContainerFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         getUserData();
         init();
+        mFabMain.setOnClickListener(view1 -> {
+            if (APP.getUser(getActivity()).id == null || APP.getUser(getActivity()).id.equals("0")) {
+                RequestManager.getInstance().checkWithUserId("还没有完善信息，不能发动态哟！");
+            } else
+                PostNewsActivity.startActivity(getActivity());
+        });
         return view;
     }
 
@@ -102,8 +105,8 @@ public class SocialContainerFragment extends BaseFragment {
                 }
             }), mUser.stuNum, mUser.stuNum, mUser.idNum);
         }
-    }
 
+    }
 
     private void init() {
         List<Fragment> fragmentLIst = new ArrayList<>();
@@ -124,6 +127,14 @@ public class SocialContainerFragment extends BaseFragment {
 
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        BaseNewsFragment.getOnScrollSubject().subscribe(aBoolean -> {
+            if (aBoolean) {
+                mFabMain.show();
+            } else {
+                mFabMain.hide();
+            }
+        });
     }
 
     @Override
