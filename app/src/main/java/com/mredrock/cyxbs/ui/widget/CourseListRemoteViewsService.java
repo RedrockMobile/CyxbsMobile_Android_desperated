@@ -89,22 +89,28 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             this.factoryType = FACTORY_TYPE_NORMAL;
             this.views.clear();
             for (int i = 0; i < items.size(); i++) {
-                RemoteViews views;
                 Item item = items.valueAt(i);
+                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item);
+                // initialize the view first to prevent views repetition
+                views.setInt(R.id.rl_app_widget_course_item_content, "setBackgroundColor", 0xFFFFFFFF);
+                views.setTextViewText(R.id.tv_app_widget_course_item_name, "");
+                views.setTextViewText(R.id.tv_app_widget_course_item_room, "");
+                views.setInt(R.id.iv_app_widget_course_item_corner, "setVisibility", View.INVISIBLE);
+                views.setBoolean(R.id.rl_app_widget_course_item_content, "setEnabled", false);
+                // check course type
                 if ((item.getType() & Item.ITEM_TYPE_COURSE_ONLY) == 0) {  // empty or affair only
                     Log.d("getViewAt", "Position: " + i + ", Empty: " + item.getOrderString() + ", Type: " + item.getType());
-                    views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item);
                     views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
                     if ((item.getType() & Item.ITEM_TYPE_AFFAIR_ONLY) != 0) { // affair only
                         Intent coursesIntent = new Intent();
                         coursesIntent.putParcelableArrayListExtra(CourseListAppWidget.EXTRA_COURSES, item.getCourses());
                         views.setOnClickFillInIntent(R.id.rl_app_widget_course_item_content, coursesIntent);
+                        views.setBoolean(R.id.rl_app_widget_course_item_content, "setEnabled", true);
                         views.setImageViewResource(R.id.iv_app_widget_course_item_corner, Math.random() < 0.5 ? R.drawable.ic_regular_triangle_orange : R.drawable.ic_regular_triangle_teal);  // colorful
                         views.setInt(R.id.iv_app_widget_course_item_corner, "setVisibility", View.VISIBLE);
                     }
                 } else {
                     Log.d("getViewAt", "Position: " + i + ", Normal: " + item.getOrderString() + ", \n" + item.getText() + ", Type: " + item.getType());
-                    views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list_item);
                     views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
                     views.setTextViewText(R.id.tv_app_widget_course_item_name, item.getText().split("@")[0]);
                     views.setTextViewText(R.id.tv_app_widget_course_item_room, item.getText().split("@")[1]);
@@ -112,6 +118,7 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                     Intent coursesIntent = new Intent();
                     coursesIntent.putParcelableArrayListExtra(CourseListAppWidget.EXTRA_COURSES, item.getCourses());
                     views.setOnClickFillInIntent(R.id.rl_app_widget_course_item_content, coursesIntent);
+                    views.setBoolean(R.id.rl_app_widget_course_item_content, "setEnabled", true);
                     if ((item.getType() & Item.ITEM_TYPE_AFFAIR_ONLY) != 0) { // affair & course
                         views.setInt(R.id.iv_app_widget_course_item_corner, "setVisibility", View.VISIBLE);
                     }
