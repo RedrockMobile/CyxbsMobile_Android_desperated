@@ -223,8 +223,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
         public void setData(String avatar, String nickname) {
             ImageLoader.getInstance().loadAvatar(avatar, mCircleImageView);
-            //在这里写点击头像放大的逻辑
-            mCircleImageView.setOnClickListener(view -> ImageActivity.startWithData(PersonInfoActivity.this, avatar));//恩，这里是点击图片放大的逻辑
+            mCircleImageView.setOnClickListener(view -> ImageActivity.startWithData(PersonInfoActivity.this, avatar));
             mTextNickName.setText(nickname);
         }
 
