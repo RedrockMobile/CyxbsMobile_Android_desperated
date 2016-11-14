@@ -40,35 +40,36 @@ public class RemindReceiver extends BroadcastReceiver {
             );
         }
         if (mode1 == RemindFragment.INTENT_FLAG_BY_DAY && sp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
-            byDay(context);
+            byDay(context,intent);
             Log.d(TAG, "onReceive: receive by day!");
         }
     }
 
-    private void byDay(Context context) {
+    private void byDay(Context context,Intent intent) {
         Intent openMain = new Intent(context, MainActivity.class);
         NotificationCompat.Builder builder;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            builder = new NotificationCompat.Builder(context)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setAutoCancel(true)
-                    .setContentTitle("小邮提醒您，这是明天的课表")
-                    .setContentText("点击查看");
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
             stackBuilder.addNextIntent(openMain);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openMain,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(pendingIntent);
-        } else {
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openMain,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            builder = new NotificationCompat.Builder(context)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .setContentTitle("小邮提醒您，这是明天的课表")
-                    .setContentText("点击查看");
         }
+        builder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setAutoCancel(true)
+                .setContentTitle("小邮提醒您");
+
+        int hash_lesson = intent.getIntExtra(RemindFragment.INTENT_HASH_LESSON, 0);
+
+        if ( hash_lesson== 0) {
+            builder.setContentText("明天12节有课，可不要睡过了哟");
+        } else if (hash_lesson == 1) {
+            builder.setContentText("明天34节有课，记得吃早饭~");
+        } else {
+            builder.setContentText("明天早上没课，可还是要早睡早起: )");
+        }
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openMain,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(1, builder.build());
     }

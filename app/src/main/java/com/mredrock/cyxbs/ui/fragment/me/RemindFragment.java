@@ -35,6 +35,7 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
 
     public static final int INTENT_FLAG_BY_CLASS = 0;
     public static final int INTENT_FLAG_BY_DAY = 1;
+    public static final String INTENT_HASH_LESSON = "hash_lesson";
 
     public static final int ALARM_FLAG_REBOOT = 0;
     public static final int ALARM_FLAG_BY_DAY = 2;
@@ -63,6 +64,8 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
         mChooseTime = getPreferenceManager().findPreference(SP_REMIND_EVERY_DAY_TIME);
         mSwitchEveryClass = getPreferenceManager().findPreference(SP_REMIND_EVERY_CLASS);
         mSwitchEveryDay = getPreferenceManager().findPreference(SP_REMIND_EVERY_DAY);
+        mChooseDelayList.setSummary("提前"+mSp.getString(SP_REMIND_EVERY_CLASS_DELAY, "20")+"分钟");
+        mChooseTime.setSummary(mSp.getString(SP_REMIND_EVERY_DAY_TIME,"10：00")+":00");
     }
 
     private void initSetting() {
@@ -112,6 +115,8 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        mChooseDelayList.setSummary("提前"+mSp.getString(SP_REMIND_EVERY_CLASS_DELAY, "20")+"分钟");
+        mChooseTime.setSummary(mSp.getString(SP_REMIND_EVERY_DAY_TIME,"10：00")+":00");
         mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         if (key.equals(SP_REMIND_EVERY_CLASS) || key.equals(SP_REMIND_EVERY_CLASS_DELAY)) {
             remindByClass();

@@ -34,6 +34,6 @@
         <ListPreference
             android:key="remind_every_day_time"
             android:enabled="false"
-            android:summary="注意：本功能为试验性功能。如遇到不能正常提醒，请在安全软件或系统管理中添加掌上重邮到白名单。因为使用了对齐唤醒技术，请不要担心影响续航."/>
+            android:summary="注意：如遇到不能正常提醒，请在安全软件或系统管理中添加掌上重邮到白名单。使用了对齐唤醒技术，所以请不要担心影响续航."/>
     </PreferenceCategory>
 </PreferenceScreen>
