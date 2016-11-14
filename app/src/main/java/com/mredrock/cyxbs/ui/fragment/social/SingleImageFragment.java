@@ -79,20 +79,29 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
 
     @Override
     protected void onFirstUserVisible() {
-        ImageLoader.getInstance()
-                .loadImageWithTargetView(url, new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        if (mImageView == null) return;
-                        mImageView.setImageBitmap(resource);
-                        closeProgress();
-                        mAttacher = new PhotoViewAttacher(mImageView);
-                        mAttacher.update();
-                        mAttacher.setOnPhotoTapListener(SingleImageFragment.this);
-                        onUserVisible();
+        if (!(url  == null || url.length() <= 0)){
+                ImageLoader.getInstance()
+                        .loadImageWithTargetView(url, new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                if (mImageView == null) return;
+                                mImageView.setImageBitmap(resource);
+                                closeProgress();
+                                mAttacher = new PhotoViewAttacher(mImageView);
+                                mAttacher.update();
+                                mAttacher.setOnPhotoTapListener(SingleImageFragment.this);
+                                onUserVisible();
 
-                    }
-                });
+                            }
+                        });
+            }else {
+                mImageView.setImageResource(R.drawable.ic_default_avatar);
+                mAttacher = new PhotoViewAttacher(mImageView);
+                mAttacher.update();
+            mAttacher.setOnPhotoTapListener(SingleImageFragment.this);
+            onUserVisible();
+        }
+
     }
 
     @Override

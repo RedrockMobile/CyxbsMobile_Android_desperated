@@ -293,7 +293,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mAutoNineGridlayout.setImagesData(getImageList(getUrls(mHotNewsContent.img.smallImg)));
             mAutoNineGridlayout.setOnAddImagItemClickListener((v, position) -> ImageActivity
                     .startWithData(itemView.getContext(), mHotNewsContent, position));
-            //恩，这里也要加长按下载图片
         }
 
         public final static String[] getUrls(String url) {

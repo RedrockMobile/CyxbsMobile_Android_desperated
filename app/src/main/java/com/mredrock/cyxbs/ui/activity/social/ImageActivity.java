@@ -58,8 +58,7 @@ public class ImageActivity extends AppCompatActivity {
         if (getIntent().getParcelableExtra(DATA)!= null){
             mDataBean = getIntent().getParcelableExtra(DATA);
             init();
-        }
-        if (getIntent().getStringExtra(URL) != null){
+        }else {
             mUrl = getIntent().getStringExtra(URL);
             init(mUrl);
         }
@@ -72,14 +71,12 @@ public class ImageActivity extends AppCompatActivity {
         }
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mPosition);
-        //这里加长按下载图片的逻辑
     }
 
     private void init(String url) {
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(),mViewPager,url);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mPosition);
-        //这里加长按下载图片的逻辑
     }
 
 }
