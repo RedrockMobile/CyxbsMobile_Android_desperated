@@ -249,7 +249,7 @@ public class MainActivity extends BaseActivity {
 
     private void initToolbar() {
         if (mToolbar != null) {
-            setTitle(mStringCommunity);
+            setTitle("课表");
             setSupportActionBar(mToolbar);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
