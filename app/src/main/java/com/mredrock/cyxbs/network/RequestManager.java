@@ -5,6 +5,7 @@ import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.model.AboutMe;
+import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.Food;
@@ -15,6 +16,7 @@ import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
+import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.model.social.BBDDNewsContent;
 import com.mredrock.cyxbs.model.social.CommentContent;
 import com.mredrock.cyxbs.model.social.HotNews;
@@ -23,6 +25,7 @@ import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
+import com.mredrock.cyxbs.network.func.AffairTransformFunc;
 import com.mredrock.cyxbs.network.func.AppWidgetCacheAndUpdateFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
 import com.mredrock.cyxbs.network.func.UpdateVerifyFunc;
@@ -63,6 +66,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
@@ -541,6 +545,13 @@ public enum RequestManager {
                 .map(new UserInfoVerifyFunc());
         emitObservable(observable, subscriber);
     }
+
+    public void getAffair(Subscriber<List<Affair>>subscriber, String stuNum, String idNum){
+        Observable<List<Affair>> observable = redrockApiService.getAffair(stuNum,idNum)
+               .map(new AffairTransformFunc());
+        emitObservable(observable,subscriber);
+    }
+
 
     private <T> Subscription emitObservable(Observable<T> o, Subscriber<T> s) {
         return o.subscribeOn(Schedulers.io())

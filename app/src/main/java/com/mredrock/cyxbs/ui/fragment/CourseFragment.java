@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Position;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
+import com.mredrock.cyxbs.event.AffairAddEvent;
+import com.mredrock.cyxbs.event.AffairDeleteEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
@@ -29,6 +31,10 @@ import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.database.DBManager;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -36,6 +42,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 
 public class CourseFragment extends BaseFragment {
 
@@ -69,6 +80,9 @@ public class CourseFragment extends BaseFragment {
     LinearLayout mCourseScheduleHolder;
     @Bind(R.id.course_month)
     TextView mCourseMonth;
+
+    private List<Course> courseList = new ArrayList<>();
+    private List<Course> affairList = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -165,6 +179,7 @@ public class CourseFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        LogUtils.LOGE("onDestroyView()","onDestroyView()");
         ButterKnife.unbind(this);
     }
 
@@ -180,19 +195,9 @@ public class CourseFragment extends BaseFragment {
         if (APP.isLogin()) {
             mUser = APP.getUser(getActivity());
             if (mUser != null) {
-//                DBManager dbManager = new DBManager(getActivity());
-//                List<String> data = dbManager.query(mUser.stuNum);
-//                List<Course> courses1 = new ArrayList<>();
-//                Gson s = new Gson();
-//
-//                for (String a : data){
-//                    Affair affair =  s.fromJson(a,Affair.class);
-//                    courses1.add(affair);
-//                }
-//                dbManager.close();
-
                 RequestManager.getInstance()
                         .getCourseList(new SimpleSubscriber<>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
+
                             @Override
                             public void onStart() {
                                 super.onStart();
@@ -202,10 +207,9 @@ public class CourseFragment extends BaseFragment {
                             @Override
                             public void onNext(List<Course> courses) {
                                 super.onNext(courses);
-//                                courses.addAll(courses1);
-                                if (mCourseScheduleContent != null) {
-                                    mCourseScheduleContent.addContentView(courses);
-                                }
+                                courseList.clear();
+                                courseList.addAll(courses);
+
                             }
 
                             @Override
@@ -218,12 +222,83 @@ public class CourseFragment extends BaseFragment {
                             @Override
                             public void onCompleted() {
                                 super.onCompleted();
+                                loadAffair(week);
                                 hideRefreshLoading();
                             }
                         }), mUser.stuNum, mUser.idNum, week, update);
             }
         }
     }
+
+
+    private void loadAffair(int mWeek){
+        DBManager dbManager = DBManager.INSTANCE;
+        dbManager.query(mUser.stuNum,mWeek)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SimpleSubscriber<List<Course>>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
+                    @Override
+                    public void onNext(List<Course> affairs) {
+                        super.onNext(affairs);
+                        if (mCourseScheduleContent != null) {
+                            affairList.clear();
+                            mCourseScheduleContent.clearList();
+                            affairList.addAll(affairs);
+                            affairList.addAll(courseList);
+                            mCourseScheduleContent.addContentView(affairList);
+                        }
+                    }
+                }));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAffairDeleteEvent(AffairDeleteEvent event) {
+        if (mWeek == 0||event.getCourse().week.contains(mWeek)){
+            Affair affair = (Affair) event.getCourse();
+            DBManager.INSTANCE.deleteAffair(affair.uid)
+                    .observeOn(Schedulers.io())
+                    .unsubscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SimpleSubscriber(getActivity(), new SubscriberListener() {
+                        @Override
+                        public void onCompleted() {
+                            super.onCompleted();
+                            LogUtils.LOGE("onAffairDeleteEvent","onAffairDeleteEvent");
+                            loadAffair(mWeek);
+                        }
+
+                        @Override
+                        public boolean onError(Throwable e) {
+                            return super.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(Object o) {
+                            super.onNext(o);
+                        }
+
+                        @Override
+                        public void onStart() {
+                            super.onStart();
+                        }
+                    }));
+        }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAffairAddEvent(AffairAddEvent event){
+        LogUtils.LOGE("onAffairAddEvent","mWeek: "+mWeek+"    " +event.getCourse().week.toString());
+        if (mWeek == 0 || event.getCourse().week.contains(mWeek)){
+            LogUtils.LOGE("onAffairAddEvent","loadCourse(mWeek,false);");
+            loadAffair(mWeek);
+        }
+
+    }
+
+
 
     private void hideRefreshLoading() {
         if (mCourseSwipeRefreshLayout != null) {

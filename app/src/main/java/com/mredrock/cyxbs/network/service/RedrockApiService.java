@@ -14,6 +14,7 @@ import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.Student;
 import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
+import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.model.social.BBDDDetail;
 import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.Comment;
@@ -254,4 +255,9 @@ public interface RedrockApiService {
     @FormUrlEncoded
     @POST(Const.API_GET_PERSON_LATEST)
     Observable<RedrockApiWrapper<List<PersonLatest>>> getPersonLatestList(@Field("stunum_other") String otherStuNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_GET_AFFAIR)
+    Observable<AffairApi<List<AffairApi.AffairItem>>> getAffair(@Field("stuNum") String stuNum, @Field("idNum") String idNum);
+
 }

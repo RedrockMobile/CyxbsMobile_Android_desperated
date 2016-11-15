@@ -1,22 +1,19 @@
 package com.mredrock.cyxbs.util.database;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.google.gson.Gson;
 import com.mredrock.cyxbs.APP;
-import com.mredrock.cyxbs.component.multi_image_selector.utils.TimeUtils;
 import com.mredrock.cyxbs.model.Affair;
+import com.mredrock.cyxbs.model.Course;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static u.aly.av.S;
-import static u.aly.av.d;
-import static u.aly.av.j;
-import static u.aly.av.n;
-import static u.aly.av.t;
+import rx.Observable;
+
 
 /**
  * Created by ：AceMurder
@@ -25,16 +22,22 @@ import static u.aly.av.t;
  * Enjoy it !!!
  */
 
-public class DBManager {
-    private AffairDatabaseHelper helper;
+public enum  DBManager {
+
+    INSTANCE;
+
+
     private SQLiteDatabase db;
 
-    public DBManager(Context context) {
-        helper = new AffairDatabaseHelper(context);
-        db = helper.getWritableDatabase();
+
+    DBManager() {
+        open();
     }
 
+
+
     public boolean insert(String uid,String stuNum,String json) {
+        open();
         db.beginTransaction();  //开始事务
         try {
             db.execSQL("INSERT INTO affair(uid,stuNum,isUpload,data) VALUES ('" + uid
@@ -56,23 +59,46 @@ public class DBManager {
         db.update("affair", cv, "uid = ?", new String[]{uid});
     }
 
-    public void deleteOldPerson(String uid) {
-        db.delete("affair", "uid = ?", new String[]{uid});
+    public Observable deleteAffair(String uid) {
+        open();
+        return Observable.create((subscriber -> {
+            db.delete("affair", "uid = ?", new String[]{uid});
+            subscriber.onNext(null);
+            subscriber.onCompleted();
+        }));
     }
 
-    public List<String> query(String stuNum) {
+    public Observable<List<Course>> query(String stuNum,int week) {
 
-        Cursor c = db.rawQuery("SELECT data FROM affair WHERE stuNum = "+stuNum,null);
-        List<String> data = new ArrayList<>();
-        while (c.moveToNext()) {
-            data.add(c.getString(0));
-        }
-        c.close();
-        return data;
+        return Observable.create(subscriber -> {
+            open();
+            Cursor c = db.rawQuery("SELECT data FROM affair WHERE stuNum = "+stuNum,null);
+            List<String> data = new ArrayList<>();
+            List<Course> courses = new ArrayList<Course>();
+            while (c.moveToNext()) {
+                data.add(c.getString(0));
+            }
+            c.close();
+            Gson gson = new Gson();
+            for (String a : data){
+                Affair affair =  gson.fromJson(a,Affair.class);
+                if (week == 0)
+                    courses.add(affair);
+                else if (affair.week.contains(week))
+                    courses.add(affair);
+            }
+            subscriber.onNext(courses);
+        });
     }
 
     public void close() {
         if (db != null)
             db.close();
+    }
+
+
+    private void open(){
+        if (db == null || !db.isOpen())
+            db = new AffairDatabaseHelper(APP.getContext()).getWritableDatabase();
     }
 }

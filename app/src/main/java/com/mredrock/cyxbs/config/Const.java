@@ -1,5 +1,7 @@
 package com.mredrock.cyxbs.config;
 
+import java.net.FileNameMap;
+
 /**
  * Created by cc on 16/3/19.
  */
@@ -64,8 +66,19 @@ public class Const {
     //动态查询
     public static final String API_SEARCH_ARTICLE = "/cyxbsMobile/index.php/Home/NewArticle/searchtrends";
 
+    //Affair
+    public static final  String API_GET_AFFAIR = "/cyxbsMobile/index.php/Home/Person/getTransaction";
+
+    public static final String API_ADD_AFFAIR = "/cyxbsMobile/index.php/Home/Person/addTransaction";
+
+    public static final String API_EDIT_AFFAIR = "/cyxbsMobile/index.php/Home/Person/editTransaction";
+
+    public static final String API_DELETE_AFFAIR = "/cyxbsMobile/index.php/Home/Person/deleteTransaction";
+
     public static final String SP_KEY_USER = "cyxbsmobile_user";
     public static final String SP_KEY_IS_NIGHT = "is_night";
+
+
 
     public static final class Extras {
         public static final String EDIT_USER = "10";

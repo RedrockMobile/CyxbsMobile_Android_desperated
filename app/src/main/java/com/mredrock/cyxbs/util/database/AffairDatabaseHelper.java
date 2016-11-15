@@ -20,7 +20,7 @@ public class AffairDatabaseHelper extends SQLiteOpenHelper{
 
     private final String CREATE_TABLE = "CREATE TABLE affair (" +
             "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "uid VARCHAR UNIQUE," +
+            "uid VARCHAR," +
             "stuNum VARCHAR," +
             "isUpload boolean,"+
             "data TEXT"+
