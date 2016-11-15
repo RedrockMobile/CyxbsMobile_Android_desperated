@@ -27,6 +27,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Subscriber;
 
 /**
  * 社区
@@ -110,10 +111,8 @@ public class SocialContainerFragment extends BaseFragment {
 
     private void init() {
         List<Fragment> fragmentLIst = new ArrayList<>();
-
         HotNewsFragment mPopularNewFragment = new HotNewsFragment();
         BBDDNewsFragment mBBLLNewFragment = new BBDDNewsFragment();
-
         OfficialFragment mOfficialFragment = new OfficialFragment();
         fragmentLIst.add(mPopularNewFragment);
         fragmentLIst.add(mBBLLNewFragment);
@@ -128,11 +127,25 @@ public class SocialContainerFragment extends BaseFragment {
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        BaseNewsFragment.getOnScrollSubject().subscribe(aBoolean -> {
-            if (aBoolean) {
-                mFabMain.show();
-            } else {
-                mFabMain.hide();
+        //fab显示动画，true为显示，false为隐藏
+        BaseNewsFragment.getOnScrollSubject().subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                if (aBoolean) {
+                    mFabMain.show();
+                } else {
+                    mFabMain.hide();
+                }
             }
         });
     }
