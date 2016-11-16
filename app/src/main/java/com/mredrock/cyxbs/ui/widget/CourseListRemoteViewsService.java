@@ -224,13 +224,14 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
 
             Item(Course course) {
                 start = course.begin_lesson;
-                text = course.toCourseString();
                 courses = new ArrayList<>(1);
                 if (course.getCourseType() == Affair.TYPE) {  // is affair
                     type |= ITEM_TYPE_AFFAIR_ONLY;
                     end = start + 1;    // don't use affair's end time
+                    text = "";          // don't use affair's text
                 } else {  // is course
                     type |= ITEM_TYPE_COURSE_ONLY;
+                    text = course.toCourseString();
                     end = course.begin_lesson + course.period;
                 }
                 courses.add(course);
@@ -249,6 +250,9 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                         end = start + 1;    // don't use affair's end time
                     }
                 } else {    // is course
+                    if ((type & ITEM_TYPE_COURSE_ONLY) == 0) {  // no course yet
+                        text = course.toCourseString();
+                    }
                     type |= ITEM_TYPE_COURSE_ONLY;
                     if (end < start + course.period) {
                         end = start + course.period;
