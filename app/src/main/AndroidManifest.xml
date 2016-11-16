@@ -177,8 +177,8 @@
 
         <activity
             android:name=".ui.activity.affair.EditAffairActivity"
-            android:launchMode="singleTop"></activity>
-        android:exported="false" />
+            android:launchMode="singleTop"
+            android:exported="false" />
         <service
             android:name=".service.NotificationService"
             android:enabled="true" />
@@ -187,6 +187,16 @@
             android:exported="true" />
 
         <activity android:name=".ui.activity.affair.TimeChooseActivity"></activity>
+
+        <provider
+            android:authorities="com.mredrock.cyxbs.APKFileProvider"
+            android:name="android.support.v4.content.FileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/apk_file_path"/>
+        </provider>
     </application>
 
 </manifest>

@@ -7,13 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
+import android.support.v4.content.FileProvider;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.util.Utils;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -112,6 +112,10 @@ public class UpdateService extends Service {
                     InputStream is = conn.getInputStream();
                     int length = conn.getContentLength();
                     File file = new File(path + name);
+                    if (file.exists()) {
+                        //noinspection ResultOfMethodCallIgnored
+                        file.delete();  // I think maybe the existent file cause the update failure
+                    }
                     FileOutputStream fos = new FileOutputStream(file);
                     int count = 0;
                     byte buf[] = new byte[1024];
@@ -147,10 +151,17 @@ public class UpdateService extends Service {
             notificationManager.cancel(notification_id);
             if (finish && !cancelUpdate) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(
-                        Uri.fromFile(new File(path + name)),
-                        "application/vnd.android.package-archive");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setDataAndType(
+                            FileProvider.getUriForFile(getApplicationContext(), "com.mredrock.cyxbs.APKFileProvider", new File(path + name)),
+                            "application/vnd.android.package-archive");
+                } else {
+                    intent.setDataAndType(
+                            Uri.fromFile(new File(path + name)),
+                            "application/vnd.android.package-archive");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
                 startActivity(intent);
             } else {
                 Utils.toast(UpdateService.this, "更新失败");
