@@ -35,6 +35,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Subscriber;
+import rx.subjects.PublishSubject;
 
 /**
  * Created by mathiasluo on 16-4-26.
@@ -61,6 +62,12 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     abstract void provideData(Subscriber<List<HotNews>> subscriber, int size, int page);
+
+    public static PublishSubject<Boolean> getOnScrollSubject() {
+        return onScrollSubject;
+    }
+
+    private static final PublishSubject<Boolean> onScrollSubject = PublishSubject.create();
 
     @Nullable
     @Override
@@ -104,6 +111,16 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
                 currentIndex++;
                 getNextPageData(PER_PAGE_NUM, currentIndex);
             }
+
+            @Override
+            public void onShow() {
+                onScrollSubject.onNext(true);
+            }
+
+            @Override
+            public void onHide() {
+                onScrollSubject.onNext(false);
+            }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
     }
@@ -128,7 +145,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     }
 
     public void getCurrentData(int size, int page) {
-        mSwipeRefreshLayout.post(() -> showLoadingProgress());
+        mSwipeRefreshLayout.post(this::showLoadingProgress);
         provideData(new SimpleSubscriber<>(getActivity(), new SubscriberListener<List<HotNews>>() {
             @Override
             public boolean onError(Throwable e) {

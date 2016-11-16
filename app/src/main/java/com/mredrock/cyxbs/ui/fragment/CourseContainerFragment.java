@@ -151,7 +151,7 @@ public class CourseContainerFragment extends BaseFragment {
             });
         }
         loadNowWeek();
-        remindFn(view);
+        //remindFn(view);
     }
 
     private void remindFn(View view) {

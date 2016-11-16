@@ -224,31 +224,35 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
 
             Item(Course course) {
                 start = course.begin_lesson;
-                end = course.begin_lesson + course.period;
                 text = course.toCourseString();
                 courses = new ArrayList<>(1);
-                if (course.getCourseType() == Affair.TYPE) {
+                if (course.getCourseType() == Affair.TYPE) {  // is affair
                     type |= ITEM_TYPE_AFFAIR_ONLY;
-                } else {
+                    end = start + 1;    // don't use affair's end time
+                } else {  // is course
                     type |= ITEM_TYPE_COURSE_ONLY;
+                    end = course.begin_lesson + course.period;
                 }
                 courses.add(course);
             }
 
             Item addCourse(Course course) {
                 if (start != course.begin_lesson) throw new IllegalArgumentException("Can't merge two course which have different start time");
-                if (end < start + course.period) {
-                    end = start + course.period;
-                }
                 // Don't use merged course text according to 产品规划运营部
                 // text += "，" + course.toCourseString();
                 if (courses == null) {
                     courses = new ArrayList<>(1);
                 }
-                if (course.getCourseType() == Affair.TYPE) {
+                if (course.getCourseType() == Affair.TYPE) {    // is affair
                     type |= ITEM_TYPE_AFFAIR_ONLY;
-                } else {
+                    if ((type & ITEM_TYPE_COURSE_ONLY) == 0) {  // no course here
+                        end = start + 1;    // don't use affair's end time
+                    }
+                } else {    // is course
                     type |= ITEM_TYPE_COURSE_ONLY;
+                    if (end < start + course.period) {
+                        end = start + course.period;
+                    }
                 }
                 courses.add(course);
                 return this;

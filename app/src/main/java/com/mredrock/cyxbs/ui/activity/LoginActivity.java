@@ -82,21 +82,21 @@ public class LoginActivity extends AppCompatActivity {
     private void iconColorChangerFn() {
         stuNumEdit.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                mIvLoginAccount.setColorFilter(getResources().getColor(R.color.md_material_blue_600));
+                mIvLoginAccount.setColorFilter(getResources().getColor(R.color.colorPrimary));
             } else {
                 String stuNum = stuNumEdit.getText().toString();
                 if (StringUtils.isBlank(stuNum) || stuNum.length() < 10) {
                     stuNumEdit.setError("请输入有效的学号");
                 } else {
                     submitButton.setEnabled(true);
-                    submitButton.setBackgroundColor(getResources().getColor(R.color.md_material_blue_600));
+                    submitButton.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 }
                 mIvLoginAccount.setColorFilter(getResources().getColor(R.color.gray_edit));
             }
         });
         idNumEdit.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                mIvLoginPassword.setColorFilter(getResources().getColor(R.color.md_material_blue_600));
+                mIvLoginPassword.setColorFilter(getResources().getColor(R.color.colorPrimary));
             } else {
                 String idNum = idNumEdit.getText().toString();
                 mIvLoginPassword.setColorFilter(getResources().getColor(R.color.gray_edit));
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                     idNumEdit.setError("请输入身份证后六位");
                 } else {
                     submitButton.setEnabled(true);
-                    submitButton.setBackgroundColor(getResources().getColor(R.color.md_material_blue_600));
+                    submitButton.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 }
             }
         });

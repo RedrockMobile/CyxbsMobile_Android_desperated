@@ -27,6 +27,8 @@ import com.google.gson.Gson;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Position;
+import com.mredrock.cyxbs.event.AffairAddEvent;
+import com.mredrock.cyxbs.event.AffairDeleteEvent;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
@@ -53,6 +55,7 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.multibindings.ElementsIntoSet;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
@@ -147,8 +150,12 @@ public class EditAffairActivity extends AppCompatActivity {
             String content = mContentEdit.getText().toString();
             if (title.trim().isEmpty() || content.trim().isEmpty()){
                 Toast.makeText(APP.getContext(),"标题和内容不能为空哦",Toast.LENGTH_SHORT).show();
-            }else {
-                DBManager dbManager = new DBManager(this) ;
+
+            }else if(weeks.size() == 0 || positions.size() == 0){
+                Toast.makeText(APP.getContext(),"时间或周数不能为空哦",Toast.LENGTH_SHORT).show();
+            } else {
+                DBManager dbManager = DBManager.INSTANCE;
+                Affair affair = new Affair();
                 Observable<Boolean> observable = Observable.create((subscriber)->{
 
                     Gson g = new Gson();
@@ -156,18 +163,20 @@ public class EditAffairActivity extends AppCompatActivity {
                         int x;//定义两变量
                         Random ne=new Random();//实例化一个random的对象ne
                         x=ne.nextInt(9999-1000+1)+1000;//为变量赋随机值1000-9999
-                        Affair affair = new Affair();
+
                         affair.uid = System.currentTimeMillis() +"" +x;
+
                         affair.hash_day = positions.get(i).getX();
                         affair.hash_lesson = positions.get(i).getY();
                         affair.period = 2 ;
                         affair.course = title;
                         affair.teacher = content;
                         affair.classroom =" ";
-                        affair.begin_lesson = 2 * affair.hash_day;
+                        affair.begin_lesson = affair.hash_day * 2 + 1;
                         affair.type = "提醒";
                         affair.time = time;
                         affair.week = weeks;
+                        affair.courseType = 2;
                         affair.rawWeek = " ";
                         subscriber.onNext(dbManager.insert(affair.uid, APP.getUser(this).stuNum,g.toJson(affair)));
                     }
@@ -179,6 +188,8 @@ public class EditAffairActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted() {
                         super.onCompleted();
+                        LOGE("onCompleted()","EventBus.getDefault().post(new AffairAddEvent(affair));");
+                        EventBus.getDefault().post(new AffairAddEvent(affair));
                         dbManager.close();
                         onBackPressed();
                     }

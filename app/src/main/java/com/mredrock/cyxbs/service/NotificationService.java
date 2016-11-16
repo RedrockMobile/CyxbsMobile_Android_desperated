@@ -30,6 +30,7 @@ import static com.mredrock.cyxbs.receiver.RebootReceiver.EXTRA_COURSE_NAME;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.ALARM_FLAG_BY_DAY;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.INTENT_FLAG_BY_CLASS;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.INTENT_FLAG_BY_DAY;
+import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.INTENT_HASH_LESSON;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.INTENT_MODE;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_CLASS;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_CLASS_DELAY;
@@ -84,6 +85,7 @@ public class NotificationService extends Service {
                             if (c.hash_day + 2 == dayOfWeek % 7) {
                                 Intent intent = new Intent(context, RemindReceiver.class);
                                 intent.putExtra(INTENT_MODE, INTENT_FLAG_BY_DAY);
+                                intent.putExtra(INTENT_HASH_LESSON, c.hash_lesson);
                                 PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                                         ALARM_FLAG_BY_DAY, intent, 0);
                                 Calendar calendar = Calendar.getInstance();
@@ -137,11 +139,6 @@ public class NotificationService extends Service {
                                 Integer.valueOf(mSp.
                                         getString(SP_REMIND_EVERY_CLASS_DELAY, "0")));
                     }
-                    Log.d(TAG, "byClass: 下一节课时间是：" + courseCalendar.get(Calendar.HOUR_OF_DAY) +
-                            " : " + courseCalendar.get(Calendar.MINUTE) + "课程名:" +
-                            c.course + "教室：" + c.classroom + " intent_flag:" + c.hash_lesson + 10
-                            + " 设置的时间是:" + TimeUtils.timeStampToStr(courseCalendar
-                            .getTimeInMillis() / 1000));
                     Intent intent = new Intent(context, RemindReceiver.class);
                     intent.putExtra(INTENT_MODE, INTENT_FLAG_BY_CLASS);
                     intent.putExtra(EXTRA_COURSE_NAME, c.course);

@@ -55,7 +55,6 @@ import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 
-
 public class MainActivity extends BaseActivity {
 
     @Bind(R.id.main_toolbar_title)
@@ -177,23 +176,27 @@ public class MainActivity extends BaseActivity {
             switch (item.getItemId()) {
                 case R.id.item1:
                     showMenu();
+                    mToolbar.setVisibility(View.VISIBLE);
                     setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
-                    mViewPager.setCurrentItem(0,false);
+                    mViewPager.setCurrentItem(0, false);
                     break;
                 case R.id.item2:
+                    mToolbar.setVisibility(View.GONE);
                     showMenu();
                     setTitle("社区");
-                    mViewPager.setCurrentItem(1,false);
+                    mViewPager.setCurrentItem(1, false);
                     break;
                 case R.id.item3:
                     setTitle("发现");
                     hiddenMenu();
-                    mViewPager.setCurrentItem(2,false);
+                    mToolbar.setVisibility(View.VISIBLE);
+                    mViewPager.setCurrentItem(2, false);
                     break;
                 case R.id.item4:
+                    mToolbar.setVisibility(View.VISIBLE);
                     setTitle("我的");
                     hiddenMenu();
-                    mViewPager.setCurrentItem(3,false);
+                    mViewPager.setCurrentItem(3, false);
                     break;
             }
             return true;
@@ -246,7 +249,7 @@ public class MainActivity extends BaseActivity {
 
     private void initToolbar() {
         if (mToolbar != null) {
-            setTitle(mStringCommunity);
+            setTitle("课表");
             setSupportActionBar(mToolbar);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
@@ -336,7 +339,6 @@ public class MainActivity extends BaseActivity {
                 mMenu.getItem(i).setVisible(true);
             }
         }
-
     }
 
     public TextView getToolbarTitle() {

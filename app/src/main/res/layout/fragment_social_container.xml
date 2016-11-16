@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
+        android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp">
@@ -15,20 +15,29 @@
             android:id="@+id/community_TabLayout"
             style="@style/CustomTabLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabBackground="@color/white"
+            android:layout_height="56dp"
+            app:elevation="0dp"
+            app:tabBackground="@color/colorPrimary"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorColor="@color/white"
             app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/colorPrimary"
-            app:tabTextColor="@color/tabText"
-            app:elevation="0dp"/>
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/material_color_blue_gray_50"/>
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_main"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_add"
+        android:layout_height="wrap_content"/>
+
     <android.support.v4.view.ViewPager
+        android:layout_marginTop="?attr/actionBarSize"
         android:id="@+id/community_ViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/crop__button_bar" />
+        android:background="@color/crop__button_bar"/>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
