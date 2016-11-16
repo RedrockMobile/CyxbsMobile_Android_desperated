@@ -62,13 +62,19 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.mredrock.cyxbs.R.string.course;
 import static com.mredrock.cyxbs.util.LogUtils.LOGE;
+import static java.sql.Types.INTEGER;
 import static java.sql.Types.TIME;
+import static u.aly.av.I;
+import static u.aly.av.p;
+import static u.aly.av.w;
 
 
 public class EditAffairActivity extends AppCompatActivity {
 
     public static  final String BUNDLE_KEY = "position";
+    public static final String WEEK_NUMBER = "week";
     private static final String COURSE_KEY = "course";
     private final String[] TIMES = new String[]{"不提醒", "提前5分钟", "提前10分钟", "提前20分钟", "提前30分钟", "提前一个小时"};
     private final int[] TIME_MINUTE = new int[]{0, 5, 10, 20, 30, 60};
@@ -172,7 +178,7 @@ public class EditAffairActivity extends AppCompatActivity {
                         affair.course = title;
                         affair.teacher = content;
                         affair.classroom =" ";
-                        affair.begin_lesson = affair.hash_day * 2 + 1;
+                        affair.begin_lesson = affair.hash_lesson * 2 +  1;
                         affair.type = "提醒";
                         affair.time = time;
                         affair.week = weeks;
@@ -229,10 +235,24 @@ public class EditAffairActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
+        initData();
+
+
+
+    }
+
+    private void initData() {
+
         Position position = (Position) getIntent().getSerializableExtra(BUNDLE_KEY);
         if (position != null){
             positions.add(position);
             mTimeChooseText.setText(WEEKS[position.getX()]+CLASSES[position.getY()]);
+        }
+
+        int currentWeek = getIntent().getIntExtra(WEEK_NUMBER,-1);
+        if (currentWeek != -1){
+            mWeekAdapter.addWeekNum(currentWeek);
+            onWeekChooseOkClick();
         }
     }
 
@@ -251,12 +271,11 @@ public class EditAffairActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mWeekAdapter = new WeekAdapter();
         mRecyclerView.setAdapter(mWeekAdapter);
-        mRecyclerView.smoothScrollToPosition(15);
     }
 
-    public static void editAffairActivityStart(Context context, Course course) {
+    public static void editAffairActivityStart(Context context,int weekNum) {
         Intent starter = new Intent(context, EditAffairActivity.class);
-        starter.putExtra(COURSE_KEY, (Parcelable) course);
+        starter.putExtra(WEEK_NUMBER,weekNum);
         context.startActivity(starter);
     }
 
@@ -318,13 +337,24 @@ public class EditAffairActivity extends AppCompatActivity {
             return mWeeks;
         }
 
-        public void setmWeeks(Set<Integer> mWeeks) {
-            this.mWeeks = mWeeks;
-        }
+       public void addWeekNum(int weekNum){
+           LOGE("addWeekNum",weekNum+" ");
+           mWeeks.add(weekNum);
+       }
 
         @Override
         public void onBindViewHolder(WeekAdapter.WeekViewHolder holder, int position) {
+            holder.mTextView.setBackgroundResource(R.drawable.circle_text_normal);
+            holder.mTextView.setTextColor(Color.parseColor("#595959"));
+            LOGE("onBindViewHolder position",position+" ");
+            holder.isChoose = false;
             holder.mTextView.setText(weeks.get(position));
+            if (mWeeks.contains(position + 1)){
+                LOGE("mWeeks.contains(position)",position+"   ");
+                holder.mTextView.setTextColor(Color.parseColor("#ffffff"));
+                holder.mTextView.setBackgroundResource(R.drawable.circle_text_pressed);
+                holder.isChoose = true;
+            }
             holder.mTextView.setOnClickListener((v)->{
                 if (holder.isChoose) {
                     holder.mTextView.setBackgroundResource(R.drawable.circle_text_normal);

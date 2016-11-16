@@ -39,12 +39,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -120,6 +118,7 @@ public class CourseFragment extends BaseFragment {
             int lesson = y / 2;
             Position position = new Position(day , lesson);
             intent.putExtra(EditAffairActivity.BUNDLE_KEY,position);
+            intent.putExtra(EditAffairActivity.WEEK_NUMBER,mWeek);
             startActivity(intent);
         });
 
@@ -184,7 +183,6 @@ public class CourseFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LogUtils.LOGE("onDestroyView()","onDestroyView()");
         ButterKnife.unbind(this);
     }
 
@@ -302,7 +300,6 @@ public class CourseFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAffairAddEvent(AffairAddEvent event){
-        LogUtils.LOGE("onAffairAddEvent","mWeek: "+mWeek+"    " +event.getCourse().week.toString());
         if (mWeek == 0 || event.getCourse().week.contains(mWeek)){
             LogUtils.LOGE("onAffairAddEvent","loadCourse(mWeek,false);");
             loadAffair(mWeek);

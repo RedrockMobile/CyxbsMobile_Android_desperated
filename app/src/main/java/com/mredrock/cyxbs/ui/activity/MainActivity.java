@@ -44,6 +44,7 @@ import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
 import com.mredrock.cyxbs.ui.widget.CourseListAppWidget;
+import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
 
@@ -317,7 +318,8 @@ public class MainActivity extends BaseActivity {
         //设置Gravity，让它显示在右上角。
         if (popWind.getContentView() != null)
             popWind.getContentView().setOnClickListener((v -> {
-                EditAffairActivity.editAffairActivityStart(this, null);
+
+                EditAffairActivity.editAffairActivityStart(this, new SchoolCalendar().getWeekOfTerm());
                 popWind.dismiss();
             }));
         popWind.showAtLocation(parentView, Gravity.RIGHT | Gravity.TOP,
