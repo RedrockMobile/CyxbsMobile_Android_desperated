@@ -23,6 +23,7 @@ import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.network.func.AppWidgetCacheAndUpdateFunc;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
@@ -44,8 +45,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Scheduler;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static u.aly.av.O;
+import static u.aly.av.a;
 
 
 public class CourseFragment extends BaseFragment {
@@ -247,6 +252,13 @@ public class CourseFragment extends BaseFragment {
                             affairList.addAll(affairs);
                             affairList.addAll(courseList);
                             mCourseScheduleContent.addContentView(affairList);
+                            Observable<List<Course>> observable = Observable.create(new Observable.OnSubscribe<List<Course>>() {
+                                @Override
+                                public void call(Subscriber<? super List<Course>> subscriber) {
+                                    subscriber.onNext(affairList);
+                                }
+                            });
+                            observable.map(new AppWidgetCacheAndUpdateFunc()).subscribe();
                         }
                     }
                 }));
