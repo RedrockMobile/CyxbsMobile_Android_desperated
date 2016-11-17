@@ -46,7 +46,7 @@ android {
         }
 
         release {
-            minifyEnabled false
+            minifyEnabled true
             zipAlignEnabled true
             shrinkResources false
 
@@ -113,6 +113,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.8'
+
 //    compile 'com.hwangjr.rxbus:rxbus:1.0.3'
     compile 'com.github.siyamed:android-shape-imageview:0.9.3@aar'
     compile 'com.thefinestartist:finestwebview:1.2.7'

@@ -62,7 +62,7 @@ public class SaveImageUtils {
                         Log.e("TAG",Environment.getExternalStorageDirectory().toString());
 
                         try {
-                            String name = Environment.getExternalStorageDirectory() +Config.DIR_PHOTO+Utils.md5Hex(url)+ ".jpg";
+                            String name = Environment.getExternalStorageDirectory() +Config.DIR_PHOTO+"/"+Utils.md5Hex(url)+ ".jpg";
                             File file = new File(name);
                             if (!file.exists()){
                                 try {
