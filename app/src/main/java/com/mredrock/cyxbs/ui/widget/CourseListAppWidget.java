@@ -39,6 +39,9 @@ public class CourseListAppWidget extends AppWidgetProvider {
     public static RemoteViews generateRemoteViews(Context context) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget_course_list);
 
+        Intent mainIntent = new Intent(context, MainActivity.class);
+        views.setOnClickPendingIntent(R.id.tv_app_widget_title, PendingIntent.getActivity(context, 0, mainIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+
         Intent serviceIntent = new Intent(context, CourseListRemoteViewsService.class);
         views.setRemoteAdapter(R.id.lv_app_widget_course_list, serviceIntent);
 

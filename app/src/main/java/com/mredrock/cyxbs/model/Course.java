@@ -37,6 +37,10 @@ public class Course implements Serializable, Parcelable {
         return course + '@' + classroom;
     }
 
+    public int getCourseType() {
+        return courseType;
+    }
+
     public static class CourseWrapper extends RedrockApiWrapper<List<Course>> {
         public String term;
         public String stuNum;
@@ -51,6 +55,7 @@ public class Course implements Serializable, Parcelable {
     /****************************************/
 
     protected Course(Parcel in) {
+        courseType = in.readInt();
         hash_day = in.readInt();
         hash_lesson = in.readInt();
         begin_lesson = in.readInt();
@@ -87,6 +92,7 @@ public class Course implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(courseType);
         dest.writeInt(hash_day);
         dest.writeInt(hash_lesson);
         dest.writeInt(begin_lesson);
@@ -104,7 +110,4 @@ public class Course implements Serializable, Parcelable {
         dest.writeInt(period);
     }
 
-    public int getCourseType() {
-        return courseType;
-    }
 }

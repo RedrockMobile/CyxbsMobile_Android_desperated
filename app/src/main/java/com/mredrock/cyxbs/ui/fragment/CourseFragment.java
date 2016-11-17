@@ -23,6 +23,7 @@ import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.network.func.AppWidgetCacheAndUpdateFunc;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
@@ -38,14 +39,16 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
-import rx.Scheduler;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static u.aly.av.O;
+import static u.aly.av.a;
 
 
 public class CourseFragment extends BaseFragment {
@@ -115,6 +118,7 @@ public class CourseFragment extends BaseFragment {
             int lesson = y / 2;
             Position position = new Position(day , lesson);
             intent.putExtra(EditAffairActivity.BUNDLE_KEY,position);
+            intent.putExtra(EditAffairActivity.WEEK_NUMBER,mWeek);
             startActivity(intent);
         });
 
@@ -179,7 +183,6 @@ public class CourseFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LogUtils.LOGE("onDestroyView()","onDestroyView()");
         ButterKnife.unbind(this);
     }
 
@@ -247,6 +250,13 @@ public class CourseFragment extends BaseFragment {
                             affairList.addAll(affairs);
                             affairList.addAll(courseList);
                             mCourseScheduleContent.addContentView(affairList);
+                            Observable<List<Course>> observable = Observable.create(new Observable.OnSubscribe<List<Course>>() {
+                                @Override
+                                public void call(Subscriber<? super List<Course>> subscriber) {
+                                    subscriber.onNext(affairList);
+                                }
+                            });
+                            observable.map(new AppWidgetCacheAndUpdateFunc()).subscribe();
                         }
                     }
                 }));
@@ -290,7 +300,6 @@ public class CourseFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAffairAddEvent(AffairAddEvent event){
-        LogUtils.LOGE("onAffairAddEvent","mWeek: "+mWeek+"    " +event.getCourse().week.toString());
         if (mWeek == 0 || event.getCourse().week.contains(mWeek)){
             LogUtils.LOGE("onAffairAddEvent","loadCourse(mWeek,false);");
             loadAffair(mWeek);
