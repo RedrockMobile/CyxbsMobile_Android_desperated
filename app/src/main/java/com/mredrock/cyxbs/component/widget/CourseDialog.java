@@ -3,14 +3,12 @@ package com.mredrock.cyxbs.component.widget;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
@@ -77,7 +75,7 @@ public class CourseDialog {
             View courseView = container.getChildAt(position);
             Course course = this.course.get(position);
             if (courseView == null) {
-                if (course.getCourseType() == 1) {
+                if (course.getCourseType() == Course.TYPE) {
                     courseView = mInflater.inflate(R.layout.item_dialog_schedule, container, false);
                     TextView name = (TextView) courseView.findViewById(R.id.dialog_course_name);
                     TextView teacher = (TextView) courseView.findViewById(R.id.dialog_course_teacher);
