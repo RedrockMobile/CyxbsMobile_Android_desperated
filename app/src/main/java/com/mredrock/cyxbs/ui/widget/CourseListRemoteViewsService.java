@@ -120,6 +120,7 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                     views.setOnClickFillInIntent(R.id.rl_app_widget_course_item_content, coursesIntent);
                     views.setBoolean(R.id.rl_app_widget_course_item_content, "setEnabled", true);
                     if ((item.getType() & Item.ITEM_TYPE_AFFAIR_ONLY) != 0) { // affair & course
+                        views.setImageViewResource(R.id.iv_app_widget_course_item_corner, R.drawable.ic_regular_triangle_white);
                         views.setInt(R.id.iv_app_widget_course_item_corner, "setVisibility", View.VISIBLE);
                     }
                 }
