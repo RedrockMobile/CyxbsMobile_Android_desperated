@@ -59,9 +59,20 @@ public enum  DBManager {
         db.update("affair", cv, "uid = ?", new String[]{uid});
     }
 
-    public Observable deleteAffair(String uid) {
-        open();
+    public Observable upDateAffair(String data,String uid){
         return Observable.create((subscriber -> {
+            open();
+            ContentValues values = new ContentValues();
+            values.put("data",uid);
+            db.update("affair",values,"uid = ?",new String[]{uid});
+            subscriber.onNext(null);
+            subscriber.onCompleted();
+        }));
+    }
+
+    public Observable deleteAffair(String uid) {
+        return Observable.create((subscriber -> {
+            open();
             db.delete("affair", "uid = ?", new String[]{uid});
             subscriber.onNext(null);
             subscriber.onCompleted();

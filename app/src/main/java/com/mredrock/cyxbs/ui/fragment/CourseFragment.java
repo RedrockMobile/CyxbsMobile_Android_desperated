@@ -19,6 +19,7 @@ import com.mredrock.cyxbs.component.widget.Position;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
 import com.mredrock.cyxbs.event.AffairAddEvent;
 import com.mredrock.cyxbs.event.AffairDeleteEvent;
+import com.mredrock.cyxbs.event.AffairModifyEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
@@ -305,6 +306,11 @@ public class CourseFragment extends BaseFragment {
             loadAffair(mWeek);
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAffairModifyEvent(AffairModifyEvent event){
+        loadAffair(mWeek);
     }
 
 

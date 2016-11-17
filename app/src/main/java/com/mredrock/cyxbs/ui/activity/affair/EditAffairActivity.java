@@ -29,6 +29,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Position;
 import com.mredrock.cyxbs.event.AffairAddEvent;
 import com.mredrock.cyxbs.event.AffairDeleteEvent;
+import com.mredrock.cyxbs.event.AffairModifyEvent;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
@@ -43,6 +44,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,13 +64,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.mredrock.cyxbs.R.string.course;
 import static com.mredrock.cyxbs.util.LogUtils.LOGE;
-import static java.sql.Types.INTEGER;
-import static java.sql.Types.TIME;
-import static u.aly.av.I;
-import static u.aly.av.p;
-import static u.aly.av.w;
+
 
 
 public class EditAffairActivity extends AppCompatActivity {
@@ -81,6 +78,8 @@ public class EditAffairActivity extends AppCompatActivity {
 
     private final String[] WEEKS = {"周一","周二","周三","周四","周五","周六","周日"};
     private final String[] CLASSES = {"一二节","三四节","五六节","七八节","九十节","AB节"};
+    private boolean isStartByCourse = false;
+    private String uid;
     BottomSheetBehavior behavior;
 
 
@@ -148,6 +147,7 @@ public class EditAffairActivity extends AppCompatActivity {
         intro();
     }
 
+    @SuppressWarnings("unchecked")
     @OnClick({R.id.edit_affair_iv_save,R.id.edit_affair_iv_back})
     public void onSaveClick(View v){
         KeyboardUtils.hideInput(v);
@@ -169,9 +169,7 @@ public class EditAffairActivity extends AppCompatActivity {
                         int x;//定义两变量
                         Random ne=new Random();//实例化一个random的对象ne
                         x=ne.nextInt(9999-1000+1)+1000;//为变量赋随机值1000-9999
-
                         affair.uid = System.currentTimeMillis() +"" +x;
-
                         affair.hash_day = positions.get(i).getX();
                         affair.hash_lesson = positions.get(i).getY();
                         affair.period = 2 ;
@@ -188,16 +186,31 @@ public class EditAffairActivity extends AppCompatActivity {
                     }
                     subscriber.onCompleted();
                     dbManager.close();
-
                 });
                 SimpleSubscriber<Boolean> subscriber = new SimpleSubscriber<Boolean>(this, false, new SubscriberListener<Boolean>() {
                     @Override
                     public void onCompleted() {
                         super.onCompleted();
                         LOGE("onCompleted()","EventBus.getDefault().post(new AffairAddEvent(affair));");
-                        EventBus.getDefault().post(new AffairAddEvent(affair));
-                        dbManager.close();
-                        onBackPressed();
+                        if (isStartByCourse){
+                            DBManager.INSTANCE.deleteAffair(uid)
+                                    .observeOn(Schedulers.io())
+                                    .unsubscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleSubscriber(EditAffairActivity.this, new SubscriberListener() {
+                                @Override
+                                public void onCompleted() {
+                                    super.onCompleted();
+                                    EventBus.getDefault().post(new AffairModifyEvent());
+                                    dbManager.close();
+                                    onBackPressed();
+                                }
+                            }));
+                        }else {
+                            EventBus.getDefault().post(new AffairAddEvent(affair));
+                            dbManager.close();
+                            onBackPressed();
+                        }
+
                     }
 
                     @Override
@@ -223,9 +236,6 @@ public class EditAffairActivity extends AppCompatActivity {
 
     }
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -235,10 +245,53 @@ public class EditAffairActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
+        initCourse();
         initData();
 
 
 
+    }
+
+    private void initCourse() {
+        Course course = (Course) getIntent().getSerializableExtra(COURSE_KEY);
+        if (course == null)
+            return;
+        int time = getIntent().getIntExtra("time",0);
+        uid = getIntent().getStringExtra("uid");
+        Position position = new Position(course.hash_day,course.hash_lesson);
+        positions.add(position);
+        mTimeChooseText.setText(WEEKS[position.getX()]+CLASSES[position.getY()]);
+        if (course.week != null){
+            for (int weekNum : course.week){
+                mWeekAdapter.addWeekNum(weekNum);
+            }
+            onWeekChooseOkClick();
+        }
+        mTitleEdit.setText(course.course);
+        mContentEdit.setText(course.teacher);
+        int index = 0;
+        switch (time){
+            case 5 :
+                index = 1;
+                break;
+            case 10:
+                index = 2;
+                break;
+            case 20:
+                index = 3;
+                break;
+            case 30:
+                index = 4;
+                break;
+            case 60:
+                index = 5;
+                break;
+            default:
+                index = 0;
+                break;
+        }
+        mRemindTimeText.setText(TIMES[index]);
+        isStartByCourse = true;
     }
 
     private void initData() {
@@ -276,6 +329,14 @@ public class EditAffairActivity extends AppCompatActivity {
     public static void editAffairActivityStart(Context context,int weekNum) {
         Intent starter = new Intent(context, EditAffairActivity.class);
         starter.putExtra(WEEK_NUMBER,weekNum);
+        context.startActivity(starter);
+    }
+
+    public static void editAffairActivityStart(Context context, Course course, String uid, int time) {
+        Intent starter = new Intent(context, EditAffairActivity.class);
+        starter.putExtra(COURSE_KEY, (Parcelable) course);
+        starter.putExtra("time",time);
+        starter.putExtra("uid",uid);
         context.startActivity(starter);
     }
 
@@ -338,7 +399,6 @@ public class EditAffairActivity extends AppCompatActivity {
         }
 
        public void addWeekNum(int weekNum){
-           LOGE("addWeekNum",weekNum+" ");
            mWeeks.add(weekNum);
        }
 
@@ -346,11 +406,9 @@ public class EditAffairActivity extends AppCompatActivity {
         public void onBindViewHolder(WeekAdapter.WeekViewHolder holder, int position) {
             holder.mTextView.setBackgroundResource(R.drawable.circle_text_normal);
             holder.mTextView.setTextColor(Color.parseColor("#595959"));
-            LOGE("onBindViewHolder position",position+" ");
             holder.isChoose = false;
             holder.mTextView.setText(weeks.get(position));
             if (mWeeks.contains(position + 1)){
-                LOGE("mWeeks.contains(position)",position+"   ");
                 holder.mTextView.setTextColor(Color.parseColor("#ffffff"));
                 holder.mTextView.setBackgroundResource(R.drawable.circle_text_pressed);
                 holder.isChoose = true;
