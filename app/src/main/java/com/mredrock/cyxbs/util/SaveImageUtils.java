@@ -26,15 +26,15 @@ import rx.schedulers.Schedulers;
  */
 
 public class SaveImageUtils {
-    public static void imageSave(final ImageView imageView,final String url, final int id, Context context){
-        Observable.create(new Observable.OnSubscribe<ImageView>() {
+    public static void imageSave(final Bitmap bitmap,final String url,Context context){
+        Observable.create(new Observable.OnSubscribe<Bitmap>() {
             @Override
-            public void call(Subscriber<? super ImageView> subscriber) {
-                subscriber.onNext(imageView);
+            public void call(Subscriber<? super Bitmap> subscriber) {
+                subscriber.onNext(bitmap);
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<ImageView>(context, new SubscriberListener<ImageView>() {
+                .subscribe(new SimpleSubscriber<Bitmap>(context, new SubscriberListener<Bitmap>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -54,8 +54,8 @@ public class SaveImageUtils {
                     }
 
                     @Override
-                    public void onNext(ImageView imageView) {
-                        super.onNext(imageView);
+                    public void onNext(Bitmap bitmap) {
+                        super.onNext(bitmap);
                         File imageFile = new File(Environment.getExternalStorageDirectory() + Config.DIR_PHOTO);
                         if (!imageFile.exists())imageFile.mkdirs();
                         FileOutputStream outputStream = null;
@@ -72,8 +72,8 @@ public class SaveImageUtils {
                                 }
                             }
                             outputStream = new FileOutputStream(file);
-                            Bitmap image = imageView.getDrawingCache();
-                            image.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+                            //Bitmap image = bitmap.getDrawingCache();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
                             outputStream.flush();
                             outputStream.close();
                             Toast.makeText(APP.getContext(),"图片成功保存至"+name+"目录",Toast.LENGTH_LONG).show();

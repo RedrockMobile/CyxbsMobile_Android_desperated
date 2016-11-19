@@ -284,7 +284,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mImageView.setVisibility(View.VISIBLE);
             ImageLoader.getInstance().loadOffcialImg(getImageList(getUrls(mHotNewsContent.img.smallImg)).get(0).url, mImageView, itemView);
             mImageView.setOnClickListener(view -> ImageActivity.startWithData(itemView.getContext(), mHotNewsContent, 0));//恩，这里是点击图片放大的逻辑
-            //这里加长按下载图片
         }
 
         private void showNineLayout() {
