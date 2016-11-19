@@ -59,6 +59,7 @@ public class CourseListAppWidget extends AppWidgetProvider {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (updatePendingIntent == null) {
             Intent alarmIntent = new Intent(context, CourseListAppWidgetUpdateService.class);
+            alarmIntent.putExtra(CourseListAppWidgetUpdateService.EXTRA_UPDATE, true);
             updatePendingIntent = PendingIntent.getService(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -70,6 +71,12 @@ public class CourseListAppWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
+    }
+
+    @Override
+    public void onEnabled(Context context) {
+        super.onEnabled(context);
+        CourseListAppWidgetUpdateService.start(context, true);
     }
 
     private long getTomorrowTimeInMillis() {

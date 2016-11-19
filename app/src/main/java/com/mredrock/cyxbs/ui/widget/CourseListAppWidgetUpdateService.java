@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.ui.widget;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -21,6 +22,9 @@ import java.util.List;
 import rx.schedulers.Schedulers;
 
 public class CourseListAppWidgetUpdateService extends Service {
+
+    public static final String EXTRA_UPDATE = "update";
+
     public CourseListAppWidgetUpdateService() {
     }
 
@@ -32,15 +36,20 @@ public class CourseListAppWidgetUpdateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        load();
+        load(intent);
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void load(){
-
+    private void load(Intent intent){
+        boolean update = true;
+        try {
+            update = intent.getBooleanExtra(EXTRA_UPDATE, true);
+        } catch (Exception e) {
+            LogUtils.LOGW("AppWidgetUpdateService", "can't get extra", e);
+        }
         DBManager dbManager = DBManager.INSTANCE;
         dbManager.query(APP.getUser(getApplicationContext()).stuNum, new SchoolCalendar().getWeekOfTerm())
-                .zipWith(CourseListProvider.start(APP.getUser(APP.getContext()).stuNum, "", true), (courses, courses2) -> {
+                .zipWith(CourseListProvider.start(APP.getUser(APP.getContext()).stuNum, "", update), (courses, courses2) -> {
                     if (courses == null) courses = new ArrayList<>();
                     if (courses2 == null) courses2 = new ArrayList<>();
                     courses.addAll(courses2);
@@ -62,6 +71,12 @@ public class CourseListAppWidgetUpdateService extends Service {
                         return true;
                     }
                 }));
+    }
+
+    public static void start(Context context, boolean updateFromNetwork) {
+        Intent starter = new Intent(context, CourseListAppWidgetUpdateService.class);
+        starter.putExtra(EXTRA_UPDATE, updateFromNetwork);
+        context.startService(starter);
     }
 
 }
