@@ -17,14 +17,39 @@
 #}
 #-------------------------------------------定制化区域----------------------------------------------
 #---------------------------------1.实体类---------------------------------
--keep com.mredrock.cyxbs.model.**{ *; }
+-keep class com.mredrock.cyxbs.model.**{ *; }
+-keep class com.mredrock.cyxbs.network.**{ *;}
+-keep public class * extends android.support.v4.app.Fragment
 
+-keep public class * extends android.app.Fragment
 #-keepclasseswithmembernames class * { # 保持native方法不被混淆
  #   native <methods>;
 #}
 #-------------------------------------------------------------------------
 
 #---------------------------------2.第三方包-------------------------------
+#Map
+#-libraryjars src/libs/Android_Map_V2.5.0.jar
+-dontwarn com.Android_Map_V2.5.0.*
+-keep class Android_Map_V2.5.0.** { *;}
+
+-dontwarn com.fasterxml.jackson.**
+-dontwarn com.mredrock.cyxbs.component.**
+-dontwarn com.mredrock.cyxbs.network.**
+-dontwarn com.mredrock.cyxbs.ui.**
+-dontwarn com.mredrock.cyxbs.util.**
+-dontwarn com.github.siyamed.shapeimageview.**
+-dontwarn org.simpleframework.xml.stream.**
+
+
+-dontwarn com.amap.api.**
+-dontwarn com.a.a.**
+-dontwarn com.autonavi.**
+
+
+-keep class com.amap.api.** {*;}
+-keep class com.autonavi.** {*;}
+-keep class com.a.a.** {*;}
 #butterknife
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
@@ -43,27 +68,39 @@
   **[] $VALUES;
   public *;
 }
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 #okhttp with retrofit
+
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.squareup.okhttp3.** { *; }
+-keep interface com.squareup.okhttp3.** { *; }
+-dontwarn com.squareup.okhttp3.**
+
+
+-keep class okhttp3.** { *; }
+
+-keep interface okhttp3.** { *; }
+
+-dontwarn okhttp3.**
+
 -dontwarn rx.**
-
--dontwarn okio.**
-
--dontwarn com.squareup.okhttp.**
--keep class com.squareup.okhttp.** { *; }
--keep interface com.squareup.okhttp.** { *; }
-
--dontwarn retrofit.**
--dontwarn retrofit.appengine.UrlFetchClient
--keep class retrofit.** { *; }
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
 -keepclasseswithmembers class * {
     @retrofit.http.* <methods>;
 }
 
--keepattributes Signature
--keepattributes *Annotation*
-
 -keep class sun.misc.Unsafe { *; }
+
+-dontwarn okio.**
+-dontwarn com.squareup.retrofit2.**
+-dontwarn retrofit.appengine.UrlFetchClient
+
+-keep class com.tbruyelle.rxpermissions.**{*;}
+-keep class rxpermissions.**{*;}
+-keep interface rxpermissions.**{*;}
+
 #your package path where your gson models are stored
 #-keep class com.mredrock.cyxbs.model** { *; }
 
@@ -137,17 +174,7 @@
 -keep interface com.yalantis.ucrop** { *; }
 
 #nineoldandroids
--libraryjars libs/nineoldandroids-2.4.0.jar
--dontwarn com.nineoldandroids.*
--keep class com.nineoldandroids.** { *;}
-
-#support-v4包
--libraryjars libs/android-support-v4.jar
--dontwarn android.support.v4.**
--keep class android.support.v4.** { ; }
-
-#material-dialogs
-#donnot need
+-keep class com.nineoldandroids.** { *; }
 
 #RxCache
 -dontwarn io.rx_cache.internal.**
@@ -188,6 +215,7 @@
 
 #---------------------------------默认保留区---------------------------------
 -keep public class * extends android.app.Activity
+-keep public class * extends android.app.AppCompatActivity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
@@ -208,6 +236,7 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
 -keep public class * extends android.view.View{
     *** get*();
     void set*(***);
