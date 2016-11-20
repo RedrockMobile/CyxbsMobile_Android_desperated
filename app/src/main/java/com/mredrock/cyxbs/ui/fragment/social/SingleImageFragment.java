@@ -1,8 +1,11 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -87,10 +90,11 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
                                 if (mImageView == null) return;
                                 mImageView.setImageBitmap(resource);
                                 closeProgress();
+
                                 mAttacher = new PhotoViewAttacher(mImageView);
                                 mAttacher.update();
                                 mAttacher.setOnPhotoTapListener(SingleImageFragment.this);
-                                onUserVisible();
+                                onUserVisible(resource);
 
                             }
                         });
@@ -99,7 +103,7 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
                 mAttacher = new PhotoViewAttacher(mImageView);
                 mAttacher.update();
             mAttacher.setOnPhotoTapListener(SingleImageFragment.this);
-            onUserVisible();
+            //onUserVisible();
         }
 
     }
@@ -113,26 +117,41 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
     public void onOutsidePhotoTap() {
         getActivity().finish();
     }
-    public void onUserVisible() {
+    public void onUserVisible(Bitmap resource) {
         mAttacher.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("保存图片")
-                        .setMessage("您确定保存此图？会耗费您一点点流量哟~")
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                mImageView.setDrawingCacheEnabled(true);
-                                if (mImageView != null){
-                                    SaveImageUtils.imageSave(mImageView,url,which,getContext());
+                if (!isWifi(getContext())){
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("保存图片")
+                            .setMessage("您确定保存此图？会耗费您一点点流量哟~")
+                            .setNegativeButton("取消", null)
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mImageView.setDrawingCacheEnabled(true);
+                                    if (mImageView != null){
+                                        SaveImageUtils.imageSave(resource,url,getContext());
+                                    }
                                 }
-                            }
-                        })
-                        .show();
-
+                            })
+                            .show();
+                }else {
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("保存图片")
+                            .setMessage("您确定保存此图？")
+                            .setNegativeButton("取消", null)
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mImageView.setDrawingCacheEnabled(true);
+                                    if (mImageView != null){
+                                        SaveImageUtils.imageSave(resource,url,getContext());
+                                    }
+                                }
+                            })
+                            .show();
+                }
                 return true;
             }
         });
@@ -147,6 +166,15 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         Toast.makeText(getContext(),"抱歉，您没有开启权限保存图片哦~",Toast.LENGTH_SHORT).show();
 
+    }
+
+    public  boolean isWifi(Context context){
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI){
+            return true;
+        }
+        return false;
     }
 }
 
