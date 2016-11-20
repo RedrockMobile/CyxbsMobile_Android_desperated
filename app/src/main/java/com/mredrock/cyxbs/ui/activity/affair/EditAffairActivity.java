@@ -44,7 +44,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,27 +56,23 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import dagger.multibindings.ElementsIntoSet;
 import rx.Observable;
-import rx.Scheduler;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.mredrock.cyxbs.util.LogUtils.LOGE;
 
 
-
 public class EditAffairActivity extends AppCompatActivity {
 
-    public static  final String BUNDLE_KEY = "position";
+    public static final String BUNDLE_KEY = "position";
     public static final String WEEK_NUMBER = "week";
     private static final String COURSE_KEY = "course";
     private final String[] TIMES = new String[]{"不提醒", "提前5分钟", "提前10分钟", "提前20分钟", "提前30分钟", "提前一个小时"};
     private final int[] TIME_MINUTE = new int[]{0, 5, 10, 20, 30, 60};
 
-    private final String[] WEEKS = {"周一","周二","周三","周四","周五","周六","周日"};
-    private final String[] CLASSES = {"一二节","三四节","五六节","七八节","九十节","AB节"};
+    private final String[] WEEKS = {"周一", "周二", "周三", "周四", "周五", "周六", "周日"};
+    private final String[] CLASSES = {"一二节", "三四节", "五六节", "七八节", "九十节", "AB节"};
     private boolean isStartByCourse = false;
     private String uid;
     BottomSheetBehavior behavior;
@@ -111,10 +106,10 @@ public class EditAffairActivity extends AppCompatActivity {
 
 
     @OnClick(R.id.edit_affair_remind_layout)
-    public void onRemindTimeClick(View v){
+    public void onRemindTimeClick(View v) {
         KeyboardUtils.hideInput(v);
         new AlertDialog.Builder(this).setTitle("选择提醒时间")
-                .setItems(TIMES,(dialog,i)->{
+                .setItems(TIMES, (dialog, i) -> {
                     mRemindTimeText.setText(TIMES[i]);
                     time = TIME_MINUTE[i];
                 }).show();
@@ -122,67 +117,67 @@ public class EditAffairActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.edit_affair_weeks_layout)
-    public void onWeekChooseClick(View v){
+    public void onWeekChooseClick(View v) {
         KeyboardUtils.hideInput(v);
         intro();
     }
 
     @OnClick(R.id.edit_affair_time_layout)
-    public void onTimeChooseClick(View v){
+    public void onTimeChooseClick(View v) {
         KeyboardUtils.hideInput(v);
-        Intent i = new Intent(this,TimeChooseActivity.class);
-        i.putExtra(TimeChooseActivity.BUNDLE_KEY,positions);
+        Intent i = new Intent(this, TimeChooseActivity.class);
+        i.putExtra(TimeChooseActivity.BUNDLE_KEY, positions);
         startActivity(i);
     }
 
     @OnClick(R.id.edit_affair_iv_week_ok)
-    public void onWeekChooseOkClick(){
+    public void onWeekChooseOkClick() {
         weeks.clear();
         weeks.addAll(mWeekAdapter.getWeeks());
         Collections.sort(weeks);
-        LogUtils.LOGE("EditAffairActivity",weeks.toString());
+        LogUtils.LOGE("EditAffairActivity", weeks.toString());
         String data = weeks.toString();
-        data = data.substring(1,data.length()-1);
-        mWeekText.setText("第"+data+"周");
+        data = data.substring(1, data.length() - 1);
+        mWeekText.setText("第" + data + "周");
         intro();
     }
 
     @SuppressWarnings("unchecked")
-    @OnClick({R.id.edit_affair_iv_save,R.id.edit_affair_iv_back})
-    public void onSaveClick(View v){
+    @OnClick({R.id.edit_affair_iv_save, R.id.edit_affair_iv_back})
+    public void onSaveClick(View v) {
         KeyboardUtils.hideInput(v);
-        if (v.getId() == R.id.edit_affair_iv_save){
+        if (v.getId() == R.id.edit_affair_iv_save) {
             String title = mTitleEdit.getText().toString();
             String content = mContentEdit.getText().toString();
-            if (title.trim().isEmpty() || content.trim().isEmpty()){
-                Toast.makeText(APP.getContext(),"标题和内容不能为空哦",Toast.LENGTH_SHORT).show();
+            if (title.trim().isEmpty() || content.trim().isEmpty()) {
+                Toast.makeText(APP.getContext(), "标题和内容不能为空哦", Toast.LENGTH_SHORT).show();
 
-            }else if(weeks.size() == 0 || positions.size() == 0){
-                Toast.makeText(APP.getContext(),"时间或周数不能为空哦",Toast.LENGTH_SHORT).show();
+            } else if (weeks.size() == 0 || positions.size() == 0) {
+                Toast.makeText(APP.getContext(), "时间或周数不能为空哦", Toast.LENGTH_SHORT).show();
             } else {
                 DBManager dbManager = DBManager.INSTANCE;
                 Affair affair = new Affair();
-                Observable<Boolean> observable = Observable.create((subscriber)->{
+                Observable<Boolean> observable = Observable.create((subscriber) -> {
+                    //定义两变量
+                    Random ne = new Random();//实例化一个random的对象ne
+                    String x = System.currentTimeMillis()+""+(ne.nextInt(9999 - 1000 + 1) + 1000);//为变量赋随机值1000-9999
 
                     Gson g = new Gson();
                     for (int i = 0; i < positions.size(); i++) {
-                        int x;//定义两变量
-                        Random ne=new Random();//实例化一个random的对象ne
-                        x=ne.nextInt(9999-1000+1)+1000;//为变量赋随机值1000-9999
-                        affair.uid = System.currentTimeMillis() +"" +x;
+                        affair.uid = x;
                         affair.hash_day = positions.get(i).getX();
                         affair.hash_lesson = positions.get(i).getY();
-                        affair.period = 2 ;
+                        affair.period = 2;
                         affair.course = title;
                         affair.teacher = content;
-                        affair.classroom =" ";
-                        affair.begin_lesson = affair.hash_lesson * 2 +  1;
+                        affair.classroom = " ";
+                        affair.begin_lesson = affair.hash_lesson * 2 + 1;
                         affair.type = "提醒";
                         affair.time = time;
                         affair.week = weeks;
                         affair.courseType = 2;
                         affair.rawWeek = " ";
-                        subscriber.onNext(dbManager.insert(affair.uid, APP.getUser(this).stuNum,g.toJson(affair)));
+                        subscriber.onNext(dbManager.insert(affair.uid, APP.getUser(this).stuNum, g.toJson(affair)));
                     }
                     subscriber.onCompleted();
                     dbManager.close();
@@ -191,8 +186,8 @@ public class EditAffairActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted() {
                         super.onCompleted();
-                        LOGE("onCompleted()","EventBus.getDefault().post(new AffairAddEvent(affair));");
-                        if (isStartByCourse){
+                        LOGE("onCompleted()", "EventBus.getDefault().post(new AffairAddEvent(affair));");
+                        if (isStartByCourse) {
                             DBManager.INSTANCE.deleteAffair(uid)
                                     .observeOn(Schedulers.io())
                                     .unsubscribeOn(Schedulers.io())
@@ -205,7 +200,7 @@ public class EditAffairActivity extends AppCompatActivity {
                                     onBackPressed();
                                 }
                             }));
-                        }else {
+                        } else {
                             EventBus.getDefault().post(new AffairAddEvent(affair));
                             dbManager.close();
                             onBackPressed();
@@ -215,7 +210,7 @@ public class EditAffairActivity extends AppCompatActivity {
 
                     @Override
                     public boolean onError(Throwable e) {
-                        Toast.makeText(APP.getContext(),"添加失败，请重试！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(APP.getContext(), "添加失败，请重试！", Toast.LENGTH_SHORT).show();
                         return true;
                     }
 
@@ -229,7 +224,7 @@ public class EditAffairActivity extends AppCompatActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(subscriber);
             }
-        }else {
+        } else {
             onBackPressed();
         }
 
@@ -240,7 +235,7 @@ public class EditAffairActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtil.StatusBarLightMode(this);
-        StatusBarUtil.setStatusBarColor(this,R.color.white_black);
+        StatusBarUtil.setStatusBarColor(this, R.color.white_black);
         setContentView(R.layout.activity_edit_affair);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
@@ -249,20 +244,19 @@ public class EditAffairActivity extends AppCompatActivity {
         initData();
 
 
-
     }
 
     private void initCourse() {
         Course course = (Course) getIntent().getSerializableExtra(COURSE_KEY);
         if (course == null)
             return;
-        int time = getIntent().getIntExtra("time",0);
+        int time = getIntent().getIntExtra("time", 0);
         uid = getIntent().getStringExtra("uid");
-        Position position = new Position(course.hash_day,course.hash_lesson);
+        Position position = new Position(course.hash_day, course.hash_lesson);
         positions.add(position);
-        mTimeChooseText.setText(WEEKS[position.getX()]+CLASSES[position.getY()]);
-        if (course.week != null){
-            for (int weekNum : course.week){
+        mTimeChooseText.setText(WEEKS[position.getX()] + CLASSES[position.getY()]);
+        if (course.week != null) {
+            for (int weekNum : course.week) {
                 mWeekAdapter.addWeekNum(weekNum);
             }
             onWeekChooseOkClick();
@@ -270,8 +264,8 @@ public class EditAffairActivity extends AppCompatActivity {
         mTitleEdit.setText(course.course);
         mContentEdit.setText(course.teacher);
         int index = 0;
-        switch (time){
-            case 5 :
+        switch (time) {
+            case 5:
                 index = 1;
                 break;
             case 10:
@@ -297,13 +291,13 @@ public class EditAffairActivity extends AppCompatActivity {
     private void initData() {
 
         Position position = (Position) getIntent().getSerializableExtra(BUNDLE_KEY);
-        if (position != null){
+        if (position != null) {
             positions.add(position);
-            mTimeChooseText.setText(WEEKS[position.getX()]+CLASSES[position.getY()]);
+            mTimeChooseText.setText(WEEKS[position.getX()] + CLASSES[position.getY()]);
         }
 
-        int currentWeek = getIntent().getIntExtra(WEEK_NUMBER,-1);
-        if (currentWeek != -1){
+        int currentWeek = getIntent().getIntExtra(WEEK_NUMBER, -1);
+        if (currentWeek != -1) {
             mWeekAdapter.addWeekNum(currentWeek);
             onWeekChooseOkClick();
         }
@@ -326,17 +320,17 @@ public class EditAffairActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mWeekAdapter);
     }
 
-    public static void editAffairActivityStart(Context context,int weekNum) {
+    public static void editAffairActivityStart(Context context, int weekNum) {
         Intent starter = new Intent(context, EditAffairActivity.class);
-        starter.putExtra(WEEK_NUMBER,weekNum);
+        starter.putExtra(WEEK_NUMBER, weekNum);
         context.startActivity(starter);
     }
 
     public static void editAffairActivityStart(Context context, Course course, String uid, int time) {
         Intent starter = new Intent(context, EditAffairActivity.class);
         starter.putExtra(COURSE_KEY, (Parcelable) course);
-        starter.putExtra("time",time);
-        starter.putExtra("uid",uid);
+        starter.putExtra("time", time);
+        starter.putExtra("uid", uid);
         context.startActivity(starter);
     }
 
@@ -364,24 +358,20 @@ public class EditAffairActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTimeChooseEvent(TimeChooseEvent event) {
-        LogUtils.LOGE("EditAffairActivity",event.getPositions().toString());
+        LogUtils.LOGE("EditAffairActivity", event.getPositions().toString());
         positions.clear();
         positions.addAll(event.getPositions());
         StringBuffer stringBuffer = new StringBuffer();
         for (int i = 0; i < positions.size() && i < 3; i++) {
-             stringBuffer.append(WEEKS[positions.get(i).getX()]+CLASSES[positions.get(i).getY()]+" ");
+            stringBuffer.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
         }
         mTimeChooseText.setText(stringBuffer.toString());
     }
 
 
-
-
     class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.WeekViewHolder> {
         private List<String> weeks = new ArrayList<>();
         private Set<Integer> mWeeks = new HashSet<>();
-
-
 
 
         public WeekAdapter() {
@@ -398,9 +388,9 @@ public class EditAffairActivity extends AppCompatActivity {
             return mWeeks;
         }
 
-       public void addWeekNum(int weekNum){
-           mWeeks.add(weekNum);
-       }
+        public void addWeekNum(int weekNum) {
+            mWeeks.add(weekNum);
+        }
 
         @Override
         public void onBindViewHolder(WeekAdapter.WeekViewHolder holder, int position) {
@@ -408,21 +398,21 @@ public class EditAffairActivity extends AppCompatActivity {
             holder.mTextView.setTextColor(Color.parseColor("#595959"));
             holder.isChoose = false;
             holder.mTextView.setText(weeks.get(position));
-            if (mWeeks.contains(position + 1)){
+            if (mWeeks.contains(position + 1)) {
                 holder.mTextView.setTextColor(Color.parseColor("#ffffff"));
                 holder.mTextView.setBackgroundResource(R.drawable.circle_text_pressed);
                 holder.isChoose = true;
             }
-            holder.mTextView.setOnClickListener((v)->{
+            holder.mTextView.setOnClickListener((v) -> {
                 if (holder.isChoose) {
                     holder.mTextView.setBackgroundResource(R.drawable.circle_text_normal);
                     holder.mTextView.setTextColor(Color.parseColor("#595959"));
-                    mWeeks.remove(position+1);
+                    mWeeks.remove(position + 1);
                     holder.isChoose = false;
-                }else{
+                } else {
                     holder.mTextView.setTextColor(Color.parseColor("#ffffff"));
                     holder.mTextView.setBackgroundResource(R.drawable.circle_text_pressed);
-                    mWeeks.add(position+1);
+                    mWeeks.add(position + 1);
                     holder.isChoose = true;
                 }
             });

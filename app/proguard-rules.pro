@@ -17,7 +17,7 @@
 #}
 #-------------------------------------------定制化区域----------------------------------------------
 #---------------------------------1.实体类---------------------------------
--keep com.mredrock.cyxbs.model.**{ *; }
+-keep class com.mredrock.cyxbs.model.**{ *; }
 
 #-keepclasseswithmembernames class * { # 保持native方法不被混淆
  #   native <methods>;
@@ -43,7 +43,7 @@
   **[] $VALUES;
   public *;
 }
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+-keep resource xmlelements manifest/application/meta-data@value=GlideModule
 #okhttp with retrofit
 -dontwarn rx.**
 

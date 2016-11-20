@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static android.R.attr.color;
 import static android.R.attr.x;
 import static android.R.attr.y;
 
@@ -81,7 +82,8 @@ public class ScheduleView extends FrameLayout {
         initCourse();
         if (data != null) {
             for (Course aData : data) {
-                colorSelector.addCourse(aData.course);
+                if (aData.getCourseType() == 1)
+                    colorSelector.addCourse(aData.begin_lesson,aData.hash_day);
                 //colorSelector.addCourse(aData.begin_lesson, aData.hash_day);
                 int x = aData.hash_lesson;
                 int y = aData.hash_day;
@@ -153,7 +155,10 @@ public class ScheduleView extends FrameLayout {
 
         GradientDrawable gd = new GradientDrawable();
         gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
-        gd.setColor(colorSelector.getCourseColor(course.course));
+        if (course.getCourseType() == 1)
+            gd.setColor(colorSelector.getCourseColor(course.begin_lesson,course.hash_day));
+        else
+            gd.setColor(colorSelector.getAffairColor());
         //gd.setColor(colorSelector.getCourseColor(course.begin_lesson, course.hash_day));
         tv.setBackgroundDrawable(gd);
         tv.setOnClickListener(v -> CourseDialog.show(getContext(), courses));
@@ -222,10 +227,15 @@ public class ScheduleView extends FrameLayout {
 
     public static class CourseColorSelector {
         private int[] colors = new int[]{
-                Color.argb(200, 254, 145, 103),
-                Color.argb(200, 120, 201, 252),
-                Color.argb(200, 111, 219, 188),
-                Color.argb(200, 191, 161, 233),
+//                Color.argb(200, 254, 145, 103),
+//                Color.argb(200, 120, 201, 252),
+//                Color.argb(200, 111, 219, 188),
+//                Color.argb(200, 191, 161, 233),
+
+                Color.parseColor("#64d2f7"),
+                Color.parseColor("#f9af58"),
+                Color.parseColor("#79dbc4"),
+                Color.parseColor("#bdc3c7")
         };
 
         private HashMap<String, Integer> mCourseColorMap = new HashMap<>();
@@ -255,6 +265,10 @@ public class ScheduleView extends FrameLayout {
 
         public int getCourseColor(String name) {
             return mCourseColorMap.get(name);
+        }
+
+        public int getAffairColor(){
+            return colors[3];
         }
     }
 
