@@ -63,10 +63,13 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             } catch (Exception e) {
                 courses = null;
             }
-            if (courses == null || courses.size() == 0) {
+            if (courses == null) {
+                setError("你还没有登录");
+                return;
+            }
+            if (courses.size() == 0) {
                 // just show an empty list if there is no course.
                 //setError("今天没有课");
-                //return;
             }
             for (Course c: courses) {
                 colorSelector.addCourse(c.course);
