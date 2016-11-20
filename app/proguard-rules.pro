@@ -34,12 +34,14 @@
 -keep class Android_Map_V2.5.0.** { *;}
 
 -dontwarn com.fasterxml.jackson.**
+-keep class com.fasterxml.jackson.** { *; }
 -dontwarn com.mredrock.cyxbs.component.**
 -dontwarn com.mredrock.cyxbs.network.**
 -dontwarn com.mredrock.cyxbs.ui.**
 -dontwarn com.mredrock.cyxbs.util.**
 -dontwarn com.github.siyamed.shapeimageview.**
 -dontwarn org.simpleframework.xml.stream.**
+-keep class org.simpleframework.xml.** { *; }
 
 
 -dontwarn com.amap.api.**
