@@ -133,16 +133,6 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="@dimen/explore_image_size"
-                    android:layout_height="@dimen/explore_image_size"
-                    android:src="@drawable/icon_class" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/explore_fresher_special" />
-
             </LinearLayout>
             <View
                 android:layout_width="0dp"

@@ -10,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.excitingboat.freshmanspecial.view.activity.FreshmanMainActivity;
 import com.jude.rollviewpager.RollPagerView;
-import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.RollViewPagerHint;
 import com.mredrock.cyxbs.config.Const;
@@ -22,7 +20,6 @@ import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
 import com.mredrock.cyxbs.ui.adapter.ExploreRollViewPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.util.LogUtils;
-import com.mredrock.cyxbs.util.WebViewUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,11 +74,6 @@ public class ExploreFragment extends BaseFragment {
             startLocation[0] += mSurroundingFoodHolder.getWidth() / 2;
             SurroundingFoodActivity.startSurroundingFoodActivity(startLocation, getActivity());
         }
-    }
-
-    @OnClick(R.id.explore_fresher_special_holder)
-    void clickToFreshmanSpecial() {
-        FreshmanMainActivity.start(APP.getContext());
     }
 
     @Override
