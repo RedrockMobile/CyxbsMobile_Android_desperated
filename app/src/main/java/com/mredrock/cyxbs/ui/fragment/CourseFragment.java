@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.CorrectionInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.mredrock.cyxbs.event.AffairDeleteEvent;
 import com.mredrock.cyxbs.event.AffairModifyEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
+import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
@@ -207,7 +209,12 @@ public class CourseFragment extends BaseFragment {
                             public void onNext(List<Course> courses) {
                                 super.onNext(courses);
                                 courseList.clear();
-                                courseList.addAll(courses);
+                                for (Course c : courses){
+                                    if (c.week.contains(mWeek))
+                                        courseList.add(c);
+                                }
+
+                                loadAffair(mWeek);
 
                             }
 
@@ -225,40 +232,87 @@ public class CourseFragment extends BaseFragment {
                                 hideRefreshLoading();
                             }
                         }), mUser.stuNum, mUser.idNum, week, update);
+                RequestManager.getInstance().getAffair(new SimpleSubscriber<List<Affair>>(getActivity(), false, false, new SubscriberListener<List<Affair>>() {
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                    }
+
+                    @Override
+                    public boolean onError(Throwable e) {
+                        return super.onError(e);
+                    }
+
+                    @Override
+                    public void onNext(List<Affair> affairs) {
+                        super.onNext(affairs);
+                        affairList.clear();
+                        for (Affair a : affairs){
+                            if (a.week.contains(mWeek))
+                                affairList.add(a);
+                        }
+                        loadAffair(mWeek);
+                    }
+
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+                }),mUser.stuNum,mUser.idNum);
             }
         }
     }
 
 
     private void loadAffair(int mWeek){
-        DBManager dbManager = DBManager.INSTANCE;
-        dbManager.query(mUser.stuNum,mWeek)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<List<Course>>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
-                    @Override
-                    public void onNext(List<Course> affairs) {
-                        super.onNext(affairs);
-                        if (mCourseScheduleContent != null) {
-                            affairList.clear();
-                            mCourseScheduleContent.clearList();
-                            affairList.addAll(affairs);
-                            affairList.addAll(courseList);
-                            mCourseScheduleContent.addContentView(affairList);
-                            Observable<List<Course>> observable = Observable.create(new Observable.OnSubscribe<List<Course>>() {
-                                @Override
-                                public void call(Subscriber<? super List<Course>> subscriber) {
-                                    subscriber.onNext(affairList);
-                                }
-                            });
-                            observable.map(courses -> {
-                                CourseListAppWidgetUpdateService.start(getActivity(), false);
-                                return courses;
-                            }).subscribe();
-                        }
-                    }
-                }));
+        List<Course> tempCourseList = new ArrayList<>();
+        tempCourseList.addAll(courseList);
+        tempCourseList.addAll(affairList);
+        if (mCourseScheduleContent != null) {
+           // affairList.clear();
+            mCourseScheduleContent.clearList();
+          //  affairList.addAll(affairs);
+           // affairList.addAll(courseList);
+            mCourseScheduleContent.addContentView(tempCourseList);
+            Observable<List<Course>> observable = Observable.create(new Observable.OnSubscribe<List<Course>>() {
+                @Override
+                public void call(Subscriber<? super List<Course>> subscriber) {
+                    subscriber.onNext(affairList);
+                }
+            });
+            observable.map(courses -> {
+                CourseListAppWidgetUpdateService.start(getActivity(), false);
+                return courses;
+            }).subscribe();
+        }
+//        DBManager dbManager = DBManager.INSTANCE;
+//        dbManager.query(mUser.stuNum,mWeek)
+//                .subscribeOn(Schedulers.io())
+//                .unsubscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new SimpleSubscriber<>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
+//                    @Override
+//                    public void onNext(List<Course> affairs) {
+//                        super.onNext(affairs);
+//                        if (mCourseScheduleContent != null) {
+//                            affairList.clear();
+//                            mCourseScheduleContent.clearList();
+//                            affairList.addAll(affairs);
+//                            affairList.addAll(courseList);
+//                            mCourseScheduleContent.addContentView(affairList);
+//                            Observable<List<Course>> observable = Observable.create(new Observable.OnSubscribe<List<Course>>() {
+//                                @Override
+//                                public void call(Subscriber<? super List<Course>> subscriber) {
+//                                    subscriber.onNext(affairList);
+//                                }
+//                            });
+//                            observable.map(courses -> {
+//                                CourseListAppWidgetUpdateService.start(getActivity(), false);
+//                                return courses;
+//                            }).subscribe();
+//                        }
+//                    }
+//                }));
     }
 
     @SuppressWarnings("unchecked")
@@ -266,33 +320,55 @@ public class CourseFragment extends BaseFragment {
     public void onAffairDeleteEvent(AffairDeleteEvent event) {
         if (mWeek == 0||event.getCourse().week.contains(mWeek)){
             Affair affair = (Affair) event.getCourse();
-            DBManager.INSTANCE.deleteAffair(affair.uid)
-                    .observeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new SimpleSubscriber(getActivity(), new SubscriberListener() {
-                        @Override
-                        public void onCompleted() {
-                            super.onCompleted();
-                            LogUtils.LOGE("onAffairDeleteEvent","onAffairDeleteEvent");
-                            loadAffair(mWeek);
-                        }
+            RequestManager.getInstance().deleteAffair(new SimpleSubscriber<RedrockApiWrapper>(getActivity(), true, true, new SubscriberListener<RedrockApiWrapper>() {
+                @Override
+                public void onCompleted() {
+                    super.onCompleted();
+                    loadCourse(mWeek,false);
 
-                        @Override
-                        public boolean onError(Throwable e) {
-                            return super.onError(e);
-                        }
+                }
 
-                        @Override
-                        public void onNext(Object o) {
-                            super.onNext(o);
-                        }
+                @Override
+                public boolean onError(Throwable e) {
+                    return super.onError(e);
+                }
 
-                        @Override
-                        public void onStart() {
-                            super.onStart();
-                        }
-                    }));
+                @Override
+                public void onNext(RedrockApiWrapper redrockApiWrapper) {
+                    super.onNext(redrockApiWrapper);
+                    DBManager.INSTANCE.deleteAffair(affair.uid)
+                            .observeOn(Schedulers.io())
+                            .unsubscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new SimpleSubscriber(getActivity(), new SubscriberListener() {
+                                @Override
+                                public void onCompleted() {
+                                    super.onCompleted();
+                                }
+
+                                @Override
+                                public boolean onError(Throwable e) {
+                                    return super.onError(e);
+                                }
+
+                                @Override
+                                public void onNext(Object o) {
+                                    super.onNext(o);
+                                }
+
+                                @Override
+                                public void onStart() {
+                                    super.onStart();
+                                }
+                            }));
+                }
+
+                @Override
+                public void onStart() {
+                    super.onStart();
+                }
+            }),mUser.stuNum,mUser.idNum,affair.uid);
+
         }
 
     }
@@ -300,15 +376,15 @@ public class CourseFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAffairAddEvent(AffairAddEvent event){
         if (mWeek == 0 || event.getCourse().week.contains(mWeek)){
-            LogUtils.LOGE("onAffairAddEvent","loadCourse(mWeek,false);");
-            loadAffair(mWeek);
+          //  LogUtils.LOGE("onAffairAddEvent","loadCourse(mWeek,false);");
+            loadCourse(mWeek, false);
         }
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAffairModifyEvent(AffairModifyEvent event){
-        loadAffair(mWeek);
+        loadCourse(mWeek, false);
     }
 
 
