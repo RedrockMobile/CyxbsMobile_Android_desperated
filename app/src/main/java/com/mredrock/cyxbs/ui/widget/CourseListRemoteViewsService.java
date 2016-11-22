@@ -125,7 +125,7 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                     views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
                     if ((item.getType() & Item.ITEM_TYPE_AFFAIR_ONLY) != 0) { // affair only
                         Intent coursesIntent = new Intent();
-                        coursesIntent.putParcelableArrayListExtra(CourseListAppWidget.EXTRA_COURSES, item.getCourses());
+                        coursesIntent.putExtra(CourseListAppWidget.EXTRA_COURSES, item.getCourses().toArray());
                         views.setOnClickFillInIntent(R.id.rl_app_widget_course_item_content, coursesIntent);
                         views.setBoolean(R.id.rl_app_widget_course_item_content, "setEnabled", true);
                         views.setImageViewResource(R.id.iv_app_widget_course_item_corner, getCornerDrawableId(item));  // colorful
