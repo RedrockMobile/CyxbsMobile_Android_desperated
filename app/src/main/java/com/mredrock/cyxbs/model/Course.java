@@ -41,6 +41,10 @@ public class Course implements Serializable, Parcelable {
         return courseType;
     }
 
+    public int getBeginLesson() {
+        return hash_lesson * 2 + 1;
+    }
+
     public static class CourseWrapper extends RedrockApiWrapper<List<Course>> {
         public String term;
         public String stuNum;
