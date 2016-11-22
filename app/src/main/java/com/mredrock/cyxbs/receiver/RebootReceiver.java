@@ -19,8 +19,8 @@ public class RebootReceiver extends BroadcastReceiver {
     private static final String TAG = "RebootReceiver";
     private SharedPreferences mSp;
     private AlarmManager mAlarmManager;
-    public static final String EXTRA_COURSE_CLASSROOM = "course_classroom";
-    public static final String EXTRA_COURSE_NAME = "course_name";
+    public static final String EXTRA_NOTIFY_SUBTITLE = "course_classroom";
+    public static final String EXTRA_NOTIFY_TITLE = "course_name";
 
     @Override
     public void onReceive(Context context, Intent intent) {

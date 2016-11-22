@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.receiver.RemindReceiver;
@@ -25,8 +26,10 @@ import com.mredrock.cyxbs.util.TimeUtils;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.mredrock.cyxbs.receiver.RebootReceiver.EXTRA_COURSE_CLASSROOM;
-import static com.mredrock.cyxbs.receiver.RebootReceiver.EXTRA_COURSE_NAME;
+import rx.Subscriber;
+
+import static com.mredrock.cyxbs.receiver.RebootReceiver.EXTRA_NOTIFY_SUBTITLE;
+import static com.mredrock.cyxbs.receiver.RebootReceiver.EXTRA_NOTIFY_TITLE;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.ALARM_FLAG_BY_DAY;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.INTENT_FLAG_BY_CLASS;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.INTENT_FLAG_BY_DAY;
@@ -57,7 +60,7 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand: 服务启动了");
+        Log.d(TAG, "NotificationService started");
         initService();
         if (mSp.getBoolean(SP_REMIND_EVERY_DAY, false) && !isLate()) {
             byDay(this);
@@ -121,37 +124,28 @@ public class NotificationService extends Service {
             @Override
             public void onSuccess(List<Course> courses) {
                 for (Course c : courses) {
-                    Calendar today = Calendar.getInstance();
-                    today.setTimeInMillis(System.currentTimeMillis());
                     Calendar courseCalendar = CourseTimeUtils.CourseToCalendar(c);
-                    //如果不是今天的课就退出
-                    if (courseCalendar.get(Calendar.DAY_OF_WEEK) !=
-                            today.get(Calendar.DAY_OF_WEEK) ||
-                            System.currentTimeMillis() > courseCalendar.getTimeInMillis()) {
-                        continue;
-                    }
-                    int hourDelay = courseCalendar.get(Calendar.MINUTE) - Integer.valueOf(mSp.
-                            getString(SP_REMIND_EVERY_CLASS_DELAY, "0")) < 0 ? 1 : 0;
-                    courseCalendar.set(Calendar.HOUR_OF_DAY, courseCalendar.get(Calendar.HOUR_OF_DAY)
-                            - hourDelay);
-                    if (hourDelay != 0) {
-                        courseCalendar.set(Calendar.MINUTE, 60 + courseCalendar.get(Calendar.MINUTE) -
-                                Integer.valueOf(mSp.
-                                        getString(SP_REMIND_EVERY_CLASS_DELAY, "0")));
-                    }
-                    Intent intent = new Intent(context, RemindReceiver.class);
-                    intent.putExtra(INTENT_MODE, INTENT_FLAG_BY_CLASS);
-                    intent.putExtra(EXTRA_COURSE_NAME, c.course);
-                    intent.putExtra(EXTRA_COURSE_CLASSROOM, c.classroom);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, c.hash_lesson +
-                            10, intent, 0);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, courseCalendar.
-                                getTimeInMillis(), pendingIntent);
-                    } else {
-                        mAlarmManager.set(AlarmManager.RTC_WAKEUP, courseCalendar.
-                                getTimeInMillis(), pendingIntent);
-                    }
+                    if (isToadyCourse(courseCalendar)) continue;
+                    courseCalendar = delayCompute(courseCalendar, Integer.valueOf(mSp.
+                            getString(SP_REMIND_EVERY_CLASS_DELAY, "0")));
+                    setAlarm(courseCalendar, c.course, c.classroom,INTENT_FLAG_BY_CLASS);
+                }
+            }
+
+            @Override
+            public void onFail(Throwable e) {
+                e.printStackTrace();
+            }
+        });
+
+        getAffairList(this, new AffairCallback() {
+            @Override
+            public void onSuccess(List<Affair> affairs) {
+                for (Affair a:affairs) {
+                    Calendar calendar = CourseTimeUtils.CourseToCalendar(a);
+                    if(isToadyCourse(calendar)) continue;
+                    calendar = delayCompute(calendar, a.time);
+                    setAlarm(calendar, a.course, a.teacher,INTENT_FLAG_BY_CLASS);
                 }
             }
 
@@ -162,9 +156,65 @@ public class NotificationService extends Service {
         });
     }
 
+    private Calendar delayCompute(Calendar c,int minuteDelay) {
+        int hourDelay = c.get(Calendar.MINUTE) - minuteDelay < 0 ? 1 : 0;
+        c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY)
+                - hourDelay);
+        if (hourDelay != 0) {
+            c.set(Calendar.MINUTE, 60 + c.get(Calendar.MINUTE) - minuteDelay);
+        }
+        return c;
+    }
+
+    private void setAlarm(Calendar notifyTime,String title,String subtitle,int mode) {
+        Intent intent = new Intent(this, RemindReceiver.class);
+        intent.putExtra(INTENT_MODE, mode);
+        intent.putExtra(EXTRA_NOTIFY_TITLE, title);
+        intent.putExtra(EXTRA_NOTIFY_SUBTITLE, subtitle);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notifyTime.hashCode()
+                , intent, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, notifyTime.
+                    getTimeInMillis(), pendingIntent);
+        } else {
+            mAlarmManager.set(AlarmManager.RTC_WAKEUP, notifyTime.
+                    getTimeInMillis(), pendingIntent);
+        }
+        Log.d(TAG, "onSuccess time:" + TimeUtils.timeStampToStr(notifyTime.
+                getTimeInMillis() / 1000) + " title： " + title + " subTitle: " + subtitle);
+    }
+
+    private boolean isToadyCourse(Calendar courseCalendar) {
+        Calendar today = Calendar.getInstance();
+        today.setTimeInMillis(System.currentTimeMillis());
+        return (courseCalendar.get(Calendar.DAY_OF_WEEK) !=
+                today.get(Calendar.DAY_OF_WEEK) ||
+                System.currentTimeMillis() > courseCalendar.getTimeInMillis());
+    }
+
     private void initService() {
         mAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         mSp = PreferenceManager.getDefaultSharedPreferences(this);
+    }
+
+    private void getAffairList(Context context, AffairCallback affairCallback) {
+        RequestManager.getInstance().getAffair(new Subscriber<List<Affair>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                affairCallback.onFail(e);
+            }
+
+            @Override
+            public void onNext(List<Affair> affairs) {
+                affairCallback.onSuccess(affairs);
+            }
+        }, APP.getUser(context).stuNum, APP.getUser(context).idNum, new SchoolCalendar()
+                .getWeekOfTerm());
     }
 
     private void getCourseList(Context context, CourseCallback courseCallback) {
@@ -183,7 +233,6 @@ public class NotificationService extends Service {
                     @Override
                     public boolean onError(Throwable e) {
                         super.onError(e);
-                        e.printStackTrace();
                         courseCallback.onFail(e);
                         return false;
                     }
@@ -203,6 +252,12 @@ public class NotificationService extends Service {
 
         void onFail(Throwable e);
 
+    }
+
+    private interface AffairCallback {
+        void onSuccess(List<Affair> affairs);
+
+        void onFail(Throwable e);
     }
 
     @Nullable
