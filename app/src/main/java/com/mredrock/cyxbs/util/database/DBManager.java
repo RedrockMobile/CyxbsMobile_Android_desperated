@@ -7,12 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import com.google.gson.Gson;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.model.Affair;
+import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.model.Course;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
+import rx.Subscriber;
 
 
 /**
@@ -36,20 +39,14 @@ public enum  DBManager {
 
 
 
-    public boolean insert(String uid,String stuNum,String json) {
-        open();
-        db.beginTransaction();  //开始事务
-        try {
-            db.execSQL("INSERT INTO affair(uid,stuNum,isUpload,data) VALUES ('" + uid
-                    +"','"+stuNum +"','"+false+"','"+json+"');");
-            db.setTransactionSuccessful();  //设置事务成功完成
+    public Observable insert(String uid,String stuNum,String json) {
+        return  Observable.create(subscriber -> {
 
-        } catch (Exception e){
-            return false;
-        } finally {
-            db.endTransaction();    //结束事务
-        }
-        return true;
+            db.execSQL("INSERT INTO affair(uid,stuNum,isUpload,data) VALUES ('" + uid
+                    + "','" + stuNum + "','" + false + "','" + json + "');");
+            subscriber.onNext(null);
+            subscriber.onCompleted();
+        });
     }
 
 
@@ -92,11 +89,26 @@ public enum  DBManager {
             c.close();
             Gson gson = new Gson();
             for (String a : data){
-                Affair affair =  gson.fromJson(a,Affair.class);
-                if (week == 0)
-                    courses.add(affair);
-                else if (affair.week.contains(week))
-                    courses.add(affair);
+                AffairApi.AffairItem  affairItem =  gson.fromJson(a, AffairApi.AffairItem.class);
+                for (AffairApi.AffairItem.DateBean dateBean : affairItem.getDate()) {
+                    Affair affair = new Affair();
+                    affair.time = affairItem.getTime();
+                    affair.teacher = affairItem.getContent();
+                    affair.courseType = 2;
+                    affair.week = dateBean.getWeek();
+                    affair.hash_day = dateBean.getDay();
+                    affair.begin_lesson = 2 * affair.hash_day + 1;
+                    affair.hash_lesson = dateBean.getClassX();
+                    affair.period = 2;
+                    affair.uid = affairItem.getId();
+                    affair.course = affairItem.getTitle();
+
+                    if (week == 0)
+                        courses.add(affair);
+                    else if (affair.week.contains(week))
+                        courses.add(affair);
+                }
+
             }
             subscriber.onNext(courses);
         });

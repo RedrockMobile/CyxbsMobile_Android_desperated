@@ -41,6 +41,10 @@ public class CourseListAppWidgetUpdateService extends Service {
     }
 
     private void load(Intent intent){
+        if (!APP.isLogin()) {
+            LogUtils.LOGI("AppWidgetUpdateService", "not login, stop here");
+            return;
+        }
         boolean update = true;
         try {
             update = intent.getBooleanExtra(EXTRA_UPDATE, true);

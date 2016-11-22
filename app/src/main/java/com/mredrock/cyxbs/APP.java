@@ -5,7 +5,6 @@ import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
-import com.excitingboat.freshmanspecial.App;
 import com.google.gson.Gson;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.Course;
@@ -120,8 +119,6 @@ public class APP extends MultiDexApplication {
         Logger.init("cyxbs_mobile");
         // Initialize UserInfoEncrypted
         userInfoEncryption = new UserInfoEncryption();
-        // Initialize FreshSpecial As library
-        App.initializeLibrary(getContext());
         // Refresh Course List When Start
         reloadCourseList();
     }

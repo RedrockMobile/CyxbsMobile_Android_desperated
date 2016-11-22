@@ -40,6 +40,8 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 import rx.Observable;
 
+import static u.aly.av.P;
+
 /**
  * Created by cc on 16/1/20.
  */
@@ -259,5 +261,11 @@ public interface RedrockApiService {
     @FormUrlEncoded
     @POST(Const.API_GET_AFFAIR)
     Observable<AffairApi<List<AffairApi.AffairItem>>> getAffair(@Field("stuNum") String stuNum, @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_ADD_AFFAIR)
+    Observable<RedrockApiWrapper> addAffair(@Field("id")String id, @Field("stuNum") String stuNum, @Field("idNum") String idNum,
+                                            @Field("date") String date, @Field("time")int time,@Field("title")String title,
+                                            @Field("content")String content);
 
 }

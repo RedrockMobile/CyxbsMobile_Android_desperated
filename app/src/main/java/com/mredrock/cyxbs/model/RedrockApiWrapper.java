@@ -9,4 +9,6 @@ public class RedrockApiWrapper<T> {
     public String info;
     public String version;
     public T data;
+    public String id;
+
 }

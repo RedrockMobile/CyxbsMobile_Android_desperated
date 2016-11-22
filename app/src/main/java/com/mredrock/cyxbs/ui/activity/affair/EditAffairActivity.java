@@ -3,16 +3,13 @@ package com.mredrock.cyxbs.ui.activity.affair;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,18 +18,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.excitingboat.freshmanspecial.App;
 import com.google.gson.Gson;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Position;
 import com.mredrock.cyxbs.event.AffairAddEvent;
-import com.mredrock.cyxbs.event.AffairDeleteEvent;
+
 import com.mredrock.cyxbs.event.AffairModifyEvent;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
 import com.mredrock.cyxbs.model.Affair;
+import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.model.Course;
+import com.mredrock.cyxbs.model.RedrockApiWrapper;
+import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.network.exception.UnsetUserInfoException;
+import com.mredrock.cyxbs.network.setting.annotation.XmlApi;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.KeyboardUtils;
@@ -52,11 +52,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.http.POST;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -157,72 +158,146 @@ public class EditAffairActivity extends AppCompatActivity {
             } else {
                 DBManager dbManager = DBManager.INSTANCE;
                 Affair affair = new Affair();
-                Observable<Boolean> observable = Observable.create((subscriber) -> {
-                    //定义两变量
-                    Random ne = new Random();//实例化一个random的对象ne
-                    String x = System.currentTimeMillis()+""+(ne.nextInt(9999 - 1000 + 1) + 1000);//为变量赋随机值1000-9999
+                AffairApi.AffairItem affairItem = new AffairApi.AffairItem();
 
-                    Gson g = new Gson();
-                    for (int i = 0; i < positions.size(); i++) {
-                        affair.uid = x;
-                        affair.hash_day = positions.get(i).getX();
-                        affair.hash_lesson = positions.get(i).getY();
-                        affair.period = 2;
-                        affair.course = title;
-                        affair.teacher = content;
-                        affair.classroom = " ";
-                        affair.begin_lesson = affair.hash_lesson * 2 + 1;
-                        affair.type = "提醒";
-                        affair.time = time;
-                        affair.week = weeks;
-                        affair.courseType = 2;
-                        affair.rawWeek = " ";
-                        subscriber.onNext(dbManager.insert(affair.uid, APP.getUser(this).stuNum, g.toJson(affair)));
-                    }
-                    subscriber.onCompleted();
-                    dbManager.close();
-                });
-                SimpleSubscriber<Boolean> subscriber = new SimpleSubscriber<Boolean>(this, false, new SubscriberListener<Boolean>() {
+                Gson gson = new Gson();
+                Random ne = new Random();//实例化一个random的对象ne
+                String x = System.currentTimeMillis()+""+(ne.nextInt(9999 - 1000 + 1) + 1000);//为变量赋随机值1000-9999
+                affairItem.setContent(content);
+                affairItem.setTime(time);
+                affairItem.setId(x);
+                affairItem.setTitle(title);
+
+
+                for (Position p : positions){
+                    AffairApi.AffairItem.DateBean date = new AffairApi.AffairItem.DateBean();
+               //     date.getWeek().addAll(weeks);
+                    date.setClassX(p.getY());
+                    date.setDay(p.getX());
+                    date.getWeek().addAll(mWeekAdapter.getWeeks());
+
+                    affairItem.getDate().add(date);
+
+
+            }
+
+                LOGE("EditAffairActivity",gson.toJson(affairItem.getDate()));
+                affair.week = affairItem.getDate().get(0).getWeek();
+                RequestManager.getInstance().addAffair(new SimpleSubscriber<RedrockApiWrapper>(this, true, false, new SubscriberListener<RedrockApiWrapper>() {
                     @Override
                     public void onCompleted() {
                         super.onCompleted();
-                        LOGE("onCompleted()", "EventBus.getDefault().post(new AffairAddEvent(affair));");
-                        if (isStartByCourse) {
-                            DBManager.INSTANCE.deleteAffair(uid)
-                                    .observeOn(Schedulers.io())
-                                    .unsubscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleSubscriber(EditAffairActivity.this, new SubscriberListener() {
-                                @Override
-                                public void onCompleted() {
-                                    super.onCompleted();
-                                    EventBus.getDefault().post(new AffairModifyEvent());
-                                    dbManager.close();
-                                    onBackPressed();
-                                }
-                            }));
-                        } else {
-                            EventBus.getDefault().post(new AffairAddEvent(affair));
-                            dbManager.close();
-                            onBackPressed();
-                        }
+                        dbManager.insert(x,APP.getUser(EditAffairActivity.this).stuNum,gson.toJson(affairItem))
+                                .subscribeOn(Schedulers.io())
+                                .unsubscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber() {
+                                    @Override
+                                    public void onCompleted() {
+                                        EventBus.getDefault().post(new AffairAddEvent(affair));
+                                        onBackPressed();
+                                    }
 
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(Object o) {
+
+                                    }
+                                });
                     }
 
                     @Override
                     public boolean onError(Throwable e) {
-                        Toast.makeText(APP.getContext(), "添加失败，请重试！", Toast.LENGTH_SHORT).show();
-                        return true;
+                        Toast.makeText(APP.getContext(),"同步到服务器失败，以保存到本地",Toast.LENGTH_SHORT).show();
+                        dbManager.insert(x,APP.getUser(EditAffairActivity.this).stuNum,gson.toJson(affairItem))
+                                .subscribeOn(Schedulers.io())
+                                .unsubscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber() {
+                                    @Override
+                                    public void onCompleted() {
+                                        EventBus.getDefault().post(new AffairAddEvent(affair));
+                                        onBackPressed();
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(Object o) {
+
+                                    }
+                                });
+                        return super.onError(e);
+
                     }
 
                     @Override
-                    public void onNext(Boolean aBoolean) {
-                        super.onNext(aBoolean);
+                    public void onNext(RedrockApiWrapper redrockApiWrapper) {
+                        super.onNext(redrockApiWrapper);
+                        LOGE("EditAffairActivity",redrockApiWrapper.id);
                     }
-                });
-                observable.subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(subscriber);
+
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+                }),APP.getUser(this).stuNum,APP.getUser(this).idNum,x,title,content,gson.toJson(affairItem.getDate()),affairItem.getTime());
+
+//                Observable<Boolean> observable = Observable.create((subscriber) -> {
+//                    //定义两变量
+//
+//
+//
+
+
+//                SimpleSubscriber<Boolean> subscriber = new SimpleSubscriber<Boolean>(this, false, new SubscriberListener<Boolean>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        super.onCompleted();
+//                        LOGE("onCompleted()", "EventBus.getDefault().post(new AffairAddEvent(affair));");
+//                        if (isStartByCourse) {
+//                            DBManager.INSTANCE.deleteAffair(uid)
+//                                    .observeOn(Schedulers.io())
+//                                    .unsubscribeOn(Schedulers.io())
+//                                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleSubscriber(EditAffairActivity.this, new SubscriberListener() {
+//                                @Override
+//                                public void onCompleted() {
+//                                    super.onCompleted();
+//                                    EventBus.getDefault().post(new AffairModifyEvent());
+//                                    dbManager.close();
+//                                    onBackPressed();
+//                                }
+//                            }));
+//                        } else {
+//                            EventBus.getDefault().post(new AffairAddEvent(affair));
+//                            dbManager.close();
+//                            onBackPressed();
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public boolean onError(Throwable e) {
+//                        Toast.makeText(APP.getContext(), "添加失败，请重试！", Toast.LENGTH_SHORT).show();
+//                        return true;
+//                    }
+//
+//                    @Override
+//                    public void onNext(Boolean aBoolean) {
+//                        super.onNext(aBoolean);
+//                    }
+//                });
+//                observable.subscribeOn(Schedulers.io())
+//                        .unsubscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(subscriber);
             }
         } else {
             onBackPressed();
