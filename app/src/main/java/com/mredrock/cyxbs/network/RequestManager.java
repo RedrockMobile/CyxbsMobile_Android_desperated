@@ -24,6 +24,7 @@ import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
+import com.mredrock.cyxbs.network.func.AffairWeekFilterFunc;
 import com.mredrock.cyxbs.network.func.AffairTransformFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
 import com.mredrock.cyxbs.network.func.UpdateVerifyFunc;
@@ -277,7 +278,6 @@ public enum RequestManager {
 
         return emitObservable(observable, subscriber);
     }
-
 
     public void getPublicCourse(Subscriber<List<Course>> subscriber,
                                 List<String> stuNumList, String week) {
@@ -548,13 +548,18 @@ public enum RequestManager {
         emitObservable(observable,subscriber);
     }
 
+    public void getAffair(Subscriber<List<Affair>>subscriber, String stuNum, String idNum,int week){
+        Observable<List<Affair>> observable = redrockApiService.getAffair(stuNum, idNum)
+                .map(new AffairTransformFunc())
+                .map(new AffairWeekFilterFunc(week));
+        emitObservable(observable,subscriber);
+    }
+
     public void addAffair(Subscriber<RedrockApiWrapper>subscriber,String stuNum,String idNum,String uid,String title,
                           String content,String date,int time){
         Observable<RedrockApiWrapper> observable = redrockApiService.addAffair(uid,stuNum,idNum,date,time,title,content);
         emitObservable(observable,subscriber);
-
     }
-
 
     private <T> Subscription emitObservable(Observable<T> o, Subscriber<T> s) {
         return o.subscribeOn(Schedulers.io())

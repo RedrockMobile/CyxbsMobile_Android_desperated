@@ -35,8 +35,8 @@ public class RemindReceiver extends BroadcastReceiver {
         if (mode1 == RemindFragment.INTENT_FLAG_BY_CLASS && sp.getBoolean(SP_REMIND_EVERY_CLASS, false)) {
             byClass(context, intent);
             Log.d(TAG, "onReceive: receive by class! name: " + intent.
-                    getStringExtra(RebootReceiver.EXTRA_COURSE_NAME) + " classroom: " +
-                    intent.getStringExtra(RebootReceiver.EXTRA_COURSE_CLASSROOM)
+                    getStringExtra(RebootReceiver.EXTRA_NOTIFY_TITLE) + " classroom: " +
+                    intent.getStringExtra(RebootReceiver.EXTRA_NOTIFY_SUBTITLE)
             );
         }
         if (mode1 == RemindFragment.INTENT_FLAG_BY_DAY && sp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
@@ -81,8 +81,8 @@ public class RemindReceiver extends BroadcastReceiver {
             builder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setAutoCancel(true)
-                    .setContentTitle(intent.getStringExtra(RebootReceiver.EXTRA_COURSE_NAME))
-                    .setContentText(intent.getStringExtra(RebootReceiver.EXTRA_COURSE_CLASSROOM));
+                    .setContentTitle(intent.getStringExtra(RebootReceiver.EXTRA_NOTIFY_TITLE))
+                    .setContentText(intent.getStringExtra(RebootReceiver.EXTRA_NOTIFY_SUBTITLE));
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
             stackBuilder.addNextIntent(openMain);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 61, openMain,
@@ -95,8 +95,8 @@ public class RemindReceiver extends BroadcastReceiver {
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
-                    .setContentTitle(intent.getStringExtra(RebootReceiver.EXTRA_COURSE_NAME))
-                    .setContentText(intent.getStringExtra(RebootReceiver.EXTRA_COURSE_CLASSROOM));
+                    .setContentTitle(intent.getStringExtra(RebootReceiver.EXTRA_NOTIFY_TITLE))
+                    .setContentText(intent.getStringExtra(RebootReceiver.EXTRA_NOTIFY_SUBTITLE));
 
         }
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
