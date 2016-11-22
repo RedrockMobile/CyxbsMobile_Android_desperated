@@ -209,11 +209,7 @@ public class CourseFragment extends BaseFragment {
                             public void onNext(List<Course> courses) {
                                 super.onNext(courses);
                                 courseList.clear();
-                                for (Course c : courses){
-                                    if (c.week.contains(mWeek))
-                                        courseList.add(c);
-                                }
-
+                                courseList.addAll(courses);
                                 loadAffair(mWeek);
 
                             }
