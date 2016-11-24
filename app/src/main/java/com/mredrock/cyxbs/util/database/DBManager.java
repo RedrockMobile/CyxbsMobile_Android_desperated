@@ -49,6 +49,18 @@ public enum  DBManager {
         });
     }
 
+    public Observable insert(String uid,String stuNum,String json, boolean delete) {
+        return  Observable.create(subscriber -> {
+            if (delete)
+                db.delete("affair", "uid = ?", new String[]{uid});
+
+            db.execSQL("INSERT INTO affair(uid,stuNum,isUpload,data) VALUES ('" + uid
+                    + "','" + stuNum + "','" + false + "','" + json + "');");
+            subscriber.onNext(null);
+            subscriber.onCompleted();
+        });
+    }
+
 
     public void updateIsUpLoad(String uid) {
         ContentValues cv = new ContentValues();

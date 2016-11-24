@@ -2,6 +2,7 @@ package com.mredrock.cyxbs.ui.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
@@ -13,7 +14,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.ScheduleView;
 import com.mredrock.cyxbs.config.Config;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
@@ -43,7 +43,6 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
         SparseArray<Item> items = new SparseArray<>(12);
         int factoryType;
         ArrayList<RemoteViews> views = new ArrayList<>(12);
-        ScheduleView.CourseColorSelector colorSelector = new ScheduleView.CourseColorSelector();
 
         static final int FACTORY_TYPE_NORMAL = 0;
         static final int FACTORY_TYPE_ERROR = -1;
@@ -71,11 +70,31 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                 // just show an empty list if there is no course.
                 //setError("今天没有课");
             }
-            for (Course c: courses) {
-                colorSelector.addCourse(c.course);
-            }
             generateItem(courses);
             setNormal();
+        }
+
+        @SuppressWarnings("deprecation")
+        private int getItemColor(Item item) {
+            if (item.start <= 4) {
+                return getResources().getColor(R.color.color_course_morning);
+            } else if (item.start <= 8) {
+                return getResources().getColor(R.color.color_course_afternoon);
+            } else {
+                return getResources().getColor(R.color.color_course_night);
+            }
+        }
+
+        private @DrawableRes int getCornerDrawableId(Item item) {
+            if ((item.getType() & Item.ITEM_TYPE_COURSE_ONLY) != 0) {
+                return R.drawable.ic_regular_triangle_white;
+            } else if (item.start <= 4) {
+                return R.drawable.ic_regular_triangle_blue;
+            } else if (item.start <= 8) {
+                return R.drawable.ic_regular_triangle_orange;
+            } else {
+                return R.drawable.ic_regular_triangle_teal;
+            }
         }
 
         private void setError(String message) {
@@ -106,10 +125,10 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                     views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
                     if ((item.getType() & Item.ITEM_TYPE_AFFAIR_ONLY) != 0) { // affair only
                         Intent coursesIntent = new Intent();
-                        coursesIntent.putParcelableArrayListExtra(CourseListAppWidget.EXTRA_COURSES, item.getCourses());
+                        coursesIntent.putExtra(CourseListAppWidget.EXTRA_COURSES, item.getCourses().toArray());
                         views.setOnClickFillInIntent(R.id.rl_app_widget_course_item_content, coursesIntent);
                         views.setBoolean(R.id.rl_app_widget_course_item_content, "setEnabled", true);
-                        views.setImageViewResource(R.id.iv_app_widget_course_item_corner, Math.random() < 0.5 ? R.drawable.ic_regular_triangle_orange : R.drawable.ic_regular_triangle_teal);  // colorful
+                        views.setImageViewResource(R.id.iv_app_widget_course_item_corner, getCornerDrawableId(item));  // colorful
                         views.setInt(R.id.iv_app_widget_course_item_corner, "setVisibility", View.VISIBLE);
                     }
                 } else {
@@ -117,7 +136,7 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                     views.setTextViewText(R.id.tv_app_widget_course_item_order, item.getOrderString());
                     views.setTextViewText(R.id.tv_app_widget_course_item_name, item.getText());
                     views.setTextViewText(R.id.tv_app_widget_course_item_room, item.getClassroom());
-                    views.setInt(R.id.rl_app_widget_course_item_content, "setBackgroundColor", colorSelector.getCourseColor(item.getCourses().get(0).course));
+                    views.setInt(R.id.rl_app_widget_course_item_content, "setBackgroundColor", getItemColor(item));
                     Intent coursesIntent = new Intent();
                     coursesIntent.putParcelableArrayListExtra(CourseListAppWidget.EXTRA_COURSES, item.getCourses());
                     views.setOnClickFillInIntent(R.id.rl_app_widget_course_item_content, coursesIntent);
@@ -143,10 +162,10 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
         private void generateItem(@Nullable List<Course> data) {
             if (data != null) {
                 for (Course c : data) {
-                    if (items.indexOfKey(c.begin_lesson) < 0) {  // fill course
-                        items.put(c.begin_lesson, new Item(c));
+                    if (items.indexOfKey(c.getBeginLesson()) < 0) {  // fill course
+                        items.put(c.getBeginLesson(), new Item(c));
                     } else {  // merge course
-                        items.put(c.begin_lesson, items.get(c.begin_lesson).addCourse(c));
+                        items.put(c.getBeginLesson(), items.get(c.getBeginLesson()).addCourse(c));
                     }
                 }
             }
@@ -227,7 +246,7 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             public static final int ITEM_TYPE_COURSE_AFFAIR = 0b11;
 
             Item(Course course) {
-                start = course.begin_lesson;
+                start = course.getBeginLesson();
                 courses = new ArrayList<>(1);
                 if (course.getCourseType() == Affair.TYPE) {  // is affair
                     type |= ITEM_TYPE_AFFAIR_ONLY;
@@ -237,13 +256,13 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
                     type |= ITEM_TYPE_COURSE_ONLY;
                     text = course.course;
                     classroom = course.classroom;
-                    end = course.begin_lesson + course.period;
+                    end = course.getBeginLesson() + course.period;
                 }
                 courses.add(course);
             }
 
             Item addCourse(Course course) {
-                if (start != course.begin_lesson) throw new IllegalArgumentException("Can't merge two course which have different start time");
+                if (start != course.getBeginLesson()) throw new IllegalArgumentException("Can't merge two course which have different start time");
                 // Don't use merged course text according to 产品规划运营部
                 // text += "，" + course.toCourseString();
                 if (courses == null) {

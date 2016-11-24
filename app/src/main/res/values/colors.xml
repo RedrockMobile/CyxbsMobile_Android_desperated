@@ -83,4 +83,8 @@
     <color name="tc_app_widget_course_list_item_order">#74797d</color>
     <color name="bg_app_widget">#d9d7dee4</color>
 
+    <color name="color_course_morning">#5bcdf2</color>
+    <color name="color_course_afternoon">#f9af58</color>
+    <color name="color_course_night">#6fd1ba</color>
+
 </resources>

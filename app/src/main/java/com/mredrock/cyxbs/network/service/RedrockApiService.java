@@ -268,4 +268,14 @@ public interface RedrockApiService {
                                             @Field("date") String date, @Field("time")int time,@Field("title")String title,
                                             @Field("content")String content);
 
+    @FormUrlEncoded
+    @POST(Const.API_EDIT_AFFAIR)
+    Observable<RedrockApiWrapper> editAffair(@Field("id")String id, @Field("stuNum") String stuNum, @Field("idNum") String idNum,
+                                            @Field("date") String date, @Field("time")int time,@Field("title")String title,
+                                            @Field("content")String content);
+
+    @FormUrlEncoded
+    @POST(Const.API_DELETE_AFFAIR)
+    Observable<RedrockApiWrapper> deleteAffair(@Field("stuNum") String stuNum, @Field("idNum") String idNum, @Field("id") String id);
+
 }

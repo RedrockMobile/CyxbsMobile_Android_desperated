@@ -55,6 +55,7 @@ import com.mredrock.cyxbs.util.Utils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.BindString;
@@ -141,11 +142,11 @@ public class MainActivity extends BaseActivity {
         String action = intent.getAction();
         if (action != null && action.equals(getString(R.string.action_appwidget_item_on_click))) {
             //mBottomBar.setCurrentView(0);
-            ArrayList<Course> courses = intent.getParcelableArrayListExtra(CourseListAppWidget.EXTRA_COURSES);
-            if (courses != null && courses.size() != 0) {
+            Course[] courses = (Course[]) intent.getParcelableArrayExtra(CourseListAppWidget.EXTRA_COURSES);
+            if (courses != null && courses.length != 0) {
                 ScheduleView.CourseList courseList = new ScheduleView.CourseList();
-                courseList.list = courses;
-                Log.d("MainActivity", "intentFilterForAppWidget: call Course Dialog with: " + courses.toString());
+                courseList.list = new ArrayList<>(Arrays.asList(courses));
+                Log.d("MainActivity", "intentFilterForAppWidget: call Course Dialog with: " + Arrays.toString(courses));
                 CourseDialog.show(MainActivity.this, courseList);
             } else {
                 Log.w("MainActivity", "intentFilterForAppWidget: empty courses.");

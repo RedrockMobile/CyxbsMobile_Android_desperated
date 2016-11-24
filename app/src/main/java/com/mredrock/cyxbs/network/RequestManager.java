@@ -561,6 +561,20 @@ public enum RequestManager {
         emitObservable(observable,subscriber);
     }
 
+
+    public void editAffair(Subscriber<RedrockApiWrapper>subscriber,String stuNum,String idNum,String uid,String title,
+                           String content,String date,int time){
+        Observable<RedrockApiWrapper> observable = redrockApiService.editAffair(uid,stuNum,idNum,date,time,title,content);
+        emitObservable(observable,subscriber);
+    }
+
+    public void deleteAffair(Subscriber<RedrockApiWrapper> subscriber ,String stuNum,String idNum, String uid){
+        Observable<RedrockApiWrapper> observable = redrockApiService.deleteAffair(stuNum,idNum,uid);
+        emitObservable(observable,subscriber);
+    }
+
+
+
     private <T> Subscription emitObservable(Observable<T> o, Subscriber<T> s) {
         return o.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())

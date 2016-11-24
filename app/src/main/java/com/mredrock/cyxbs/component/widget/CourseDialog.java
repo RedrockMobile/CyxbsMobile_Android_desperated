@@ -114,7 +114,7 @@ public class CourseDialog {
                     modify.setOnClickListener((view -> {
                         dialog.dismiss();
                         Affair affair = (Affair) course;
-                        EditAffairActivity.editAffairActivityStart(context,affair,affair.uid,affair.time);
+                        EditAffairActivity.editAffairActivityStart(context,affair,affair.uid,affair.time, (ArrayList<Integer>) affair.week);
                     }));
                     name.setText(course.course);
                     teacher.setText(course.teacher);

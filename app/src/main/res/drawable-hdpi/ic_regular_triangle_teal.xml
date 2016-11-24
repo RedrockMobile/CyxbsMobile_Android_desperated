@@ -8,7 +8,7 @@
             android:pivotX="-40%"
             android:pivotY="80%">
             <shape android:shape="rectangle">
-                <solid android:color="#6fd1ba"/>
+                <solid android:color="@color/color_course_night"/>
             </shape>
         </rotate>
     </item>

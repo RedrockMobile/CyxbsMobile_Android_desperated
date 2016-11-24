@@ -3,7 +3,10 @@ package com.mredrock.cyxbs.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mredrock.cyxbs.APP;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Course implements Serializable, Parcelable {
@@ -41,6 +44,10 @@ public class Course implements Serializable, Parcelable {
         return courseType;
     }
 
+    public int getBeginLesson() {
+        return hash_lesson * 2 + 1;
+    }
+
     public static class CourseWrapper extends RedrockApiWrapper<List<Course>> {
         public String term;
         public String stuNum;
@@ -69,6 +76,8 @@ public class Course implements Serializable, Parcelable {
         weekBegin = in.readInt();
         weekEnd = in.readInt();
         type = in.readString();
+        week = new ArrayList<>(0);
+        in.readList(week, APP.getContext().getClassLoader());
         status = in.readString();
         period = in.readInt();
     }
@@ -106,6 +115,7 @@ public class Course implements Serializable, Parcelable {
         dest.writeInt(weekBegin);
         dest.writeInt(weekEnd);
         dest.writeString(type);
+        dest.writeList(week);
         dest.writeString(status);
         dest.writeInt(period);
     }
