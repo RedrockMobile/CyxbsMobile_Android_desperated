@@ -7,6 +7,7 @@ import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.component.task.progress.ProgressCancelListener;
 import com.mredrock.cyxbs.component.task.progress.ProgressDialogHandler;
 import com.mredrock.cyxbs.util.LogUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -75,6 +76,8 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
                     Toast.makeText(context, "HttpException: " + ((HttpException) e).response().raw().toString(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "此服务暂时不可用", Toast.LENGTH_SHORT).show();
+                    //友盟错误统计
+                    MobclickAgent.reportError(context, ((HttpException) e).response().raw().toString());
                 }
                 LogUtils.LOGE("HttpException", "RawResponse: " + ((HttpException) e).response().raw().toString());
             } else {
