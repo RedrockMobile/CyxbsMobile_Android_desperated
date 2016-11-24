@@ -65,7 +65,6 @@ public class NoCourseItemFragment extends BaseFragment {
             R.id.view_no_course_today_3, R.id.view_no_course_today_4,
             R.id.view_no_course_today_5, R.id.view_no_course_today_6};
 
-
     public NoCourseItemFragment() {
 
     }

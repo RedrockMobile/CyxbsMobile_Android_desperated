@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -103,7 +104,7 @@ public class NoScheduleView extends FrameLayout {
                 }
             }
         }
-        textView.setText(sb);
+        textView.setText(sb+"有课");
         GradientDrawable gd = new GradientDrawable();
         gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
         gd.setColor(colorSelector.getNoCourseColor(noCourse.hash_day,

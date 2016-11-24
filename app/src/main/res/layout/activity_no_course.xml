@@ -36,7 +36,6 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="12dp"
-               android:maxLength="1"
                 android:textColor="#242121"
                 android:textColorHint="#aeadad"
                 android:textCursorDrawable="@null"

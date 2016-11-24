@@ -53,7 +53,6 @@ public class NoCourseContainerActivity extends BaseActivity {
         initView();
     }
 
-
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
@@ -88,7 +87,6 @@ public class NoCourseContainerActivity extends BaseActivity {
         noCourseViewPager.addOnPageChangeListener(new TabLayout
                 .TabLayoutOnPageChangeListener(noCourseTabLayout));
         noCourseTabLayout.setupWithViewPager(noCourseViewPager);
-
         noCourseViewPager.setCurrentItem(week);
     }
 
