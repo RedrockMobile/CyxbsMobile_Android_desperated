@@ -22,6 +22,7 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.me.EmptyAdapter;
 import com.mredrock.cyxbs.util.EmptyConverter;
 import com.mredrock.cyxbs.util.SchoolCalendar;
+import com.umeng.analytics.MobclickAgent;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionHelper;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout;
@@ -78,6 +79,18 @@ public class EmptyRoomActivity extends BaseActivity
     private EmptyAdapter mEmptyRoomAdapter;
 
     private EmptyConverter mConverter;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

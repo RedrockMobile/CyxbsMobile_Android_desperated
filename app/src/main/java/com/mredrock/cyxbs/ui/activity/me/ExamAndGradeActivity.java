@@ -14,6 +14,7 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.me.ExamScheduleFragment;
 import com.mredrock.cyxbs.ui.fragment.me.GradeFragment;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +37,18 @@ public class ExamAndGradeActivity extends BaseActivity {
     private List<String> mTitleList;
     private List<Fragment> mFragmentList;
     private TabPagerAdapter mTabPagerAdapter;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

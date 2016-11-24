@@ -15,6 +15,7 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.me.NoCourseItemFragment;
 import com.mredrock.cyxbs.util.SchoolCalendar;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +41,18 @@ public class NoCourseContainerActivity extends BaseActivity {
     private List<NoCourse> mNoCourseList;
 
     private TabPagerAdapter mTabPagerAdapter;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
 
     @Override

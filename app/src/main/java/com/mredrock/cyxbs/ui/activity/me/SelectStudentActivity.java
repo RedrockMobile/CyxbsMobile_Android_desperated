@@ -13,6 +13,7 @@ import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbs.model.Student;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.me.SelectStudentAdapter;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -30,6 +31,20 @@ public class SelectStudentActivity extends BaseActivity {
     Toolbar toolbar;
     @Bind(R.id.select_recycler_view)
     RecyclerView selectRecyclerView;
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
 
     @SuppressWarnings("unchecked")
     @Override

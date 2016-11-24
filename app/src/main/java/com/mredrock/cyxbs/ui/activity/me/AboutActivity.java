@@ -15,6 +15,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +31,18 @@ public class AboutActivity extends AppCompatActivity {
     TextView toolbarTitle;
     @Bind(R.id.toolbar)
     Toolbar  toolbar;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
 
     @OnClick(R.id.about_website)

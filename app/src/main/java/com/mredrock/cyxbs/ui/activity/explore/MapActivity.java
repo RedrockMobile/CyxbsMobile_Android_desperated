@@ -32,6 +32,7 @@ import com.mredrock.cyxbs.util.MapHelper;
 import com.mredrock.cyxbs.util.NetUtils;
 import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
 import com.mredrock.cyxbs.util.permission.EasyPermissions;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -129,16 +130,19 @@ public class MapActivity extends BaseExploreActivity
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
         mMapView.onResume();
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
         mMapView.onPause();
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

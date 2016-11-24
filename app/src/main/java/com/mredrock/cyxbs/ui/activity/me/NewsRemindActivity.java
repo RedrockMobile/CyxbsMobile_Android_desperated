@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,6 +19,19 @@ public class NewsRemindActivity extends BaseActivity {
     TextView toolbarTitle;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
 
     @Override

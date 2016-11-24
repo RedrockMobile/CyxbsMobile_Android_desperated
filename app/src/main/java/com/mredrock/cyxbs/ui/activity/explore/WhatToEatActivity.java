@@ -9,6 +9,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.fragment.explore.WhatToEatFragment;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by Stormouble on 16/4/16.
@@ -22,6 +23,20 @@ public class WhatToEatActivity extends BaseExploreActivity {
         intent.putExtra(ARG_DRAWING_START_LOCATION, startLocation);
         startingActivity.startActivity(intent);
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

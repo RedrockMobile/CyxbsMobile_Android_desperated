@@ -16,6 +16,7 @@ import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.util.Utils;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.Bind;
 import rx.Subscriber;
@@ -29,6 +30,20 @@ public class EditNickNameActivity extends EditCommonActivity {
     EditText editCommonEt;
 
     boolean isForceModify;
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

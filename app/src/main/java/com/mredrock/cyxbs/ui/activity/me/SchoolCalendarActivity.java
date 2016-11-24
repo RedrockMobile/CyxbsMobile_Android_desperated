@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,6 +25,19 @@ public class SchoolCalendarActivity extends AppCompatActivity {
     ImageView mCalendarImgS1;
     @Bind(R.id.calendar_img_s2)
     ImageView mCalendarImgS2;
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

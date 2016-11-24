@@ -8,11 +8,24 @@ import android.preference.PreferenceManager;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.service.NotificationService;
+import com.umeng.analytics.MobclickAgent;
 
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_CLASS;
 import static com.mredrock.cyxbs.ui.fragment.me.RemindFragment.SP_REMIND_EVERY_DAY;
 
 public class SplashActivity extends Activity {
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

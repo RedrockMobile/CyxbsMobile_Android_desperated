@@ -43,6 +43,7 @@ import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.download.DownloadHelper;
 import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
+import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -94,6 +95,13 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private User mUser;
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+
     public static void startActivityWithDataBean(Context context, HotNewsContent hotNewsContent, String articleId, boolean isFromPersonInfo, boolean isFromMyTrend) {
         Intent intent = new Intent(context, SpecificNewsActivity.class);
         intent.putExtra(START_DATA, hotNewsContent);
@@ -117,7 +125,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         setContentView(R.layout.activity_specific_news);
         ButterKnife.bind(this);
         StatusBarUtil.setTranslucent(this, 50);
-      //  mUser = APP.getUser(this);
+        //  mUser = APP.getUser(this);
         mRefresh.setColorSchemeColors(
                 ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
                 ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
@@ -348,9 +356,9 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     @Override
     public void onBackPressed() {
-        if (mNewsEdtComment.getText().toString().isEmpty()){
+        if (mNewsEdtComment.getText().toString().isEmpty()) {
             super.onBackPressed();
-        }else {
+        } else {
             Handler handler = new Handler(getMainLooper());
             handler.post(() -> new MaterialDialog.Builder(this)
                     .title("退出编辑?")
@@ -377,6 +385,8 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     protected void onResume() {
         super.onResume();
         mUser = APP.getUser(this);
+
+        MobclickAgent.onResume(this);
     }
 
     @Override

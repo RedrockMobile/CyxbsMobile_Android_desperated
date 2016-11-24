@@ -28,6 +28,7 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.me.NoCourseAdapter;
 import com.mredrock.cyxbs.ui.fragment.me.NoCourseItemFragment;
 import com.mredrock.cyxbs.util.NetUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,6 +69,19 @@ public class NoCourseActivity extends BaseActivity
 
     private int count = 0;
     private User mUser;
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
 
     @Override

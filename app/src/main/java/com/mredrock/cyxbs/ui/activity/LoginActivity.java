@@ -66,6 +66,19 @@ public class LoginActivity extends AppCompatActivity {
         submitButton.setBackgroundColor(getResources().getColor(R.color.gray_edit));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+
     /***
      *软键盘回车登陆
      */
