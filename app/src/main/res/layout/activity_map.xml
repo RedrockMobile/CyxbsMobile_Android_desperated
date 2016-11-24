@@ -8,6 +8,9 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        android:fitsSystemWindows="true"
+        app:navigationIcon="@drawable/back"
+        app:titleTextColor="@color/black_lightly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"

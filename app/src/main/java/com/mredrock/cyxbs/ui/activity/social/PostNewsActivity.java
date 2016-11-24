@@ -4,12 +4,17 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.multi_image_selector.MultiImageSelectorActivity;
@@ -40,31 +45,22 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     public static final String TAG = "PostNewsActivity";
     private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
     private final static int REQUEST_IMAGE = 0001;
-    @Bind(R.id.toolbar_cancel)
-    TextView mCancelText;
     @Bind(R.id.toolbar_title)
     TextView mTitleText;
     @Bind(R.id.toolbar_save)
-    TextView mSaveText;
-    @Bind(R.id.toolbar)
-    Toolbar mToolBar;
+    Button mSend;
     @Bind(R.id.add_news_edit)
     EditText mAddNewsEdit;
     @Bind(R.id.iv_ngrid_layout)
     NineGridlayout mNineGridlayout;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
     private List<Image> mImgList;
     private User mUser;
 
-    @OnClick({R.id.toolbar_cancel, R.id.toolbar_save})
+    @OnClick(R.id.toolbar_save)
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.toolbar_cancel:
-                PostNewsActivity.this.finish();
-                break;
-            case R.id.toolbar_save:
-                sendDynamic("标题我该打什么才好？？", mAddNewsEdit.getText().toString(), BBDDNews.BBDD);
-                break;
-        }
+        sendDynamic("标题我该打什么才好？？", mAddNewsEdit.getText().toString(), BBDDNews.BBDD);
     }
 
     public static void startActivity(Context context) {
@@ -76,24 +72,53 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_news);
+        StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         mUser = APP.getUser(this);
         init();
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        if (mToolbar != null) {
+            mToolbar.setTitle("");
+            setSupportActionBar(mToolbar);
+            mToolbar.setNavigationOnClickListener(
+                    v -> this.finish());
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeButtonEnabled(true);
+            }
+        }
     }
 
     private void init() {
         mImgList = new ArrayList<>();
         mImgList.add(new Image(ADD_IMG, Image.TYPE_ADD));
         mNineGridlayout.setImagesData(mImgList);
-        setSupportActionBar(mToolBar);
+        mSend.setBackgroundColor(getResources().getColor(R.color.gray_edit));
+        mSend.setClickable(false);
+        mAddNewsEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        mAddNewsEdit.setOnFocusChangeListener((view, b) -> {
-            EditText editText = (EditText) view;
-            if (!b) {
-                editText.setHint(editText.getTag().toString());
-            } else {
-                editText.setTag(editText.getHint().toString());
-                editText.setHint("");
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() != 0) {
+                    mSend.setClickable(false);
+                    mSend.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                } else {
+                    mSend.setClickable(true);
+                    mSend.setBackgroundColor(getResources().getColor(R.color.gray_edit));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -112,13 +137,13 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                                 intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
                                 // 默认选择图片,回填选项(支持String ArrayList)
                                 ArrayList<String> results = new ArrayList<String>();
-                                for (Image i : mImgList){
+                                for (Image i : mImgList) {
                                     if (i.getType() != Image.TYPE_ADD)
                                         results.add(i.url);
                                 }
 
                                 if (mImgList.size() != 0)
-                                    intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST,results);
+                                    intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST, results);
                                 startActivityForResult(intent, REQUEST_IMAGE);
                             } else {
                                 Utils.toast(this, "没有赋予权限哦");
@@ -129,7 +154,6 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
             mImgList.remove(position);
             mNineGridlayout.setImagesData(mImgList);
         });
-
     }
 
 

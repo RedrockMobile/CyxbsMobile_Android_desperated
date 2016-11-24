@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Toolbar;
@@ -44,6 +45,7 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_introduce);
         ButterKnife.bind(this);
+        StatusBarUtil.setTranslucent(this, 50);
         init();
     }
 

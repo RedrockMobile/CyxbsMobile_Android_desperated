@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/btn_back"
-        android:src="@drawable/ic_arrow_back_white"
+        android:src="@drawable/back"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_centerVertical="true"
@@ -16,7 +16,7 @@
     <TextView
         android:text="图片"
         android:layout_toRightOf="@+id/btn_back"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="20sp"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"

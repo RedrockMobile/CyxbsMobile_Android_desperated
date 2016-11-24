@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.AboutMe;
@@ -51,6 +52,7 @@ public class AboutMeActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relate_me);
         ButterKnife.bind(this);
+        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
         init();
         mAboutMeAdapter.setOnItemClickListener(this);
@@ -109,6 +111,7 @@ public class AboutMeActivity extends BaseActivity implements
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
+            toolbar.setNavigationIcon(R.drawable.back);
             toolbarTitle.setText("与我相关");
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(

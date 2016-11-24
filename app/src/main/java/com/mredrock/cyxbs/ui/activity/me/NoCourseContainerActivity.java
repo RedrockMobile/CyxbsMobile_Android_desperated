@@ -8,9 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.NoCourse;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
@@ -21,6 +19,9 @@ import com.mredrock.cyxbs.util.SchoolCalendar;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class NoCourseContainerActivity extends BaseActivity {
 
@@ -46,6 +47,7 @@ public class NoCourseContainerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_course_container);
         ButterKnife.bind(this);
+        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
         initViewPager();
         initView();
@@ -57,6 +59,7 @@ public class NoCourseContainerActivity extends BaseActivity {
             toolbar.setTitle("");
             toolbarTitle.setText("没课约");
             setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.drawable.back);
             toolbar.setNavigationOnClickListener(v -> NoCourseContainerActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {

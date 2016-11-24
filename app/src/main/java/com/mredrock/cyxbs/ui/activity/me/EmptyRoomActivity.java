@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.RapidFloatingContentListView;
 import com.mredrock.cyxbs.model.EmptyRoom;
@@ -78,12 +79,12 @@ public class EmptyRoomActivity extends BaseActivity
 
     private EmptyConverter mConverter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_room);
         ButterKnife.bind(this);
+        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
         setupRFAB();
         setupAdapter();
@@ -114,6 +115,7 @@ public class EmptyRoomActivity extends BaseActivity
             toolbar.setTitle("");
             toolbarTitle.setText("空教室");
             setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.drawable.back);
             toolbar.setNavigationOnClickListener(
                     v -> EmptyRoomActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
@@ -123,7 +125,6 @@ public class EmptyRoomActivity extends BaseActivity
             }
         }
     }
-
 
     private void setupRFAB() {
         mEmptyRfabLayout.setIsContentAboveLayout(false);
@@ -137,7 +138,6 @@ public class EmptyRoomActivity extends BaseActivity
                 this, mEmptyRfabLayout, mEmptyRfabButton, content);
         rfabHelper.build();
     }
-
 
     private void setupAdapter() {
         mEmptyRoomList = new ArrayList<>();

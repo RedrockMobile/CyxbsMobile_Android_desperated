@@ -1,8 +1,8 @@
 package com.mredrock.cyxbs.ui.activity.affair;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,7 +16,6 @@ import com.mredrock.cyxbs.component.widget.TimeChooseView;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.LogUtils;
-import com.mredrock.cyxbs.util.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -58,8 +57,6 @@ public class TimeChooseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.StatusBarLightMode(this);
-        StatusBarUtil.setStatusBarColor(this,R.color.white_black);
         setContentView(R.layout.activity_time_choose);
         ButterKnife.bind(this);
         initWeekView();

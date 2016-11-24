@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_coordinator_layout"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.activity.MainActivity">
-
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="6dp">
+        android:layout_gravity="top">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/main_toolbar"
@@ -21,13 +19,21 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/main_toolbar_face"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="left"
+                android:src="@drawable/ic_default_avatar"/>
+
             <TextView
                 android:id="@+id/main_toolbar_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"/>
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"/>
 
         </android.support.v7.widget.Toolbar>
 
@@ -37,14 +43,5 @@
         android:id="@+id/include"
         layout="@layout/content_main"/>
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/menu_bottom"
-        android:layout_gravity="bottom"
-        app:itemBackground="@color/grey"
-        app:itemIconTint="@color/material_color_blue_300"
-        app:itemTextColor="@color/material_color_blue_300"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

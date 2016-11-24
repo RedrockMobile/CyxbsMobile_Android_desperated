@@ -28,12 +28,10 @@
                 android:paddingStart="20dp"
                 android:paddingTop="15dp">
 
-
-                <com.github.siyamed.shapeimageview.CircularImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/my_page_avatar"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_default_avatar"/>
 
 

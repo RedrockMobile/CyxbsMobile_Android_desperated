@@ -5,11 +5,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class NewsRemindActivity extends BaseActivity {
 
@@ -24,6 +25,7 @@ public class NewsRemindActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_remind);
         ButterKnife.bind(this);
+        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
     }
 
@@ -31,6 +33,7 @@ public class NewsRemindActivity extends BaseActivity {
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
+            toolbar.setNavigationIcon(R.drawable.back);
             toolbarTitle.setText("新消息提醒");
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(

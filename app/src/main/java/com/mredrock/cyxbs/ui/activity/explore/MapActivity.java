@@ -9,11 +9,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,16 +23,15 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.MapHelper;
 import com.mredrock.cyxbs.util.NetUtils;
 import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
 import com.mredrock.cyxbs.util.permission.EasyPermissions;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -85,7 +79,7 @@ public class MapActivity extends BaseExploreActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
-
+        StatusBarUtil.setTranslucent(this, 50);
         mMapView.onCreate(savedInstanceState);
 
         setupMap();
@@ -248,7 +242,7 @@ public class MapActivity extends BaseExploreActivity
 
     private void getMapOverlayImageUrl(boolean shouldCache) {
         RequestManager.getInstance().getMapOverlayImageUrl(
-                new SimpleSubscriber<String>(this, new SubscriberListener<String>() {
+                new SimpleSubscriber<>(this, new SubscriberListener<String>() {
                     @Override
                     public void onStart() {
                         onLoadProgress();

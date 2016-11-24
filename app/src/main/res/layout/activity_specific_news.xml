@@ -16,6 +16,9 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:fitsSystemWindows="true"
+            app:navigationIcon="@drawable/back"
+            app:titleTextColor="@color/black_lightly"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -30,7 +33,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/specific_news_title"
-                android:textColor="@color/white"
+                android:textColor="@color/black_lightly"
                 android:textSize="18sp"/>
 
             <TextView
@@ -41,7 +44,7 @@
                 android:layout_gravity="center_vertical|right"
                 android:layout_marginRight="12dp"
                 android:text="下载附件"
-                android:textColor="@color/white"
+                android:textColor="@color/black_lightly"
                 android:textSize="14sp"
                 android:visibility="invisible" />
 

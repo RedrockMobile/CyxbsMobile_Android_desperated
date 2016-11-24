@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
@@ -74,6 +75,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_info);
+        StatusBarUtil.setTranslucent(this, 50);
         mUserAvatar = getIntent().getStringExtra(PERSON_AVATAR);
         mNickName = getIntent().getStringExtra(PERSON_NICKNAME);
         mUserId = getIntent().getStringExtra(PERSON_USER_ID);

@@ -54,7 +54,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
             android:text="官网"
-            android:textColor="@color/colorPrimary"
             android:textSize="14sp" />
 
         <TextView
@@ -69,7 +68,6 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:text="使用条款"
-            android:textColor="@color/colorPrimary"
             android:textSize="14sp" />
 
         <TextView
@@ -83,7 +81,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:text="更新"
-            android:textColor="@color/colorPrimary"
             android:textSize="14sp" />
     </LinearLayout>
 

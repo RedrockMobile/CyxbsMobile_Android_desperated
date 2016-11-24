@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
@@ -47,6 +48,7 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         initToolbar();
+        StatusBarUtil.setTranslucent(this, 50);
         if (!APP.isLogin()) {
             settingExitLayout.setVisibility(View.GONE);
         }
@@ -98,6 +100,7 @@ public class SettingActivity extends BaseActivity {
             toolbar.setTitle("");
             toolbarTitle.setText("设置");
             setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.drawable.back);
             toolbar.setNavigationOnClickListener(v -> SettingActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {

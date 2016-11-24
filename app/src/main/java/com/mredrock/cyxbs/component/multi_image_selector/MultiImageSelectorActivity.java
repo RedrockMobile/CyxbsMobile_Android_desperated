@@ -8,8 +8,8 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.multi_image_selector.bean.Image;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default);
-
+        StatusBarUtil.setTranslucent(this, 50);
         Intent intent = getIntent();
         mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, 9);
         int mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI);

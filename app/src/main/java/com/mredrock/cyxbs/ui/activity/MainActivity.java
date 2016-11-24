@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -20,9 +19,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.CourseDialog;
@@ -33,6 +35,7 @@ import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
+import com.mredrock.cyxbs.ui.activity.me.EditInfoActivity;
 import com.mredrock.cyxbs.ui.activity.me.NewsRemindActivity;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
 import com.mredrock.cyxbs.ui.activity.social.PostNewsActivity;
@@ -44,6 +47,7 @@ import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
 import com.mredrock.cyxbs.ui.widget.CourseListAppWidget;
+import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
@@ -55,6 +59,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity {
 
@@ -63,7 +68,7 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.main_toolbar)
     Toolbar mToolbar;
     @Bind(R.id.main_coordinator_layout)
-    CoordinatorLayout mCoordinatorLayout;
+    LinearLayout mCoordinatorLayout;
     @Bind(R.id.main_view_pager)
     ViewPager mViewPager;
 
@@ -83,6 +88,8 @@ public class MainActivity extends BaseActivity {
     BaseFragment unLoginFragment;
     @Bind(R.id.bottom_view)
     BottomNavigationView mBottomView;
+    @Bind(R.id.main_toolbar_face)
+    CircleImageView mMainToolbarFace;
 
     private Menu mMenu;
     private ArrayList<Fragment> mFragments;
@@ -96,6 +103,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
+        StatusBarUtil.setTranslucent(this, 50);
         UpdateUtil.checkUpdate(this, false);
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
         intentFilterFor3DTouch();
@@ -157,8 +165,10 @@ public class MainActivity extends BaseActivity {
         //判断是否登陆
         if (!APP.isLogin()) {
             mFragments.add(unLoginFragment);
+            unLoginFace();
         } else {
             mFragments.add(courseContainerFragment);
+            loginFace();
         }
         mFragments.add(socialContainerFragment);
         mFragments.add(exploreFragment);
@@ -177,58 +187,47 @@ public class MainActivity extends BaseActivity {
             switch (item.getItemId()) {
                 case R.id.item1:
                     showMenu();
-                    mToolbar.setVisibility(View.VISIBLE);
                     setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
                     mViewPager.setCurrentItem(0, false);
+                    mMainToolbarFace.setVisibility(View.VISIBLE);
+                    mToolbar.setVisibility(View.VISIBLE);
                     break;
                 case R.id.item2:
                     mToolbar.setVisibility(View.GONE);
                     showMenu();
                     setTitle("社区");
                     mViewPager.setCurrentItem(1, false);
+                    mMainToolbarFace.setVisibility(View.GONE);
                     break;
                 case R.id.item3:
                     setTitle("发现");
                     hiddenMenu();
                     mToolbar.setVisibility(View.VISIBLE);
                     mViewPager.setCurrentItem(2, false);
+                    mMainToolbarFace.setVisibility(View.GONE);
                     break;
                 case R.id.item4:
                     mToolbar.setVisibility(View.VISIBLE);
                     setTitle("我的");
                     hiddenMenu();
                     mViewPager.setCurrentItem(3, false);
+                    mMainToolbarFace.setVisibility(View.GONE);
                     break;
             }
             return true;
         });
+    }
 
-        //   mBottomBar.post(this::hiddenMenu);
-/*        mBottomBar.setOnBottomViewClickListener((view, position) -> {
-            mViewPager.setCurrentItem(position, false);
-            hiddenMenu();
-            setTitle(mAdapter.getPageTitle(position));
-            switch (position) {
-                case 1:
-                    showMenu();
-                    Log.d(TAG, "initView: 1");
-                    break;
-                case 0:
-                    Log.d(TAG, "initView: 0");
-                    showMenu();
-                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
-                    break;
-                case 3:
-                    if (!APP.isLogin()) {
-                        Log.d(TAG, "initView: 3");
-//                        EventBus.getDefault().post(new LoginEvent());
-                    }
-                    break;
-                default:
-                    break;
-            }
-        });*/
+    private void unLoginFace() {
+        Glide.with(this).load(R.drawable.ic_default_avatar).into(mMainToolbarFace);
+        mMainToolbarFace.setOnClickListener(view ->
+                startActivity(new Intent(MainActivity.this, LoginActivity.class)));
+    }
 
+    private void loginFace() {
+        ImageLoader.getInstance().loadAvatar(APP.getUser(this).photo_thumbnail_src, mMainToolbarFace);
+        mMainToolbarFace.setOnClickListener(view ->
+                startActivity(new Intent(this, EditInfoActivity.class)));
     }
 
     @Override
@@ -240,11 +239,13 @@ public class MainActivity extends BaseActivity {
             mFragments.remove(0);
             mFragments.add(0, new UnLoginFragment());
             mAdapter.notifyDataSetChanged();
+            unLoginFace();
         } else {
             mFragments.remove(0);
             mFragments.add(0, new CourseContainerFragment());
             //mBottomBar.setCurrentView(0);
             mAdapter.notifyDataSetChanged();
+            loginFace();
         }
     }
 
@@ -318,7 +319,6 @@ public class MainActivity extends BaseActivity {
         //设置Gravity，让它显示在右上角。
         if (popWind.getContentView() != null)
             popWind.getContentView().setOnClickListener((v -> {
-
                 EditAffairActivity.editAffairActivityStart(this, new SchoolCalendar().getWeekOfTerm());
                 popWind.dismiss();
             }));

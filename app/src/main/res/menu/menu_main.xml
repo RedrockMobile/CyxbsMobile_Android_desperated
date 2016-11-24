@@ -4,7 +4,7 @@
     tools:context=".ui.activity.MainActivity">
     <item
         android:id="@+id/action_add_news"
-        android:icon="@drawable/ic_fab_add"
+        android:icon="@drawable/ic_add_black_square"
         android:title="add News"
         app:showAsAction="always" />
 

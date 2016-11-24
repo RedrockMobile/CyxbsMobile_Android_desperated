@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonSyntaxException;
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
@@ -74,6 +75,7 @@ public class NoCourseActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_course);
         ButterKnife.bind(this);
+        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
         init();
     }
@@ -118,6 +120,7 @@ public class NoCourseActivity extends BaseActivity
             toolbar.setTitle("");
             toolbarTitle.setText("没课约");
             setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.drawable.back);
             toolbar.setNavigationOnClickListener(v -> NoCourseActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {

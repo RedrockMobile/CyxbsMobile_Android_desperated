@@ -91,12 +91,13 @@ public abstract class BaseExploreActivity extends BaseActivity {
     }
 
     private void initToolbar() {
+        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back));
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
         }
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
-            ab.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back));
+            ab.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.back));
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setHomeButtonEnabled(true);
             ab.setDisplayShowTitleEnabled(false);

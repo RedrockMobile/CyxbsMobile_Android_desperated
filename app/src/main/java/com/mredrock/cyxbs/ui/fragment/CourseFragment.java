@@ -128,7 +128,7 @@ public class CourseFragment extends BaseFragment {
             tv.setText(date[i]);
             tv.setGravity(Gravity.CENTER);
             if (i == today && mWeek == new SchoolCalendar().getWeekOfTerm()) {
-                tv.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                tv.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
             }
             mCourseWeeks.addView(tv);
             if (mWeek != 0) {
@@ -139,7 +139,7 @@ public class CourseFragment extends BaseFragment {
                 textView.setGravity(Gravity.CENTER);
                 textView.setTextSize(14);
                 if (i == today && mWeek == new SchoolCalendar().getWeekOfTerm()) {
-                    textView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                    textView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
                 } else {
                     textView.setTextColor(ContextCompat.getColor(getContext(), R.color.data_light_black));
                 }

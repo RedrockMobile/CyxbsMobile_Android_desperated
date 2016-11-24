@@ -2,30 +2,32 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+
     <ImageView
         android:id="@+id/iv_arrow_up"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:scaleType="centerCrop"
-        android:adjustViewBounds="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/ic_arrow_up"/>
-    <TextView android:id="@+id/popup_window_tv"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignParentEnd="true"
-              android:layout_alignParentRight="true"
-              android:layout_marginTop="17dp"
-              android:padding="12dp"
-              android:background="@color/white"
-              android:text="添加备忘"
-              android:textColor="@color/text_dark"
-              android:textSize="18dp"/>
+        android:adjustViewBounds="true"
+        android:background="@drawable/ic_arrow_up_gray"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/popup_window_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="17dp"
+        android:background="@color/material_color_blue_gray_600"
+        android:padding="12dp"
+        android:text="添加备忘"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
 
 </RelativeLayout>
 

@@ -19,16 +19,17 @@
             app:elevation="0dp"
             app:tabBackground="@color/colorPrimary"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorColor="@color/colorAccent"
             app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/material_color_blue_gray_50"/>
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextColor="@color/material_color_gray_700"/>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_main"
         android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="72dp"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_add"
         android:layout_height="wrap_content"/>

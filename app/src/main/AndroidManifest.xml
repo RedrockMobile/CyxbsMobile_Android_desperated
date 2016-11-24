@@ -21,10 +21,10 @@
 
     <application
         android:name=".APP"
+        android:theme="@style/AppTheme"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/Theme.DayNight.NoActionBar">
+        android:label="@string/app_name">
 
         <!-- 魅族 3D TOUCH 适配 -->
         <meta-data
@@ -173,7 +173,7 @@
         <service
             android:name=".ui.widget.CourseListAppWidgetUpdateService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false"/>
 
         <activity
             android:name=".ui.activity.affair.EditAffairActivity"
@@ -186,7 +186,7 @@
             android:name=".service.GuardService"
             android:exported="true" />
 
-        <activity android:name=".ui.activity.affair.TimeChooseActivity"></activity>
+        <activity android:name=".ui.activity.affair.TimeChooseActivity"/>
 
         <provider
             android:authorities="com.mredrock.cyxbs.APKFileProvider"

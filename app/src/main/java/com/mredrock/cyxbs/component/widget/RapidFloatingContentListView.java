@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -61,7 +61,7 @@ public class RapidFloatingContentListView
     @NonNull
     @Override
     protected View getContentView() {
-        LinearLayout contentView = (LinearLayout) LayoutInflater.from(getContext()).inflate(
+        ScrollView contentView = (ScrollView) LayoutInflater.from(getContext()).inflate(
                 R.layout.view_empty_fab, null);
         /**fab所展开view的阴影*/
         ShadowViewHelper.bindShadowHelper(

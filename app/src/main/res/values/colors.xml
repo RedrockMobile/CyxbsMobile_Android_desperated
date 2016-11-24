@@ -9,8 +9,8 @@
     <color name="data_light_black">#a9a9a9</color>
 
     <!--Common-->
-    <color name="colorPrimary">#00aae8</color>
-    <color name="colorPrimaryDark">#0088ba</color>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
     <!--<color name="colorPrimaryDark">#ffffff</color>-->
     <color name="colorAccent">#f76060</color>
     <color name="tabIndicatorColor">#c9c9c9</color>

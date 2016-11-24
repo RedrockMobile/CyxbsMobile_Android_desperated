@@ -36,7 +36,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="12dp"
-                android:singleLine="true"
+               android:maxLength="1"
                 android:textColor="#242121"
                 android:textColorHint="#aeadad"
                 android:textCursorDrawable="@null"
@@ -52,10 +52,10 @@
                     android:id="@+id/no_course_add"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackground"
+                    android:background="@color/colorAccent"
                     android:gravity="center"
                     android:text="添加"
-                    android:textColor="@color/no_course_text_white"
+                    android:textColor="@color/white"
                     android:textSize="16sp" />
 
             </FrameLayout>
@@ -84,7 +84,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:text="已添加0人"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/material_color_gray_600"
                     android:textSize="16sp" />
 
                 <View
@@ -100,7 +100,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center"
                     android:text="修改"
-                    android:textColor="#5b5b5b"
+                    android:textColor="@color/black_lightly"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -129,10 +129,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@color/colorAccent"
                 android:gravity="center"
                 android:text="查询"
-                android:textColor="@color/no_course_text_white"
+                android:textColor="@color/white"
                 android:textSize="19sp" />
 
         </LinearLayout>

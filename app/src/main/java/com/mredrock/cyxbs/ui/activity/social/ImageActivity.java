@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.WindowManager;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.ui.adapter.ViewPagerAdapter;
@@ -53,6 +53,7 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_image);
+        StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         mPosition = getIntent().getIntExtra(POSITION, 0);
         if (getIntent().getParcelableExtra(DATA)!= null){

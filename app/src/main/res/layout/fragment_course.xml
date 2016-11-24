@@ -1,13 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:wheel="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
         <TextView
@@ -15,12 +15,13 @@
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp" />
+            android:textColor="@color/material_color_gray_600"
+            android:textSize="16sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
             android:orientation="vertical">
 
             <LinearLayout
@@ -29,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingRight="16dp"
-                android:paddingTop="4dp" />
+                android:paddingTop="4dp"/>
 
             <LinearLayout
                 android:id="@+id/course_weeks"
@@ -37,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:layout_marginRight="16dp"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -45,7 +46,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/divider" />
+        android:background="@color/white"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/course_swipe_refresh_layout"
@@ -76,7 +77,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#FFFBEB"
-                        android:visibility="invisible" />
+                        android:visibility="invisible"/>
 
                     <View
                         android:id="@+id/view_course_today_2"
@@ -84,7 +85,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#FFFBEB"
-                        android:visibility="invisible" />
+                        android:visibility="invisible"/>
 
                     <View
                         android:id="@+id/view_course_today_3"
@@ -92,7 +93,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#FFFBEB"
-                        android:visibility="invisible" />
+                        android:visibility="invisible"/>
 
                     <View
                         android:id="@+id/view_course_today_4"
@@ -100,7 +101,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#FFFBEB"
-                        android:visibility="invisible" />
+                        android:visibility="invisible"/>
 
                     <View
                         android:id="@+id/view_course_today_5"
@@ -108,7 +109,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#FFFBEB"
-                        android:visibility="invisible" />
+                        android:visibility="invisible"/>
 
                     <View
                         android:id="@+id/view_course_today_6"
@@ -116,7 +117,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#FFFBEB"
-                        android:visibility="invisible" />
+                        android:visibility="invisible"/>
 
                     <View
                         android:id="@+id/view_course_today_7"
@@ -124,7 +125,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#FFFBEB"
-                        android:visibility="invisible" />
+                        android:visibility="invisible"/>
 
                 </LinearLayout>
 
@@ -142,12 +143,12 @@
                         android:layout_width="40dp"
                         android:layout_height="600dp"
                         android:gravity="end"
-                        android:orientation="vertical" />
+                        android:orientation="vertical"/>
 
                     <com.mredrock.cyxbs.component.widget.ScheduleView
                         android:id="@+id/course_schedule_content"
                         android:layout_width="match_parent"
-                        android:layout_height="600dp" />
+                        android:layout_height="600dp"/>
                 </LinearLayout>
 
 

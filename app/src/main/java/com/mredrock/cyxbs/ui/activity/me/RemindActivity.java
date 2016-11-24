@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.fragment.me.RemindFragment;
 
@@ -29,6 +30,7 @@ public class RemindActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remind);
+        StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         initToolbar();
         initFragment();
@@ -45,6 +47,7 @@ public class RemindActivity extends AppCompatActivity {
             mToolbar.setTitle("");
             mToolbarTitle.setText("课前提醒");
             setSupportActionBar(mToolbar);
+            mToolbar.setNavigationIcon(R.drawable.back);
             mToolbar.setNavigationOnClickListener(
                     v -> RemindActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();

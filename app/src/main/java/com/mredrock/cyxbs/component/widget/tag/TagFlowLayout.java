@@ -179,7 +179,7 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
                 mSelectedView.remove(position);
             }
             if (mOnSelectListener != null) {
-                mOnSelectListener.onSelected(new HashSet<Integer>(mSelectedView));
+                mOnSelectListener.onSelected(new HashSet<>(mSelectedView));
             }
         }
     }

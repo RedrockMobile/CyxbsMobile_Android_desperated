@@ -68,15 +68,14 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
-            rfab:rfab_color_normal="@color/colorPrimary"
-            rfab:rfab_color_pressed="@color/colorPrimary"
+            rfab:rfab_color_normal="@color/colorAccent"
+            rfab:rfab_color_pressed="@color/colorAccent"
             rfab:rfab_drawable="@drawable/ic_room_pencil"
-            rfab:rfab_shadow_color="#999"
+            rfab:rfab_shadow_color="@color/material_color_gray_500"
             rfab:rfab_shadow_dx="0dp"
             rfab:rfab_shadow_dy="2dp"
             rfab:rfab_shadow_radius="4dp"
             rfab:rfab_size="normal" />
-
     </com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout>
 
 </LinearLayout>

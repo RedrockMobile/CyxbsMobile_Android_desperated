@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
@@ -81,6 +82,7 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_info);
         ButterKnife.bind(this);
+        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
         mUser = APP.getUser(this);
         initView();
@@ -189,6 +191,7 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
             toolbar.setTitle("");
             toolbarTitle.setText("修改信息");
             setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.drawable.back);
             toolbar.setNavigationOnClickListener(v -> {
                 Intent intent = new Intent();
                 intent.putExtra(Const.Extras.EDIT_USER, mUser);

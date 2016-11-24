@@ -3,16 +3,12 @@ package com.mredrock.cyxbs.ui.activity.explore;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.fragment.explore.SurroundingFoodFragment;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 /**
  * Created by Stormouble on 16/4/16.
@@ -31,7 +27,7 @@ public class SurroundingFoodActivity extends BaseExploreActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_surrounding_food);
-
+        StatusBarUtil.setTranslucent(this, 50);
         int[] startLocation = getIntent().getIntArrayExtra(ARG_DRAWING_START_LOCATION);
         if (savedInstanceState == null) {
             SurroundingFoodFragment fragment =

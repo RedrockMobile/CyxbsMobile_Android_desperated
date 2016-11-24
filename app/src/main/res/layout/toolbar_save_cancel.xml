@@ -19,7 +19,7 @@
         android:paddingRight="15dp"
         android:paddingStart="15dp"
         android:text="取消"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="15sp" />
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="简介"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="18sp" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:paddingRight="15dp"
         android:paddingStart="15dp"
         android:text="保存"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="15sp" />
 
 </RelativeLayout>
