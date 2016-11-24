@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,11 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Position;
 import com.mredrock.cyxbs.event.AffairAddEvent;
-
 import com.mredrock.cyxbs.event.AffairModifyEvent;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
 import com.mredrock.cyxbs.model.Affair;
@@ -31,13 +30,10 @@ import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.network.exception.UnsetUserInfoException;
-import com.mredrock.cyxbs.network.setting.annotation.XmlApi;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.mredrock.cyxbs.util.LogUtils;
-import com.mredrock.cyxbs.util.StatusBarUtil;
 import com.mredrock.cyxbs.util.database.DBManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -56,14 +52,10 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import dagger.multibindings.ElementsIntoSet;
-import retrofit2.http.POST;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.mredrock.cyxbs.R.string.course;
 import static com.mredrock.cyxbs.util.LogUtils.LOGE;
 
 
@@ -387,15 +379,13 @@ public class EditAffairActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.StatusBarLightMode(this);
-        StatusBarUtil.setStatusBarColor(this, R.color.white_black);
         setContentView(R.layout.activity_edit_affair);
+        StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
         initCourse();
         initData();
-
 
     }
 
