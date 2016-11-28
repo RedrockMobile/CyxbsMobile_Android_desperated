@@ -43,5 +43,4 @@
         android:id="@+id/include"
         layout="@layout/content_main"/>
 
-
 </LinearLayout>

@@ -122,10 +122,10 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() != 0) {
-                    mSend.setClickable(false);
+                    mSend.setClickable(true);
                     mSend.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 } else {
-                    mSend.setClickable(true);
+                    mSend.setClickable(false);
                     mSend.setBackgroundColor(getResources().getColor(R.color.gray_edit));
                 }
             }
