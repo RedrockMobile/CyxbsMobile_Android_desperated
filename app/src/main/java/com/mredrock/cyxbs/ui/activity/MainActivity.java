@@ -196,7 +196,6 @@ public class MainActivity extends BaseActivity {
         mAdapter = new TabPagerAdapter(getSupportFragmentManager(), mFragments, titles);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
-
         mBottomView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.item1:

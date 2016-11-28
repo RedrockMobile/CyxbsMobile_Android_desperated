@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.CorrectionInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,7 +29,6 @@ import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.ui.widget.CourseListAppWidgetUpdateService;
 import com.mredrock.cyxbs.util.DensityUtils;
-import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.database.DBManager;
 
@@ -103,7 +101,7 @@ public class CourseFragment extends BaseFragment {
     public void initWeekView() {
 
         String[] date = getResources().getStringArray(R.array.course_weekdays);
-        String month = new SchoolCalendar(mWeek, 1).getMonth() + "月";
+        String month = new SchoolCalendar(mWeek, 1).getMonth()+"\n"+ "月";
 
         int screeHeight = DensityUtils.getScreenHeight(getContext());
         if (DensityUtils.px2dp(getContext(), screeHeight) > 700) {
@@ -119,7 +117,6 @@ public class CourseFragment extends BaseFragment {
             intent.putExtra(EditAffairActivity.WEEK_NUMBER,mWeek);
             startActivity(intent);
         });
-
         if (mWeek != 0) mCourseMonth.setText(month);
         int today = (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + 5) % 7;
         for (int i = 0; i < 7; i++) {
