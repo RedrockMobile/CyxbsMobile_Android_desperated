@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.ui.activity.LoginActivity;
 import com.mredrock.cyxbs.util.DensityUtils;
@@ -84,6 +85,8 @@ public class ScheduleView extends FrameLayout {
             for (Course aData : data) {
                 if (aData.getCourseType() == 1)
                     colorSelector.addCourse(aData.begin_lesson,aData.hash_day);
+                else
+                    colorSelector.addAffair(aData.begin_lesson,aData.hash_day);
                 //colorSelector.addCourse(aData.begin_lesson, aData.hash_day);
                 int x = aData.hash_lesson;
                 int y = aData.hash_day;
@@ -151,26 +154,60 @@ public class ScheduleView extends FrameLayout {
         tv.setTextColor(Color.WHITE);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
         tv.setGravity(Gravity.CENTER);
-        tv.setText(course.getCourseType() == 1 ? course.toCourseString() : course.course);
+        tv.setText(course.getCourseType() == 1 ? course.toCourseString() : " ");
 
         GradientDrawable gd = new GradientDrawable();
         gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
         if (course.getCourseType() == 1)
             gd.setColor(colorSelector.getCourseColor(course.begin_lesson,course.hash_day));
         else
-            gd.setColor(colorSelector.getAffairColor());
+            gd.setColor(colorSelector.getAffairColor(course.begin_lesson,course.hash_day));
         //gd.setColor(colorSelector.getCourseColor(course.begin_lesson, course.hash_day));
         tv.setBackgroundDrawable(gd);
         tv.setOnClickListener(v -> CourseDialog.show(getContext(), courses));
         addView(tv);
-        if (courses.list.size() > 1) {
+        if (courses.list.get(0).getCourseType() == Affair.TYPE){
             View drop = new View(getContext());
-            drop.setBackgroundResource(R.drawable.ic_corner_right_bottom);
+            int beginLesson = courses.list.get(0).hash_lesson;
+
+            if (beginLesson < 2){
+                drop.setBackgroundResource(R.drawable.ic_corner_right_top_blue);
+            }
+            else if (beginLesson < 4){
+                drop.setBackgroundResource(R.drawable.ic_corner_right_top_yellow);
+            }
+            else{
+                drop.setBackgroundResource(R.drawable.ic_corner_right_top_green);
+            }
+
             LayoutParams dropLayout = new LayoutParams(mWidth / 5, mWidth / 5);
-            dropLayout.topMargin = mTop + mHeight - mWidth / 5;
-            dropLayout.leftMargin = mLeft + mWidth * 4 / 5;
+            dropLayout.topMargin = mTop + DensityUtils.dp2px(context, 3);
+            dropLayout.leftMargin = mLeft + mWidth * 4 / 5 - DensityUtils.dp2px(context,1);
             drop.setLayoutParams(dropLayout);
             addView(drop);
+        }
+
+        if (courses.list.size() > 1) {
+            if (courses.list.get(courses.list.size() - 1).getCourseType() == 2) {
+                View drop = new View(getContext());
+                drop.setBackgroundResource(R.drawable.ic_corner_right_top);
+                LayoutParams dropLayout = new LayoutParams(mWidth / 5, mWidth / 5);
+                dropLayout.topMargin = mTop + DensityUtils.dp2px(context, 3);
+                dropLayout.leftMargin = mLeft + mWidth * 4 / 5 - DensityUtils.dp2px(context, 1);
+                drop.setLayoutParams(dropLayout);
+                addView(drop);
+            }
+            if (courses.list.get(1).getCourseType() == 1) {
+                View drop = new View(getContext());
+                drop.setBackgroundResource(R.drawable.ic_corner_right_bottom);
+                LayoutParams dropLayout = new LayoutParams(mWidth / 5, mWidth / 5);
+                dropLayout.topMargin = mTop + mHeight - mWidth / 5;
+                dropLayout.leftMargin = mLeft + mWidth * 4 / 5;
+                drop.setLayoutParams(dropLayout);
+                addView(drop);
+            }
+
+
         }
     }
 
@@ -178,46 +215,50 @@ public class ScheduleView extends FrameLayout {
         public ArrayList<Course> list = new ArrayList<>();
     }
 
+    public void addDropTopView(){
+
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            startX = (int) event.getX();
-            startY = (int) event.getY();
-        }
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            endX = (int) event.getX();
-            endY = (int) event.getY();
-        }
-        int distance = (int) Math.sqrt(Math.pow(startX - endX, 2) + Math.pow(startY - endY, 2));
-        if (distance <= 1) {
-            int x = (int) (event.getX() / getWidth() * 7);
-            int y = (int) (event.getY() / getHeight() * 12);
-            if (mClickImageView == null) {
-                mClickImageView = new ImageView(context);
-                mClickImageView.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.ic_add_circle));
-                mClickImageView.setBackgroundColor(Color.parseColor("#60000000"));
-                mClickImageView.setScaleType(ImageView.ScaleType.CENTER);
-                mClickImageView.setOnLongClickListener((view -> {
-                    removeView(mClickImageView);
-                    return true;
-                }));
-
-            }
-            if (onImageViewClickListener != null) {
-                mClickImageView.setOnClickListener((view -> onImageViewClickListener.onClick(x, y)));
-            }
-            int mTop = height * y / 2;
-            int mLeft = width * x;
-            int mWidth = width;
-            int mHeight = (int) (height * (float) 1 / 2);
-            LayoutParams flParams = new LayoutParams((mWidth - DensityUtils.dp2px(getContext(), 1f)), (mHeight - DensityUtils.dp2px(getContext(), 1f)));
-            flParams.topMargin = (mTop + DensityUtils.dp2px(getContext(), 1f));
-            flParams.leftMargin = (mLeft + DensityUtils.dp2px(getContext(), 1f));
-            mClickImageView.setLayoutParams(flParams);
-            removeView(mClickImageView);
-            addView(mClickImageView);
-        }
+//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            startX = (int) event.getX();
+//            startY = (int) event.getY();
+//        }
+//        if (event.getAction() == MotionEvent.ACTION_UP) {
+//            endX = (int) event.getX();
+//            endY = (int) event.getY();
+//        }
+//        int distance = (int) Math.sqrt(Math.pow(startX - endX, 2) + Math.pow(startY - endY, 2));
+//        if (distance <= 1) {
+//            int x = (int) (event.getX() / getWidth() * 7);
+//            int y = (int) (event.getY() / getHeight() * 12);
+//            if (mClickImageView == null) {
+//                mClickImageView = new ImageView(context);
+//                mClickImageView.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.ic_add_circle));
+//                mClickImageView.setBackgroundColor(Color.parseColor("#60000000"));
+//                mClickImageView.setScaleType(ImageView.ScaleType.CENTER);
+//                mClickImageView.setOnLongClickListener((view -> {
+//                    removeView(mClickImageView);
+//                    return true;
+//                }));
+//
+//            }
+//            if (onImageViewClickListener != null) {
+//                mClickImageView.setOnClickListener((view -> onImageViewClickListener.onClick(x, y)));
+//            }
+//            int mTop = height * y / 2;
+//            int mLeft = width * x;
+//            int mWidth = width;
+//            int mHeight = (int) (height * (float) 1 / 2);
+//            LayoutParams flParams = new LayoutParams((mWidth - DensityUtils.dp2px(getContext(), 1f)), (mHeight - DensityUtils.dp2px(getContext(), 1f)));
+//            flParams.topMargin = (mTop + DensityUtils.dp2px(getContext(), 1f));
+//            flParams.leftMargin = (mLeft + DensityUtils.dp2px(getContext(), 1f));
+//            mClickImageView.setLayoutParams(flParams);
+//            removeView(mClickImageView);
+//            addView(mClickImageView);
+//        }
 
 
         return true;
@@ -238,7 +279,20 @@ public class ScheduleView extends FrameLayout {
                 Color.parseColor("#bdc3c7")
         };
 
+        private int[] affairColors = new int[]{
+//                Color.argb(200, 254, 145, 103),
+//                Color.argb(200, 120, 201, 252),
+//                Color.argb(200, 111, 219, 188),
+//                Color.argb(200, 191, 161, 233),
+
+                Color.parseColor("#e8f5fe"),
+                Color.parseColor("#fff5e9"),
+                Color.parseColor("#e6fffb"),
+//                Color.parseColor("#bdc3c7")
+        };
+
         private HashMap<String, Integer> mCourseColorMap = new HashMap<>();
+        private HashMap<String, Integer> mAffairColorMap = new HashMap<>();
 
         @SuppressWarnings("unchecked")
         public void addCourse(String name) {
@@ -259,8 +313,23 @@ public class ScheduleView extends FrameLayout {
             else mCourseColorMap.put(beginLesson + "," + hashDay, colors[2]);
         }
 
+        public void addAffair(int beginLesson, int hashDay) {
+//            if (hashDay >= 5) mAffairColorMap.put(beginLesson + "," + hashDay, colors[3]);
+//            else
+            if (beginLesson < 4)
+                mAffairColorMap.put(beginLesson + "," + hashDay, affairColors[0]);
+            else if (beginLesson < 9)
+                mAffairColorMap.put(beginLesson + "," + hashDay, affairColors[1]);
+            else
+                mAffairColorMap.put(beginLesson + "," + hashDay, affairColors[2]);
+        }
+
         public int getCourseColor(int beginLesson, int hashDay) {
             return mCourseColorMap.get(beginLesson + "," + hashDay);
+        }
+
+        public int getAffairColor(int beginLesson, int hashDay) {
+            return mAffairColorMap.get(beginLesson + "," + hashDay);
         }
 
         public int getCourseColor(String name) {
