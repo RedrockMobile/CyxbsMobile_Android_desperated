@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -390,8 +391,8 @@ public class EditAffairActivity extends AppCompatActivity {
     }
 
     private void initCourse() {
-        ArrayList<Integer> week = (ArrayList<Integer>) getIntent().getSerializableExtra("weeks");
-        Course course = (Course) getIntent().getSerializableExtra(COURSE_KEY);
+        ArrayList<Integer> week =getIntent().getParcelableExtra("weeks");
+        Course course = (Course) getIntent().getParcelableExtra(COURSE_KEY);
 
 
         if (course == null)
@@ -474,7 +475,7 @@ public class EditAffairActivity extends AppCompatActivity {
 
     public static void editAffairActivityStart(Context context, Affair affair, String uid, int time,ArrayList<Integer> weeks) {
         Intent starter = new Intent(context, EditAffairActivity.class);
-        starter.putExtra(COURSE_KEY, (Serializable) affair);
+        starter.putExtra(COURSE_KEY, (Parcelable) affair);
         starter.putExtra("time", time);
         starter.putExtra("uid", uid);
         starter.putExtra("weeks",weeks);
