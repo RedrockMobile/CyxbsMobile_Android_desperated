@@ -20,7 +20,7 @@ import rx.Subscriber;
  * Created by cc on 16/3/19.
  */
 public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancelListener {
-    private Context               context;
+    private Context context;
     protected SubscriberListener<T> listener;
     private ProgressDialogHandler mProgressDialogHandler;
 
@@ -111,14 +111,14 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
     private void showProgressDialog() {
         if (mProgressDialogHandler != null) {
             mProgressDialogHandler.obtainMessage(ProgressDialogHandler.SHOW_PROGRESS_DIALOG)
-                                  .sendToTarget();
+                    .sendToTarget();
         }
     }
 
     protected void dismissProgressDialog() {
         if (mProgressDialogHandler != null) {
             mProgressDialogHandler.obtainMessage(ProgressDialogHandler.DISMISS_PROGRESS_DIALOG)
-                                  .sendToTarget();
+                    .sendToTarget();
             mProgressDialogHandler = null;
         }
     }

@@ -21,7 +21,8 @@
         android:layout_gravity="bottom"
         android:layout_height="48dp"
         app:itemBackground="@color/grey"
-        app:itemIconTint="@color/material_color_black"
-        app:itemTextColor="@color/material_color_black"
+        app:elevation="16dp"
+        app:itemIconTint="@color/colorAccent"
+        app:itemTextColor="@color/colorAccent"
         app:menu="@menu/menu_bottom"/>
 </FrameLayout>
