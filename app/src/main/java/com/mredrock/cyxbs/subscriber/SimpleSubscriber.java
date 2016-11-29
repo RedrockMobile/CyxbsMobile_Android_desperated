@@ -63,7 +63,7 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
         } else {
             if (e instanceof SocketTimeoutException || e instanceof ConnectException || e instanceof UnknownHostException) {
                 if (BuildConfig.DEBUG) {
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
                 }
