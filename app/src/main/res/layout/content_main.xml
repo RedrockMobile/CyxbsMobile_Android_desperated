@@ -19,7 +19,7 @@
         android:id="@+id/bottom_view"
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         app:itemBackground="@color/grey"
         app:itemIconTint="@color/material_color_black"
         app:itemTextColor="@color/material_color_black"
