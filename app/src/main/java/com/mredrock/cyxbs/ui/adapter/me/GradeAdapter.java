@@ -8,14 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
 
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by skylineTan on 2016/4/21 19:16.
@@ -63,7 +63,7 @@ public class GradeAdapter extends BaseRecyclerViewAdapter<Grade, GradeAdapter
     private void trySetGradeTitleColor(ViewHolder holder, int position) {
         int titleColor = Color.parseColor(drawer_primary_text);
         if (position == 0) {
-            titleColor = mContext.getResources().getColor(R.color.colorPrimary);
+            titleColor = mContext.getResources().getColor(R.color.black_lightly);
         }
         holder.mTvCourse.setTextColor(titleColor);
         holder.mTvProperty.setTextColor(titleColor);

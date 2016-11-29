@@ -44,7 +44,6 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
             mGradeRefreshLayout;
 
     private List<Grade> mGradeList;
-
     private GradeAdapter mGradeAdapter;
     private User mUser;
     private boolean mIsVisibleToUser;
@@ -64,22 +63,15 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
-                getActivity()) {
-            @Override
-            protected int getExtraLayoutSpace(RecyclerView.State state) {
-                return 300;
-            }
-        };
-        mGradeRecyclerView.setLayoutManager(linearLayoutManager);
+
+        mGradeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mGradeList = new ArrayList<>();
         mGradeAdapter = new GradeAdapter(mGradeList, getActivity());
         mGradeRecyclerView.setAdapter(mGradeAdapter);
-
         mGradeRefreshLayout.setOnRefreshListener(this);
         mGradeRefreshLayout.setColorSchemeColors(ContextCompat.getColor
                 (getContext(), R.color.colorAccent), ContextCompat.getColor
-                (getContext(), R.color.colorPrimary));
+                (getContext(), R.color.black_lightly));
 
         mUser = APP.getUser(getActivity());
         if (mUser != null) {
@@ -95,7 +87,6 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
         }
     }
 
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -104,7 +95,6 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
             loadGradeList(true);
         }
     }
-
 
     @Override
     public void onDestroyView() {
@@ -120,7 +110,7 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
     }
 
     private void loadGradeList(boolean update) {
-        RequestManager.getInstance().getGradeList(new SimpleSubscriber<List<Grade>>(
+        RequestManager.getInstance().getGradeList(new SimpleSubscriber<>(
                 getActivity(), new SubscriberListener<List<Grade>>() {
 
             @Override
