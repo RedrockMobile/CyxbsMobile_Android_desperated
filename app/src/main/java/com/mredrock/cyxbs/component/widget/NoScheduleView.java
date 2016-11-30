@@ -103,7 +103,7 @@ public class NoScheduleView extends FrameLayout {
                 }
             }
         }
-        textView.setText(sb+"有课");
+        textView.setText(sb+"有空");
         GradientDrawable gd = new GradientDrawable();
         gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
         gd.setColor(colorSelector.getNoCourseColor(noCourse.hash_day,

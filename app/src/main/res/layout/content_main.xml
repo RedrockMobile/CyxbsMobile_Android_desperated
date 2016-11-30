@@ -12,6 +12,7 @@
 
     <com.mredrock.cyxbs.component.widget.MainViewPager
         android:id="@+id/main_view_pager"
+        android:layout_marginBottom="48dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
