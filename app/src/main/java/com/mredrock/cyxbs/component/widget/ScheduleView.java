@@ -44,6 +44,10 @@ public class ScheduleView extends FrameLayout {
     private Context context;
     private ImageView mClickImageView;
     private int startX, startY, endX, endY;
+    private boolean showMode = true; //是否在课表界面显示事项内容
+
+
+
 
 
     private OnImageViewClickListener onImageViewClickListener;
@@ -160,32 +164,40 @@ public class ScheduleView extends FrameLayout {
         gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
         if (course.getCourseType() == 1)
             gd.setColor(colorSelector.getCourseColor(course.begin_lesson,course.hash_day));
-        else
-            gd.setColor(colorSelector.getAffairColor(course.begin_lesson,course.hash_day));
-        //gd.setColor(colorSelector.getCourseColor(course.begin_lesson, course.hash_day));
+        else{
+            if (showMode){
+                gd.setColor(colorSelector.getAffairColor());
+                tv.setText(course.course);
+            }else
+                gd.setColor(colorSelector.getAffairColor(course.begin_lesson,course.hash_day));
+        }
+           // gd.setColor(showMode ? colorSelector.getCourseColor() : colorSelector.getAffairColor(course.begin_lesson,course.hash_day));
         tv.setBackgroundDrawable(gd);
         tv.setOnClickListener(v -> CourseDialog.show(getContext(), courses));
         addView(tv);
-        if (courses.list.get(0).getCourseType() == Affair.TYPE){
-            View drop = new View(getContext());
-            int beginLesson = courses.list.get(0).hash_lesson;
+        if (!showMode){
+            if (courses.list.get(0).getCourseType() == Affair.TYPE){
+                View drop = new View(getContext());
+                int beginLesson = courses.list.get(0).hash_lesson;
 
-            if (beginLesson < 2){
-                drop.setBackgroundResource(R.drawable.ic_corner_right_top_blue);
-            }
-            else if (beginLesson < 4){
-                drop.setBackgroundResource(R.drawable.ic_corner_right_top_yellow);
-            }
-            else{
-                drop.setBackgroundResource(R.drawable.ic_corner_right_top_green);
-            }
+                if (beginLesson < 2){
+                    drop.setBackgroundResource(R.drawable.ic_corner_right_top_blue);
+                }
+                else if (beginLesson < 4){
+                    drop.setBackgroundResource(R.drawable.ic_corner_right_top_yellow);
+                }
+                else{
+                    drop.setBackgroundResource(R.drawable.ic_corner_right_top_green);
+                }
 
-            LayoutParams dropLayout = new LayoutParams(mWidth / 5, mWidth / 5);
-            dropLayout.topMargin = mTop + DensityUtils.dp2px(context, 3);
-            dropLayout.leftMargin = mLeft + mWidth * 4 / 5 - DensityUtils.dp2px(context,1);
-            drop.setLayoutParams(dropLayout);
-            addView(drop);
+                LayoutParams dropLayout = new LayoutParams(mWidth / 5, mWidth / 5);
+                dropLayout.topMargin = mTop + DensityUtils.dp2px(context, 3);
+                dropLayout.leftMargin = mLeft + mWidth * 4 / 5 - DensityUtils.dp2px(context,1);
+                drop.setLayoutParams(dropLayout);
+                addView(drop);
+            }
         }
+
 
         if (courses.list.size() > 1) {
             if (courses.list.get(courses.list.size() - 1).getCourseType() == 2) {
@@ -265,6 +277,13 @@ public class ScheduleView extends FrameLayout {
 
     }
 
+    public boolean isShowMode() {
+        return showMode;
+    }
+
+    public void setShowMode(boolean showMode) {
+        this.showMode = showMode;
+    }
 
     public static class CourseColorSelector {
         private int[] colors = new int[]{

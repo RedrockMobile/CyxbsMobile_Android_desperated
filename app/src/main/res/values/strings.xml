@@ -121,6 +121,8 @@
     <string name="setting_news_remind">新消息提醒</string>
     <string name="setting_feedback">意见反馈</string>
     <string name="setting_about">关于</string>
+    <string name="setting_show_mode">在课表上显示备忘内容</string>
+
     <string name="setting_exit">退出当前账号</string>
 
     <string name="grade_title_name">名称</string>
