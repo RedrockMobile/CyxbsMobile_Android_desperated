@@ -1,6 +1,8 @@
 package com.mredrock.cyxbs.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -19,6 +21,7 @@ import com.mredrock.cyxbs.component.widget.ScheduleView;
 import com.mredrock.cyxbs.event.AffairAddEvent;
 import com.mredrock.cyxbs.event.AffairDeleteEvent;
 import com.mredrock.cyxbs.event.AffairModifyEvent;
+import com.mredrock.cyxbs.event.AffairShowModeEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
@@ -27,6 +30,7 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
+import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
 import com.mredrock.cyxbs.ui.widget.CourseListAppWidgetUpdateService;
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
@@ -45,6 +49,8 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.umeng.analytics.a.e;
 
 
 public class CourseFragment extends BaseFragment {
@@ -79,6 +85,9 @@ public class CourseFragment extends BaseFragment {
     LinearLayout mCourseScheduleHolder;
     @Bind(R.id.course_month)
     TextView mCourseMonth;
+
+   // private boolean showAffairContent = true;
+    private SharedPreferences sharedPreferences;
 
     private List<Course> courseList = new ArrayList<>();
     private List<Course> affairList = new ArrayList<>();
@@ -168,9 +177,12 @@ public class CourseFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         if (mWeek == new SchoolCalendar().getWeekOfTerm()) {
             showTodayWeek();
         }
+        sharedPreferences = getActivity().getSharedPreferences(SettingActivity.SHOW_MODE,Context.MODE_PRIVATE);
+        mCourseScheduleContent.setShowMode(sharedPreferences.getBoolean(SettingActivity.SHOW_MODE,true));
 
         loadCourse(mWeek, false);
     }
@@ -190,12 +202,12 @@ public class CourseFragment extends BaseFragment {
 
     private void loadCourse(int week, boolean update) {
 
+
         if (APP.isLogin()) {
             mUser = APP.getUser(getActivity());
             if (mUser != null) {
                 RequestManager.getInstance()
                         .getCourseList(new SimpleSubscriber<>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
-
                             @Override
                             public void onStart() {
                                 super.onStart();
@@ -377,6 +389,13 @@ public class CourseFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAffairModifyEvent(AffairModifyEvent event){
+
+        loadCourse(mWeek, false);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAffairShowModeEvent(AffairShowModeEvent event){
+        mCourseScheduleContent.setShowMode(event.showMode);
         loadCourse(mWeek, false);
     }
 

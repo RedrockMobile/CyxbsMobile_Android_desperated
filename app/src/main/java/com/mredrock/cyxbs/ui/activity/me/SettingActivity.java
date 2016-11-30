@@ -1,10 +1,12 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -14,9 +16,11 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.AffairShowModeEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.network.func.AppWidgetCacheAndUpdateFunc;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.mredrock.cyxbs.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,8 +28,14 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 public class SettingActivity extends BaseActivity {
+
+    public static final String SHOW_MODE = "showMode";
+
 
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -41,6 +51,12 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout settingExitLayout;
     @Bind(R.id.setting_share_layout)
     RelativeLayout mSettingShareLayout;
+    @Bind(R.id.setting_switch_show)
+    SwitchCompat switchCompat;
+
+    private SharedPreferences preferences;
+    private boolean currentMode = true;
+    private boolean initMode = true;
 
 
     @Override
@@ -53,6 +69,26 @@ public class SettingActivity extends BaseActivity {
         if (!APP.isLogin()) {
             settingExitLayout.setVisibility(View.GONE);
         }
+
+        initSwitchCompat();
+
+    }
+
+    private void initSwitchCompat() {
+        preferences = getSharedPreferences(SHOW_MODE, MODE_PRIVATE);
+        initMode = currentMode = preferences.getBoolean(SHOW_MODE, true);
+        switchCompat.setChecked(currentMode);
+        SharedPreferences.Editor editor = preferences.edit();
+        switchCompat.setOnCheckedChangeListener((button, b) -> {
+            Observable.create(subscriber -> {
+                editor.putBoolean(SHOW_MODE, b);
+                editor.apply();
+                currentMode = b;
+                subscriber.onNext(null);
+                subscriber.onCompleted();
+            }).subscribeOn(Schedulers.io())
+                    .unsubscribeOn(Schedulers.io()).subscribe();
+        });
     }
 
 
@@ -123,6 +159,17 @@ public class SettingActivity extends BaseActivity {
                 actionBar.setHomeButtonEnabled(true);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (initMode != currentMode) {
+            AffairShowModeEvent event = new AffairShowModeEvent();
+            event.showMode = currentMode;
+            EventBus.getDefault().post(event);
+        }
+        super.onDestroy();
+
     }
 
     @OnClick(R.id.setting_share_layout)
