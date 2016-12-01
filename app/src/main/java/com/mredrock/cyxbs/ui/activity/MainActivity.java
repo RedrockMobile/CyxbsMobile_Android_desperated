@@ -103,6 +103,7 @@ public class MainActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        mViewPager.setCurrentItem(0, false);
     }
 
     @Override
