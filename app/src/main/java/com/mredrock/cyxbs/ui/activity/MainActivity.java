@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -29,6 +28,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.CourseDialog;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
+import com.mredrock.cyxbs.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.Course;
@@ -88,10 +88,10 @@ public class MainActivity extends BaseActivity {
     BaseFragment exploreFragment;
     BaseFragment userFragment;
     BaseFragment unLoginFragment;
-    @Bind(R.id.bottom_view)
-    BottomNavigationView mBottomView;
     @Bind(R.id.main_toolbar_face)
     CircleImageView mMainToolbarFace;
+    @Bind(R.id.bottom_bar)
+    BottomBar mBottomBar;
 
     private Menu mMenu;
     private ArrayList<Fragment> mFragments;
@@ -103,7 +103,6 @@ public class MainActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        mViewPager.setCurrentItem(0, false);
     }
 
     @Override
@@ -197,38 +196,36 @@ public class MainActivity extends BaseActivity {
         mAdapter = new TabPagerAdapter(getSupportFragmentManager(), mFragments, titles);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
-        mBottomView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.item1:
+        mBottomBar.setOnBottomViewClickListener((view, position) -> {
+            mViewPager.setCurrentItem(position, false);
+            hiddenMenu();
+            setTitle(mAdapter.getPageTitle(position));
+            switch (position) {
+                case 1:
+                    hiddenMenu();
+                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.GONE);
+                    break;
+                case 0:
+                    mToolbar.setVisibility(View.VISIBLE);
                     showMenu();
                     setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
-                    mViewPager.setCurrentItem(0, false);
                     mMainToolbarFace.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    mToolbar.setVisibility(View.VISIBLE);
+                    mMainToolbarFace.setVisibility(View.GONE);
+                    if (!APP.isLogin()) {
+                        EventBus.getDefault().post(new LoginEvent());
+                    }
+                    break;
+                case 2:
+                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
                     break;
-                case R.id.item2:
-                    mToolbar.setVisibility(View.GONE);
-                    showMenu();
-                    setTitle("社区");
-                    mViewPager.setCurrentItem(1, false);
-                    mMainToolbarFace.setVisibility(View.GONE);
-                    break;
-                case R.id.item3:
-                    setTitle("发现");
-                    hiddenMenu();
-                    mToolbar.setVisibility(View.VISIBLE);
-                    mViewPager.setCurrentItem(2, false);
-                    mMainToolbarFace.setVisibility(View.GONE);
-                    break;
-                case R.id.item4:
-                    mToolbar.setVisibility(View.VISIBLE);
-                    setTitle("我的");
-                    hiddenMenu();
-                    mViewPager.setCurrentItem(3, false);
-                    mMainToolbarFace.setVisibility(View.GONE);
+                default:
                     break;
             }
-            return true;
         });
     }
 

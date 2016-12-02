@@ -16,14 +16,55 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_view"
-        android:layout_width="match_parent"
+    <com.mredrock.cyxbs.component.widget.bottombar.BottomBar
         android:layout_gravity="bottom"
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:itemBackground="@color/grey"
-        app:elevation="16dp"
-        app:itemIconTint="@color/colorAccent"
-        app:itemTextColor="@color/colorAccent"
-        app:menu="@menu/menu_bottom"/>
+        android:background="@color/material_color_gray_100"
+        android:orientation="horizontal">
+
+        <com.mredrock.cyxbs.component.widget.bottombar.BottomButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:button_image_normal="@drawable/ic_course"
+            app:button_text="@string/course"
+            app:color_choose="@color/material_color_blue_500"
+            app:color_normal="@color/material_color_gray_600"/>
+
+        <com.mredrock.cyxbs.component.widget.bottombar.BottomButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:button_image_normal="@drawable/ic_home"
+            app:button_text="@string/community"
+            app:color_choose="@color/material_color_blue_500"
+            app:color_normal="@color/material_color_gray_600"/>
+
+
+        <com.mredrock.cyxbs.component.widget.bottombar.BottomButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:button_image_normal="@drawable/ic_explore"
+            app:button_text="@string/explore"
+            app:color_choose="@color/material_color_blue_500"
+            app:color_normal="@color/material_color_gray_600"/>
+
+        <com.mredrock.cyxbs.component.widget.bottombar.BottomButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:button_image_normal="@drawable/ic_me"
+            app:button_text="@string/my_page"
+            app:color_choose="@color/material_color_blue_500"
+            app:color_normal="@color/material_color_gray_600"/>
+
+    </com.mredrock.cyxbs.component.widget.bottombar.BottomBar>
+
 </FrameLayout>
