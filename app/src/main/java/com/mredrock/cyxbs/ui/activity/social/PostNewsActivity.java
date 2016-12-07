@@ -190,8 +190,14 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                 super.onCompleted();
                 showUploadSuccess(content);
             }
-        }));
 
+            @Override
+            public boolean onError(Throwable e) {
+                finish();
+                Toast.makeText(PostNewsActivity.this, "发送失败", Toast.LENGTH_SHORT).show();
+                return super.onError(e);
+            }
+        }));
     }
 
     private Observable<String> uploadWithImg(List<Image> currentImgs, String title, String content, int type) {
