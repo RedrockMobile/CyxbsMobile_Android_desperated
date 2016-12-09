@@ -17,7 +17,6 @@ import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.util.DensityUtils;
-import com.mredrock.cyxbs.util.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -114,7 +113,7 @@ public class CourseDialog {
                     modify.setOnClickListener((view -> {
                         dialog.dismiss();
                         Affair affair = (Affair) course;
-                        EditAffairActivity.editAffairActivityStart(context,affair,affair.uid,affair.time, (ArrayList<Integer>) affair.week);
+                        EditAffairActivity.editAffairActivityStart(context,affair);
                     }));
                     name.setText(course.course);
                     teacher.setText(course.teacher);

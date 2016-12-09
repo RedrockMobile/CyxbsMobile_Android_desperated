@@ -10,12 +10,10 @@ import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.model.Course;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 
 
 /**
@@ -39,23 +37,25 @@ public enum  DBManager {
 
 
 
-    public Observable insert(String uid,String stuNum,String json) {
+    public Observable insert(boolean isUpload,String uid,String stuNum,String json) {
         return  Observable.create(subscriber -> {
 
             db.execSQL("INSERT INTO affair(uid,stuNum,isUpload,data) VALUES ('" + uid
-                    + "','" + stuNum + "','" + false + "','" + json + "');");
+                    + "','" + stuNum + "','" + isUpload + "','" + json + "');");
             subscriber.onNext(null);
             subscriber.onCompleted();
         });
     }
 
-    public Observable insert(String uid,String stuNum,String json, boolean delete) {
+
+
+    public Observable insert(boolean isUpload,String uid,String stuNum,String json, boolean delete) {
         return  Observable.create(subscriber -> {
             if (delete)
                 db.delete("affair", "uid = ?", new String[]{uid});
 
             db.execSQL("INSERT INTO affair(uid,stuNum,isUpload,data) VALUES ('" + uid
-                    + "','" + stuNum + "','" + false + "','" + json + "');");
+                    + "','" + stuNum + "','" + isUpload + "','" + json + "');");
             subscriber.onNext(null);
             subscriber.onCompleted();
         });
@@ -88,11 +88,64 @@ public enum  DBManager {
         }));
     }
 
+    public Observable<AffairApi.AffairItem> queryItem(String uid){
+        return Observable.create(subscriber -> {
+            open();
+            Cursor c = db.rawQuery("SELECT data FROM affair WHERE uid = "+uid,null);
+            String data = null;
+            if (c.moveToFirst()){
+                data = c.getString(0);
+            }
+            AffairApi.AffairItem item = new Gson().fromJson(data, AffairApi.AffairItem.class);
+            subscriber.onNext(item);
+            c.close();
+
+        });
+    }
+
     public Observable<List<Course>> query(String stuNum,int week) {
 
         return Observable.create(subscriber -> {
             open();
             Cursor c = db.rawQuery("SELECT data FROM affair WHERE stuNum = "+stuNum,null);
+            List<String> data = new ArrayList<>();
+            List<Course> courses = new ArrayList<Course>();
+            while (c.moveToNext()) {
+                data.add(c.getString(0));
+            }
+            c.close();
+            Gson gson = new Gson();
+            for (String a : data){
+                AffairApi.AffairItem  affairItem =  gson.fromJson(a, AffairApi.AffairItem.class);
+                for (AffairApi.AffairItem.DateBean dateBean : affairItem.getDate()) {
+                    Affair affair = new Affair();
+                    affair.time = affairItem.getTime();
+                    affair.teacher = affairItem.getContent();
+                    affair.courseType = 2;
+                    affair.week = dateBean.getWeek();
+                    affair.hash_day = dateBean.getDay();
+                    affair.begin_lesson = 2 * affair.hash_day + 1;
+                    affair.hash_lesson = dateBean.getClassX();
+                    affair.period = 2;
+                    affair.uid = affairItem.getId();
+                    affair.course = affairItem.getTitle();
+
+                    if (week == 0)
+                        courses.add(affair);
+                    else if (affair.week.contains(week))
+                        courses.add(affair);
+                }
+
+            }
+            subscriber.onNext(courses);
+        });
+    }
+
+    public Observable<List<Course>> query(String stuNum,int week,boolean isUpload) {
+
+        return Observable.create(subscriber -> {
+            open();
+            Cursor c = db.rawQuery("SELECT data FROM affair WHERE stuNum = "+stuNum + "AND isUpload = " + isUpload  ,null);
             List<String> data = new ArrayList<>();
             List<Course> courses = new ArrayList<Course>();
             while (c.moveToNext()) {

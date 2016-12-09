@@ -10,8 +10,8 @@ android {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 34
-        versionName "小鲜肉版"
+        versionCode 35
+        versionName "期末版"
         multiDexEnabled true
     }
 

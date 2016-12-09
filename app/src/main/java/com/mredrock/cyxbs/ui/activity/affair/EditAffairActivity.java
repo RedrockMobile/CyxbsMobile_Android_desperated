@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,6 @@ import com.mredrock.cyxbs.event.AffairModifyEvent;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.AffairApi;
-import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
@@ -41,7 +41,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,10 +56,10 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.mredrock.cyxbs.util.LogUtils.LOGE;
-
 
 public class EditAffairActivity extends AppCompatActivity {
+
+    private static final String TAG = "EditAffairActivity";
 
     public static final String BUNDLE_KEY = "position";
     public static final String WEEK_NUMBER = "week";
@@ -117,6 +116,7 @@ public class EditAffairActivity extends AppCompatActivity {
     public void onWeekChooseClick(View v) {
         KeyboardUtils.hideInput(v);
         intro();
+        //behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     @OnClick(R.id.edit_affair_time_layout)
@@ -131,38 +131,45 @@ public class EditAffairActivity extends AppCompatActivity {
     public void onWeekChooseOkClick() {
         weeks.clear();
         weeks.addAll(mWeekAdapter.getWeeks());
-        Collections.sort(weeks);
-        LogUtils.LOGE("EditAffairActivity", weeks.toString());
-        String data = weeks.toString();
-        data = data.substring(1, data.length() - 1);
-        mWeekText.setText("第" + data + "周");
+        if (weeks.size() != 0){
+            Collections.sort(weeks);
+            LogUtils.LOGE("EditAffairActivity", weeks.toString());
+            String data = weeks.toString();
+            data = data.substring(1, data.length() - 1);
+            mWeekText.setText("第" + data + "周");
+        }else{
+            mWeekText.setText("请选择周数");
+        }
         intro();
+
+
     }
 
     @SuppressWarnings("unchecked")
     @OnClick({R.id.edit_affair_iv_save, R.id.edit_affair_iv_back})
     public void onSaveClick(View v) {
         KeyboardUtils.hideInput(v);
+        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         if (v.getId() == R.id.edit_affair_iv_save) {
             String title = mTitleEdit.getText().toString();
             String content = mContentEdit.getText().toString();
-            if (title.trim().isEmpty() || content.trim().isEmpty()) {
-                Toast.makeText(APP.getContext(), "标题和内容不能为空哦", Toast.LENGTH_SHORT).show();
-
+            if (title.trim().isEmpty()) {
+                Toast.makeText(APP.getContext(), "标题不能为空哦", Toast.LENGTH_SHORT).show();
             } else if (weeks.size() == 0 || positions.size() == 0) {
                 Toast.makeText(APP.getContext(), "时间或周数不能为空哦", Toast.LENGTH_SHORT).show();
             } else {
                 DBManager dbManager = DBManager.INSTANCE;
                 Affair affair = new Affair();
                 AffairApi.AffairItem affairItem = new AffairApi.AffairItem();
-
                 Gson gson = new Gson();
-                Random ne = new Random();//实例化一个random的对象ne
+                Random ne = new Random();
                 String x;
                 if (uid == null)
-                    x = System.currentTimeMillis() + "" + (ne.nextInt(9999 - 1000 + 1) + 1000);//为变量赋随机值1000-9999
-                else
+                    x = System.currentTimeMillis() + "" + (ne.nextInt(9999 - 1000 + 1) + 1000);//为变量赋随机值10009999
+                else{
                     x = uid;
+                    Log.e(TAG, "onSaveClick: "+uid );
+                }
                 affairItem.setContent(content);
                 affairItem.setTime(time);
                 affairItem.setId(x);
@@ -171,25 +178,18 @@ public class EditAffairActivity extends AppCompatActivity {
 
                 for (Position p : positions){
                     AffairApi.AffairItem.DateBean date = new AffairApi.AffairItem.DateBean();
-               //     date.getWeek().addAll(weeks);
                     date.setClassX(p.getY());
                     date.setDay(p.getX());
                     date.getWeek().addAll(mWeekAdapter.getWeeks());
-
                     affairItem.getDate().add(date);
-
-
             }
-
-
-                LOGE("EditAffairActivity",gson.toJson(affairItem.getDate()));
                 affair.week = affairItem.getDate().get(0).getWeek();
                 if (!isStartByCourse){
                     RequestManager.getInstance().addAffair(new SimpleSubscriber<RedrockApiWrapper>(this, true, false, new SubscriberListener<RedrockApiWrapper>() {
                         @Override
                         public void onCompleted() {
                             super.onCompleted();
-                            dbManager.insert(x,APP.getUser(EditAffairActivity.this).stuNum,gson.toJson(affairItem))
+                            dbManager.insert(true,x,APP.getUser(EditAffairActivity.this).stuNum,gson.toJson(affairItem))
                                     .subscribeOn(Schedulers.io())
                                     .unsubscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -214,36 +214,15 @@ public class EditAffairActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onError(Throwable e) {
-                            Toast.makeText(APP.getContext(),"同步到服务器失败，以保存到本地",Toast.LENGTH_SHORT).show();
-                            dbManager.insert(x,APP.getUser(EditAffairActivity.this).stuNum,gson.toJson(affairItem))
-                                    .subscribeOn(Schedulers.io())
-                                    .unsubscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber() {
-                                        @Override
-                                        public void onCompleted() {
-                                            EventBus.getDefault().post(new AffairAddEvent(affair));
-                                            onBackPressed();
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-
-                                        }
-
-                                        @Override
-                                        public void onNext(Object o) {
-
-                                        }
-                                    });
-                            return super.onError(e);
+                            Toast.makeText(APP.getContext(),"网络连接失败，请检查网络后重试！",Toast.LENGTH_SHORT).show();
+                            return true;
 
                         }
 
                         @Override
                         public void onNext(RedrockApiWrapper redrockApiWrapper) {
                             super.onNext(redrockApiWrapper);
-                            LOGE("EditAffairActivity",redrockApiWrapper.id);
+                            // LOGE("EditAffairActivity",redrockApiWrapper.id);
                         }
 
                         @Override
@@ -252,11 +231,12 @@ public class EditAffairActivity extends AppCompatActivity {
                         }
                     }),APP.getUser(this).stuNum,APP.getUser(this).idNum,x,title,content,gson.toJson(affairItem.getDate()),affairItem.getTime());
                 }else {
+                  //  Log.e(TAG, "onSaveClick: isStartByCourse");
                     RequestManager.getInstance().editAffair(new SimpleSubscriber<RedrockApiWrapper>(this, true, false, new SubscriberListener<RedrockApiWrapper>() {
                         @Override
                         public void onCompleted() {
                             super.onCompleted();
-                            dbManager.insert(x,APP.getUser(EditAffairActivity.this).stuNum,gson.toJson(affairItem),true)
+                            dbManager.insert(true,x,APP.getUser(EditAffairActivity.this).stuNum,gson.toJson(affairItem),true)
                                     .subscribeOn(Schedulers.io())
                                     .unsubscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -281,29 +261,9 @@ public class EditAffairActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onError(Throwable e) {
-                            Toast.makeText(APP.getContext(),"同步到服务器失败，以保存到本地",Toast.LENGTH_SHORT).show();
-                            dbManager.insert(x,APP.getUser(EditAffairActivity.this).stuNum,gson.toJson(affairItem),true)
-                                    .subscribeOn(Schedulers.io())
-                                    .unsubscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber() {
-                                        @Override
-                                        public void onCompleted() {
-                                            EventBus.getDefault().post(new AffairModifyEvent());
-                                            onBackPressed();
-                                        }
+                            Toast.makeText(APP.getContext(),"网络连接失败，请检查网络后重试！",Toast.LENGTH_SHORT).show();
 
-                                        @Override
-                                        public void onError(Throwable e) {
-
-                                        }
-
-                                        @Override
-                                        public void onNext(Object o) {
-
-                                        }
-                                    });
-                            return super.onError(e);
+                            return true;
 
                         }
 
@@ -321,54 +281,6 @@ public class EditAffairActivity extends AppCompatActivity {
                 }
 
 
-//                Observable<Boolean> observable = Observable.create((subscriber) -> {
-//                    //定义两变量
-//
-//
-//
-
-
-//                SimpleSubscriber<Boolean> subscriber = new SimpleSubscriber<Boolean>(this, false, new SubscriberListener<Boolean>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        super.onCompleted();
-//                        LOGE("onCompleted()", "EventBus.getDefault().post(new AffairAddEvent(affair));");
-//                        if (isStartByCourse) {
-//                            DBManager.INSTANCE.deleteAffair(uid)
-//                                    .observeOn(Schedulers.io())
-//                                    .unsubscribeOn(Schedulers.io())
-//                                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new SimpleSubscriber(EditAffairActivity.this, new SubscriberListener() {
-//                                @Override
-//                                public void onCompleted() {
-//                                    super.onCompleted();
-//                                    EventBus.getDefault().post(new AffairModifyEvent());
-//                                    dbManager.close();
-//                                    onBackPressed();
-//                                }
-//                            }));
-//                        } else {
-//                            EventBus.getDefault().post(new AffairAddEvent(affair));
-//                            dbManager.close();
-//                            onBackPressed();
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public boolean onError(Throwable e) {
-//                        Toast.makeText(APP.getContext(), "添加失败，请重试！", Toast.LENGTH_SHORT).show();
-//                        return true;
-//                    }
-//
-//                    @Override
-//                    public void onNext(Boolean aBoolean) {
-//                        super.onNext(aBoolean);
-//                    }
-//                });
-//                observable.subscribeOn(Schedulers.io())
-//                        .unsubscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(subscriber);
             }
         } else {
             onBackPressed();
@@ -385,69 +297,93 @@ public class EditAffairActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
-        initCourse();
-        initData();
+        if (!initData())
+            initCourse();
+        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
     }
 
     private void initCourse() {
-        ArrayList<Integer> week =getIntent().getParcelableExtra("weeks");
-        Course course = (Course) getIntent().getParcelableExtra(COURSE_KEY);
 
-
+        Affair course =  getIntent().getParcelableExtra(COURSE_KEY);
         if (course == null)
             return;
-        int time = getIntent().getIntExtra("time", 0);
-        uid = getIntent().getStringExtra("uid");
-        Position position = new Position(course.hash_day, course.hash_lesson);
-        positions.add(position);
-        mTimeChooseText.setText(WEEKS[position.getX()] + CLASSES[position.getY()]);
-        if (week != null) {
-            for (int weekNum :week) {
-                mWeekAdapter.addWeekNum(weekNum);
-            }
-            onWeekChooseOkClick();
-        }
-        mTitleEdit.setText(course.course);
-        mContentEdit.setText(course.teacher);
-        int index = 0;
-        switch (time) {
-            case 5:
-                index = 1;
-                break;
-            case 10:
-                index = 2;
-                break;
-            case 20:
-                index = 3;
-                break;
-            case 30:
-                index = 4;
-                break;
-            case 60:
-                index = 5;
-                break;
-            default:
-                index = 0;
-                break;
-        }
-        mRemindTimeText.setText(TIMES[index]);
-        isStartByCourse = true;
+        uid =course.uid;
+        DBManager.INSTANCE.queryItem(uid).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AffairApi.AffairItem>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+                    }
+
+                    @Override
+                    public void onNext(AffairApi.AffairItem affairItem) {
+                        if(affairItem != null){
+                            behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                            mWeekAdapter.addAllWeekNum(affairItem.getDate().get(0).getWeek());
+                            onWeekChooseOkClick();
+                            for (AffairApi.AffairItem.DateBean dateBean : affairItem.getDate()) {
+                                Position position = new Position(dateBean.getDay(), dateBean.getClassX());
+                                positions.add(position);
+                                StringBuilder builder = new StringBuilder();
+                                for (int i = 0; i < positions.size() && i < 3; i++) {
+                                    builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
+                                }
+                                mTimeChooseText.setText(builder.toString());
+                                mTitleEdit.setText(affairItem.getTitle());
+                                mContentEdit.setText(affairItem.getContent());
+                                int index = 0;
+                                switch (affairItem.getTime()) {
+                                    case 5:
+                                        index = 1;
+                                        break;
+                                    case 10:
+                                        index = 2;
+                                        break;
+                                    case 20:
+                                        index = 3;
+                                        break;
+                                    case 30:
+                                        index = 4;
+                                        break;
+                                    case 60:
+                                        index = 5;
+                                        break;
+                                    default:
+                                        index = 0;
+                                        break;
+                                }
+                                mRemindTimeText.setText(TIMES[index]);
+                                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+                                isStartByCourse = true;
+                            }
+                        }
+
+                    }
+                });
     }
 
-    private void initData() {
-
+    private boolean initData() {
         Position position = (Position) getIntent().getSerializableExtra(BUNDLE_KEY);
         if (position != null) {
             positions.add(position);
             mTimeChooseText.setText(WEEKS[position.getX()] + CLASSES[position.getY()]);
         }
-
         int currentWeek = getIntent().getIntExtra(WEEK_NUMBER, -1);
         if (currentWeek != -1) {
             mWeekAdapter.addWeekNum(currentWeek);
             onWeekChooseOkClick();
+            return true;
         }
+        return false;
     }
 
     private void initView() {
@@ -473,12 +409,9 @@ public class EditAffairActivity extends AppCompatActivity {
         context.startActivity(starter);
     }
 
-    public static void editAffairActivityStart(Context context, Affair affair, String uid, int time,ArrayList<Integer> weeks) {
+    public static void editAffairActivityStart(Context context, Affair affair) {
         Intent starter = new Intent(context, EditAffairActivity.class);
         starter.putExtra(COURSE_KEY, (Parcelable) affair);
-        starter.putExtra("time", time);
-        starter.putExtra("uid", uid);
-        starter.putExtra("weeks",weeks);
         context.startActivity(starter);
     }
 
@@ -506,7 +439,6 @@ public class EditAffairActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTimeChooseEvent(TimeChooseEvent event) {
-        LogUtils.LOGE("EditAffairActivity", event.getPositions().toString());
         positions.clear();
         positions.addAll(event.getPositions());
         StringBuffer stringBuffer = new StringBuffer();
@@ -538,6 +470,10 @@ public class EditAffairActivity extends AppCompatActivity {
 
         public void addWeekNum(int weekNum) {
             mWeeks.add(weekNum);
+        }
+
+        public void addAllWeekNum(List<Integer> weekNums) {
+            mWeeks.addAll(weekNums);
         }
 
         @Override
