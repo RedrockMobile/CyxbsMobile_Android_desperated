@@ -96,7 +96,6 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         initAdapter(null);
     }
 
-
     @Override
     protected void onFirstUserVisible() {
         getCurrentData(PER_PAGE_NUM, FIRST_PAGE_INDEX);
