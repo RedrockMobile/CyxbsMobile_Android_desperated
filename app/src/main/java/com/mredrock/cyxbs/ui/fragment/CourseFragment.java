@@ -50,11 +50,9 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.umeng.analytics.a.e;
-
 
 public class CourseFragment extends BaseFragment {
-
+    private static final String TAG = "CourseFragment";
     public static final String BUNDLE_KEY = "WEEK_NUM";
 
 
@@ -91,6 +89,7 @@ public class CourseFragment extends BaseFragment {
 
     private List<Course> courseList = new ArrayList<>();
     private List<Course> affairList = new ArrayList<>();
+    private List<Course> localAffairList = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -237,6 +236,7 @@ public class CourseFragment extends BaseFragment {
                                 hideRefreshLoading();
                             }
                         }), mUser.stuNum, mUser.idNum, week, update);
+
                 RequestManager.getInstance().getAffair(new SimpleSubscriber<List<Affair>>(getActivity(), false, false, new SubscriberListener<List<Affair>>() {
                     @Override
                     public void onCompleted() {
@@ -245,7 +245,34 @@ public class CourseFragment extends BaseFragment {
 
                     @Override
                     public boolean onError(Throwable e) {
-                        return super.onError(e);
+                        DBManager.INSTANCE.query(mUser.stuNum,mWeek)
+                                .subscribeOn(Schedulers.io())
+                                .unsubscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<List<Course>>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(List<Course> courses) {
+                                        affairList.clear();
+                                        for (Course c : courses){
+                                            //Log.d(TAG, "onNext: " + c.course);
+                                            if (c.week.contains(mWeek))
+                                                affairList.add(c);
+                                        }
+                                        loadAffair(mWeek);
+                                    }
+                                });
+
+                        return true;
                     }
 
                     @Override
@@ -264,20 +291,21 @@ public class CourseFragment extends BaseFragment {
                         super.onStart();
                     }
                 }),mUser.stuNum,mUser.idNum);
+
+
             }
         }
     }
 
 
-    private void loadAffair(int mWeek){
+    private synchronized void loadAffair(int mWeek){
+
         List<Course> tempCourseList = new ArrayList<>();
         tempCourseList.addAll(courseList);
         tempCourseList.addAll(affairList);
+        tempCourseList.addAll(localAffairList);
         if (mCourseScheduleContent != null) {
-           // affairList.clear();
             mCourseScheduleContent.clearList();
-          //  affairList.addAll(affairs);
-           // affairList.addAll(courseList);
             mCourseScheduleContent.addContentView(tempCourseList);
             Observable<List<Course>> observable = Observable.create(new Observable.OnSubscribe<List<Course>>() {
                 @Override
@@ -290,34 +318,7 @@ public class CourseFragment extends BaseFragment {
                 return courses;
             }).subscribe();
         }
-//        DBManager dbManager = DBManager.INSTANCE;
-//        dbManager.query(mUser.stuNum,mWeek)
-//                .subscribeOn(Schedulers.io())
-//                .unsubscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new SimpleSubscriber<>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
-//                    @Override
-//                    public void onNext(List<Course> affairs) {
-//                        super.onNext(affairs);
-//                        if (mCourseScheduleContent != null) {
-//                            affairList.clear();
-//                            mCourseScheduleContent.clearList();
-//                            affairList.addAll(affairs);
-//                            affairList.addAll(courseList);
-//                            mCourseScheduleContent.addContentView(affairList);
-//                            Observable<List<Course>> observable = Observable.create(new Observable.OnSubscribe<List<Course>>() {
-//                                @Override
-//                                public void call(Subscriber<? super List<Course>> subscriber) {
-//                                    subscriber.onNext(affairList);
-//                                }
-//                            });
-//                            observable.map(courses -> {
-//                                CourseListAppWidgetUpdateService.start(getActivity(), false);
-//                                return courses;
-//                            }).subscribe();
-//                        }
-//                    }
-//                }));
+
     }
 
     @SuppressWarnings("unchecked")

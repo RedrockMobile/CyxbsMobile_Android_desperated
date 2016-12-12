@@ -1,13 +1,14 @@
 package com.mredrock.cyxbs.component.widget;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.LogUtils;
@@ -24,22 +25,27 @@ import java.util.List;
  */
 
 public class TimeChooseView extends FrameLayout {
+    private static final String TAG = "TimeChooseView";
     private final int width = (int) ((DensityUtils.getScreenWidth(getContext()) - DensityUtils.dp2px(getContext(), 50)) / 7);
     private int height = (int) DensityUtils.dp2px(getContext(), 85);
     private Context context;
     private TextView[][] chooseTextView = new TextView[7][7];
     private List<Position> positions = new ArrayList<>();
     private int startX, startY, endX, endY;
+    private Paint mPaint;
 
 
     public TimeChooseView(Context context) {
         super(context);
+        initPaint();
+
     }
 
     public TimeChooseView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         /* 如果超大屏幕课表太短了，给它填满屏幕 */
+        initPaint();
         int screeHeight = DensityUtils.getScreenHeight(context);
         if (DensityUtils.px2dp(context, screeHeight) > 700)
             height = screeHeight / 6;
@@ -48,6 +54,7 @@ public class TimeChooseView extends FrameLayout {
 
     public TimeChooseView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initPaint();
     }
 
 
@@ -98,7 +105,7 @@ public class TimeChooseView extends FrameLayout {
             int mWidth = width;
             int mHeight = height;
             mHeight = getHeight() / 6;
-            LayoutParams flParams = new LayoutParams((mWidth - DensityUtils.dp2px(getContext(), 1f)), (mHeight - DensityUtils.dp2px(getContext(), 1f)));
+            LayoutParams flParams = new LayoutParams((mWidth - DensityUtils.dp2px(getContext(), 1.5f)), (mHeight - DensityUtils.dp2px(getContext(), 1.5f)));
             flParams.topMargin = (mTop + DensityUtils.dp2px(getContext(), 1f));
             flParams.leftMargin = (mLeft + DensityUtils.dp2px(getContext(), 1f));
             chooseTextView[x][y].setLayoutParams(flParams);
@@ -112,5 +119,27 @@ public class TimeChooseView extends FrameLayout {
                 positions.add(new Position(x,y));
             addView(chooseTextView[x][y]);
         }
+    }
+
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        for (int i = 1; i < 8; i++) {
+            canvas.drawLine(getWidth() / 7 * i - DensityUtils.dp2px(context, (float) (i * 1.5)), 0, getWidth() / 7 * i - DensityUtils.dp2px(context, (float) (i * 1.5)) , getHeight(), mPaint);
+        }
+
+        for (int i = 1; i < 6; i++) {
+            canvas.drawLine(0,getHeight() / 6 * i, getWidth() - DensityUtils.dp2px(context , 10.5f) ,getHeight() / 6 * i, mPaint);
+        }
+
+    }
+
+    private void initPaint(){
+        mPaint = new Paint();
+        mPaint.setColor(Color.parseColor("#F6F6F6"));
+     //   mPaint.setColor(Color.RED);
+
+        mPaint.setStrokeWidth(DensityUtils.dp2px(context,2));
     }
 }

@@ -35,6 +35,13 @@ public class Affair extends Course implements Serializable, Parcelable {
         time = in.readInt();
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(uid);
+        dest.writeInt(time);
+    }
+
     public static final Parcelable.Creator<Affair> CREATOR = new Parcelable.Creator<Affair>()
     {
         public Affair createFromParcel(Parcel in)
