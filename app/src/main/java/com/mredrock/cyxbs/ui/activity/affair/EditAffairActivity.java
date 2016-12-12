@@ -309,6 +309,9 @@ public class EditAffairActivity extends AppCompatActivity {
         if (course == null)
             return;
         uid =course.uid;
+        setData(course);
+
+
         DBManager.INSTANCE.queryItem(uid).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AffairApi.AffairItem>() {
@@ -369,6 +372,22 @@ public class EditAffairActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void setData(Affair course) {
+        mTitleEdit.setText(course.course);
+        mContentEdit.setText(course.teacher);
+        mWeekAdapter.addAllWeekNum(course.week);
+        onWeekChooseOkClick();
+        Position position = new Position(course.hash_day, course.hash_lesson);
+        positions.add(position);
+        StringBuilder builder = new StringBuilder();
+        mRemindTimeText.setText(TIMES[course.time]);
+        for (int i = 0; i < positions.size() && i < 3; i++) {
+            builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
+        }
+        mTimeChooseText.setText(builder.toString());
+
     }
 
     private boolean initData() {
