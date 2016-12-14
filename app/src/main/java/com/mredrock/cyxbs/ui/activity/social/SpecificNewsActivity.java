@@ -298,7 +298,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         if (mNewsEdtComment.getText().toString().equals(""))
             Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT).show();
         else {
-            RequestManager.getInstance().postReMarks(new SimpleSubscriber<>(this, new SubscriberListener<String>() {
+            RequestManager.getInstance().postReMarks(new SimpleSubscriber<>(this,true,false, new SubscriberListener<String>() {
                 @Override
                 public void onCompleted() {
                     super.onCompleted();

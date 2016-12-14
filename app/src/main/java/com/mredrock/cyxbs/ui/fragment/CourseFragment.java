@@ -201,7 +201,6 @@ public class CourseFragment extends BaseFragment {
 
     private void loadCourse(int week, boolean update) {
 
-
         if (APP.isLogin()) {
             mUser = APP.getUser(getActivity());
             if (mUser != null) {
@@ -311,6 +310,7 @@ public class CourseFragment extends BaseFragment {
                 @Override
                 public void call(Subscriber<? super List<Course>> subscriber) {
                     subscriber.onNext(affairList);
+                    subscriber.onCompleted();
                 }
             });
             observable.map(courses -> {
@@ -390,7 +390,6 @@ public class CourseFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAffairModifyEvent(AffairModifyEvent event){
-
         loadCourse(mWeek, false);
     }
 

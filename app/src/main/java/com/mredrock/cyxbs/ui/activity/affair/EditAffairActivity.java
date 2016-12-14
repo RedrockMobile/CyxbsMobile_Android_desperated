@@ -148,6 +148,8 @@ public class EditAffairActivity extends AppCompatActivity {
     @SuppressWarnings("unchecked")
     @OnClick({R.id.edit_affair_iv_save, R.id.edit_affair_iv_back})
     public void onSaveClick(View v) {
+        Log.e(TAG, "onNext: " + isStartByCourse );
+
         KeyboardUtils.hideInput(v);
         behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         if (v.getId() == R.id.edit_affair_iv_save) {
@@ -309,6 +311,7 @@ public class EditAffairActivity extends AppCompatActivity {
         if (course == null)
             return;
         uid =course.uid;
+        isStartByCourse = true;
         setData(course);
 
 
@@ -342,31 +345,10 @@ public class EditAffairActivity extends AppCompatActivity {
                                 mTimeChooseText.setText(builder.toString());
                                 mTitleEdit.setText(affairItem.getTitle());
                                 mContentEdit.setText(affairItem.getContent());
-                                int index = 0;
-                                switch (affairItem.getTime()) {
-                                    case 5:
-                                        index = 1;
-                                        break;
-                                    case 10:
-                                        index = 2;
-                                        break;
-                                    case 20:
-                                        index = 3;
-                                        break;
-                                    case 30:
-                                        index = 4;
-                                        break;
-                                    case 60:
-                                        index = 5;
-                                        break;
-                                    default:
-                                        index = 0;
-                                        break;
-                                }
-                                mRemindTimeText.setText(TIMES[index]);
+                                mRemindTimeText.setText(TIMES[transferTimeToText(course.time)]);
+                                mRemindTimeText.setText(TIME_MINUTE[transferTimeToText(course.time)]);
                                 behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-                                isStartByCourse = true;
                             }
                         }
 
@@ -382,7 +364,7 @@ public class EditAffairActivity extends AppCompatActivity {
         Position position = new Position(course.hash_day, course.hash_lesson);
         positions.add(position);
         StringBuilder builder = new StringBuilder();
-        mRemindTimeText.setText(TIMES[course.time]);
+        mRemindTimeText.setText(TIMES[transferTimeToText(course.time)]);
         for (int i = 0; i < positions.size() && i < 3; i++) {
             builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
         }
@@ -454,6 +436,31 @@ public class EditAffairActivity extends AppCompatActivity {
             behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         else
             super.onBackPressed();
+    }
+
+    private int transferTimeToText(int time){
+        int index = 0;
+        switch (time) {
+            case 5:
+                index = 1;
+                break;
+            case 10:
+                index = 2;
+                break;
+            case 20:
+                index = 3;
+                break;
+            case 30:
+                index = 4;
+                break;
+            case 60:
+                index = 5;
+                break;
+            default:
+                index = 0;
+                break;
+        }
+        return index;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
