@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.MalformedJsonException;
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
@@ -36,6 +37,7 @@ import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.database.DBManager;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -220,6 +222,9 @@ public class EditAffairActivity extends AppCompatActivity {
                                 Toast.makeText(EditAffairActivity.this, "连接超时，检查一下网络哦", Toast.LENGTH_SHORT).show();
                             else if (e instanceof RedrockApiException)
                                 Toast.makeText(EditAffairActivity.this, "服务器出了点小毛病，请稍后再试", Toast.LENGTH_SHORT).show();
+                            else if (e instanceof MalformedJsonException){
+
+                            }
                             return true;
 
                         }
@@ -270,6 +275,10 @@ public class EditAffairActivity extends AppCompatActivity {
                                 Toast.makeText(EditAffairActivity.this, "连接超时，检查一下网络哦", Toast.LENGTH_SHORT).show();
                             else if (e instanceof RedrockApiException)
                                 Toast.makeText(EditAffairActivity.this, "服务器出了点小毛病，请稍后再试", Toast.LENGTH_SHORT).show();
+                            else if (e instanceof MalformedJsonException){
+                                Toast.makeText(EditAffairActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "onError: " + e.getMessage() );
+                            }
                             return true;
                         }
 
@@ -302,7 +311,8 @@ public class EditAffairActivity extends AppCompatActivity {
         StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        initView();
+       initView();
+
         if (!initData())
             initCourse();
         behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -426,6 +436,20 @@ public class EditAffairActivity extends AppCompatActivity {
             behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+
 
     @Override
     protected void onDestroy() {
