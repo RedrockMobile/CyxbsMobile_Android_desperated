@@ -24,7 +24,6 @@ import com.mredrock.cyxbs.event.AffairModifyEvent;
 import com.mredrock.cyxbs.event.AffairShowModeEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
-import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
@@ -326,7 +325,7 @@ public class CourseFragment extends BaseFragment {
     public void onAffairDeleteEvent(AffairDeleteEvent event) {
         if (mWeek == 0||event.getCourse().week.contains(mWeek)){
             Affair affair = (Affair) event.getCourse();
-            RequestManager.getInstance().deleteAffair(new SimpleSubscriber<RedrockApiWrapper>(getActivity(), true, true, new SubscriberListener<RedrockApiWrapper>() {
+            RequestManager.getInstance().deleteAffair(new SimpleSubscriber<Object>(getActivity(), true, true, new SubscriberListener<Object>() {
                 @Override
                 public void onCompleted() {
                     super.onCompleted();
@@ -340,8 +339,8 @@ public class CourseFragment extends BaseFragment {
                 }
 
                 @Override
-                public void onNext(RedrockApiWrapper redrockApiWrapper) {
-                    super.onNext(redrockApiWrapper);
+                public void onNext(Object object) {
+                    super.onNext(object);
                     DBManager.INSTANCE.deleteAffair(affair.uid)
                             .observeOn(Schedulers.io())
                             .unsubscribeOn(Schedulers.io())

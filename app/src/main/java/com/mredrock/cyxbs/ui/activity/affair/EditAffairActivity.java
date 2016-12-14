@@ -29,8 +29,8 @@ import com.mredrock.cyxbs.event.AffairModifyEvent;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.AffairApi;
-import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.KeyboardUtils;
@@ -41,6 +41,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -170,7 +171,6 @@ public class EditAffairActivity extends AppCompatActivity {
                     x = System.currentTimeMillis() + "" + (ne.nextInt(9999 - 1000 + 1) + 1000);//为变量赋随机值10009999
                 else{
                     x = uid;
-                    Log.e(TAG, "onSaveClick: "+uid );
                 }
                 affairItem.setContent(content);
                 affairItem.setTime(time);
@@ -187,7 +187,7 @@ public class EditAffairActivity extends AppCompatActivity {
             }
                 affair.week = affairItem.getDate().get(0).getWeek();
                 if (!isStartByCourse){
-                    RequestManager.getInstance().addAffair(new SimpleSubscriber<RedrockApiWrapper>(this, true, false, new SubscriberListener<RedrockApiWrapper>() {
+                    RequestManager.getInstance().addAffair(new SimpleSubscriber<Object>(this, true, false, new SubscriberListener<Object>() {
                         @Override
                         public void onCompleted() {
                             super.onCompleted();
@@ -216,14 +216,17 @@ public class EditAffairActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onError(Throwable e) {
-                            Toast.makeText(APP.getContext(),"网络连接失败，请检查网络后重试！",Toast.LENGTH_SHORT).show();
+                            if (e instanceof SocketTimeoutException)
+                                Toast.makeText(EditAffairActivity.this, "连接超时，检查一下网络哦", Toast.LENGTH_SHORT).show();
+                            else if (e instanceof RedrockApiException)
+                                Toast.makeText(EditAffairActivity.this, "服务器出了点小毛病，请稍后再试", Toast.LENGTH_SHORT).show();
                             return true;
 
                         }
 
                         @Override
-                        public void onNext(RedrockApiWrapper redrockApiWrapper) {
-                            super.onNext(redrockApiWrapper);
+                        public void onNext(Object object) {
+                            super.onNext(object);
                             // LOGE("EditAffairActivity",redrockApiWrapper.id);
                         }
 
@@ -234,7 +237,7 @@ public class EditAffairActivity extends AppCompatActivity {
                     }),APP.getUser(this).stuNum,APP.getUser(this).idNum,x,title,content,gson.toJson(affairItem.getDate()),affairItem.getTime());
                 }else {
                   //  Log.e(TAG, "onSaveClick: isStartByCourse");
-                    RequestManager.getInstance().editAffair(new SimpleSubscriber<RedrockApiWrapper>(this, true, false, new SubscriberListener<RedrockApiWrapper>() {
+                    RequestManager.getInstance().editAffair(new SimpleSubscriber<Object>(this, true, false, new SubscriberListener<Object>() {
                         @Override
                         public void onCompleted() {
                             super.onCompleted();
@@ -263,15 +266,16 @@ public class EditAffairActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onError(Throwable e) {
-                            Toast.makeText(APP.getContext(),"网络连接失败，请检查网络后重试！",Toast.LENGTH_SHORT).show();
-
+                            if (e instanceof SocketTimeoutException)
+                                Toast.makeText(EditAffairActivity.this, "连接超时，检查一下网络哦", Toast.LENGTH_SHORT).show();
+                            else if (e instanceof RedrockApiException)
+                                Toast.makeText(EditAffairActivity.this, "服务器出了点小毛病，请稍后再试", Toast.LENGTH_SHORT).show();
                             return true;
-
                         }
 
                         @Override
-                        public void onNext(RedrockApiWrapper redrockApiWrapper) {
-                            super.onNext(redrockApiWrapper);
+                        public void onNext(Object object) {
+                            super.onNext(object);
                            // LOGE("EditAffairActivity",redrockApiWrapper.id);
                         }
 
@@ -326,7 +330,6 @@ public class EditAffairActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
                     }
 
                     @Override
