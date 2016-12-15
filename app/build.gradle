@@ -11,7 +11,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 35
-        versionName "期末版"
+        versionName "跨年版"
         multiDexEnabled true
     }
 

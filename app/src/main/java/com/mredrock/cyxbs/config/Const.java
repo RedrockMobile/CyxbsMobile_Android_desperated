@@ -1,7 +1,5 @@
 package com.mredrock.cyxbs.config;
 
-import java.net.FileNameMap;
-
 /**
  * Created by cc on 16/3/19.
  */
@@ -9,6 +7,7 @@ public class Const {
     public static final int REDROCK_API_STATUS_SUCCESS = 200;
 
     public static final String APP_HOME = "http://hongyan.cqupt.edu.cn/cyxbsMobile";
+    public static final String APP_WEBSITE = "http://hongyan.cqupt.edu.cn/app/";
 
     public static final String END_POINT_REDROCK = "http://hongyan.cqupt.edu.cn";
     public static final String REDROCK_PORTAL = "http://hongyan.cqupt.edu.cn/aboutus/";

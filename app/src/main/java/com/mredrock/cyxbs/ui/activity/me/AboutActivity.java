@@ -48,7 +48,7 @@ public class AboutActivity extends AppCompatActivity {
     @OnClick(R.id.about_website)
     void clickToWebsite() {
        // WebViewUtils.showPortalWebView(this, Const.APP_HOME);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Const.APP_HOME));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Const.APP_WEBSITE));
         startActivity(intent);
     }
 
