@@ -311,7 +311,7 @@ public class EditAffairActivity extends AppCompatActivity {
         StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-       initView();
+        initView();
 
         if (!initData())
             initCourse();
@@ -348,21 +348,22 @@ public class EditAffairActivity extends AppCompatActivity {
                             behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                             mWeekAdapter.addAllWeekNum(affairItem.getDate().get(0).getWeek());
                             onWeekChooseOkClick();
+                            StringBuilder builder = new StringBuilder();
                             for (AffairApi.AffairItem.DateBean dateBean : affairItem.getDate()) {
                                 Position position = new Position(dateBean.getDay(), dateBean.getClassX());
                                 positions.add(position);
-                                StringBuilder builder = new StringBuilder();
-                                for (int i = 0; i < positions.size() && i < 3; i++) {
+                                Log.e(TAG, "onNext: "+ position);
+
+                                for (int i = 0; i < positions.size() && i < 3; i++)   {
                                     builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
                                 }
-                                mTimeChooseText.setText(builder.toString());
-                                mTitleEdit.setText(affairItem.getTitle());
-                                mContentEdit.setText(affairItem.getContent());
-                                mRemindTimeText.setText(TIMES[transferTimeToText(course.time)]);
-                                mRemindTimeText.setText(TIME_MINUTE[transferTimeToText(course.time)]);
-                                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
                             }
+                            mTimeChooseText.setText(builder.toString());
+                            mTitleEdit.setText(affairItem.getTitle());
+                            mContentEdit.setText(affairItem.getContent());
+                            mRemindTimeText.setText(TIMES[transferTimeToText(course.time)]);
+                            mRemindTimeText.setText(TIME_MINUTE[transferTimeToText(course.time)]);
+                            behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                         }
 
                     }

@@ -329,7 +329,7 @@ public class CourseFragment extends BaseFragment {
                 @Override
                 public void onCompleted() {
                     super.onCompleted();
-                    loadCourse(mWeek,false);
+
 
                 }
 
@@ -341,6 +341,7 @@ public class CourseFragment extends BaseFragment {
                 @Override
                 public void onNext(Object object) {
                     super.onNext(object);
+                    loadCourse(mWeek,false);
                     DBManager.INSTANCE.deleteAffair(affair.uid)
                             .observeOn(Schedulers.io())
                             .unsubscribeOn(Schedulers.io())

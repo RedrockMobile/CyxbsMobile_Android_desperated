@@ -163,7 +163,11 @@ public class ScheduleView extends FrameLayout {
         }
            // gd.setColor(showMode ? colorSelector.getCourseColor() : colorSelector.getAffairColor(course.begin_lesson,course.hash_day));
         tv.setBackgroundDrawable(gd);
-        tv.setOnClickListener(v -> CourseDialog.show(getContext(), courses));
+        tv.setOnClickListener(v -> {
+            CourseList courseList = new CourseList();
+            courseList.list.addAll(courses.list);
+            CourseDialog.show(getContext(), courseList);
+        });
         addView(tv);
         if (!showMode){
             if (courses.list.get(0).getCourseType() == Affair.TYPE){
@@ -224,7 +228,7 @@ public class ScheduleView extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+/*        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             startX = (int) event.getX();
             startY = (int) event.getY();
         }
@@ -262,7 +266,8 @@ public class ScheduleView extends FrameLayout {
 
         }
 
-        return true;
+        return true;*/
+        return false;
 
     }
 
