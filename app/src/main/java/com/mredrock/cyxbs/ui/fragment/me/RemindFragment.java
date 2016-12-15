@@ -134,8 +134,7 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
     }
 
     private void startRemindService() {
-        Intent intent = new Intent(getActivity(), NotificationService.class);
-        getActivity().startService(intent);
+        NotificationService.startNotificationService(getActivity());
     }
 
     private void startRebootAuto() {

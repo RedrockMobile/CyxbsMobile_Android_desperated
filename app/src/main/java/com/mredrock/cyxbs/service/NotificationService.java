@@ -52,6 +52,14 @@ public class NotificationService extends Service {
     private AlarmManager mAlarmManager;
     private SharedPreferences mSp;
 
+    public static void startNotificationService(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sp.getBoolean(SP_REMIND_EVERY_CLASS, false) || sp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
+            Intent service = new Intent(context, NotificationService.class);
+            context.startService(service);
+        }
+    }
+
     //第一次创建
     @Override
     public void onCreate() {
