@@ -97,6 +97,7 @@ public class ExamScheduleFragment extends BaseFragment {
         initRecyclerView();
         examSwipeRefreshLayout.setOnRefreshListener(() -> {
             if (mUser != null) {
+                examTvNothing.setVisibility(View.GONE);
                 loadExamList(true);
             }
         });
@@ -173,6 +174,7 @@ public class ExamScheduleFragment extends BaseFragment {
                 public void onNext(List<Exam> examList) {
                     super.onNext(examList);
                     try {
+
                         examSwipeRefreshLayout.setRefreshing(false);
                         if (examList == null || examList.size() == 0) {
                             examTvNothing.setVisibility(View.VISIBLE);

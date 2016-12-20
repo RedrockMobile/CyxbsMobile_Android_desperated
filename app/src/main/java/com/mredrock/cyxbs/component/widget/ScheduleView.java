@@ -228,7 +228,7 @@ public class ScheduleView extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-/*        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             startX = (int) event.getX();
             startY = (int) event.getY();
         }
@@ -266,8 +266,8 @@ public class ScheduleView extends FrameLayout {
 
         }
 
-        return true;*/
-        return false;
+        return true;
+      //  return false;
 
     }
 
