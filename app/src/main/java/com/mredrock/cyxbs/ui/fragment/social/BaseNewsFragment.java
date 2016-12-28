@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.ui.fragment.social;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,9 +21,11 @@ import com.mredrock.cyxbs.event.ItemChangedEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
+import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.EndlessRecyclerOnScrollListener;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.social.PostNewsActivity;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseLazyFragment;
@@ -35,7 +38,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Subscriber;
-import rx.subjects.PublishSubject;
 
 /**
  * Created by mathiasluo on 16-4-26.
@@ -45,8 +47,10 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     public static final int PER_PAGE_NUM = 10;
     public static final String TAG = "BaseNewsFragment";
     public static final int FIRST_PAGE_INDEX = 0;
+    @Bind(R.id.fab_main)
+    FloatingActionButton mFabMain;
 
-    private  boolean hasLoginStateChanged = false;
+    private boolean hasLoginStateChanged = false;
 
     @Bind(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
@@ -63,12 +67,6 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
 
     abstract void provideData(Subscriber<List<HotNews>> subscriber, int size, int page);
 
-    public static PublishSubject<Boolean> getOnScrollSubject() {
-        return onScrollSubject;
-    }
-
-    private static final PublishSubject<Boolean> onScrollSubject = PublishSubject.create();
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,6 +79,12 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
+        mFabMain.setOnClickListener(view1 -> {
+            if (APP.getUser(getActivity()).id == null || APP.getUser(getActivity()).id.equals("0")) {
+                RequestManager.getInstance().checkWithUserId("还没有完善信息，不能发动态哟！");
+            } else
+                PostNewsActivity.startActivity(getActivity());
+        });
     }
 
     protected void init() {
@@ -113,12 +117,12 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
 
             @Override
             public void onShow() {
-                onScrollSubject.onNext(true);
+                mFabMain.show();
             }
 
             @Override
             public void onHide() {
-                onScrollSubject.onNext(false);
+                mFabMain.hide();
             }
         };
         mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
@@ -222,9 +226,9 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     @Override
     public void onResume() {
         super.onResume();
-        if (hasLoginStateChanged){
+        if (hasLoginStateChanged) {
             mListHotNews.clear();
-            getCurrentData(PER_PAGE_NUM,0);
+            getCurrentData(PER_PAGE_NUM, 0);
             hasLoginStateChanged = false;
         }
     }
@@ -296,9 +300,9 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         if (mListHotNews == null)
             return;
         int index = -1;
-        for (HotNews hotNews : mListHotNews){
+        for (HotNews hotNews : mListHotNews) {
             index++;
-            if (hotNews.data.articleId.equals(event.getArticleId())){
+            if (hotNews.data.articleId.equals(event.getArticleId())) {
                 /*Log.i("onItemChangedEvent","index ="+ index
                         +"   "+event.getArticleId()+"hotNews.data.isMyLike"+ hotNews.data.isMyLike
                         +"  event.isMyLike()"+event.isMyLike());*/
