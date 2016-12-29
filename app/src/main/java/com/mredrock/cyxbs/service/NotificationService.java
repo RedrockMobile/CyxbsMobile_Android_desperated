@@ -60,7 +60,6 @@ public class NotificationService extends Service {
         }
     }
 
-    //第一次创建
     @Override
     public void onCreate() {
         super.onCreate();

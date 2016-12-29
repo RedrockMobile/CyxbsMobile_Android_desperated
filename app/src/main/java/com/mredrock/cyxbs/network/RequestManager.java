@@ -14,6 +14,7 @@ import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.Shake;
+import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.BBDDNewsContent;
@@ -27,6 +28,7 @@ import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.network.func.AffairTransformFunc;
 import com.mredrock.cyxbs.network.func.AffairWeekFilterFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
+import com.mredrock.cyxbs.network.func.StartPageFunc;
 import com.mredrock.cyxbs.network.func.UpdateVerifyFunc;
 import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
 import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
@@ -576,7 +578,12 @@ public enum RequestManager {
         emitObservable(observable,subscriber);
     }
 
-
+    public void getStartPage(Subscriber<StartPage> subscriber) {
+        Observable<StartPage> observable = redrockApiService.startPage()
+                .map(new RedrockApiWrapperFunc<>())
+                .map(new StartPageFunc());
+        emitObservable(observable, subscriber);
+    }
 
     private <T> Subscription emitObservable(Observable<T> o, Subscriber<T> s) {
         return o.subscribeOn(Schedulers.io())

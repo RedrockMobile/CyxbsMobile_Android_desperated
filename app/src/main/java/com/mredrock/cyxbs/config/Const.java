@@ -7,11 +7,11 @@ public class Const {
     public static final int REDROCK_API_STATUS_SUCCESS = 200;
 
     public static final String APP_HOME = "http://hongyan.cqupt.edu.cn/cyxbsMobile";
-    public static final String APP_WEBSITE = "http://hongyan.cqupt.edu.cn/app/";
 
     public static final String END_POINT_REDROCK = "http://hongyan.cqupt.edu.cn";
     public static final String REDROCK_PORTAL = "http://hongyan.cqupt.edu.cn/aboutus/";
     public static final String API_PERSON_SCHEDULE = "/redapi2/api/kebiao";
+    public static final String APP_WEBSITE = "http://hongyan.cqupt.edu.cn/app/";
 
     //Explore
     public static final String API_MAP_PICTURE         = "/welcome/2015/index.php/home/api/banner";
@@ -73,6 +73,8 @@ public class Const {
     public static final String API_EDIT_AFFAIR = "/cyxbsMobile/index.php/Home/Person/editTransaction";
 
     public static final String API_DELETE_AFFAIR = "/cyxbsMobile/index.php/Home/Person/deleteTransaction";
+
+    public static final String API_START_PAGE = "/cyxbsMobile/index.php/Home/Photo/showPicture";
 
     public static final String SP_KEY_USER = "cyxbsmobile_user";
     public static final String SP_KEY_IS_NIGHT = "is_night";

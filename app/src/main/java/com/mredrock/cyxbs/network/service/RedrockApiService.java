@@ -12,6 +12,7 @@ import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.Shake;
+import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.Student;
 import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
@@ -276,4 +277,6 @@ public interface RedrockApiService {
     @POST(Const.API_DELETE_AFFAIR)
     Observable<RedrockApiWrapper<Object>> deleteAffair(@Field("stuNum") String stuNum, @Field("idNum") String idNum, @Field("id") String id);
 
+    @POST(Const.API_START_PAGE)
+    Observable<RedrockApiWrapper<List<StartPage>>> startPage();
 }
