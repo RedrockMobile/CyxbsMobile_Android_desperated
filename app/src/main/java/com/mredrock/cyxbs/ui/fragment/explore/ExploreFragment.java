@@ -14,6 +14,7 @@ import com.jude.rollviewpager.RollPagerView;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.RollViewPagerHint;
 import com.mredrock.cyxbs.config.Const;
+import com.mredrock.cyxbs.ui.activity.explore.ElectricChargeActivity;
 import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
@@ -74,6 +75,11 @@ public class ExploreFragment extends BaseFragment {
             startLocation[0] += mSurroundingFoodHolder.getWidth() / 2;
             SurroundingFoodActivity.startSurroundingFoodActivity(startLocation, getActivity());
         }
+    }
+
+    @OnClick(R.id.explore_electric_query_holder)
+    void clickToElectricQuery() {
+       getActivity().startActivity(new Intent(getActivity(), ElectricChargeActivity.class));
     }
 
     @Override

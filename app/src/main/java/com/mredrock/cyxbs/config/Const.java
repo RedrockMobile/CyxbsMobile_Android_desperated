@@ -76,6 +76,9 @@ public class Const {
 
     public static final String API_START_PAGE = "/cyxbsMobile/index.php/Home/Photo/showPicture";
 
+    //电费查询
+    public static final String API_ELECTRIC_CHARGE = "/MagicLoop/index.php?s=/addon/ElectricityQuery/ElectricityQuery/queryElecByRoom";
+
     public static final String SP_KEY_USER = "cyxbsmobile_user";
     public static final String SP_KEY_IS_NIGHT = "is_night";
 
