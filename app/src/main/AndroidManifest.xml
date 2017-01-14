@@ -136,6 +136,7 @@
             android:theme="@style/AppThemeFit"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.social.PersonInfoActivity" />
+        <activity android:name=".ui.activity.lost.LostActivity" />
 
         <service
             android:name=".service.UpdateService"
