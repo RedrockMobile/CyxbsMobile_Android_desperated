@@ -205,7 +205,7 @@
     <!--explore page end-->
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
 
     <string name="news_load">下载附件</string>
     <string name="load_agree">确定</string>
@@ -257,5 +257,17 @@
     <string name="send">发送</string>
     <string name="lost_post">失物启事</string>
     <string name="found_post">招领启事</string>
+    <string name="lost_and_found">失物招领</string>
 
+    <string-array name="lost_category_list">
+        <item>全部</item>
+        <item>一卡通</item>
+        <item>钱包</item>
+        <item>钥匙</item>
+        <item>电子产品</item>
+        <item>钥匙</item>
+        <item>雨伞</item>
+        <item>衣物</item>
+        <item>其他</item>
+    </string-array>
 </resources>

@@ -37,7 +37,6 @@ public class APP extends MultiDexApplication {
 
     private static UserInfoEncryption userInfoEncryption;
 
-    // TODO: isLogin getUser setUser 使用的位置,逻辑
 
     public static void setUser(Context context, User user) {
         String userJson;

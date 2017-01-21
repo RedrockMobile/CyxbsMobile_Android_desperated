@@ -23,15 +23,11 @@ public class Const {
 
     public static final String APT_SEARCH_STUDENT = "/cyxbsMobile/index.php/home/searchPeople/peopleList";
 
-    // TODO: API Modified
     public static final String API_SOCIAL_OFFICIAL_NEWS_LIST = "/cyxbsMobile/index.php/Home/NewArticle/listNews";
-    // TODO: API Modified
     public static final String API_SOCIAL_HOT_LIST = "/cyxbsMobile/index.php/Home/NewArticle/searchHotArticle";
-    // TODO: API Modified
     public static final String API_SOCIAL_BBDD_LIST = "/cyxbsMobile/index.php/Home/NewArticle/listArticle";
     public static final String API_SOCIAL_IMG_UPLOAD = "/cyxbsMobile/index.php/Home/Photo/uploadArticle";
     public static final String API_SOCIAL_ARTICLE_ADD = "/cyxbsMobile/index.php/Home/Article/addArticle";
-    // TODO: API Modified
     public static final String API_SOCIAL_COMMENT_LIST = "/cyxbsMobile/index.php/Home/NewArticleRemark/getremark";
     public static final String API_SOCIAL_COMMENT_ADD = "/cyxbsMobile/index.php/Home/ArticleRemark/postremarks";
     public static final String API_SOCIAL_LIKE = "/cyxbsMobile/index.php/Home/Praise/addone";
@@ -40,7 +36,6 @@ public class Const {
 
     public static final String API_AVATAR_UPLOAD     = "/cyxbsMobile/index.php/home/photo/upload";
     public static final String API_GET_PERSON_INFO   = "/cyxbsMobile/index.php/Home/Person/search";
-    // TODO: API Modified
     public static final String API_GET_PERSON_LATEST = "/cyxbsMobile/index.php/Home/NewArticle/searchtrends";
 
     //登陆验证接口
@@ -60,7 +55,6 @@ public class Const {
     //与我相关
     public static final String API_ABOUT_ME = "/cyxbsMobile/index.php/Home/Article/aboutme";
     //根据id得到动态详情
-    // TODO: API Modified
     public static final String API_TREND_DETAIL = "/cyxbsMobile/index.php/Home/NewArticle/searchContent";
     //动态查询
     public static final String API_SEARCH_ARTICLE = "/cyxbsMobile/index.php/Home/NewArticle/searchtrends";
@@ -75,6 +69,16 @@ public class Const {
     public static final String API_DELETE_AFFAIR = "/cyxbsMobile/index.php/Home/Person/deleteTransaction";
 
     public static final String API_START_PAGE = "/cyxbsMobile/index.php/Home/Photo/showPicture";
+
+    // 失物招领
+    public static final String END_POINT_LOST = "http://hongyan.cqupt.edu.cn/laf/api";
+    public static final String API_LOST_LIST = "/view/{theme}/{category}/{page}";
+    public static final String PATH_THEME = "theme";
+    public static final String PATH_CATEGORY = "category";
+    public static final String PATH_PAGE = "page";
+    public static final String API_LOST_DETAIL = "/detail/{product}";
+    public static final String PATH_PRODUCT = "product";
+    public static final String API_LOST_CREATE = "/create";
 
     public static final String SP_KEY_USER = "cyxbsmobile_user";
     public static final String SP_KEY_IS_NIGHT = "is_night";
