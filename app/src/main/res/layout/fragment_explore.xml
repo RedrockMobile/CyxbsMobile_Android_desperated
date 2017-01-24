@@ -124,7 +124,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/explore_fresher_special_holder"
+                android:id="@+id/explore_lost_and_found_holder"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/explore_holder_height"
                 android:layout_weight="1"
@@ -132,6 +132,16 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/explore_image_size"
+                    android:layout_height="@dimen/explore_image_size"
+                    android:src="@drawable/ic_around_food" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lost_and_found" />
 
             </LinearLayout>
             <View

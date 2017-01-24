@@ -17,6 +17,10 @@ import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
+import com.mredrock.cyxbs.model.lost.Lost;
+import com.mredrock.cyxbs.model.lost.LostDetail;
+import com.mredrock.cyxbs.model.lost.LostStatus;
+import com.mredrock.cyxbs.model.lost.LostWrapper;
 import com.mredrock.cyxbs.model.social.BBDDNewsContent;
 import com.mredrock.cyxbs.model.social.CommentContent;
 import com.mredrock.cyxbs.model.social.HotNews;
@@ -34,9 +38,11 @@ import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
 import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.network.interceptor.StudentNumberInterceptor;
 import com.mredrock.cyxbs.network.observable.CourseListProvider;
+import com.mredrock.cyxbs.network.service.LostApiService;
 import com.mredrock.cyxbs.network.service.RedrockApiService;
 import com.mredrock.cyxbs.network.setting.CacheProviders;
 import com.mredrock.cyxbs.network.setting.QualifiedTypeConverterFactory;
+import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
 import com.mredrock.cyxbs.util.BitmapUtil;
 import com.mredrock.cyxbs.util.Utils;
 
@@ -70,13 +76,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-// TODO: UI 层解除登录强制要求之后，请务必检查这里有没有未检查的 API 调用
 public enum RequestManager {
 
     INSTANCE;
 
     private static final int DEFAULT_TIMEOUT = 30;
     private RedrockApiService redrockApiService;
+    private LostApiService lostApiService;
     private CacheProviders cacheProviders;
     private OkHttpClient okHttpClient;
 
@@ -96,6 +102,7 @@ public enum RequestManager {
                 .using(CacheProviders.class);
 
         redrockApiService = retrofit.create(RedrockApiService.class);
+        lostApiService = retrofit.create(LostApiService.class);
     }
 
     public static RequestManager getInstance() {
@@ -585,6 +592,44 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
+    public void getLostList(Subscriber<LostWrapper<List<Lost>>> subscriber, int theme, String category, int page) {
+        String themeString;
+        if (theme == LostActivity.THEME_LOST) {
+            themeString = "lost";
+        } else {
+            themeString = "found";
+        }
+        Observable<LostWrapper<List<Lost>>> observable = lostApiService.getLostList(themeString, category, page);
+        emitObservable(observable, subscriber);
+    }
+
+    public void getLostDetail(Subscriber<LostDetail> subscriber, Lost origin) {
+        Observable<LostDetail> observable = lostApiService.getLostDetial(origin.id)
+                .map(lostDetail -> lostDetail.mergeLost(origin));
+        emitObservable(observable, subscriber);
+    }
+
+    public void createLost(Subscriber<LostStatus> subscriber, LostDetail detail, int theme) {
+        if (!checkWithUserId("需要先登录才能发送失物招领信息哦")) return;
+        User user = APP.getUser(APP.getContext());
+        String themeString;
+        if (theme == LostActivity.THEME_LOST) {
+            themeString = "寻物启事";
+        } else {
+            themeString = "失物招领";
+        }
+        Observable<LostStatus> observable = lostApiService.create(user.stuNum,
+                user.idNum,
+                themeString,
+                detail.category,
+                detail.description,
+                detail.time,
+                detail.place,
+                detail.connectPhone,
+                detail.connectWx);
+        emitObservable(observable, subscriber);
+    }
+
     private <T> Subscription emitObservable(Observable<T> o, Subscriber<T> s) {
         return o.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -592,7 +637,6 @@ public enum RequestManager {
                 .subscribe(s);
     }
 
-    // TODO: unlogin check bus
     public boolean checkWithUserId(String s) {
         if (!APP.isLogin()) {
             EventBus.getDefault().post(new AskLoginEvent(s));
