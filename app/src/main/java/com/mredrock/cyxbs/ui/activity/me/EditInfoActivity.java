@@ -240,6 +240,8 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
         UCrop.Options options = new UCrop.Options();
         options.setCompressionFormat(Bitmap.CompressFormat.PNG);
         options.setCompressionQuality(90);
+        options.setToolbarTitleTextColor(ContextCompat.getColor(this, R.color.black_lightly));
+        options.setLogoColor(ContextCompat.getColor(this,R.color.black_lightly));
         options.setToolbarColor(
                 ContextCompat.getColor(this, R.color.colorPrimary));
         options.setStatusBarColor(

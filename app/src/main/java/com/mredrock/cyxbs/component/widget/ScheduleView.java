@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -164,7 +163,11 @@ public class ScheduleView extends FrameLayout {
         }
            // gd.setColor(showMode ? colorSelector.getCourseColor() : colorSelector.getAffairColor(course.begin_lesson,course.hash_day));
         tv.setBackgroundDrawable(gd);
-        tv.setOnClickListener(v -> CourseDialog.show(getContext(), courses));
+        tv.setOnClickListener(v -> {
+            CourseList courseList = new CourseList();
+            courseList.list.addAll(courses.list);
+            CourseDialog.show(getContext(), courseList);
+        });
         addView(tv);
         if (!showMode){
             if (courses.list.get(0).getCourseType() == Affair.TYPE){
@@ -237,7 +240,6 @@ public class ScheduleView extends FrameLayout {
         if (distance <= 2) {
             int x = (int) (event.getX() / getWidth() * 7);
             int y = (int) (event.getY() / getHeight() * 12);
-            Log.e("TAG", "onTouchEvent: "+x+"   "+ (y /2 ));
             if (course[x][y / 2] == null || course[x][y / 2].list == null || course[x][y / 2].list.size() == 0){
                 if (mClickImageView == null) {
                     mClickImageView = new ImageView(context);
@@ -259,16 +261,13 @@ public class ScheduleView extends FrameLayout {
                 mClickImageView.setLayoutParams(flParams);
                 removeView(mClickImageView);
                 addView(mClickImageView);
-            }else{
-                Log.e("TAG", "onTouchEvent: "+course[x][y / 2].list.get(0).course);
-
             }
 
 
         }
 
-
         return true;
+      //  return false;
 
     }
 

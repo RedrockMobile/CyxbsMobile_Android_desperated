@@ -166,6 +166,9 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
 
+        mSendText.setClickable(false);
+        mSendText.setBackgroundColor(getResources().getColor(R.color.gray_edit));
+
         mNewsEdtComment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -174,7 +177,13 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if (s.length() != 0) {
+                    mSendText.setClickable(true);
+                    mSendText.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                } else {
+                    mSendText.setClickable(false);
+                    mSendText.setBackgroundColor(getResources().getColor(R.color.gray_edit));
+                }
             }
 
             @Override
@@ -298,7 +307,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         if (mNewsEdtComment.getText().toString().equals(""))
             Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT).show();
         else {
-            RequestManager.getInstance().postReMarks(new SimpleSubscriber<>(this, new SubscriberListener<String>() {
+            RequestManager.getInstance().postReMarks(new SimpleSubscriber<>(this,true,false, new SubscriberListener<String>() {
                 @Override
                 public void onCompleted() {
                     super.onCompleted();

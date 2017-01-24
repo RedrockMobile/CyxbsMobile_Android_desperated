@@ -13,5 +13,5 @@
         android:toXDelta="0"
         android:fromYDelta="120"
         android:toYDelta="0"
-        android:duration="500" />
+        android:duration="300" />
 </set>

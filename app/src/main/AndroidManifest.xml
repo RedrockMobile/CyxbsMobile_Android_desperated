@@ -81,8 +81,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.SplashActivity"
-            android:theme="@style/APPTheme.Splash">
+            android:name=".ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -134,8 +133,10 @@
         <activity android:name=".ui.activity.social.ImageActivity" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
+            android:theme="@style/AppThemeFit"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.social.PersonInfoActivity" />
+        <activity android:name=".ui.activity.lost.LostActivity" />
 
         <service
             android:name=".service.UpdateService"

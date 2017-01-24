@@ -3,7 +3,6 @@ package com.mredrock.cyxbs.model;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
-import com.mredrock.cyxbs.ui.activity.me.EditQQActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,8 +10,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import static u.aly.av.S;
 
 /**
  * Created by ：AceMurder

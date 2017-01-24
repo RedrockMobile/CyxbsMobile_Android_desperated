@@ -1,41 +1,47 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.RapidFloatingContentListView;
+import com.mredrock.cyxbs.component.widget.tag.FlowLayout;
+import com.mredrock.cyxbs.component.widget.tag.TagAdapter;
+import com.mredrock.cyxbs.component.widget.tag.TagFlowLayout;
 import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.mredrock.cyxbs.ui.adapter.me.BuildingAdapter;
 import com.mredrock.cyxbs.ui.adapter.me.EmptyAdapter;
 import com.mredrock.cyxbs.util.EmptyConverter;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.umeng.analytics.MobclickAgent;
-import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
-import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionHelper;
-import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.mredrock.cyxbs.APP.getContext;
+
 public class EmptyRoomActivity extends BaseActivity
-        implements RapidFloatingContentListView.OnCompleteButtonClickListener {
+        implements TagFlowLayout.OnSelectListener, AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     /**
      * 请求时传入的教学楼参数
@@ -47,14 +53,14 @@ public class EmptyRoomActivity extends BaseActivity
      */
     public static final String[] sectionNumApiArray = {"0", "1", "2", "3", "4", "5"};
 
-    @Bind(R.id.empty_rfab_layout)
-    RapidFloatingActionLayout mEmptyRfabLayout;
-    @Bind(R.id.empty_rfab)
-    RapidFloatingActionButton mEmptyRfabButton;
-    @Bind(R.id.empty_iv_resultIcon)
-    ImageView mIvResultIcon;
-    @Bind(R.id.empty_tv_searchResult)
-    TextView mTvResult;
+    //    @Bind(R.id.empty_rfab_layout)
+//    RapidFloatingActionLayout mEmptyRfabLayout;
+//    @Bind(R.id.empty_rfab)
+//    RapidFloatingActionButton mEmptyRfabButton;
+//    @Bind(R.id.empty_iv_resultIcon)
+//    ImageView mIvResultIcon;
+//    @Bind(R.id.empty_tv_searchResult)
+//    TextView mTvResult;
     @Bind(R.id.empty_rv)
     RecyclerView mEmptyRecyclerView;
     @Bind(R.id.toolbar_title)
@@ -63,6 +69,15 @@ public class EmptyRoomActivity extends BaseActivity
     Toolbar toolbar;
     @Bind(R.id.empty_progress)
     ContentLoadingProgressBar emptyProgress;
+    @Bind(R.id.empty_fab_sp_buildings)
+    Spinner buildingSpinner;
+    @Bind(R.id.empty_fab_section_tagLayout)
+    TagFlowLayout sectionTagFlowLayout;
+    @Bind(R.id.fab_search)
+    FloatingActionButton completeButton;
+
+    private int mBuildNumPosition = -1;
+    private Set<Integer> mSectionPosSet;
 
     /**
      * 需要请求的次数
@@ -99,15 +114,11 @@ public class EmptyRoomActivity extends BaseActivity
         ButterKnife.bind(this);
         StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
-        setupRFAB();
+        setup();
         setupAdapter();
-        if (mEmptyRoomList != null && mEmptyRoomList.isEmpty()) {
-            Toast.makeText(this, "右下角，选择教室和教学楼", Toast.LENGTH_SHORT).show();
-        }
     }
 
 
-    @Override
     public void onCompleteButtonClickListener(int buildNumPosition, Set<Integer> sectionPosSet) {
         if (buildNumPosition != -1 && buildNumPosition != 0) {
             if (sectionPosSet != null && !sectionPosSet.isEmpty()) {
@@ -119,7 +130,7 @@ public class EmptyRoomActivity extends BaseActivity
             Toast.makeText(this, "请选择教学楼", Toast.LENGTH_SHORT).show();
         }
 
-        mEmptyRfabLayout.toggleContent();
+//        mEmptyRfabLayout.toggleContent();
     }
 
 
@@ -139,18 +150,38 @@ public class EmptyRoomActivity extends BaseActivity
         }
     }
 
-    private void setupRFAB() {
-        mEmptyRfabLayout.setIsContentAboveLayout(false);
-        mEmptyRfabLayout.setDisableContentDefaultAnimation(true);
-
-        RapidFloatingContentListView content = new RapidFloatingContentListView(
-                this);
-        content.setOnCompleteButtonClickListener(this);
-
-        RapidFloatingActionHelper rfabHelper = new RapidFloatingActionHelper(
-                this, mEmptyRfabLayout, mEmptyRfabButton, content);
-        rfabHelper.build();
+    public void setup() {
+        final List<String> buildNumList = Arrays.asList(getResources().getStringArray(R.array.empty_buildings));
+        final String[] sectionNumArray = getResources().getStringArray(R.array.empty_sections);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        setupSpBuildings(buildNumList);
+        setupSectionTagLayout(inflater, sectionNumArray);
+        final FloatingActionButton completeBtn = completeButton;
+        completeBtn.setOnClickListener(this);
     }
+
+    private void setupSpBuildings(final List<String> buildNumList) {
+        Spinner mSpBuildings = buildingSpinner;
+        BuildingAdapter buildingAdapter = new BuildingAdapter(buildNumList);
+        mSpBuildings.setAdapter(buildingAdapter);
+        mSpBuildings.setOnItemSelectedListener(this);
+    }
+
+    private void setupSectionTagLayout(LayoutInflater inflater,
+                                       final String[] sectionNumArray) {
+        TagFlowLayout mSectionTagLayout = sectionTagFlowLayout;
+        mSectionTagLayout.setAdapter(new TagAdapter<String>(sectionNumArray) {
+            @Override
+            public View getView(FlowLayout parent, int position, String section) {
+                TextView tv = (TextView) inflater.inflate(R.layout.item_empty_fab_tag_item,
+                        mSectionTagLayout, false);
+                tv.setText(section);
+                return tv;
+            }
+        });
+        mSectionTagLayout.setOnSelectListener(this);
+    }
+
 
     private void setupAdapter() {
         mEmptyRoomList = new ArrayList<>();
@@ -196,7 +227,6 @@ public class EmptyRoomActivity extends BaseActivity
                                     mSuccessReqNum++;
                                     mConverter.setEmptyData(strings);
                                     if (mSuccessReqNum == mNeedReqNum) {
-                                        mEmptyRoomList.clear();
                                         updateEmptyAdapter();
                                     }
                                     emptyProgress.setVisibility(View.GONE);
@@ -231,10 +261,34 @@ public class EmptyRoomActivity extends BaseActivity
 
 
     private void updateEmptyAdapter() {
+        mEmptyRoomList.clear();
         mEmptyRoomList.addAll(mConverter.convert());
         mEmptyRoomAdapter.notifyDataSetChanged();
-        mIvResultIcon.setVisibility(View.VISIBLE);
-        mTvResult.setVisibility(View.VISIBLE);
+//        mIvResultIcon.setVisibility(View.VISIBLE);
+//        mTvResult.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onSelected(Set<Integer> selectPosSet) {
+        mSectionPosSet = selectPosSet;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        mBuildNumPosition = position;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab_search:
+                onCompleteButtonClickListener(mBuildNumPosition, mSectionPosSet);
+                break;
+        }
+    }
 }

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.MalformedJsonException;
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
@@ -29,18 +30,20 @@ import com.mredrock.cyxbs.event.AffairModifyEvent;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.AffairApi;
-import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.database.DBManager;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -148,6 +151,8 @@ public class EditAffairActivity extends AppCompatActivity {
     @SuppressWarnings("unchecked")
     @OnClick({R.id.edit_affair_iv_save, R.id.edit_affair_iv_back})
     public void onSaveClick(View v) {
+        Log.e(TAG, "onNext: " + isStartByCourse );
+
         KeyboardUtils.hideInput(v);
         behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         if (v.getId() == R.id.edit_affair_iv_save) {
@@ -168,7 +173,6 @@ public class EditAffairActivity extends AppCompatActivity {
                     x = System.currentTimeMillis() + "" + (ne.nextInt(9999 - 1000 + 1) + 1000);//为变量赋随机值10009999
                 else{
                     x = uid;
-                    Log.e(TAG, "onSaveClick: "+uid );
                 }
                 affairItem.setContent(content);
                 affairItem.setTime(time);
@@ -185,7 +189,7 @@ public class EditAffairActivity extends AppCompatActivity {
             }
                 affair.week = affairItem.getDate().get(0).getWeek();
                 if (!isStartByCourse){
-                    RequestManager.getInstance().addAffair(new SimpleSubscriber<RedrockApiWrapper>(this, true, false, new SubscriberListener<RedrockApiWrapper>() {
+                    RequestManager.getInstance().addAffair(new SimpleSubscriber<Object>(this, true, false, new SubscriberListener<Object>() {
                         @Override
                         public void onCompleted() {
                             super.onCompleted();
@@ -214,14 +218,20 @@ public class EditAffairActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onError(Throwable e) {
-                            Toast.makeText(APP.getContext(),"网络连接失败，请检查网络后重试！",Toast.LENGTH_SHORT).show();
+                            if (e instanceof SocketTimeoutException)
+                                Toast.makeText(EditAffairActivity.this, "连接超时，检查一下网络哦", Toast.LENGTH_SHORT).show();
+                            else if (e instanceof RedrockApiException)
+                                Toast.makeText(EditAffairActivity.this, "服务器出了点小毛病，请稍后再试", Toast.LENGTH_SHORT).show();
+                            else if (e instanceof MalformedJsonException){
+
+                            }
                             return true;
 
                         }
 
                         @Override
-                        public void onNext(RedrockApiWrapper redrockApiWrapper) {
-                            super.onNext(redrockApiWrapper);
+                        public void onNext(Object object) {
+                            super.onNext(object);
                             // LOGE("EditAffairActivity",redrockApiWrapper.id);
                         }
 
@@ -232,7 +242,7 @@ public class EditAffairActivity extends AppCompatActivity {
                     }),APP.getUser(this).stuNum,APP.getUser(this).idNum,x,title,content,gson.toJson(affairItem.getDate()),affairItem.getTime());
                 }else {
                   //  Log.e(TAG, "onSaveClick: isStartByCourse");
-                    RequestManager.getInstance().editAffair(new SimpleSubscriber<RedrockApiWrapper>(this, true, false, new SubscriberListener<RedrockApiWrapper>() {
+                    RequestManager.getInstance().editAffair(new SimpleSubscriber<Object>(this, true, false, new SubscriberListener<Object>() {
                         @Override
                         public void onCompleted() {
                             super.onCompleted();
@@ -261,15 +271,20 @@ public class EditAffairActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onError(Throwable e) {
-                            Toast.makeText(APP.getContext(),"网络连接失败，请检查网络后重试！",Toast.LENGTH_SHORT).show();
-
+                            if (e instanceof SocketTimeoutException)
+                                Toast.makeText(EditAffairActivity.this, "连接超时，检查一下网络哦", Toast.LENGTH_SHORT).show();
+                            else if (e instanceof RedrockApiException)
+                                Toast.makeText(EditAffairActivity.this, "服务器出了点小毛病，请稍后再试", Toast.LENGTH_SHORT).show();
+                            else if (e instanceof MalformedJsonException){
+                                Toast.makeText(EditAffairActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "onError: " + e.getMessage() );
+                            }
                             return true;
-
                         }
 
                         @Override
-                        public void onNext(RedrockApiWrapper redrockApiWrapper) {
-                            super.onNext(redrockApiWrapper);
+                        public void onNext(Object object) {
+                            super.onNext(object);
                            // LOGE("EditAffairActivity",redrockApiWrapper.id);
                         }
 
@@ -297,6 +312,7 @@ public class EditAffairActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
+
         if (!initData())
             initCourse();
         behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -309,6 +325,10 @@ public class EditAffairActivity extends AppCompatActivity {
         if (course == null)
             return;
         uid =course.uid;
+        isStartByCourse = true;
+        setData(course);
+
+
         DBManager.INSTANCE.queryItem(uid).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AffairApi.AffairItem>() {
@@ -320,7 +340,6 @@ public class EditAffairActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
                     }
 
                     @Override
@@ -329,46 +348,42 @@ public class EditAffairActivity extends AppCompatActivity {
                             behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                             mWeekAdapter.addAllWeekNum(affairItem.getDate().get(0).getWeek());
                             onWeekChooseOkClick();
+                            StringBuilder builder = new StringBuilder();
                             for (AffairApi.AffairItem.DateBean dateBean : affairItem.getDate()) {
                                 Position position = new Position(dateBean.getDay(), dateBean.getClassX());
                                 positions.add(position);
-                                StringBuilder builder = new StringBuilder();
-                                for (int i = 0; i < positions.size() && i < 3; i++) {
+                                Log.e(TAG, "onNext: "+ position);
+
+                                for (int i = 0; i < positions.size() && i < 3; i++)   {
                                     builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
                                 }
-                                mTimeChooseText.setText(builder.toString());
-                                mTitleEdit.setText(affairItem.getTitle());
-                                mContentEdit.setText(affairItem.getContent());
-                                int index = 0;
-                                switch (affairItem.getTime()) {
-                                    case 5:
-                                        index = 1;
-                                        break;
-                                    case 10:
-                                        index = 2;
-                                        break;
-                                    case 20:
-                                        index = 3;
-                                        break;
-                                    case 30:
-                                        index = 4;
-                                        break;
-                                    case 60:
-                                        index = 5;
-                                        break;
-                                    default:
-                                        index = 0;
-                                        break;
-                                }
-                                mRemindTimeText.setText(TIMES[index]);
-                                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
-                                isStartByCourse = true;
                             }
+                            mTimeChooseText.setText(builder.toString());
+                            mTitleEdit.setText(affairItem.getTitle());
+                            mContentEdit.setText(affairItem.getContent());
+                            mRemindTimeText.setText(TIMES[transferTimeToText(course.time)]);
+                            mRemindTimeText.setText(TIME_MINUTE[transferTimeToText(course.time)]);
+                            behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                         }
 
                     }
                 });
+    }
+
+    private void setData(Affair course) {
+        mTitleEdit.setText(course.course);
+        mContentEdit.setText(course.teacher);
+        mWeekAdapter.addAllWeekNum(course.week);
+        onWeekChooseOkClick();
+        Position position = new Position(course.hash_day, course.hash_lesson);
+        positions.add(position);
+        StringBuilder builder = new StringBuilder();
+        mRemindTimeText.setText(TIMES[transferTimeToText(course.time)]);
+        for (int i = 0; i < positions.size() && i < 3; i++) {
+            builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
+        }
+        mTimeChooseText.setText(builder.toString());
+
     }
 
     private boolean initData() {
@@ -424,6 +439,20 @@ public class EditAffairActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
@@ -435,6 +464,31 @@ public class EditAffairActivity extends AppCompatActivity {
             behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         else
             super.onBackPressed();
+    }
+
+    private int transferTimeToText(int time){
+        int index = 0;
+        switch (time) {
+            case 5:
+                index = 1;
+                break;
+            case 10:
+                index = 2;
+                break;
+            case 20:
+                index = 3;
+                break;
+            case 30:
+                index = 4;
+                break;
+            case 60:
+                index = 5;
+                break;
+            default:
+                index = 0;
+                break;
+        }
+        return index;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

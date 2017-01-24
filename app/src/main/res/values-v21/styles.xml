@@ -6,7 +6,7 @@
 
     <style name="AppTheme" parent="AppTheme.Base">
         <item name="android:statusBarColor">@color/colorAccent</item>
-        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:fitsSystemWindows">false</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>

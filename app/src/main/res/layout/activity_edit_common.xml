@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_grey"
-    android:orientation="vertical"
-    tools:context=".ui.activity.me.EditNickNameActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background_grey"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical"
+              tools:context=".ui.activity.me.EditNickNameActivity">
 
     <com.mredrock.cyxbs.component.widget.Toolbar
         android:id="@+id/edit_common_toolbar"
@@ -15,7 +16,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/divider" />
+        android:background="@color/divider"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,7 +36,7 @@
             android:hint="请输入您的信息"
             android:textColor="@color/text_dark"
             android:textColorHint="@color/text_light_2"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/edit_common_count"
@@ -46,7 +47,7 @@
             android:layout_toLeftOf="@+id/edit_common_delete"
             android:layout_toStartOf="@+id/edit_common_delete"
             android:textColor="@color/text_light_2"
-            android:textSize="13sp" />
+            android:textSize="13sp"/>
 
         <ImageView
             android:id="@+id/edit_common_delete"
@@ -58,7 +59,7 @@
             android:layout_marginEnd="15dp"
             android:layout_marginRight="15dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_delete" />
+            android:src="@drawable/ic_delete"/>
 
     </RelativeLayout>
 </LinearLayout>

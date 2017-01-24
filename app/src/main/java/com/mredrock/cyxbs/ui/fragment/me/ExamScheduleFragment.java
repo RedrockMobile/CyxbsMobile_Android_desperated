@@ -26,6 +26,7 @@ import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.NetUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -96,6 +97,7 @@ public class ExamScheduleFragment extends BaseFragment {
         initRecyclerView();
         examSwipeRefreshLayout.setOnRefreshListener(() -> {
             if (mUser != null) {
+                examTvNothing.setVisibility(View.GONE);
                 loadExamList(true);
             }
         });
@@ -109,7 +111,7 @@ public class ExamScheduleFragment extends BaseFragment {
             if (NetUtils.isNetWorkAvailable(getActivity())) {
                 showProgress();
             } else {
-                examTvNothing.setVisibility(View.VISIBLE);
+              //  examTvNothing.setVisibility(View.VISIBLE);
             }
         } else {
             if (mIsVisibleToUser) {
@@ -172,10 +174,12 @@ public class ExamScheduleFragment extends BaseFragment {
                 public void onNext(List<Exam> examList) {
                     super.onNext(examList);
                     try {
+
                         examSwipeRefreshLayout.setRefreshing(false);
                         if (examList == null || examList.size() == 0) {
                             examTvNothing.setVisibility(View.VISIBLE);
                         } else {
+                            examTvNothing.setVisibility(View.GONE);
                             refresh(examList);
                         }
                     } catch (NullPointerException e) {
@@ -200,6 +204,7 @@ public class ExamScheduleFragment extends BaseFragment {
     private void refresh(List<Exam> examList) {
         mExamList.clear();
         mExamList.addAll(examList);
+        Collections.sort(mExamList);
         mExamScheduleAdapter.notifyDataSetChanged();
         examTvNothing.setVisibility(View.GONE);
     }

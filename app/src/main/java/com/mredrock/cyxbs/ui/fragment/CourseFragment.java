@@ -24,7 +24,6 @@ import com.mredrock.cyxbs.event.AffairModifyEvent;
 import com.mredrock.cyxbs.event.AffairShowModeEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
-import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
@@ -201,7 +200,6 @@ public class CourseFragment extends BaseFragment {
 
     private void loadCourse(int week, boolean update) {
 
-
         if (APP.isLogin()) {
             mUser = APP.getUser(getActivity());
             if (mUser != null) {
@@ -311,6 +309,7 @@ public class CourseFragment extends BaseFragment {
                 @Override
                 public void call(Subscriber<? super List<Course>> subscriber) {
                     subscriber.onNext(affairList);
+                    subscriber.onCompleted();
                 }
             });
             observable.map(courses -> {
@@ -326,11 +325,11 @@ public class CourseFragment extends BaseFragment {
     public void onAffairDeleteEvent(AffairDeleteEvent event) {
         if (mWeek == 0||event.getCourse().week.contains(mWeek)){
             Affair affair = (Affair) event.getCourse();
-            RequestManager.getInstance().deleteAffair(new SimpleSubscriber<RedrockApiWrapper>(getActivity(), true, true, new SubscriberListener<RedrockApiWrapper>() {
+            RequestManager.getInstance().deleteAffair(new SimpleSubscriber<Object>(getActivity(), true, true, new SubscriberListener<Object>() {
                 @Override
                 public void onCompleted() {
                     super.onCompleted();
-                    loadCourse(mWeek,false);
+
 
                 }
 
@@ -340,8 +339,9 @@ public class CourseFragment extends BaseFragment {
                 }
 
                 @Override
-                public void onNext(RedrockApiWrapper redrockApiWrapper) {
-                    super.onNext(redrockApiWrapper);
+                public void onNext(Object object) {
+                    super.onNext(object);
+                    loadCourse(mWeek,false);
                     DBManager.INSTANCE.deleteAffair(affair.uid)
                             .observeOn(Schedulers.io())
                             .unsubscribeOn(Schedulers.io())
@@ -390,7 +390,6 @@ public class CourseFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAffairModifyEvent(AffairModifyEvent event){
-
         loadCourse(mWeek, false);
     }
 

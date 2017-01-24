@@ -32,7 +32,11 @@ public class SPUtils {
         } else if (object instanceof Long) {
             editor.putLong(key, (Long) object);
         } else {
-            editor.putString(key, object.toString());
+            if (object == null) {
+                editor.remove(key);
+            } else {
+                editor.putString(key, object.toString());
+            }
         }
 
         editor.apply();

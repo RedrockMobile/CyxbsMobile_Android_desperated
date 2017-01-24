@@ -11,7 +11,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 35
-        versionName "期末版"
+        versionName "跨年版"
         multiDexEnabled true
     }
 
@@ -140,4 +140,5 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.jaeger.statusbaruitl:library:1.3.0'
+    compile 'info.hoang8f:android-segmented:1.0.6'
 }

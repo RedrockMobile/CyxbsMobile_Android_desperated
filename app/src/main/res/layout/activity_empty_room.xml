@@ -1,81 +1,72 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.mredrock.cyxbs.ui.activity.me.EmptyRoomActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar" />
-
-    <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout
-        android:id="@+id/empty_rfab_layout"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:rfal_frame_alpha="0.7"
-        app:rfal_frame_color="#ffffff">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:expanded="true">
 
-        <LinearLayout
-            android:id="@+id/empty_top_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="16dp">
-
-            <ImageView
-                android:id="@+id/empty_iv_resultIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_room_result"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/empty_tv_searchResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="查询结果"
-                android:textColor="@color/colorPrimary"
-                android:textSize="18sp"
-                android:visibility="gone" />
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/empty_rv"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/empty_top_layout"
-            android:minHeight="48dp" />
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:navigationIcon="@drawable/back"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
-        <android.support.v4.widget.ContentLoadingProgressBar
-            android:id="@+id/empty_progress"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"/>
+            <TextView
+                android:id="@+id/toolbar_title"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black_lightly"
+                android:textSize="18sp"/>
 
-        <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton
-            xmlns:rfab="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/empty_rfab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
-            rfab:rfab_color_normal="@color/colorAccent"
-            rfab:rfab_color_pressed="@color/colorAccent"
-            rfab:rfab_drawable="@drawable/ic_room_pencil"
-            rfab:rfab_shadow_color="@color/material_color_gray_500"
-            rfab:rfab_shadow_dx="0dp"
-            rfab:rfab_shadow_dy="2dp"
-            rfab:rfab_shadow_radius="4dp"
-            rfab:rfab_size="normal" />
-    </com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout>
+        </android.support.v7.widget.Toolbar>
 
-</LinearLayout>
+        <include layout="@layout/view_empty_fab"
+                 app:layout_scrollFlags="scroll|enterAlways"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/empty_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/empty_top_layout"
+        android:paddingTop="20dp"
+        android:minHeight="48dp"
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"/>
+
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/empty_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_search"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|right|end"
+        android:layout_marginRight="@dimen/fab_margin"
+        app:elevation="@dimen/fab_elevation"
+        app:pressedTranslationZ="@dimen/fab_translation_z"
+        app:fabSize="auto"
+        android:src="@drawable/ic_search_white_24dp"/>
+
+</android.support.design.widget.CoordinatorLayout>
