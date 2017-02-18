@@ -164,7 +164,6 @@ public interface RedrockApiService {
                                                          stuNum,
                                                  @Field("idNum") String idNum);
 
-    // TODO: Modified
     @FormUrlEncoded
     @POST(Const.API_TREND_DETAIL)
     Observable<BBDDDetail.BBDDDetailWrapper> getTrendDetail(@Field("type_id") int type_id,
@@ -179,19 +178,16 @@ public interface RedrockApiService {
                                                                @Field("idNum") String idNum,
                                                                @Field("stunum_other") String stunum_other);
 
-    // TODO: API Modified
     @FormUrlEncoded
     @POST(Const.API_SOCIAL_OFFICIAL_NEWS_LIST)
     Observable<OfficeNews> getSocialOfficialNewsList(@Field("size") int size,
                                                      @Field("page") int page);
 
-    // TODO: Modified
     @FormUrlEncoded
     @POST(Const.API_SOCIAL_HOT_LIST)
     Observable<List<HotNews>> getSocialHotList(@Field("size") int size,
                                                @Field("page") int page);
 
-    // TODO: Modified
     @FormUrlEncoded
     //哔哔叨叨(或者其他的)接口：POST
     @POST(Const.API_SOCIAL_BBDD_LIST)
@@ -217,7 +213,6 @@ public interface RedrockApiService {
                                             @Field("stuNum") String stuNum,
                                             @Field("idNum") String idNum);
 
-    // TODO: Modified
     @FormUrlEncoded
     @POST(Const.API_SOCIAL_COMMENT_LIST)
     Observable<Comment> getSocialCommentList(@Field("article_id") String article_id,
@@ -253,7 +248,6 @@ public interface RedrockApiService {
                                                             @Field("stuNum") String stuNum,
                                                             @Field("idNum") String idNum);
 
-    // TODO: Modified
     @FormUrlEncoded
     @POST(Const.API_GET_PERSON_LATEST)
     Observable<RedrockApiWrapper<List<PersonLatest>>> getPersonLatestList(@Field("stunum_other") String otherStuNum);

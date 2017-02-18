@@ -120,6 +120,7 @@ public class MainActivity extends BaseActivity {
         StatusBarUtil.setTranslucent(this, 50);
         UpdateUtil.checkUpdate(this, false);
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
+        // TODO: Filter these intents in another activity (such as LaunchActivity), not here, to fix the fixme above
         intentFilterFor3DTouch();
         intentFilterForAppWidget();
     }
