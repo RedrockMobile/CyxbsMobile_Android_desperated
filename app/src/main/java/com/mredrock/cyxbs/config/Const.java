@@ -70,6 +70,8 @@ public class Const {
 
     public static final String API_START_PAGE = "/cyxbsMobile/index.php/Home/Photo/showPicture";
 
+    //电费查询
+    public static final String API_ELECTRIC_CHARGE = "/MagicLoop/index.php?s=/addon/ElectricityQuery/ElectricityQuery/queryElecByRoom";
     // 失物招领
     public static final String END_POINT_LOST = "http://hongyan.cqupt.edu.cn/laf/api";
     public static final String API_LOST_LIST = "/view/{theme}/{category}/{page}";

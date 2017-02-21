@@ -84,7 +84,7 @@ public class NoCourseContainerActivity extends BaseActivity {
     private void initViewPager() {
         mTitleList = Arrays.asList(getResources().getStringArray(R.array.titles_weeks));
         int week = new SchoolCalendar().getWeekOfTerm();
-        if (week >= 1 && week <= 23) {
+        if (week >= 1 && week <= 19) {
             mTitleList.set(week, "本周");
         }
         mFragmentList = new ArrayList<>();

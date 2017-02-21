@@ -7,6 +7,7 @@ import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
+import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.model.FoodComment;
@@ -590,6 +591,12 @@ public enum RequestManager {
                 .map(new RedrockApiWrapperFunc<>())
                 .map(new StartPageFunc());
         emitObservable(observable, subscriber);
+    }
+
+    public void queryElectricCharge(Subscriber<ElectricCharge>subscriber, String building, String room){
+        Observable<ElectricCharge> observable = redrockApiService.queryElectricCharge(building,room)
+                .map((electricChargeWrapper -> electricChargeWrapper.getElectricCharge()));
+        emitObservable(observable,subscriber);
     }
 
     public void getLostList(Subscriber<LostWrapper<List<Lost>>> subscriber, int theme, String category, int page) {
