@@ -352,8 +352,6 @@ public class EditAffairActivity extends AppCompatActivity {
                             for (AffairApi.AffairItem.DateBean dateBean : affairItem.getDate()) {
                                 Position position = new Position(dateBean.getDay(), dateBean.getClassX());
                                 positions.add(position);
-                                Log.e(TAG, "onNext: "+ position);
-
                                 for (int i = 0; i < positions.size() && i < 3; i++)   {
                                     builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
                                 }

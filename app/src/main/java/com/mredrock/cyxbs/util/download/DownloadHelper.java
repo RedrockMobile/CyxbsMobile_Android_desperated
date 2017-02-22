@@ -160,6 +160,7 @@ public class DownloadHelper {
         List<String> list = new ArrayList<>();
         showDialog(mProgressDialog);
         for (String url : mUrls) {
+
             Log.d("downloadCorrectUrl===>>", "first request url is " + url);
             String correctUrl = url.replaceAll("localhost", "hongyan.cqupt.edu.cn");
             final OkHttpClient client = new OkHttpClient();
@@ -180,7 +181,7 @@ public class DownloadHelper {
                     if (response.isSuccessful() && response.body() != null) {
 
                         String str = StringEscapeUtils.unescapeJava(response.body().string());
-
+                        Log.e("onResponse",str);
                         String url = str.substring(1, str.length() - 1);
                         list.add(url);
                         reqSuccessCount[0]++;

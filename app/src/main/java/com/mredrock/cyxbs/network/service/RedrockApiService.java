@@ -4,6 +4,7 @@ import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.model.Course;
+import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.model.Empty;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.Food;
@@ -65,8 +66,8 @@ public interface RedrockApiService {
     @Headers("API_APP: android")
     @POST(Const.API_PERSON_SCHEDULE)
     retrofit2.Call<Course.CourseWrapper> getCourseCall(@Field("stuNum") String stuNum,
-                                                   @Field("idNum") String idNum,
-                                                   @Field("week") String week);
+                                                       @Field("idNum") String idNum,
+                                                       @Field("week") String week);
 
     //Explore start
     @FormUrlEncoded
@@ -257,15 +258,15 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_ADD_AFFAIR)
-    Observable<RedrockApiWrapper<Object>> addAffair(@Field("id")String id, @Field("stuNum") String stuNum, @Field("idNum") String idNum,
-                                            @Field("date") String date, @Field("time")int time,@Field("title")String title,
-                                            @Field("content")String content);
+    Observable<RedrockApiWrapper<Object>> addAffair(@Field("id") String id, @Field("stuNum") String stuNum, @Field("idNum") String idNum,
+                                                    @Field("date") String date, @Field("time") int time, @Field("title") String title,
+                                                    @Field("content") String content);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_AFFAIR)
-    Observable<RedrockApiWrapper<Object>> editAffair(@Field("id")String id, @Field("stuNum") String stuNum, @Field("idNum") String idNum,
-                                            @Field("date") String date, @Field("time")int time,@Field("title")String title,
-                                            @Field("content")String content);
+    Observable<RedrockApiWrapper<Object>> editAffair(@Field("id") String id, @Field("stuNum") String stuNum, @Field("idNum") String idNum,
+                                                     @Field("date") String date, @Field("time") int time, @Field("title") String title,
+                                                     @Field("content") String content);
 
     @FormUrlEncoded
     @POST(Const.API_DELETE_AFFAIR)
@@ -273,4 +274,8 @@ public interface RedrockApiService {
 
     @POST(Const.API_START_PAGE)
     Observable<RedrockApiWrapper<List<StartPage>>> startPage();
+
+    @FormUrlEncoded
+    @POST(Const.API_ELECTRIC_CHARGE)
+    Observable<ElectricCharge.ElectricChargeWrapper> queryElectricCharge(@Field("building") String building, @Field("room") String room);
 }
