@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -14,19 +13,6 @@ import android.widget.RelativeLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
-import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
-import com.mredrock.cyxbs.ui.fragment.lost.AllLostFragment;
-import com.mredrock.cyxbs.ui.fragment.lost.CardFragment;
-import com.mredrock.cyxbs.ui.fragment.lost.ClotheFragment;
-import com.mredrock.cyxbs.ui.fragment.lost.ElectronicFragment;
-import com.mredrock.cyxbs.ui.fragment.lost.KeyFragment;
-import com.mredrock.cyxbs.ui.fragment.lost.OtherFragment;
-import com.mredrock.cyxbs.ui.fragment.lost.UmbrellaFragment;
-import com.mredrock.cyxbs.ui.fragment.lost.WalletFragment;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.mredrock.cyxbs.ui.adapter.lost.LostViewPagerAdapter;
 
@@ -61,7 +47,6 @@ public class LostActivity extends BaseActivity {
         setContentView(R.layout.activity_lost);
         ButterKnife.bind(this);
 
-        init();
 
         lostKindList = getResources().getStringArray(R.array.lost_category_list);
         StatusBarUtil.setTranslucent(this, 50);
@@ -91,33 +76,6 @@ public class LostActivity extends BaseActivity {
     }
 
 
-    public void init(){
-        List<Fragment> fragmentList = new ArrayList<>();
-        AllLostFragment mAllLostFragment = new AllLostFragment();
-        CardFragment mCardFragment = new CardFragment();
-        ClotheFragment mClotheFragment = new ClotheFragment();
-        ElectronicFragment mElectronicFragment = new ElectronicFragment();
-        KeyFragment mKeyFragment = new KeyFragment();
-        OtherFragment mOtherFragment = new OtherFragment();
-        UmbrellaFragment mUmbrellaFragment = new UmbrellaFragment();
-        WalletFragment mWalletFragment = new WalletFragment();
-
-        fragmentList.add(mAllLostFragment);
-        fragmentList.add(mCardFragment);
-        fragmentList.add(mWalletFragment);
-        fragmentList.add(mKeyFragment);
-        fragmentList.add(mElectronicFragment);
-        fragmentList.add(mUmbrellaFragment);
-        fragmentList.add(mClotheFragment);
-        fragmentList.add(mOtherFragment);
-
-        TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager(),fragmentList, Arrays
-        .asList(getResources().getStringArray(R.array.lost_tab_tiles)));
-        pager.setAdapter(adapter);
-        pager.setOffscreenPageLimit(fragmentList.size());
-        tab.setTabMode(TabLayout.MODE_FIXED);
-        tab.setupWithViewPager(pager);
-    }
 
     public static void start(Context context) {
         Intent starter = new Intent(context, LostActivity.class);

@@ -13,7 +13,66 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"/>
 
-    <include layout="@layout/item_lost"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_layout"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp">
+
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/detail_lost_img_avatar"
+                android:layout_width="@dimen/information_img_avatar"
+                android:layout_height="@dimen/information_img_avatar"
+                android:scaleType="fitCenter"
+                tools:src="@drawable/ic_default_avatar"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/detail_lost_img_avatar"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/detail_lost_text_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="你的名字。"
+                    android:textColor="@color/body_text_1"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/detail_lost_text_kind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="来自分类 其他"
+                    android:textColor="@color/crop__button_text"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="9dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:lineSpacingMultiplier="1.3"
+            android:text="寻找着，从未见过的你。"
+            android:textColor="@color/body_text_1"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
     <View
         android:background="#f4f5f5"
         android:layout_width="match_parent"
