@@ -59,7 +59,7 @@ public class LostViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return false;
+        return true;
     }
 
     private String[] getTitles() {

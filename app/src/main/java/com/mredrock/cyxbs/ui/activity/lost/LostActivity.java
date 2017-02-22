@@ -15,6 +15,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 
 import com.mredrock.cyxbs.ui.adapter.lost.LostViewPagerAdapter;
+import com.mredrock.cyxbs.util.LogUtils;
 
 
 import butterknife.Bind;
@@ -48,10 +49,14 @@ public class LostActivity extends BaseActivity {
         ButterKnife.bind(this);
 
 
+        LogUtils.LOGE("LostActivity","Everything will be ok");
+
         lostKindList = getResources().getStringArray(R.array.lost_category_list);
         StatusBarUtil.setTranslucent(this, 50);
         adapter = new LostViewPagerAdapter(getSupportFragmentManager());
+        LogUtils.LOGE("LostActivity",adapter.getItem(0).toString());
         pager.setAdapter(adapter);
+
         pager.setCurrentItem(0);
         tab.setupWithViewPager(pager, true);
         chooseModeLost.setOnClickListener((v) -> refreshMode());
