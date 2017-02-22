@@ -594,6 +594,7 @@ public enum RequestManager {
     }
 
     public void queryElectricCharge(Subscriber<ElectricCharge>subscriber, String building, String room){
+        if (!checkWithUserId("需要先登录才能发送失物招领信息哦")) return;
         Observable<ElectricCharge> observable = redrockApiService.queryElectricCharge(building,room)
                 .map((electricChargeWrapper -> electricChargeWrapper.getElectricCharge()));
         emitObservable(observable,subscriber);
