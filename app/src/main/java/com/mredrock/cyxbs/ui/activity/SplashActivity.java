@@ -10,6 +10,8 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.service.NotificationService;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.Timer;
@@ -17,7 +19,6 @@ import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Subscriber;
 
 public class SplashActivity extends Activity {
 
@@ -55,23 +56,13 @@ public class SplashActivity extends Activity {
         //启动用于课前提醒的服务
         NotificationService.startNotificationService(this);
 
-        RequestManager.getInstance().getStartPage(new Subscriber<StartPage>() {
+        RequestManager.getInstance().getStartPage(new SimpleSubscriber<>(this, new SubscriberListener<StartPage>() {
             @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(StartPage startPages) {
-                if (startPages != null) {
-                    Glide.with(SplashActivity.this).load(startPages.getPhoto_src()).into(mIvSplash);
+            public void onNext(StartPage startPage) {
+                if (startPage != null) {
+                    Glide.with(SplashActivity.this).load(startPage.getPhoto_src()).into(mIvSplash);
                 }
             }
-        });
+        }));
     }
 }
