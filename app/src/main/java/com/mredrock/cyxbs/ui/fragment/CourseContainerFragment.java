@@ -208,6 +208,7 @@ public class CourseContainerFragment extends BaseFragment {
     private void updateFirstDay(int nowWeek) {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.DATE, -((nowWeek - 1) * 7 + (now.get(Calendar.DAY_OF_WEEK) + 5) % 7));
+        Log.e("========>First day", "    "+now.getTimeInMillis()  + "   "  + nowWeek);
         SPUtils.set(APP.getContext(), "first_day", now.getTimeInMillis());
         mNowWeek = new SchoolCalendar().getWeekOfTerm();
     }

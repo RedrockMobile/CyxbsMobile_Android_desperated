@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
-import android.view.View;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
@@ -57,10 +56,10 @@ public class LostViewPagerAdapter extends FragmentStatePagerAdapter {
         return getTitles().length;
     }
 
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return ((Fragment) object).getView() == view;
-    }
+//    @Override
+//    public boolean isViewFromObject(View view, Object object) {
+//        return ((Fragment) object).getView() == view;
+//    }
 
     private String[] getTitles() {
         if (titles == null) {
