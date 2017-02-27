@@ -39,5 +39,4 @@ proguard/
 .idea
 freeline_project_description.json
 freeline.py
-/freeline/
-/freeline.py
+freeline
