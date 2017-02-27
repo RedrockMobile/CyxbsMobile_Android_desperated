@@ -67,7 +67,8 @@ public interface RedrockApiService {
     @POST(Const.API_PERSON_SCHEDULE)
     retrofit2.Call<Course.CourseWrapper> getCourseCall(@Field("stuNum") String stuNum,
                                                        @Field("idNum") String idNum,
-                                                       @Field("week") String week);
+                                                       @Field("week") String week,
+                                                       @Field("forceFetch") boolean forceFetch);
 
     //Explore start
     @FormUrlEncoded

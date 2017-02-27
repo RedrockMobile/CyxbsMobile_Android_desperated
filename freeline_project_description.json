@@ -1,0 +1,134 @@
+{
+    "android_gradle_plugin_version": "2.2.3",
+    "apk_path": "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/outputs/apk/app-debug.apk",
+    "apt": {
+        "app": {
+            "aptArgs": [
+                
+            ],
+            "aptOutput": "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/generated/source/apt/debug",
+            "disableDiscovery": false,
+            "enabled": true,
+            "processor": null,
+            "processorPath": "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.github.bumptech.glide/okhttp3-integration/1.4.0/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.github.siyamed/android-shape-imageview/0.9.3/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.thefinestartist/finestwebview/1.2.7/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/design/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/transition/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.thefinestartist/utils/0.9.0/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.jude/rollviewpager/1.2.9/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.github.orhanobut/logger/1.12/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.yalantis/ucrop/1.3.2/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.github.wangjiegulu/RapidFloatingActionButton/1.0.3/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.github.wangjiegulu/ShadowViewHelper/1.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.github.wangjiegulu/AndroidBucket/1.0.4/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.zhy/percent-support-extends/1.1.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.lsjwzh/materialloadingprogressbar/0.5.8-RELEASE/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.7.5.5/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.tbruyelle.rxpermissions/rxpermissions/0.7.0/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.github.traex.rippleeffect/library/1.3/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.github.chrisbanes/PhotoView/1.2.6/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.ms-square/expandableTextView/0.1.4/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.coolerfall/android-app-daemon/1.2.0/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.jakewharton.rxbinding/rxbinding/0.4.0/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/io.reactivex/rxandroid/1.2.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/de.hdodenhof/circleimageview/2.1.0/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.jaeger.statusbaruitl/library/1.3.0/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.1/jars/libs/internal_impl-25.0.1.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.1/jars/libs/internal_impl-25.0.1.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.1/jars/libs/internal_impl-25.0.1.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.1/jars/libs/internal_impl-25.0.1.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/jars/libs/internal_impl-25.0.1.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/info.hoang8f/android-segmented/1.0.6/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.bigkoo/pickerview/2.1.1/jars/classes.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/intermediates/exploded-aar/com.antfortune.freeline/runtime/0.8.6/jars/classes.jar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.1/support-annotations-25.0.1.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/io.reactivex/rxjava/1.1.8/f9dbae366a6a3d6b5041c5e8db0dcdfdc35c27b5/rxjava-1.1.8.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.thefinestartist/annotations/0.9.0/b69d23b00ca5fd30feea91ab4b24a192d6b928ef/annotations-0.9.0.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/7.0.1/d5d13ea991eab0252e3710e5df3d6a9d4b21d461/butterknife-7.0.1.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.jakewharton/disklrucache/2.0.2/93b399470e72c0bc8cb52379943b63c9aa586cd8/disklrucache-2.0.2.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/3.7.0/9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4/glide-3.7.0.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.4.1/c7c4f9e35c2fd5900da24f9872e3971801f08ce0/okhttp-3.4.1.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.9.0/f824591a0016efbaeddb8300bee54832a1398cfa/okio-1.9.0.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.4.1/63994437f62bc861bc20c605d12962f7246116d1/okhttp-urlconnection-3.4.1.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/logging-interceptor/3.4.1/381fc1096ba65040d8e80ea43b2e1d9bad02345e/logging-interceptor-3.4.1.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/adapter-rxjava/2.1.0/693eddc23e87ab13f9cf5001707ce8e7e1d1ff01/adapter-rxjava-2.1.0.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/retrofit/2.1.0/2de7cd8b95b7021b1d597f049bcb422055119f2c/retrofit-2.1.0.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-gson/2.1.0/aa557d71ead91cbf26e0c316a0f593d168303309/converter-gson-2.1.0.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.7/751f548c85fa49f330cecbb1875893f971b33c4e/gson-2.7.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-simplexml/2.1.0/a71c37fa341165df2c61ba93f549c4ceeb98d6c8/converter-simplexml-2.1.0.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/org.simpleframework/simple-xml/2.7.1/dd91fb744c2ff921407475cb29a1e3fee397d411/simple-xml-2.7.1.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/org.greenrobot/eventbus/3.0.0/ddd99896e9569eaababbe81b35d80e1b91c4ad85/eventbus-3.0.0.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.0/8873bd0bb5cb9ee37f1b04578eb7e26fcdd44cb0/commons-lang3-3.0.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.VictorAlbertos.RxCache/runtime/1.6.4/1d33f9cd7304201719598fdfdf7ffba5b8c1d192/runtime-1.6.4.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.VictorAlbertos.RxCache/core/1.6.4/4dae21b9e8de14d15a8d2c4bc1908465b2e0236/core-1.6.4.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.VictorAlbertos.Jolyglot/api/0.0.3/6576f5a0b4a58c4e245bea1ac5dec8ecd859aa02/api-0.0.3.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.google.dagger/dagger/2.6/a2e0fb833ba928689fb8b8d9cc92a81298da7c37/dagger-2.6.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/org.glassfish/javax.annotation/10.0-b28/30eb3b3cc9cb0863a4edaea5a7575f8ace1b96ba/javax.annotation-10.0-b28.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.VictorAlbertos.Jolyglot/jackson/0.0.3/e48e38d43ff574b1aea5b55bbb5672bbb6065fc4/jackson-0.0.3.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.VictorAlbertos.Jolyglot/common/0.0.3/25accaf0d3e57c6aec91ecd418c7a5cb2cd60040/common-0.0.3.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.7.4/1e9c6f3659644aeac84872c3b62d8e363bf4c96d/jackson-databind-2.7.4.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.7.0/19f42c154ffc689f40a77613bc32caeb17d744e3/jackson-annotations-2.7.0.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.7.4/b8f38a249116b66d804a5ca2b14a3459b7913a94/jackson-core-2.7.4.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.umeng.analytics/analytics/6.0.9/5259c1d58a8f2373c2bbb7cb0ff33aee0eef4503/analytics-6.0.9.jar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.readystatesoftware.systembartint/systembartint/1.0.3/de4f7404e2f58d8f6e83cb1e85d0c2d6c2987287/systembartint-1.0.3.jar:/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/libs/Android_Map_V2.5.0.jar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/25.0.1/appcompat-v7-25.0.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/25.0.1/support-v4-25.0.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/cardview-v7/25.0.1/cardview-v7-25.0.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/recyclerview-v7/25.0.1/recyclerview-v7-25.0.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/design/25.0.1/design-25.0.1.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/okhttp3-integration/1.4.0/bd540d703a141a3d8246aac5bf3c36f43e23edcd/okhttp3-integration-1.4.0.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/io.reactivex/rxandroid/1.2.1/78179b876174994f66432947fa15338ba13747a4/rxandroid-1.2.1.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.siyamed/android-shape-imageview/0.9.3/338f9c0f4614054109bd2cc5c84c4f0a33444768/android-shape-imageview-0.9.3.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.thefinestartist/finestwebview/1.2.7/bd6b5211b474af3ff0a18b406b34e6dd6ec7d4e0/finestwebview-1.2.7.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.jude/rollviewpager/1.2.9/a1163a245d0af042c229753e57f5c8c110394261/rollviewpager-1.2.9.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.orhanobut/logger/1.12/3be0b651d43d270c96809a67ed5eac5794db530f/logger-1.12.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.yalantis/ucrop/1.3.2/d5d871f092df14e08d127abcf4c70aafd132870f/ucrop-1.3.2.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.wangjiegulu/RapidFloatingActionButton/1.0.3/d4166ad66e2e2b5f6a3c2201729072c6eaa6172d/RapidFloatingActionButton-1.0.3.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.wangjiegulu/ShadowViewHelper/1.0.1/d3778db4bd4cf36d4718ce59475168aeafcd17de/ShadowViewHelper-1.0.1.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.wangjiegulu/AndroidBucket/1.0.4/9720e30a3390266f43f2cd28f29cd2d92c3d1c4f/AndroidBucket-1.0.4.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.zhy/percent-support-extends/1.1.1/1fdf3eecfd971db56b514c736f87a00901fde099/percent-support-extends-1.1.1.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.lsjwzh/materialloadingprogressbar/0.5.8-RELEASE/132693d0d604a373ba0900f325bce07ab5fc4a8b/materialloadingprogressbar-0.5.8-RELEASE.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.afollestad/material-dialogs/0.7.5.5/b02024a78bddf75a5336b2f25784cdb38a11e57d/material-dialogs-0.7.5.5.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.tbruyelle.rxpermissions/rxpermissions/0.7.0/3950aac088bc5c6d709a98d229c8e88160a29311/rxpermissions-0.7.0.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.traex.rippleeffect/library/1.3/9db642e7f6331b2de23c40b95f9dd83e5f70c0ed/library-1.3.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.github.chrisbanes/PhotoView/1.2.6/f6778f2ee96c894d6899ac015282c719419e54c/PhotoView-1.2.6.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.ms-square/expandableTextView/0.1.4/522bc68447e1b50d86fc4a1d5c03adbc0883e51/expandableTextView-0.1.4.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/multidex/1.0.1/multidex-1.0.1.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.coolerfall/android-app-daemon/1.2.0/36408f33b4a73398787aad804cdb1fd7b91fde2c/android-app-daemon-1.2.0.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.jakewharton.rxbinding/rxbinding/0.4.0/3e0541ea1825e3a52a0cc51bbdb4861958629e2f/rxbinding-0.4.0.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/de.hdodenhof/circleimageview/2.1.0/c0fcd515432ccb654bc5b44af60320703880a0f6/circleimageview-2.1.0.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.jaeger.statusbaruitl/library/1.3.0/f6340e06e9752c8fb46ba389fc4394d3d501c59/library-1.3.0.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/info.hoang8f/android-segmented/1.0.6/dff4c881f6167667f06b01c0b76989588482b907/android-segmented-1.0.6.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.bigkoo/pickerview/2.1.1/9f188fa7ad5db0a2408be5b4a9c8c493e7ef1eeb/pickerview-2.1.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-vector-drawable/25.0.1/support-vector-drawable-25.0.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/animated-vector-drawable/25.0.1/animated-vector-drawable-25.0.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-compat/25.0.1/support-compat-25.0.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-media-compat/25.0.1/support-media-compat-25.0.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-core-utils/25.0.1/support-core-utils-25.0.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-core-ui/25.0.1/support-core-ui-25.0.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-fragment/25.0.1/support-fragment-25.0.1.aar:/Users/zhengyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/transition/25.0.1/transition-25.0.1.aar:/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/com.thefinestartist/utils/0.9.0/8ed197ac5fc908c1c889158699b9935b5951d28b/utils-0.9.0.aar"
+        }
+    },
+    "apt_libraries": {
+        "dagger": false,
+        "butterknife": true
+    },
+    "auto_dependency": true,
+    "build_cache_dir": "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/freeline",
+    "build_directory": "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build",
+    "build_script": "./gradlew :app:assembleDebug",
+    "build_script_work_directory": "",
+    "build_tools_directory": "/Users/zhengyuxuan/Library/Android/sdk/build-tools/24.0.3",
+    "build_tools_version": "24.0.3",
+    "check_sources_md5": [
+        
+    ],
+    "compile_sdk_directory": "/Users/zhengyuxuan/Library/Android/sdk/platforms/android-25",
+    "compile_sdk_version": "android-25",
+    "databinding": [
+        
+    ],
+    "databinding_compiler_jar": "",
+    "databinding_modules": [
+        
+    ],
+    "debug_package": "com.mredrock.cyxbs",
+    "exclude_dep_res_paths": [
+        
+    ],
+    "extra_dep_res_paths": [
+        
+    ],
+    "freeline_cache_dir": "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android",
+    "freeline_gradle_plugin_version": "0.8.6",
+    "ignore_resource_ids": [
+        "avd_hide_password_1",
+        "avd_hide_password_2",
+        "avd_hide_password_3",
+        "avd_show_password_1",
+        "avd_show_password_2",
+        "avd_show_password_3"
+    ],
+    "java_home": "/Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home",
+    "launcher": "com.mredrock.cyxbs.ui.activity.SplashActivity",
+    "main_assets_directory": [
+        "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/debug/assets",
+        "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/assets"
+    ],
+    "main_jniLibs_directory": [
+        "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/debug/jniLibs",
+        "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/jniLibs"
+    ],
+    "main_jni_directory": [
+        "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/debug/jni",
+        "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/jni"
+    ],
+    "main_manifest_path": "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/AndroidManifest.xml",
+    "main_project_dir": "app",
+    "main_project_name": "app",
+    "main_r_path": "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/build/generated/source/r/debug/R.java",
+    "main_res_directory": [
+        "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/debug/res",
+        "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/res"
+    ],
+    "main_src_directory": [
+        "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/debug/java",
+        "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/java"
+    ],
+    "module_dependencies": {
+        "app": [
+            
+        ]
+    },
+    "modules": [
+        {
+            "name": "app",
+            "path": "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app"
+        }
+    ],
+    "package": "com.mredrock.cyxbs",
+    "product_flavor": "",
+    "project_source_sets": {
+        "app": {
+            "main_assets_directory": [
+                "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/debug/assets",
+                "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/assets"
+            ],
+            "main_jniLibs_directory": [
+                "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/debug/jniLibs",
+                "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/jniLibs"
+            ],
+            "main_jni_directory": [
+                "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/debug/jni",
+                "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/jni"
+            ],
+            "main_manifest_path": "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/AndroidManifest.xml",
+            "main_res_directory": [
+                "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/debug/res",
+                "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/res"
+            ],
+            "main_src_directory": [
+                "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/debug/java",
+                "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android/app/src/main/java"
+            ]
+        }
+    },
+    "project_type": "gradle",
+    "retrolambda": {
+        "app": {
+            "enabled": true,
+            "mainClass": "net.orfjackal.retrolambda.Main",
+            "rtJar": "/Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/jre/lib/rt.jar",
+            "supportIncludeFiles": true,
+            "targetJar": "/Users/zhengyuxuan/.gradle/caches/modules-2/files-2.1/net.orfjackal.retrolambda/retrolambda/2.1.0/6b764ee7bcfa99627f12d0b051f4640b5725178f/retrolambda-2.1.0.jar"
+        }
+    },
+    "root_dir": "/Users/zhengyuxuan/Documents/Project/Android/CyxbsMobile_Android",
+    "sdk_directory": "/Users/zhengyuxuan/Library/Android/sdk",
+    "use_jdk8": true,
+    "use_system_gradle": false
+}

@@ -201,7 +201,8 @@
                 android:resource="@xml/apk_file_path" />
         </provider>
 
-        <activity android:name=".ui.activity.explore.ElectricChargeActivity"></activity>
+        <activity android:name=".ui.activity.explore.electric.ElectricChargeActivity" />
+        <activity android:name=".ui.activity.explore.electric.DormitorySettingActivity"></activity>
     </application>
 
 </manifest>

@@ -16,13 +16,17 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.ForceFetchCourseEvent;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.MainActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
+import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +62,7 @@ public class CourseContainerFragment extends BaseFragment {
     private TabPagerAdapter mAdapter;
     private List<Fragment> mFragmentList = new ArrayList<>();
     private List<String> mTitles = new ArrayList<>();
-    private int mNowWeek;
+    private int mNowWeek = new SchoolCalendar().getWeekOfTerm();
 
     private ViewPager.OnPageChangeListener mPageListener;
     private ViewPager.OnPageChangeListener mTabListener;
@@ -78,7 +82,8 @@ public class CourseContainerFragment extends BaseFragment {
     private void init() {
         mTitles = new ArrayList<>();
         mTitles.addAll(Arrays.asList(getResources().getStringArray(R.array.titles_weeks)));
-        mNowWeek = new SchoolCalendar().getWeekOfTerm();
+        //mNowWeek = new SchoolCalendar().getWeekOfTerm();
+        LogUtils.LOGI(TAG, "NowWeek : " + mNowWeek);
         if (mNowWeek <= 18 && mNowWeek >= 1) {
             mTitles.set(mNowWeek, getActivity().getResources().getString(R.string.now_week));
         }
@@ -154,6 +159,16 @@ public class CourseContainerFragment extends BaseFragment {
         //remindFn(view);
     }
 
+    public void forceFetchCourse() {
+        //FIXME: When reinstall，mPager sometimes is null,but the Course View shows normally。
+        if (mPager != null){
+            int week = mPager.getCurrentItem();
+            EventBus.getDefault().post(new ForceFetchCourseEvent(week));
+        }
+
+
+    }
+
     private void remindFn(View view) {
         if (APP.isLogin() && mIsFirstLaunch) {
             Snackbar.make(view, "点击标题栏可以打开隐藏关卡", Snackbar.LENGTH_LONG).setAction("试试看", v -> {
@@ -208,7 +223,6 @@ public class CourseContainerFragment extends BaseFragment {
     private void updateFirstDay(int nowWeek) {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.DATE, -((nowWeek - 1) * 7 + (now.get(Calendar.DAY_OF_WEEK) + 5) % 7));
-        Log.e("========>First day", "    "+now.getTimeInMillis()  + "   "  + nowWeek);
         SPUtils.set(APP.getContext(), "first_day", now.getTimeInMillis());
         mNowWeek = new SchoolCalendar().getWeekOfTerm();
     }

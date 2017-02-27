@@ -329,11 +329,20 @@ public class MainActivity extends BaseActivity {
         popWind.setOutsideTouchable(true); //点击外部关闭。
         popWind.setAnimationStyle(R.style.PopupAnimation);    //设置一个动画。
         //设置Gravity，让它显示在右上角。
-        if (popWind.getContentView() != null)
-            popWind.getContentView().setOnClickListener((v -> {
+        if (popWind.getContentView() != null){
+            popWind.getContentView().findViewById(R.id.tv_popup_window_add_affair).setOnClickListener((v -> {
                 EditAffairActivity.editAffairActivityStart(this, new SchoolCalendar().getWeekOfTerm());
                 popWind.dismiss();
             }));
+            popWind.getContentView().findViewById(R.id.tv_popup_window_fetch_course).setOnClickListener((v -> {
+                if (courseContainerFragment != null){
+                    ((CourseContainerFragment) courseContainerFragment).forceFetchCourse();
+                }
+                popWind.dismiss();
+
+            }));
+        }
+
         popWind.showAtLocation(parentView, Gravity.RIGHT | Gravity.TOP,
                 yOffset, xOffset);
     }
