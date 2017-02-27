@@ -8,5 +8,11 @@
     android:fitsSystemWindows="true"
     tools:context="com.mredrock.cyxbs.ui.activity.explore.electric.ElectricChargeActivity">
     <include layout="@layout/toolbar_electric"/>
+    <com.mredrock.cyxbs.component.widget.ElectricCircleView
+        android:id="@+id/ecv_electric_circle_view"
+        android:layout_width="280dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_height="280dp" />
 
 </LinearLayout>

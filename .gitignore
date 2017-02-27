@@ -38,3 +38,6 @@ proguard/
 *.iws
 .idea
 
+/freeline.py
+/freeline_project_description.json
+/freeline/
