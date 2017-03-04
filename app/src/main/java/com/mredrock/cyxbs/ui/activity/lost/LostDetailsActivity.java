@@ -18,8 +18,10 @@ import com.mredrock.cyxbs.model.lost.LostDetail;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.util.ImageLoader;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class LostDetailsActivity extends AppCompatActivity {
 
@@ -45,12 +47,15 @@ public class LostDetailsActivity extends AppCompatActivity {
     TextView mTel;
     @Bind(R.id.lost_detail_qq)
     TextView mQQ;
-    Lost lost;
+    LostDetail lostDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lost_details);
+        ButterKnife.bind(this);
         mTitle.setText("详细信息");
+        mToolbar.setTitle("");
+
         setSupportActionBar(mToolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,7 +68,7 @@ public class LostDetailsActivity extends AppCompatActivity {
         init();
     }
     public void init(){
-        lost = (Lost) getIntent().getSerializableExtra("LOST");
+        /*lost = (Lost) getIntent().getSerializableExtra("LOST");
         if (lost != null){
             RequestManager.getInstance().getLostDetail(new SimpleSubscriber<LostDetail>(this, new SubscriberListener<LostDetail>() {
                 @Override
@@ -75,23 +80,22 @@ public class LostDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onNext(LostDetail lostDetail) {
                     super.onNext(lostDetail);
-                    showDetail(lostDetail);
                 }
             }),lost);
         }else {
             Toast.makeText(this, "抱歉，未拉取到数据", Toast.LENGTH_SHORT).show();
-        }
+        }*/
+        lostDetail = (LostDetail) getIntent().getSerializableExtra("LostDetail");
+        mNickName.setText(lostDetail.connectName);
+        ImageLoader.getInstance().loadAvatar(lostDetail.avatar,mAvatar);
+        mType.setText(lostDetail.category);
+        mConnectName.setText(lostDetail.connectName);
+        mPlace.setText(lostDetail.place);
+        mContent.setText(lostDetail.description);
+        mTel.setText(lostDetail.connectPhone);
+        mQQ.setText(lostDetail.connectWx);
+        mTime.setText(lostDetail.time);
     }
 
-    public void showDetail(LostDetail l){
-        mNickName.setText(APP.getUser(LostDetailsActivity.this).getNickname());
-        Glide.with(LostDetailsActivity.this).load(l.avatar).into(mAvatar);
-        mType.setText(l.category);
-        mConnectName.setText(l.connectName);
-        mPlace.setText(l.place);
-        mContent.setText(l.description);
-        mTel.setText(l.connectPhone);
-        mQQ.setText(l.connectWx);
-        mTime.setText(l.time);
-    }
+
 }

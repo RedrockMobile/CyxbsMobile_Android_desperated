@@ -26,21 +26,26 @@ import com.mredrock.cyxbs.model.lost.LostStatus;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.util.LogUtils;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 
 /**
  * Created by wusui on 2017/2/7.
  */
 
 public class ReleaseActivity extends AppCompatActivity {
-    @Bind(R.id.lost_toolbar)
+    @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.edit_describe)
     EditText mDescribe;
@@ -54,48 +59,47 @@ public class ReleaseActivity extends AppCompatActivity {
     TextView mType;
     @Bind(R.id.lost_choose_time)
     TextView mTime;
-    @Bind(R.id.lost_iv_alert)
     ImageView mAlertImage;
-    @Bind(R.id.lost_tx_alert)
     TextView mAlertText;
-    @Bind(R.id.lost_bt_alert)
     Button mAlertButton;
     TimePickerView timePickerView;
     OptionsPickerView optionsPickerView;
     private ArrayList<String> type = new ArrayList<>();
-    private AlertDialog dialog = new AlertDialog.Builder(ReleaseActivity.this).create();
-
+    private AlertDialog dialog;
+    public Button mButton;
+    public Button mButton1;
     String place,time,connectPhone,category,qq;
     int theme;
-    LostDetail detail;
+    LostDetail detail = new LostDetail();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release);
+        ButterKnife.bind(this);
+        dialog = new AlertDialog.Builder(ReleaseActivity.this).create();
+        mButton = (Button) findViewById(R.id.button_find);
+        mButton1 = (Button) findViewById(R.id.button_lost);
 
     }
     @SuppressWarnings("ResourceType")
     @OnClick({R.id.button_lost,R.id.button_find})
     public void chooseType(View view){
-        switch (view.getId()){
-            case R.id.button_find:
-                Button mButton = (Button) findViewById(R.id.button_find);
-                mButton.setBackgroundColor(getResources().getColor(R.drawable.circle_bg_blue));
-                mButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        theme = 1;
-                    }
-                });
-
-
-            default:
-                Button mButton1 = (Button) findViewById(R.id.button_lost);
+        if (view.getId() == R.id.button_find) {
+            mButton.setBackgroundColor(getResources().getColor(R.drawable.circle_bg_blue));
+            mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    theme = 1;
+                    mButton1.setClickable(false);
+                }
+            });
+        }else if (view.getId() == R.id.button_lost){
                 mButton1.setBackgroundColor(getResources().getColor(R.drawable.circle_bg_blue));
                 mButton1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         theme = 0;
+                        mButton1.setClickable(false);
                     }
                 });
         }
@@ -147,17 +151,8 @@ public class ReleaseActivity extends AppCompatActivity {
         qq =  mQQ.getText().toString();
         connectPhone = mTel.getText().toString();
 
-        if ( place!= null && place.length() > 0)detail.place = place;
-        else showAlertDialog(R.drawable.img_lost_require_location,"请写明失物地点");
-
-        if ( connectPhone!= null && connectPhone.length() > 0)detail.connectPhone = connectPhone;
-        else showAlertDialog(R.drawable.img_lost_require_contact,"请留下您的联系方式");
-
         if (category != null && category.length() >0)detail.category = category;
         else showAlertDialog(R.drawable.img_lost_require_classification,"请选择分类");
-
-        if (qq != null && qq.length() > 0)detail.connectWx = qq;
-        else showAlertDialog(R.drawable.img_lost_require_contact,"请留下您的联系方式");
 
         mDescribe.addTextChangedListener(new TextWatcher() {
             private CharSequence temp;
@@ -165,7 +160,7 @@ public class ReleaseActivity extends AppCompatActivity {
             private int selectionEnd ;
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        temp = charSequence;
+                temp = charSequence;
             }
 
             @Override
@@ -183,17 +178,33 @@ public class ReleaseActivity extends AppCompatActivity {
                     int tempSelection = selectionStart;
                     mDescribe.setText(editable);
                     mDescribe.setSelection(tempSelection);
-
                     showAlertDialog(R.drawable.img_lost_overfull,"描述内容过多 请删减");
+                }else if (temp.length() < 10){
+                    Toast.makeText(ReleaseActivity.this, "抱歉，不少于10个字哦~", Toast.LENGTH_SHORT).show();
                 }else {
                     detail.description = mDescribe.getText().toString();
                 }
             }
         });
+
+        if ( place!= null && place.length() > 0)detail.place = place;
+        else showAlertDialog(R.drawable.img_lost_require_location,"请写明失物地点");
+
+        if ( connectPhone!= null && connectPhone.length() > 0)detail.connectPhone = connectPhone;
+        else showAlertDialog(R.drawable.img_lost_require_contact,"请留下您的联系方式");
+
+        if (qq != null && qq.length() > 0)detail.connectWx = qq;
+        else showAlertDialog(R.drawable.img_lost_require_contact,"请留下您的联系方式");
+
         RequestManager.getInstance().createLost(new SimpleSubscriber<LostStatus>(getBaseContext(), new SubscriberListener<LostStatus>() {
             @Override
             public boolean onError(Throwable e) {
-                Toast.makeText(ReleaseActivity.this, "抱歉，您的网络似乎不太好哦~再试一遍怎么样╮(￣▽￣)╭", Toast.LENGTH_SHORT).show();
+                if(e instanceof HttpException){
+                    int code = ((HttpException) e).response().code();
+                        if (code != 403)
+                        Toast.makeText(ReleaseActivity.this, "抱歉，您的网络似乎不太好哦~再试一遍怎么样╮(￣▽￣)╭", Toast.LENGTH_SHORT).show();
+
+                }
                 return super.onError(e);
             }
 
@@ -217,6 +228,9 @@ public class ReleaseActivity extends AppCompatActivity {
         dialog.show();
         Window window = dialog.getWindow();
         window.setContentView(R.layout.dialog_lost_classfication);
+        mAlertImage = (ImageView)window.findViewById(R.id.lost_iv_alert);
+        mAlertText = (TextView) window.findViewById(R.id.lost_tx_alert);
+        mAlertButton = (Button) window.findViewById(R.id.lost_bt_alert);
         mAlertImage.setImageResource(image);
         mAlertText.setText(str);
         mAlertButton.setOnClickListener(new View.OnClickListener() {

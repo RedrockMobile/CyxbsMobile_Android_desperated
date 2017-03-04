@@ -48,9 +48,6 @@ public class LostActivity extends BaseActivity {
         setContentView(R.layout.activity_lost);
         ButterKnife.bind(this);
 
-
-        LogUtils.LOGE("LostActivity","Everything will be ok");
-
         lostKindList = getResources().getStringArray(R.array.lost_category_list);
         StatusBarUtil.setTranslucent(this, 50);
         adapter = new LostViewPagerAdapter(getSupportFragmentManager());

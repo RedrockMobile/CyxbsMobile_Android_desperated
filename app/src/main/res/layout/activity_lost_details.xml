@@ -6,8 +6,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+
     tools:context="com.mredrock.cyxbs.ui.activity.lost.LostDetailsActivity">
-    <include layout="@layout/toolbar"/>
+    <include
+        android:id="@+id/toolbar_detail"
+        layout="@layout/toolbar"/>
     <View
         android:background="#f4f5f5"
         android:layout_width="match_parent"

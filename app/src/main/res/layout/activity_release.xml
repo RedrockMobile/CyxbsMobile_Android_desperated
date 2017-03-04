@@ -7,10 +7,10 @@
     android:orientation="vertical"
     tools:context="com.mredrock.cyxbs.ui.activity.lost.ReleaseActivity">
     <include
-        android:id="@+id/lost_toolbar"
         layout="@layout/toolbar"
         android:layout_height="?actionBarSize"
         android:layout_width="match_parent"/>
+
     <LinearLayout
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
@@ -28,24 +28,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+
         <Button
             android:id="@+id/button_lost"
-            android:text="寻物"
+            android:text="失物"
             android:textColor="#fff"
             android:layout_marginLeft="160dp"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/circle_bg_gray" />
 
-        <Button
+        <ImageButton
             android:id="@+id/button_find"
             android:text="招领"
             android:textColor="#fff"
             android:layout_marginLeft="10dp"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/circle_bg_gray" />
+            android:src="@drawable/circle_bg_gray" />
     </LinearLayout>
+
     <View
         android:background="@color/ab__gray_light"
         android:layout_width="match_parent"
@@ -61,11 +63,16 @@
             android:src="@drawable/ic_lost_describe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
         <TextView
             android:text="物品分类"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2" />
+
         <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/lost_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -101,6 +108,7 @@
             android:id="@+id/edit_describe"
             android:minEms="10"
             android:maxEms="100"
+            android:background="@null"
             android:layout_marginLeft="20dp"
             android:hint="请输入10到100字对您的物品进行描述"
             android:layout_width="wrap_content"
@@ -133,8 +141,7 @@
 
         <ImageView
             android:id="@+id/choose_time"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="160dp"
+            android:layout_marginLeft="230dp"
             android:src="@drawable/ic_arrow_right"
             android:layout_width="wrap_content"
             android:layout_height="20dp" />
@@ -156,12 +163,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:layout_marginTop="-10dp"
             android:text="地         点"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:maxLines="1"
+            android:hint="请输入地点"
             android:id="@+id/lost_place"
+            android:background="@null"
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -185,12 +194,14 @@
             android:layout_height="wrap_content" />
         <TextView
             android:text="电         话"
-            android:layout_marginTop="-10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:hint="请输入电话"
             android:id="@+id/lost_tel"
             android:layout_marginLeft="20dp"
+            android:background="@null"
+            android:inputType="phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -201,23 +212,28 @@
         android:layout_height="2dp"/>
 
     <LinearLayout
+        android:paddingTop="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="48dp">
         <ImageView
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="13dp"
+
             android:src="@drawable/ic_lost_qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:layout_marginLeft="10dp"
+
             android:text="Q           Q"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:hint="请输入qq"
+            android:background="@null"
+            android:inputType="number"
             android:id="@+id/lost_qq_number"
-            android:layout_marginLeft="13dp"
+            android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
