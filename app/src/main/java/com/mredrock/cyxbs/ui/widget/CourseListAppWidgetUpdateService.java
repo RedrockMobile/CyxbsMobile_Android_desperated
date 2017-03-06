@@ -53,7 +53,7 @@ public class CourseListAppWidgetUpdateService extends Service {
         }
         DBManager dbManager = DBManager.INSTANCE;
         dbManager.query(APP.getUser(getApplicationContext()).stuNum, new SchoolCalendar().getWeekOfTerm())
-                .zipWith(CourseListProvider.start(APP.getUser(APP.getContext()).stuNum, "", update), (courses, courses2) -> {
+                .zipWith(CourseListProvider.start(APP.getUser(APP.getContext()).stuNum, "", update,false), (courses, courses2) -> {
                     if (courses == null) courses = new ArrayList<>();
                     if (courses2 == null) courses2 = new ArrayList<>();
                     courses.addAll(courses2);

@@ -158,7 +158,15 @@ public enum RequestManager {
     }
 
     public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum, int week, boolean update) {
-        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update)
+//        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update,false)
+//                .map(new UserCourseFilterFunc(week));
+
+        return getCourseList(subscriber, stuNum, idNum, week, update, false);
+    }
+
+    public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum,
+                                      int week, boolean update, boolean forceFetch) {
+        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update, forceFetch)
                 .map(new UserCourseFilterFunc(week));
 
         return emitObservable(observable, subscriber);
@@ -169,9 +177,10 @@ public enum RequestManager {
         return redrockApiService.getCourse(stuNum, idNum, "0").map(new RedrockApiWrapperFunc<>());
     }
 
-    public List<Course> getCourseListSync(String stuNum, String idNum) throws IOException {
-        Response<Course.CourseWrapper> response = redrockApiService.getCourseCall(stuNum, idNum, "0").execute();
+    public List<Course> getCourseListSync(String stuNum, String idNum, boolean forceFetch) throws IOException {
+        Response<Course.CourseWrapper> response = redrockApiService.getCourseCall(stuNum, idNum, "0",forceFetch).execute();
         return response.body().data;
+
     }
 
     public Subscription getMapOverlayImageUrl(Subscriber<String> subscriber, String name, String path) {
@@ -552,38 +561,38 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void getAffair(Subscriber<List<Affair>>subscriber, String stuNum, String idNum){
-        Observable<List<Affair>> observable = redrockApiService.getAffair(stuNum,idNum)
-               .map(new AffairTransformFunc());
-        emitObservable(observable,subscriber);
+    public void getAffair(Subscriber<List<Affair>> subscriber, String stuNum, String idNum) {
+        Observable<List<Affair>> observable = redrockApiService.getAffair(stuNum, idNum)
+                .map(new AffairTransformFunc());
+        emitObservable(observable, subscriber);
     }
 
-    public void getAffair(Subscriber<List<Affair>>subscriber, String stuNum, String idNum,int week){
+    public void getAffair(Subscriber<List<Affair>> subscriber, String stuNum, String idNum, int week) {
         Observable<List<Affair>> observable = redrockApiService.getAffair(stuNum, idNum)
                 .map(new AffairTransformFunc())
                 .map(new AffairWeekFilterFunc(week));
-        emitObservable(observable,subscriber);
+        emitObservable(observable, subscriber);
     }
 
-    public void addAffair(Subscriber<Object>subscriber,String stuNum,String idNum,String uid,String title,
-                          String content,String date,int time){
-        Observable<Object> observable = redrockApiService.addAffair(uid,stuNum,idNum,date,time,title,content)
+    public void addAffair(Subscriber<Object> subscriber, String stuNum, String idNum, String uid, String title,
+                          String content, String date, int time) {
+        Observable<Object> observable = redrockApiService.addAffair(uid, stuNum, idNum, date, time, title, content)
                 .map(new RedrockApiWrapperFunc<>());
-        emitObservable(observable,subscriber);
+        emitObservable(observable, subscriber);
     }
 
 
-    public void editAffair(Subscriber<Object>subscriber,String stuNum,String idNum,String uid,String title,
-                           String content,String date,int time){
-        Observable<Object> observable = redrockApiService.editAffair(uid,stuNum,idNum,date,time,title,content)
+    public void editAffair(Subscriber<Object> subscriber, String stuNum, String idNum, String uid, String title,
+                           String content, String date, int time) {
+        Observable<Object> observable = redrockApiService.editAffair(uid, stuNum, idNum, date, time, title, content)
                 .map(new RedrockApiWrapperFunc<>());
-        emitObservable(observable,subscriber);
+        emitObservable(observable, subscriber);
     }
 
-    public void deleteAffair(Subscriber<Object> subscriber ,String stuNum,String idNum, String uid){
-        Observable<Object> observable = redrockApiService.deleteAffair(stuNum,idNum,uid)
+    public void deleteAffair(Subscriber<Object> subscriber, String stuNum, String idNum, String uid) {
+        Observable<Object> observable = redrockApiService.deleteAffair(stuNum, idNum, uid)
                 .map(new RedrockApiWrapperFunc<>());
-        emitObservable(observable,subscriber);
+        emitObservable(observable, subscriber);
     }
 
     public void getStartPage(Subscriber<StartPage> subscriber) {
@@ -593,10 +602,11 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void queryElectricCharge(Subscriber<ElectricCharge>subscriber, String building, String room){
-        Observable<ElectricCharge> observable = redrockApiService.queryElectricCharge(building,room)
+    public void queryElectricCharge(Subscriber<ElectricCharge> subscriber, String building, String room) {
+        if (!checkWithUserId("需要先登录才能发送失物招领信息哦")) return;
+        Observable<ElectricCharge> observable = redrockApiService.queryElectricCharge(building, room)
                 .map((electricChargeWrapper -> electricChargeWrapper.getElectricCharge()));
-        emitObservable(observable,subscriber);
+        emitObservable(observable, subscriber);
     }
 
     public void getLostList(Subscriber<LostWrapper<List<Lost>>> subscriber, int theme, String category, int page) {

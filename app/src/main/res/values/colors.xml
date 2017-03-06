@@ -86,5 +86,6 @@
     <color name="color_course_morning">#5bcdf2</color>
     <color name="color_course_afternoon">#f9af58</color>
     <color name="color_course_night">#6fd1ba</color>
+    <color name="colour_title_text">#212121</color>
 
 </resources>

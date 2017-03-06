@@ -14,10 +14,10 @@ import com.jude.rollviewpager.RollPagerView;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.RollViewPagerHint;
 import com.mredrock.cyxbs.config.Const;
-import com.mredrock.cyxbs.ui.activity.explore.ElectricChargeActivity;
 import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
+import com.mredrock.cyxbs.ui.activity.explore.electric.DormitorySettingActivity;
 import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
 import com.mredrock.cyxbs.ui.adapter.ExploreRollViewPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
@@ -80,7 +80,7 @@ public class ExploreFragment extends BaseFragment {
 
     @OnClick(R.id.explore_electric_query_holder)
     void clickToElectricQuery() {
-        getActivity().startActivity(new Intent(getActivity(), ElectricChargeActivity.class));
+        getActivity().startActivity(new Intent(getActivity(), DormitorySettingActivity.class));
     }
     @OnClick(R.id.explore_lost_and_found_holder)
     void clickToLostAndFound() {
