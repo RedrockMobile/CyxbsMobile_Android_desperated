@@ -2,6 +2,8 @@ package com.mredrock.cyxbs.ui.activity.lost;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.lib.WheelView;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.lost.Lost;
@@ -26,6 +29,7 @@ import com.mredrock.cyxbs.model.lost.LostStatus;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.widget.LostCircleButton;
 import com.mredrock.cyxbs.util.LogUtils;
 
 import java.io.IOException;
@@ -66,44 +70,65 @@ public class ReleaseActivity extends AppCompatActivity {
     OptionsPickerView optionsPickerView;
     private ArrayList<String> type = new ArrayList<>();
     private AlertDialog dialog;
-    public Button mButton;
-    public Button mButton1;
+    public LostCircleButton mButton;
+    public LostCircleButton mButton1;
     String place,time,connectPhone,category,qq;
     int theme;
     LostDetail detail = new LostDetail();
+    private CharSequence temp = "1234567890";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release);
         ButterKnife.bind(this);
         dialog = new AlertDialog.Builder(ReleaseActivity.this).create();
-        mButton = (Button) findViewById(R.id.button_find);
-        mButton1 = (Button) findViewById(R.id.button_lost);
+        initButton();
+        mDescribe.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    LogUtils.LOGE("ReleaseActivity",hasFocus + "");
+                    if (temp.length() < 10) {
+                        Toast.makeText(ReleaseActivity.this, "抱歉，描述不得不少于10个字哦~", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        mDescribe.addTextChangedListener(new EditChangedListener());
+
+        }
+
+
+    public void initButton(){
+        mButton = (LostCircleButton) findViewById(R.id.button_find);
+        mButton1 = (LostCircleButton) findViewById(R.id.button_lost);
+        mButton.setTextColori(Color.WHITE);
+        mButton.setShape(GradientDrawable.OVAL);
+        mButton.setFillet(true);
+        mButton.setBackColor(Color.parseColor("#bfbfbf"));
+        mButton.setBackColorSelected(Color.parseColor("#41a3ff"));
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                theme = 1;
+                mButton1.setBackColor(Color.parseColor("#bfbfbf"));
+            }
+        });
+        mButton1.setTextColori(Color.WHITE);
+        mButton1.setShape(GradientDrawable.OVAL);
+        mButton1.setFillet(true);
+        mButton1.setBackColor(Color.parseColor("#bfbfbf"));
+        mButton1.setBackColorSelected(Color.parseColor("#41a3ff"));
+        mButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                theme = 0;
+            mButton.setBackColor(Color.parseColor("#bfbfbf"));
+            }
+        });
 
     }
-    @SuppressWarnings("ResourceType")
-    @OnClick({R.id.button_lost,R.id.button_find})
-    public void chooseType(View view){
-        if (view.getId() == R.id.button_find) {
-            mButton.setBackgroundColor(getResources().getColor(R.drawable.circle_bg_blue));
-            mButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    theme = 1;
-                    mButton1.setClickable(false);
-                }
-            });
-        }else if (view.getId() == R.id.button_lost){
-                mButton1.setBackgroundColor(getResources().getColor(R.drawable.circle_bg_blue));
-                mButton1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        theme = 0;
-                        mButton1.setClickable(false);
-                    }
-                });
-        }
-    }
+
     @OnClick(R.id.image_distinguish)
     public void chooseDistinguish(){
         type.add("一卡通");
@@ -114,35 +139,39 @@ public class ReleaseActivity extends AppCompatActivity {
         type.add("雨伞");
         type.add("衣物");
         type.add("其它");
-        optionsPickerView = new OptionsPickerView(this);
-        optionsPickerView.setPicker(type);
-        optionsPickerView.setCyclic(false);
-        optionsPickerView.setSelectOptions(1);
-        optionsPickerView.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
+        optionsPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
-            public void onOptionsSelect(int options1, int option2, int options3) {
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 category = type.get(options1);
                 mType.setText(category);
             }
-        });
+        }).setDividerType(WheelView.DividerType.WARP)
+                .setCancelText("取消")
+                .setSubmitText("确定")
+                .setContentTextSize(30)
+                .setSelectOptions(1)
+                .build();
+        optionsPickerView.setPicker(type);
         optionsPickerView.show();
     }
     @OnClick(R.id.choose_time)
     public void chooseTime(){
-        timePickerView = new TimePickerView(this,TimePickerView.Type.YEAR_MONTH_DAY);
         Calendar calendar = Calendar.getInstance();
-        timePickerView.setRange(calendar.get(Calendar.YEAR) - 20,calendar.get(Calendar.YEAR));
-        timePickerView.setTime(new Date());
-        timePickerView.setCyclic(false);
-        timePickerView.setCancelable(true);
-        timePickerView.setOnTimeSelectListener( new TimePickerView.OnTimeSelectListener() {
+
+        timePickerView = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
             @Override
-            public void onTimeSelect(Date date) {
+            public void onTimeSelect(Date date, View v) {
                 time = getTime(date);
                 mTime.setText(time);
             }
-        });
-        timePickerView.show();//s == null || s.length() <= 0
+        }).setRange(calendar.get(Calendar.YEAR) - 20,calendar.get(Calendar.YEAR))
+                .setType(TimePickerView.Type.YEAR_MONTH_DAY)
+                .setContentSize(30)
+                .setCancelText("取消")
+                .setSubmitText("确定")
+                .setLabel("","","","","","").build();
+
+        timePickerView.show();
     }
     @OnClick(R.id.release_details)
     public void releaseDetails(){
@@ -154,38 +183,6 @@ public class ReleaseActivity extends AppCompatActivity {
         if (category != null && category.length() >0)detail.category = category;
         else showAlertDialog(R.drawable.img_lost_require_classification,"请选择分类");
 
-        mDescribe.addTextChangedListener(new TextWatcher() {
-            private CharSequence temp;
-            private int selectionStart ;
-            private int selectionEnd ;
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                temp = charSequence;
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                selectionStart = mDescribe.getSelectionStart();
-                selectionEnd = mDescribe.getSelectionEnd();
-                if (temp.length() > 100) {
-
-                    editable.delete(selectionStart - 1, selectionEnd);
-                    int tempSelection = selectionStart;
-                    mDescribe.setText(editable);
-                    mDescribe.setSelection(tempSelection);
-                    showAlertDialog(R.drawable.img_lost_overfull,"描述内容过多 请删减");
-                }else if (temp.length() < 10){
-                    Toast.makeText(ReleaseActivity.this, "抱歉，不少于10个字哦~", Toast.LENGTH_SHORT).show();
-                }else {
-                    detail.description = mDescribe.getText().toString();
-                }
-            }
-        });
 
         if ( place!= null && place.length() > 0)detail.place = place;
         else showAlertDialog(R.drawable.img_lost_require_location,"请写明失物地点");
@@ -221,7 +218,7 @@ public class ReleaseActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
     public static String getTime(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
         return format.format(date);
     }
     public void showAlertDialog(int image,String str){
@@ -240,4 +237,35 @@ public class ReleaseActivity extends AppCompatActivity {
             }
         });
     }
+
+    class EditChangedListener implements TextWatcher{
+
+        private int selectionStart ;
+        private int selectionEnd ;
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            temp = s;
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            selectionStart = mDescribe.getSelectionStart();
+            selectionEnd = mDescribe.getSelectionEnd();
+            if (temp.length() > 100) {
+                s.delete(selectionStart - 1, selectionEnd);
+                showAlertDialog(R.drawable.img_lost_overfull,"描述内容过多 请删减");
+
+            }else {
+                detail.description = mDescribe.getText().toString();
+            }
+        }
+    }
+
+
 }

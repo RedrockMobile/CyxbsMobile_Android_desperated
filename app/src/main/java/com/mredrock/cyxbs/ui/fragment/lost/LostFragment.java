@@ -93,7 +93,6 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Toast.makeText(getContext(), "show me your floating ", Toast.LENGTH_SHORT).show();
         return inflater.inflate(R.layout.fragment_news, container, false);
     }
 
