@@ -2,6 +2,8 @@ package com.mredrock.cyxbs.model.lost;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Model of the detail of Lost and Found API <br>
  *      http://hongyan.cqupt.edu.cn/laf/api/detail/458
@@ -9,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class LostDetail extends Lost {
+public class LostDetail extends Lost implements Serializable{
 
     @SerializedName("L_or_F_time")
     public String time; // when lost or found
