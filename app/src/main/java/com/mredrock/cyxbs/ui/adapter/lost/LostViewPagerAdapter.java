@@ -34,9 +34,9 @@ public class LostViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         LostFragment fragment = findFragmentByModeAndPosition(mode, position);
-        LogUtils.LOGI("LostViewAdapter", "getItem: mode" + mode + ", position=" + position);
+        LogUtils.LOGE("LostViewAdapter", "getItem: mode" + mode + ", position=" + position);
         if (fragment == null) {
-            LogUtils.LOGI("LostViewAdapter", "getItemInCreate: mode" + mode + ", position=" + position);
+            LogUtils.LOGE("LostViewAdapter", "getItemInCreate: mode" + mode + ", position=" + position);
             fragment = new LostFragment();
             Bundle bundle = new Bundle();
             bundle.putInt(LostFragment.ARGUMENT_THEME, mode);
