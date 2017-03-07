@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-
 import android.support.v4.view.ViewPager;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -13,10 +12,8 @@ import android.widget.RelativeLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
-
 import com.mredrock.cyxbs.ui.adapter.lost.LostViewPagerAdapter;
 import com.mredrock.cyxbs.util.LogUtils;
-
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

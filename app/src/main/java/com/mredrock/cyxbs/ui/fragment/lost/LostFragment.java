@@ -31,14 +31,9 @@ import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
 import com.mredrock.cyxbs.ui.activity.lost.LostDetailsActivity;
 import com.mredrock.cyxbs.ui.activity.lost.ReleaseActivity;
 import com.mredrock.cyxbs.ui.adapter.LostAdapter;
-import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.ui.fragment.BaseLazyFragment;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.RxBus;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,7 +170,9 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     }
 
     public void getCurrentData(int theme,String category,int page){
-        mSwipeRefreshLayout.post(this::showLoadingProgress);
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.post(this::showLoadingProgress);
+        }
         provideData(new SimpleSubscriber<LostWrapper<List<Lost>>>(getActivity(), new SubscriberListener<LostWrapper<List<Lost>>>() {
             @Override
             public boolean onError(Throwable e) {

@@ -7,13 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
-import com.bumptech.glide.Glide;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.lost.Lost;
 import com.mredrock.cyxbs.util.ImageLoader;
-import com.mredrock.cyxbs.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +27,7 @@ public class LostAdapter extends RecyclerView.Adapter<LostAdapter.ViewHolder> im
     private List<Lost>mList = new ArrayList<>();
     private Context mContext;
     public LostAdapter(List<Lost> list,Context context){
-        mList = list;
+        replaceDataList(list);
         mContext = context;
     }
     @Override
@@ -58,12 +55,16 @@ public class LostAdapter extends RecyclerView.Adapter<LostAdapter.ViewHolder> im
     }
     public void replaceDataList(List<Lost> dataList) {
         mList.clear();
-        mList.addAll(dataList);
+        if (dataList != null) {
+            mList.addAll(dataList);
+        }
         notifyDataSetChanged();
     }
 
     public void addDataList(List<Lost> dataList) {
-        mList.addAll(dataList);
+        if (dataList != null) {
+            mList.addAll(dataList);
+        }
         notifyItemRangeInserted(mList.size(),dataList.size());
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
