@@ -30,7 +30,7 @@ import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
 import com.mredrock.cyxbs.ui.activity.lost.LostDetailsActivity;
 import com.mredrock.cyxbs.ui.activity.lost.ReleaseActivity;
-import com.mredrock.cyxbs.ui.adapter.LostAdapter;
+import com.mredrock.cyxbs.ui.adapter.lost.LostAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseLazyFragment;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.RxBus;

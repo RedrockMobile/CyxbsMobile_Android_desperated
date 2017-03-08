@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.ui.adapter;
+package com.mredrock.cyxbs.ui.adapter.lost;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -63,9 +63,13 @@ public class LostAdapter extends RecyclerView.Adapter<LostAdapter.ViewHolder> im
 
     public void addDataList(List<Lost> dataList) {
         if (dataList != null) {
-            mList.addAll(dataList);
+            for (Lost d: dataList) {
+                if (!mList.contains(d)) {
+                    mList.add(d);
+                }
+            }
+            notifyItemRangeInserted(mList.size(),dataList.size());
         }
-        notifyItemRangeInserted(mList.size(),dataList.size());
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.list_lost_img_avatar)CircularImageView mAvator;

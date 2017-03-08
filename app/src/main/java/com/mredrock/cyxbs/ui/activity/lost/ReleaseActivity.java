@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -17,9 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bigkoo.pickerview.lib.WheelView;
+import com.google.gson.Gson;
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.lost.LostDetail;
@@ -48,6 +51,8 @@ import retrofit2.adapter.rxjava.HttpException;
 public class ReleaseActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.toolbar_title)
+    TextView mToolbarTitle;
     @Bind(R.id.edit_describe)
     EditText mDescribe;
     @Bind(R.id.lost_place)
@@ -99,6 +104,8 @@ public class ReleaseActivity extends BaseActivity {
 
     @SuppressWarnings("ConstantConditions")
     public void initToolbar() {
+        mToolbar.setTitle("");
+        mToolbarTitle.setText("信息发布");
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(v -> finish());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -135,48 +142,51 @@ public class ReleaseActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.image_distinguish)
+    @OnClick(R.id.rl_activity_release_distinguish_container)
     public void chooseDistinguish(){
-        type.add("一卡通");
-        type.add("钱包");
-        type.add("电子产品");
-        type.add("书包");
-        type.add("钥匙");
-        type.add("雨伞");
-        type.add("衣物");
-        type.add("其它");
-        optionsPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                category = type.get(options1);
-                mType.setText(category);
-            }
-        }).setDividerType(WheelView.DividerType.WARP)
-                .setCancelText("取消")
-                .setSubmitText("确定")
-                .setContentTextSize(30)
-                .setSelectOptions(1)
-                .build();
+        if (optionsPickerView == null) {
+            type.add("一卡通");
+            type.add("钱包");
+            type.add("电子产品");
+            type.add("书包");
+            type.add("钥匙");
+            type.add("雨伞");
+            type.add("衣物");
+            type.add("其它");
+            optionsPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+                @Override
+                public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                    category = type.get(options1);
+                    mType.setText(category);
+                }
+            }).setDividerType(WheelView.DividerType.WARP)
+                    .setCancelText("取消")
+                    .setSubmitText("确定")
+                    .setContentTextSize(30)
+                    .setSelectOptions(1)
+                    .build();
+        }
         optionsPickerView.setPicker(type);
         optionsPickerView.show();
     }
-    @OnClick(R.id.choose_time)
+    @OnClick(R.id.rl_activity_release_choose_time_container)
     public void chooseTime(){
         Calendar calendar = Calendar.getInstance();
 
-        timePickerView = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {
-                time = getTime(date);
-                mTime.setText(time);
-            }
-        }).setRange(calendar.get(Calendar.YEAR) - 20,calendar.get(Calendar.YEAR))
-                .setType(TimePickerView.Type.YEAR_MONTH_DAY)
-                .setContentSize(30)
-                .setCancelText("取消")
-                .setSubmitText("确定")
-                .setLabel("","","","","","").build();
-
+        if (timePickerView == null) {
+            timePickerView = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+                @Override
+                public void onTimeSelect(Date date, View v) {
+                    time = getTime(date);
+                    mTime.setText(time);
+                }
+            }).setRange(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR))
+                    .setType(TimePickerView.Type.YEAR_MONTH_DAY)
+                    .setContentSize(30)
+                    .setCancelText("取消")
+                    .setSubmitText("确定")
+                    .setLabel("", "", "", "", "", "").build();
+        }
         timePickerView.show();
     }
     @OnClick(R.id.release_details)
@@ -217,13 +227,17 @@ public class ReleaseActivity extends BaseActivity {
         RequestManager.getInstance().createLost(new SimpleSubscriber<LostStatus>(getBaseContext(), new SubscriberListener<LostStatus>() {
             @Override
             public boolean onError(Throwable e) {
-                if(e instanceof HttpException){
-                    int code = ((HttpException) e).response().code();
-                    if (code != 403)
-                        Toast.makeText(ReleaseActivity.this, "抱歉，您的网络似乎不太好哦~再试一遍怎么样╮(￣▽￣)╭", Toast.LENGTH_SHORT).show();
-
+                if (e instanceof HttpException) {
+                    LostStatus status;
+                    try {
+                        status = new Gson().fromJson(((HttpException) e).message(), LostStatus.class);
+                    } catch (Exception ex) {
+                        return false;
+                    }
+                    Toast.makeText(ReleaseActivity.this, status.status, Toast.LENGTH_SHORT).show();
+                    return true;
                 }
-                return super.onError(e);
+                return false;
             }
 
             @Override
@@ -231,6 +245,7 @@ public class ReleaseActivity extends BaseActivity {
                 super.onNext(lostStatus);
                 Intent intent = new Intent(ReleaseActivity.this,ReleaseSucceedActivity.class);
                 startActivity(intent);
+                ReleaseActivity.super.finish();
             }
         }),detail,theme);
     }
@@ -288,5 +303,46 @@ public class ReleaseActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void finish() {
+        if (!(mDescribe == null || mDescribe.getText().toString().isEmpty()) ||
+                !(category == null || category.isEmpty()) ||
+                !(time == null || time.isEmpty()) ||
+                !(mPlace == null || mPlace.getText().toString().isEmpty()) ||
+                !(mTel == null || mTel.getText().toString().isEmpty()) ||
+                !(mQQ == null || mQQ.getText().toString().isEmpty())) {
+            Handler handler = new Handler(getMainLooper());
+            handler.post(() -> new MaterialDialog.Builder(this)
+                    .title("退出编辑?")
+                    .content("是否放弃编辑内容并且退出?")
+                    .positiveText("退出")
+                    .negativeText("取消")
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            super.onPositive(dialog);
+                            ReleaseActivity.super.finish();
+                        }
 
+                        @Override
+                        public void onNegative(MaterialDialog dialog) {
+                            super.onNegative(dialog);
+                            dialog.dismiss();
+                        }
+                    }).show());
+            return;
+        }
+        super.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (timePickerView != null && timePickerView.isShowing()) {
+            timePickerView.dismiss();
+        } else if (optionsPickerView != null && optionsPickerView.isShowing()) {
+            optionsPickerView.dismiss();
+        } else  {
+            super.onBackPressed();
+        }
+    }
 }
