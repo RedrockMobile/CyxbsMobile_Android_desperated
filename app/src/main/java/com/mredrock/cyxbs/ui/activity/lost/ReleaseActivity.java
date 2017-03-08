@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,18 +20,17 @@ import android.widget.Toast;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bigkoo.pickerview.lib.WheelView;
-import com.mredrock.cyxbs.APP;
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.model.lost.Lost;
 import com.mredrock.cyxbs.model.lost.LostDetail;
 import com.mredrock.cyxbs.model.lost.LostStatus;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.LostCircleButton;
 import com.mredrock.cyxbs.util.LogUtils;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,14 +39,13 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
 import retrofit2.adapter.rxjava.HttpException;
 
 /**
  * Created by wusui on 2017/2/7.
  */
 
-public class ReleaseActivity extends AppCompatActivity {
+public class ReleaseActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.edit_describe)
@@ -81,7 +78,9 @@ public class ReleaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release);
         ButterKnife.bind(this);
+        StatusBarUtil.setTranslucent(this, 50);
         dialog = new AlertDialog.Builder(ReleaseActivity.this).create();
+        initToolbar();
         initButton();
         mDescribe.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -96,7 +95,14 @@ public class ReleaseActivity extends AppCompatActivity {
         });
         mDescribe.addTextChangedListener(new EditChangedListener());
 
-        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public void initToolbar() {
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(v -> finish());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
 
     public void initButton(){
@@ -123,7 +129,7 @@ public class ReleaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 theme = 0;
-            mButton.setBackColor(Color.parseColor("#bfbfbf"));
+                mButton.setBackColor(Color.parseColor("#bfbfbf"));
             }
         });
 
@@ -180,25 +186,40 @@ public class ReleaseActivity extends AppCompatActivity {
         qq =  mQQ.getText().toString();
         connectPhone = mTel.getText().toString();
 
-        if (category != null && category.length() >0)detail.category = category;
-        else showAlertDialog(R.drawable.img_lost_require_classification,"请选择分类");
+        if (category != null && category.length() >0) {
+            detail.category = category;
+        } else {
+            showAlertDialog(R.drawable.img_lost_require_classification,"请选择分类");
+            return;
+        }
 
+        if ( place!= null && place.length() > 0) {
+            detail.place = place;
+        } else {
+            showAlertDialog(R.drawable.img_lost_require_location, "请写明失物地点");
+            return;
+        }
 
-        if ( place!= null && place.length() > 0)detail.place = place;
-        else showAlertDialog(R.drawable.img_lost_require_location,"请写明失物地点");
+        if ( connectPhone!= null && connectPhone.length() > 0) {
+            detail.connectPhone = connectPhone;
+        } else {
+            showAlertDialog(R.drawable.img_lost_require_contact, "请留下您的联系方式");
+            return;
+        }
 
-        if ( connectPhone!= null && connectPhone.length() > 0)detail.connectPhone = connectPhone;
-        else showAlertDialog(R.drawable.img_lost_require_contact,"请留下您的联系方式");
-
-        if (qq != null && qq.length() > 0)detail.connectWx = qq;
-        else showAlertDialog(R.drawable.img_lost_require_contact,"请留下您的联系方式");
+        if (qq != null && qq.length() > 0) {
+            detail.connectWx = qq;
+        } else {
+            showAlertDialog(R.drawable.img_lost_require_contact, "请留下您的联系方式");
+            return;
+        }
 
         RequestManager.getInstance().createLost(new SimpleSubscriber<LostStatus>(getBaseContext(), new SubscriberListener<LostStatus>() {
             @Override
             public boolean onError(Throwable e) {
                 if(e instanceof HttpException){
                     int code = ((HttpException) e).response().code();
-                        if (code != 403)
+                    if (code != 403)
                         Toast.makeText(ReleaseActivity.this, "抱歉，您的网络似乎不太好哦~再试一遍怎么样╮(￣▽￣)╭", Toast.LENGTH_SHORT).show();
 
                 }
