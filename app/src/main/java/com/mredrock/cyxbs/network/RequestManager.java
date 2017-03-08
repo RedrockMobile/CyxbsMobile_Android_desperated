@@ -32,6 +32,7 @@ import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.network.func.AffairTransformFunc;
 import com.mredrock.cyxbs.network.func.AffairWeekFilterFunc;
+import com.mredrock.cyxbs.network.func.ElectricQueryFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
 import com.mredrock.cyxbs.network.func.StartPageFunc;
 import com.mredrock.cyxbs.network.func.UpdateVerifyFunc;
@@ -605,7 +606,8 @@ public enum RequestManager {
     public void queryElectricCharge(Subscriber<ElectricCharge> subscriber, String building, String room) {
         if (!checkWithUserId("需要先登录才能发送失物招领信息哦")) return;
         Observable<ElectricCharge> observable = redrockApiService.queryElectricCharge(building, room)
-                .map((electricChargeWrapper -> electricChargeWrapper.getElectricCharge()));
+
+                .map(new ElectricQueryFunc());
         emitObservable(observable, subscriber);
     }
 
