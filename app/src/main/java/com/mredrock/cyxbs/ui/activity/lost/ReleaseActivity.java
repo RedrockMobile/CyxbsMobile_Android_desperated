@@ -49,7 +49,7 @@ import retrofit2.adapter.rxjava.HttpException;
  */
 
 public class ReleaseActivity extends AppCompatActivity {
-    @Bind(R.id.toolbar)
+    @Bind(R.id.toolbar_release)
     Toolbar mToolbar;
     @Bind(R.id.edit_describe)
     EditText mDescribe;
@@ -95,8 +95,18 @@ public class ReleaseActivity extends AppCompatActivity {
             }
         });
         mDescribe.addTextChangedListener(new EditChangedListener());
-
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ReleaseActivity.this.finish();
+                }
+            });
         }
+    }
 
 
     public void initButton(){
