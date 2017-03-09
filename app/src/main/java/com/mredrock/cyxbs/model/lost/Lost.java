@@ -2,6 +2,8 @@ package com.mredrock.cyxbs.model.lost;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Model of the single item of lost and found API <br>
  *       http://hongyan.cqupt.edu.cn/laf/api/view/lost/all/1
@@ -9,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class Lost {
+public class Lost implements Serializable{
 
     @SerializedName("pro_id")
     public int id;   // id, unique in items
@@ -25,4 +27,14 @@ public class Lost {
     public String description;  // the external description
     @SerializedName("created_at")
     public String createdAt;    // created time
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Lost && this.id == ((Lost) obj).id;
+    }
+
+    @Override
+    public int hashCode() {
+        return -32094398 + id;
+    }
 }

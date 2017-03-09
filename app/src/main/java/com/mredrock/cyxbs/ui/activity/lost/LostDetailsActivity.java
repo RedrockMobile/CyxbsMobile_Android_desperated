@@ -1,27 +1,21 @@
 package com.mredrock.cyxbs.ui.activity.lost;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.github.siyamed.shapeimageview.CircularImageView;
-import com.mredrock.cyxbs.APP;
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.model.lost.Lost;
 import com.mredrock.cyxbs.model.lost.LostDetail;
-import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
-import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.mredrock.cyxbs.util.ImageLoader;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
-public class LostDetailsActivity extends AppCompatActivity {
+public class LostDetailsActivity extends BaseActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -45,12 +39,16 @@ public class LostDetailsActivity extends AppCompatActivity {
     TextView mTel;
     @Bind(R.id.lost_detail_qq)
     TextView mQQ;
-    Lost lost;
+    LostDetail lostDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lost_details);
+        ButterKnife.bind(this);
+        StatusBarUtil.setTranslucent(this, 50);
         mTitle.setText("详细信息");
+        mToolbar.setTitle("");
+
         setSupportActionBar(mToolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,7 +61,7 @@ public class LostDetailsActivity extends AppCompatActivity {
         init();
     }
     public void init(){
-        lost = (Lost) getIntent().getSerializableExtra("LOST");
+        /*lost = (Lost) getIntent().getSerializableExtra("LOST");
         if (lost != null){
             RequestManager.getInstance().getLostDetail(new SimpleSubscriber<LostDetail>(this, new SubscriberListener<LostDetail>() {
                 @Override
@@ -75,23 +73,22 @@ public class LostDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onNext(LostDetail lostDetail) {
                     super.onNext(lostDetail);
-                    showDetail(lostDetail);
                 }
             }),lost);
         }else {
             Toast.makeText(this, "抱歉，未拉取到数据", Toast.LENGTH_SHORT).show();
-        }
+        }*/
+        lostDetail = (LostDetail) getIntent().getSerializableExtra("LostDetail");
+        mNickName.setText(lostDetail.connectName);
+        ImageLoader.getInstance().loadAvatar(lostDetail.avatar,mAvatar);
+        mType.setText(lostDetail.category);
+        mConnectName.setText(lostDetail.connectName);
+        mPlace.setText(lostDetail.place);
+        mContent.setText(lostDetail.description);
+        mTel.setText(lostDetail.connectPhone);
+        mQQ.setText(lostDetail.connectWx);
+        mTime.setText(lostDetail.time);
     }
 
-    public void showDetail(LostDetail l){
-        mNickName.setText(APP.getUser(LostDetailsActivity.this).getNickname());
-        Glide.with(LostDetailsActivity.this).load(l.avatar).into(mAvatar);
-        mType.setText(l.category);
-        mConnectName.setText(l.connectName);
-        mPlace.setText(l.place);
-        mContent.setText(l.description);
-        mTel.setText(l.connectPhone);
-        mQQ.setText(l.connectWx);
-        mTime.setText(l.time);
-    }
+
 }

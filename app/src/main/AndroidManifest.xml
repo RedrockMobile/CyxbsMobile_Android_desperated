@@ -136,6 +136,9 @@
             android:theme="@style/AppThemeFit" />
         <activity android:name=".ui.activity.social.PersonInfoActivity" />
         <activity android:name=".ui.activity.lost.LostActivity" />
+        <activity android:name=".ui.activity.lost.LostDetailsActivity"/>
+        <activity android:name=".ui.activity.lost.ReleaseActivity"/>
+        <activity android:name=".ui.activity.lost.ReleaseSucceedActivity"/>
 
         <service
             android:name=".service.UpdateService"

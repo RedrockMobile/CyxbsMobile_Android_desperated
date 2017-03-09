@@ -8,9 +8,6 @@
 
         <include android:id="@+id/toolbar"
             layout="@layout/toolbar_lost"/>
-
-
-
     <View
         android:layout_width="wrap_content"
         android:layout_height="3dp"
@@ -23,8 +20,9 @@
         app:tabMode="scrollable"/>
 
     <android.support.v4.view.ViewPager
+        android:persistentDrawingCache="animation"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

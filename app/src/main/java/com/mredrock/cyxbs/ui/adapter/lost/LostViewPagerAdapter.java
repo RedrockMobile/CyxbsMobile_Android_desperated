@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
+import android.view.View;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
@@ -33,9 +34,9 @@ public class LostViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         LostFragment fragment = findFragmentByModeAndPosition(mode, position);
-        LogUtils.LOGI("LostViewAdapter", "getItem: mode" + mode + ", position=" + position);
+        LogUtils.LOGE("LostViewAdapter", "getItem: mode" + mode + ", position=" + position);
         if (fragment == null) {
-            LogUtils.LOGI("LostViewAdapter", "getItemInCreate: mode" + mode + ", position=" + position);
+            LogUtils.LOGE("LostViewAdapter", "getItemInCreate: mode" + mode + ", position=" + position);
             fragment = new LostFragment();
             Bundle bundle = new Bundle();
             bundle.putInt(LostFragment.ARGUMENT_THEME, mode);
@@ -56,10 +57,11 @@ public class LostViewPagerAdapter extends FragmentStatePagerAdapter {
         return getTitles().length;
     }
 
-//    @Override
-//    public boolean isViewFromObject(View view, Object object) {
-//        return ((Fragment) object).getView() == view;
-//    }
+
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return ((Fragment) object).getView() == view;
+    }
 
     private String[] getTitles() {
         if (titles == null) {
@@ -92,6 +94,11 @@ public class LostViewPagerAdapter extends FragmentStatePagerAdapter {
         }
         fragments.put(position, new WeakReference<>(fragment));
 
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     public void setMode(int mode) {
