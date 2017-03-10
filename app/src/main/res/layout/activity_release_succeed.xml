@@ -4,7 +4,7 @@
     android:id="@+id/activity_release_succeed"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mredrock.cyxbs.ui.activity.explore.BaseExploreActivity$ReleaseSucceedActivity">
+    tools:context="com.mredrock.cyxbs.ui.activity.lost.ReleaseSucceedActivity">
     <include layout="@layout/toolbar"/>
     <ImageView
         android:id="@+id/image_s"

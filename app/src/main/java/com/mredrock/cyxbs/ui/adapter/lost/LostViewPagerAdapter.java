@@ -96,6 +96,11 @@ public class LostViewPagerAdapter extends FragmentStatePagerAdapter {
 
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
+
     public void setMode(int mode) {
         this.mode = mode;
         notifyDataSetChanged();

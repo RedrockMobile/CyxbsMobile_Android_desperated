@@ -1,29 +1,21 @@
 package com.mredrock.cyxbs.ui.activity.lost;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.github.siyamed.shapeimageview.CircularImageView;
-import com.mredrock.cyxbs.APP;
+import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.model.lost.Lost;
 import com.mredrock.cyxbs.model.lost.LostDetail;
-import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
-import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LostDetailsActivity extends AppCompatActivity {
+public class LostDetailsActivity extends BaseActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -53,6 +45,7 @@ public class LostDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lost_details);
         ButterKnife.bind(this);
+        StatusBarUtil.setTranslucent(this, 50);
         mTitle.setText("详细信息");
         mToolbar.setTitle("");
 

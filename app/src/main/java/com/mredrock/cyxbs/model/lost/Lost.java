@@ -27,4 +27,14 @@ public class Lost implements Serializable{
     public String description;  // the external description
     @SerializedName("created_at")
     public String createdAt;    // created time
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Lost && this.id == ((Lost) obj).id;
+    }
+
+    @Override
+    public int hashCode() {
+        return -32094398 + id;
+    }
 }
