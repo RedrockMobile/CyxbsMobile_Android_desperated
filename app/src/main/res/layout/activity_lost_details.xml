@@ -82,10 +82,10 @@
         android:layout_height="10dp"/>
 
     <LinearLayout
-        android:paddingTop="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="48dp">
+        android:layout_height="48dp"
+        android:gravity="center_vertical">
         <ImageView
             android:layout_marginLeft="15dp"
             android:layout_marginRight="8dp"
@@ -94,7 +94,6 @@
             android:layout_height="wrap_content" />
         <TextView
             android:text="联系人"
-            android:layout_marginTop="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -110,10 +109,10 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"/>
     <LinearLayout
-        android:paddingTop="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="48dp">
+        android:layout_height="48dp"
+        android:gravity="center_vertical">
         <ImageView
             android:layout_marginLeft="15dp"
             android:layout_marginRight="8dp"
@@ -123,7 +122,6 @@
 
         <TextView
             android:text="时    间"
-            android:layout_marginTop="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -140,10 +138,10 @@
         android:layout_height="2dp"/>
 
     <LinearLayout
-        android:paddingTop="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="48dp">
+        android:layout_height="48dp"
+        android:gravity="center_vertical">
         <ImageView
             android:layout_marginLeft="15dp"
             android:layout_marginRight="8dp"
@@ -152,7 +150,6 @@
             android:layout_height="wrap_content" />
         <TextView
             android:text="地    点"
-            android:layout_marginTop="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -168,10 +165,10 @@
         android:layout_height="2dp"/>
 
     <LinearLayout
-        android:paddingTop="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="48dp">
+        android:layout_height="48dp"
+        android:gravity="center_vertical">
         <ImageView
             android:layout_marginLeft="15dp"
             android:layout_marginRight="8dp"
@@ -180,7 +177,6 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:layout_marginTop="3dp"
             android:text="电    话"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -197,10 +193,10 @@
         android:layout_height="2dp"/>
 
     <LinearLayout
-        android:paddingTop="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="48dp">
+        android:layout_height="48dp"
+        android:gravity="center_vertical">
         <ImageView
             android:layout_marginLeft="15dp"
             android:layout_marginRight="8dp"
@@ -208,7 +204,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:layout_marginTop="3dp"
             android:text="Q      Q"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
