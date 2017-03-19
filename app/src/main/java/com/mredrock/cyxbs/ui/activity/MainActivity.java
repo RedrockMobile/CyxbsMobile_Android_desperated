@@ -393,11 +393,13 @@ public class MainActivity extends BaseActivity {
                     mViewPager.setCurrentItem(2);
                     mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
+                    mToolbarTitle.setText("发现");
                     break;
                 case 3:
                     mViewPager.setCurrentItem(3);
                     mToolbar.setVisibility(View.VISIBLE);
                     mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbarTitle.setText("我的");
                     if (!APP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
                     }
