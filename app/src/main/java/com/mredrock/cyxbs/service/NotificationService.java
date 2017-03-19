@@ -25,6 +25,7 @@ import com.mredrock.cyxbs.util.TimeUtils;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import rx.Subscriber;
 
@@ -54,6 +55,8 @@ public class NotificationService extends Service {
 
     public static void startNotificationService(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        Log.d(TAG, "startNotificationService: 每课提醒 "+sp.getBoolean(SP_REMIND_EVERY_CLASS, false)+
+                " 每日提醒 "+sp.getBoolean(SP_REMIND_EVERY_DAY, false));
         if (sp.getBoolean(SP_REMIND_EVERY_CLASS, false) || sp.getBoolean(SP_REMIND_EVERY_DAY, false)) {
             Intent service = new Intent(context, NotificationService.class);
             context.startService(service);
@@ -87,12 +90,12 @@ public class NotificationService extends Service {
     }
 
     private void byDay(Context context) {
-        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + 1;
+
         getCourseList(this, new CourseCallback() {
                     @Override
                     public void onSuccess(List<Course> courses) {
                         for (Course c : courses) {
-                            if (c.hash_day + 2 == dayOfWeek % 7) {
+                            if (isTomorrowHasClass(c.hash_day)) {
                                 Intent intent = new Intent(context, RemindReceiver.class);
                                 intent.putExtra(INTENT_MODE, INTENT_FLAG_BY_DAY);
                                 intent.putExtra(INTENT_HASH_LESSON, c.hash_lesson);
@@ -111,7 +114,7 @@ public class NotificationService extends Service {
                                             getTimeInMillis(), pendingIntent);
                                 }
                                 Log.d(TAG, "每日提醒:  " + TimeUtils.timeStampToStr(calendar.
-                                        getTimeInMillis() / 1000));
+                                        getTimeInMillis() / 1000) + "time zone: " + TimeZone.getDefault());
                                 break;
                             }
                         }
@@ -126,6 +129,12 @@ public class NotificationService extends Service {
         );
     }
 
+    private boolean isTomorrowHasClass(int hashDay) {
+        hashDay = hashDay + 2;
+        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + 1;
+        return hashDay == dayOfWeek % 7;
+    }
+
     private void byClass(Context context) {
         getCourseList(this, new CourseCallback() {
             @Override
@@ -135,7 +144,7 @@ public class NotificationService extends Service {
                     if (isToadyCourse(courseCalendar)) continue;
                     courseCalendar = delayCompute(courseCalendar, Integer.valueOf(mSp.
                             getString(SP_REMIND_EVERY_CLASS_DELAY, "0")));
-                    setAlarm(courseCalendar, c.course, c.classroom,INTENT_FLAG_BY_CLASS);
+                    setAlarmByClass(courseCalendar, c.course, c.classroom,INTENT_FLAG_BY_CLASS);
                 }
             }
 
@@ -152,7 +161,7 @@ public class NotificationService extends Service {
                     Calendar calendar = CourseTimeUtils.CourseToCalendar(a);
                     if(isToadyCourse(calendar)) continue;
                     calendar = delayCompute(calendar, a.time);
-                    setAlarm(calendar, a.course, a.teacher,INTENT_FLAG_BY_CLASS);
+                    setAlarmByClass(calendar, a.course, a.teacher,INTENT_FLAG_BY_CLASS);
                 }
             }
 
@@ -173,7 +182,7 @@ public class NotificationService extends Service {
         return c;
     }
 
-    private void setAlarm(Calendar notifyTime,String title,String subtitle,int mode) {
+    private void setAlarmByClass(Calendar notifyTime, String title, String subtitle, int mode) {
         Intent intent = new Intent(this, RemindReceiver.class);
         intent.putExtra(INTENT_MODE, mode);
         intent.putExtra(EXTRA_NOTIFY_TITLE, title);
