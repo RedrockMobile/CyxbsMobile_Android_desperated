@@ -112,7 +112,7 @@ public class CourseContainerFragment extends BaseFragment {
         mAdapter = new TabPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentList, mTitles);
         mToolbarTitle = ((MainActivity) getActivity()).getToolbarTitle();
         mPager.setAdapter(mAdapter);
-        mPager.setOffscreenPageLimit(mTitles.size() / 2);
+        mPager.setOffscreenPageLimit(mTitles.size());
         mPager.addOnPageChangeListener(mTabListener = new TabLayout.TabLayoutOnPageChangeListener(mTabs));
         mPager.addOnPageChangeListener(mPageListener = new ViewPager.OnPageChangeListener() {
             @Override
