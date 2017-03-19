@@ -84,7 +84,7 @@ public class LostAdapter extends RecyclerView.Adapter<LostAdapter.ViewHolder> im
             ButterKnife.bind(this,itemView);
         }
     }
-    public static interface OnRecyclerViewItemClickListener {
+    public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view ,Lost lost);
     }
 
