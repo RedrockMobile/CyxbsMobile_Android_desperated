@@ -145,4 +145,5 @@ dependencies {
    // compile 'com.bigkoo:pickerview:2.1.1'
     compile 'com.github.markushi:circlebutton:1.1'
     compile 'com.contrarywind:Android-PickerView:3.0.7'
+    compile 'com.jude:swipebackhelper:3.1.2'
 }

@@ -49,6 +49,7 @@
             android:value="GlideModule" />
 
         <activity
+            android:theme="@style/MainActivityTheme"
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"

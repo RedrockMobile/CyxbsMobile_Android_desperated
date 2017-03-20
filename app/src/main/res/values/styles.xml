@@ -7,8 +7,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/SlideRightAnimation</item>
     </style>
     <style name="AppTheme" parent="AppTheme.Base"/>
+    <style name="MainActivityTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
     <style name="AppThemeFit" parent="AppTheme">
         <item name="android:fitsSystemWindows">true</item>
     </style>

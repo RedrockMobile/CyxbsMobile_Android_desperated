@@ -59,7 +59,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     public int currentIndex = 0;
-    private List<HotNews> mListHotNews = null;
+    private List<HotNews> mListHotNews;
     private FooterViewWrapper mFooterViewWrapper;
 
     protected NewsAdapter mNewsAdapter;
@@ -227,7 +227,6 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     public void onResume() {
         super.onResume();
         if (hasLoginStateChanged) {
-            mListHotNews.clear();
             getCurrentData(PER_PAGE_NUM, 0);
             hasLoginStateChanged = false;
         }

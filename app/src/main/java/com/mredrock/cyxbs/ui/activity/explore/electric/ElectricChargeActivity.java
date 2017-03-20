@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.ui.activity.explore.electric;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
@@ -12,6 +11,7 @@ import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SPUtils;
 
@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ElectricChargeActivity extends AppCompatActivity {
+public class ElectricChargeActivity extends BaseActivity {
     private static final String TAG = "ElectricChargeActivity";
     private String buildingNum;
     private String dormitoryNum;

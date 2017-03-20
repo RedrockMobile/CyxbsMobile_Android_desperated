@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jaeger.library.StatusBarUtil;
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.CourseDialog;
@@ -95,6 +97,8 @@ public class MainActivity extends BaseActivity {
     CircleImageView mMainToolbarFace;
     @Bind(R.id.main_bnv)
     BottomNavigationView mMainBottomNavView;
+    @Bind(R.id.main_app_bar)
+    AppBarLayout mMainAppBar;
 
     private Menu mMenu;
     private ArrayList<Fragment> mFragments;
@@ -118,6 +122,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         ButterKnife.bind(this);
         initView();
         StatusBarUtil.setTranslucent(this, 50);
@@ -220,6 +225,7 @@ public class MainActivity extends BaseActivity {
         mAdapter = new TabPagerAdapter(getSupportFragmentManager(), mFragments, titles);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
+        mViewPager.addOnPageChangeListener(new ViewPagerChangedListener());
         mMainBottomNavView.setOnNavigationItemSelectedListener(new BottomSelectedListener());
     }
 
@@ -371,6 +377,85 @@ public class MainActivity extends BaseActivity {
         return mViewPager.getCurrentItem();
     }
 
+    private class ViewPagerChangedListener implements ViewPager.OnPageChangeListener {
+
+        float preOffset = 0;
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            switch (position) {
+                case 0:
+                    break;
+                case 1:
+//                    if (positionOffset > preOffset) {
+//                        toolbarStepByStepClose(positionOffset, true);
+//                    } else {
+//                        toolbarStepByStepClose(positionOffset, false);
+//                    }
+//                    preOffset = positionOffset;
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            switch (position) {
+                case 0:
+                    mMainBottomNavView.setSelectedItemId(R.id.item1);
+                    mToolbar.setVisibility(View.VISIBLE);
+                    showMenu();
+                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
+                    mMainToolbarFace.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    mMainBottomNavView.setSelectedItemId(R.id.item2);
+                    hiddenMenu();
+                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.GONE);
+                    break;
+                case 2:
+                    hiddenMenu();
+                    mMainBottomNavView.setSelectedItemId(R.id.item3);
+                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.VISIBLE);
+                    mToolbarTitle.setText("发现");
+                    break;
+                case 3:
+                    hiddenMenu();
+                    mMainBottomNavView.setSelectedItemId(R.id.item4);
+                    mToolbar.setVisibility(View.VISIBLE);
+                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbarTitle.setText("我的");
+                    if (!APP.isLogin()) {
+                        EventBus.getDefault().post(new LoginEvent());
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
+
+    private void toolbarStepByStepClose(float positionOffset, boolean shouldShow) {
+        Log.d(TAG, "toolbarStepByStepClose: " + positionOffset);
+        if (shouldShow) {
+            mMainAppBar.animate().translationY(0).alpha(225*positionOffset).start();
+            mMainAppBar.invalidate();
+        } else {
+            mMainAppBar.animate().translationY(0).alpha(-mMainAppBar.getBottom() * (1 - positionOffset)).start();
+            mMainAppBar.invalidate();
+        }
+    }
+
     private class BottomSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
 
         @Override
@@ -390,12 +475,14 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setVisibility(View.GONE);
                     break;
                 case 2:
+                    hiddenMenu();
                     mViewPager.setCurrentItem(2);
                     mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
                     mToolbarTitle.setText("发现");
                     break;
                 case 3:
+                    hiddenMenu();
                     mViewPager.setCurrentItem(3);
                     mToolbar.setVisibility(View.VISIBLE);
                     mMainToolbarFace.setVisibility(View.GONE);
