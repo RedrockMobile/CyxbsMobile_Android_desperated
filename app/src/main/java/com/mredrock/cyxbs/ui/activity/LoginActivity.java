@@ -1,17 +1,17 @@
 package com.mredrock.cyxbs.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.component.widget.TextLimitButton;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
@@ -28,7 +28,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.login_id_num_edit)
     AppCompatEditText idNumEdit;
     @Bind(R.id.login_submit_button)
-    Button submitButton;
+    TextLimitButton submitButton;
     @Bind(R.id.iv_login_account)
     ImageView mIvLoginAccount;
     @Bind(R.id.iv_login_password)
@@ -62,22 +62,8 @@ public class LoginActivity extends AppCompatActivity {
         initUser();
         iconColorChangerFn();
         autoSendFn();
-        submitButton.setEnabled(false);
-        submitButton.setBackgroundColor(getResources().getColor(R.color.gray_edit));
+        submitButton.addTextView(stuNumEdit);
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
-
 
     /***
      *软键盘回车登陆
@@ -91,35 +77,26 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * 登录老锅，代码很乱
-     */
     private void iconColorChangerFn() {
         stuNumEdit.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                mIvLoginAccount.setColorFilter(getResources().getColor(R.color.material_color_blue_300));
+                mIvLoginAccount.setColorFilter(ContextCompat.getColor(this,R.color.colorAccent));
             } else {
                 String stuNum = stuNumEdit.getText().toString();
                 if (StringUtils.isBlank(stuNum) || stuNum.length() < 10) {
                     stuNumEdit.setError("请输入有效的学号");
-                } else {
-                    submitButton.setEnabled(true);
-                    submitButton.setBackgroundColor(getResources().getColor(R.color.material_color_blue_300));
                 }
-                mIvLoginAccount.setColorFilter(getResources().getColor(R.color.gray_edit));
+                mIvLoginAccount.setColorFilter(ContextCompat.getColor(this,R.color.gray_edit));
             }
         });
         idNumEdit.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                mIvLoginPassword.setColorFilter(getResources().getColor(R.color.material_color_blue_300));
+                mIvLoginPassword.setColorFilter(ContextCompat.getColor(this,R.color.colorAccent));
             } else {
                 String idNum = idNumEdit.getText().toString();
-                mIvLoginPassword.setColorFilter(getResources().getColor(R.color.gray_edit));
+                mIvLoginPassword.setColorFilter(ContextCompat.getColor(this,R.color.gray_edit));
                 if (StringUtils.isBlank(idNum) || idNum.length() < 6) {
                     idNumEdit.setError("请输入身份证后六位");
-                } else {
-                    submitButton.setEnabled(true);
-                    submitButton.setBackgroundColor(getResources().getColor(R.color.material_color_blue_300));
                 }
             }
         });
@@ -134,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         toolbar.setTitle("");
         toolbarTitle.setText("登录");
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back));
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(this,R.drawable.back));
         toolbar.setNavigationOnClickListener(view -> LoginActivity.this.finish());
     }
 

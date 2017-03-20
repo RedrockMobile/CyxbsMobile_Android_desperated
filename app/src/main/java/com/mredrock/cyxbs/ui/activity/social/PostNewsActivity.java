@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +15,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.multi_image_selector.MultiImageSelectorActivity;
+import com.mredrock.cyxbs.component.widget.TextLimitButton;
 import com.mredrock.cyxbs.component.widget.ninelayout.NineGridlayout;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.BBDDNews;
@@ -49,7 +47,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     @Bind(R.id.toolbar_title)
     TextView mTitleText;
     @Bind(R.id.toolbar_save)
-    Button mSend;
+    TextLimitButton mSend;
     @Bind(R.id.add_news_edit)
     EditText mAddNewsEdit;
     @Bind(R.id.iv_ngrid_layout)
@@ -111,31 +109,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         mImgList = new ArrayList<>();
         mImgList.add(new Image(ADD_IMG, Image.TYPE_ADD));
         mNineGridlayout.setImagesData(mImgList);
-        mSend.setBackgroundColor(getResources().getColor(R.color.gray_edit));
-        mSend.setClickable(false);
-        mAddNewsEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() != 0) {
-                    mSend.setClickable(true);
-                    mSend.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                } else {
-                    mSend.setClickable(false);
-                    mSend.setBackgroundColor(getResources().getColor(R.color.gray_edit));
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
+        mSend.addTextView(mAddNewsEdit);
         mNineGridlayout.setOnAddImagItemClickListener((v, position) ->
                 RxPermissions.getInstance(this)
                         .request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
