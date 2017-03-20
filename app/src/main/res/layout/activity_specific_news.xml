@@ -96,14 +96,17 @@
             android:scrollbars="vertical"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
 
-        <TextView
+        <com.mredrock.cyxbs.component.widget.TextLimitButton
+            app:min_text_size="0"
+            app:free_background_color="@color/colorAccent"
+            app:limit_background_color="@color/gray_edit"
             android:id="@+id/btn_send"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginRight="6dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:background="@drawable/news_button"
+            android:textColor="@color/white"
             android:gravity="center"
             android:layout_gravity="bottom"
             android:text="发送" />
