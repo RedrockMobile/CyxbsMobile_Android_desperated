@@ -1,5 +1,7 @@
 package com.mredrock.cyxbs.network;
 
+import android.content.Context;
+
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.config.Const;
@@ -14,6 +16,7 @@ import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
+import com.mredrock.cyxbs.component.RemindService.Reminder;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
@@ -32,6 +35,7 @@ import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.network.func.AffairTransformFunc;
 import com.mredrock.cyxbs.network.func.AffairWeekFilterFunc;
+import com.mredrock.cyxbs.component.RemindService.Func.BaseRemindFunc;
 import com.mredrock.cyxbs.network.func.ElectricQueryFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
 import com.mredrock.cyxbs.network.func.StartPageFunc;
@@ -46,6 +50,7 @@ import com.mredrock.cyxbs.network.setting.CacheProviders;
 import com.mredrock.cyxbs.network.setting.QualifiedTypeConverterFactory;
 import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
 import com.mredrock.cyxbs.util.BitmapUtil;
+import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.Utils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -173,6 +178,13 @@ public enum RequestManager {
         return emitObservable(observable, subscriber);
     }
 
+    public Subscription getRemindableList(Subscriber<List<Reminder>> subscriber, Context context, BaseRemindFunc remindFunc) {
+        Observable<List<Reminder>> observable = CourseListProvider.start(APP.getUser(context).stuNum, APP.getUser(context).idNum, false, false)
+                .map(new UserCourseFilterFunc(new SchoolCalendar()
+                        .getWeekOfTerm()))
+                .map(remindFunc);
+        return emitObservable(observable, subscriber);
+    }
 
     public Observable<List<Course>> getCourseList(String stuNum, String idNum) {
         return redrockApiService.getCourse(stuNum, idNum, "0").map(new RedrockApiWrapperFunc<>());

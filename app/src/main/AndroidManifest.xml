@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.mredrock.cyxbs">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -163,11 +162,11 @@
             android:process=":AppWidget" />
 
         <!-- 用于课表提醒 -->
-        <receiver android:name=".receiver.RemindReceiver" />
+        <receiver android:name=".component.RemindService.receiver.RemindReceiver" />
 
         <!-- 开机自启 -->
         <receiver
-            android:name=".receiver.RebootReceiver"
+            android:name=".component.RemindService.receiver.RebootReceiver"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -187,10 +186,10 @@
             android:launchMode="singleTop" />
 
         <service
-            android:name=".service.NotificationService"
+            android:name=".component.RemindService.service.NotificationService"
             android:enabled="true" />
         <service
-            android:name=".service.GuardService"
+            android:name=".component.RemindService.service.GuardService"
             android:exported="true" />
 
         <activity android:name=".ui.activity.affair.TimeChooseActivity" />
@@ -206,7 +205,7 @@
         </provider>
 
         <activity android:name=".ui.activity.explore.electric.ElectricChargeActivity" />
-        <activity android:name=".ui.activity.explore.electric.DormitorySettingActivity"></activity>
+        <activity android:name=".ui.activity.explore.electric.DormitorySettingActivity"/>
     </application>
 
 </manifest>

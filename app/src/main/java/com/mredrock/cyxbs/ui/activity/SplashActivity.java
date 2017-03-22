@@ -7,9 +7,11 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.component.RemindService.Task.CourseRemindTask;
+import com.mredrock.cyxbs.component.RemindService.Task.DayRemindTask;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.service.NotificationService;
+import com.mredrock.cyxbs.component.RemindService.RemindManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.umeng.analytics.MobclickAgent;
@@ -53,8 +55,8 @@ public class SplashActivity extends Activity {
             }
         }, 2000);
 
-        //启动用于课前提醒的服务
-        NotificationService.startNotificationService(this);
+        RemindManager.getInstance().push(new CourseRemindTask(this));
+        RemindManager.getInstance().push(new DayRemindTask(this));
 
         RequestManager.getInstance().getStartPage(new SimpleSubscriber<>(this, new SubscriberListener<StartPage>() {
             @Override

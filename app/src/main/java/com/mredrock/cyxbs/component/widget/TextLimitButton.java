@@ -112,7 +112,6 @@ public class TextLimitButton extends android.support.v7.widget.AppCompatButton {
                 mAnimSwitch |= OPEN_MASK;
             }
             invalidate();
-
         });
         animator.start();
     }

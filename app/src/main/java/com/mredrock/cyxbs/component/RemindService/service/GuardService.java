@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.service;
+package com.mredrock.cyxbs.component.RemindService.service;
 
 import android.app.Service;
 import android.content.Intent;

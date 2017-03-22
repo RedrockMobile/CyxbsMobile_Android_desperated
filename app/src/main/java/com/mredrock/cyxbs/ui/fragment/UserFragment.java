@@ -267,7 +267,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
             myPageNickName.setText(StringUtils.isBlank(mUser.nickname) ? "点我完善个人信息" : mUser.nickname);
             myPageIntroduce.setText(mUser.introduction);
             if (mUser.gender.trim().equals("男")) {
-                myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
                 myPageGender.setText("♂");
             } else {
                 myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.pink));
