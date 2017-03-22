@@ -206,7 +206,7 @@
 
         <activity android:name=".ui.activity.explore.electric.ElectricChargeActivity" />
         <activity android:name=".ui.activity.explore.electric.DormitorySettingActivity"/>
-        <service android:name=".component.remind_service.service.DemonService"
+        <service android:name=".component.remind_service.service.RemindJobService"
                  android:exported="true"
                  android:enabled="true"
                  android:permission="android.permission.BIND_JOB_SERVICE" />

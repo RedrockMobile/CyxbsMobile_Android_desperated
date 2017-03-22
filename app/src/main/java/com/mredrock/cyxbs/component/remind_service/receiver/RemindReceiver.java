@@ -43,6 +43,6 @@ public class RemindReceiver extends BroadcastReceiver {
                 .setContentTitle(intent.getStringExtra(EXTRA_NOTIFY_TITLE))
                 .setContentText(intent.getStringExtra(EXTRA_NOTIFY_SUBTITLE));
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(1, builder.build());
+        manager.notify((intent.getStringExtra(EXTRA_NOTIFY_TITLE)+intent.getStringExtra(EXTRA_NOTIFY_SUBTITLE)).hashCode(), builder.build());
     }
 }

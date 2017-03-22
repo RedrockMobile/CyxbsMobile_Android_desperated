@@ -14,9 +14,9 @@ import com.mredrock.cyxbs.component.remind_service.RemindManager;
  */
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class DemonService extends JobService {
+public class RemindJobService extends JobService {
 
-    public static final String TAG = DemonService.class.getSimpleName();
+    public static final String TAG = RemindJobService.class.getSimpleName();
 
     @Override
     public boolean onStartJob(JobParameters params) {

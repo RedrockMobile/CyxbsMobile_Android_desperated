@@ -49,13 +49,16 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "remind service living");
         mAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        ArrayList<Reminder> reminders = intent.getParcelableArrayListExtra(EXTRA_REMINDABLE);
-        if (reminders != null && reminders.size() != 0) {
-            int flag = intent.getIntExtra(INTENT_FLAG, INTENT_FLAG_PUSH);
-            for (Reminder r : reminders) {
-                setAlarm(r, flag);
-            }
+        if (intent != null) {
+            ArrayList<Reminder> reminders = intent.getParcelableArrayListExtra(EXTRA_REMINDABLE);
+            if (reminders != null && reminders.size() != 0) {
+                int flag = intent.getIntExtra(INTENT_FLAG, INTENT_FLAG_PUSH);
+                for (Reminder r : reminders) {
+                    setAlarm(r, flag);
+                  }
+        }
         }
         return super.onStartCommand(intent, flags, startId);
     }

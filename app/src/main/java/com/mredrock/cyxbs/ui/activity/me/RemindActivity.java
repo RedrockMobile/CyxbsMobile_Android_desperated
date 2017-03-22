@@ -54,8 +54,8 @@ public class RemindActivity extends BaseActivity {
         if (!pm.isIgnoringBatteryOptimizations(packageName)) {
             intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
             intent.setData(Uri.parse("package:" + packageName));
+            startActivityForResult(intent, 0);
         }
-        startActivityForResult(intent, 0);
     }
 
     @Override

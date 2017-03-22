@@ -42,6 +42,7 @@ public class DayRemindTask extends BaskRemindTask {
 
                     @Override
                     public boolean onError(Throwable e) {
+                        e.printStackTrace();
                         return true;
                     }
 

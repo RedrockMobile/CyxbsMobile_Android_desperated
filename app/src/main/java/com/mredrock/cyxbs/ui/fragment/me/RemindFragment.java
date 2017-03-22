@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 
 import com.mredrock.cyxbs.component.remind_service.RemindManager;
 import com.mredrock.cyxbs.component.remind_service.Task.CourseRemindTask;
+import com.mredrock.cyxbs.component.remind_service.Task.DayRemindTask;
 
 /**
  * Created by simonla on 2016/10/11.
@@ -101,7 +102,7 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
             RemindManager.getInstance().push(new CourseRemindTask(this.getActivity()));
         }
         if (key.equals(SP_REMIND_EVERY_DAY) || key.equals(SP_REMIND_EVERY_DAY_TIME)) {
-            RemindManager.getInstance().push(new CourseRemindTask(this.getActivity()));
+            RemindManager.getInstance().push(new DayRemindTask(this.getActivity()));
         }
     }
 }

@@ -43,6 +43,7 @@ public class CourseRemindTask extends BaskRemindTask {
 
                     @Override
                     public boolean onError(Throwable e) {
+                        e.printStackTrace();
                         return true;
                     }
 

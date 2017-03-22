@@ -10,12 +10,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 
 import com.mredrock.cyxbs.component.remind_service.Task.BaskRemindTask;
 import com.mredrock.cyxbs.component.remind_service.Task.CourseRemindTask;
 import com.mredrock.cyxbs.component.remind_service.Task.DayRemindTask;
 import com.mredrock.cyxbs.component.remind_service.receiver.RebootReceiver;
-import com.mredrock.cyxbs.component.remind_service.service.DemonService;
+import com.mredrock.cyxbs.component.remind_service.service.RemindJobService;
 import com.mredrock.cyxbs.component.remind_service.service.NotificationService;
 
 import java.util.ArrayList;
@@ -73,9 +74,13 @@ public class RemindManager {
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         JobInfo.Builder builder = new JobInfo.Builder(1,
                 new ComponentName(context.getPackageName(),
-                        DemonService.class.getName()));
+                        RemindJobService.class.getName()));
         builder.setPeriodic(1000 * 60).setRequiresCharging(true).setPersisted(true).setRequiresDeviceIdle(true);
-        jobScheduler.schedule(builder.build());
+        if (jobScheduler.schedule(builder.build()) < 0) {
+            Log.d(TAG, "startDemon fail");
+        } else {
+            Log.d(TAG, "startDemon successful");
+        }
     }
 
     private void push(ArrayList<Reminder> reminders, Context context) {
@@ -92,7 +97,6 @@ public class RemindManager {
         context.startService(intent);
     }
 
-
     private void startRebootAuto(Context context) {
         ComponentName receiver = new ComponentName(context, RebootReceiver.class);
         PackageManager pm = context.getPackageManager();
@@ -104,8 +108,8 @@ public class RemindManager {
                 ALARM_FLAG_REBOOT_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 60 * 1000 * 5
-                , AlarmManager.INTERVAL_HALF_HOUR, pendingIntent);
+                System.currentTimeMillis() + 60 * 1000
+                , 60*1000*5, pendingIntent);
     }
 
     public void pushAll(Context context) {
