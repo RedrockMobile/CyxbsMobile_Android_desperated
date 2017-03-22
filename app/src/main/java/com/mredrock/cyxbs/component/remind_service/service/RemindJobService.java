@@ -21,7 +21,7 @@ public class RemindJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         RemindManager.getInstance().pushAll(getApplicationContext());
-        Log.d(TAG, "onStartJob: 正在唤起主服务");
+        Log.d(TAG, "onStartJob: 唤起主服务");
         return false;
     }
 

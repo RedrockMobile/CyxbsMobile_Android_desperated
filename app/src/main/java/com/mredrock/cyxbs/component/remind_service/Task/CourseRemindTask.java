@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.mredrock.cyxbs.component.remind_service.Func.CourseRemindConvertFunc;
+import com.mredrock.cyxbs.component.remind_service.func.CourseRemindConvertFunc;
 import com.mredrock.cyxbs.component.remind_service.Reminder;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;

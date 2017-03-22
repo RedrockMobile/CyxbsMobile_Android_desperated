@@ -8,10 +8,10 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.marswin89.marsdaemon.DaemonClient;
 import com.marswin89.marsdaemon.DaemonConfigurations;
-import com.mredrock.cyxbs.component.remind_service.service.DemonReceiver1;
-import com.mredrock.cyxbs.component.remind_service.service.DemonReceiver2;
-import com.mredrock.cyxbs.component.remind_service.service.DemonService2;
-import com.mredrock.cyxbs.component.remind_service.service.NotificationService;
+import com.mredrock.cyxbs.component.remind_service.service.Receiver1;
+import com.mredrock.cyxbs.component.remind_service.service.Receiver2;
+import com.mredrock.cyxbs.component.remind_service.service.Service2;
+import com.mredrock.cyxbs.component.remind_service.service.Service1;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
@@ -54,15 +54,15 @@ public class APP extends MultiDexApplication {
 
     private DaemonConfigurations createDaemonConfigurations(){
         DaemonConfigurations.DaemonConfiguration configuration1 = new DaemonConfigurations.DaemonConfiguration(
-                "com.mredrock.cyxbs.component.remind_service.service:process1",
-                NotificationService.class.getCanonicalName(),
-                DemonReceiver1.class.getCanonicalName());
+                "ccom.mredrock.cyxbs:push",
+                Service1.class.getCanonicalName(),
+                Receiver1.class.getCanonicalName());
         DaemonConfigurations.DaemonConfiguration configuration2 = new DaemonConfigurations.DaemonConfiguration(
-                "com.mredrock.cyxbs.component.remind_service.service:process2",
-                DemonService2.class.getCanonicalName(),
-                DemonReceiver2.class.getCanonicalName());
+                "com.mredrock.cyxbs:daemon",
+                Service2.class.getCanonicalName(),
+                Receiver2.class.getCanonicalName());
         DaemonConfigurations.DaemonListener listener = new MyDaemonListener();
-        return new DaemonConfigurations(configuration1, configuration2, listener);
+        return new DaemonConfigurations(configuration1, configuration2,listener);
     }
 
     private class MyDaemonListener implements DaemonConfigurations.DaemonListener{

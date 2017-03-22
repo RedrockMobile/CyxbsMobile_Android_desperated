@@ -9,7 +9,7 @@ import android.content.Intent;
  * 下午8:06
  */
 
-public class DemonReceiver2 extends BroadcastReceiver {
+public class Receiver2 extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 

@@ -27,9 +27,9 @@ import static com.mredrock.cyxbs.component.remind_service.RemindManager.INTENT_F
  * 下午8:42
  */
 
-public class NotificationService extends Service {
+public class Service1 extends Service {
 
-    public static final String TAG = NotificationService.class.getSimpleName();
+    public static final String TAG = Service1.class.getSimpleName();
 
     public static final String EXTRA_NOTIFY_TITLE = "remind_title";
     public static final String EXTRA_NOTIFY_SUBTITLE = "remind_sub_title";
@@ -44,7 +44,7 @@ public class NotificationService extends Service {
 
     //加入守护线程保证服务存活
     private void Daemon() {
-        Daemon.run(this, NotificationService.class, Daemon.INTERVAL_ONE_MINUTE);
+        Daemon.run(this, Service1.class, Daemon.INTERVAL_ONE_MINUTE);
     }
 
     @Override
@@ -57,8 +57,8 @@ public class NotificationService extends Service {
                 int flag = intent.getIntExtra(INTENT_FLAG, INTENT_FLAG_PUSH);
                 for (Reminder r : reminders) {
                     setAlarm(r, flag);
-                  }
-        }
+                }
+            }
         }
         return super.onStartCommand(intent, flags, startId);
     }

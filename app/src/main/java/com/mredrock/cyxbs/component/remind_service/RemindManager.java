@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.component.remind_service.Task.CourseRemindTask;
 import com.mredrock.cyxbs.component.remind_service.Task.DayRemindTask;
 import com.mredrock.cyxbs.component.remind_service.receiver.RebootReceiver;
 import com.mredrock.cyxbs.component.remind_service.service.RemindJobService;
-import com.mredrock.cyxbs.component.remind_service.service.NotificationService;
+import com.mredrock.cyxbs.component.remind_service.service.Service1;
 
 import java.util.ArrayList;
 
@@ -84,14 +84,14 @@ public class RemindManager {
     }
 
     private void push(ArrayList<Reminder> reminders, Context context) {
-        Intent intent = new Intent(context, NotificationService.class);
+        Intent intent = new Intent(context, Service1.class);
         intent.putParcelableArrayListExtra(EXTRA_REMINDABLE, reminders)
                 .putExtra(INTENT_FLAG, INTENT_FLAG_PUSH);
         context.startService(intent);
     }
 
     private void cancel(ArrayList<Reminder> reminders, Context context) {
-        Intent intent = new Intent(context, NotificationService.class);
+        Intent intent = new Intent(context, Service1.class);
         intent.putParcelableArrayListExtra(EXTRA_REMINDABLE, reminders)
                 .putExtra(INTENT_FLAG, INTENT_FLAG_CANCEL);
         context.startService(intent);
@@ -108,8 +108,8 @@ public class RemindManager {
                 ALARM_FLAG_REBOOT_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 60 * 1000
-                , 60*1000*5, pendingIntent);
+                System.currentTimeMillis() + 60 * 1000 * 15
+                , 60 * 1000 * 5, pendingIntent);
     }
 
     public void pushAll(Context context) {
