@@ -162,11 +162,11 @@
             android:process=":AppWidget" />
 
         <!-- 用于课表提醒 -->
-        <receiver android:name=".component.remindService.receiver.RemindReceiver" />
+        <receiver android:name=".component.remind_service.receiver.RemindReceiver" />
 
         <!-- 开机自启 -->
         <receiver
-            android:name=".component.remindService.receiver.RebootReceiver"
+            android:name=".component.remind_service.receiver.RebootReceiver"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -186,7 +186,7 @@
             android:launchMode="singleTop" />
 
         <service
-            android:name=".component.remindService.service.NotificationService"
+            android:name=".component.remind_service.service.NotificationService"
             android:exported="true"
             android:enabled="true" />
 

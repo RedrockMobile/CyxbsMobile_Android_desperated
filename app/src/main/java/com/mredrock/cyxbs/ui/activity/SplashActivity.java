@@ -7,11 +7,11 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.remindService.Task.CourseRemindTask;
-import com.mredrock.cyxbs.component.remindService.Task.DayRemindTask;
+import com.mredrock.cyxbs.component.remind_service.Task.CourseRemindTask;
+import com.mredrock.cyxbs.component.remind_service.Task.DayRemindTask;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.component.remindService.RemindManager;
+import com.mredrock.cyxbs.component.remind_service.RemindManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.umeng.analytics.MobclickAgent;

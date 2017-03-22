@@ -6,8 +6,8 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
-import com.mredrock.cyxbs.component.remindService.RemindManager;
-import com.mredrock.cyxbs.component.remindService.Task.CourseRemindTask;
+import com.mredrock.cyxbs.component.remind_service.RemindManager;
+import com.mredrock.cyxbs.component.remind_service.Task.CourseRemindTask;
 
 /**
  * Created by simonla on 2016/10/11.
