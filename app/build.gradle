@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.antfortune.freeline'
 
 android {
     compileSdkVersion 25
@@ -147,4 +146,5 @@ dependencies {
     compile 'com.github.markushi:circlebutton:1.1'
     compile 'com.contrarywind:Android-PickerView:3.0.7'
     compile 'com.jude:swipebackhelper:3.1.2'
+    compile project(path: ':LibMarsdaemon')
 }

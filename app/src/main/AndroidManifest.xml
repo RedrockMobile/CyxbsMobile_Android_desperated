@@ -189,6 +189,7 @@
 
         <service
             android:name=".component.remind_service.service.NotificationService"
+            android:process=":process1"
             android:exported="true"
             android:enabled="true" />
 
@@ -210,6 +211,17 @@
                  android:exported="true"
                  android:enabled="true"
                  android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service android:name=".component.remind_service.service.DemonService2"
+                 android:process=":process2"/>
+
+        <receiver
+            android:name=".component.remind_service.service.DemonReceiver1"
+            android:process=":process1"/>
+
+        <receiver
+            android:name=".component.remind_service.service.DemonReceiver2"
+            android:process=":process2"/>
     </application>
 
 </manifest>
