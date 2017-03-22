@@ -49,12 +49,13 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "NotificationService started");
         mAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         ArrayList<Reminder> reminders = intent.getParcelableArrayListExtra(EXTRA_REMINDABLE);
-        int flag = intent.getIntExtra(INTENT_FLAG, INTENT_FLAG_PUSH);
-        for (Reminder r : reminders) {
-            setAlarm(r, flag);
+        if (reminders != null && reminders.size() != 0) {
+            int flag = intent.getIntExtra(INTENT_FLAG, INTENT_FLAG_PUSH);
+            for (Reminder r : reminders) {
+                setAlarm(r, flag);
+            }
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -66,9 +67,9 @@ public class NotificationService extends Service {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, reminder.hashCode()
                 , intent, FLAG_UPDATE_CURRENT);
         if (flag == INTENT_FLAG_PUSH) {
-            push(reminder,pendingIntent);
+            push(reminder, pendingIntent);
         } else {
-            cancel(reminder,pendingIntent);
+            cancel(reminder, pendingIntent);
         }
     }
 
@@ -79,7 +80,11 @@ public class NotificationService extends Service {
     }
 
     private void push(Reminder reminder, PendingIntent pendingIntent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //忽略Doze模式
+            mAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminder.getCalendar().
+                    getTimeInMillis(), pendingIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, reminder.getCalendar().
                     getTimeInMillis(), pendingIntent);
         } else {

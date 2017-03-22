@@ -40,6 +40,12 @@ public class CourseRemindTask extends BaskRemindTask {
         int delay = Integer.valueOf(mSp.getString(SP_REMIND_EVERY_CLASS_DELAY, "0"));
         RequestManager.getInstance().getRemindableList(new SimpleSubscriber<>(mContext,
                 new SubscriberListener<List<Reminder>>() {
+
+                    @Override
+                    public boolean onError(Throwable e) {
+                        return true;
+                    }
+
                     @Override
                     public void onNext(List<Reminder> reminders) {
                         super.onNext(reminders);

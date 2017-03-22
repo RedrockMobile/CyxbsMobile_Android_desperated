@@ -1,17 +1,22 @@
 package com.mredrock.cyxbs.component.remind_service;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.util.Log;
+import android.os.Build;
 
 import com.mredrock.cyxbs.component.remind_service.Task.BaskRemindTask;
+import com.mredrock.cyxbs.component.remind_service.Task.CourseRemindTask;
+import com.mredrock.cyxbs.component.remind_service.Task.DayRemindTask;
 import com.mredrock.cyxbs.component.remind_service.receiver.RebootReceiver;
+import com.mredrock.cyxbs.component.remind_service.service.DemonService;
 import com.mredrock.cyxbs.component.remind_service.service.NotificationService;
-import com.mredrock.cyxbs.util.TimeUtils;
 
 import java.util.ArrayList;
 
@@ -49,14 +54,28 @@ public class RemindManager {
      * @param baskRemindTask 任务，用来获取Reminder
      */
     public void push(BaskRemindTask baskRemindTask) {
-        startRebootAuto(baskRemindTask.mContext);
+        Context context = baskRemindTask.mContext;
+        startRebootAuto(context);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            startDemon(context);
+        }
         baskRemindTask.task(reminders -> {
             if (baskRemindTask.isTurnOn()) {
-                push(reminders, baskRemindTask.mContext);
+                push(reminders, context);
             } else {
-                cancel(reminders, baskRemindTask.mContext);
+                cancel(reminders, context);
             }
         });
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void startDemon(Context context) {
+        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobInfo.Builder builder = new JobInfo.Builder(1,
+                new ComponentName(context.getPackageName(),
+                        DemonService.class.getName()));
+        builder.setPeriodic(1000 * 60).setRequiresCharging(true).setPersisted(true).setRequiresDeviceIdle(true);
+        jobScheduler.schedule(builder.build());
     }
 
     private void push(ArrayList<Reminder> reminders, Context context) {
@@ -75,13 +94,11 @@ public class RemindManager {
 
 
     private void startRebootAuto(Context context) {
-        //开机自启
         ComponentName receiver = new ComponentName(context, RebootReceiver.class);
         PackageManager pm = context.getPackageManager();
         pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
-        //每半小时启动一次
         Intent intent = new Intent(context, RebootReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                 ALARM_FLAG_REBOOT_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -89,7 +106,10 @@ public class RemindManager {
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
                 System.currentTimeMillis() + 60 * 1000 * 5
                 , AlarmManager.INTERVAL_HALF_HOUR, pendingIntent);
-        Log.d(TAG, "startRebootAuto: 每半时启动一次" + TimeUtils.timeStampToStr(
-                System.currentTimeMillis() / 1000 + 60 * 5));
+    }
+
+    public void pushAll(Context context) {
+        push(new CourseRemindTask(context));
+        push(new DayRemindTask(context));
     }
 }

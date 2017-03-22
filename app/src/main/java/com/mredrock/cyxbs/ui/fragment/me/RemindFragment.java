@@ -22,15 +22,7 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
     public static final String SP_REMIND_EVERY_CLASS_DELAY = "remind_every_class_delay";
     public static final String SP_REMIND_EVERY_DAY = "remind_every_day";
     public static final String SP_REMIND_EVERY_DAY_TIME = "remind_every_day_time";
-
-    public static final int INTENT_FLAG_BY_CLASS = 0;
-    public static final int INTENT_FLAG_BY_DAY = 1;
-    public static final String INTENT_HASH_LESSON = "hash_lesson";
-
     public static final int ALARM_FLAG_REBOOT_CODE = 0;
-    public static final int ALARM_FLAG_BY_DAY = 2;
-
-    public static final String INTENT_MODE = "remind_fragment_intent_mode";
 
     private Preference mSwitchEveryClass;
     private Preference mChooseDelayList;

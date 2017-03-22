@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.mredrock.cyxbs.component.remind_service.RemindManager;
-import com.mredrock.cyxbs.component.remind_service.Task.CourseRemindTask;
 
 /**
  * Created by simonla on 2016/10/24.
@@ -19,8 +18,7 @@ public class RebootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        RemindManager.getInstance().push(new CourseRemindTask(context));
-        RemindManager.getInstance().push(new CourseRemindTask(context));
-        Log.d(TAG, "onReceive: 开机或者半小时启动一次服务");
+        RemindManager.getInstance().pushAll(context);
+        Log.d(TAG, "onReceive: 每五分钟启动或者开机自启");
     }
 }
