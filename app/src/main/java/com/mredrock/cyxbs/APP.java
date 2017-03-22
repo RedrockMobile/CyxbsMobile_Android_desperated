@@ -54,11 +54,11 @@ public class APP extends MultiDexApplication {
 
     private DaemonConfigurations createDaemonConfigurations(){
         DaemonConfigurations.DaemonConfiguration configuration1 = new DaemonConfigurations.DaemonConfiguration(
-                "com.mredrock.cyxbs.component.remind_service.service:process1",
+                "com.mredrock.cyxbs:process1",
                 NotificationService.class.getCanonicalName(),
                 DemonReceiver1.class.getCanonicalName());
         DaemonConfigurations.DaemonConfiguration configuration2 = new DaemonConfigurations.DaemonConfiguration(
-                "com.mredrock.cyxbs.component.remind_service.service:process2",
+                "com.mredrock.cyxbs:process2",
                 DemonService2.class.getCanonicalName(),
                 DemonReceiver2.class.getCanonicalName());
         DaemonConfigurations.DaemonListener listener = new MyDaemonListener();
