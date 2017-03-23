@@ -213,17 +213,6 @@
             android:name=".component.remind_service.service.NotificationService"
             android:process=":push"/>
 
-        <receiver
-            android:name=".component.remind_service.service.DaemonReceiver1"
-            android:process=":push"/>
-
-        <service
-            android:name=".component.remind_service.service.DaemonService"
-            android:process=":daemon"/>
-
-        <receiver
-            android:name=".component.remind_service.service.DaemonReceiver2"
-            android:process=":daemon"/>
     </application>
 
 </manifest>

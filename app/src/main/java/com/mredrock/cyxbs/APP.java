@@ -6,12 +6,6 @@ import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.marswin89.marsdaemon.DaemonClient;
-import com.marswin89.marsdaemon.DaemonConfigurations;
-import com.mredrock.cyxbs.component.remind_service.service.DaemonReceiver1;
-import com.mredrock.cyxbs.component.remind_service.service.DaemonReceiver2;
-import com.mredrock.cyxbs.component.remind_service.service.NotificationService;
-import com.mredrock.cyxbs.component.remind_service.service.DaemonService;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
@@ -43,40 +37,9 @@ public class APP extends MultiDexApplication {
 
     private static UserInfoEncryption userInfoEncryption;
 
-    private DaemonClient mDaemonClient;
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        mDaemonClient = new DaemonClient(createDaemonConfigurations());
-        mDaemonClient.onAttachBaseContext(base);
-    }
-
-    private DaemonConfigurations createDaemonConfigurations(){
-        DaemonConfigurations.DaemonConfiguration configuration1 = new DaemonConfigurations.DaemonConfiguration(
-                "com.mredrock.cyxbs:push",
-                NotificationService.class.getCanonicalName(),
-                DaemonReceiver1.class.getCanonicalName());
-        DaemonConfigurations.DaemonConfiguration configuration2 = new DaemonConfigurations.DaemonConfiguration(
-                "com.mredrock.cyxbs:daemon",
-                DaemonService.class.getCanonicalName(),
-                DaemonReceiver2.class.getCanonicalName());
-        DaemonConfigurations.DaemonListener listener = new MyDaemonListener();
-        return new DaemonConfigurations(configuration1, configuration2, listener);
-    }
-
-    private class MyDaemonListener implements DaemonConfigurations.DaemonListener{
-        @Override
-        public void onPersistentStart(Context context) {
-        }
-
-        @Override
-        public void onDaemonAssistantStart(Context context) {
-        }
-
-        @Override
-        public void onWatchDaemonDaed() {
-        }
     }
 
     public static void setUser(Context context, User user) {
