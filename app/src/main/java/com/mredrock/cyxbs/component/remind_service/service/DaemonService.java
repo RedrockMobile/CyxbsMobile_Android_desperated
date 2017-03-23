@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
  * 下午8:05
  */
 
-public class Service2 extends Service {
+public class DaemonService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

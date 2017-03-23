@@ -8,10 +8,10 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.marswin89.marsdaemon.DaemonClient;
 import com.marswin89.marsdaemon.DaemonConfigurations;
-import com.mredrock.cyxbs.component.remind_service.service.DemonReceiver1;
-import com.mredrock.cyxbs.component.remind_service.service.DemonReceiver2;
-import com.mredrock.cyxbs.component.remind_service.service.DemonService2;
+import com.mredrock.cyxbs.component.remind_service.service.DaemonReceiver1;
+import com.mredrock.cyxbs.component.remind_service.service.DaemonReceiver2;
 import com.mredrock.cyxbs.component.remind_service.service.NotificationService;
+import com.mredrock.cyxbs.component.remind_service.service.DaemonService;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
@@ -54,13 +54,13 @@ public class APP extends MultiDexApplication {
 
     private DaemonConfigurations createDaemonConfigurations(){
         DaemonConfigurations.DaemonConfiguration configuration1 = new DaemonConfigurations.DaemonConfiguration(
-                "com.mredrock.cyxbs:process1",
+                "com.mredrock.cyxbs:push",
                 NotificationService.class.getCanonicalName(),
-                DemonReceiver1.class.getCanonicalName());
+                DaemonReceiver1.class.getCanonicalName());
         DaemonConfigurations.DaemonConfiguration configuration2 = new DaemonConfigurations.DaemonConfiguration(
-                "com.mredrock.cyxbs:process2",
-                DemonService2.class.getCanonicalName(),
-                DemonReceiver2.class.getCanonicalName());
+                "com.mredrock.cyxbs:daemon",
+                DaemonService.class.getCanonicalName(),
+                DaemonReceiver2.class.getCanonicalName());
         DaemonConfigurations.DaemonListener listener = new MyDaemonListener();
         return new DaemonConfigurations(configuration1, configuration2, listener);
     }

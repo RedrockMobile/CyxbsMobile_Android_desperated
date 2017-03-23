@@ -11,8 +11,8 @@ import android.support.v4.app.NotificationCompat;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.MainActivity;
 
-import static com.mredrock.cyxbs.component.remind_service.service.Service1.EXTRA_NOTIFY_SUBTITLE;
-import static com.mredrock.cyxbs.component.remind_service.service.Service1.EXTRA_NOTIFY_TITLE;
+import static com.mredrock.cyxbs.component.remind_service.service.NotificationService.EXTRA_NOTIFY_SUBTITLE;
+import static com.mredrock.cyxbs.component.remind_service.service.NotificationService.EXTRA_NOTIFY_TITLE;
 
 /**
  * Created by simonla on 2016/10/10.

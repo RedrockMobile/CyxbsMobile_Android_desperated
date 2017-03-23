@@ -10,14 +10,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.util.Log;
 
 import com.mredrock.cyxbs.component.remind_service.Task.BaskRemindTask;
 import com.mredrock.cyxbs.component.remind_service.Task.CourseRemindTask;
 import com.mredrock.cyxbs.component.remind_service.Task.DayRemindTask;
 import com.mredrock.cyxbs.component.remind_service.receiver.RebootReceiver;
 import com.mredrock.cyxbs.component.remind_service.service.RemindJobService;
-import com.mredrock.cyxbs.component.remind_service.service.Service1;
+import com.mredrock.cyxbs.component.remind_service.service.NotificationService;
 
 import java.util.ArrayList;
 
@@ -75,23 +74,19 @@ public class RemindManager {
         JobInfo.Builder builder = new JobInfo.Builder(1,
                 new ComponentName(context.getPackageName(),
                         RemindJobService.class.getName()));
-        builder.setPeriodic(1000 * 60).setRequiresCharging(true).setPersisted(true).setRequiresDeviceIdle(true);
-        if (jobScheduler.schedule(builder.build()) < 0) {
-            Log.d(TAG, "startDemon fail");
-        } else {
-            Log.d(TAG, "startDemon successful");
-        }
+        builder.setPeriodic(1000 * 60 * 30).setRequiresCharging(true).setPersisted(true).setRequiresDeviceIdle(true);
+        jobScheduler.schedule(builder.build());
     }
 
     private void push(ArrayList<Reminder> reminders, Context context) {
-        Intent intent = new Intent(context, Service1.class);
+        Intent intent = new Intent(context, NotificationService.class);
         intent.putParcelableArrayListExtra(EXTRA_REMINDABLE, reminders)
                 .putExtra(INTENT_FLAG, INTENT_FLAG_PUSH);
         context.startService(intent);
     }
 
     private void cancel(ArrayList<Reminder> reminders, Context context) {
-        Intent intent = new Intent(context, Service1.class);
+        Intent intent = new Intent(context, NotificationService.class);
         intent.putParcelableArrayListExtra(EXTRA_REMINDABLE, reminders)
                 .putExtra(INTENT_FLAG, INTENT_FLAG_CANCEL);
         context.startService(intent);
@@ -108,10 +103,11 @@ public class RemindManager {
                 ALARM_FLAG_REBOOT_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 60 * 1000 * 15
-                , 60 * 1000 * 5, pendingIntent);
+                System.currentTimeMillis() + 60 * 1000
+                , 60 * 1000 * 30, pendingIntent);
     }
 
+    //需要重复执行的任务放在这里
     public void pushAll(Context context) {
         push(new CourseRemindTask(context));
         push(new DayRemindTask(context));
