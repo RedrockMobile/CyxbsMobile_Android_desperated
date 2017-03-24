@@ -1,6 +1,8 @@
 package com.mredrock.cyxbs;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.StrictMode;
 import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
@@ -11,11 +13,13 @@ import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.network.encrypt.UserInfoEncryption;
+import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.orhanobut.logger.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import rx.Subscriber;
@@ -124,6 +128,7 @@ public class APP extends MultiDexApplication {
         userInfoEncryption = new UserInfoEncryption();
         // Refresh Course List When Start
         reloadCourseList();
+        disableFileUriExposedException();
     }
 
     public void reloadCourseList() {
@@ -160,6 +165,18 @@ public class APP extends MultiDexApplication {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    private void disableFileUriExposedException() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            try {
+                Method disableDeathOnFileUriExposure = StrictMode.class.getDeclaredMethod("disableDeathOnFileUriExposure");
+                disableDeathOnFileUriExposure.setAccessible(true);
+                disableDeathOnFileUriExposure.invoke(null);
+            } catch (Exception e) {
+                LogUtils.LOGE("FileUriExposure", "Can't disable death on file uri exposure", e);
+            }
         }
     }
 }

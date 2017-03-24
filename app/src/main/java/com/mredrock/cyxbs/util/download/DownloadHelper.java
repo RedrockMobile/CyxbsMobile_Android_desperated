@@ -13,8 +13,6 @@ import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
 import com.mredrock.cyxbs.util.download.progress.ProgressHelper;
 import com.mredrock.cyxbs.util.download.progress.UIProgressListener;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -157,51 +155,9 @@ public class DownloadHelper {
     private void downloadCorrectUrl(OnDownloadListener listener) {
         final int[] reqSuccessCount = new int[1];
         reqSuccessCount[0] = 0;
-        List<String> list = new ArrayList<>();
         showDialog(mProgressDialog);
-        for (String url : mUrls) {
-
-            Log.d("downloadCorrectUrl===>>", "first request url is " + url);
-            String correctUrl = url.replaceAll("localhost", "hongyan.cqupt.edu.cn");
-            final OkHttpClient client = new OkHttpClient();
-            final Request request = new Request.Builder()
-                    .url(correctUrl)
-                    .build();
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    if (e != null) {
-                        listener.downloadFailed(e.getMessage());
-                    }
-                    dismissDialog(mProgressDialog);
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (response.isSuccessful() && response.body() != null) {
-
-                        String str = StringEscapeUtils.unescapeJava(response.body().string());
-                        Log.e("onResponse",str);
-                        String url = str.substring(1, str.length() - 1);
-                        list.add(url);
-                        reqSuccessCount[0]++;
-
-                        Log.d("downloadCorrectUrl===>>", "second request url is " + url);
-                        if (reqSuccessCount[0] == mUrls.size()) {
-                            mUrls.clear();
-                            mUrls.addAll(list);
-                            mWeakHandler.post(() -> download());
-                        }
-                    } else {
-                        mWeakHandler.post(() -> {
-                            dismissDialog(mProgressDialog);
-                            mDownloadListener.downloadFailed("response in null");
-                        });
-                    }
-                }
-
-            });
-        }
+        Log.d("mUrls", mUrls.toString());
+        mWeakHandler.post(this::download);
     }
 
     private void download() {
