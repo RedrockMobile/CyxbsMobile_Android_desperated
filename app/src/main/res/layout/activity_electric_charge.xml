@@ -42,8 +42,6 @@
                 android:textSize="14sp"
                 android:textColor="#999999"
                 android:text="日均量/度"/>
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -135,5 +133,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/electric_notice_info"/>
+    <TextView
+        android:id="@+id/tv_electric_query_phone"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:textColor="#9ea1a6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/electric_notice_info_1"/>
 
 </LinearLayout>

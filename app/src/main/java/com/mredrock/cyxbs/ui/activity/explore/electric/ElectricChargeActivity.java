@@ -19,6 +19,8 @@ import java.text.DecimalFormat;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 public class ElectricChargeActivity extends BaseActivity {
     private static final String TAG = "ElectricChargeActivity";
@@ -53,7 +55,7 @@ public class ElectricChargeActivity extends BaseActivity {
         initView();
         initData();
         LogUtils.LOGE(TAG, buildingNum + ": " + dormitoryNum);
-        RequestManager.INSTANCE.queryElectricCharge(new SimpleSubscriber<ElectricCharge>(this, new SubscriberListener<ElectricCharge>() {
+        RequestManager.INSTANCE.queryElectricCharge(new SimpleSubscriber<ElectricCharge>(this,true, new SubscriberListener<ElectricCharge>() {
             @Override
             public void onCompleted() {
                 super.onCompleted();
@@ -91,7 +93,7 @@ public class ElectricChargeActivity extends BaseActivity {
         String recordTime = electricCharge.getRecordTime();
 
         if (recordTime != null && electricCharge.getElectricSpend() != null) {
-            mNoticeText.setText(noticeInfo + "" + recordTime);
+            mNoticeText.setText(noticeInfo + "\t\t" + recordTime);
             int beginIndex = recordTime.indexOf("月");
             int endIndex = recordTime.indexOf("日");
             float days = Float.parseFloat(recordTime.substring(beginIndex + 1,endIndex));
@@ -114,5 +116,10 @@ public class ElectricChargeActivity extends BaseActivity {
         buildingNum = (String) SPUtils.get(APP.getContext(), DormitorySettingActivity.BUILDING_KEY, String.valueOf(28));
         dormitoryNum = (String) SPUtils.get(APP.getContext(), DormitorySettingActivity.DORMITORY_KEY, String.valueOf(999));
         noticeInfo = getResources().getString(R.string.electric_notice_info);
+    }
+
+    @OnClick(R.id.toolbar_iv_left)
+    public void onBackClick(){
+        onBackPressed();
     }
 }
