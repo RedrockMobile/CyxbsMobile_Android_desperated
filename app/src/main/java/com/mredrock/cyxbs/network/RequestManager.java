@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.BuildConfig;
+import com.mredrock.cyxbs.component.remind_service.Reminder;
+import com.mredrock.cyxbs.component.remind_service.func.BaseRemindFunc;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.model.AboutMe;
@@ -16,7 +18,6 @@ import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
-import com.mredrock.cyxbs.component.remind_service.Reminder;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
@@ -35,7 +36,6 @@ import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.network.func.AffairTransformFunc;
 import com.mredrock.cyxbs.network.func.AffairWeekFilterFunc;
-import com.mredrock.cyxbs.component.remind_service.func.BaseRemindFunc;
 import com.mredrock.cyxbs.network.func.ElectricQueryFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
 import com.mredrock.cyxbs.network.func.StartPageFunc;
@@ -620,6 +620,15 @@ public enum RequestManager {
 
                 .map(new ElectricQueryFunc());
         emitObservable(observable, subscriber);
+    }
+
+
+    public void bindDormitory(String stuNum,String idNum,String room, Subscriber<Object> subscriber ){
+        if (!checkWithUserId("需要先登录才能查询绑定寝室哦"))
+            return;
+        Observable<Object> observable = redrockApiService.bindDormitory(stuNum,idNum,room)
+                .map(new RedrockApiWrapperFunc<Object>());
+        emitObservable(observable,subscriber);
     }
 
     public void getLostList(Subscriber<LostWrapper<List<Lost>>> subscriber, int theme, String category, int page) {

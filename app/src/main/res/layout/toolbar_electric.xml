@@ -33,7 +33,7 @@
             android:textColor="@color/colour_title_text"
             android:textSize="18sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/tool_iv_right"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -43,7 +43,6 @@
             android:background="?attr/selectableItemBackground"
             android:gravity="center"
             android:paddingEnd="15dp"
-            android:textColor="@color/colour_title_text"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingStart="15dp" />

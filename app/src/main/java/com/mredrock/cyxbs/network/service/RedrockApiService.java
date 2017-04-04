@@ -11,6 +11,7 @@ import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
+import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
@@ -279,4 +280,12 @@ public interface RedrockApiService {
     @FormUrlEncoded
     @POST(Const.API_ELECTRIC_CHARGE)
     Observable<ElectricCharge.ElectricChargeWrapper> queryElectricCharge(@Field("building") String building, @Field("room") String room);
+
+    @FormUrlEncoded
+    @POST(Const.API_BIND_DORMITORY)
+    Observable<RedrockApiWrapper<Object>> bindDormitory(@Field("stuNum")String stuNum,@Field("idNum") String idNum,@Field("room") String room);
+
+    @FormUrlEncoded
+    @POST(Const.API_ELECTRIC_QUERY_STUNUM)
+    Observable<RedrockApiWrapper<PastElectric.PastElectricResultWrapper>> getPastElectricCharge(@Field("stuNum")String stuNum, @Field("idNum") String idNum);
 }

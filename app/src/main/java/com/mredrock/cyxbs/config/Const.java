@@ -72,7 +72,15 @@ public class Const {
 
     //电费查询
     public static final String API_ELECTRIC_CHARGE = "/MagicLoop/index.php?s=/addon/ElectricityQuery/ElectricityQuery/queryElecByRoom";
+
+    //往期电费
+    public static final String API_BIND_DORMITORY = "/cyxbsMobile/index.php/Home/Person/bindDormitory";
+    public static final String API_UNBIND_DORMITORU = "/cyxbsMobile/index.php/Home/Person/deBindDormitory";
+    public static final String API_ELECTRIC_QUERY_STUNUM  = "/cyxbsMobile/index.php/Home/Extent/getElectric";
+
+
     // 失物招领
+
     public static final String END_POINT_LOST = "http://hongyan.cqupt.edu.cn/laf/api";
     public static final String API_LOST_LIST = "/view/{theme}/{category}/{page}";
     public static final String PATH_THEME = "theme";
@@ -84,6 +92,8 @@ public class Const {
 
     public static final String SP_KEY_USER = "cyxbsmobile_user";
     public static final String SP_KEY_IS_NIGHT = "is_night";
+
+
 
 
 
