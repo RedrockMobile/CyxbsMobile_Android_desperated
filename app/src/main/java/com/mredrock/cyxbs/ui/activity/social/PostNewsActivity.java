@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
@@ -29,7 +30,6 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.Utils;
 import com.tbruyelle.rxpermissions.RxPermissions;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +54,8 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     NineGridlayout mNineGridlayout;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.iv_add_topic)
+    AppCompatImageView mIvAddTopic;
     private List<Image> mImgList;
     private User mUser;
 
@@ -66,19 +68,6 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         Intent intent = new Intent(context, PostNewsActivity.class);
         context.startActivity(intent);
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +113,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                                 // 设置模式 (支持 单选/MultiImageSelectorActivity.MODE_SINGLE 或者 多选/MultiImageSelectorActivity.MODE_MULTI)
                                 intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
                                 // 默认选择图片,回填选项(支持String ArrayList)
-                                ArrayList<String> results = new ArrayList<String>();
+                                ArrayList<String> results = new ArrayList<>();
                                 for (Image i : mImgList) {
                                     if (i.getType() != Image.TYPE_ADD)
                                         results.add(i.url);
@@ -238,4 +227,9 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     }
 
 
+    @OnClick(R.id.iv_add_topic)
+    public void onViewClicked() {
+        Intent intent = new Intent(this, TopicActivity.class);
+        startActivity(intent);
+    }
 }

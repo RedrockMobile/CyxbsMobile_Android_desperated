@@ -25,6 +25,8 @@ import com.mredrock.cyxbs.model.social.OfficeNews;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.RequestResponse;
+import com.mredrock.cyxbs.model.social.Topic;
+import com.mredrock.cyxbs.model.social.TopicApiWrapper;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.setting.annotation.XmlApi;
 
@@ -279,4 +281,26 @@ public interface RedrockApiService {
     @FormUrlEncoded
     @POST(Const.API_ELECTRIC_CHARGE)
     Observable<ElectricCharge.ElectricChargeWrapper> queryElectricCharge(@Field("building") String building, @Field("room") String room);
+
+    @FormUrlEncoded
+    @POST(Const.API_ALL_TOPIC_LIST)
+    Observable<TopicApiWrapper<List<Topic>>> getAllTopicList(@Field("stuNum") String stuNum,
+                                                             @Field("idNum") String idNum,
+                                                             @Field("size") int size,
+                                                             @Field("page") int page);
+
+    @FormUrlEncoded
+    @POST(Const.API_MY_TOPIC_LIST)
+    Observable<TopicApiWrapper<List<Topic>>> getMyTopicList(@Field("stuNum") String stuNum,
+                                                            @Field("idNum") String idNum,
+                                                            @Field("size") int size,
+                                                            @Field("page") int page);
+
+    @FormUrlEncoded
+    @POST(Const.API_ALL_TOPIC_LIST)
+    Observable<TopicApiWrapper<List<Topic>>> searchTopic(@Field("stuNum") String stuNum,
+                                                         @Field("idNum") String idNum,
+                                                         @Field("size") int size,
+                                                         @Field("page") int page,
+                                                         @Field("searchKeyword") String searchKeyword);
 }

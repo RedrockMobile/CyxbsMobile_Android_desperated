@@ -186,8 +186,6 @@
             android:name=".ui.activity.affair.EditAffairActivity"
             android:exported="false"
             android:launchMode="singleTop"/>
-
-
         <activity android:name=".ui.activity.affair.TimeChooseActivity"/>
 
         <provider
@@ -208,11 +206,11 @@
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
-
         <service
-            android:name=".component.remind_service.service.NotificationService"
-            android:process=":push"/>
+            android:name=".component.remind_service.service.NotificationService"/>
 
+        <activity android:name=".ui.activity.social.TopicActivity">
+        </activity>
     </application>
 
 </manifest>

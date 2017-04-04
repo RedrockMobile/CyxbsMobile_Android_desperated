@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.BuildConfig;
+import com.mredrock.cyxbs.component.remind_service.Reminder;
+import com.mredrock.cyxbs.component.remind_service.func.BaseRemindFunc;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.model.AboutMe;
@@ -16,7 +18,6 @@ import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
-import com.mredrock.cyxbs.component.remind_service.Reminder;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
@@ -31,11 +32,11 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.OfficeNewsContent;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.PersonLatest;
+import com.mredrock.cyxbs.model.social.Topic;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.network.func.AffairTransformFunc;
 import com.mredrock.cyxbs.network.func.AffairWeekFilterFunc;
-import com.mredrock.cyxbs.component.remind_service.func.BaseRemindFunc;
 import com.mredrock.cyxbs.network.func.ElectricQueryFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
 import com.mredrock.cyxbs.network.func.StartPageFunc;
@@ -49,6 +50,7 @@ import com.mredrock.cyxbs.network.service.RedrockApiService;
 import com.mredrock.cyxbs.network.setting.CacheProviders;
 import com.mredrock.cyxbs.network.setting.QualifiedTypeConverterFactory;
 import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
+import com.mredrock.cyxbs.ui.fragment.social.TopicFragment;
 import com.mredrock.cyxbs.util.BitmapUtil;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.Utils;
@@ -191,7 +193,7 @@ public enum RequestManager {
     }
 
     public List<Course> getCourseListSync(String stuNum, String idNum, boolean forceFetch) throws IOException {
-        Response<Course.CourseWrapper> response = redrockApiService.getCourseCall(stuNum, idNum, "0",forceFetch).execute();
+        Response<Course.CourseWrapper> response = redrockApiService.getCourseCall(stuNum, idNum, "0", forceFetch).execute();
         return response.body().data;
 
     }
@@ -658,6 +660,25 @@ public enum RequestManager {
                 detail.place,
                 detail.connectPhone,
                 detail.connectWx);
+        emitObservable(observable, subscriber);
+    }
+
+    public void getTopicList(Subscriber<List<Topic>> subscriber, int size, int page, String stuNum, String idNum, String type) {
+        Observable<List<Topic>> observable;
+        switch (type) {
+            case TopicFragment.TopicType.MY_TOPIC:
+                observable = redrockApiService.getMyTopicList(stuNum, idNum, size, page)
+                        .map(new RedrockApiWrapperFunc<>());
+                break;
+            case TopicFragment.TopicType.ALL_TOPIC:
+                observable = redrockApiService.getAllTopicList(stuNum, idNum, size, page)
+                        .map(new RedrockApiWrapperFunc<>());
+                break;
+            default:
+                observable = redrockApiService.searchTopic(stuNum, idNum, size, page, type)
+                        .map(new RedrockApiWrapperFunc<>());
+                break;
+        }
         emitObservable(observable, subscriber);
     }
 

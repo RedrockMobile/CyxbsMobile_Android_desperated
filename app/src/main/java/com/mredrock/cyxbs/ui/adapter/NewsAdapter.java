@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.ui.adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -171,9 +172,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     .subscribe(hotNewsContent -> {
 //                        setData(hotNewsContent, false);
                         unregisterObservable();
-                    }, throwable -> {
-                        unregisterObservable();
-                    });
+                    }, throwable -> unregisterObservable());
         }
 
         private void unregisterObservable() {
@@ -258,8 +257,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mHotNewsContent.isMyLike = false;
             mHotNewsContent.likeNum = likeNumber;
             textView.setText(likeNumber);
-            textView.setCompoundDrawablesWithIntrinsicBounds(textView.getResources()
-                            .getDrawable(mHotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike),
+            textView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat
+                            .getDrawable(textView.getContext(),mHotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike),
                     null, null, null);
         }
 
@@ -268,8 +267,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mHotNewsContent.isMyLike = true;
 
             textView.setText(likeNumber);
-            textView.setCompoundDrawablesWithIntrinsicBounds(textView.getResources()
-                            .getDrawable(mHotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike),
+            textView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat
+                            .getDrawable(textView.getContext(),mHotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike),
                     null, null, null);
 
         }
@@ -313,7 +312,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             mTextTime.setText(TimeUtils.getTimeDetail(hotNewsContent.getTime()));
             mBtnMsg.setText(hotNewsContent.remarkNum);
             mBtnFavor.setText(mHotNewsContent.likeNum);
-            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(mBtnFavor.getResources().getDrawable(hotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike), null, null, null);
+            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mBtnFavor.getContext(),hotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike), null, null, null);
             mExpandableTextView.setmMaxCollapsedLines(4);
 
 
