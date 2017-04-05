@@ -87,6 +87,7 @@ public class Const {
 
     public static final String API_ALL_TOPIC_LIST = "/cyxbsMobile/index.php/Home/Topic/topicList";
     public static final String API_MY_TOPIC_LIST = "/cyxbsMobile/index.php/Home/Topic/myJoinedTopic";
+    public static final String API_TOPIC_ARTICLE = "/cyxbsMobile/index.php/Home/Topic/listTopicArticle";
 
     public static final class Extras {
         public static final String EDIT_USER = "10";

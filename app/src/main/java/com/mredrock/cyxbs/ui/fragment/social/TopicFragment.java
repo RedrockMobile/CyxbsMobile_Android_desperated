@@ -21,9 +21,11 @@ import com.mredrock.cyxbs.model.social.Topic;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.social.TopicArticleActivity;
 import com.mredrock.cyxbs.ui.adapter.TopicAdapter;
 import com.mredrock.cyxbs.util.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -37,6 +39,7 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
     private RecyclerArrayAdapter<Topic> mAdapter;
     private int mPage = 0;
     private String mType;
+    private List<Topic> mTopics = new ArrayList<>();
 
     public TopicFragment() {
     }
@@ -59,7 +62,8 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
 
     public void getTopic() {
         User user = APP.getUser(getContext());
-        RequestManager.getInstance().getTopicList(new SimpleSubscriber<>(getContext(), false, new SubscriberListener<List<Topic>>() {
+        RequestManager.getInstance().getTopicList(new SimpleSubscriber<>(getContext(),
+                false, new SubscriberListener<List<Topic>>() {
             @Override
             public boolean onError(Throwable e) {
                 mRvTopic.setRefreshing(false);
@@ -81,6 +85,7 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
                     mRvTopic.showEmpty();
                 } else {
                     mAdapter.addAll(topics);
+                    mTopics.addAll(topics);
                 }
             }
         }), 10, mPage, user.stuNum, user.idNum, mType);
@@ -118,6 +123,7 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
                 mAdapter.resumeMore();
             }
         });
+        mAdapter.setOnItemClickListener(position -> TopicArticleActivity.start(getContext(), mTopics.get(position).getTopic_id()));
     }
 
     @Override

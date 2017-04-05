@@ -206,10 +206,11 @@
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
-        <service
-            android:name=".component.remind_service.service.NotificationService"/>
+        <service android:name=".component.remind_service.service.NotificationService"/>
 
         <activity android:name=".ui.activity.social.TopicActivity">
+        </activity>
+        <activity android:name=".ui.activity.social.TopicArticleActivity">
         </activity>
     </application>
 

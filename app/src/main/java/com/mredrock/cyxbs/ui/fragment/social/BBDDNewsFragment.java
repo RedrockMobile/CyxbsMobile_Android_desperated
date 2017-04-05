@@ -58,4 +58,10 @@ public class BBDDNewsFragment extends BaseNewsFragment {
         super.onDestroyView();
         unregisterObservable();
     }
+
+    @Override
+    public void initAdapter(List<HotNews> listHotNews) {
+        super.initAdapter(listHotNews);
+        addHeaderView();
+    }
 }

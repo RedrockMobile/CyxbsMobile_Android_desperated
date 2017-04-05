@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.mredrock.cyxbs.ui.activity.social.TopicArticleActivity">
+
+        <LinearLayout
+            android:background="?attr/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="top">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/bt_topic_article_back"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:padding="15dp"
+                android:src="@drawable/ic_back_arrow"/>
+
+            <TextView
+                android:id="@+id/tv_topic_article_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:gravity="center"
+                android:text="#你所认识的周杰伦#"
+                android:textColor="@color/black_lightly"
+                android:textSize="20sp"/>
+
+            <ImageView
+                android:id="@+id/iv_topic_share"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:padding="9dp"
+                android:src="@drawable/ic_share"/>
+        </LinearLayout>
+
+    <com.jude.easyrecyclerview.EasyRecyclerView
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:background="@color/material_color_red_500"
+        android:id="@+id/rv_topic_article"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <LinearLayout
+        android:id="@+id/ll_topic_join"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom|center"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:src="@drawable/ic_topic_join"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="立即参与"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"/>
+    </LinearLayout>
+</FrameLayout>

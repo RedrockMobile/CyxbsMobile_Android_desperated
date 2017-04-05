@@ -27,6 +27,7 @@ import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.RequestResponse;
 import com.mredrock.cyxbs.model.social.Topic;
 import com.mredrock.cyxbs.model.social.TopicApiWrapper;
+import com.mredrock.cyxbs.model.social.TopicArticle;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.setting.annotation.XmlApi;
 
@@ -303,4 +304,12 @@ public interface RedrockApiService {
                                                          @Field("size") int size,
                                                          @Field("page") int page,
                                                          @Field("searchKeyword") String searchKeyword);
+
+    @FormUrlEncoded
+    @POST(Const.API_TOPIC_ARTICLE)
+    Observable<TopicApiWrapper<List<TopicArticle>>> getTopicArticle(@Field("stuNum") String stuNum,
+                                                                    @Field("idNum") String idNum,
+                                                                    @Field("size") int size,
+                                                                    @Field("page") int page,
+                                                                    @Field("topic_id") int topicId);
 }

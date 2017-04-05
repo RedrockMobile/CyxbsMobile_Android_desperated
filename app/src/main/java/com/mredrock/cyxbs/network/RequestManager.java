@@ -33,6 +33,7 @@ import com.mredrock.cyxbs.model.social.OfficeNewsContent;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.Topic;
+import com.mredrock.cyxbs.model.social.TopicArticle;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.network.func.AffairTransformFunc;
@@ -679,6 +680,12 @@ public enum RequestManager {
                         .map(new RedrockApiWrapperFunc<>());
                 break;
         }
+        emitObservable(observable, subscriber);
+    }
+
+    public void getTopicArticle(Subscriber<List<TopicArticle>> subscriber, int size, int page, String stuNum, String idNum, int topicId) {
+        Observable<List<TopicArticle>> observable = redrockApiService.getTopicArticle(stuNum, idNum, size, page, topicId)
+                .map(new RedrockApiWrapperFunc<>());
         emitObservable(observable, subscriber);
     }
 
