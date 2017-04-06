@@ -7,8 +7,10 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:background="@color/white"
+
     tools:context="com.mredrock.cyxbs.ui.activity.explore.electric.ElectricChargeActivity">
-    <include layout="@layout/toolbar_electric"/>
+    <include android:id="@+id/electric_query_toolbar"
+        layout="@layout/toolbar_electric"/>
     <com.mredrock.cyxbs.component.widget.ElectricCircleView
         android:id="@+id/ecv_electric_circle_view"
         android:layout_width="280dp"

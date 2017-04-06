@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.ui.activity.explore.electric;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
@@ -46,8 +45,10 @@ public class DormitorySettingActivity extends BaseActivity {
     private BottomSheetDialog dialog;
     private int buildingNumber;
 
+
     public static final String BUILDING_KEY = "building_number";
     public static final String DORMITORY_KEY = "dormitory_number";
+
 
 
 
@@ -57,6 +58,7 @@ public class DormitorySettingActivity extends BaseActivity {
         setContentView(R.layout.activity_dormitory_setting);
         StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
+        setResult(ElectricChargeActivity.REQUEST_NOT_SET_CODE);
         initView();
 
     }
@@ -124,7 +126,7 @@ public class DormitorySettingActivity extends BaseActivity {
                 @Override
                 public void onCompleted() {
                     super.onCompleted();
-                    startActivity(new Intent(DormitorySettingActivity.this,ElectricChargeActivity.class));
+                    setResult(ElectricChargeActivity.REQUEST_SET_CODE);
                     onBackPressed();
                 }
 
@@ -188,4 +190,6 @@ public class DormitorySettingActivity extends BaseActivity {
             void onItemClick(int position, String text);
         }
     }
+
+
 }

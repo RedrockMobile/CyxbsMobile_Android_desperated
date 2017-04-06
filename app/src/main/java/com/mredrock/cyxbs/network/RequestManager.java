@@ -17,6 +17,7 @@ import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
+import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
@@ -630,6 +631,15 @@ public enum RequestManager {
                 .map(new RedrockApiWrapperFunc<Object>());
         emitObservable(observable,subscriber);
     }
+
+    public void queryPastElectricCharge(String stuNum,String idNum,Subscriber<PastElectric.PastElectricResultWrapper> subscriber ){
+        if (!checkWithUserId("需要先登录才能查询绑定寝室哦"))
+            return;
+        Observable<PastElectric.PastElectricResultWrapper> observable = redrockApiService.getPastElectricCharge(stuNum,idNum)
+                .map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable,subscriber);
+    }
+
 
     public void getLostList(Subscriber<LostWrapper<List<Lost>>> subscriber, int theme, String category, int page) {
         String themeString;
