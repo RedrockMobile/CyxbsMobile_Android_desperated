@@ -33,7 +33,6 @@ public class TopicActivity extends BaseActivity implements android.support.v7.wi
     @Bind(R.id.bt_topic_back)
     ImageView mBtTopicBack;
 
-    private boolean mIsInSearch;
     TabPagerAdapter mSearchAdapter;
     TabPagerAdapter mTopicListAdapter;
 
@@ -77,14 +76,12 @@ public class TopicActivity extends BaseActivity implements android.support.v7.wi
 
     @Override
     public void close() {
-        mIsInSearch = false;
         mTlTopic.setVisibility(View.VISIBLE);
         initTopicListPage();
     }
 
     @Override
     public void onSearch() {
-        mIsInSearch = true;
         mTlTopic.setVisibility(View.GONE);
         mVpTopic.setAdapter(null);
     }

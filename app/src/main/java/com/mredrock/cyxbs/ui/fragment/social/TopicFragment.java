@@ -22,7 +22,7 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.social.TopicArticleActivity;
-import com.mredrock.cyxbs.ui.adapter.TopicAdapter;
+import com.mredrock.cyxbs.ui.adapter.topic.TopicAdapter;
 import com.mredrock.cyxbs.util.Utils;
 
 import java.util.ArrayList;
@@ -66,16 +66,16 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
                 false, new SubscriberListener<List<Topic>>() {
             @Override
             public boolean onError(Throwable e) {
-                mRvTopic.setRefreshing(false);
+                if (mRvTopic != null && mRvTopic.getSwipeToRefresh() != null)
+                    mRvTopic.setRefreshing(false);
                 return super.onError(e);
             }
 
             @Override
             public void onCompleted() {
                 super.onCompleted();
-                if (mRvTopic.getSwipeToRefresh() != null) {
+                if (mRvTopic != null && mRvTopic.getSwipeToRefresh() != null)
                     mRvTopic.setRefreshing(false);
-                }
             }
 
             @Override
@@ -123,7 +123,8 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
                 mAdapter.resumeMore();
             }
         });
-        mAdapter.setOnItemClickListener(position -> TopicArticleActivity.start(getContext(), mTopics.get(position).getTopic_id()));
+        mAdapter.setOnItemClickListener(position -> TopicArticleActivity.
+                start(getContext(), mTopics.get(position).getTopic_id()));
     }
 
     @Override

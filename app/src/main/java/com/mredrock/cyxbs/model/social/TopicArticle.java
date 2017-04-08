@@ -9,7 +9,7 @@ import java.util.List;
  * 22:50
  */
 
-public class TopicArticle extends RedrockApiWrapper<List<TopicArticle>> {
+public class TopicArticle extends RedrockApiWrapper<TopicArticle> {
 
     /**
      * keyword : test

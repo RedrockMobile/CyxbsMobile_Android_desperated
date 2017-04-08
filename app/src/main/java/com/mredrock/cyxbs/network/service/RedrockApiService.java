@@ -307,7 +307,7 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_TOPIC_ARTICLE)
-    Observable<TopicApiWrapper<List<TopicArticle>>> getTopicArticle(@Field("stuNum") String stuNum,
+    Observable<TopicApiWrapper<TopicArticle>> getTopicArticle(@Field("stuNum") String stuNum,
                                                                     @Field("idNum") String idNum,
                                                                     @Field("size") int size,
                                                                     @Field("page") int page,

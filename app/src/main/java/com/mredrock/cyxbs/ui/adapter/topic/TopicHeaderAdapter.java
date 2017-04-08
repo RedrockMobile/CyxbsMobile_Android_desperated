@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.ui.adapter;
+package com.mredrock.cyxbs.ui.adapter.topic;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -51,23 +51,22 @@ public class TopicHeaderAdapter extends RecyclerArrayAdapter<Topic> {
             }
             mTextView.setText("#" + keyword + "#");
             if ("".equals(data.getImg().getImg_src()) || data.getImg().getImg_src() == null) {
-                loadByRandom();
+                mImageView.setBackgroundColor(loadByRandom(getContext()));
             } else {
                 Glide.with(getContext()).load(data.getImg().getImg_small_src()).centerCrop().into(mImageView);
             }
         }
-
-        private void loadByRandom() {
-            ArrayList<Integer> colors = new ArrayList<>();
-            colors.add(ContextCompat.getColor(getContext(), R.color.material_color_blue_800));
-            colors.add(ContextCompat.getColor(getContext(), R.color.material_color_amber_800));
-            colors.add(ContextCompat.getColor(getContext(), R.color.material_color_teal_800));
-            colors.add(ContextCompat.getColor(getContext(), R.color.material_color_brown_800));
-            colors.add(ContextCompat.getColor(getContext(), R.color.material_color_orange_800));
-            Random random = new Random();
-            int randomIndex = random.nextInt(colors.size());
-            int color = colors.get(randomIndex);
-            mImageView.setBackgroundColor(color);
-        }
+    }
+    public static int loadByRandom(Context context) {
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(ContextCompat.getColor(context, R.color.material_color_blue_800));
+        colors.add(ContextCompat.getColor(context, R.color.material_color_amber_800));
+        colors.add(ContextCompat.getColor(context, R.color.material_color_teal_800));
+        colors.add(ContextCompat.getColor(context, R.color.material_color_brown_800));
+        colors.add(ContextCompat.getColor(context, R.color.material_color_orange_800));
+        Random random = new Random();
+        int randomIndex = random.nextInt(colors.size());
+        int color = colors.get(randomIndex);
+        return color;
     }
 }

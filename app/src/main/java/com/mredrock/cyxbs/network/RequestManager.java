@@ -683,8 +683,8 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void getTopicArticle(Subscriber<List<TopicArticle>> subscriber, int size, int page, String stuNum, String idNum, int topicId) {
-        Observable<List<TopicArticle>> observable = redrockApiService.getTopicArticle(stuNum, idNum, size, page, topicId)
+    public void getTopicArticle(Subscriber<TopicArticle> subscriber, int size, int page, String stuNum, String idNum, int topicId) {
+        Observable<TopicArticle> observable = redrockApiService.getTopicArticle(stuNum, idNum, size, page, topicId)
                 .map(new RedrockApiWrapperFunc<>());
         emitObservable(observable, subscriber);
     }
