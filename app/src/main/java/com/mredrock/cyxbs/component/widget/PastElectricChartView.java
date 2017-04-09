@@ -36,6 +36,10 @@ public class PastElectricChartView extends View {
     private boolean needDrawCircle = false;
     private int position;
 
+
+
+    private boolean needDraw = true;
+
     private int startX, startY, endX, endY;
     private Path mPath = new Path();
 
@@ -107,6 +111,7 @@ public class PastElectricChartView extends View {
     protected void onDraw(Canvas canvas) {
         this.mCanvas = canvas;
         super.onDraw(canvas);
+
         if (yValue.size() == 0)
             return;
         mPaint.setStrokeWidth(10);
@@ -192,6 +197,7 @@ public class PastElectricChartView extends View {
             return;
         int width = getWidth() - dip2px(getContext(), 40);
         mPaint.setColor(Color.WHITE);
+        mPaint.setStyle(Paint.Style.FILL);
         mPaint.setTextSize(dip2px(getContext(),15));
         for (int i = 0; i < xValue.size(); i++) {
             Log.i(TAG,xValue.get(i));
@@ -247,5 +253,13 @@ public class PastElectricChartView extends View {
 
     public interface ItemClickCallBack {
         void onClick(int position);
+    }
+
+    public boolean isNeedDraw() {
+        return needDraw;
+    }
+
+    public void setNeedDraw(boolean needDraw) {
+        this.needDraw = needDraw;
     }
 }

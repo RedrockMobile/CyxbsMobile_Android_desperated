@@ -193,6 +193,10 @@ public class ElectricChargeActivity extends BaseActivity {
                 startActivity(new Intent(this,PastElectricChargeActivity.class));
                 popupWindow.dismiss();
             });
+            popupWindow.getContentView().findViewById(R.id.tv_popup_window_set_remind).setOnClickListener((v) ->{
+                startActivity(new Intent(this,ElectricRemindActivity.class));
+                popupWindow.dismiss();
+            });
         }
         popupWindow.showAtLocation(parentView, Gravity.RIGHT | Gravity.TOP,
                 yOffset, xOffset);

@@ -106,4 +106,23 @@ public class PastElectricChargeActivity extends BaseActivity {
             }
         });
     }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+       // chartView.requestLayout();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        chartView.setNeedDraw(false);
+    }
 }
