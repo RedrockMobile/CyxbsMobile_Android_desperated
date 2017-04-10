@@ -286,6 +286,7 @@
     </string-array>
     <!--Electric query-->
     <string name="electric_notice_info">\t注意事项\n\n\t抄表日期： </string>
+    <string name="electric_notice_info_1">\t用电过程中，如需查询请致电：\t023-62487902</string>
     <string name="unLoginHint">点击登录,拯救课表菌！！！</string>
 
     <!-- TODO: Remove or change this placeholder text -->

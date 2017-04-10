@@ -17,6 +17,7 @@ import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
+import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
@@ -156,7 +157,6 @@ public enum RequestManager {
 
     public Subscription getNowWeek(Subscriber<Integer> subscriber, String stuNum, String idNum) {
         Observable<Integer> observable = redrockApiService.getCourse(stuNum, idNum, "0")
-
                 .map(courseWrapper -> {
                     if (courseWrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
                         throw new RedrockApiException();
@@ -625,6 +625,24 @@ public enum RequestManager {
                 .map(new ElectricQueryFunc());
         emitObservable(observable, subscriber);
     }
+
+
+    public void bindDormitory(String stuNum,String idNum,String room, Subscriber<Object> subscriber ){
+        if (!checkWithUserId("需要先登录才能查询绑定寝室哦"))
+            return;
+        Observable<Object> observable = redrockApiService.bindDormitory(stuNum,idNum,room)
+                .map(new RedrockApiWrapperFunc<Object>());
+        emitObservable(observable,subscriber);
+    }
+
+    public void queryPastElectricCharge(String stuNum,String idNum,Subscriber<PastElectric.PastElectricResultWrapper> subscriber ){
+        if (!checkWithUserId("需要先登录才能查询绑定寝室哦"))
+            return;
+        Observable<PastElectric.PastElectricResultWrapper> observable = redrockApiService.getPastElectricCharge(stuNum,idNum)
+                .map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable,subscriber);
+    }
+
 
     public void getLostList(Subscriber<LostWrapper<List<Lost>>> subscriber, int theme, String category, int page) {
         String themeString;

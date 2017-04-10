@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.ui.activity.explore.electric;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
@@ -8,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,10 @@ import android.widget.TextView;
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.model.User;
+import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.fragment.explore.eletric.DialogRemindFragment;
 import com.mredrock.cyxbs.util.KeyboardUtils;
@@ -43,8 +45,10 @@ public class DormitorySettingActivity extends BaseActivity {
     private BottomSheetDialog dialog;
     private int buildingNumber;
 
+
     public static final String BUILDING_KEY = "building_number";
     public static final String DORMITORY_KEY = "dormitory_number";
+
 
 
 
@@ -54,6 +58,7 @@ public class DormitorySettingActivity extends BaseActivity {
         setContentView(R.layout.activity_dormitory_setting);
         StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
+        setResult(ElectricChargeActivity.REQUEST_NOT_SET_CODE);
         initView();
 
     }
@@ -114,11 +119,25 @@ public class DormitorySettingActivity extends BaseActivity {
             dialogRemindFragment.setArguments(bundle);
             dialogRemindFragment.show(getFragmentManager(),"DialogRemindFragment");
         }else {
+            User user = APP.getUser(this);
             SPUtils.set(APP.getContext(),BUILDING_KEY,String.valueOf(buildingNumber));
             SPUtils.set(APP.getContext(),DORMITORY_KEY,dormitoryNumberEdit.getText().toString());
-            Log.e(TAG,buildingNumber + ": "+dormitoryNumberEdit.getText().toString());
-            startActivity(new Intent(this,ElectricChargeActivity.class));
-            onBackPressed();
+            SimpleSubscriber<Object> subscriber = new SimpleSubscriber<Object>(this, true, new SubscriberListener<Object>() {
+                @Override
+                public void onCompleted() {
+                    super.onCompleted();
+                    setResult(ElectricChargeActivity.REQUEST_SET_CODE);
+                    onBackPressed();
+                }
+
+                @Override
+                public boolean onError(Throwable e) {
+                    return super.onError(e);
+
+                }
+            });
+            RequestManager.INSTANCE.bindDormitory(user.stuNum,user.idNum,buildingNumber + "-" + dormitoryNumberEdit.getText().toString(),subscriber);
+
         }
 
     }
@@ -171,4 +190,6 @@ public class DormitorySettingActivity extends BaseActivity {
             void onItemClick(int position, String text);
         }
     }
+
+
 }
