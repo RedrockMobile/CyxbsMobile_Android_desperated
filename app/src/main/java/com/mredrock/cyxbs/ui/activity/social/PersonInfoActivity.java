@@ -145,7 +145,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
         mHotNewsList = datas;
         mNewsAdapter = new NewsAdapter(mHotNewsList) {
             @Override
-            public void setDate(ViewHolder holder, HotNewsContent mDataBean) {
+            public void setDate(NewsViewHolder holder, HotNewsContent mDataBean) {
                 super.setDate(holder, mDataBean);
                 CardView cardView = (CardView) holder.itemView;
                 RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) cardView.getLayoutParams();

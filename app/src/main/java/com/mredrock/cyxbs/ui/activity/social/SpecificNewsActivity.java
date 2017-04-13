@@ -81,7 +81,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     @Bind(R.id.downText)
     TextView mTextDown;
 
-    private NewsAdapter.ViewHolder mWrapView;
+    private NewsAdapter.NewsViewHolder mWrapView;
     private View mHeaderView;
     private HotNewsContent mHotNewsContent;
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
@@ -130,7 +130,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
         );
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
-        mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
+        mWrapView = new NewsAdapter.NewsViewHolder(mHeaderView);
 
         mWrapView.isFromPersonInfo = getIntent().getBooleanExtra(IS_FROM_PERSON_INFO, false);
         HotNewsContent hotNewsContent = getIntent().getParcelableExtra(START_DATA);
@@ -176,7 +176,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     }
 
-    private void doWithNews(NewsAdapter.ViewHolder mWrapView, OfficeNewsContent bean) {
+    private void doWithNews(NewsAdapter.NewsViewHolder mWrapView, OfficeNewsContent bean) {
 
         mWrapView.mTextContent.setText(Html.fromHtml(mHotNewsContent.officeNewsContent != null ? mHotNewsContent.officeNewsContent.content : ""));
         mWrapView.mTextName.setText(bean.getOfficeName());

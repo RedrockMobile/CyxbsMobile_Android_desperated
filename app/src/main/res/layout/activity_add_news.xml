@@ -63,7 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="150dp">
 
-        <EditText
+        <com.mredrock.cyxbs.component.widget.TopicEditText
+            android:layout_marginTop="16dp"
             android:id="@+id/add_news_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -30,6 +30,7 @@ public class TextLimitButton extends android.support.v7.widget.AppCompatButton {
     private int mAnimSwitch = 0x01;
     private static final int OPEN_MASK = 0x01;
     private static final int CLOSE_MASK = 0x10;
+    public static final String TAG = TextLimitButton.class.getSimpleName();
 
     public TextLimitButton(Context context) {
         this(context, null);
@@ -72,8 +73,10 @@ public class TextLimitButton extends android.support.v7.widget.AppCompatButton {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (shouldOpen(s.length())) {
                 mTextLimitButton.setEnabled(true);
+                mTextLimitButton.setBackgroundColor(mFreeColor);
                 if ((mAnimSwitch & OPEN_MASK) == OPEN_MASK) doAnim(true);
             } else {
+                mTextLimitButton.setBackgroundColor(mLimitColor);
                 mTextLimitButton.setEnabled(false);
                 if ((mAnimSwitch & CLOSE_MASK) == CLOSE_MASK) doAnim(false);
             }

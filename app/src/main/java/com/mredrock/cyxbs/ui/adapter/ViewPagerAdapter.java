@@ -24,7 +24,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
         this.mHotNewsContent = hotNewsContent;
         this.mViewPager = viewPager;
-        urls = NewsAdapter.ViewHolder.getUrls(hotNewsContent.img.normalImg);
+        urls = NewsAdapter.NewsViewHolder.getUrls(hotNewsContent.img.normalImg);
         mViewPager.setOffscreenPageLimit(urls.length);
         for (String url : urls) {
             SingleImageFragment singleImageFragment = new SingleImageFragment();

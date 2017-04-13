@@ -463,11 +463,22 @@ public enum RequestManager {
                                           String user_id,
                                           String stuNum,
                                           String idNum) {
-        if (!checkWithUserId("没有完善信息,还想发动态？")) return null;
+
         return redrockApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<String> sendTopicArticle(int topicId,
+                            String title,
+                            String content,
+                            String thumbnailSrc,
+                            String photoSrc,
+                            String stuNum,
+                            String idNum
+    ) {
+        return redrockApiService.sendTopicArticle(topicId, title, content, thumbnailSrc, photoSrc, stuNum, idNum, false)
+                .map(new RedrockApiWrapperFunc<>()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
 
     public void getRemarks(Subscriber<List<CommentContent>> subscriber,
                            String article_id,
@@ -642,7 +653,6 @@ public enum RequestManager {
                 .map(new RedrockApiWrapperFunc<>());
         emitObservable(observable,subscriber);
     }
-
 
     public void getLostList(Subscriber<LostWrapper<List<Lost>>> subscriber, int theme, String category, int page) {
         String themeString;

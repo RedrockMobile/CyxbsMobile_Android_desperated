@@ -65,6 +65,7 @@
         android:src="@drawable/bg_topic_join"/>
 
     <LinearLayout
+        android:visibility="invisible"
         android:id="@+id/ll_topic_join"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"

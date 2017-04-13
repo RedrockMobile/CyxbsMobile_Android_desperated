@@ -176,7 +176,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         mListHotNews = listHotNews;
         mNewsAdapter = new NewsAdapter(mListHotNews) {
             @Override
-            public void setDate(ViewHolder holder, HotNewsContent hotNewsContent) {
+            public void setDate(NewsViewHolder holder, HotNewsContent hotNewsContent) {
                 BaseNewsFragment.this.setDate(holder, hotNewsContent);
             }
         };
@@ -186,7 +186,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         mFooterViewWrapper.getCircleProgressBar().setVisibility(View.INVISIBLE);
     }
 
-    protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
+    protected void setDate(NewsAdapter.NewsViewHolder holder, HotNewsContent mDataBean) {
     }
 
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {

@@ -44,7 +44,7 @@ import rx.Subscription;
 /**
  * Created by mathiasluo on 16-4-4.
  */
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
     private List<HotNews> mNews;
 
@@ -56,19 +56,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     @Override
-    public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new NewsAdapter.ViewHolder(LayoutInflater.from(parent.getContext())
+    public NewsAdapter.NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new NewsAdapter.NewsViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_news_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(NewsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(NewsAdapter.NewsViewHolder holder, int position) {
         HotNewsContent mDataBean = mNews.get(position).data;
         holder.setData(mDataBean, false);
         setDate(holder, mDataBean);
     }
 
-    public void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
+    public void setDate(NewsAdapter.NewsViewHolder holder, HotNewsContent mDataBean) {
     }
 
     @Override
@@ -95,7 +95,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class NewsViewHolder extends RecyclerView.ViewHolder {
 
         public static final String TAG = "NewsAdapter.ViewHolder";
 
@@ -131,7 +131,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private Subscription mSubscription;
 
 
-        public ViewHolder(View itemView) {
+        public NewsViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
@@ -160,9 +160,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             if (APP.isLogin())
                 mBtnFavor.setClickable(false);
             if (mHotNewsContent.isMyLike) {
-                NewsAdapter.ViewHolder.this.dislike(mBtnFavor);
+                NewsAdapter.NewsViewHolder.this.dislike(mBtnFavor);
             } else {
-                NewsAdapter.ViewHolder.this.like(mBtnFavor);
+                NewsAdapter.NewsViewHolder.this.like(mBtnFavor);
             }
         }
 
@@ -355,7 +355,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             if (mExpandableTextView.getText().toString().equals(""))
                 mExpandableTextView.setVisibility(View.GONE);
 
-
             List<Image> url = getImageList(getUrls(hotNewsContent.img.smallImg));
             hideLayoutAndView();
             //来自官方
@@ -373,9 +372,5 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 }
             }
         }
-
-
     }
-
-
 }

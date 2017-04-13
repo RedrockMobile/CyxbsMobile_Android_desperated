@@ -52,6 +52,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
 
     TopicArticleAdapter mAdapter;
     private int mID;
+    private String mTitle;
     private TopicArticleHeader mHeader;
 
     private int mPage = 0;
@@ -106,6 +107,10 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
             case R.id.iv_topic_share:
                 break;
             case R.id.ll_topic_join:
+                Intent intent = new Intent(this, PostNewsActivity.class);
+                intent.putExtra(PostNewsActivity.EXTRA_TOPIC_ID, mID);
+                intent.putExtra(PostNewsActivity.EXTRA_TOPIC_TITLE, mTitle);
+                startActivity(intent);
                 break;
         }
     }
@@ -126,6 +131,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
                 super.onCompleted();
                 mPage++;
                 mSrlTopic.setRefreshing(false);
+                mLlTopicJoin.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -138,10 +144,13 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
             public void onNext(TopicArticle topicArticles) {
                 super.onNext(topicArticles);
                 if (topicArticles.getArticles().size() == 0 && mPage == 0) {
+                    // TODO: 2017/4/10 show empty
+                    System.out.println("");
                 } else {
                     mAdapter.addAll(topicArticles.getArticles());
                 }
                 mTvTopicArticleTitle.setText("#" + topicArticles.getKeyword() + "#");
+                mTitle = topicArticles.getKeyword();
                 mHeader.setTopicArticle(topicArticles);
             }
         }), 10, mPage, user.stuNum, user.idNum, mID);
