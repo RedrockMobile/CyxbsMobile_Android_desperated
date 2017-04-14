@@ -52,7 +52,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     /* The default alpha value when the animation starts */
     private static final float DEFAULT_ANIM_ALPHA_START = 0.7f;
 
-    protected TopicHintTextView mTv;
+    protected TextView mTv;
 
     protected TextView mButton; // Button to expand/collapse
 
@@ -318,7 +318,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     }
 
     private void findViews() {
-        mTv = (TopicHintTextView) findViewById(com.ms.square.android.expandabletextview.R.id.expandable_text);
+        mTv = (TextView) findViewById(com.ms.square.android.expandabletextview.R.id.expandable_text);
         // mTv.setOnClickListener(this);
         mButton = (TextView) findViewById(com.ms.square.android.expandabletextview.R.id.expand_collapse);
         // mButton.setImageDrawable(mCollapsed ? mExpandDrawable : mCollapseDrawable);
