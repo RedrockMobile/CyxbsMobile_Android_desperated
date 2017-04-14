@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.model.social.BBDDNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.model.social.OfficeNewsContent;
 import com.mredrock.cyxbs.model.social.TopicArticle;
@@ -40,7 +41,7 @@ public class TopicArticleAdapter extends RecyclerArrayAdapter<TopicArticle.Artic
         @Override
         public void setData(com.mredrock.cyxbs.model.social.TopicArticle.ArticlesBean data) {
             super.setData(data);
-            mTopicArticleViewHolder.setData(new ArticleAdapter().convert(data),false);
+             mTopicArticleViewHolder.setData(new ArticleAdapter().convert(data),false);
         }
 
         private class TopicArticleViewHolder extends NewsAdapter.NewsViewHolder {
@@ -54,13 +55,17 @@ public class TopicArticleAdapter extends RecyclerArrayAdapter<TopicArticle.Artic
     private static class ArticleAdapter{
         HotNewsContent convert(TopicArticle.ArticlesBean articlesBean) {
             HotNewsContent hotNewsContent = new HotNewsContent();
+            hotNewsContent.userHead = articlesBean.getUser_thumbnail_src();
+            hotNewsContent.user_id = String.valueOf(articlesBean.getUser_id());
             hotNewsContent.articleId = String.valueOf(articlesBean.getArticle_id());
             hotNewsContent.likeNum = String.valueOf(articlesBean.getLike_num());
             hotNewsContent.nickName = articlesBean.getNickname();
-            hotNewsContent.typeId = 5;
+            hotNewsContent.remarkNum = String.valueOf(articlesBean.getRemark_num());
+            hotNewsContent.typeId = BBDDNews.TOPIC_ARTICLE;
             hotNewsContent.time = articlesBean.getCreated_time();
             hotNewsContent.isMyLike = articlesBean.isIs_my_like();
             hotNewsContent.officeNewsContent = new OfficeNewsContent(articlesBean.getContent());
+            hotNewsContent.img = new HotNewsContent.ImgBean(articlesBean.getArticle_thumbnail_src(), articlesBean.getArticle_photo_src());
             return hotNewsContent;
         }
     }

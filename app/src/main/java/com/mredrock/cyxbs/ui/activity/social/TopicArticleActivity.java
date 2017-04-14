@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +18,7 @@ import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.SpaceDecoration;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.event.ItemChangedEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.TopicArticle;
 import com.mredrock.cyxbs.network.RequestManager;
@@ -27,14 +28,22 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicArticleAdapter;
 import com.mredrock.cyxbs.util.Utils;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,RecyclerArrayAdapter.OnMoreListener {
+public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, RecyclerArrayAdapter.OnMoreListener {
 
     public static final String EXTRA_ID = "topic_article_id";
+    public static final String EXTRA_POST_SUCCESS = "post_article_success";
     public static final String TAG = TopicArticleActivity.class.getSimpleName();
+    public static final int RESULT_CODE = 1001;
 
     @Bind(R.id.tv_topic_article_title)
     TextView mTvTopicArticleTitle;
@@ -48,19 +57,18 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
     AppCompatImageView mBtTopicArticleBack;
     @Bind(R.id.srl_topic)
     SwipeRefreshLayout mSrlTopic;
-    TextView mNoMore;
 
     TopicArticleAdapter mAdapter;
     private int mID;
     private String mTitle;
     private TopicArticleHeader mHeader;
+    private List<TopicArticle.ArticlesBean> mArticlesBeen = new ArrayList<>();
 
     private int mPage = 0;
 
     public static void start(Context context, int id) {
         Intent intent = new Intent(context, TopicArticleActivity.class);
         intent.putExtra(TopicArticleActivity.EXTRA_ID, id);
-        Log.d(TAG, "start: " + id);
         context.startActivity(intent);
     }
 
@@ -69,7 +77,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_article);
         ButterKnife.bind(this);
-        mAdapter= new TopicArticleAdapter(this);
+        mAdapter = new TopicArticleAdapter(this);
         mSrlTopic.setColorSchemeResources(R.color.colorAccent);
         mSrlTopic.setOnRefreshListener(this);
         mID = getIntent().getIntExtra(EXTRA_ID, 0);
@@ -78,10 +86,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
         spaceDecoration.setPaddingEdgeSide(false);
         mRvTopicArticle.addItemDecoration(spaceDecoration);
         mAdapter.setMore(R.layout.item_topic_more, this);
-        mHeader= new TopicArticleHeader();
-        View v = LayoutInflater.from(this).inflate(R.layout.item_topic_no_more, mRvTopicArticle, false);
-        mNoMore= (TextView) v.findViewById(R.id.tv_no_more);
-        mAdapter.setNoMore(mNoMore);
+        mHeader = new TopicArticleHeader();
         mAdapter.setNoMore(R.layout.item_topic_no_more, new RecyclerArrayAdapter.OnNoMoreListener() {
             @Override
             public void onNoMoreShow() {
@@ -110,7 +115,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
                 Intent intent = new Intent(this, PostNewsActivity.class);
                 intent.putExtra(PostNewsActivity.EXTRA_TOPIC_ID, mID);
                 intent.putExtra(PostNewsActivity.EXTRA_TOPIC_TITLE, mTitle);
-                startActivity(intent);
+                startActivityForResult(intent, RESULT_CODE);
                 break;
         }
     }
@@ -143,9 +148,9 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
             @Override
             public void onNext(TopicArticle topicArticles) {
                 super.onNext(topicArticles);
+                mArticlesBeen.addAll(topicArticles.getArticles());
                 if (topicArticles.getArticles().size() == 0 && mPage == 0) {
-                    // TODO: 2017/4/10 show empty
-                    System.out.println("");
+
                 } else {
                     mAdapter.addAll(topicArticles.getArticles());
                 }
@@ -164,6 +169,53 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
     @Override
     public void onMoreClick() {
 
+    }
+
+    private class ArticleFooter implements RecyclerArrayAdapter.ItemView {
+
+        private View mView;
+
+        public View getView() {
+            return mView;
+        }
+
+        @Override
+        public View onCreateView(ViewGroup parent) {
+            mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic_no_more, parent, false);
+            TextView tv = (TextView) mView.findViewById(R.id.tv_no_more);
+            tv.setText("还没有人哦，快来参加话题吧~");
+            return mView;
+        }
+
+        @Override
+        public void onBindView(View headerView) {
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RESULT_CODE) {
+            boolean success = data.getBooleanExtra(EXTRA_POST_SUCCESS, false);
+            if (success) {
+                onRefresh();
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onItemChangedEvent(ItemChangedEvent event) {
+        if (mArticlesBeen == null)
+            return;
+        int index = -1;
+        for (TopicArticle.ArticlesBean article : mArticlesBeen) {
+            index++;
+            if (String.valueOf(article.getArticle_id()).equals(event.getArticleId())) {
+                article.setIs_my_like(event.isMyLike());
+                article.setLike_num(Integer.parseInt(event.getNum()));
+                mAdapter.notifyItemChanged(index+1);
+            }
+        }
     }
 }
 

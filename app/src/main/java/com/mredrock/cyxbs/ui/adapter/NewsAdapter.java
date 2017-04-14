@@ -202,7 +202,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                             mHotNewsContent.articleId,true));
                     likeToSetDataAndView(textView,likeNumber);
 
-
 //                    if (isSingle) RxBus.getDefault().post(mHotNewsContent);
                     if (isSingle) setData(mHotNewsContent, false);
                 }
@@ -307,15 +306,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         public void setData(HotNewsContent hotNewsContent, boolean isSingleItem) {
             this.isSingle = isSingleItem;
             mHotNewsContent = hotNewsContent;
-
             mTextName.setText(mHotNewsContent.getNickName());
             mTextTime.setText(TimeUtils.getTimeDetail(hotNewsContent.getTime()));
             mBtnMsg.setText(hotNewsContent.remarkNum);
             mBtnFavor.setText(mHotNewsContent.likeNum);
             mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mBtnFavor.getContext(),hotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike), null, null, null);
             mExpandableTextView.setmMaxCollapsedLines(4);
-
-
             if (isSingle) {
                 mExpandableTextView.setText(Html.fromHtml(hotNewsContent.officeNewsContent.content));
                 mExpandableTextView.setmMaxCollapsedLines(1000);

@@ -225,7 +225,6 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         }), size, page);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();

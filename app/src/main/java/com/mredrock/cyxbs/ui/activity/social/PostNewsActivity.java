@@ -85,6 +85,9 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onCompleted() {
                 super.onCompleted();
+                Intent intent = new Intent();
+                intent.putExtra(TopicArticleActivity.EXTRA_POST_SUCCESS, true);
+                PostNewsActivity.this.setResult(TopicArticleActivity.RESULT_CODE, intent);
                 showUploadSuccess(content);
             }
 
