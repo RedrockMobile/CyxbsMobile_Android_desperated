@@ -195,7 +195,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_CODE) {
+        if (requestCode == RESULT_CODE&&data!=null) {
             boolean success = data.getBooleanExtra(EXTRA_POST_SUCCESS, false);
             if (success) {
                 onRefresh();

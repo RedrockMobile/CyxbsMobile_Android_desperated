@@ -2,7 +2,6 @@ package com.mredrock.cyxbs.ui.adapter;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -313,7 +312,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mBtnFavor.getContext(),hotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike), null, null, null);
             mExpandableTextView.setmMaxCollapsedLines(4);
             if (isSingle) {
-                mExpandableTextView.setText(Html.fromHtml(hotNewsContent.officeNewsContent.content));
+                mExpandableTextView.setText(hotNewsContent.officeNewsContent.content);
                 mExpandableTextView.setmMaxCollapsedLines(1000);
             } else if (hotNewsContent.typeId < BBDDNews.BBDD) {
                 mExpandableTextView.setText(hotNewsContent.officeNewsContent.title);
