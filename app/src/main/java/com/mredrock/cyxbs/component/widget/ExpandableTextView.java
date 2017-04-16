@@ -293,15 +293,18 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
 
     public void setText(@Nullable String text) {
         mRelayout = true;
-        if (hasTopic(text)) {
-            SpannableString spanned = new SpannableString(text);
-            spanned.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(),
-                    R.color.colorAccent)), a, b, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            mTv.setText(spanned, TextView.BufferType.SPANNABLE);
-        } else {
+        try {
+            if (hasTopic(text)) {
+                SpannableString spanned = new SpannableString(text);
+                spanned.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(),
+                        R.color.colorAccent)), a, b, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                mTv.setText(spanned, TextView.BufferType.SPANNABLE);
+            } else {
+                mTv.setText(text);
+            }
+        } finally {
             a = 0;
             b = 0;
-            mTv.setText(text);
         }
         setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
     }
@@ -309,13 +312,13 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     private boolean hasTopic(String text) {
         boolean perMatched = false;
         for (int i = 0; i < text.length(); i++) {
-            if (a!=b) break;
+            if (a != b) break;
             if (text.charAt(i) == '#') {
                 if (!perMatched) {
                     a = i;
                     perMatched = true;
                 } else {
-                    b = i+1;
+                    b = i + 1;
                 }
             }
         }
