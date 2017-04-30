@@ -22,6 +22,7 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.fragment.explore.eletric.DialogRemindFragment;
+import com.mredrock.cyxbs.util.ElectricRemindUtil;
 import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.Utils;
@@ -86,6 +87,12 @@ public class DormitorySettingActivity extends BaseActivity {
         }));
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        String building = (String) SPUtils.get(APP.getContext(),BUILDING_KEY,"");
+        if (building.isEmpty())
+            return;
+        buildingNumberEdit.setText(building+"栋");
+        String dormitory = (String) SPUtils.get(APP.getContext(),DORMITORY_KEY,"");
+        dormitoryNumberEdit.setText(dormitory);
 
     }
 
@@ -121,7 +128,8 @@ public class DormitorySettingActivity extends BaseActivity {
         }else {
             User user = APP.getUser(this);
             SPUtils.set(APP.getContext(),BUILDING_KEY,String.valueOf(buildingNumber));
-            SPUtils.set(APP.getContext(),DORMITORY_KEY,dormitoryNumberEdit.getText().toString());
+            SPUtils.set(APP.getContext(),DORMITORY_KEY,dormitoryNumberEdit.getText().toString()+"");
+            SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
             SimpleSubscriber<Object> subscriber = new SimpleSubscriber<Object>(this, true, new SubscriberListener<Object>() {
                 @Override
                 public void onCompleted() {

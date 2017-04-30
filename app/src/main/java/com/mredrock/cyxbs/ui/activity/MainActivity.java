@@ -39,6 +39,7 @@ import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
+import com.mredrock.cyxbs.ui.activity.explore.electric.DormitorySettingActivity;
 import com.mredrock.cyxbs.ui.activity.me.EditInfoActivity;
 import com.mredrock.cyxbs.ui.activity.me.NewsRemindActivity;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
@@ -51,7 +52,9 @@ import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
 import com.mredrock.cyxbs.ui.widget.CourseListAppWidget;
+import com.mredrock.cyxbs.util.ElectricRemindUtil;
 import com.mredrock.cyxbs.util.ImageLoader;
+import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
@@ -127,6 +130,7 @@ public class MainActivity extends BaseActivity {
         initView();
         StatusBarUtil.setTranslucent(this, 50);
         UpdateUtil.checkUpdate(this, false);
+        ElectricRemindUtil.check(this);
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
         // TODO: Filter these intents in another activity (such as LaunchActivity), not here, to fix the fixme above
         intentFilterFor3DTouch();
@@ -250,6 +254,8 @@ public class MainActivity extends BaseActivity {
             mFragments.remove(0);
             mFragments.add(0, new UnLoginFragment());
             mAdapter.notifyDataSetChanged();
+            SPUtils.set(APP.getContext(), DormitorySettingActivity.BUILDING_KEY,"");
+            SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME,System.currentTimeMillis() / 2);
             unLoginFace();
         } else {
             mFragments.remove(0);
@@ -444,6 +450,8 @@ public class MainActivity extends BaseActivity {
 
         }
     }
+
+
 
     private void toolbarStepByStepClose(float positionOffset, boolean shouldShow) {
         Log.d(TAG, "toolbarStepByStepClose: " + positionOffset);
