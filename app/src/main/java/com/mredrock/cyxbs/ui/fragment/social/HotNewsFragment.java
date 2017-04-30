@@ -21,7 +21,7 @@ public class HotNewsFragment extends BaseNewsFragment {
 
 
     @Override
-    protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent hotNewsContent) {
+    protected void setDate(NewsAdapter.NewsViewHolder holder, HotNewsContent hotNewsContent) {
         super.setDate(holder, hotNewsContent);
         holder.enableAvatarClick = !(hotNewsContent.user_id.equals("0") || hotNewsContent.typeId < 5);
     }

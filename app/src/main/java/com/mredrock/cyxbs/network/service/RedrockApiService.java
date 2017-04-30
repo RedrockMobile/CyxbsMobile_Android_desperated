@@ -26,6 +26,9 @@ import com.mredrock.cyxbs.model.social.OfficeNews;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.RequestResponse;
+import com.mredrock.cyxbs.model.social.Topic;
+import com.mredrock.cyxbs.model.social.TopicApiWrapper;
+import com.mredrock.cyxbs.model.social.TopicArticle;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.setting.annotation.XmlApi;
 
@@ -288,4 +291,45 @@ public interface RedrockApiService {
     @FormUrlEncoded
     @POST(Const.API_ELECTRIC_QUERY_STUNUM)
     Observable<RedrockApiWrapper<PastElectric.PastElectricResultWrapper>> getPastElectricCharge(@Field("stuNum")String stuNum, @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_ALL_TOPIC_LIST)
+    Observable<TopicApiWrapper<List<Topic>>> getAllTopicList(@Field("stuNum") String stuNum,
+                                                             @Field("idNum") String idNum,
+                                                             @Field("size") int size,
+                                                             @Field("page") int page);
+
+    @FormUrlEncoded
+    @POST(Const.API_MY_TOPIC_LIST)
+    Observable<TopicApiWrapper<List<Topic>>> getMyTopicList(@Field("stuNum") String stuNum,
+                                                            @Field("idNum") String idNum,
+                                                            @Field("size") int size,
+                                                            @Field("page") int page);
+
+    @FormUrlEncoded
+    @POST(Const.API_ALL_TOPIC_LIST)
+    Observable<TopicApiWrapper<List<Topic>>> searchTopic(@Field("stuNum") String stuNum,
+                                                         @Field("idNum") String idNum,
+                                                         @Field("size") int size,
+                                                         @Field("page") int page,
+                                                         @Field("searchKeyword") String searchKeyword);
+
+    @FormUrlEncoded
+    @POST(Const.API_TOPIC_ARTICLE)
+    Observable<TopicApiWrapper<TopicArticle>> getTopicArticle(@Field("stuNum") String stuNum,
+                                                              @Field("idNum") String idNum,
+                                                              @Field("size") int size,
+                                                              @Field("page") int page,
+                                                              @Field("topic_id") int topicId);
+
+    @FormUrlEncoded
+    @POST(Const.API_ADD_TOPIC_ARTICLE)
+    Observable<RequestResponse> sendTopicArticle(@Field("topic_id") int topic_id,
+                                                 @Field("title") String title,
+                                                 @Field("content") String content,
+                                                 @Field("thumbnail_src") String thumbnail_src,
+                                                 @Field("photo_src") String photo_src,
+                                                 @Field("stuNum") String stuNum,
+                                                 @Field("idNum") String idNum,
+                                                 @Field("official") boolean official);
 }

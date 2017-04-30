@@ -1,8 +1,5 @@
 package com.mredrock.cyxbs.event;
 
-
-import com.mredrock.cyxbs.model.social.HotNews;
-
 /**
  * Created by  : ACEMURDER
  * Created at  : 16/8/11.

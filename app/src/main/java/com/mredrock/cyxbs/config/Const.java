@@ -93,10 +93,11 @@ public class Const {
     public static final String SP_KEY_USER = "cyxbsmobile_user";
     public static final String SP_KEY_IS_NIGHT = "is_night";
 
-
-
-
-
+    //话题
+    public static final String API_ALL_TOPIC_LIST = "/cyxbsMobile/index.php/Home/Topic/topicList";
+    public static final String API_MY_TOPIC_LIST = "/cyxbsMobile/index.php/Home/Topic/myJoinedTopic";
+    public static final String API_TOPIC_ARTICLE = "/cyxbsMobile/index.php/Home/Topic/listTopicArticle";
+    public static final String API_ADD_TOPIC_ARTICLE = "/cyxbsMobile/index.php/Home/Topic/addTopicArticle";
     public static final class Extras {
         public static final String EDIT_USER = "10";
         public static final String EDIT_NICK_NAME = "10";

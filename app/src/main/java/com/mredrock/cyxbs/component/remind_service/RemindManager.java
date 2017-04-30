@@ -74,7 +74,7 @@ public class RemindManager {
         JobInfo.Builder builder = new JobInfo.Builder(1,
                 new ComponentName(context.getPackageName(),
                         RemindJobService.class.getName()));
-        builder.setPeriodic(1000 * 60 * 30).setRequiresCharging(true).setPersisted(true).setRequiresDeviceIdle(true);
+        builder.setPeriodic(AlarmManager.INTERVAL_HALF_HOUR).setRequiresCharging(true).setPersisted(true).setRequiresDeviceIdle(true);
         jobScheduler.schedule(builder.build());
     }
 
@@ -104,7 +104,7 @@ public class RemindManager {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
                 System.currentTimeMillis() + 60 * 1000
-                , 60 * 1000 * 30, pendingIntent);
+                , AlarmManager.INTERVAL_HALF_HOUR, pendingIntent);
     }
 
     //需要重复执行的任务放在这里

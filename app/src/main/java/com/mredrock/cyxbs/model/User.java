@@ -35,7 +35,6 @@ public class User implements Parcelable {
     public String phone;
     public String introduction;
 
-
     protected User(Parcel in) {
         stuNum = in.readString();
         idNum = in.readString();
