@@ -13,6 +13,7 @@ import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.network.encrypt.UserInfoEncryption;
+import com.mredrock.cyxbs.ui.activity.exception.ExceptionActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.orhanobut.logger.Logger;
@@ -124,6 +125,7 @@ public class APP extends MultiDexApplication {
         initThemeMode();
         //  FIR.init(this);
         Logger.init("cyxbs_mobile");
+        ExceptionActivity.install(getApplicationContext(), true);
         // Initialize UserInfoEncrypted
         userInfoEncryption = new UserInfoEncryption();
         // Refresh Course List When Start

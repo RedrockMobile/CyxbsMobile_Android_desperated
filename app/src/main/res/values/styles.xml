@@ -98,6 +98,14 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
+    <!-- transparent activity theme. -->
+    <style name="Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+    </style>
+
+
 
 
 

@@ -216,7 +216,7 @@
         <activity
             android:name=".ui.activity.explore.electric.PastElectricChargeActivity"
             android:launchMode="singleTop"></activity>
-        <activity android:name=".ui.activity.explore.electric.ElectricRemindActivity"></activity>
+        <activity android:name=".ui.activity.explore.electric.ElectricRemindActivity"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service android:name=".component.remind_service.service.NotificationService"/>
 
@@ -224,6 +224,8 @@
         </activity>
         <activity android:name=".ui.activity.social.TopicArticleActivity">
         </activity>
+        <activity android:name=".ui.activity.exception.ExceptionActivity"
+                  android:theme="@style/Transparent"/>
     </application>
 
 </manifest>
