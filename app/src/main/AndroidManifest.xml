@@ -225,7 +225,8 @@
         <activity android:name=".ui.activity.social.TopicArticleActivity">
         </activity>
         <activity android:name=".ui.activity.exception.ExceptionActivity"
-                  android:theme="@style/Transparent"/>
+                  android:theme="@style/Transparent"
+                  android:process=":exception_handler"/>
     </application>
 
 </manifest>

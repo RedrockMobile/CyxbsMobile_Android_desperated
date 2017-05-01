@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.TypefaceSpan;
 
 import com.mredrock.cyxbs.BuildConfig;
 
@@ -43,14 +46,14 @@ public class ExceptionActivity extends AppCompatActivity {
     private static String generateThrowableStackString(Throwable t) {
         StringBuilder builder = new StringBuilder();
         while (t != null) {
-            builder.append(t.getClass().getName()).append('\n');
-            builder.append('\t').append("at");
+            builder.append(t.getClass().getName()).append(": ");
+            builder.append(t.getMessage());
             for (StackTraceElement i: t.getStackTrace()) {
-                builder.append('\n').append(i.toString());
+                builder.append('\n').append("\t\tat ").append(i.toString());
             }
             t = t.getCause();
             if (t != null) {
-                builder.append('\n').append('\n').append("Cause by: ");
+                builder.append('\n').append('\t').append("Cause by: ");
             }
         }
         return builder.toString();
@@ -75,12 +78,14 @@ public class ExceptionActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("哦活，掌上重邮崩溃了！");
         final String exceptionString = generateThrowableStackString(t);
-        builder.setMessage(generateThrowableStackString(t));
-        builder.setPositiveButton("把异常丢给系统", (dialog, which) -> originHandler.uncaughtException(new Thread(threadName), t));
-        builder.setNegativeButton("复制异常信息并离开", (dialog, which) -> {
+        SpannableString exceptionSpannableString = new SpannableString(exceptionString);
+        exceptionSpannableString.setSpan(new TypefaceSpan("monospace"), 0, exceptionSpannableString.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        builder.setMessage(exceptionSpannableString);
+        builder.setNegativeButton("复制异常信息并退出", (dialog, which) -> {
             ClipboardManager cm = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
             cm.setPrimaryClip(ClipData.newPlainText("exception trace stack", exceptionString));
         });
+        builder.setCancelable(false);
         builder.setOnDismissListener(dialog -> {
             if (context instanceof ExceptionActivity) {
                 ((ExceptionActivity) context).finish();
@@ -101,7 +106,7 @@ public class ExceptionActivity extends AppCompatActivity {
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
                 Thread.setDefaultUncaughtExceptionHandler(originHandler);
                 start(applicationContext, t, e);
-                System.exit(0);
+                originHandler.uncaughtException(t, e);
             });
         }
     }
