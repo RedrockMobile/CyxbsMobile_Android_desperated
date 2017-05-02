@@ -293,6 +293,9 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
 
     public void setText(@Nullable String text) {
         mRelayout = true;
+        if (text == null) {
+            text = "";
+        }
         try {
             if (hasTopic(text)) {
                 SpannableString spanned = new SpannableString(text);
