@@ -126,4 +126,10 @@ public class Const {
         public static final int BBDD = 5;
         public static final int NOTICE = 6;
     }
+
+    public static final class CyxbsUri {
+        // please modify AndroidManifest.xml if you change it
+        public static final String SCHEME = "cyxbsmobile";
+        public static final String HOST_TOPIC = "topic";
+    }
 }

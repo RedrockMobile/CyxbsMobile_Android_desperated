@@ -227,6 +227,16 @@
         <activity android:name=".ui.activity.exception.ExceptionActivity"
                   android:theme="@style/Transparent"
                   android:process=":exception_handler"/>
+        <activity android:name=".ui.activity.ActionActivity"
+                  android:excludeFromRecents="true"
+                  android:theme="@style/Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="cyxbsmobile"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

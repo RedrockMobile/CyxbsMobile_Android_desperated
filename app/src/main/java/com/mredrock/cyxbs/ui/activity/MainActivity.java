@@ -121,7 +121,6 @@ public class MainActivity extends BaseActivity {
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
         // TODO: Filter these intents in another activity (such as LaunchActivity), not here, to fix the fixme above
         intentFilterFor3DTouch();
-        intentFilterForAppWidget();
         enableBottomNavAnim(false);
     }
 
@@ -169,21 +168,10 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void intentFilterForAppWidget() {
-        Log.d("MainActivity", "intentFilterForAppWidget: intent: " + getIntent().toString());
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        if (action != null && action.equals(getString(R.string.action_appwidget_item_on_click))) {
-            //mBottomBar.setCurrentView(0);
-            Course[] courses = (Course[]) intent.getParcelableArrayExtra(CourseListAppWidget.EXTRA_COURSES);
-            if (courses != null && courses.length != 0) {
-                ScheduleView.CourseList courseList = new ScheduleView.CourseList();
-                courseList.list = new ArrayList<>(Arrays.asList(courses));
-                Log.d("MainActivity", "intentFilterForAppWidget: call Course Dialog with: " + Arrays.toString(courses));
-                CourseDialog.show(MainActivity.this, courseList);
-            } else {
-                Log.w("MainActivity", "intentFilterForAppWidget: empty courses.");
-            }
+    private void checkCourseListToShow() {
+        ScheduleView.CourseList courseList = ActionActivity.getCourseListToShow();
+        if (courseList != null) {
+            CourseDialog.show(this, courseList);
         }
     }
 
@@ -491,5 +479,11 @@ public class MainActivity extends BaseActivity {
             }
             return true;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkCourseListToShow();
     }
 }
