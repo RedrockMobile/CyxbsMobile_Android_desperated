@@ -31,9 +31,5 @@
             android:defaultValue="22"
             android:summary="每晚会收到推送的时间"
             android:title="通知时间"/>
-        <ListPreference
-            android:key="remind_every_day_time"
-            android:enabled="false"
-            android:summary="注意：如遇到不能正常提醒，请在安全软件或系统管理中添加掌上重邮到白名单。使用了对齐唤醒技术，所以请不要担心影响续航."/>
-    </PreferenceCategory>
+      </PreferenceCategory>
 </PreferenceScreen>

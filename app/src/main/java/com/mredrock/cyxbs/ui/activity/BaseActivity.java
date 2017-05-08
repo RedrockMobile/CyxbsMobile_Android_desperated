@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.jaeger.library.StatusBarUtil;
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.ExitEvent;
@@ -45,6 +47,20 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        SwipeBackHelper.onCreate(this);
+        SwipeBackHelper.getCurrentPage(this).setSwipeRelateEnable(true);
+    }
+
+    @Override
+    public void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        SwipeBackHelper.onPostCreate(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        StatusBarUtil.setTranslucent(this, 50);
     }
 
     @Override
@@ -220,5 +236,6 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        SwipeBackHelper.onDestroy(this);
     }
 }

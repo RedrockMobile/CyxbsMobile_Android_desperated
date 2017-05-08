@@ -124,7 +124,7 @@ public class NoCourseItemFragment extends BaseFragment {
         //星期和时间TextView
         TextView blank = new TextView(getActivity());
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                (int) DensityUtils.dp2px(getContext(), 25f),
+                DensityUtils.dp2px(getContext(), 25f),
                 (LinearLayout.LayoutParams.MATCH_PARENT));
         layoutParams.leftMargin = DensityUtils.dp2px(getContext(), 1f);
         blank.setLayoutParams(layoutParams);

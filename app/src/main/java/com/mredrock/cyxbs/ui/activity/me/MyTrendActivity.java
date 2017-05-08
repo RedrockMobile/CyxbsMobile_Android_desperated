@@ -91,7 +91,7 @@ public class MyTrendActivity extends BaseActivity
         myTrendRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mNewsAdapter = new NewsAdapter(mNewsList) {
             @Override
-            public void onBindViewHolder(ViewHolder holder, int position) {
+            public void onBindViewHolder(NewsViewHolder holder, int position) {
                 super.onBindViewHolder(holder, position);
                 ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, holder.mImgAvatar);
                 holder.mTextName.setText(mUser.getNickname());
@@ -100,7 +100,7 @@ public class MyTrendActivity extends BaseActivity
             }
 
             @Override
-            public void setDate(ViewHolder holder, HotNewsContent mDataBean) {
+            public void setDate(NewsViewHolder holder, HotNewsContent mDataBean) {
                 super.setDate(holder, mDataBean);
                 holder.isFromMyTrend = true;
             }

@@ -10,8 +10,8 @@ android {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 35
-        versionName "跨年版"
+        versionCode 36
+        versionName "话题版"
         multiDexEnabled true
     }
 
@@ -48,7 +48,7 @@ android {
         release {
             minifyEnabled true
             zipAlignEnabled true
-            shrinkResources false
+            shrinkResources true
 
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -88,15 +88,29 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile files('src/libs/Android_Map_V2.5.0.jar')
-    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile('com.squareup.retrofit2:converter-simplexml:2.1.0') {
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
+    }
+    // compile 'im.fir:fir-sdk:latest.integration@aar'
+    // compile 'com.bigkoo:pickerview:2.1.1'
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile('com.squareup.retrofit2:converter-simplexml:2.1.0') {
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
+    }
+    // compile 'im.fir:fir-sdk:latest.integration@aar'
+    // compile 'com.bigkoo:pickerview:2.1.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton:disklrucache:2.0.2'
-    compile 'com.android.support:support-v4:25.0.1'
-    compile 'com.android.support:cardview-v7:25.0.1'
-    compile 'com.android.support:recyclerview-v7:25.0.1'
-    compile 'com.android.support:design:25.0.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
@@ -104,12 +118,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile('com.squareup.retrofit2:converter-simplexml:2.1.0') {
-        exclude group: 'xpp3', module: 'xpp3'
-        exclude group: 'stax', module: 'stax-api'
-        exclude group: 'stax', module: 'stax'
-    }
-    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.google.code.gson:gson:2.7'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -127,14 +136,13 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.0'
     compile 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
     compile 'com.afollestad.material-dialogs:core:0.9.4.1'
-    compile "com.github.VictorAlbertos.RxCache:runtime:1.6.4"
+    compile 'com.github.VictorAlbertos.RxCache:runtime:1.6.4'
     compile 'com.github.VictorAlbertos.Jolyglot:jackson:0.0.3'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     compile 'com.github.traex.rippleeffect:library:1.3'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'com.ms-square:expandableTextView:0.1.4'
     compile 'com.umeng.analytics:analytics:latest.integration'
-   // compile 'im.fir:fir-sdk:latest.integration@aar'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.coolerfall:android-app-daemon:1.2.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
@@ -142,7 +150,13 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.jaeger.statusbaruitl:library:1.3.0'
     compile 'info.hoang8f:android-segmented:1.0.6'
-   // compile 'com.bigkoo:pickerview:2.1.1'
     compile 'com.github.markushi:circlebutton:1.1'
     compile 'com.contrarywind:Android-PickerView:3.0.7'
+    compile 'com.jude:swipebackhelper:3.1.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.jude:easyrecyclerview:4.4.0'
+    compile 'com.lapism:searchview:4.0'
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }

@@ -142,6 +142,12 @@ public class ElectricCircleView extends View {
         }
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        invalidate();
+    }
+
+
 
     private void drawLittleCircle(Canvas canvas, float outSideWidth) {
         paint.setStyle(Paint.Style.FILL);

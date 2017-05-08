@@ -29,7 +29,6 @@ import com.mredrock.cyxbs.util.DialogUtil;
 import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
 import com.mredrock.cyxbs.util.permission.EasyPermissions;
-import com.umeng.analytics.MobclickAgent;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -76,19 +75,6 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
     private CharSequence[] dialogItems = {"拍照", "从相册中选择"};
     private Uri mDestinationUri, cameraImageUri;
     private File dir;
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

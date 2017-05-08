@@ -22,7 +22,7 @@
         android:layout_gravity="bottom"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:text="点击登录,拯救课表菌！！！"
+        android:text="@string/unLoginHint"
         android:textColor="@color/no_course_blue"
         android:layout_below="@+id/iv_un_login"
         android:layout_alignParentLeft="true"

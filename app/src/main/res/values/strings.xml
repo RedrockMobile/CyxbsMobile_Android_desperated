@@ -237,7 +237,7 @@
     <string name="activity_add_news_title">发表动态</string>
     <string name="save">完成</string>
     <string name="cancel">取消</string>
-    <string name="add_news_edit_hint">和大家一起哔哔叨叨吧</string>
+    <string name="add_news_edit_hint">点击输入文字...</string>
     <string name="annex">含附件</string>
     <string name="erro">获取数据失败,你的网络不靠谱呀</string>
     <string name="alter">你没有输入任何东西哟</string>
@@ -286,4 +286,9 @@
     </string-array>
     <!--Electric query-->
     <string name="electric_notice_info">\t注意事项\n\n\t抄表日期： </string>
+    <string name="electric_notice_info_1">\t用电过程中，如需查询请致电：\t023-62487902</string>
+    <string name="unLoginHint">点击登录,拯救课表菌！！！</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

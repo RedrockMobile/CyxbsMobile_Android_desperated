@@ -9,9 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.Html;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -23,6 +21,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.component.widget.TextLimitButton;
 import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
@@ -78,11 +77,11 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @Bind(R.id.btn_send)
-    TextView mSendText;
+    TextLimitButton mSendText;
     @Bind(R.id.downText)
     TextView mTextDown;
 
-    private NewsAdapter.ViewHolder mWrapView;
+    private NewsAdapter.NewsViewHolder mWrapView;
     private View mHeaderView;
     private HotNewsContent mHotNewsContent;
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
@@ -131,7 +130,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                 ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
         );
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
-        mWrapView = new NewsAdapter.ViewHolder(mHeaderView);
+        mWrapView = new NewsAdapter.NewsViewHolder(mHeaderView);
 
         mWrapView.isFromPersonInfo = getIntent().getBooleanExtra(IS_FROM_PERSON_INFO, false);
         HotNewsContent hotNewsContent = getIntent().getParcelableExtra(START_DATA);
@@ -165,34 +164,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mSpecificNewsCommentAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
-
-        mSendText.setClickable(false);
-        mSendText.setBackgroundColor(getResources().getColor(R.color.gray_edit));
-
-        mNewsEdtComment.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() != 0) {
-                    mSendText.setClickable(true);
-                    mSendText.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                } else {
-                    mSendText.setClickable(false);
-                    mSendText.setBackgroundColor(getResources().getColor(R.color.gray_edit));
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() == 500) {
-                    Utils.toast(SpecificNewsActivity.this, "最长只能输入500字哦～");
-                }
-            }
-        });
+        mSendText.addTextView(mNewsEdtComment);
 
         RxBus.getDefault().toObserverable(CommentContent.class)
                 .subscribe(commentContent -> {
@@ -204,7 +176,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     }
 
-    private void doWithNews(NewsAdapter.ViewHolder mWrapView, OfficeNewsContent bean) {
+    private void doWithNews(NewsAdapter.NewsViewHolder mWrapView, OfficeNewsContent bean) {
 
         mWrapView.mTextContent.setText(Html.fromHtml(mHotNewsContent.officeNewsContent != null ? mHotNewsContent.officeNewsContent.content : ""));
         mWrapView.mTextName.setText(bean.getOfficeName());

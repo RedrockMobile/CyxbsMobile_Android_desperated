@@ -7,6 +7,10 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationMenuView;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -24,17 +28,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jaeger.library.StatusBarUtil;
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.CourseDialog;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
-import com.mredrock.cyxbs.component.widget.bottombar.BottomBar;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
+import com.mredrock.cyxbs.ui.activity.explore.electric.DormitorySettingActivity;
 import com.mredrock.cyxbs.ui.activity.me.EditInfoActivity;
 import com.mredrock.cyxbs.ui.activity.me.NewsRemindActivity;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
@@ -47,7 +52,9 @@ import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
 import com.mredrock.cyxbs.ui.widget.CourseListAppWidget;
+import com.mredrock.cyxbs.util.ElectricRemindUtil;
 import com.mredrock.cyxbs.util.ImageLoader;
+import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
@@ -55,6 +62,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -90,8 +98,10 @@ public class MainActivity extends BaseActivity {
     BaseFragment unLoginFragment;
     @Bind(R.id.main_toolbar_face)
     CircleImageView mMainToolbarFace;
-    @Bind(R.id.bottom_bar)
-    BottomBar mBottomBar;
+    @Bind(R.id.main_bnv)
+    BottomNavigationView mMainBottomNavView;
+    @Bind(R.id.main_app_bar)
+    AppBarLayout mMainAppBar;
 
     private Menu mMenu;
     private ArrayList<Fragment> mFragments;
@@ -100,29 +110,37 @@ public class MainActivity extends BaseActivity {
     public static final String TAG = "MainActivity";
 
     @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         ButterKnife.bind(this);
         initView();
-        StatusBarUtil.setTranslucent(this, 50);
         UpdateUtil.checkUpdate(this, false);
+        ElectricRemindUtil.check(this);
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
         // TODO: Filter these intents in another activity (such as LaunchActivity), not here, to fix the fixme above
         intentFilterFor3DTouch();
-        intentFilterForAppWidget();
+        enableBottomNavAnim(false);
+    }
+
+    private void enableBottomNavAnim(boolean b) {
+        if (!b) {
+            try {
+                Field field = mMainBottomNavView.getClass().getDeclaredField("mMenuView");
+                field.setAccessible(true);
+                BottomNavigationMenuView menuView = (BottomNavigationMenuView) field.get(mMainBottomNavView);
+                Field field1 = menuView.getClass().getDeclaredField("mShiftingMode");
+                field1.setAccessible(true);
+                field1.setBoolean(menuView, false);
+                menuView.updateMenuView();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     /**
@@ -150,21 +168,10 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void intentFilterForAppWidget() {
-        Log.d("MainActivity", "intentFilterForAppWidget: intent: " + getIntent().toString());
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        if (action != null && action.equals(getString(R.string.action_appwidget_item_on_click))) {
-            //mBottomBar.setCurrentView(0);
-            Course[] courses = (Course[]) intent.getParcelableArrayExtra(CourseListAppWidget.EXTRA_COURSES);
-            if (courses != null && courses.length != 0) {
-                ScheduleView.CourseList courseList = new ScheduleView.CourseList();
-                courseList.list = new ArrayList<>(Arrays.asList(courses));
-                Log.d("MainActivity", "intentFilterForAppWidget: call Course Dialog with: " + Arrays.toString(courses));
-                CourseDialog.show(MainActivity.this, courseList);
-            } else {
-                Log.w("MainActivity", "intentFilterForAppWidget: empty courses.");
-            }
+    private void checkCourseListToShow() {
+        ScheduleView.CourseList courseList = ActionActivity.getCourseListToShow();
+        if (courseList != null) {
+            CourseDialog.show(this, courseList);
         }
     }
 
@@ -197,37 +204,8 @@ public class MainActivity extends BaseActivity {
         mAdapter = new TabPagerAdapter(getSupportFragmentManager(), mFragments, titles);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
-        mBottomBar.setOnBottomViewClickListener((view, position) -> {
-            mViewPager.setCurrentItem(position, false);
-            hiddenMenu();
-            setTitle(mAdapter.getPageTitle(position));
-            switch (position) {
-                case 1:
-                    hiddenMenu();
-                    mMainToolbarFace.setVisibility(View.GONE);
-                    mToolbar.setVisibility(View.GONE);
-                    break;
-                case 0:
-                    mToolbar.setVisibility(View.VISIBLE);
-                    showMenu();
-                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
-                    mMainToolbarFace.setVisibility(View.VISIBLE);
-                    break;
-                case 3:
-                    mToolbar.setVisibility(View.VISIBLE);
-                    mMainToolbarFace.setVisibility(View.GONE);
-                    if (!APP.isLogin()) {
-                        EventBus.getDefault().post(new LoginEvent());
-                    }
-                    break;
-                case 2:
-                    mMainToolbarFace.setVisibility(View.GONE);
-                    mToolbar.setVisibility(View.VISIBLE);
-                    break;
-                default:
-                    break;
-            }
-        });
+        mViewPager.addOnPageChangeListener(new ViewPagerChangedListener());
+        mMainBottomNavView.setOnNavigationItemSelectedListener(new BottomSelectedListener());
     }
 
     private void unLoginFace() {
@@ -251,6 +229,8 @@ public class MainActivity extends BaseActivity {
             mFragments.remove(0);
             mFragments.add(0, new UnLoginFragment());
             mAdapter.notifyDataSetChanged();
+            SPUtils.set(APP.getContext(), DormitorySettingActivity.BUILDING_KEY,"");
+            SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME,System.currentTimeMillis() / 2);
             unLoginFace();
         } else {
             mFragments.remove(0);
@@ -329,13 +309,13 @@ public class MainActivity extends BaseActivity {
         popWind.setOutsideTouchable(true); //点击外部关闭。
         popWind.setAnimationStyle(R.style.PopupAnimation);    //设置一个动画。
         //设置Gravity，让它显示在右上角。
-        if (popWind.getContentView() != null){
+        if (popWind.getContentView() != null) {
             popWind.getContentView().findViewById(R.id.tv_popup_window_add_affair).setOnClickListener((v -> {
                 EditAffairActivity.editAffairActivityStart(this, new SchoolCalendar().getWeekOfTerm());
                 popWind.dismiss();
             }));
             popWind.getContentView().findViewById(R.id.tv_popup_window_fetch_course).setOnClickListener((v -> {
-                if (courseContainerFragment != null){
+                if (courseContainerFragment != null) {
                     ((CourseContainerFragment) courseContainerFragment).forceFetchCourse();
                 }
                 popWind.dismiss();
@@ -378,4 +358,132 @@ public class MainActivity extends BaseActivity {
         return mViewPager.getCurrentItem();
     }
 
+    private class ViewPagerChangedListener implements ViewPager.OnPageChangeListener {
+
+        float preOffset = 0;
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            switch (position) {
+                case 0:
+                    break;
+                case 1:
+//                    if (positionOffset > preOffset) {
+//                        toolbarStepByStepClose(positionOffset, true);
+//                    } else {
+//                        toolbarStepByStepClose(positionOffset, false);
+//                    }
+//                    preOffset = positionOffset;
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            switch (position) {
+                case 0:
+                    mMainBottomNavView.setSelectedItemId(R.id.item1);
+                    mToolbar.setVisibility(View.VISIBLE);
+                    showMenu();
+                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
+                    mMainToolbarFace.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    mMainBottomNavView.setSelectedItemId(R.id.item2);
+                    hiddenMenu();
+                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.GONE);
+                    break;
+                case 2:
+                    hiddenMenu();
+                    mMainBottomNavView.setSelectedItemId(R.id.item3);
+                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.VISIBLE);
+                    mToolbarTitle.setText("发现");
+                    break;
+                case 3:
+                    hiddenMenu();
+                    mMainBottomNavView.setSelectedItemId(R.id.item4);
+                    mToolbar.setVisibility(View.VISIBLE);
+                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbarTitle.setText("我的");
+                    if (!APP.isLogin()) {
+                        EventBus.getDefault().post(new LoginEvent());
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
+
+
+
+    private void toolbarStepByStepClose(float positionOffset, boolean shouldShow) {
+        Log.d(TAG, "toolbarStepByStepClose: " + positionOffset);
+        if (shouldShow) {
+            mMainAppBar.animate().translationY(0).alpha(225*positionOffset).start();
+            mMainAppBar.invalidate();
+        } else {
+            mMainAppBar.animate().translationY(0).alpha(-mMainAppBar.getBottom() * (1 - positionOffset)).start();
+            mMainAppBar.invalidate();
+        }
+    }
+
+    private class BottomSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getOrder()) {
+                case 0:
+                    mViewPager.setCurrentItem(0);
+                    mToolbar.setVisibility(View.VISIBLE);
+                    showMenu();
+                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
+                    mMainToolbarFace.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    mViewPager.setCurrentItem(1);
+                    hiddenMenu();
+                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.GONE);
+                    break;
+                case 2:
+                    hiddenMenu();
+                    mViewPager.setCurrentItem(2);
+                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.VISIBLE);
+                    mToolbarTitle.setText("发现");
+                    break;
+                case 3:
+                    hiddenMenu();
+                    mViewPager.setCurrentItem(3);
+                    mToolbar.setVisibility(View.VISIBLE);
+                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbarTitle.setText("我的");
+                    if (!APP.isLogin()) {
+                        EventBus.getDefault().post(new LoginEvent());
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkCourseListToShow();
+    }
 }

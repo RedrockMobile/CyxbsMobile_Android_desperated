@@ -219,6 +219,13 @@ public class ScheduleView extends FrameLayout {
 
     public static class CourseList {
         public ArrayList<Course> list = new ArrayList<>();
+
+        @Override
+        public String toString() {
+            return "CourseList{" +
+                    "list=" + list +
+                    '}';
+        }
     }
 
     public void addDropTopView(){

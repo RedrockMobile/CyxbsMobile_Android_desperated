@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <declare-styleable name="LostCircleButton">
+        <attr name="textColors" format="string"/>
+        <attr name="textColori" format="integer"/>
+        <attr name="backColors" format="string"/>
+        <attr name="backColori" format="integer"/>
+    </declare-styleable>
+</resources>

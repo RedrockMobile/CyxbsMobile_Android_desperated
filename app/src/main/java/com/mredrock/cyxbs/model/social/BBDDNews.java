@@ -9,5 +9,6 @@ import java.util.List;
  */
 public class BBDDNews extends RedrockApiWrapper<List<BBDDNewsContent>> {
     public static final int BBDD = 5;
+    public static final int TOPIC_ARTICLE = 7;
     public String page;
 }

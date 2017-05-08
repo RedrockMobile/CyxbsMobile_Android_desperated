@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,10 +33,10 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.database.DBManager;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,7 +59,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class EditAffairActivity extends AppCompatActivity {
+public class EditAffairActivity extends BaseActivity {
 
     private static final String TAG = "EditAffairActivity";
 
@@ -310,7 +309,6 @@ public class EditAffairActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_affair);
         StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
         initView();
 
         if (!initData())
@@ -434,26 +432,6 @@ public class EditAffairActivity extends AppCompatActivity {
         } else {
             behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override

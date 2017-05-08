@@ -119,4 +119,9 @@ public class ElectricCharge {
             this.status = status;
         }
     }
+
+
+
+
+
 }

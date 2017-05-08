@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -12,9 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.ItemChangedEvent;
@@ -25,6 +22,8 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.EndlessRecyclerOnScrollListener;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.social.FooterViewWrapper;
+import com.mredrock.cyxbs.ui.activity.social.HeaderViewWrapper;
 import com.mredrock.cyxbs.ui.activity.social.PostNewsActivity;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
@@ -59,7 +58,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     public int currentIndex = 0;
-    private List<HotNews> mListHotNews = null;
+    private List<HotNews> mListHotNews;
     private FooterViewWrapper mFooterViewWrapper;
 
     protected NewsAdapter mNewsAdapter;
@@ -172,22 +171,22 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     }
 
 
-    private void initAdapter(List<HotNews> listHotNews) {
+    public void initAdapter(List<HotNews> listHotNews) {
         if (mRecyclerView == null) return;  // prevent it be called before lazy loading
         mListHotNews = listHotNews;
         mNewsAdapter = new NewsAdapter(mListHotNews) {
             @Override
-            public void setDate(ViewHolder holder, HotNewsContent hotNewsContent) {
+            public void setDate(NewsViewHolder holder, HotNewsContent hotNewsContent) {
                 BaseNewsFragment.this.setDate(holder, hotNewsContent);
             }
         };
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mNewsAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         addFooterView(mHeaderViewRecyclerAdapter);
-        mFooterViewWrapper.mCircleProgressBar.setVisibility(View.INVISIBLE);
+        mFooterViewWrapper.getCircleProgressBar().setVisibility(View.INVISIBLE);
     }
 
-    protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent mDataBean) {
+    protected void setDate(NewsAdapter.NewsViewHolder holder, HotNewsContent mDataBean) {
     }
 
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
@@ -197,6 +196,10 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
             if (currentIndex == 0) getCurrentData(PER_PAGE_NUM, currentIndex);
             getNextPageData(PER_PAGE_NUM, currentIndex);
         });
+    }
+
+    public void addHeaderView() {
+        mHeaderViewRecyclerAdapter.addHeaderView(new HeaderViewWrapper(mRecyclerView, getContext()).getView());
     }
 
     private void getNextPageData(int size, int page) {
@@ -222,12 +225,10 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         }), size, page);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
         if (hasLoginStateChanged) {
-            mListHotNews.clear();
             getCurrentData(PER_PAGE_NUM, 0);
             hasLoginStateChanged = false;
         }
@@ -239,60 +240,10 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         ButterKnife.unbind(this);
     }
 
-    public static class FooterViewWrapper {
-
-        @Bind(R.id.progressBar)
-        CircleProgressBar mCircleProgressBar;
-        @Bind(R.id.textLoadingFailed)
-        TextView mTextLoadingFailed;
-
-        private View footerView;
-
-        public FooterViewWrapper(Context context, ViewGroup parent) {
-            footerView = LayoutInflater.from(context)
-                    .inflate(R.layout.list_footer_item_news, parent, false);
-            ButterKnife.bind(this, footerView);
-        }
-
-        public View getFooterView() {
-            return footerView;
-        }
-
-        public void showLoading() {
-            mCircleProgressBar.setVisibility(View.VISIBLE);
-            mTextLoadingFailed.setVisibility(View.GONE);
-        }
-
-        public void showLoadingFailed() {
-            mCircleProgressBar.setVisibility(View.INVISIBLE);
-            mTextLoadingFailed.setVisibility(View.VISIBLE);
-            mTextLoadingFailed.setText("加载失败，点击重新加载!");
-        }
-
-        public void showLoadingNoMoreData() {
-            mCircleProgressBar.setVisibility(View.INVISIBLE);
-            mTextLoadingFailed.setVisibility(View.VISIBLE);
-            mTextLoadingFailed.setText("没有更多内容啦，你来发布吧！");
-        }
-
-        public void showLoadingNoData() {
-            mCircleProgressBar.setVisibility(View.INVISIBLE);
-            mTextLoadingFailed.setVisibility(View.VISIBLE);
-            mTextLoadingFailed.setText("还没有数据哟,点击发送吧！");
-        }
-
-        public void onFailedClick(View.OnClickListener onClickListener) {
-            mTextLoadingFailed.setOnClickListener(onClickListener::onClick);
-        }
-
-    }
-
-
     @Override
     public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
         super.onLoginStateChangeEvent(event);
         hasLoginStateChanged = true;
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
