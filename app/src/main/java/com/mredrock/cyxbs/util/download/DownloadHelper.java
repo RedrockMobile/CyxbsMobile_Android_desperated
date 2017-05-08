@@ -1,17 +1,23 @@
 package com.mredrock.cyxbs.util.download;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
 import com.mredrock.cyxbs.util.download.progress.ProgressHelper;
 import com.mredrock.cyxbs.util.download.progress.UIProgressListener;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -87,6 +93,31 @@ public class DownloadHelper {
                 .build();
     }
 
+    private void checkPermissionBefore(Context context, Runnable r) {
+        RxPermissions.getInstance(context).request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new SimpleSubscriber<>(context, new SubscriberListener<Boolean>() {
+                    @Override
+                    public void onNext(Boolean isGranted) {
+                        if (isGranted) {
+                            r.run();
+                        } else {
+                            AlertDialog.Builder noPermissionDialogBuilder = new AlertDialog.Builder(context)
+                                    .setTitle("权限遭拒")
+                                    .setMessage("没有「存储空间」权限就无法下载哦。\n请轻触「马上去设置」按钮，然后选择「权限」，并给掌上重邮授予「存储空间」权限。")
+                                    .setPositiveButton("马上去设置", (dialog, which) -> {
+                                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+                                        intent.setData(uri);
+                                        context.startActivity(intent);
+                                    })
+                                    .setNegativeButton("放弃", (dialog, which) -> {});
+                            noPermissionDialogBuilder.create().show();
+                        }
+                    }
+                }));
+    }
+
     /**
      * 初始化准备
      *
@@ -95,36 +126,38 @@ public class DownloadHelper {
      * @param listener 下载回调
      */
     public void prepare(List<String> nameList, List<String> urlList, OnDownloadListener listener) {
-        if (mContext != null && listener != null) {
-            initialize(listener);
+        checkPermissionBefore(mContext, () -> {
+            if (mContext != null && listener != null) {
+                initialize(listener);
 
-            String[] items = new String[nameList.size()];
-            //显示下载dialog
-            new MaterialDialog.Builder(mContext)
-                    .title(mContext.getResources().getString(R.string.news_load))
-                    .items(nameList.toArray(items))
-                    .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
-                        @Override
-                        public boolean onSelection(MaterialDialog materialDialog, Integer[] integers, CharSequence[] charSequences) {
-                            if (integers.length != 0) {
-                                for (Integer position : integers) {
-                                    mUrls.add(urlList.get(position));
-                                    mFileNames.add(nameList.get(position));
+                String[] items = new String[nameList.size()];
+                //显示下载dialog
+                new MaterialDialog.Builder(mContext)
+                        .title(mContext.getResources().getString(R.string.news_load))
+                        .items(nameList.toArray(items))
+                        .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog materialDialog, Integer[] integers, CharSequence[] charSequences) {
+                                if (integers.length != 0) {
+                                    for (Integer position : integers) {
+                                        mUrls.add(urlList.get(position));
+                                        mFileNames.add(nameList.get(position));
 
+                                    }
+                                    mNeedReqCount = mUrls.size();
+                                    if (mDownloadListener != null) {
+                                        mDownloadListener.startDownload();
+                                        tryDownload();
+                                    }
                                 }
-                                mNeedReqCount = mUrls.size();
-                                if (mDownloadListener != null) {
-                                    mDownloadListener.startDownload();
-                                    tryDownload();
-                                }
+                                return true;
                             }
-                            return true;
-                        }
-                    })
-                    .positiveText(mContext.getResources().getString(R.string.load_agree))
-                    .negativeText(mContext.getResources().getString(R.string.load_disagree))
-                    .show();
-        }
+                        })
+                        .positiveText(mContext.getResources().getString(R.string.load_agree))
+                        .negativeText(mContext.getResources().getString(R.string.load_disagree))
+                        .show();
+            }
+        });
     }
 
     /**
