@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
@@ -27,6 +29,12 @@ import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicArticleAdapter;
 import com.mredrock.cyxbs.util.Utils;
+import com.tbruyelle.rxpermissions.RxPermissions;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMWeb;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -42,6 +50,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
 
     public static final String EXTRA_ID = "topic_article_id";
     public static final String EXTRA_POST_SUCCESS = "post_article_success";
+    public static final String SHARE_BASE_URL = "http://hongyan.cqupt.edu.cn/cyxbsMobileTalk/?id=";
     public static final String TAG = TopicArticleActivity.class.getSimpleName();
     public static final int RESULT_CODE = 1001;
 
@@ -171,6 +180,45 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
 
     }
 
+    @OnClick(R.id.iv_topic_share)
+    public void onViewClicked() {
+        Toast.makeText(this, "开发中...", Toast.LENGTH_SHORT).show();
+//        RxPermissions.getInstance(this).request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                .subscribe(granted -> {
+//                    if (granted) {
+//                        UMWeb web = new UMWeb(SHARE_BASE_URL + mID);
+//
+//                        new ShareAction(this).withText("快来掌上重邮参与讨论吧")
+//                                .withSubject("快来掌上重邮参加讨论吧")
+//                                .withMedia(web)
+//                                .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
+//                                .setCallback(new UMShareListener() {
+//                                    @Override
+//                                    public void onStart(SHARE_MEDIA share_media) {
+//                                        Log.d(TAG, "onStart: ");
+//                                    }
+//
+//                                    @Override
+//                                    public void onResult(SHARE_MEDIA share_media) {
+//                                        Log.d(TAG, "onResult: ");
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+//                                        Toast.makeText(TopicArticleActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancel(SHARE_MEDIA share_media) {
+//                                        Log.d(TAG, "onCancel: ");
+//                                    }
+//                                }).open();
+//                    } else {
+//                        Toast.makeText(this, "请授予权限", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+    }
     private class ArticleFooter implements RecyclerArrayAdapter.ItemView {
 
         private View mView;
@@ -195,12 +243,13 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_CODE&&data!=null) {
+        if (requestCode == RESULT_CODE && data != null) {
             boolean success = data.getBooleanExtra(EXTRA_POST_SUCCESS, false);
             if (success) {
                 onRefresh();
             }
         }
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -213,10 +262,11 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
             if (String.valueOf(article.getArticle_id()).equals(event.getArticleId())) {
                 article.setIs_my_like(event.isMyLike());
                 article.setLike_num(Integer.parseInt(event.getNum()));
-                mAdapter.notifyItemChanged(index+1);
+                mAdapter.notifyItemChanged(index + 1);
             }
         }
     }
+
 }
 
 

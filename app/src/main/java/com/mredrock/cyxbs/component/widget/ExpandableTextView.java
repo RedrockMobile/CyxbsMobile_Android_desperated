@@ -325,7 +325,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
                 }
             }
         }
-        return a != b;
+        return (b <= text.length() && (a < b));
     }
 
     public void setmMaxCollapsedLines(int mMaxCollapsedLines) {

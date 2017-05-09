@@ -17,6 +17,9 @@ import com.mredrock.cyxbs.ui.activity.exception.ExceptionActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.orhanobut.logger.Logger;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -120,7 +123,9 @@ public class APP extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Config.DEBUG = true;
+        UMShareAPI.get(this);
+        initShareKey();
         context = getApplicationContext();
         initThemeMode();
         //  FIR.init(this);
@@ -131,6 +136,11 @@ public class APP extends MultiDexApplication {
         // Refresh Course List When Start
         reloadCourseList();
         disableFileUriExposedException();
+    }
+
+    private void initShareKey() {
+        PlatformConfig.setSinaWeibo("197363903", "7700116c567ab2bb28ffec2dcf67851d", "http://hongyan.cqupt.edu.cn/app/");
+        PlatformConfig.setQQZone("1106072365", "v9w1F3OSDhkX14gA");
     }
 
     public void reloadCourseList() {
