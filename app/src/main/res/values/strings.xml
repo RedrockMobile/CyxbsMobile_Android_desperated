@@ -1,0 +1,294 @@
+<resources>
+    <string name="cyxbsmobile">掌上重邮</string>
+    <string name="app_name">掌上重邮</string>
+    <string name="action_settings">Setting</string>
+    <string name="community">社区</string>
+    <string name="course">课表</string>
+    <string name="explore">发现</string>
+    <string name="my_page">我的</string>
+
+    <string name="now_week">本周</string>
+    <string-array name="titles_weeks">
+        <item>整学期</item>
+        <item>第一周</item>
+        <item>第二周</item>
+        <item>第三周</item>
+        <item>第四周</item>
+        <item>第五周</item>
+        <item>第六周</item>
+        <item>第七周</item>
+        <item>第八周</item>
+        <item>第九周</item>
+        <item>第十周</item>
+        <item>第十一周</item>
+        <item>第十二周</item>
+        <item>第十三周</item>
+        <item>第十四周</item>
+        <item>第十五周</item>
+        <item>第十六周</item>
+        <item>第十七周</item>
+        <item>第十八周</item>
+    </string-array>
+
+    <string-array name="course_weekdays">
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+        <item>日</item>
+    </string-array>
+
+    <string-array name="schedule_weekday">
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+        <item>星期日</item>
+    </string-array>
+
+    <string-array name="schedule_time">
+        <item>8:00 ~ 9:40 am</item>
+        <item>10:05 ~ 11:45 am</item>
+        <item>2:00 ~ 3:40 pm</item>
+        <item>4:05 ~ 5:45 pm</item>
+        <item>7:00 ~ 8:40 pm</item>
+        <item>8:50 ~ 10:30 pm</item>
+    </string-array>
+
+    <string-array name="no_schedule_sections">
+        <item>1–2节</item>
+        <item>3–4节</item>
+        <item>5–6节</item>
+        <item>7–8节</item>
+        <item>9–10节</item>
+        <item>11–12节</item>
+    </string-array>
+
+    <string-array name="no_schedule_week">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+
+    <string-array name="empty_buildings">
+        <item>请选择教学楼</item>
+        <item>二教</item>
+        <item>三教</item>
+        <item>四教</item>
+        <item>五教</item>
+        <item>八教</item>
+    </string-array>
+
+    <string-array name="empty_sections">
+        <item>一二节</item>
+        <item>三四节</item>
+        <item>五六节</item>
+        <item>七八节</item>
+        <item>九十节</item>
+        <item>AB节</item>
+    </string-array>
+
+    <string-array name="exam_grade_tab_titles">
+        <item>成绩</item>
+        <item>考试安排</item>
+        <item>补考安排</item>
+    </string-array>
+
+    <string name="my_page_introduce">简介：</string>
+    <string name="my_page_relate">与我相关</string>
+    <string name="my_page_trend">我的动态</string>
+    <string name="my_page_no_course">没课约</string>
+    <string name="my_page_empty">空教室</string>
+    <string name="my_page_grade">考试与成绩</string>
+    <string name="my_page_calendar">校历</string>
+    <string name="my_page_night">夜间模式</string>
+    <string name="my_page_setting">设置</string>
+
+    <string name="edit_info_avatar">头像修改</string>
+    <string name="edit_info_nick_name">昵称</string>
+    <string name="edit_info_introduce">简介</string>
+    <string name="edit_info_qq">QQ</string>
+    <string name="edit_info_phone">电话</string>
+
+    <string name="setting_news_remind">新消息提醒</string>
+    <string name="setting_feedback">意见反馈</string>
+    <string name="setting_about">关于</string>
+    <string name="setting_show_mode">在课表上没课的地方显示备忘内容</string>
+
+    <string name="setting_exit">退出当前账号</string>
+
+    <string name="grade_title_name">名称</string>
+    <string name="grade_title_property">类型</string>
+    <string name="grade_title_score">成绩</string>
+
+    <string name="exam_unsure">时间待定</string>
+    <string name="exam_date">%1$s周周%2$s</string>
+    <string name="exam_detail_date">%1$s - %2$s</string>
+
+    <string name="news_remind_hint">打开后将推送响应类型的消息</string>
+    <string name="news_remind_comment">评论与回复</string>
+    <string name="news_remind_like">点赞</string>
+
+    <string-array name="community_tab_tiles">
+        <item>热门</item>
+        <item>动态</item>
+        <item>资讯</item>
+    </string-array>
+
+    <string-array name="lost_tab_tiles">
+        <item>全部</item>
+        <item>一卡通</item>
+        <item>钱包</item>
+        <item>钥匙</item>
+        <item>电子产品</item>
+        <item>雨伞</item>
+        <item>衣物</item>
+        <item>其他</item>
+
+    </string-array>
+    ？
+    <!--explore page start-->
+    <string name="error_text">加载失败</string>
+
+    <string name="explore_portal">关于红岩</string>
+    <string name="explore_map">重邮地图</string>
+    <string name="explore_eat">吃什么</string>
+    <string name="explore_around_food">周边美食</string>
+    <string name="explore_electric">电费查询</string>
+
+    <string name="explore_fresher_special">迎新网</string>
+    <string name="explore_community">重邮社区</string>
+    <string name="explore_business">创业谷</string>
+
+    <string name="portal_title">红岩主页</string>
+    <string name="portal_menu_overflow">overflow</string>
+    <string name="portal_menu_share">分享链接</string>
+    <string name="portal_menu_refresh">刷新页面</string>
+    <string name="portal_menu_copy">复制链接</string>
+    <string name="portal_open_with">用浏览器打开</string>
+
+    <string name="map_activity_name">重邮地图</string>
+    <string name="map_flow_dialog_title">流量警告</string>
+    <string name="map_flow_dialog_content">当前不在wifi下哦，是否用流量下载重邮地图？</string>
+    <string name="map_flow_dialog_positive">就是任性</string>
+    <string name="map_flow_dialog_negative">还是算了</string>
+    <string name="map_progress_dialog_title">正在下载地图</string>
+    <string name="map_progress_dialog_content">请稍候</string>
+    <string name="map_permission_explanation">使用缓存, 节省你的流量</string>
+
+    <string name="what_to_eat_activity_name">吃什么</string>
+    <string name="shake_again_text">不想吃这个？再摇一摇</string>
+
+    <string name="surrounding_food_activity_name">周边美食</string>
+    <string name="restaurant_default_intro">暂无本店简介</string>
+    <string name="restaurant_default_promotion">暂无促销信息</string>
+    <string name="restaurant_default_average_cost">人均消费: 暂无数据</string>
+    <string name="restaurant_comment">评论</string>
+    <string name="phone_call_dialog_title">拨打电话</string>
+    <string name="phone_call_dialog_content">是否拨打该电话</string>
+    <string name="phone_call_dialog_positive">好的</string>
+    <string name="phone_call_dialog_negative">不了</string>
+    <string name="phone_permission_explanation">不给权限,我也没办法了,亲</string>
+
+    <string name="send_comment_dialog_title">请输入评论</string>
+    <string name="send_comment_dialog_hint">"请输入"</string>
+    <string name="send_comment_dialog_prefill">""</string>
+    <string name="send_comment_dialog_positive_text">发送</string>
+    <string name="send_comment_dialog_negative_text">取消</string>
+    <string name="send_comment_fail">发送失败</string>
+    <string name="send_comment_fail_again">发送失败,请检查网络</string>
+    <string name="send_comment_again">重新发送</string>
+
+    <string name="placeholder_explore_restaurant_name">九九牛肉馆</string>
+    <string name="placeholder_explore_restaurant_recommend">新鲜大盘牛肉, 肉多耐嚼, 值得拥有</string>
+    <string name="placeholder_explore_restaurant_cost">人均消费: 99元</string>
+    <string name="placeholder_explore_restaurant_phone">13509495754</string>
+    <string name="placeholder_explore_restaurant_location">南岸区南山路99号(近崇文路), 在重庆邮电大学堕落街附近</string>
+    <string name="placeholder_explore_restaurant_promotion">牛排大促销, 只要30元, 再附送小配菜, 走过路过不要错过</string>
+    <string name="placeholder_explore_restaurant_comment">好吃</string>
+    <string name="placeholder_explore_restaurant_author">王二小</string>
+    <string name="placeholder_explore_restaurant_date">2016年5月1号</string>
+    <!--explore page end-->
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
+
+    <string name="news_load">下载附件</string>
+    <string name="load_agree">确定</string>
+    <string name="load_disagree">取消</string>
+    <string name="loading">下载中,请稍后</string>
+    <string name="load_open_file">下载成功,是否打开?</string>
+    <string name="load_file_path">文件位于%1$s</string>
+    <string name="load_failed">下载失败了~</string>
+    <string name="load_error_prepare">加载异常</string>
+
+    <string name="news_edt">说点什么吧...</string>
+    <string name="specific_news_title">详情</string>
+    <string name="specific_news_nev">返回</string>
+
+    <string name="activity_add_news_title">发表动态</string>
+    <string name="save">完成</string>
+    <string name="cancel">取消</string>
+    <string name="add_news_edit_hint">点击输入文字...</string>
+    <string name="annex">含附件</string>
+    <string name="erro">获取数据失败,你的网络不靠谱呀</string>
+    <string name="alter">你没有输入任何东西哟</string>
+    <string name="noContent">你没有输入消息哟!</string>
+    <string name="loadingFailed">加载失败，点击重新加载</string>
+    <string name="title_activity_login">登录</string>
+
+
+    <string name="jwzx">教务在线</string>
+    <string name="person_info">详细资料</string>
+    <string name="latest">近期动态</string>
+
+    <string name="action_appwidget_item_on_click" translatable="false">com.mredrock.cyxbs.action.ON_APPWIDGET_ITEM_ONCLICK</string>
+
+    <!--multi image selector-->
+    <string name="folder_all">所有照片</string>
+    <string name="preview">预览</string>
+    <string name="msg_no_camera">没有系统相机</string>
+    <string name="msg_amount_limit">已经达到最高选择数量</string>
+    <string name="action_done">完成</string>
+    <string name="photo_unit">张</string>
+    <string name="tip_take_photo">拍摄照片</string>
+    <string name="un_login">还没有登录</string>
+    <string name="schedule">我的课表</string>
+    <string name="news">我的动态</string>
+    <string name="foods">周边美食</string>
+    <string name="date">没课约</string>
+
+    <string name="add_affair_edit_hint">写点内容哦</string>
+    <string name="add_affair_edit_title">给你的提醒设置一个标题吧</string>
+    <string name="send">发送</string>
+    <string name="lost_post">失物启事</string>
+    <string name="found_post">招领启事</string>
+    <string name="lost_and_found">失物招领</string>
+
+    <string-array name="lost_category_list">
+        <item>全部</item>
+        <item>一卡通</item>
+        <item>钱包</item>
+        <item>钥匙</item>
+        <item>电子产品</item>
+        <item>钥匙</item>
+        <item>雨伞</item>
+        <item>衣物</item>
+        <item>其他</item>
+    </string-array>
+    <!--Electric query-->
+    <string name="electric_notice_info">\t注意事项\n\n\t抄表日期： </string>
+    <string name="electric_notice_info_1">\t用电过程中，如需查询请致电：\t023-62487902</string>
+    <string name="unLoginHint">点击登录,拯救课表菌！！！</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

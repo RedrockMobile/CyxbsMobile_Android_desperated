@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/news_item_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp">
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/list_lost_img_avatar"
+                android:src="@drawable/ic_default_avatar"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="@dimen/information_img_avatar"
+                android:layout_height="@dimen/information_img_avatar"
+                app:siBorderColor="@android:color/white"
+                app:siBorderWidth="0dp"/>
+            <LinearLayout
+                android:id="@+id/lost_linear_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/list_lost_img_avatar"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/list_lost_text_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="我是昵称"
+                    android:textColor="@color/body_text_1"
+                    android:textSize="18sp"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="来自分类"
+                        android:textColor="@color/crop__button_text"
+                        android:textSize="12sp"
+                        android:id="@+id/textView" />
+
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/list_lost_text_kind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="书包"
+                        android:textColor="@color/crop__button_text"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_below="@+id/lost_linear_layout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/expandable_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:lineSpacingMultiplier="1.2"
+                        android:text="如果你无法简洁的表达你的想法，那么只能说你还不够了解他。"
+                        android:textColor="@color/body_text_1"
+                        android:textSize="16sp"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

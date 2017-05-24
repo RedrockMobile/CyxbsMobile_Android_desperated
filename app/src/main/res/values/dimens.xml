@@ -1,0 +1,76 @@
+<resources>
+    <!-- standard metrics -->
+    <dimen name="spacing_normal">8dp</dimen>
+    <dimen name="spacing_micro">4dp</dimen>
+    <dimen name="padding_small">12dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
+    <dimen name="padding_xlarge">48dp</dimen>
+    <dimen name="padding_xxlarge">64dp</dimen>
+
+    <!-- App Primary Text Sizes -->
+    <dimen name="app_text_size_xsmall">11sp</dimen>
+    <dimen name="app_text_size_small">12sp</dimen>
+    <dimen name="app_text_size_medium">14sp</dimen>
+    <dimen name="app_text_size_large">18sp</dimen>
+    <dimen name="app_text_size_xlarge">20sp</dimen>
+    <dimen name="app_text_size_diff_large_small">6sp</dimen>
+
+    <!--fab-->
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_elevation">6dp</dimen>
+    <dimen name="fab_translation_z">12dp</dimen>
+
+    <!--divider-->
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="divider_height_xxlarge">16dp</dimen>
+    <dimen name="divider_padding_top">7dp</dimen>
+    <dimen name="divider_padding_bottom">8dp</dimen>
+
+    <!-- line spacing -->
+    <item name="body_spacing" format="float" type="dimen">1.22448979592</item>
+
+    <dimen name="information_img_avatar">48dp</dimen>
+
+    <!-- Action Bar auto-hide-on-scroll behavior parameters -->
+    <dimen name="action_bar_auto_hide_min_y">152dp</dimen>
+    <dimen name="action_bar_auto_hide_sensitivity">48dp</dimen>
+
+    <!--avatar-->
+    <dimen name="avatar_size_normal">56dp</dimen>
+    <dimen name="avatar_size_small">24dp</dimen>
+
+    <!--UI element-->
+    <dimen name="item_min_height_normal">48dp</dimen>
+    <dimen name="item_min_height_large">72dp</dimen>
+    <dimen name="item_min_height_xxlarge">104dp</dimen>
+    <dimen name="large_photo_width">288dp</dimen>
+    <dimen name="large_photo_height">248dp</dimen>
+
+    <!--explore page-->
+    <dimen name="explore_roll_viewpager_height">224dp</dimen>
+    <dimen name="explore_holder_height">120dp</dimen>
+    <dimen name="explore_image_size">48dp</dimen>
+    <dimen name="restaurant_photo_width">128dp</dimen>
+    <dimen name="restaurant_photo_height">88dp</dimen>
+    <dimen name="restaurant_icon_width">18dp</dimen>
+    <dimen name="restaurant_icon_height">17.5dp</dimen>
+
+    <dimen name="news_card_margin_start">-2dp</dimen>
+    <dimen name="news_card_margin_end">-2dp</dimen>
+    <dimen name="news_card_margin_top">2dp</dimen>
+    <dimen name="news_card_margin_bottom">2dp</dimen>
+
+    <!--multi image selector-->
+    <dimen name="image_size">120dp</dimen>
+    <dimen name="space_size">2dp</dimen>
+    <dimen name="folder_cover_size">72dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--App Widget-->
+    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="ts_app_widget_course_list_item_order">14sp</dimen>
+
+</resources>

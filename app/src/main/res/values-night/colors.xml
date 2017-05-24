@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Common -->
+    <color name="white">#1F2732</color>
+    <color name="tabText">#ffffff</color>
+    <color name="body_text_1">#ffffff</color>
+    <color name="text_dark">#ffffff</color>
+
+    <color name="divider">#1A222D</color>
+    <color name="divider_light">#1A222D</color>
+    <color name="divider_relate_me">#1A222D</color>
+    <color name="divider_edit_info">#1A222D</color>
+    <color name="divider_edit_introduce">#1A222D</color>
+
+    <color name="background_grey">#303030</color>
+    <color name="background_relate_me">#303030</color>
+
+    <!-- layout点击ripple的颜色 -->
+    <color name="ripple_normal">#2D2E30</color>
+    <color name="ripple_dark">#47484A</color>
+
+</resources>

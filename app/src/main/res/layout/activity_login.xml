@@ -1,0 +1,106 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              tools:context="com.mredrock.cyxbs.ui.activity.LoginActivity">
+
+    <include
+        android:id="@+id/login_toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f3f7fa"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="32dp"
+            android:background="#c4c5c6"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="1px"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_login_account"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_stu_num" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/login_stu_num_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:imeOptions="actionNext"
+                    android:maxLength="10"
+                    android:background="@null"
+                    android:hint="请输入学号"
+                    android:inputType="number"
+                    android:textColor="#333333"
+                    android:textColorHint="#bbbbbb" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="1px"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_login_password"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_password" />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/login_id_num_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:imeOptions="actionSend"
+                    android:maxLength="6"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:hint="请输入身份证后六位"
+                    android:inputType="textPassword"
+                    android:textColorHint="#bbbbbb" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.mredrock.cyxbs.component.widget.TextLimitButton
+            app:min_text_length="10"
+            app:free_background_color="@color/colorAccent"
+            app:limit_background_color="@color/gray_edit"
+            android:gravity="center"
+            android:id="@+id/login_submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="32dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/title_activity_login"
+            android:textColor="#ffffff"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+</LinearLayout>

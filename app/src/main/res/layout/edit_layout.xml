@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_message"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_alignParentBottom="true"
+    android:padding="1px">
+
+    <EditText
+        android:id="@+id/edit_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:hint="您想说 ..."
+        android:padding="5dp"
+        android:text="asdjklsadm"
+        android:singleLine="true" />
+
+    <Button
+        android:id="@+id/button_send"
+        android:layout_width="90dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="1px"
+        android:onClick="onClick"
+        android:padding="5dp"
+        android:text="发送"
+        android:textColor="@color/yellow" />
+
+</LinearLayout>

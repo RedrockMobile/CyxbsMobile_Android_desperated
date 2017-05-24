@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:background="@android:color/transparent"
+              android:foreground="@android:color/transparent"
+              android:orientation="horizontal"
+              android:padding="0dp"
+              android:layout_margin="0dp"
+              android:minHeight="0dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_app_widget_course_item_order"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        tools:text="1\n2"
+        android:textColor="@color/tc_app_widget_course_list_item_order"
+        android:textSize="@dimen/ts_app_widget_course_list_item_order"
+        android:lineSpacingExtra="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_margin="0dp"
+        android:gravity="center_horizontal" />
+
+    <RelativeLayout
+        android:id="@+id/rl_app_widget_course_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:ellipsize="end"
+        android:foreground="@drawable/bg_selectable_item"
+        tools:background="@color/Color_IndianRed"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_app_widget_course_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="高等数学"
+            android:textColor="@color/white"
+            android:layout_toLeftOf="@id/tv_app_widget_course_item_room"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:id="@+id/tv_app_widget_course_item_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="3215"
+            android:textColor="@color/white"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+        <ImageView
+            android:id="@+id/iv_app_widget_course_item_corner"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="-3dp"
+            android:layout_marginRight="-3dp"
+            android:background="@drawable/ic_regular_triangle_white"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitCenter"
+            android:rotation="45"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffff</color>
+    <color name="orange">#ff7d37</color>
+    <color name="yellow">#ffb048</color>
+    <color name="grey">#f3f7fa</color>
+    <color name="pink">#ef8f9f</color>
+    <color name="data_light_black">#a9a9a9</color>
+
+    <!--Common-->
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <!--<color name="colorPrimaryDark">#ffffff</color>-->
+    <color name="colorAccent">#47A4FA</color>
+    <color name="tabIndicatorColor">#c9c9c9</color>
+    <color name="tab_background_pressed">#1Affffff</color>
+    <color name="tabText">#66000000</color>
+
+
+    <!--TextColor start -->
+    <color name="body_text_1">#de000000</color>
+    <color name="body_text_2">#8a000000</color>
+    <color name="body_text_3">#60000000</color>
+    <color name="body_text_disabled">#44000000</color>
+
+    <color name="body_text_1_inverse">#deffffff</color>
+    <color name="body_text_2_inverse">#8affffff</color>
+
+    <color name="text_dark">#333333</color>
+    <color name="text_light_1">#666666</color>
+    <color name="text_light_2">#999999</color>
+    <color name="text_light_3">#b5b5b5</color>
+    <!--TextColor end -->
+
+    <color name="divider">#e3e3e8</color>
+    <color name="divider_light">#e0e0e0</color>
+    <color name="divider_relate_me">#cfcfcf</color>
+    <color name="divider_edit_info">#e4e4e9</color>
+    <color name="divider_edit_introduce">#e5e5ea</color>
+
+    <color name="background_grey">#efeff4</color>
+    <color name="background_relate_me">#ececec</color>
+
+    <!-- layout点击ripple的颜色 -->
+    <color name="ripple_normal">#CACCCB</color>
+    <color name="ripple_dark">#B0B2B1</color>
+
+    <color name="relate_me_background">#f8f8f8</color>
+
+    <color name="comment_item">#FBFAFA</color>
+
+    <color name="no_course_day_background">#f0f0f0</color>
+    <color name="no_course_day">#4b4b4b</color>
+    <color name="no_course_day_selector">#49b4fc</color>
+    <color name="no_course_time">#666666</color>
+    <color name="no_course_time_divider">#f2f2f2</color>
+    <color name="no_course_blue">#01b1f4</color>
+    <color name="no_course_divider_dark">#c6c6c6</color>
+    <color name="no_course_divider_light">#cdcccc</color>
+    <!--<color name="no_course_edit_hint">#aeadad</color>-->
+    <!--<color name="no_course_text">#434040</color>-->
+    <color name="no_course_text_white">#e9f6fe</color>
+    <color name="no_course_dialog_title">#19aafe</color>
+    <color name="exam_grade_tab_text">#999999</color>
+
+    <color name="img_placeholder">#9da3a5</color>
+
+    <color name="tab_pading_color">#606B6A6A</color>
+
+    <color name="crop__button_bar">#f3f3f3</color>
+    <color name="crop__button_text">#666666</color>
+
+    <color name="black_lightly">#f0000000</color>
+    
+    <color name="gray_edit">#A9A7A9</color>
+    <color name="gray_edit_back">#ECECEF</color>
+    <color name="white_black">#ffffff</color>
+
+    <color name="link_blue">#295998</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="tc_app_widget_course_list_item_order">#74797d</color>
+    <color name="bg_app_widget">#d9d7dee4</color>
+
+    <color name="color_course_morning">#5bcdf2</color>
+    <color name="color_course_afternoon">#f9af58</color>
+    <color name="color_course_night">#6fd1ba</color>
+    <color name="colour_title_text">#212121</color>
+
+</resources>
