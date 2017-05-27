@@ -12,7 +12,7 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#ffffff</color>
     <!--<color name="colorPrimaryDark">#ffffff</color>-->
-    <color name="colorAccent">#0cb2f9</color>
+    <color name="colorAccent">#47A4FA</color>
     <color name="tabIndicatorColor">#c9c9c9</color>
     <color name="tab_background_pressed">#1Affffff</color>
     <color name="tabText">#66000000</color>
@@ -86,5 +86,6 @@
     <color name="color_course_morning">#5bcdf2</color>
     <color name="color_course_afternoon">#f9af58</color>
     <color name="color_course_night">#6fd1ba</color>
+    <color name="colour_title_text">#212121</color>
 
 </resources>

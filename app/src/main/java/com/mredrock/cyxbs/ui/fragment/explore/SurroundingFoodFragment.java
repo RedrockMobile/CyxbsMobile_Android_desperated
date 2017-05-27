@@ -94,6 +94,7 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
                 mSurroundingFoodListRv.setVisibility(View.INVISIBLE);
             }
         });
+        onRefresh();
     }
 
     @Override

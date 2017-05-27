@@ -22,7 +22,7 @@ import com.mredrock.cyxbs.util.DensityUtils;
 /**
  * Created by Pan_ on 2015/2/2.
  */
-public class CustomImageView extends ImageView {
+public class CustomImageView extends android.support.v7.widget.AppCompatImageView {
 
 
     public static final String BASE_NORMAL_IMG_URL = "http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/";
@@ -32,16 +32,23 @@ public class CustomImageView extends ImageView {
     private boolean isAttachedToWindow;
     private OnClickDeleteListener onClickDeleteListener;
     private int type;
+    private Bitmap mBitmapBack;
 
 
     public CustomImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
     public CustomImageView(Context context) {
-        super(context);
+        this(context,null);
     }
 
+    private void init(Context context) {
+        mBitmapBack = BitmapFactory.decodeResource(getResources(), R.drawable.delete);
+        int iconSize = DensityUtils.dp2px(context, 26);
+        mBitmapBack = Bitmap.createScaledBitmap(mBitmapBack, iconSize, iconSize, false);
+    }
 
     public int getType() {
         return type;
@@ -110,8 +117,8 @@ public class CustomImageView extends ImageView {
         super.onDraw(canvas);
         if (type == Image.TYPE_NORMAL) {
             int w = canvas.getWidth();
-            Bitmap bitmapBack = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete);
-            canvas.drawBitmap(bitmapBack, w - DensityUtils.dp2px(getContext(), 22), 0, null);
+            int blackPlace = mBitmapBack.getHeight();
+            canvas.drawBitmap(mBitmapBack, w - blackPlace-blackPlace/8 , blackPlace/8, null);
         }
     }
 
@@ -119,7 +126,7 @@ public class CustomImageView extends ImageView {
         this.onClickDeleteListener = onClickDeleteListener;
     }
 
-    public interface OnClickDeleteListener {
+    interface OnClickDeleteListener {
         void onClickDelete(View v);
     }
 }

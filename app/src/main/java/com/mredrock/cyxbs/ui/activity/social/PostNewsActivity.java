@@ -4,20 +4,19 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.multi_image_selector.MultiImageSelectorActivity;
+import com.mredrock.cyxbs.component.widget.TextLimitButton;
+import com.mredrock.cyxbs.component.widget.TopicEditText;
 import com.mredrock.cyxbs.component.widget.ninelayout.NineGridlayout;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.BBDDNews;
@@ -31,7 +30,6 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.Utils;
 import com.tbruyelle.rxpermissions.RxPermissions;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,26 +40,64 @@ import butterknife.OnClick;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
-public class PostNewsActivity extends BaseActivity implements View.OnClickListener {
+public class PostNewsActivity extends BaseActivity implements View.OnClickListener,TopicEditText.OnTopicEditListener {
     public static final String TAG = "PostNewsActivity";
     private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
+    public static final String EXTRA_TOPIC_ID = "extra_topic_id";
+    public static final String EXTRA_TOPIC_TITLE = "extra_topic_title";
     private final static int REQUEST_IMAGE = 0001;
     @Bind(R.id.toolbar_title)
     TextView mTitleText;
     @Bind(R.id.toolbar_save)
-    Button mSend;
+    TextLimitButton mSend;
     @Bind(R.id.add_news_edit)
-    EditText mAddNewsEdit;
+    TopicEditText mAddNewsEdit;
     @Bind(R.id.iv_ngrid_layout)
     NineGridlayout mNineGridlayout;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.iv_add_topic)
+    AppCompatImageView mIvAddTopic;
     private List<Image> mImgList;
     private User mUser;
+    private int mTopicId = -1;
 
     @OnClick(R.id.toolbar_save)
     public void onClick(View view) {
-        sendDynamic("标题我该打什么才好？？", mAddNewsEdit.getText().toString(), BBDDNews.BBDD);
+        if (mTopicId == -1) {
+            sendDynamic("标题我该打什么才好？？", mAddNewsEdit.getText().toString(), BBDDNews.BBDD);
+        } else {
+            sendTopicArticle("标题我该打什么才好？？", mAddNewsEdit.getText().toString(), mTopicId);
+        }
+    }
+
+    private void sendTopicArticle(String title, String content,int topicId) {
+        Observable<String> observable;
+        List<Image> currentImgs = new ArrayList<>();
+        currentImgs.addAll(mImgList);
+        currentImgs.remove(0);
+
+        if (currentImgs.size() > 0)
+            observable = uploadWithImg(currentImgs, title, content, BBDDNews.TOPIC_ARTICLE, topicId);
+        else observable = uploadWithoutImg(title, content, BBDDNews.TOPIC_ARTICLE, topicId);
+
+        observable.subscribe(new SimpleSubscriber<>(this, true, false, new SubscriberListener<Object>() {
+            @Override
+            public void onCompleted() {
+                super.onCompleted();
+                Intent intent = new Intent();
+                intent.putExtra(TopicArticleActivity.EXTRA_POST_SUCCESS, true);
+                PostNewsActivity.this.setResult(TopicArticleActivity.RESULT_CODE, intent);
+                showUploadSuccess(content);
+            }
+
+            @Override
+            public boolean onError(Throwable e) {
+                finish();
+                Toast.makeText(PostNewsActivity.this, "发送失败", Toast.LENGTH_SHORT).show();
+                return super.onError(e);
+            }
+        }));
     }
 
     public static void startActivity(Context context) {
@@ -70,27 +106,20 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
-
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_news);
-        StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         mUser = APP.getUser(this);
         init();
         initToolbar();
+        Intent intent = getIntent();
+        mTopicId = intent.getIntExtra(EXTRA_TOPIC_ID, -1);
+        String topicTitle = intent.getStringExtra(EXTRA_TOPIC_TITLE);
+        if (!(topicTitle == null || "".equals(topicTitle))) {
+            mAddNewsEdit.setTopicText("#" + topicTitle + "#  ");
+            mIvAddTopic.setVisibility(View.GONE);
+        }
     }
 
     private void initToolbar() {
@@ -108,34 +137,11 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void init() {
+        mAddNewsEdit.setTopicEditListener(this);
         mImgList = new ArrayList<>();
         mImgList.add(new Image(ADD_IMG, Image.TYPE_ADD));
         mNineGridlayout.setImagesData(mImgList);
-        mSend.setBackgroundColor(getResources().getColor(R.color.gray_edit));
-        mSend.setClickable(false);
-        mAddNewsEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() != 0) {
-                    mSend.setClickable(true);
-                    mSend.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                } else {
-                    mSend.setClickable(false);
-                    mSend.setBackgroundColor(getResources().getColor(R.color.gray_edit));
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
+        mSend.addTextView(mAddNewsEdit);
         mNineGridlayout.setOnAddImagItemClickListener((v, position) ->
                 RxPermissions.getInstance(this)
                         .request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -150,7 +156,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                                 // 设置模式 (支持 单选/MultiImageSelectorActivity.MODE_SINGLE 或者 多选/MultiImageSelectorActivity.MODE_MULTI)
                                 intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
                                 // 默认选择图片,回填选项(支持String ArrayList)
-                                ArrayList<String> results = new ArrayList<String>();
+                                ArrayList<String> results = new ArrayList<>();
                                 for (Image i : mImgList) {
                                     if (i.getType() != Image.TYPE_ADD)
                                         results.add(i.url);
@@ -170,7 +176,6 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
-
     private void sendDynamic(String title, String content, int type) {
         if (content == null || content.equals("")) {
             Toast.makeText(PostNewsActivity.this, getString(R.string.noContent), Toast.LENGTH_SHORT).show();
@@ -181,8 +186,9 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         currentImgs.addAll(mImgList);
         currentImgs.remove(0);
 
-        if (currentImgs.size() > 0) observable = uploadWithImg(currentImgs, title, content, type);
-        else observable = uploadWithoutImg(title, content, type);
+        if (currentImgs.size() > 0)
+            observable = uploadWithImg(currentImgs, title, content, type, null);
+        else observable = uploadWithoutImg(title, content, type, null);
 
         observable.subscribe(new SimpleSubscriber<>(this, true, false, new SubscriberListener<Object>() {
             @Override
@@ -200,7 +206,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         }));
     }
 
-    private Observable<String> uploadWithImg(List<Image> currentImgs, String title, String content, int type) {
+    private Observable<String> uploadWithImg(List<Image> currentImgs, String title, String content, int type, @Nullable Integer topicId) {
         return Observable.from(currentImgs)
                 .observeOn(Schedulers.io())
                 .map(image -> image.url)
@@ -215,15 +221,22 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                     }
                     pUrl = pUrl.substring(0, pUrl.length() - 1);
                     tUrl = tUrl.substring(0, tUrl.length() - 1);
-                    return RequestManager.getInstance().sendDynamic(type, title, content, tUrl, pUrl, mUser.id, mUser.stuNum, mUser.idNum);
+                    if (type == BBDDNews.BBDD) {
+                        return RequestManager.getInstance().sendDynamic(type, title, content, tUrl, pUrl, mUser.id, mUser.stuNum, mUser.idNum);
+                    } else {
+                        return RequestManager.getInstance().sendTopicArticle(topicId, title, content, tUrl, pUrl, mUser.stuNum, mUser.idNum);
+                    }
                 });
     }
 
-    private Observable<String> uploadWithoutImg(String title, String content, int type) {
-        return RequestManager.getInstance()
-                .sendDynamic(type, title, content, " ", " ", mUser.id, mUser.stuNum, mUser.idNum);
+    private Observable<String> uploadWithoutImg(String title, String content, int type,@Nullable Integer topicId) {
+        if (type == BBDDNews.BBDD) {
+            return RequestManager.getInstance()
+                    .sendDynamic(type, title, content, " ", " ", mUser.id, mUser.stuNum, mUser.idNum);
+        } else {
+            return RequestManager.getInstance().sendTopicArticle(topicId, title, content, "", "", mUser.stuNum, mUser.idNum);
+        }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -264,4 +277,21 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     }
 
 
+    @OnClick(R.id.iv_add_topic)
+    public void onViewClicked() {
+        Intent intent = new Intent(this, TopicActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onTopic() {
+        mTitleText.setText("参与话题");
+    }
+
+    @Override
+    public void onNoTopic() {
+        mTitleText.setText("发表动态");
+        mTopicId = -1;
+        mIvAddTopic.setVisibility(View.VISIBLE);
+    }
 }

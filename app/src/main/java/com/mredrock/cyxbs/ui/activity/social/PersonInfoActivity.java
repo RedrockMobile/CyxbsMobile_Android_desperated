@@ -32,7 +32,6 @@ import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
-import com.mredrock.cyxbs.ui.fragment.social.BaseNewsFragment;
 import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.ScreenTools;
 
@@ -65,7 +64,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     private String mNickName;
     private String mUserId;
     private List<HotNews> mHotNewsList = null;
-    private BaseNewsFragment.FooterViewWrapper mFooterViewWrapper;
+    private FooterViewWrapper mFooterViewWrapper;
     protected NewsAdapter mNewsAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private HeaderViewWrapper mHeaderViewWrapper;
@@ -146,7 +145,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
         mHotNewsList = datas;
         mNewsAdapter = new NewsAdapter(mHotNewsList) {
             @Override
-            public void setDate(ViewHolder holder, HotNewsContent mDataBean) {
+            public void setDate(NewsViewHolder holder, HotNewsContent mDataBean) {
                 super.setDate(holder, mDataBean);
                 CardView cardView = (CardView) holder.itemView;
                 RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) cardView.getLayoutParams();
@@ -166,7 +165,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     }
 
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
-        mFooterViewWrapper = new BaseNewsFragment.FooterViewWrapper(this, mRecyclerView);
+        mFooterViewWrapper = new FooterViewWrapper(this, mRecyclerView);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterViewWrapper.getFooterView());
         mFooterViewWrapper.showLoadingNoMoreData();
         mFooterViewWrapper.onFailedClick(view -> requestData());

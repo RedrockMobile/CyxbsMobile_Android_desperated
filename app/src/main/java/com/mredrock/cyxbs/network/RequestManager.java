@@ -1,41 +1,60 @@
 package com.mredrock.cyxbs.network;
 
+import android.content.Context;
+
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.BuildConfig;
+import com.mredrock.cyxbs.component.remind_service.Reminder;
+import com.mredrock.cyxbs.component.remind_service.func.BaseRemindFunc;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
+import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
+import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.Shake;
+import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
+import com.mredrock.cyxbs.model.lost.Lost;
+import com.mredrock.cyxbs.model.lost.LostDetail;
+import com.mredrock.cyxbs.model.lost.LostStatus;
+import com.mredrock.cyxbs.model.lost.LostWrapper;
 import com.mredrock.cyxbs.model.social.BBDDNewsContent;
 import com.mredrock.cyxbs.model.social.CommentContent;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.OfficeNewsContent;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.PersonLatest;
+import com.mredrock.cyxbs.model.social.Topic;
+import com.mredrock.cyxbs.model.social.TopicArticle;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
 import com.mredrock.cyxbs.network.func.AffairTransformFunc;
 import com.mredrock.cyxbs.network.func.AffairWeekFilterFunc;
+import com.mredrock.cyxbs.network.func.ElectricQueryFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
+import com.mredrock.cyxbs.network.func.StartPageFunc;
 import com.mredrock.cyxbs.network.func.UpdateVerifyFunc;
 import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
 import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.network.interceptor.StudentNumberInterceptor;
 import com.mredrock.cyxbs.network.observable.CourseListProvider;
+import com.mredrock.cyxbs.network.service.LostApiService;
 import com.mredrock.cyxbs.network.service.RedrockApiService;
 import com.mredrock.cyxbs.network.setting.CacheProviders;
 import com.mredrock.cyxbs.network.setting.QualifiedTypeConverterFactory;
+import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
+import com.mredrock.cyxbs.ui.fragment.social.TopicFragment;
 import com.mredrock.cyxbs.util.BitmapUtil;
+import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.Utils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -68,13 +87,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-// TODO: UI 层解除登录强制要求之后，请务必检查这里有没有未检查的 API 调用
 public enum RequestManager {
 
     INSTANCE;
 
     private static final int DEFAULT_TIMEOUT = 30;
     private RedrockApiService redrockApiService;
+    private LostApiService lostApiService;
     private CacheProviders cacheProviders;
     private OkHttpClient okHttpClient;
 
@@ -94,6 +113,7 @@ public enum RequestManager {
                 .using(CacheProviders.class);
 
         redrockApiService = retrofit.create(RedrockApiService.class);
+        lostApiService = retrofit.create(LostApiService.class);
     }
 
     public static RequestManager getInstance() {
@@ -137,7 +157,6 @@ public enum RequestManager {
 
     public Subscription getNowWeek(Subscriber<Integer> subscriber, String stuNum, String idNum) {
         Observable<Integer> observable = redrockApiService.getCourse(stuNum, idNum, "0")
-
                 .map(courseWrapper -> {
                     if (courseWrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
                         throw new RedrockApiException();
@@ -148,20 +167,36 @@ public enum RequestManager {
     }
 
     public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum, int week, boolean update) {
-        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update)
+//        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update,false)
+//                .map(new UserCourseFilterFunc(week));
+
+        return getCourseList(subscriber, stuNum, idNum, week, update, false);
+    }
+
+    public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum,
+                                      int week, boolean update, boolean forceFetch) {
+        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update, forceFetch)
                 .map(new UserCourseFilterFunc(week));
 
         return emitObservable(observable, subscriber);
     }
 
+    public Subscription getRemindableList(Subscriber<List<Reminder>> subscriber, Context context, BaseRemindFunc remindFunc) {
+        Observable<List<Reminder>> observable = CourseListProvider.start(APP.getUser(context).stuNum, APP.getUser(context).idNum, false, false)
+                .map(new UserCourseFilterFunc(new SchoolCalendar()
+                        .getWeekOfTerm()))
+                .map(remindFunc);
+        return emitObservable(observable, subscriber);
+    }
 
     public Observable<List<Course>> getCourseList(String stuNum, String idNum) {
         return redrockApiService.getCourse(stuNum, idNum, "0").map(new RedrockApiWrapperFunc<>());
     }
 
-    public List<Course> getCourseListSync(String stuNum, String idNum) throws IOException {
-        Response<Course.CourseWrapper> response = redrockApiService.getCourseCall(stuNum, idNum, "0").execute();
+    public List<Course> getCourseListSync(String stuNum, String idNum, boolean forceFetch) throws IOException {
+        Response<Course.CourseWrapper> response = redrockApiService.getCourseCall(stuNum, idNum, "0", forceFetch).execute();
         return response.body().data;
+
     }
 
     public Subscription getMapOverlayImageUrl(Subscriber<String> subscriber, String name, String path) {
@@ -428,11 +463,22 @@ public enum RequestManager {
                                           String user_id,
                                           String stuNum,
                                           String idNum) {
-        if (!checkWithUserId("没有完善信息,还想发动态？")) return null;
+
         return redrockApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<String> sendTopicArticle(int topicId,
+                            String title,
+                            String content,
+                            String thumbnailSrc,
+                            String photoSrc,
+                            String stuNum,
+                            String idNum
+    ) {
+        return redrockApiService.sendTopicArticle(topicId, title, content, thumbnailSrc, photoSrc, stuNum, idNum, false)
+                .map(new RedrockApiWrapperFunc<>()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
 
     public void getRemarks(Subscriber<List<CommentContent>> subscriber,
                            String article_id,
@@ -542,41 +588,134 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void getAffair(Subscriber<List<Affair>>subscriber, String stuNum, String idNum){
-        Observable<List<Affair>> observable = redrockApiService.getAffair(stuNum,idNum)
-               .map(new AffairTransformFunc());
-        emitObservable(observable,subscriber);
+    public void getAffair(Subscriber<List<Affair>> subscriber, String stuNum, String idNum) {
+        Observable<List<Affair>> observable = redrockApiService.getAffair(stuNum, idNum)
+                .map(new AffairTransformFunc());
+        emitObservable(observable, subscriber);
     }
 
-    public void getAffair(Subscriber<List<Affair>>subscriber, String stuNum, String idNum,int week){
+    public void getAffair(Subscriber<List<Affair>> subscriber, String stuNum, String idNum, int week) {
         Observable<List<Affair>> observable = redrockApiService.getAffair(stuNum, idNum)
                 .map(new AffairTransformFunc())
                 .map(new AffairWeekFilterFunc(week));
+        emitObservable(observable, subscriber);
+    }
+
+    public void addAffair(Subscriber<Object> subscriber, String stuNum, String idNum, String uid, String title,
+                          String content, String date, int time) {
+        Observable<Object> observable = redrockApiService.addAffair(uid, stuNum, idNum, date, time, title, content)
+                .map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable, subscriber);
+    }
+
+
+    public void editAffair(Subscriber<Object> subscriber, String stuNum, String idNum, String uid, String title,
+                           String content, String date, int time) {
+        Observable<Object> observable = redrockApiService.editAffair(uid, stuNum, idNum, date, time, title, content)
+                .map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable, subscriber);
+    }
+
+    public void deleteAffair(Subscriber<Object> subscriber, String stuNum, String idNum, String uid) {
+        Observable<Object> observable = redrockApiService.deleteAffair(stuNum, idNum, uid)
+                .map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable, subscriber);
+    }
+
+    public void getStartPage(Subscriber<StartPage> subscriber) {
+        Observable<StartPage> observable = redrockApiService.startPage()
+                .map(new RedrockApiWrapperFunc<>())
+                .map(new StartPageFunc());
+        emitObservable(observable, subscriber);
+    }
+
+    public void queryElectricCharge(Subscriber<ElectricCharge> subscriber, String building, String room) {
+        if (!checkWithUserId("需要先登录才能发送失物招领信息哦")) return;
+        Observable<ElectricCharge> observable = redrockApiService.queryElectricCharge(building, room)
+
+                .map(new ElectricQueryFunc());
+        emitObservable(observable, subscriber);
+    }
+
+
+    public void bindDormitory(String stuNum,String idNum,String room, Subscriber<Object> subscriber ){
+        if (!checkWithUserId("需要先登录才能查询绑定寝室哦"))
+            return;
+        Observable<Object> observable = redrockApiService.bindDormitory(stuNum,idNum,room)
+                .map(new RedrockApiWrapperFunc<Object>());
         emitObservable(observable,subscriber);
     }
 
-    public void addAffair(Subscriber<Object>subscriber,String stuNum,String idNum,String uid,String title,
-                          String content,String date,int time){
-        Observable<Object> observable = redrockApiService.addAffair(uid,stuNum,idNum,date,time,title,content)
+    public void queryPastElectricCharge(String stuNum,String idNum,Subscriber<PastElectric.PastElectricResultWrapper> subscriber ){
+        if (!checkWithUserId("需要先登录才能查询绑定寝室哦"))
+            return;
+        Observable<PastElectric.PastElectricResultWrapper> observable = redrockApiService.getPastElectricCharge(stuNum,idNum)
                 .map(new RedrockApiWrapperFunc<>());
         emitObservable(observable,subscriber);
     }
 
-
-    public void editAffair(Subscriber<Object>subscriber,String stuNum,String idNum,String uid,String title,
-                           String content,String date,int time){
-        Observable<Object> observable = redrockApiService.editAffair(uid,stuNum,idNum,date,time,title,content)
-                .map(new RedrockApiWrapperFunc<>());
-        emitObservable(observable,subscriber);
+    public void getLostList(Subscriber<LostWrapper<List<Lost>>> subscriber, int theme, String category, int page) {
+        String themeString;
+        if (theme == LostActivity.THEME_LOST) {
+            themeString = "lost";
+        } else {
+            themeString = "found";
+        }
+        Observable<LostWrapper<List<Lost>>> observable = lostApiService.getLostList(themeString, category, page);
+        emitObservable(observable, subscriber);
     }
 
-    public void deleteAffair(Subscriber<Object> subscriber ,String stuNum,String idNum, String uid){
-        Observable<Object> observable = redrockApiService.deleteAffair(stuNum,idNum,uid)
-                .map(new RedrockApiWrapperFunc<>());
-        emitObservable(observable,subscriber);
+    public void getLostDetail(Subscriber<LostDetail> subscriber, Lost origin) {
+        Observable<LostDetail> observable = lostApiService.getLostDetial(origin.id)
+                .map(lostDetail -> lostDetail.mergeLost(origin));
+        emitObservable(observable, subscriber);
     }
 
+    public void createLost(Subscriber<LostStatus> subscriber, LostDetail detail, int theme) {
+        if (!checkWithUserId("需要先登录才能发送失物招领信息哦")) return;
+        User user = APP.getUser(APP.getContext());
+        String themeString;
+        if (theme == LostActivity.THEME_LOST) {
+            themeString = "寻物启事";
+        } else {
+            themeString = "失物招领";
+        }
+        Observable<LostStatus> observable = lostApiService.create(user.stuNum,
+                user.idNum,
+                themeString,
+                detail.category,
+                detail.description,
+                detail.time,
+                detail.place,
+                detail.connectPhone,
+                detail.connectWx);
+        emitObservable(observable, subscriber);
+    }
 
+    public void getTopicList(Subscriber<List<Topic>> subscriber, int size, int page, String stuNum, String idNum, String type) {
+        Observable<List<Topic>> observable;
+        switch (type) {
+            case TopicFragment.TopicType.MY_TOPIC:
+                observable = redrockApiService.getMyTopicList(stuNum, idNum, size, page)
+                        .map(new RedrockApiWrapperFunc<>());
+                break;
+            case TopicFragment.TopicType.ALL_TOPIC:
+                observable = redrockApiService.getAllTopicList(stuNum, idNum, size, page)
+                        .map(new RedrockApiWrapperFunc<>());
+                break;
+            default:
+                observable = redrockApiService.searchTopic(stuNum, idNum, size, page, type)
+                        .map(new RedrockApiWrapperFunc<>());
+                break;
+        }
+        emitObservable(observable, subscriber);
+    }
+
+    public void getTopicArticle(Subscriber<TopicArticle> subscriber, int size, int page, String stuNum, String idNum, int topicId) {
+        Observable<TopicArticle> observable = redrockApiService.getTopicArticle(stuNum, idNum, size, page, topicId)
+                .map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable, subscriber);
+    }
 
     private <T> Subscription emitObservable(Observable<T> o, Subscriber<T> s) {
         return o.subscribeOn(Schedulers.io())
@@ -585,7 +724,6 @@ public enum RequestManager {
                 .subscribe(s);
     }
 
-    // TODO: unlogin check bus
     public boolean checkWithUserId(String s) {
         if (!APP.isLogin()) {
             EventBus.getDefault().post(new AskLoginEvent(s));

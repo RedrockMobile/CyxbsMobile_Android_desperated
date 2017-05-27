@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
           package="com.mredrock.cyxbs">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
 
     <application
         android:name=".APP"
-        android:theme="@style/AppTheme"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name">
+        android:label="@string/app_name"
+        android:persistent="true"
+        android:theme="@style/AppTheme">
 
         <!-- 魅族 3D TOUCH 适配 -->
         <meta-data
@@ -51,8 +56,9 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask">
+            android:theme="@style/MainActivityTheme">
             <intent-filter>
 
                 <!-- 魅族 3D TOUCH 适配 START -->
@@ -80,13 +86,14 @@
                 <!-- 魅族 3D TOUCH 适配 END -->
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activity.SplashActivity">
+        <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts"
+                       android:resource="@xml/shortcuts" />
         </activity>
         <activity android:name=".ui.activity.social.SpecificNewsActivity" />
         <activity
@@ -133,9 +140,13 @@
         <activity android:name=".ui.activity.social.ImageActivity" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:theme="@style/AppThemeFit"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeFit" />
         <activity android:name=".ui.activity.social.PersonInfoActivity" />
+        <activity android:name=".ui.activity.lost.LostActivity" />
+        <activity android:name=".ui.activity.lost.LostDetailsActivity" />
+        <activity android:name=".ui.activity.lost.ReleaseActivity" />
+        <activity android:name=".ui.activity.lost.ReleaseSucceedActivity" />
 
         <service
             android:name=".service.UpdateService"
@@ -159,11 +170,11 @@
             android:process=":AppWidget" />
 
         <!-- 用于课表提醒 -->
-        <receiver android:name=".receiver.RemindReceiver" />
+        <receiver android:name=".component.remind_service.receiver.RemindReceiver" />
 
         <!-- 开机自启 -->
         <receiver
-            android:name=".receiver.RebootReceiver"
+            android:name=".component.remind_service.receiver.RebootReceiver"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -175,30 +186,105 @@
         <service
             android:name=".ui.widget.CourseListAppWidgetUpdateService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".ui.activity.affair.EditAffairActivity"
-            android:launchMode="singleTop"
-            android:exported="false" />
-        <service
-            android:name=".service.NotificationService"
-            android:enabled="true" />
-        <service
-            android:name=".service.GuardService"
-            android:exported="true" />
-
-        <activity android:name=".ui.activity.affair.TimeChooseActivity"/>
+            android:exported="false"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.activity.affair.TimeChooseActivity"
+            android:launchMode="singleTop"/>
 
         <provider
-            android:authorities="com.mredrock.cyxbs.APKFileProvider"
             android:name="android.support.v4.content.FileProvider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:authorities="com.mredrock.cyxbs.APKFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/apk_file_path"/>
+                android:resource="@xml/apk_file_path" />
         </provider>
+
+        <activity
+            android:name=".ui.activity.explore.electric.ElectricChargeActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.explore.electric.DormitorySettingActivity"
+            android:launchMode="singleTop" />
+
+        <service
+            android:name=".component.remind_service.service.RemindJobService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <activity
+            android:name=".ui.activity.explore.electric.PastElectricChargeActivity"
+            android:launchMode="singleTop"></activity>
+        <activity android:name=".ui.activity.explore.electric.ElectricRemindActivity"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service android:name=".component.remind_service.service.NotificationService"/>
+
+        <activity android:name=".ui.activity.social.TopicActivity">
+        </activity>
+        <activity android:name=".ui.activity.social.TopicArticleActivity">
+        </activity>
+        <activity android:name=".ui.activity.exception.ExceptionActivity"
+                  android:theme="@style/Transparent"
+                  android:process=":exception_handler"/>
+        <activity android:name=".ui.activity.ActionActivity"
+                  android:excludeFromRecents="true"
+                  android:theme="@style/Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="cyxbsmobile"/>
+            </intent-filter>
+        </activity>
+        <!--社会化分享-->
+        <activity
+            android:name=".WBShareActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" >
+        </activity>
+        <!--<service android:name="com.sina.weibo.sdk.net.DownloadService"-->
+                 <!--android:exported="false"></service>-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="1106072365" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <!--社会化分享-->
     </application>
 
 </manifest>

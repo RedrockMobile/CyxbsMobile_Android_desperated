@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_electric_charge"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+
+    tools:context="com.mredrock.cyxbs.ui.activity.explore.electric.ElectricChargeActivity">
+    <include android:id="@+id/electric_query_toolbar"
+        layout="@layout/toolbar_electric"/>
+    <com.mredrock.cyxbs.component.widget.ElectricCircleView
+        android:id="@+id/ecv_electric_circle_view"
+        android:layout_width="280dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_height="280dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_electric_query_average"
+                android:textColor="#12b9ff"
+                android:text="00"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="#999999"
+                android:text="日均量/度"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_electric_query_free"
+                android:textColor="#12b9ff"
+                android:text="00"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="#999999"
+                android:text="月优惠量/度"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_electric_query_begin"
+                android:textColor="#12b9ff"
+                android:text="00"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="#999999"
+                android:text="电起度/度"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_electric_query_end"
+                android:textColor="#12b9ff"
+                android:text="00"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="#999999"
+                android:text="电止度/度"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#f0f1f5"/>
+
+    <TextView
+        android:id="@+id/tv_electric_query_notice"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:textColor="#9ea1a6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/electric_notice_info"/>
+    <TextView
+        android:id="@+id/tv_electric_query_phone"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:textColor="#9ea1a6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/electric_notice_info_1"/>
+
+</LinearLayout>

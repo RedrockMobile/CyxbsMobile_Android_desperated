@@ -2,7 +2,6 @@ package com.mredrock.cyxbs.ui.activity.affair;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,6 +14,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Position;
 import com.mredrock.cyxbs.component.widget.TimeChooseView;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
+import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.LogUtils;
 
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class TimeChooseActivity extends AppCompatActivity {
+public class TimeChooseActivity extends BaseActivity {
 
 
     public static final String BUNDLE_KEY = "TIME_CHOOSE";

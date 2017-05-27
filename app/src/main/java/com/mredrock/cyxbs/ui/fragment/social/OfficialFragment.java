@@ -21,7 +21,7 @@ public class OfficialFragment extends BaseNewsFragment {
     }
 
     @Override
-    protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent hotNewsContent) {
+    protected void setDate(NewsAdapter.NewsViewHolder holder, HotNewsContent hotNewsContent) {
         super.setDate(holder, hotNewsContent);
         holder.setData(hotNewsContent, false);
     }

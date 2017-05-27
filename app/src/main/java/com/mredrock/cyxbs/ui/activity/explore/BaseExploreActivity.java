@@ -40,7 +40,7 @@ public abstract class BaseExploreActivity extends BaseActivity {
     View mMainContent;
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+    public void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
         animateMainContentFadeIn();

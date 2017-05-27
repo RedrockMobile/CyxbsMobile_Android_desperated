@@ -17,6 +17,8 @@ import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
+import com.mredrock.cyxbs.ui.activity.explore.electric.ElectricChargeActivity;
+import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
 import com.mredrock.cyxbs.ui.adapter.ExploreRollViewPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.util.LogUtils;
@@ -74,6 +76,15 @@ public class ExploreFragment extends BaseFragment {
             startLocation[0] += mSurroundingFoodHolder.getWidth() / 2;
             SurroundingFoodActivity.startSurroundingFoodActivity(startLocation, getActivity());
         }
+    }
+
+    @OnClick(R.id.explore_electric_query_holder)
+    void clickToElectricQuery() {
+        getActivity().startActivity(new Intent(getActivity(), ElectricChargeActivity.class));
+    }
+    @OnClick(R.id.explore_lost_and_found_holder)
+    void clickToLostAndFound() {
+        LostActivity.start(getActivity());
     }
 
     @Override

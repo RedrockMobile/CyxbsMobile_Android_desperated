@@ -22,7 +22,6 @@ import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.activity.social.SpecificNewsActivity;
 import com.mredrock.cyxbs.ui.adapter.me.AboutMeAdapter;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,20 +45,6 @@ public class AboutMeActivity extends BaseActivity implements
     private AboutMeAdapter mAboutMeAdapter;
 
     private User mUser;
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

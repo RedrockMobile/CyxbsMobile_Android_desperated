@@ -26,7 +26,11 @@ import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
 import android.view.MotionEvent;
@@ -37,6 +41,8 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.mredrock.cyxbs.R;
 
 
 public class ExpandableTextView extends LinearLayout implements View.OnClickListener {
@@ -84,6 +90,8 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     /* For saving collapsed status when used in ListView */
     private SparseBooleanArray mCollapsedStatus;
     private int mPosition;
+
+    private int a = 0, b = 0;
 
     public ExpandableTextView(Context context) {
         this(context, null);
@@ -262,7 +270,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         mListener = listener;
     }
 
-    public void setText(@Nullable CharSequence text, @NonNull SparseBooleanArray collapsedStatus, int position) {
+    public void setText(@Nullable String text, @NonNull SparseBooleanArray collapsedStatus, int position) {
         mCollapsedStatus = collapsedStatus;
         mPosition = position;
         boolean isCollapsed = collapsedStatus.get(position, true);
@@ -283,10 +291,41 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         return mTv.getText();
     }
 
-    public void setText(@Nullable CharSequence text) {
+    public void setText(@Nullable String text) {
         mRelayout = true;
-        mTv.setText(text);
+        if (text == null) {
+            text = "";
+        }
+        try {
+            if (hasTopic(text)) {
+                SpannableString spanned = new SpannableString(text);
+                spanned.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(),
+                        R.color.colorAccent)), a, b, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                mTv.setText(spanned, TextView.BufferType.SPANNABLE);
+            } else {
+                mTv.setText(text);
+            }
+        } finally {
+            a = 0;
+            b = 0;
+        }
         setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
+    }
+
+    private boolean hasTopic(String text) {
+        boolean perMatched = false;
+        for (int i = 0; i < text.length(); i++) {
+            if (a != b) break;
+            if (text.charAt(i) == '#') {
+                if (!perMatched) {
+                    a = i;
+                    perMatched = true;
+                } else {
+                    b = i + 1;
+                }
+            }
+        }
+        return (b <= text.length() && (a < b));
     }
 
     public void setmMaxCollapsedLines(int mMaxCollapsedLines) {

@@ -4,14 +4,17 @@ import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.model.Course;
+import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.model.Empty;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
+import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.Shake;
+import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.Student;
 import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
@@ -23,6 +26,9 @@ import com.mredrock.cyxbs.model.social.OfficeNews;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.model.social.PersonLatest;
 import com.mredrock.cyxbs.model.social.RequestResponse;
+import com.mredrock.cyxbs.model.social.Topic;
+import com.mredrock.cyxbs.model.social.TopicApiWrapper;
+import com.mredrock.cyxbs.model.social.TopicArticle;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.setting.annotation.XmlApi;
 
@@ -64,8 +70,9 @@ public interface RedrockApiService {
     @Headers("API_APP: android")
     @POST(Const.API_PERSON_SCHEDULE)
     retrofit2.Call<Course.CourseWrapper> getCourseCall(@Field("stuNum") String stuNum,
-                                                   @Field("idNum") String idNum,
-                                                   @Field("week") String week);
+                                                       @Field("idNum") String idNum,
+                                                       @Field("week") String week,
+                                                       @Field("forceFetch") boolean forceFetch);
 
     //Explore start
     @FormUrlEncoded
@@ -162,7 +169,6 @@ public interface RedrockApiService {
                                                          stuNum,
                                                  @Field("idNum") String idNum);
 
-    // TODO: Modified
     @FormUrlEncoded
     @POST(Const.API_TREND_DETAIL)
     Observable<BBDDDetail.BBDDDetailWrapper> getTrendDetail(@Field("type_id") int type_id,
@@ -177,19 +183,16 @@ public interface RedrockApiService {
                                                                @Field("idNum") String idNum,
                                                                @Field("stunum_other") String stunum_other);
 
-    // TODO: API Modified
     @FormUrlEncoded
     @POST(Const.API_SOCIAL_OFFICIAL_NEWS_LIST)
     Observable<OfficeNews> getSocialOfficialNewsList(@Field("size") int size,
                                                      @Field("page") int page);
 
-    // TODO: Modified
     @FormUrlEncoded
     @POST(Const.API_SOCIAL_HOT_LIST)
     Observable<List<HotNews>> getSocialHotList(@Field("size") int size,
                                                @Field("page") int page);
 
-    // TODO: Modified
     @FormUrlEncoded
     //哔哔叨叨(或者其他的)接口：POST
     @POST(Const.API_SOCIAL_BBDD_LIST)
@@ -215,7 +218,6 @@ public interface RedrockApiService {
                                             @Field("stuNum") String stuNum,
                                             @Field("idNum") String idNum);
 
-    // TODO: Modified
     @FormUrlEncoded
     @POST(Const.API_SOCIAL_COMMENT_LIST)
     Observable<Comment> getSocialCommentList(@Field("article_id") String article_id,
@@ -251,7 +253,6 @@ public interface RedrockApiService {
                                                             @Field("stuNum") String stuNum,
                                                             @Field("idNum") String idNum);
 
-    // TODO: Modified
     @FormUrlEncoded
     @POST(Const.API_GET_PERSON_LATEST)
     Observable<RedrockApiWrapper<List<PersonLatest>>> getPersonLatestList(@Field("stunum_other") String otherStuNum);
@@ -262,18 +263,73 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_ADD_AFFAIR)
-    Observable<RedrockApiWrapper<Object>> addAffair(@Field("id")String id, @Field("stuNum") String stuNum, @Field("idNum") String idNum,
-                                            @Field("date") String date, @Field("time")int time,@Field("title")String title,
-                                            @Field("content")String content);
+    Observable<RedrockApiWrapper<Object>> addAffair(@Field("id") String id, @Field("stuNum") String stuNum, @Field("idNum") String idNum,
+                                                    @Field("date") String date, @Field("time") int time, @Field("title") String title,
+                                                    @Field("content") String content);
 
     @FormUrlEncoded
     @POST(Const.API_EDIT_AFFAIR)
-    Observable<RedrockApiWrapper<Object>> editAffair(@Field("id")String id, @Field("stuNum") String stuNum, @Field("idNum") String idNum,
-                                            @Field("date") String date, @Field("time")int time,@Field("title")String title,
-                                            @Field("content")String content);
+    Observable<RedrockApiWrapper<Object>> editAffair(@Field("id") String id, @Field("stuNum") String stuNum, @Field("idNum") String idNum,
+                                                     @Field("date") String date, @Field("time") int time, @Field("title") String title,
+                                                     @Field("content") String content);
 
     @FormUrlEncoded
     @POST(Const.API_DELETE_AFFAIR)
     Observable<RedrockApiWrapper<Object>> deleteAffair(@Field("stuNum") String stuNum, @Field("idNum") String idNum, @Field("id") String id);
 
+    @POST(Const.API_START_PAGE)
+    Observable<RedrockApiWrapper<List<StartPage>>> startPage();
+
+    @FormUrlEncoded
+    @POST(Const.API_ELECTRIC_CHARGE)
+    Observable<ElectricCharge.ElectricChargeWrapper> queryElectricCharge(@Field("building") String building, @Field("room") String room);
+
+    @FormUrlEncoded
+    @POST(Const.API_BIND_DORMITORY)
+    Observable<RedrockApiWrapper<Object>> bindDormitory(@Field("stuNum")String stuNum,@Field("idNum") String idNum,@Field("room") String room);
+
+    @FormUrlEncoded
+    @POST(Const.API_ELECTRIC_QUERY_STUNUM)
+    Observable<RedrockApiWrapper<PastElectric.PastElectricResultWrapper>> getPastElectricCharge(@Field("stuNum")String stuNum, @Field("idNum") String idNum);
+
+    @FormUrlEncoded
+    @POST(Const.API_ALL_TOPIC_LIST)
+    Observable<TopicApiWrapper<List<Topic>>> getAllTopicList(@Field("stuNum") String stuNum,
+                                                             @Field("idNum") String idNum,
+                                                             @Field("size") int size,
+                                                             @Field("page") int page);
+
+    @FormUrlEncoded
+    @POST(Const.API_MY_TOPIC_LIST)
+    Observable<TopicApiWrapper<List<Topic>>> getMyTopicList(@Field("stuNum") String stuNum,
+                                                            @Field("idNum") String idNum,
+                                                            @Field("size") int size,
+                                                            @Field("page") int page);
+
+    @FormUrlEncoded
+    @POST(Const.API_ALL_TOPIC_LIST)
+    Observable<TopicApiWrapper<List<Topic>>> searchTopic(@Field("stuNum") String stuNum,
+                                                         @Field("idNum") String idNum,
+                                                         @Field("size") int size,
+                                                         @Field("page") int page,
+                                                         @Field("searchKeyword") String searchKeyword);
+
+    @FormUrlEncoded
+    @POST(Const.API_TOPIC_ARTICLE)
+    Observable<TopicApiWrapper<TopicArticle>> getTopicArticle(@Field("stuNum") String stuNum,
+                                                              @Field("idNum") String idNum,
+                                                              @Field("size") int size,
+                                                              @Field("page") int page,
+                                                              @Field("topic_id") int topicId);
+
+    @FormUrlEncoded
+    @POST(Const.API_ADD_TOPIC_ARTICLE)
+    Observable<RequestResponse> sendTopicArticle(@Field("topic_id") int topic_id,
+                                                 @Field("title") String title,
+                                                 @Field("content") String content,
+                                                 @Field("thumbnail_src") String thumbnail_src,
+                                                 @Field("photo_src") String photo_src,
+                                                 @Field("stuNum") String stuNum,
+                                                 @Field("idNum") String idNum,
+                                                 @Field("official") boolean official);
 }

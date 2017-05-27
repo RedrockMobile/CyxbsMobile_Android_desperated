@@ -25,13 +25,9 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     }
 
     @Override
-    protected void setDate(NewsAdapter.ViewHolder holder, HotNewsContent hotNewsContent) {
+    protected void setDate(NewsAdapter.NewsViewHolder holder, HotNewsContent hotNewsContent) {
         super.setDate(holder, hotNewsContent);
-        if (hotNewsContent.user_id.equals("0") || hotNewsContent.typeId < 5) {
-            holder.enableAvatarClick = false;
-        } else {
-            holder.enableAvatarClick = true;
-        }
+        holder.enableAvatarClick = !(hotNewsContent.user_id.equals("0") || hotNewsContent.typeId < 5);
     }
 
 
@@ -61,5 +57,11 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unregisterObservable();
+    }
+
+    @Override
+    public void initAdapter(List<HotNews> listHotNews) {
+        super.initAdapter(listHotNews);
+        addHeaderView();
     }
 }

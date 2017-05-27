@@ -30,6 +30,7 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
     private String idNum;
     private boolean preferRefresh;
     private String cacheFilePath;
+    private boolean forceFetch;
 
     /**
      * Get course list, we will try network and cache until one of them success or both in failure.
@@ -39,8 +40,8 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
      * @param preferRefresh if true, we will try network first, or try cache first
      * @return RxJava Observable
      */
-    public static Observable<List<Course>> start(String stuNum, String idNum, boolean preferRefresh) {
-        return Observable.create(new CourseListProvider(stuNum, idNum, preferRefresh));
+    public static Observable<List<Course>> start(String stuNum, String idNum, boolean preferRefresh,boolean forceFetch) {
+        return Observable.create(new CourseListProvider(stuNum, idNum, preferRefresh,forceFetch));
     }
 
     /**
@@ -51,14 +52,15 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
      * @param preferRefresh if true, we will try network first, or try cache first
      * @return a list of course
      */
-    public static List<Course> exec(String stuNum, String idNum, boolean preferRefresh) {
-        return new CourseListProvider(stuNum, idNum, preferRefresh).doubleTryLoadSync();
+    public static List<Course> exec(String stuNum, String idNum, boolean preferRefresh,boolean forceFetch) {
+        return new CourseListProvider(stuNum, idNum, preferRefresh,forceFetch).doubleTryLoadSync();
     }
 
-    private CourseListProvider(String stuNum, String idNum, boolean preferRefresh) {
+    private CourseListProvider(String stuNum, String idNum, boolean preferRefresh,boolean forceFetch) {
         this.stuNum = stuNum;
         this.idNum = idNum;
         this.preferRefresh = preferRefresh;
+        this.forceFetch = forceFetch;
         cacheFilePath = APP.getContext().getFilesDir().getAbsolutePath() + "/" + "UserCourse$" + stuNum + ".json";
     }
 
@@ -117,7 +119,7 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
 
     private List<Course> getCourseFromNetwork() throws IOException {
         LogUtils.LOGI("CourseProviderObservable", "onGetFromNetwork");
-        List<Course> courses = RequestManager.getInstance().getCourseListSync(stuNum, idNum);
+        List<Course> courses = RequestManager.getInstance().getCourseListSync(stuNum, idNum,forceFetch);
         if (courses == null || courses.size() == 0) {
             throw new NullPointerException();
         }

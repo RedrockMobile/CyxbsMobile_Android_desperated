@@ -467,8 +467,6 @@ public class SimpleBanner extends RelativeLayout {
         return iv;
     }
 
-    ;
-
 
     private OnVpItemClickListener onVpItemClickListener;
 

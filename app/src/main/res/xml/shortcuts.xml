@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:tools="http://schemas.android.com/tools"
+           xmlns:android="http://schemas.android.com/apk/res/android"
+           tools:targetApi="n_mr1">
+
+    <shortcut
+        android:shortcutId="static_schedule"
+        android:icon="@drawable/ic_course_select"
+        android:enabled="true"
+        android:shortcutShortLabel="@string/schedule"
+        android:shortcutLongLabel="@string/schedule"
+        android:shortcutDisabledMessage="@string/schedule">
+        <intent
+            android:action="com.mredrock.cyxbs.action.SCHEDULE"
+            android:targetPackage="com.mredrock.cyxbs"
+            android:targetClass="com.mredrock.cyxbs.ui.activity.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="static_news"
+        android:icon="@drawable/ic_my_page_relate"
+        android:enabled="true"
+        android:shortcutShortLabel="@string/news"
+        android:shortcutLongLabel="@string/news"
+        android:shortcutDisabledMessage="@string/news">
+        <intent
+            android:action="com.mredrock.cyxbs.action.NEWS"
+            android:targetPackage="com.mredrock.cyxbs"
+            android:targetClass="com.mredrock.cyxbs.ui.activity.me.AboutMeActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="static_foods"
+        android:icon="@drawable/ic_around_food"
+        android:enabled="true"
+        android:shortcutShortLabel="@string/foods"
+        android:shortcutLongLabel="@string/foods"
+        android:shortcutDisabledMessage="@string/foods">
+        <intent
+            android:action="com.mredrock.cyxbs.action.FOODS"
+            android:targetPackage="com.mredrock.cyxbs"
+            android:targetClass="com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="static_date"
+        android:icon="@drawable/ic_my_page_no_course"
+        android:enabled="true"
+        android:shortcutShortLabel="@string/date"
+        android:shortcutLongLabel="@string/date"
+        android:shortcutDisabledMessage="@string/date">
+        <intent
+            android:action="com.mredrock.cyxbs.action.DATE"
+            android:targetPackage="com.mredrock.cyxbs"
+            android:targetClass="com.mredrock.cyxbs.ui.activity.me.NoCourseActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+</shortcuts>

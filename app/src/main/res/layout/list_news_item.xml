@@ -99,8 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|bottom"
                 android:background="@android:color/transparent"
-
-                android:textColor="@color/md_material_blue_800"/>
+                android:textColor="@color/colorAccent"/>
         </com.mredrock.cyxbs.component.widget.ExpandableTextView>
 
 

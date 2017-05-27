@@ -142,6 +142,18 @@
         <item>动态</item>
         <item>资讯</item>
     </string-array>
+
+    <string-array name="lost_tab_tiles">
+        <item>全部</item>
+        <item>一卡通</item>
+        <item>钱包</item>
+        <item>钥匙</item>
+        <item>电子产品</item>
+        <item>雨伞</item>
+        <item>衣物</item>
+        <item>其他</item>
+
+    </string-array>
     ？
     <!--explore page start-->
     <string name="error_text">加载失败</string>
@@ -150,6 +162,8 @@
     <string name="explore_map">重邮地图</string>
     <string name="explore_eat">吃什么</string>
     <string name="explore_around_food">周边美食</string>
+    <string name="explore_electric">电费查询</string>
+
     <string name="explore_fresher_special">迎新网</string>
     <string name="explore_community">重邮社区</string>
     <string name="explore_business">创业谷</string>
@@ -205,7 +219,7 @@
     <!--explore page end-->
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
 
     <string name="news_load">下载附件</string>
     <string name="load_agree">确定</string>
@@ -223,7 +237,7 @@
     <string name="activity_add_news_title">发表动态</string>
     <string name="save">完成</string>
     <string name="cancel">取消</string>
-    <string name="add_news_edit_hint">和大家一起哔哔叨叨吧</string>
+    <string name="add_news_edit_hint">点击输入文字...</string>
     <string name="annex">含附件</string>
     <string name="erro">获取数据失败,你的网络不靠谱呀</string>
     <string name="alter">你没有输入任何东西哟</string>
@@ -255,5 +269,26 @@
     <string name="add_affair_edit_hint">写点内容哦</string>
     <string name="add_affair_edit_title">给你的提醒设置一个标题吧</string>
     <string name="send">发送</string>
+    <string name="lost_post">失物启事</string>
+    <string name="found_post">招领启事</string>
+    <string name="lost_and_found">失物招领</string>
 
+    <string-array name="lost_category_list">
+        <item>全部</item>
+        <item>一卡通</item>
+        <item>钱包</item>
+        <item>钥匙</item>
+        <item>电子产品</item>
+        <item>钥匙</item>
+        <item>雨伞</item>
+        <item>衣物</item>
+        <item>其他</item>
+    </string-array>
+    <!--Electric query-->
+    <string name="electric_notice_info">\t注意事项\n\n\t抄表日期： </string>
+    <string name="electric_notice_info_1">\t用电过程中，如需查询请致电：\t023-62487902</string>
+    <string name="unLoginHint">点击登录,拯救课表菌！！！</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

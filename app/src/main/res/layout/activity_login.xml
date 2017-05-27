@@ -1,9 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.mredrock.cyxbs.ui.activity.LoginActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              tools:context="com.mredrock.cyxbs.ui.activity.LoginActivity">
 
     <include
         android:id="@+id/login_toolbar"
@@ -85,7 +86,11 @@
 
         </LinearLayout>
 
-        <Button
+        <com.mredrock.cyxbs.component.widget.TextLimitButton
+            app:min_text_length="10"
+            app:free_background_color="@color/colorAccent"
+            app:limit_background_color="@color/gray_edit"
+            android:gravity="center"
             android:id="@+id/login_submit_button"
             android:layout_width="match_parent"
             android:layout_height="48dp"

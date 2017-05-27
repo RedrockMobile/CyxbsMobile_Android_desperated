@@ -38,6 +38,8 @@ public class HotNewsContent implements Parcelable {
     @SerializedName("is_my_Like")
     public boolean isMyLike;
 
+    public HotNewsContent() {
+    }
 
     public static final Creator<HotNewsContent> CREATOR = new Creator<HotNewsContent>() {
         @Override

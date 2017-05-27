@@ -2,7 +2,6 @@ package com.mredrock.cyxbs.ui.activity.me;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,12 +9,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
-import com.umeng.analytics.MobclickAgent;
+import com.mredrock.cyxbs.ui.activity.BaseActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SchoolCalendarActivity extends AppCompatActivity {
+public class SchoolCalendarActivity extends BaseActivity {
 
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -25,19 +24,6 @@ public class SchoolCalendarActivity extends AppCompatActivity {
     ImageView mCalendarImgS1;
     @Bind(R.id.calendar_img_s2)
     ImageView mCalendarImgS2;
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

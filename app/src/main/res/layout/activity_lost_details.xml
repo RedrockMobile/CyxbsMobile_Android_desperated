@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_lost_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+
+    tools:context="com.mredrock.cyxbs.ui.activity.lost.LostDetailsActivity">
+    <include
+        android:id="@+id/toolbar_detail"
+        layout="@layout/toolbar"/>
+    <View
+        android:background="#f4f5f5"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_layout"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp">
+
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/detail_lost_img_avatar"
+                android:layout_width="@dimen/information_img_avatar"
+                android:layout_height="@dimen/information_img_avatar"
+                android:scaleType="fitCenter"
+                tools:src="@drawable/ic_default_avatar"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/detail_lost_img_avatar"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/detail_lost_text_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="你的名字。"
+                    android:textColor="@color/body_text_1"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/detail_lost_text_kind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="来自分类 其他"
+                    android:textColor="@color/crop__button_text"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="9dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:lineSpacingMultiplier="1.3"
+            android:text="寻找着，从未见过的你。"
+            android:textColor="@color/body_text_1"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <View
+        android:background="#f4f5f5"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_lost_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="联系人"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lost_detail_connect" />
+
+    </LinearLayout>
+
+    <View
+        android:background="@color/ab__gray_light"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_lost_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="时    间"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lost_detail_time" />
+
+    </LinearLayout>
+    <View
+        android:background="@color/ab__gray_light"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_lost_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="地    点"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/lost_detail_place"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/ab__gray_light"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_lost_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="电    话"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/lost_detail_tel"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <View
+        android:background="@color/ab__gray_light"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_lost_qq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="Q      Q"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/lost_detail_qq"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/ab__gray_light"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+</LinearLayout>
