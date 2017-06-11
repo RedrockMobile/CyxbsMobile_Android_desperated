@@ -57,12 +57,24 @@ public class TopicArticleHeader implements RecyclerArrayAdapter.ItemView {
         if (mTopicArticle.getPhoto_src() == null || mTopicArticle.getPhoto_src().equals("")) {
             mIvTopicArticleBg.setBackgroundColor(TopicHeaderAdapter.loadByRandom(mContext));
         } else {
-            Glide.with(mContext).load(mTopicArticle.getPhoto_src())
+            String fixedPhotoUrl = fixFuckWebBug(mTopicArticle.getThumbnail_src());
+            Glide.with(mContext).load(fixedPhotoUrl)
                     .error(new ColorDrawable(TopicHeaderAdapter.loadByRandom(mContext)))
                     .into(mIvTopicArticleBg);
+
         }
         mTvTopicArticleTitle.setText("#" + mTopicArticle.getKeyword() + "#");
         mEtvTopicContent.setText(mTopicArticle.getContent());
+    }
+
+    private String fixFuckWebBug(String thumbnail_src) {
+        String url = "http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/thumbnail/";
+        String[] photoUrl = thumbnail_src.split(",");
+        if (!photoUrl[0].startsWith("http://")) {
+            return url + photoUrl[0];
+        } else {
+            return photoUrl[0];
+        }
     }
 
     @Override
