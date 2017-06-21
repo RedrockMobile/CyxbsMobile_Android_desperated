@@ -68,7 +68,7 @@ public class TopicArticleHeader implements RecyclerArrayAdapter.ItemView {
     }
 
     private String fixFuckWebBug(String thumbnail_src) {
-        String url = "http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/thumbnail/";
+        String url = "http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/";
         String[] photoUrl = thumbnail_src.split(",");
         if (!photoUrl[0].startsWith("http://")) {
             return url + photoUrl[0];

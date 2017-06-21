@@ -19,6 +19,6 @@ public class RebootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         RemindManager.getInstance().pushAll(context);
-        Log.d(TAG, "onReceive: 每五分钟启动或者开机自启");
+        Log.d(TAG, "onReceive: 每五分钟启动或者开机自启唤醒提醒线程");
     }
 }
