@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.APP;
@@ -57,6 +58,7 @@ public class CourseContainerFragment extends BaseFragment {
     }
 
     private TextView mToolbarTitle;
+    private ImageView mCourseUnfold;
     private String title;
 
     private TabPagerAdapter mAdapter;
@@ -111,6 +113,7 @@ public class CourseContainerFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         mAdapter = new TabPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentList, mTitles);
         mToolbarTitle = ((MainActivity) getActivity()).getToolbarTitle();
+        mCourseUnfold = ((MainActivity) getActivity()).getCourseUnfold();
         mPager.setAdapter(mAdapter);
         //mPager.setOffscreenPageLimit(mTitles.size());
         mPager.addOnPageChangeListener(mTabListener = new TabLayout.TabLayoutOnPageChangeListener(mTabs));
@@ -149,9 +152,24 @@ public class CourseContainerFragment extends BaseFragment {
                 if (isVisible()) {
                     if (mTabs.getVisibility() == View.VISIBLE) {
                         mTabs.setVisibility(View.GONE);
+                        mCourseUnfold.setRotation(0);
                     } else {
                         mTabs.setVisibility(View.VISIBLE);
                         mTabs.setScrollPosition(mPager.getCurrentItem(), 0, true);
+                        mCourseUnfold.setRotation(180);
+                    }
+                }
+            });
+
+            mCourseUnfold.setOnClickListener(v -> {
+                if (isVisible()) {
+                    if (mTabs.getVisibility() == View.VISIBLE) {
+                        mTabs.setVisibility(View.GONE);
+                        mCourseUnfold.setRotation(0);
+                    } else {
+                        mTabs.setVisibility(View.VISIBLE);
+                        mTabs.setScrollPosition(mPager.getCurrentItem(), 0, true);
+                        mCourseUnfold.setRotation(180);
                     }
                 }
             });

@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -81,6 +83,8 @@ public class MainActivity extends BaseActivity {
     LinearLayout mCoordinatorLayout;
     @Bind(R.id.main_view_pager)
     ViewPager mViewPager;
+    @Bind(R.id.course_unfold)
+    ImageView mCourseUnfold;
 
     @BindString(R.string.community)
     String mStringCommunity;
@@ -281,7 +285,7 @@ public class MainActivity extends BaseActivity {
                         } else
                             PostNewsActivity.startActivity(this);
                     } else {
-                        showPopupWindow();
+                        EditAffairActivity.editAffairActivityStart(this, new SchoolCalendar().getWeekOfTerm());
                     }
                 } else {
                     // Utils.toast(getApplicationContext(), "尚未登录");
@@ -292,7 +296,7 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+/*
     public void showPopupWindow() {
         Rect frame = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
@@ -326,6 +330,7 @@ public class MainActivity extends BaseActivity {
         popWind.showAtLocation(parentView, Gravity.RIGHT | Gravity.TOP,
                 yOffset, xOffset);
     }
+*/
 
 
     private void hiddenMenu() {
@@ -346,6 +351,10 @@ public class MainActivity extends BaseActivity {
 
     public TextView getToolbarTitle() {
         return mToolbarTitle;
+    }
+
+    public ImageView getCourseUnfold() {
+        return mCourseUnfold;
     }
 
     @Override
@@ -447,14 +456,16 @@ public class MainActivity extends BaseActivity {
                 case 0:
                     mViewPager.setCurrentItem(0);
                     mToolbar.setVisibility(View.VISIBLE);
+                    mCourseUnfold.setVisibility(View.VISIBLE);
                     showMenu();
                     setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
-                    mMainToolbarFace.setVisibility(View.VISIBLE);
+                    mMainToolbarFace.setVisibility(View.GONE);
                     break;
                 case 1:
                     mViewPager.setCurrentItem(1);
                     hiddenMenu();
                     mMainToolbarFace.setVisibility(View.GONE);
+                    mCourseUnfold.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.GONE);
                     break;
                 case 2:
@@ -462,13 +473,15 @@ public class MainActivity extends BaseActivity {
                     mViewPager.setCurrentItem(2);
                     mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
+                    mCourseUnfold.setVisibility(View.GONE);
                     mToolbarTitle.setText("发现");
                     break;
                 case 3:
                     hiddenMenu();
                     mViewPager.setCurrentItem(3);
-                    mToolbar.setVisibility(View.VISIBLE);
+                    mToolbar.setVisibility(View.GONE);
                     mMainToolbarFace.setVisibility(View.GONE);
+                    mCourseUnfold.setVisibility(View.GONE);
                     mToolbarTitle.setText("我的");
                     if (!APP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());

@@ -13,14 +13,14 @@
         android:title="@string/community"/>
 
     <item
-        android:orderInCategory="2"
         android:id="@+id/item3"
         android:icon="@drawable/ic_explore"
+        android:orderInCategory="2"
         android:title="@string/explore"/>
 
     <item
-        android:orderInCategory="3"
         android:id="@+id/item4"
         android:icon="@drawable/ic_me"
+        android:orderInCategory="3"
         android:title="@string/my_page"/>
 </menu>

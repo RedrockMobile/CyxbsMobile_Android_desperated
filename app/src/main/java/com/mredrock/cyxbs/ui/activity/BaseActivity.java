@@ -49,6 +49,8 @@ public class BaseActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         SwipeBackHelper.onCreate(this);
         SwipeBackHelper.getCurrentPage(this).setSwipeRelateEnable(true);
+
+        Log.v("tag", ""+this.getClass().getName());
     }
 
     @Override
