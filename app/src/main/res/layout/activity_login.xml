@@ -1,106 +1,154 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              tools:context="com.mredrock.cyxbs.ui.activity.LoginActivity">
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.mredrock.cyxbs.ui.activity.LoginActivity">
 
-    <include
-        android:id="@+id/login_toolbar"
-        layout="@layout/toolbar" />
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.41"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="263dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f3f7fa"
-        android:orientation="vertical">
+    <ImageView
+        android:id="@+id/bg_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/n_bg_login_top"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/ic_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="登录"
+        android:textColor="#F6F6F6"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bg_top"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.36"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="231dp"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:background="#FFFFFF"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="32dp"
-            android:background="#c4c5c6"
             android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/login_stu_num_edit"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_margin="1px"
-                android:background="#ffffff"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_account"
+                android:drawablePadding="16dp"
+                android:hint="请输入学号"
+                android:inputType="number"
+                android:lines="1"
+                android:maxLength="10"
+                android:textColor="#333333"
+                android:textSize="16sp"/>
 
-                <ImageView
-                    android:id="@+id/iv_login_account"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="8dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_stu_num" />
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/login_stu_num_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:imeOptions="actionNext"
-                    android:maxLength="10"
-                    android:background="@null"
-                    android:hint="请输入学号"
-                    android:inputType="number"
-                    android:textColor="#333333"
-                    android:textColorHint="#bbbbbb" />
-            </LinearLayout>
-
-            <LinearLayout
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_margin="1px"
-                android:background="#ffffff"
-                android:orientation="horizontal">
+                android:layout_height="2dp"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/gray_edit"/>
 
-                <ImageView
-                    android:id="@+id/iv_login_password"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="8dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_password" />
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/login_id_num_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_password"
+                android:drawablePadding="16dp"
+                android:hint="请输入身份证后六位"
+                android:imeActionLabel="@string/send"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:maxLength="6"
+                android:textColor="#333333"
+                android:textSize="16sp"/>
 
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/login_id_num_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:imeOptions="actionSend"
-                    android:maxLength="6"
-                    android:layout_gravity="center"
-                    android:background="@null"
-                    android:hint="请输入身份证后六位"
-                    android:inputType="textPassword"
-                    android:textColorHint="#bbbbbb" />
-            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="36dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/gray_edit"/>
 
+            <ImageButton
+                android:id="@+id/login_submit_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_login_btn"/>
         </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-        <com.mredrock.cyxbs.component.widget.TextLimitButton
-            app:min_text_length="10"
-            app:free_background_color="@color/colorAccent"
-            app:limit_background_color="@color/gray_edit"
-            android:gravity="center"
-            android:id="@+id/login_submit_button"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="32dp"
-            android:background="@color/colorPrimary"
-            android:text="@string/title_activity_login"
-            android:textColor="#ffffff"
-            android:textSize="18sp"/>
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/bg_top"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
