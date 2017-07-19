@@ -2,10 +2,6 @@ package com.mredrock.cyxbs.ui.activity;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,18 +14,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.jaeger.library.StatusBarUtil;
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
@@ -37,7 +29,6 @@ import com.mredrock.cyxbs.component.widget.CourseDialog;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
-import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
@@ -53,20 +44,16 @@ import com.mredrock.cyxbs.ui.fragment.UnLoginFragment;
 import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
-import com.mredrock.cyxbs.ui.widget.CourseListAppWidget;
 import com.mredrock.cyxbs.util.ElectricRemindUtil;
 import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.UpdateUtil;
-import com.mredrock.cyxbs.util.Utils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.BindString;
@@ -100,8 +87,8 @@ public class MainActivity extends BaseActivity {
     BaseFragment exploreFragment;
     BaseFragment userFragment;
     BaseFragment unLoginFragment;
-    @Bind(R.id.main_toolbar_face)
-    CircleImageView mMainToolbarFace;
+    /*@Bind(R.id.main_toolbar_face)
+    CircleImageView mMainToolbarFace;*/
     @Bind(R.id.main_bnv)
     BottomNavigationView mMainBottomNavView;
     @Bind(R.id.main_app_bar)
@@ -191,10 +178,10 @@ public class MainActivity extends BaseActivity {
         //判断是否登陆
         if (!APP.isLogin()) {
             mFragments.add(unLoginFragment);
-            unLoginFace();
+//            unLoginFace();
         } else {
             mFragments.add(courseContainerFragment);
-            loginFace();
+//            loginFace();
         }
         mFragments.add(socialContainerFragment);
         mFragments.add(exploreFragment);
@@ -211,6 +198,7 @@ public class MainActivity extends BaseActivity {
         mViewPager.addOnPageChangeListener(new ViewPagerChangedListener());
         mMainBottomNavView.setOnNavigationItemSelectedListener(new BottomSelectedListener());
     }
+/*
 
     private void unLoginFace() {
         Glide.with(this).load(R.drawable.ic_default_avatar).into(mMainToolbarFace);
@@ -223,6 +211,7 @@ public class MainActivity extends BaseActivity {
         mMainToolbarFace.setOnClickListener(view ->
                 startActivity(new Intent(this, EditInfoActivity.class)));
     }
+*/
 
     @Override
     public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
@@ -233,15 +222,15 @@ public class MainActivity extends BaseActivity {
             mFragments.remove(0);
             mFragments.add(0, new UnLoginFragment());
             mAdapter.notifyDataSetChanged();
-            SPUtils.set(APP.getContext(), DormitorySettingActivity.BUILDING_KEY,"");
-            SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME,System.currentTimeMillis() / 2);
-            unLoginFace();
+            SPUtils.set(APP.getContext(), DormitorySettingActivity.BUILDING_KEY, "");
+            SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
+//            unLoginFace();
         } else {
             mFragments.remove(0);
             mFragments.add(0, new CourseContainerFragment());
             //mBottomBar.setCurrentView(0);
             mAdapter.notifyDataSetChanged();
-            loginFace();
+//            loginFace();
         }
     }
 
@@ -399,18 +388,18 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setVisibility(View.VISIBLE);
                     showMenu();
                     setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
-                    mMainToolbarFace.setVisibility(View.VISIBLE);
+//                    mMainToolbarFace.setVisibility(View.VISIBLE);
                     break;
                 case 1:
                     mMainBottomNavView.setSelectedItemId(R.id.item2);
                     hiddenMenu();
-                    mMainToolbarFace.setVisibility(View.GONE);
+//                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.GONE);
                     break;
                 case 2:
                     hiddenMenu();
                     mMainBottomNavView.setSelectedItemId(R.id.item3);
-                    mMainToolbarFace.setVisibility(View.GONE);
+//                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
                     mToolbarTitle.setText("发现");
                     break;
@@ -418,7 +407,7 @@ public class MainActivity extends BaseActivity {
                     hiddenMenu();
                     mMainBottomNavView.setSelectedItemId(R.id.item4);
                     mToolbar.setVisibility(View.VISIBLE);
-                    mMainToolbarFace.setVisibility(View.GONE);
+//                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbarTitle.setText("我的");
                     if (!APP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
@@ -436,11 +425,10 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
     private void toolbarStepByStepClose(float positionOffset, boolean shouldShow) {
         Log.d(TAG, "toolbarStepByStepClose: " + positionOffset);
         if (shouldShow) {
-            mMainAppBar.animate().translationY(0).alpha(225*positionOffset).start();
+            mMainAppBar.animate().translationY(0).alpha(225 * positionOffset).start();
             mMainAppBar.invalidate();
         } else {
             mMainAppBar.animate().translationY(0).alpha(-mMainAppBar.getBottom() * (1 - positionOffset)).start();
@@ -458,20 +446,21 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setVisibility(View.VISIBLE);
                     mCourseUnfold.setVisibility(View.VISIBLE);
                     showMenu();
-                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
-                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbarTitle.setText(((CourseContainerFragment) courseContainerFragment).getTitle());
+//                    mMainToolbarFace.setVisibility(View.GONE);
                     break;
                 case 1:
                     mViewPager.setCurrentItem(1);
-                    hiddenMenu();
-                    mMainToolbarFace.setVisibility(View.GONE);
+//                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.VISIBLE);
                     mCourseUnfold.setVisibility(View.GONE);
-                    mToolbar.setVisibility(View.GONE);
+                    mToolbarTitle.setText("社区");
+                    showMenu();
                     break;
                 case 2:
                     hiddenMenu();
                     mViewPager.setCurrentItem(2);
-                    mMainToolbarFace.setVisibility(View.GONE);
+//                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
                     mCourseUnfold.setVisibility(View.GONE);
                     mToolbarTitle.setText("发现");
@@ -480,7 +469,7 @@ public class MainActivity extends BaseActivity {
                     hiddenMenu();
                     mViewPager.setCurrentItem(3);
                     mToolbar.setVisibility(View.GONE);
-                    mMainToolbarFace.setVisibility(View.GONE);
+//                    mMainToolbarFace.setVisibility(View.GONE);
                     mCourseUnfold.setVisibility(View.GONE);
                     mToolbarTitle.setText("我的");
                     if (!APP.isLogin()) {
