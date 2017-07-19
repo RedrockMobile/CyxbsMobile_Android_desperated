@@ -115,7 +115,7 @@
                 android:drawableLeft="@drawable/ic_password"
                 android:drawablePadding="16dp"
                 android:hint="请输入身份证后六位"
-                android:imeActionLabel="@string/send"
+                android:imeOptions="actionSend"
                 android:inputType="textPassword"
                 android:lines="1"
                 android:maxLength="6"
