@@ -46,7 +46,7 @@
             android:layout_centerVertical="true"
             android:text="昵称"
             android:textColor="#333333"
-            android:textSize="15sp"/>
+            android:textSize="14sp"/>
 
         <ImageView
             android:id="@+id/arrow"
@@ -63,7 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/arrow"
-            android:textColor="#666666"/>
+            android:textColor="#666666"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
     <View
@@ -84,7 +85,7 @@
             android:layout_centerVertical="true"
             android:text="简介"
             android:textColor="#333333"
-            android:textSize="15sp"/>
+            android:textSize="14sp"/>
 
         <ImageView
             android:id="@+id/arrow1"
@@ -101,7 +102,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/arrow1"
-            android:textColor="#666666"/>
+            android:textColor="#666666"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
     <View
@@ -122,7 +124,7 @@
             android:layout_centerVertical="true"
             android:text="QQ"
             android:textColor="#333333"
-            android:textSize="15sp"/>
+            android:textSize="14sp"/>
 
         <ImageView
             android:id="@+id/arrow2"
@@ -139,7 +141,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/arrow2"
-            android:textColor="#666666"/>
+            android:textColor="#666666"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
     <View
@@ -160,7 +163,7 @@
             android:layout_centerVertical="true"
             android:text="电话"
             android:textColor="#333333"
-            android:textSize="15sp"/>
+            android:textSize="14sp"/>
 
         <ImageView
             android:id="@+id/arrow3"
@@ -177,6 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/arrow3"
-            android:textColor="#666666"/>
+            android:textColor="#666666"
+            android:textSize="14sp"/>
     </RelativeLayout>
 </LinearLayout>

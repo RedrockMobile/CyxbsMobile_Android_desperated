@@ -50,7 +50,7 @@
         android:layout_marginTop="8dp"
         android:text="登录"
         android:textColor="#F6F6F6"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bg_top"/>
@@ -97,7 +97,7 @@
                 android:lines="1"
                 android:maxLength="10"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -120,7 +120,7 @@
                 android:lines="1"
                 android:maxLength="6"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -132,15 +132,15 @@
             <ImageButton
                 android:id="@+id/login_submit_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:background="@drawable/bg_login_btn"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="107dp"
+        android:layout_height="107dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"

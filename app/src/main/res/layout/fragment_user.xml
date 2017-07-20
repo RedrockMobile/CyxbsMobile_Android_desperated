@@ -24,13 +24,13 @@
                 android:layout_marginTop="16dp"
                 android:text="我的"
                 android:textColor="#F6F6F6"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/avatar"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginTop="24dp"
+                android:layout_width="74dp"
+                android:layout_height="74dp"
+                android:layout_marginTop="28dp"
                 android:src="@drawable/default_avatar"/>
 
             <TextView
@@ -39,13 +39,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"/>
+                android:textSize="16sp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginBottom="27dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -55,7 +55,7 @@
                     android:layout_marginLeft="23dp"
                     android:lines="1"
                     android:textColor="#FFFFFF"
-                    android:textSize="15sp"/>
+                    android:textSize="13sp"/>
 
                 <ImageView
                     android:id="@+id/edit"
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:text="与我相关"
                     android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
                     android:text="0"
                     android:layout_marginLeft="8dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
+                    android:textSize="15sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:text="我的动态"
                     android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
                     android:text="0"
                     android:layout_marginLeft="8dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
+                    android:textSize="15sp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -158,7 +158,7 @@
                 android:layout_toRightOf="@+id/ic_no_course"
                 android:text="没课约"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
             <ImageView
                 android:layout_width="14dp"
@@ -199,7 +199,7 @@
                 android:layout_toRightOf="@+id/ic_empty_classroom"
                 android:text="空教室"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
             <ImageView
                 android:layout_width="14dp"
@@ -240,7 +240,7 @@
                 android:layout_toRightOf="@+id/ic_grade"
                 android:text="考试与成绩"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
             <ImageView
                 android:layout_width="14dp"
@@ -281,7 +281,7 @@
                 android:layout_toRightOf="@+id/ic_calendar"
                 android:text="校历"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
             <ImageView
                 android:layout_width="14dp"
@@ -322,7 +322,7 @@
                 android:layout_toRightOf="@+id/ic_remind"
                 android:text="课前提醒"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
             <ImageView
                 android:layout_width="14dp"
@@ -359,7 +359,7 @@
                 android:layout_toRightOf="@+id/ic_option"
                 android:text="设置"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
             <ImageView
                 android:layout_width="14dp"
