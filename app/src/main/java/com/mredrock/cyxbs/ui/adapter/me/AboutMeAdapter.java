@@ -38,7 +38,7 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
     @Override
     protected void bindData(ViewHolder holder, AboutMe data, int position) {
         holder.aboutMeNickName.setText(data.nickname.equals("") ? "来自一位没有名字的同学" : data.nickname);
-        holder.aboutMeContent.setText(data.content.substring(data.content.lastIndexOf(":") + 2));
+        holder.aboutMeContent.setText(data.content.contains("回复") ? data.content.substring(data.content.lastIndexOf(":") + 2) : data.content);
         holder.aboutMeTime.setText(TimeUtils.getTimeDetail(data.created_time));
         String myNickName = APP.getUser(APP.getContext()).nickname;
 //        SpannableStringBuilder aboutMeNewContentSpanText = new SpannableStringBuilder(myNickName + "：" + data.article_content);

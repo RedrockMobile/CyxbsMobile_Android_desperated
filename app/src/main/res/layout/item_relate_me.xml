@@ -85,9 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="#F6F6F6"
-            android:orientation="horizontal"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/about_me_new_img"
@@ -99,10 +97,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="22dp"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="22dp"
                 android:layout_marginStart="14dp"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
                 <TextView

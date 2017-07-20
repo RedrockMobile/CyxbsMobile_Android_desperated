@@ -112,7 +112,7 @@ public class MyTrendActivity extends BaseActivity
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
-            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
             toolbarTitle.setText("我的动态");
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(
