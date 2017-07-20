@@ -2,9 +2,6 @@ package com.mredrock.cyxbs.ui.adapter.me;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +38,13 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
     @Override
     protected void bindData(ViewHolder holder, AboutMe data, int position) {
         holder.aboutMeNickName.setText(data.nickname.equals("") ? "来自一位没有名字的同学" : data.nickname);
-        holder.aboutMeContent.setText(data.content);
+        holder.aboutMeContent.setText(data.content.substring(data.content.lastIndexOf(":") + 2));
         holder.aboutMeTime.setText(TimeUtils.getTimeDetail(data.created_time));
         String myNickName = APP.getUser(APP.getContext()).nickname;
-        SpannableStringBuilder aboutMeNewContentSpanText = new SpannableStringBuilder(myNickName + "：" + data.article_content);
-        aboutMeNewContentSpanText.setSpan(new ForegroundColorSpan(APP.getContext().getResources().getColor(R.color.link_blue)), 0, myNickName.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-        holder.aboutMeNewContent.setText(aboutMeNewContentSpanText);
+//        SpannableStringBuilder aboutMeNewContentSpanText = new SpannableStringBuilder(myNickName + "：" + data.article_content);
+//        aboutMeNewContentSpanText.setSpan(new ForegroundColorSpan(APP.getContext().getResources().getColor(R.color.link_blue)), 0, myNickName.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        holder.aboutMeNewContent.setText(data.article_content);
+        holder.author.setText(myNickName + "：");
         ImageLoader.getInstance().loadAvatar(data.photo_src, holder.aboutMeAvatar);
         String url = data.article_photo_src.split(",")[0];
 
@@ -62,7 +60,7 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
                 holder.aboutMeType.setText("赞了我");
                 holder.aboutMeContent.setVisibility(View.GONE);
             } else {
-                holder.aboutMeType.setText("");
+                holder.aboutMeType.setText("评论了我");
                 holder.aboutMeContent.setVisibility(View.VISIBLE);
             }
             if (mOnItemClickListener != null) {
@@ -104,6 +102,8 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
         ImageView aboutMeNewImg;
         @Bind(R.id.about_me_new_content)
         TextView aboutMeNewContent;
+        @Bind(R.id.about_me_new_author)
+        TextView author;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -110,7 +110,7 @@ public class AboutMeActivity extends BaseActivity implements
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
-            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
             toolbarTitle.setText("与我相关");
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(
