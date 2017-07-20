@@ -63,7 +63,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/arrow"
-            android:text="张二叔"
             android:textColor="#666666"/>
     </RelativeLayout>
 
@@ -102,7 +101,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/arrow1"
-            android:text="视觉设计大二学生"
             android:textColor="#666666"/>
     </RelativeLayout>
 
@@ -141,7 +139,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/arrow2"
-            android:text="1432562823"
             android:textColor="#666666"/>
     </RelativeLayout>
 
@@ -180,7 +177,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/arrow3"
-            android:text="1592356234"
             android:textColor="#666666"/>
     </RelativeLayout>
 </LinearLayout>

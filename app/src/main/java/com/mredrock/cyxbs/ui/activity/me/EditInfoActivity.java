@@ -190,7 +190,7 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
             toolbar.setTitle("");
             toolbarTitle.setText("修改信息");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
             toolbar.setNavigationOnClickListener(v -> {
                 Intent intent = new Intent();
                 intent.putExtra(Const.Extras.EDIT_USER, mUser);
