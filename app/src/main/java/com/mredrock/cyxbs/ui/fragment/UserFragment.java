@@ -74,7 +74,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     private User mUser;
 
-    @OnClick(R.id.edit)
+    @OnClick({R.id.edit, R.id.name, R.id.introduce})
     void clickToEdit() {
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), EditInfoActivity.class));

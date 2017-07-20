@@ -1,205 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_grey"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background_grey"
+              android:orientation="vertical">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar"/>
 
     <RelativeLayout
-        android:id="@+id/edit_info_avatar_layout"
+        android:id="@+id/edit_avatar"
         android:layout_width="match_parent"
-        android:layout_height="82dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/bg_layout"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp">
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="18dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/edit_info_avatar"
-            android:textColor="@color/text_dark"
-            android:textSize="15sp" />
-
-<!--        <com.mredrock.cyxbs.component.widget.CircleImageView
-            android:id="@+id/edit_info_avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/avatar_default" />-->
+            android:text="头像"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
 
         <com.github.siyamed.shapeimageview.CircularImageView
-            android:id="@+id/edit_info_avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/avatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_official_notification" />
+            android:src="@drawable/default_avatar"/>
+    </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="#FFFFFF"
+        android:padding="18dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="昵称"
+            android:textColor="#333333"
+            android:textSize="15sp"/>
 
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_arrow_right"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@id/arrow"
+            android:text="张二叔"
+            android:textColor="#666666"/>
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divider_edit_info" />
+        android:layout_height="1dp"
+        android:background="#E4E4E4"/>
 
     <RelativeLayout
-        android:id="@+id/edit_info_nick_layout"
+        android:id="@+id/edit_introduce"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/bg_layout"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp">
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="18dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/edit_info_nick_name"
-            android:textColor="@color/text_dark"
-            android:textSize="15sp" />
+            android:text="简介"
+            android:textColor="#333333"
+            android:textSize="15sp"/>
 
-        <TextView
-            android:id="@+id/edit_info_nick_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/arrow1"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/text_light_1"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/divider_edit_info" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/edit_info_introduce_layout"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:background="@drawable/bg_layout"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp">
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_arrow_right"/>
 
         <TextView
-            android:id="@+id/edit_info_tv_introduce"
+            android:id="@+id/introduce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/edit_info_introduce"
-            android:textColor="@color/text_dark"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/edit_info_introduce"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="46dp"
-            android:ellipsize="end"
-            android:maxEms="13"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColor="@color/text_light_1"/>
-
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@id/arrow1"
+            android:text="视觉设计大二学生"
+            android:textColor="#666666"/>
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divider" />
+        android:layout_height="1dp"
+        android:background="#E4E4E4"/>
 
     <RelativeLayout
-        android:id="@+id/edit_info_qq_layout"
+        android:id="@+id/edit_qq"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/bg_layout"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp">
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="18dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/edit_info_qq"
-            android:textColor="@color/text_dark"
-            android:textSize="15sp" />
+            android:text="QQ"
+            android:textColor="#333333"
+            android:textSize="15sp"/>
 
-        <TextView
-            android:id="@+id/edit_info_qq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/arrow2"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/text_light_1"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/divider_edit_info" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/edit_info_phone_layout"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:background="@drawable/bg_layout"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp">
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_arrow_right"/>
 
         <TextView
-            android:id="@+id/edit_info_tv_phone"
+            android:id="@+id/qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/edit_info_phone"
-            android:textColor="@color/text_dark"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/edit_info_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="46dp"
-            android:ellipsize="end"
-            android:maxEms="13"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColor="@color/text_light_1"/>
-
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@id/arrow2"
+            android:text="1432562823"
+            android:textColor="#666666"/>
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divider" />
+        android:layout_height="1dp"
+        android:background="#E4E4E4"/>
+
+    <RelativeLayout
+        android:id="@+id/edit_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="18dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="电话"
+            android:textColor="#333333"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:id="@+id/arrow3"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_arrow_right"/>
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@id/arrow3"
+            android:text="1592356234"
+            android:textColor="#666666"/>
+    </RelativeLayout>
 </LinearLayout>
