@@ -95,8 +95,8 @@ public class ImageLoader {
         Glide.with(APP.getContext())
                 .load(url)
                 .asBitmap()
-                .placeholder(R.drawable.ic_default_avatar)
-                .error(R.drawable.ic_default_avatar)
+                .placeholder(R.drawable.default_avatar)
+                .error(R.drawable.default_avatar)
                 .into(imageView);
     }
 

@@ -1,13 +1,9 @@
 package com.mredrock.cyxbs.ui.fragment;
 
-import android.app.UiModeManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +15,6 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
@@ -37,7 +32,6 @@ import com.mredrock.cyxbs.ui.activity.me.RemindActivity;
 import com.mredrock.cyxbs.ui.activity.me.SchoolCalendarActivity;
 import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
-import com.mredrock.cyxbs.util.SPUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -49,62 +43,38 @@ import butterknife.OnClick;
 /**
  * 我的页面
  */
-public class UserFragment extends BaseFragment implements CompoundButton.OnCheckedChangeListener {
+public class UserFragment extends BaseFragment /*implements CompoundButton.OnCheckedChangeListener*/ {
 
     public static final int REQUEST_EDIT_INFO = 10;
 
-    @Bind(R.id.my_page_edit_layout)
-    LinearLayout myPageEditLayout;
-    @Bind(R.id.my_page_relate_layout)
-    RelativeLayout myPageRelateLayout;
-    @Bind(R.id.my_page_trend_layout)
-    RelativeLayout myPageTrendLayout;
-    @Bind(R.id.my_page_no_course_layout)
+    @Bind(R.id.edit)
+    ImageView myPageEditLayout;
+    @Bind(R.id.relate)
+    LinearLayout myPageRelateLayout;
+    @Bind(R.id.trend)
+    LinearLayout myPageTrendLayout;
+    @Bind(R.id.no_course)
     RelativeLayout myPageNoCourseLayout;
-    @Bind(R.id.my_page_empty_layout)
+    @Bind(R.id.empty_classroom)
     RelativeLayout myPageEmptyLayout;
-    @Bind(R.id.my_page_grade_layout)
+    @Bind(R.id.grade)
     RelativeLayout myPageGradeLayout;
-    @Bind(R.id.my_page_calendar_layout)
+    @Bind(R.id.calendar)
     RelativeLayout myPageCalendarLayout;
-    @Bind(R.id.my_page_night_layout)
-    RelativeLayout myPageNightLayout;
-    @Bind(R.id.my_page_setting_layout)
+    @Bind(R.id.option)
     RelativeLayout myPageSettingLayout;
-    @Bind(R.id.my_page_avatar)
+    @Bind(R.id.avatar)
     ImageView myPageAvatar;
-    @Bind(R.id.my_page_nick_name)
+    @Bind(R.id.name)
     TextView myPageNickName;
-    @Bind(R.id.my_page_gender)
-    TextView myPageGender;
-    @Bind(R.id.my_page_introduce)
+    @Bind(R.id.introduce)
     TextView myPageIntroduce;
-    @Bind(R.id.my_page_switch_compat)
-    SwitchCompat myPageSwitchCompat;
-    @Bind(R.id.my_page_iv_relate)
-    ImageView mMyPageIvRelate;
-    @Bind(R.id.my_page_iv_trend)
-    ImageView mMyPageIvTrend;
-    @Bind(R.id.my_page_iv_no_course)
-    ImageView mMyPageIvNoCourse;
-    @Bind(R.id.my_page_iv_empty)
-    ImageView mMyPageIvEmpty;
-    @Bind(R.id.my_page_iv_grade)
-    ImageView mMyPageIvGrade;
-    @Bind(R.id.my_page_iv_calendar)
-    ImageView mMyPageIvCalendar;
-    @Bind(R.id.my_page_iv_remind)
-    ImageView mMyPageIvRemind;
-    @Bind(R.id.my_page_remind_layout)
+    @Bind(R.id.remind)
     RelativeLayout mMyPageRemindLayout;
-    @Bind(R.id.my_page_iv_night)
-    ImageView mMyPageIvNight;
-    @Bind(R.id.my_page_iv_setting)
-    ImageView mMyPageIvSetting;
 
     private User mUser;
 
-    @OnClick(R.id.my_page_edit_layout)
+    @OnClick(R.id.edit)
     void clickToEdit() {
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), EditInfoActivity.class));
@@ -113,7 +83,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         }
     }
 
-    @OnClick(R.id.my_page_relate_layout)
+    @OnClick(R.id.relate)
     void clickToRelate() {
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), AboutMeActivity.class));
@@ -122,7 +92,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         }
     }
 
-    @OnClick(R.id.my_page_trend_layout)
+    @OnClick(R.id.trend)
     void clickToLatest() {
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), MyTrendActivity.class));
@@ -131,7 +101,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         }
     }
 
-    @OnClick(R.id.my_page_no_course_layout)
+    @OnClick(R.id.no_course)
     void clickToNoCourse() {
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), NoCourseActivity.class));
@@ -140,12 +110,12 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         }
     }
 
-    @OnClick(R.id.my_page_empty_layout)
+    @OnClick(R.id.empty_classroom)
     void clickToEmpty() {
         startActivity(new Intent(getActivity(), EmptyRoomActivity.class));
     }
 
-    @OnClick(R.id.my_page_grade_layout)
+    @OnClick(R.id.grade)
     void clickToGrade() {
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), ExamAndGradeActivity.class));
@@ -154,12 +124,12 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         }
     }
 
-    @OnClick(R.id.my_page_calendar_layout)
+    @OnClick(R.id.calendar)
     void clickToCalendar() {
         startActivity(new Intent(getActivity(), SchoolCalendarActivity.class));
     }
 
-    @OnClick(R.id.my_page_remind_layout)
+    @OnClick(R.id.remind)
     public void onClick() {
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), RemindActivity.class));
@@ -167,6 +137,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
             EventBus.getDefault().post(new AskLoginEvent("登录后才能使用课前提醒哟"));
         }
     }
+/*
 
     @OnClick(R.id.my_page_night_layout)
     void clickToNight() {
@@ -180,11 +151,13 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
     }
+*/
 
-    @OnClick(R.id.my_page_setting_layout)
+    @OnClick(R.id.option)
     void clickToSetting() {
         startActivity(new Intent(getActivity(), SettingActivity.class));
     }
+/*
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -205,6 +178,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
             //getActivity().recreate();
         }
     }
+*/
 
     @Nullable
     @Override
@@ -213,6 +187,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         ButterKnife.bind(this, view);
         return view;
     }
+/*
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -221,6 +196,7 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
         myPageSwitchCompat.setChecked(isNight);
         myPageSwitchCompat.setOnCheckedChangeListener(this);
     }
+*/
 
     @Override
     public void onResume() {
@@ -237,9 +213,9 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
     private void getPersonInfoData() {
         if (!APP.isLogin()) {
             myPageNickName.setText("点我登录");
-            myPageAvatar.setImageResource(R.drawable.ic_default_avatar);
+            myPageAvatar.setImageResource(R.drawable.default_avatar);
             myPageIntroduce.setText("");
-            myPageGender.setText("");
+            //myPageGender.setText("");
             return;
         }
         mUser = APP.getUser(getActivity());
@@ -266,18 +242,18 @@ public class UserFragment extends BaseFragment implements CompoundButton.OnCheck
             ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
             myPageNickName.setText(StringUtils.isBlank(mUser.nickname) ? "点我完善个人信息" : mUser.nickname);
             myPageIntroduce.setText(mUser.introduction);
-            if (mUser.gender.trim().equals("男")) {
+            /*if (mUser.gender.trim().equals("男")) {
                 myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
                 myPageGender.setText("♂");
             } else {
                 myPageGender.setTextColor(ContextCompat.getColor(getContext(), R.color.pink));
                 myPageGender.setText("♀");
-            }
+            }*/
         } else {
             myPageNickName.setText("点我登录");
-            myPageAvatar.setImageResource(R.drawable.ic_default_avatar);
+            myPageAvatar.setImageResource(R.drawable.default_avatar);
             myPageIntroduce.setText("");
-            myPageGender.setText("");
+            //myPageGender.setText("");
         }
     }
 

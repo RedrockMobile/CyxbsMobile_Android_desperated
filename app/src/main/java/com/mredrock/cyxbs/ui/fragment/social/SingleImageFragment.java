@@ -99,7 +99,7 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
                             }
                         });
             }else {
-                mImageView.setImageResource(R.drawable.ic_default_avatar);
+                mImageView.setImageResource(R.drawable.default_avatar);
                 mAttacher = new PhotoViewAttacher(mImageView);
                 mAttacher.update();
             mAttacher.setOnPhotoTapListener(SingleImageFragment.this);

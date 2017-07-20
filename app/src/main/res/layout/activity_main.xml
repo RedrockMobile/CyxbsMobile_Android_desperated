@@ -31,7 +31,7 @@
                     android:layout_height="35dp"
                     android:layout_centerVertical="true"
                     android:visibility="gone"
-                    android:src="@drawable/ic_default_avatar"/>
+                    android:src="@drawable/default_avatar"/>
 
                 <TextView
                     android:id="@+id/main_toolbar_title"
