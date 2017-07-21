@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/bg_login_top"
+        android:background="@drawable/bg_toolbar"
         app:navigationIcon="@drawable/ic_back"
         app:theme="?attr/actionBarTheme"
         app:titleTextColor="#F6F6F6">

@@ -21,7 +21,7 @@
         android:id="@+id/bg_top"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/n_bg_login_top"
+        android:background="@drawable/bg_toolbar"
         android:fitsSystemWindows="true"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -129,11 +129,14 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/gray_edit"/>
 
-            <ImageButton
+            <Button
                 android:id="@+id/login_submit_button"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:background="@drawable/bg_login_btn"/>
+                android:background="@drawable/bg_btn"
+                android:text="登    录"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

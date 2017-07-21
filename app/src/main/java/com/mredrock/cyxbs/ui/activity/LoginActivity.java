@@ -1,11 +1,9 @@
 package com.mredrock.cyxbs.ui.activity;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.Button;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
@@ -19,7 +17,6 @@ import com.mredrock.cyxbs.ui.activity.me.EditNickNameActivity;
 import com.mredrock.cyxbs.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 
-import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
@@ -32,7 +29,7 @@ public class LoginActivity extends BaseActivity {
     @Bind(R.id.login_id_num_edit)
     AppCompatEditText idNumEdit;
     @Bind(R.id.login_submit_button)
-    ImageButton submitButton;
+    Button submitButton;
 
     public static final String TAG = "LoginActivity";
 

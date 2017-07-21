@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tool="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="44dp"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="50dp"
+    android:layout_margin="18dp"
     android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground">
+    android:focusable="true">
 
     <TextView
         android:id="@+id/no_course_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="12dp"
+        android:layout_width="71dp"
+        android:layout_height="41dp"
         android:gravity="center"
-        android:textColor="#242121"
-        android:textSize="16sp"
-        tool:text="XXX" />
+        android:textColor="#788EFA"
+        android:textSize="13sp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/tv_border"
+        android:text="李佳蔚"/>
 
     <ImageView
         android:id="@+id/no_course_delete"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="9dp"
+        android:layout_height="9dp"
         android:clickable="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_delete"
-        android:visibility="gone" />
-
+        android:scaleType="fitXY"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_delete"/>
 </RelativeLayout>

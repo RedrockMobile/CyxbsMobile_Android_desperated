@@ -2,6 +2,7 @@ package com.mredrock.cyxbs.ui.activity.me;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,32 +40,32 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class NoCourseActivity extends BaseActivity
-        implements View.OnClickListener,
-        NoCourseAdapter.OnItemButtonClickListener {
+        /*implements View.OnClickListener,
+        NoCourseAdapter.OnItemButtonClickListener*/ {
 
-    public static final int    REQUEST_SELECT  = 1;
+    public static final int REQUEST_SELECT = 1;
     public static final String EXTRA_NO_COURSE = "extra_no_course";
-
+/*
     @Bind(R.id.no_course_stu)
-    EditText     noCourseStu;
+    EditText noCourseStu;
     @Bind(R.id.no_course_add)
-    TextView     noCourseAdd;
+    TextView noCourseAdd;
     @Bind(R.id.no_course_have)
-    TextView     noCourseHave;
+    TextView noCourseHave;
     @Bind(R.id.no_course_change)
-    TextView     noCourseChange;
+    TextView noCourseChange;
     @Bind(R.id.no_course_recycler_view)
     RecyclerView noCourseRecyclerView;
     @Bind(R.id.no_course_search)
     LinearLayout noCourseSearch;
     @Bind(R.id.toolbar_title)
-    TextView     toolbarTitle;
+    TextView toolbarTitle;
     @Bind(R.id.toolbar)
-    Toolbar      toolbar;
+    Toolbar toolbar;
 
     private ArrayList<String> stuNumList;
     private ArrayList<String> nameList;
-    private NoCourseAdapter   mNoCourseAdapter;
+    private NoCourseAdapter mNoCourseAdapter;
 
     private int count = 0;
     private User mUser;
@@ -279,5 +280,11 @@ public class NoCourseActivity extends BaseActivity
             noCourseRecyclerView.setAdapter(mNoCourseAdapter);
             mNoCourseAdapter.setOnItemButtonClickListener(this);
         }
+    }*/
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_no_course);
     }
 }
