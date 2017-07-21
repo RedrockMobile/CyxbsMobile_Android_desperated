@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activity.me.NoCourseActivity"
-    android:weightSum="100">
+    android:weightSum="100"
+    tools:context=".ui.activity.me.NoCourseActivity">
 
     <include layout="@layout/toolbar"/>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/no_course_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#FFFFFF"
-        android:layout_weight="47"/>
+        android:layout_weight="47"
+        android:background="#FFFFFF"/>
 
     <Button
         android:id="@+id/query"
@@ -22,6 +23,9 @@
         android:layout_height="45dp"
         android:layout_marginLeft="17dp"
         android:layout_marginRight="17dp"
-        android:text="查询"
-        android:background="@drawable/bg_btn"/>
+        android:layout_marginTop="18dp"
+        android:background="@drawable/bg_btn"
+        android:text="查    询"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"/>
 </LinearLayout>

@@ -1,61 +1,121 @@
 package com.mredrock.cyxbs.ui.adapter.me;
 
+import android.app.Activity;
+import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
+import com.mredrock.cyxbs.ui.widget.NoCourseAddDialog;
+import com.mredrock.cyxbs.util.DensityUtils;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import com.mredrock.cyxbs.R;
-
-import java.util.List;
-
 /**
  * Created by skylineTan on 2016/4/12 23:31.
  */
-public class NoCourseAdapter extends RecyclerView.Adapter<NoCourseAdapter.ViewHolder> {
+public class NoCourseAdapter extends RecyclerView.Adapter {
+    public static final int TYPE_END = 0;
+    public static final int TYPE_NORMAL = 1;
 
     private List<String> mNameList;
     private OnItemButtonClickListener mListener;
-    private boolean flag = false;
+    private Activity mActivity;
 
-
-    public NoCourseAdapter(List<String> nameList) {
+    public NoCourseAdapter(Activity activity, List<String> nameList) {
         mNameList = nameList;
+        mActivity = activity;
     }
 
-
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_no_course_user, parent, false);
-        return new ViewHolder(view);
-    }
-
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.noCourseName.setText(mNameList.get((mNameList.size() - 1) - position));
-        if (flag) {
-            holder.noCourseDelete.setVisibility(View.VISIBLE);
+    public int getItemViewType(int position) {
+        if (getItemCount() == 1 || position == mNameList.size()) {
+            return TYPE_END;
+        } else {
+            return TYPE_NORMAL;
         }
-        holder.noCourseDelete.setOnClickListener(view -> {
-            mNameList.remove((mNameList.size() - 1) - position);
-            notifyDataSetChanged();
-            if (mListener != null) {
-                mListener.onClickEnd(position);
-            }
-        });
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        switch (viewType) {
+            case TYPE_NORMAL:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_no_course_user, parent, false);
+                return new NormalViewHolder(view);
+
+            case TYPE_END:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_no_course_add, parent, false);
+                return new EndViewHolder(view);
+        }
+        return null;
+    }
+
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        switch (getItemViewType(position)) {
+            case TYPE_NORMAL:
+                NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
+                normalViewHolder.noCourseName.setText(mNameList.get((mNameList.size() - 1) - position));
+                normalViewHolder.noCourseDelete.setOnClickListener(view -> {
+                    mNameList.remove((mNameList.size() - 1) - position);
+                    notifyDataSetChanged();
+                    if (mListener != null) {
+                        mListener.onClickEnd(position);
+                    }
+                });
+                break;
+
+            case TYPE_END:
+                EndViewHolder endViewHolder = (EndViewHolder) holder;
+                endViewHolder.mAdd.setOnClickListener(v -> {
+                    NoCourseAddDialog dialog = new NoCourseAddDialog(mActivity);
+                    dialog.setListener(new NoCourseAddDialog.OnClickListener() {
+                        @Override
+                        public void onCancel() {
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void onSure(EditText editText) {
+                            if (!editText.getText().toString().equals("")) {
+                                ((NoCourseActivity) mActivity).doAddAction(editText.getText().toString());
+                                dialog.dismiss();
+                            }
+                        }
+                    });
+                    Window window = dialog.getWindow();
+                    WindowManager.LayoutParams windowparams = window.getAttributes();
+                    window.setGravity(Gravity.CENTER);
+                    View decorView = window.getDecorView();
+                    decorView.getWindowVisibleDisplayFrame(new Rect());
+                    windowparams.width = DensityUtils.getScreenWidth(mActivity)
+                            - DensityUtils.dp2px(mActivity, 46);
+                    window.setBackgroundDrawableResource(android.R.color.transparent);
+                    window.setAttributes(windowparams);
+                    dialog.show();
+                });
+        }
     }
 
 
     @Override
     public int getItemCount() {
-        return mNameList.size();
+        return mNameList.size() + 1;
     }
 
 
@@ -63,27 +123,14 @@ public class NoCourseAdapter extends RecyclerView.Adapter<NoCourseAdapter.ViewHo
         mListener = listener;
     }
 
-
-    public void setButtonVisible() {
-        flag = true;
-        notifyDataSetChanged();
-    }
-
-
-    public void setButtonInVisible() {
-        flag = false;
-    }
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
+    public class NormalViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.no_course_name)
         TextView noCourseName;
         @Bind(R.id.no_course_delete)
         ImageView noCourseDelete;
 
 
-        public ViewHolder(View itemView) {
+        public NormalViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -94,4 +141,13 @@ public class NoCourseAdapter extends RecyclerView.Adapter<NoCourseAdapter.ViewHo
         void onClickEnd(int position);
     }
 
+    public class EndViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.add)
+        FrameLayout mAdd;
+
+        public EndViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
 }

@@ -96,7 +96,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     public static class NewsViewHolder extends RecyclerView.ViewHolder {
 
-        public static final String TAG = "NewsAdapter.ViewHolder";
+        public static final String TAG = "NewsAdapter.NormalViewHolder";
 
         @Bind(R.id.list_news_img_avatar)
         public ImageView mImgAvatar;
