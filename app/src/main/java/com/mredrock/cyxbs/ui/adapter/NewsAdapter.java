@@ -256,7 +256,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mHotNewsContent.likeNum = likeNumber;
             textView.setText(likeNumber);
             textView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat
-                            .getDrawable(textView.getContext(),mHotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike),
+                            .getDrawable(textView.getContext(),mHotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor),
                     null, null, null);
         }
 
@@ -266,7 +266,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
             textView.setText(likeNumber);
             textView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat
-                            .getDrawable(textView.getContext(),mHotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike),
+                            .getDrawable(textView.getContext(),mHotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor),
                     null, null, null);
 
         }
@@ -309,7 +309,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mTextTime.setText(TimeUtils.getTimeDetail(hotNewsContent.getTime()));
             mBtnMsg.setText(hotNewsContent.remarkNum);
             mBtnFavor.setText(mHotNewsContent.likeNum);
-            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mBtnFavor.getContext(),hotNewsContent.isMyLike ? R.drawable.ic_support_like : R.drawable.ic_support_unlike), null, null, null);
+            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mBtnFavor.getContext(),hotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor), null, null, null);
             mExpandableTextView.setmMaxCollapsedLines(4);
             if (isSingle) {
                 mExpandableTextView.setText(hotNewsContent.officeNewsContent.content);
