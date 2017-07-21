@@ -70,7 +70,9 @@ public class NoCourseAdapter extends RecyclerView.Adapter {
         switch (getItemViewType(position)) {
             case TYPE_NORMAL:
                 NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
-                normalViewHolder.noCourseName.setText(mNameList.get((mNameList.size() - 1) - position));
+                String name = mNameList.get((mNameList.size() - 1) - position);
+                name = name.length() > 2 ? name : name.substring(0, 1) + " " + name.substring(1);
+                normalViewHolder.noCourseName.setText(name);
                 normalViewHolder.noCourseDelete.setOnClickListener(view -> {
                     mNameList.remove((mNameList.size() - 1) - position);
                     notifyDataSetChanged();

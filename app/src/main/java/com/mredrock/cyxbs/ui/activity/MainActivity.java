@@ -2,6 +2,7 @@ package com.mredrock.cyxbs.ui.activity;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
@@ -33,7 +33,6 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.electric.DormitorySettingActivity;
-import com.mredrock.cyxbs.ui.activity.me.EditInfoActivity;
 import com.mredrock.cyxbs.ui.activity.me.NewsRemindActivity;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
 import com.mredrock.cyxbs.ui.activity.social.PostNewsActivity;
@@ -45,7 +44,6 @@ import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
 import com.mredrock.cyxbs.util.ElectricRemindUtil;
-import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.UpdateUtil;
@@ -58,7 +56,6 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity {
 
@@ -236,7 +233,7 @@ public class MainActivity extends BaseActivity {
 
     private void initToolbar() {
         if (mToolbar != null) {
-            setTitle("课表");
+            setTitle("课 表");
             setSupportActionBar(mToolbar);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
@@ -401,14 +398,14 @@ public class MainActivity extends BaseActivity {
                     mMainBottomNavView.setSelectedItemId(R.id.item3);
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
-                    mToolbarTitle.setText("发现");
+                    mToolbarTitle.setText("发 现");
                     break;
                 case 3:
                     hiddenMenu();
                     mMainBottomNavView.setSelectedItemId(R.id.item4);
                     mToolbar.setVisibility(View.VISIBLE);
 //                    mMainToolbarFace.setVisibility(View.GONE);
-                    mToolbarTitle.setText("我的");
+                    mToolbarTitle.setText("我 的");
                     if (!APP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
                     }
@@ -446,6 +443,7 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setVisibility(View.VISIBLE);
                     mCourseUnfold.setVisibility(View.VISIBLE);
                     showMenu();
+                    mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
                     mToolbarTitle.setText(((CourseContainerFragment) courseContainerFragment).getTitle());
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     break;
@@ -454,7 +452,8 @@ public class MainActivity extends BaseActivity {
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
                     mCourseUnfold.setVisibility(View.GONE);
-                    mToolbarTitle.setText("社区");
+                    mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
+                    mToolbarTitle.setText("社 区");
                     showMenu();
                     break;
                 case 2:
@@ -463,15 +462,17 @@ public class MainActivity extends BaseActivity {
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
                     mCourseUnfold.setVisibility(View.GONE);
-                    mToolbarTitle.setText("发现");
+                    mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
+                    mToolbarTitle.setText("发 现");
                     break;
                 case 3:
                     hiddenMenu();
                     mViewPager.setCurrentItem(3);
-                    mToolbar.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.VISIBLE);
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     mCourseUnfold.setVisibility(View.GONE);
-                    mToolbarTitle.setText("我的");
+                    mToolbarTitle.setText("我 的");
+                    mToolbar.setBackgroundColor(Color.parseColor("#788EFA"));
                     if (!APP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
                     }

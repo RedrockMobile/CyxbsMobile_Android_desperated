@@ -8,23 +8,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#F6F6F6"
         android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:background="#F6F6F6">
+        android:paddingBottom="16dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#788EFA"
             android:gravity="center_horizontal"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="我的"
-                android:textColor="#F6F6F6"
-                android:textSize="18sp"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/avatar"
@@ -69,26 +62,26 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="13dp"
+            android:background="#93A5FB"
             android:paddingBottom="13dp"
-            android:background="#93A5FB">
+            android:paddingTop="13dp">
 
             <View
                 android:id="@+id/divider"
                 android:layout_width="2dp"
                 android:layout_height="38dp"
-                android:background="#FFFFFF"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:background="#FFFFFF"/>
 
             <LinearLayout
                 android:id="@+id/relate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/divider"
-                android:layout_alignParentLeft="true"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -100,8 +93,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
                     android:layout_marginLeft="8dp"
+                    android:text="0"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"/>
             </LinearLayout>
@@ -110,11 +103,11 @@
                 android:id="@+id/trend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/divider"
-                android:layout_alignParentRight="true"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -126,8 +119,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
                     android:layout_marginLeft="8dp"
+                    android:text="0"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"/>
             </LinearLayout>
