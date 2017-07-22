@@ -15,6 +15,7 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.me.SelectStudentAdapter;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -58,8 +59,6 @@ public class SelectStudentActivity extends BaseActivity {
                 EXTRA_STUDENT_LIST);
         SelectStudentAdapter adapter = new SelectStudentAdapter(studentList, this);
         selectRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        selectRecyclerView.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL_LIST));
         selectRecyclerView.setAdapter(adapter);
     }
 
@@ -68,7 +67,7 @@ public class SelectStudentActivity extends BaseActivity {
         if (toolbar != null) {
             toolbar.setTitle("");
             toolbarTitle.setText("选择");
-            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(
                     v -> SelectStudentActivity.this.finish());
