@@ -65,7 +65,7 @@ public class ExamAndGradeActivity extends BaseActivity {
             toolbar.setTitle("");
             toolbarTitle.setText("考试与成绩");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
             toolbar.setNavigationOnClickListener(v -> ExamAndGradeActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
