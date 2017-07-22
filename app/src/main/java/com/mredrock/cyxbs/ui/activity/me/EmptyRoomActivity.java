@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -18,6 +19,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.tag.FlowLayout;
 import com.mredrock.cyxbs.component.widget.tag.TagAdapter;
 import com.mredrock.cyxbs.component.widget.tag.TagFlowLayout;
+import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
@@ -27,6 +29,7 @@ import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -95,7 +98,7 @@ public class EmptyRoomActivity extends BaseActivity implements TagFlowLayout.OnS
             mArrow.setRotation(0);
         } else {
             mSectionTagLayout.setVisibility(View.VISIBLE);
-            mArrow.setRotation(270);
+            mArrow.setRotation(90);
         }
     }
 
@@ -207,7 +210,7 @@ public class EmptyRoomActivity extends BaseActivity implements TagFlowLayout.OnS
                                     mSuccessReqNum++;
                                     mConverter.setEmptyData(strings);
                                     if (mSuccessReqNum == mNeedReqNum) {
-                                        //updateEmptyAdapter();
+                                        sendQueryResult();
                                     }
                                     progressDialog.dismiss();
                                 }
@@ -229,6 +232,12 @@ public class EmptyRoomActivity extends BaseActivity implements TagFlowLayout.OnS
         }
     }
 
+    private void sendQueryResult() {
+        EmptyRoom[] emptyRooms = mConverter.convert().toArray(new EmptyRoom[]{});
+        Intent intent = new Intent(this, EmptyRoomResultActivity.class);
+        intent.putExtra("data", emptyRooms);
+        startActivity(intent);
+    }
 
     /*
      * 请求时，初始化变量.

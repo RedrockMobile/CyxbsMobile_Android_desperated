@@ -97,7 +97,6 @@ dependencies {
     }
     // compile 'im.fir:fir-sdk:latest.integration@aar'
     // compile 'com.bigkoo:pickerview:2.1.1'
-    compile 'com.android.support:appcompat-v7:25.3.0'
     compile('com.squareup.retrofit2:converter-simplexml:2.1.0') {
         exclude group: 'xpp3', module: 'xpp3'
         exclude group: 'stax', module: 'stax-api'
@@ -105,6 +104,8 @@ dependencies {
     }
     // compile 'im.fir:fir-sdk:latest.integration@aar'
     // compile 'com.bigkoo:pickerview:2.1.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton:disklrucache:2.0.2'
@@ -157,7 +158,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jude:easyrecyclerview:4.4.0'
     compile 'com.lapism:searchview:4.0'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
