@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -62,16 +63,14 @@ public class ExamAndGradeActivity extends BaseActivity {
 
     private void initToolbar() {
         if (toolbar != null) {
-            toolbar.setTitle("");
-            toolbarTitle.setText("考试与成绩");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.ic_back);
-            toolbar.setNavigationOnClickListener(v -> ExamAndGradeActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeButtonEnabled(true);
+                actionBar.setDisplayShowTitleEnabled(false);
             }
+            toolbar.setNavigationIcon(R.drawable.ic_back);
+            toolbar.setNavigationOnClickListener(
+                    v -> ExamAndGradeActivity.this.finish());
         }
     }
 

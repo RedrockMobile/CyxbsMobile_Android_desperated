@@ -139,21 +139,12 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
     private void refresh(List<Grade> gradeList) {
         try {
             mGradeList.clear();
-            addTitleToList();
             mGradeList.addAll(gradeList);
             mGradeAdapter.notifyDataSetChanged();
             gradeTvNothing.setVisibility(View.GONE);
         } catch (NullPointerException e) {
             LogUtils.LOGW(getClass().getName(), "Callback after activity destroy", e);
         }
-    }
-
-    private void addTitleToList() {
-        Grade grade = new Grade();
-        grade.course = "名称";
-        grade.property = "类型";
-        grade.grade = "成绩";
-        mGradeList.add(grade);
     }
 
     private void showProgress() {
