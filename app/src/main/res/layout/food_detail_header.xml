@@ -66,7 +66,6 @@
 
     <TextView
         android:id="@+id/restaurant_phone"
-        style="@style/RestaurantTextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_layout"
@@ -84,7 +83,6 @@
 
     <TextView
         android:id="@+id/restaurant_location"
-        style="@style/RestaurantTextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_layout"
@@ -103,7 +101,6 @@
 
     <TextView
         android:id="@+id/restaurant_promotion"
-        style="@style/RestaurantTextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_layout"
@@ -124,7 +121,6 @@
 
     <TextView
         android:id="@+id/restaurant_comment"
-        style="@style/RestaurantTextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

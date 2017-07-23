@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -88,8 +87,6 @@ public class MainActivity extends BaseActivity {
     CircleImageView mMainToolbarFace;*/
     @Bind(R.id.main_bnv)
     BottomNavigationView mMainBottomNavView;
-    @Bind(R.id.main_app_bar)
-    AppBarLayout mMainAppBar;
 
     private Menu mMenu;
     private ArrayList<Fragment> mFragments;
@@ -233,8 +230,8 @@ public class MainActivity extends BaseActivity {
 
     private void initToolbar() {
         if (mToolbar != null) {
-            setTitle("课 表");
             setSupportActionBar(mToolbar);
+            setTitle("课 表");
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayShowTitleEnabled(false);
@@ -418,18 +415,6 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onPageScrollStateChanged(int state) {
 
-        }
-    }
-
-
-    private void toolbarStepByStepClose(float positionOffset, boolean shouldShow) {
-        Log.d(TAG, "toolbarStepByStepClose: " + positionOffset);
-        if (shouldShow) {
-            mMainAppBar.animate().translationY(0).alpha(225 * positionOffset).start();
-            mMainAppBar.invalidate();
-        } else {
-            mMainAppBar.animate().translationY(0).alpha(-mMainAppBar.getBottom() * (1 - positionOffset)).start();
-            mMainAppBar.invalidate();
         }
     }
 

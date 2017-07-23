@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/bg_toolbar"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
         app:titleTextColor="#F6F6F6">
 
         <TextView
