@@ -66,8 +66,8 @@ public class AboutActivity extends AppCompatActivity {
     protected void initializeToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
-            toolbar.setNavigationIcon(R.drawable.back);
-            toolbarTitle.setText("关于");
+            toolbar.setNavigationIcon(R.drawable.ic_back);
+            toolbarTitle.setText("关 于");
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(
                     v -> AboutActivity.this.finish());

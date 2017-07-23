@@ -77,7 +77,7 @@ public class RemindActivity extends BaseActivity {
             mToolbar.setTitle("");
             mToolbarTitle.setText("课前提醒");
             setSupportActionBar(mToolbar);
-            mToolbar.setNavigationIcon(R.drawable.back);
+            mToolbar.setNavigationIcon(R.drawable.ic_back);
             mToolbar.setNavigationOnClickListener(
                     v -> RemindActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();

@@ -39,7 +39,7 @@ public class SchoolCalendarActivity extends BaseActivity {
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
-            toolbarTitle.setText("校历");
+            toolbarTitle.setText("校 历");
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_back);
             toolbar.setNavigationOnClickListener(
