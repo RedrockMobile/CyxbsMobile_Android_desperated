@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="空教室"
+            android:text="考试与成绩"
             android:textColor="#F6F6F6"
             android:textSize="18sp"/>
     </android.support.v7.widget.Toolbar>
@@ -36,6 +36,11 @@
         app:tabMode="fixed"
         app:tabSelectedTextColor="#333333"
         app:tabTextColor="#666666"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E4E4E4"/>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
