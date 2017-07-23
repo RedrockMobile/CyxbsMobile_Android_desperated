@@ -41,7 +41,7 @@ public class SchoolCalendarActivity extends BaseActivity {
             toolbar.setTitle("");
             toolbarTitle.setText("校历");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
             toolbar.setNavigationOnClickListener(
                     v -> SchoolCalendarActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
