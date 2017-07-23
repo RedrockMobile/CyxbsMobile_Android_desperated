@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.EditText;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Toolbar;
@@ -49,7 +48,6 @@ public class EditNickNameActivity extends EditCommonActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
-        StatusBarUtil.setTranslucent(this, 50);
     }
 
     @Override

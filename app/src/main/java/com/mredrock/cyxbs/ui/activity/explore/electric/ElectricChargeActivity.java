@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ElectricCircleView;
@@ -72,7 +71,6 @@ public class ElectricChargeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_electric_charge);
-        StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         initView();
         initData();

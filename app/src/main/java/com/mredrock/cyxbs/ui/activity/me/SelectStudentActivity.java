@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbs.model.Student;
@@ -53,7 +52,6 @@ public class SelectStudentActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_student);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
         List<Student> studentList = (List<Student>) getIntent().getSerializableExtra(
                 EXTRA_STUDENT_LIST);

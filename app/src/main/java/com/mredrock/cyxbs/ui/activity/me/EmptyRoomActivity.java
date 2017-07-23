@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.tag.FlowLayout;
 import com.mredrock.cyxbs.component.widget.tag.TagAdapter;
@@ -125,7 +124,6 @@ public class EmptyRoomActivity extends BaseActivity implements TagFlowLayout.OnS
         setContentView(R.layout.activity_empty_room);
         ButterKnife.bind(this);
         initToolbar();
-        StatusBarUtil.setTranslucent(this, 50);
         setupSectionTagLayout(LayoutInflater.from(this), getResources().getStringArray(R.array.empty_sections));
     }
 

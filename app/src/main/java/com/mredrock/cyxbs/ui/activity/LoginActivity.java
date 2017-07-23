@@ -1,11 +1,13 @@
 package com.mredrock.cyxbs.ui.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.Toolbar;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
@@ -14,6 +16,7 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.me.EditNickNameActivity;
+import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
 import com.mredrock.cyxbs.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -30,6 +33,10 @@ public class LoginActivity extends BaseActivity {
     AppCompatEditText idNumEdit;
     @Bind(R.id.login_submit_button)
     Button submitButton;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
 
     public static final String TAG = "LoginActivity";
 
@@ -38,19 +45,29 @@ public class LoginActivity extends BaseActivity {
         attemptLogin();
     }
 
-    @OnClick(R.id.back)
-    void click() {
-        finish();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         initUser();
         autoSendFn();
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        if (toolbar != null) {
+            toolbar.setTitle("");
+            toolbarTitle.setText("登 录");
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
+            toolbar.setNavigationOnClickListener(v -> LoginActivity.this.finish());
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeButtonEnabled(true);
+            }
+        }
     }
 
     /**

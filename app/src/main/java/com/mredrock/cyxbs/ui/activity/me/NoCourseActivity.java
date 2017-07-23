@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.JsonSyntaxException;
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Student;
@@ -77,7 +76,6 @@ public class NoCourseActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_course);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
         init();
     }

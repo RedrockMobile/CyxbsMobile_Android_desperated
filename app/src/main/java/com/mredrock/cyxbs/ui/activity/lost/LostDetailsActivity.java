@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.siyamed.shapeimageview.CircularImageView;
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.lost.LostDetail;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
@@ -45,7 +44,6 @@ public class LostDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lost_details);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
         mTitle.setText("详细信息");
         mToolbar.setTitle("");
 

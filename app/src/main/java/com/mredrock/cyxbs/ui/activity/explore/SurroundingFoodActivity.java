@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.fragment.explore.SurroundingFoodFragment;
 import com.mredrock.cyxbs.util.LogUtils;
@@ -42,7 +41,6 @@ public class SurroundingFoodActivity extends BaseExploreActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_surrounding_food);
-        StatusBarUtil.setTranslucent(this, 50);
         int[] startLocation = getIntent().getIntArrayExtra(ARG_DRAWING_START_LOCATION);
         if (savedInstanceState == null) {
             SurroundingFoodFragment fragment =

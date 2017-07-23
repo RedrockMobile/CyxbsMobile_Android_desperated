@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
@@ -67,7 +66,6 @@ public class MyTrendActivity extends BaseActivity
         setContentView(R.layout.activity_my_trend);
         ButterKnife.bind(this);
         initToolbar();
-        StatusBarUtil.setTranslucent(this, 50);
         init();
         showProgress();
     }

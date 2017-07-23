@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.lost.LostViewPagerAdapter;
@@ -46,7 +45,6 @@ public class LostActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         lostKindList = getResources().getStringArray(R.array.lost_category_list);
-        StatusBarUtil.setTranslucent(this, 50);
         adapter = new LostViewPagerAdapter(getSupportFragmentManager());
         LogUtils.LOGE("LostActivity",adapter.getItem(0).toString());
         pager.setAdapter(adapter);
