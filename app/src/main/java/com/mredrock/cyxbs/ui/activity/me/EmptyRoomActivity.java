@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.mredrock.cyxbs.ui.widget.ListBottomSheetDialog;
 import com.mredrock.cyxbs.util.EmptyConverter;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.umeng.analytics.MobclickAgent;
@@ -80,14 +82,18 @@ public class EmptyRoomActivity extends BaseActivity implements TagFlowLayout.OnS
     @OnClick(R.id.select_building)
     void selectBuilding() {
         final String[] buildings = getResources().getStringArray(R.array.empty_buildings);
-        AlertDialog alertDialog = new AlertDialog.Builder(EmptyRoomActivity.this)
-                .setTitle("选择教学楼")
-                .setItems(buildings, (dialog, which) -> {
-                    mBuildNumPosition = which;
-                    mBuildingTv.setText(buildings[which]);
-                    mBuildingTv.setTextColor(Color.parseColor("#333333"));
-                }).create();
-        alertDialog.show();
+//        AlertDialog alertDialog = new AlertDialog.Builder(EmptyRoomActivity.this)
+//                .setTitle("选择教学楼")
+//                .setItems(buildings, (dialog, which) -> {
+//                    mBuildNumPosition = which;
+//                    mBuildingTv.setText(buildings[which]);
+//                    mBuildingTv.setTextColor(Color.parseColor("#333333"));
+//                }).create();
+//        alertDialog.show();
+        ListBottomSheetDialog dialog = new ListBottomSheetDialog(this);
+        dialog.setData(Arrays.asList(buildings));
+        NumberPicker
+        dialog.show();
     }
 
     @OnClick(R.id.select_section)
