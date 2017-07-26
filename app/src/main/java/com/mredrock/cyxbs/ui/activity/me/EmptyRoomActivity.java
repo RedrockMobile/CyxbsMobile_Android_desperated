@@ -5,41 +5,29 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.tag.FlowLayout;
-import com.mredrock.cyxbs.component.widget.tag.TagAdapter;
-import com.mredrock.cyxbs.component.widget.tag.TagFlowLayout;
 import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
-import com.mredrock.cyxbs.ui.widget.ListBottomSheetDialog;
+import com.mredrock.cyxbs.ui.widget.PickerBottomSheetDialog;
 import com.mredrock.cyxbs.util.EmptyConverter;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.umeng.analytics.MobclickAgent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EmptyRoomActivity extends BaseActivity implements TagFlowLayout.OnSelectListener {
+public class EmptyRoomActivity extends BaseActivity {
 
     /**
      * 请求时传入的教学楼参数
@@ -58,58 +46,57 @@ public class EmptyRoomActivity extends BaseActivity implements TagFlowLayout.OnS
     TextView mSectioinTv;
     @Bind(R.id.query)
     Button mQuery;
-    @Bind(R.id.section_tag_layout)
-    TagFlowLayout mSectionTagLayout;
-    @Bind(R.id.arrow)
-    ImageView mArrow;
 
     private int mBuildNumPosition = -1;
-    private Set<Integer> mSectionPosSet;
-
-    /*
-     * 需要请求的次数
-     */
-    private int mNeedReqNum;
-
-    /*
-     * 成功请求的次数
-     */
-
-    private int mSuccessReqNum;
+    private int mSectionPosition = -1;
 
     private EmptyConverter mConverter;
 
     @OnClick(R.id.select_building)
     void selectBuilding() {
         final String[] buildings = getResources().getStringArray(R.array.empty_buildings);
-//        AlertDialog alertDialog = new AlertDialog.Builder(EmptyRoomActivity.this)
-//                .setTitle("选择教学楼")
-//                .setItems(buildings, (dialog, which) -> {
-//                    mBuildNumPosition = which;
-//                    mBuildingTv.setText(buildings[which]);
-//                    mBuildingTv.setTextColor(Color.parseColor("#333333"));
-//                }).create();
-//        alertDialog.show();
-        ListBottomSheetDialog dialog = new ListBottomSheetDialog(this);
-        dialog.setData(Arrays.asList(buildings));
-        NumberPicker
+        PickerBottomSheetDialog dialog = new PickerBottomSheetDialog(this);
+        dialog.setData(buildings);
+        dialog.setOnClickListener(new PickerBottomSheetDialog.OnClickListener() {
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onSure(String value, int position) {
+                mBuildingTv.setText(value);
+                mBuildingTv.setTextColor(Color.parseColor("#333333"));
+                mBuildNumPosition = position;
+            }
+        });
         dialog.show();
     }
 
     @OnClick(R.id.select_section)
     void selectSection() {
-        if (mSectionTagLayout.getVisibility() == View.VISIBLE) {
-            mSectionTagLayout.setVisibility(View.GONE);
-            mArrow.setRotation(0);
-        } else {
-            mSectionTagLayout.setVisibility(View.VISIBLE);
-            mArrow.setRotation(90);
-        }
+        final String[] buildings = getResources().getStringArray(R.array.empty_sections);
+        PickerBottomSheetDialog dialog = new PickerBottomSheetDialog(this);
+        dialog.setData(buildings);
+        dialog.setOnClickListener(new PickerBottomSheetDialog.OnClickListener() {
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onSure(String value, int position) {
+                mSectioinTv.setText(value);
+                mSectioinTv.setTextColor(Color.parseColor("#333333"));
+                mSectionPosition = position;
+            }
+        });
+        dialog.show();
     }
 
     @OnClick(R.id.query)
     void query() {
-        onCompleteButtonClickListener(mBuildNumPosition, mSectionPosSet);
+        onCompleteButtonClickListener(mBuildNumPosition, mSectionPosition);
     }
 
     @Override
@@ -130,14 +117,13 @@ public class EmptyRoomActivity extends BaseActivity implements TagFlowLayout.OnS
         setContentView(R.layout.activity_empty_room);
         ButterKnife.bind(this);
         initToolbar();
-        setupSectionTagLayout(LayoutInflater.from(this), getResources().getStringArray(R.array.empty_sections));
     }
 
 
-    public void onCompleteButtonClickListener(int buildNumPosition, Set<Integer> sectionPosSet) {
+    public void onCompleteButtonClickListener(int buildNumPosition, int sectionPosition) {
         if (buildNumPosition >= 0) {
-            if (sectionPosSet != null && !sectionPosSet.isEmpty()) {
-                loadingEmptyData(buildNumPosition, sectionPosSet);
+            if (sectionPosition >= 0) {
+                loadingEmptyData(buildNumPosition, sectionPosition);
             } else {
                 Toast.makeText(this, "请选择课时", Toast.LENGTH_SHORT).show();
             }
@@ -162,78 +148,56 @@ public class EmptyRoomActivity extends BaseActivity implements TagFlowLayout.OnS
         }
     }
 
-    private void setupSectionTagLayout(LayoutInflater inflater,
-                                       final String[] sectionNumArray) {
-        mSectionTagLayout.setAdapter(new TagAdapter<String>(sectionNumArray) {
-            @Override
-            public View getView(FlowLayout parent, int position, String section) {
-                TextView tv = (TextView) inflater.inflate(R.layout.item_empty_fab_tag_item,
-                        mSectionTagLayout, false);
-                tv.setText(section);
-                return tv;
-            }
-        });
-        mSectionTagLayout.setOnSelectListener(this);
-    }
-
     /*
     * 加载数据.
     *
     * @param buildNumPosition 教学楼
-    * @param sectionPosSet    课时
+    * @param sectionPosition    课时
     */
-    private void loadingEmptyData(int buildNumPosition, Set<Integer> sectionPosSet) {
+    private void loadingEmptyData(int buildNumPosition, int sectionPosition) {
         String buildingNum = buildNumApiArray[buildNumPosition];
-        List<String> courseTimeList = new ArrayList<>();
-        for (Integer pos : sectionPosSet) {
-            courseTimeList.add(sectionNumApiArray[pos]);
-        }
+        String sectionNum = sectionNumApiArray[sectionPosition];
 
-        initialise(courseTimeList);
+        mConverter = new EmptyConverter();
 
         SchoolCalendar calendar = new SchoolCalendar();
         String week = String.valueOf(calendar.getWeekOfTerm());
         String weekday = String.valueOf(calendar.getDayOfWeek());
         ProgressDialog progressDialog = new ProgressDialog(EmptyRoomActivity.this);
         progressDialog.setMessage("查询中...");
-        for (String courseTime : courseTimeList) {
-            RequestManager.getInstance().getEmptyRoomList(
-                    new SimpleSubscriber<>(this,
-                            new SubscriberListener<List<String>>() {
+        RequestManager.getInstance().getEmptyRoomList(
+                new SimpleSubscriber<>(this,
+                        new SubscriberListener<List<String>>() {
 
-                                @Override
-                                public void onStart() {
-                                    super.onStart();
-                                    progressDialog.show();
-                                }
-
-
-                                @Override
-                                public void onNext(List<String> strings) {
-                                    super.onNext(strings);
-                                    mSuccessReqNum++;
-                                    mConverter.setEmptyData(strings);
-                                    if (mSuccessReqNum == mNeedReqNum) {
-                                        sendQueryResult();
-                                    }
-                                    progressDialog.dismiss();
-                                }
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                                progressDialog.show();
+                            }
 
 
-                                @Override
-                                public void onCompleted() {
-                                    super.onCompleted();
-                                }
+                            @Override
+                            public void onNext(List<String> strings) {
+                                super.onNext(strings);
+                                mConverter.setEmptyData(strings);
+                                sendQueryResult();
+                                progressDialog.dismiss();
+                            }
 
 
-                                @Override
-                                public boolean onError(Throwable e) {
-                                    super.onError(e);
-                                    progressDialog.dismiss();
-                                    return false;
-                                }
-                            }), buildingNum, week, weekday, courseTime);
-        }
+                            @Override
+                            public void onCompleted() {
+                                super.onCompleted();
+                            }
+
+
+                            @Override
+                            public boolean onError(Throwable e) {
+                                super.onError(e);
+                                progressDialog.dismiss();
+                                return false;
+                            }
+                        }), buildingNum, week, weekday, sectionNum);
     }
 
     private void sendQueryResult() {
@@ -241,31 +205,5 @@ public class EmptyRoomActivity extends BaseActivity implements TagFlowLayout.OnS
         Intent intent = new Intent(this, EmptyRoomResultActivity.class);
         intent.putExtra("data", emptyRooms);
         startActivity(intent);
-    }
-
-    /*
-     * 请求时，初始化变量.
-     */
-    private void initialise(List<String> courseTimeList) {
-        mSuccessReqNum = 0;
-        mConverter = new EmptyConverter();
-        mNeedReqNum = courseTimeList.size();
-    }
-
-    @Override
-    public void onSelected(Set<Integer> selectPosSet) {
-        mSectionPosSet = selectPosSet;
-        String[] sections = getResources().getStringArray(R.array.empty_sections);
-        String str = "";
-        if (mSectionPosSet == null || mSectionPosSet.isEmpty()) {
-            str = "、请选择时间";
-            mSectioinTv.setTextColor(Color.parseColor("#999999"));
-        } else {
-            for (int i : mSectionPosSet) {
-                str += "、" + sections[i];
-            }
-            mSectioinTv.setTextColor(Color.parseColor("#333333"));
-        }
-        mSectioinTv.setText(str.substring(1));
     }
 }

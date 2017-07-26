@@ -70,19 +70,12 @@
             android:textSize="14sp"/>
 
         <ImageView
-            android:id="@+id/arrow"
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_alignParentRight="true"
             android:scaleType="fitXY"
             android:src="@drawable/ic_arrow_right"/>
     </RelativeLayout>
-
-    <com.mredrock.cyxbs.component.widget.tag.TagFlowLayout
-        android:id="@+id/section_tag_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
 
     <Button
         android:id="@+id/query"

@@ -1,14 +1,10 @@
 package com.mredrock.cyxbs.ui.adapter.me;
 
 import android.app.Activity;
-import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -17,7 +13,6 @@ import android.widget.TextView;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
 import com.mredrock.cyxbs.ui.widget.NoCourseAddDialog;
-import com.mredrock.cyxbs.util.DensityUtils;
 
 import java.util.List;
 
@@ -100,15 +95,6 @@ public class NoCourseAdapter extends RecyclerView.Adapter {
                             }
                         }
                     });
-                    Window window = dialog.getWindow();
-                    WindowManager.LayoutParams windowparams = window.getAttributes();
-                    window.setGravity(Gravity.CENTER);
-                    View decorView = window.getDecorView();
-                    decorView.getWindowVisibleDisplayFrame(new Rect());
-                    windowparams.width = DensityUtils.getScreenWidth(mActivity)
-                            - DensityUtils.dp2px(mActivity, 46);
-                    window.setBackgroundDrawableResource(android.R.color.transparent);
-                    window.setAttributes(windowparams);
                     dialog.show();
                 });
         }

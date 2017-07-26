@@ -19,6 +19,7 @@
             android:id="@+id/cancel"
             android:layout_width="16dp"
             android:layout_height="16dp"
+            android:layout_marginTop="1dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_cancel"/>
 
@@ -37,9 +38,8 @@
         android:layout_height="1dp"
         android:background="#EDEAEA"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+    <NumberPicker
+        android:id="@+id/number_picker"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="24dp"/>
+        android:layout_height="wrap_content"/>
 </LinearLayout>

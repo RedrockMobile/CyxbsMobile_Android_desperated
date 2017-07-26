@@ -2,20 +2,19 @@ package com.mredrock.cyxbs.ui.widget;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ClearableEditText;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import com.mredrock.cyxbs.util.DensityUtils;
 
 /**
  * Created by Jay on 2017/7/21.
@@ -33,11 +32,16 @@ public class NoCourseAddDialog extends Dialog implements View.OnClickListener {
     private OnClickListener mListener;
 
     public NoCourseAddDialog(@NonNull Context context) {
-        this(context, 0);
-    }
-
-    public NoCourseAddDialog(@NonNull Context context, @StyleRes int themeResId) {
-        super(context, themeResId);
+        super(context);
+        Window window = getWindow();
+        WindowManager.LayoutParams windowparams = window.getAttributes();
+        window.setGravity(Gravity.CENTER);
+        View decorView = window.getDecorView();
+        decorView.getWindowVisibleDisplayFrame(new Rect());
+        windowparams.width = DensityUtils.getScreenWidth(context)
+                - DensityUtils.dp2px(context, 46);
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+        window.setAttributes(windowparams);
     }
 
     @Override
