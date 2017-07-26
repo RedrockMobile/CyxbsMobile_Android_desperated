@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
+        android:layout="@layout/preference_title"
         android:title="每节课之前告诉我就好啦">
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="remind_every_class"
+            android:layout="@layout/preference_item"
             android:summary="每节课前将受到通知提醒"
             android:title="每课推送"/>
-        <ListPreference
-            android:dialogTitle="提前时间"
+
+        <com.mredrock.cyxbs.ui.JListPreference
             android:defaultValue="30"
+            android:dialogTitle="提醒时间"
             android:entries="@array/remind_every_class"
             android:entryValues="@array/remind_every_class_back"
             android:key="remind_every_class_delay"
+            android:layout="@layout/preference_item"
             android:summary="每节课开始前多少时间会受到通知"
             android:title="提前时间"/>
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:layout="@layout/preference_title"
         android:title="每天告诉我一次就好啦">
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="remind_every_day"
+            android:layout="@layout/preference_item"
             android:summary="每天会在约定的时间发送明天的课表"
             android:title="每日推送"/>
-        <ListPreference
+
+        <com.mredrock.cyxbs.ui.JListPreference
+            android:defaultValue="22"
             android:entries="@array/remind_every_day"
             android:entryValues="@array/remind_every_day_back"
             android:key="remind_every_day_time"
-            android:defaultValue="22"
+            android:layout="@layout/preference_item"
             android:summary="每晚会收到推送的时间"
             android:title="通知时间"/>
-      </PreferenceCategory>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_title"
+        android:title="注意：如果遇到不能正常提醒，请在安全软件或系统管理中添加掌上重邮到白名单。使用了对齐唤醒技术，所以不要担心影响续航。"/>
 </PreferenceScreen>

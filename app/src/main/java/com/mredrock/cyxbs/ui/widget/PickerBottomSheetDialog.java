@@ -38,6 +38,7 @@ public class PickerBottomSheetDialog extends BottomSheetDialog implements View.O
     private ImageView mCancel;
     private TextView mSure;
     private String[] mData;
+    private int mPosition;
     private OnClickListener mOnClickListener;
 
     public PickerBottomSheetDialog(@NonNull Context context) {
@@ -67,6 +68,10 @@ public class PickerBottomSheetDialog extends BottomSheetDialog implements View.O
         window.setAttributes(layoutParams);
     }
 
+    public void setPosition(int position) {
+        mPosition = position;
+    }
+
     public void setData(String[] data) {
         mData = data;
     }
@@ -92,6 +97,9 @@ public class PickerBottomSheetDialog extends BottomSheetDialog implements View.O
         mPicker.setDisplayedValues(mData);
         mPicker.setMinValue(0);
         mPicker.setMaxValue(mData.length - 1);
+        if (mData != null && mPosition < mData.length) {
+            mPicker.setValue(mPosition);
+        }
         changeNumberPickerTextColor();
     }
 
