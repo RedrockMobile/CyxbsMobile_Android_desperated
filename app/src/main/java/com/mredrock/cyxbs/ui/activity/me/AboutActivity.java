@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
+import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
 
@@ -19,7 +19,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BaseActivity {
 
     @Bind(R.id.about_1)
     TextView about1;

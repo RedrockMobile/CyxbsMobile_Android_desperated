@@ -1,4 +1,5 @@
-<ScrollView
+<android.support.v4.widget.NestedScrollView
+    android:id="@+id/scroll_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,7 +24,7 @@
                 android:id="@+id/avatar"
                 android:layout_width="74dp"
                 android:layout_height="74dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="24dp"
                 android:src="@drawable/default_avatar"/>
 
             <TextView
@@ -363,4 +364,4 @@
                 android:src="@drawable/ic_arrow_right"/>
         </RelativeLayout>
     </LinearLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
