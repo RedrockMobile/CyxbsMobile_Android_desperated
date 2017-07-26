@@ -361,7 +361,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         // mTv.setOnClickListener(this);
         mButton = (TextView) findViewById(com.ms.square.android.expandabletextview.R.id.expand_collapse);
         // mButton.setImageDrawable(mCollapsed ? mExpandDrawable : mCollapseDrawable);
-        mButton.setText(mCollapsed ? "全文" : "收起");
+        mButton.setText(mCollapsed ? "展开" : "收起");
         mButton.setOnClickListener(this);
     }
 
