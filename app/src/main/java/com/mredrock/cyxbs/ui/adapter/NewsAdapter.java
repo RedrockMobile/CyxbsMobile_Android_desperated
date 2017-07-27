@@ -1,8 +1,8 @@
 package com.mredrock.cyxbs.ui.adapter;
 
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,11 +78,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     public void addDataList(List<HotNews> dataList) {
         mNews.addAll(dataList);
-        notifyItemRangeInserted(mNews.size(),dataList.size());
+        notifyItemRangeInserted(mNews.size(), dataList.size());
     }
 
     public void replaceDataList(List<HotNews> dataList) {
-     //   mNews = dataList;
+        //   mNews = dataList;
         mNews.clear();
         mNews.addAll(dataList);
         notifyDataSetChanged();
@@ -182,35 +182,35 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         public void like(TextView textView) {
             RequestManager.getInstance().addThumbsUp(new SimpleSubscriber<>(textView.getContext()
-                    , new SubscriberListener<String>() {
-                @Override
-                public boolean onError(Throwable e) {
-                    super.onError(e);
-                    LogUtils.LOGE(TAG, "like", e);
-                    //disLikeToSetDataAndView(textView);
-                    return false;
-                }
+                            , new SubscriberListener<String>() {
+                        @Override
+                        public boolean onError(Throwable e) {
+                            super.onError(e);
+                            LogUtils.LOGE(TAG, "like", e);
+                            //disLikeToSetDataAndView(textView);
+                            return false;
+                        }
 
-                @Override
-                public void onNext(String s) {
-                    super.onNext(s);
-                    //Log.i(TAG, "赞成功");
-                    String likeNumber = Integer.parseInt(textView.getText().toString()) + 1 + "";
+                        @Override
+                        public void onNext(String s) {
+                            super.onNext(s);
+                            //Log.i(TAG, "赞成功");
+                            String likeNumber = Integer.parseInt(textView.getText().toString()) + 1 + "";
 
-                    EventBus.getDefault().post(new ItemChangedEvent(likeNumber,
-                            mHotNewsContent.articleId,true));
-                    likeToSetDataAndView(textView,likeNumber);
+                            EventBus.getDefault().post(new ItemChangedEvent(likeNumber,
+                                    mHotNewsContent.articleId, true));
+                            likeToSetDataAndView(textView, likeNumber);
 
 //                    if (isSingle) RxBus.getDefault().post(mHotNewsContent);
-                    if (isSingle) setData(mHotNewsContent, false);
-                }
+                            if (isSingle) setData(mHotNewsContent, false);
+                        }
 
-                @Override
-                public void onCompleted() {
-                    super.onCompleted();
-                    mBtnFavor.setClickable(true);
-                }
-            }),
+                        @Override
+                        public void onCompleted() {
+                            super.onCompleted();
+                            mBtnFavor.setClickable(true);
+                        }
+                    }),
                     mHotNewsContent.articleId, mHotNewsContent.typeId,
                     APP.getUser(textView.getContext()).stuNum,
                     APP.getUser(textView.getContext()).idNum);
@@ -218,27 +218,26 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         public void dislike(TextView textView) {
             RequestManager.getInstance().cancelThumbsUp(new SimpleSubscriber<>(textView.getContext()
-                    , new SubscriberListener<String>() {
-                @Override
-                public boolean onError(Throwable e) {
-                    super.onError(e);
-                    Log.e(TAG, e.toString());
-                   // likeToSetDataAndView(textView);
-                    return false;
-                }
+                            , new SubscriberListener<String>() {
+                        @Override
+                        public boolean onError(Throwable e) {
+                            super.onError(e);
+                            // likeToSetDataAndView(textView);
+                            e.printStackTrace();
+                            return false;
+                        }
 
-                @Override
-                public void onNext(String s) {
-                    super.onNext(s);
-                    Log.i(TAG, "取消赞成功");
-                    String likeNumber = Integer.parseInt(textView.getText().toString()) - 1 + "";
+                        @Override
+                        public void onNext(String s) {
+                            super.onNext(s);
+                            String likeNumber = Integer.parseInt(textView.getText().toString()) - 1 + "";
 
-                    EventBus.getDefault().post(new ItemChangedEvent(likeNumber,
-                            mHotNewsContent.articleId,false));
-                    disLikeToSetDataAndView(textView,likeNumber);
+                            EventBus.getDefault().post(new ItemChangedEvent(likeNumber,
+                                    mHotNewsContent.articleId, false));
+                            disLikeToSetDataAndView(textView, likeNumber);
 //                    if (isSingle) RxBus.getDefault().post(mHotNewsContent);
-                    if (isSingle) setData(mHotNewsContent, false);
-                }
+                            if (isSingle) setData(mHotNewsContent, false);
+                        }
 
                         @Override
                         public void onCompleted() {
@@ -250,23 +249,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                     APP.getUser(textView.getContext()).idNum);
         }
 
-        public void disLikeToSetDataAndView(TextView textView,String likeNumber) {
+        public void disLikeToSetDataAndView(TextView textView, String likeNumber) {
 
             mHotNewsContent.isMyLike = false;
             mHotNewsContent.likeNum = likeNumber;
             textView.setText(likeNumber);
+            textView.setTextColor(Color.parseColor("#666666"));
             textView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat
-                            .getDrawable(textView.getContext(),mHotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor),
+                            .getDrawable(textView.getContext(), mHotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor),
                     null, null, null);
         }
 
-        public void likeToSetDataAndView(TextView textView,String likeNumber) {
+        public void likeToSetDataAndView(TextView textView, String likeNumber) {
             mHotNewsContent.likeNum = likeNumber;
             mHotNewsContent.isMyLike = true;
 
             textView.setText(likeNumber);
+            textView.setTextColor(Color.parseColor("#788EFA"));
             textView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat
-                            .getDrawable(textView.getContext(),mHotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor),
+                            .getDrawable(textView.getContext(), mHotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor),
                     null, null, null);
 
         }
@@ -309,7 +310,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mTextTime.setText(TimeUtils.getTimeDetail(hotNewsContent.getTime()));
             mBtnMsg.setText(hotNewsContent.remarkNum);
             mBtnFavor.setText(mHotNewsContent.likeNum);
-            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mBtnFavor.getContext(),hotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor), null, null, null);
+            mBtnFavor.setTextColor(hotNewsContent.isMyLike ? Color.parseColor("#788EFA") : Color.parseColor("#666666"));
+            mBtnFavor.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mBtnFavor.getContext(), hotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor), null, null, null);
             mExpandableTextView.setmMaxCollapsedLines(4);
             if (isSingle) {
                 mExpandableTextView.setText(hotNewsContent.officeNewsContent.content);

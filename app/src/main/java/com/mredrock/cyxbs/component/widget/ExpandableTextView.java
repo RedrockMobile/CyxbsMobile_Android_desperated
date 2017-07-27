@@ -50,7 +50,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     private static final String TAG = ExpandableTextView.class.getSimpleName();
 
     /* The default number of lines */
-    private static final int MAX_COLLAPSED_LINES = 8;
+    private static final int MAX_COLLAPSED_LINES = 4;
 
     /* The default animation duration */
     private static final int DEFAULT_ANIM_DURATION = 300;
@@ -160,8 +160,8 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         }
 
         mCollapsed = !mCollapsed;
-        // mButton.setImageDrawable(mCollapsed ? mExpandDrawable : mCollapseDrawable);
-        mButton.setText(mCollapsed ? "全文" : "收起");
+        mButton.setCompoundDrawables(null, null, mCollapsed ? mExpandDrawable : mCollapseDrawable, null);
+        mButton.setText(mCollapsed ? "展开" : "收起");
         if (mCollapsedStatus != null) {
             mCollapsedStatus.put(mPosition, mCollapsed);
         }
@@ -277,7 +277,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         clearAnimation();
         mCollapsed = isCollapsed;
         // mButton.setImageDrawable(mCollapsed ? mExpandDrawable : mCollapseDrawable);
-        mButton.setText(mCollapsed ? "全文" : "收起");
+        mButton.setText(mCollapsed ? "展开" : "收起");
         setText(text);
         getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         requestLayout();

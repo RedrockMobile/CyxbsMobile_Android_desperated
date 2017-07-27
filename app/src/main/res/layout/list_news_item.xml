@@ -15,7 +15,7 @@
         android:layout_marginBottom="14dp"
         android:layout_marginLeft="17dp"
         android:layout_marginRight="17dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -24,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/list_news_img_avatar"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
                 android:layout_marginRight="12dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/default_avatar"/>
