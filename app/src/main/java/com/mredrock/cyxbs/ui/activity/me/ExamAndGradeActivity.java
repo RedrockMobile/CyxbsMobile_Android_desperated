@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -61,6 +60,7 @@ public class ExamAndGradeActivity extends BaseActivity {
 
     private void initToolbar() {
         if (toolbar != null) {
+            toolbarTitle.setText("考试与成绩");
             setSupportActionBar(toolbar);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {

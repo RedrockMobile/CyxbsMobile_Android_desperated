@@ -75,7 +75,7 @@ public class EditNickNameActivity extends EditCommonActivity {
 
     @Override
     public void onBackPressed() {
-        Snackbar.make(editCommonEt,"要有昵称才能浏览哦~~~",Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(editCommonEt, "要有昵称才能浏览哦~~~", Snackbar.LENGTH_SHORT).show();
         if (!isForceModify) {
             super.onBackPressed();
         }

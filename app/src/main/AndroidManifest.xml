@@ -85,7 +85,9 @@
                 <!-- 魅族 3D TOUCH 适配 END -->
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.SplashActivity">
+        <activity
+            android:name=".ui.activity.SplashActivity"
+            android:theme="@style/Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

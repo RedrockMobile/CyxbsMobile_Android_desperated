@@ -51,8 +51,6 @@ public class BaseActivity extends AppCompatActivity {
         SwipeBackHelper.onCreate(this);
         SwipeBackHelper.getCurrentPage(this).setSwipeRelateEnable(true);
 
-        Log.v("tag", ""+this.getClass().getName());
-
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN

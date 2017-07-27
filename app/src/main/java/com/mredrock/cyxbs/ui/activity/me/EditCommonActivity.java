@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -54,7 +55,18 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_common);
         ButterKnife.bind(this);
+        initToolbar();
         init();
+    }
+
+    private void initToolbar() {
+        if (editCommonToolbar != null) {
+            setSupportActionBar(editCommonToolbar);
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayShowTitleEnabled(false);
+            }
+        }
     }
 
     private void init() {

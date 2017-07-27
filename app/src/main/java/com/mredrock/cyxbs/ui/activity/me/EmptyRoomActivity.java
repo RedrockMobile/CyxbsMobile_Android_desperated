@@ -40,6 +40,8 @@ public class EmptyRoomActivity extends BaseActivity {
     public static final String[] sectionNumApiArray = {"0", "1", "2", "3", "4", "5"};
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.toolbar_title)
+    TextView mToolbarTitle;
     @Bind(R.id.tv_building)
     TextView mBuildingTv;
     @Bind(R.id.tv_section)
@@ -138,6 +140,7 @@ public class EmptyRoomActivity extends BaseActivity {
     private void initToolbar() {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
+            mToolbarTitle.setText("空教室");
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayShowTitleEnabled(false);

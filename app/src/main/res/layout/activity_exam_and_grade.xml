@@ -8,38 +8,23 @@
     android:orientation="vertical"
     tools:context=".ui.activity.me.ExamAndGradeActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/bg_toolbar"
-        app:titleTextColor="#F6F6F6">
+    <include layout="@layout/toolbar"/>
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="考试与成绩"
-            android:textColor="#F6F6F6"
-            android:textSize="18sp"/>
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/exam_grade_tab_layout"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="57dp"
-        app:tabBackground="@color/white_black"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="#9BC5FF"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="#333333"
-        app:tabTextColor="#666666"/>
+        android:layout_height="wrap_content">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#E4E4E4"/>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/exam_grade_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            app:tabBackground="@color/white_black"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="#9BC5FF"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#333333"
+            app:tabTextColor="#666666"/>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
