@@ -261,7 +261,7 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     }
 
     private void initToolbar() {
-        mToolbar.setNavigationIcon(R.drawable.back);
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
         mToolbar.setTitle("");
         mToolBarTitle.setText(getString(R.string.specific_news_title));
         setSupportActionBar(mToolbar);

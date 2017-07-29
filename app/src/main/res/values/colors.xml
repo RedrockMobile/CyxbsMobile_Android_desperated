@@ -12,7 +12,7 @@
     <color name="colorPrimary">#58B1FC</color>
     <color name="colorPrimaryDark">#798DFA</color>
     <!--<color name="colorPrimaryDark">#ffffff</color>-->
-    <color name="colorAccent">#788EFA</color>
+    <color name="colorAccent">#9BC5FF</color>
     <color name="tabIndicatorColor">#c9c9c9</color>
     <color name="tab_background_pressed">#1Affffff</color>
     <color name="tabText">#66000000</color>
