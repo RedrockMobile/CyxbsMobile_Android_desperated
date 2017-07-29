@@ -33,7 +33,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscription;
-import rx.functions.Action1;
 
 /**
  * Created by Stormouble on 16/4/27.
@@ -48,6 +47,10 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
 
     @Bind(R.id.what_to_eat_container)
     FrameLayout mContainerLayout;
+    @Bind(R.id.shake_container)
+    ViewGroup mShakeContainer;
+    @Bind(R.id.shake)
+    ImageView mShakePhoto;
 
     private int[] mDrawingStartLocation;
     private long mLastTime;
@@ -55,7 +58,6 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
     private Vibrator mVibrator;
     private SensorManager mSensorManager;
 
-    private ImageView mShakePhoto;
     private ResultViewWrapper mResultViewWrapper;
 
     public WhatToEatFragment() {
@@ -90,18 +92,8 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mShakePhoto = new ImageView(getActivity());
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        mShakePhoto.setLayoutParams(layoutParams);
-        mShakePhoto.setPadding((int) getResources().getDimension(R.dimen.padding_xxlarge),
-                (int) getResources().getDimension(R.dimen.padding_xxlarge),
-                (int) getResources().getDimension(R.dimen.padding_xxlarge),
-                (int) getResources().getDimension(R.dimen.padding_xxlarge));
-        mShakePhoto.setImageResource(R.drawable.img_shake);
         mShakePhoto.setAdjustViewBounds(true);
         mShakePhoto.setOnClickListener(v -> tryShake());
-        mContainerLayout.addView(mShakePhoto);
     }
 
     @Override
@@ -158,7 +150,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
             mLastTime = System.currentTimeMillis();
 
             Subscription subscription = RequestManager.getInstance().getShake(
-                    new SimpleSubscriber<Shake>(getActivity(), new SubscriberListener<Shake>() {
+                    new SimpleSubscriber<>(getActivity(), new SubscriberListener<Shake>() {
                         @Override
                         public void onNext(Shake data) {
                             setFoodData(data);
@@ -174,11 +166,11 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
             View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.explore_shake_result, mContainerLayout, false);
             mResultViewWrapper = new ResultViewWrapper(contentView, data.id);
 
-            mContainerLayout.removeView(mShakePhoto);
+            mContainerLayout.removeView(mShakeContainer);
             mContainerLayout.addView(contentView);
 
             enableDisableSwipeRefresh(true);
-        } 
+        }
         mResultViewWrapper.mRestaurantName.setText(data.name);
         mResultViewWrapper.mRestaurantAddress.setText(data.address);
         mGlideHelper.loadImage(data.img, mResultViewWrapper.mRestaurantImageView);
@@ -235,7 +227,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
         TextView mRestaurantAddress;
         @Bind(R.id.shake_again)
         TextView mAgainText;
-        
+
         @OnClick(R.id.restaurant_photo)
         public void onPhotoClick() {
             UIUtils.startAnotherFragment(WhatToEatFragment.this.getFragmentManager(), WhatToEatFragment.this,
@@ -247,9 +239,9 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
         public void onShakeAgainClick() {
             tryShake();
         }
-        
+
         String mRestaurantKey;
-        
+
         public ResultViewWrapper(View contentView, String restaurantKey) {
             ButterKnife.bind(this, contentView);
             mRestaurantKey = restaurantKey;
