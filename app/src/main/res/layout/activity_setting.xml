@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -24,12 +25,17 @@
             android:textColor="#333333"
             android:textSize="14sp"/>
 
-        <android.support.v7.widget.SwitchCompat
+        <com.suke.widget.SwitchButton
             android:id="@+id/setting_switch_show"
-            android:layout_width="46dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:theme="@style/Switch"/>
+            app:sb_background="#BEBEBE"
+            app:sb_button_color="#FFFFFF"
+            app:sb_checked_color="#788EFA"
+            app:sb_effect_duration="200"
+            app:sb_show_indicator="false"
+            app:sb_uncheck_color="#BEBEBE"/>
     </RelativeLayout>
 
     <View

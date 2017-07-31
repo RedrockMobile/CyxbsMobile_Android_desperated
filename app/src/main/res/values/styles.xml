@@ -19,12 +19,6 @@
 
     <style name="Transparent" parent="AppTheme"/>
 
-    <style name="Switch" parent="AppTheme">
-        <item name="colorControlActivated">#788EFA</item>
-        <item name="colorSwitchThumbNormal">#BEBEBE</item>
-        <item name="android:colorForeground">#BEBEBE</item>
-    </style>
-
     <style name="PopupAnimation" parent="android:Animation" mce_bogus="1">
         <item name="android:windowEnterAnimation">@anim/popup_enter</item>
         <item name="android:windowExitAnimation">@anim/popup_exit</item>

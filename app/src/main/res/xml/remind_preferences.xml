@@ -4,12 +4,13 @@
         android:layout="@layout/preference_title"
         android:title="每节课之前告诉我就好啦">
 
-        <SwitchPreference
+        <com.mredrock.cyxbs.ui.JSwitchPreference
             android:defaultValue="false"
             android:key="remind_every_class"
             android:layout="@layout/preference_item"
             android:summary="每节课前将受到通知提醒"
-            android:title="每课推送"/>
+            android:title="每课推送"
+            android:widgetLayout="@layout/preference_switch"/>
 
         <com.mredrock.cyxbs.ui.JListPreference
             android:defaultValue="30"
@@ -26,12 +27,13 @@
         android:layout="@layout/preference_title"
         android:title="每天告诉我一次就好啦">
 
-        <SwitchPreference
+        <com.mredrock.cyxbs.ui.JSwitchPreference
             android:defaultValue="false"
             android:key="remind_every_day"
             android:layout="@layout/preference_item"
             android:summary="每天会在约定的时间发送明天的课表"
-            android:title="每日推送"/>
+            android:title="每日推送"
+            android:widgetLayout="@layout/preference_switch"/>
 
         <com.mredrock.cyxbs.ui.JListPreference
             android:defaultValue="22"

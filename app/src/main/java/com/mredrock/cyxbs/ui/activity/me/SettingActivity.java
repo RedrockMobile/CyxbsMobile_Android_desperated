@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +19,7 @@ import com.mredrock.cyxbs.event.AffairShowModeEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.network.func.AppWidgetCacheAndUpdateFunc;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.suke.widget.SwitchButton;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,7 +50,7 @@ public class SettingActivity extends BaseActivity {
     @Bind(R.id.setting_share)
     RelativeLayout mSettingShareLayout;
     @Bind(R.id.setting_switch_show)
-    SwitchCompat switchCompat;
+    SwitchButton switchCompat;
 
     private SharedPreferences preferences;
     private boolean currentMode = true;
@@ -101,12 +101,12 @@ public class SettingActivity extends BaseActivity {
         MobclickAgent.onPause(this);
     }
 
-
-    @OnClick(R.id.setting_remind)
-    void clickToRemind() {
-        startActivity(new Intent(this, NewsRemindActivity.class));
-    }
-
+    /*
+        @OnClick(R.id.setting_remind)
+        void clickToRemind() {
+            startActivity(new Intent(this, NewsRemindActivity.class));
+        }
+    */
     @OnClick(R.id.setting_feedback)
     void clickToFeedback() {
 

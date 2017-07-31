@@ -159,5 +159,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jude:easyrecyclerview:4.4.0'
     compile 'com.lapism:searchview:4.0'
+    compile 'com.github.zcweng:switch-button:0.0.3@aar'
     testCompile 'junit:junit:4.12'
 }
