@@ -13,7 +13,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +20,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.TextLimitButton;
-import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
@@ -85,7 +83,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private HotNewsContent mHotNewsContent;
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
-    private DividerItemDecoration mDividerItemDecoration;
     private List<CommentContent> mListComments = null;
     private View mFooterView;
     private boolean isFromMyTrend;
@@ -129,6 +126,9 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         );
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
         mWrapView = new NewsAdapter.NewsViewHolder(mHeaderView);
+        mWrapView.mBtnFavor.setVisibility(View.GONE);
+        mWrapView.mBtnMsg.setVisibility(View.GONE);
+        mWrapView.mDivider.setVisibility(View.GONE);
 
         mWrapView.isFromPersonInfo = getIntent().getBooleanExtra(IS_FROM_PERSON_INFO, false);
         HotNewsContent hotNewsContent = getIntent().getParcelableExtra(START_DATA);
@@ -141,7 +141,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
             mHotNewsContent = hotNewsContent;
             mHotNewsContent.officeNewsContent.content = mHotNewsContent.officeNewsContent.content.replace("\\n", "\n");
             mWrapView.setData(mHotNewsContent, true);
-            if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
             mWrapView.mTextContent.setText(mHotNewsContent.officeNewsContent.content);
             if (mHotNewsContent.typeId < BBDDNews.BBDD || (mHotNewsContent.typeId == 6 && mHotNewsContent.user_id == null))
                 doWithNews(mWrapView, mHotNewsContent.officeNewsContent);
@@ -157,8 +156,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         mRefresh.setOnRefreshListener(this);
         mSpecificNewsCommentAdapter = new SpecificNewsCommentAdapter(mListComments, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mDividerItemDecoration = new DividerItemDecoration(this, LinearLayout.VERTICAL);
-        mRecyclerView.addItemDecoration(mDividerItemDecoration);
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mSpecificNewsCommentAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
@@ -249,15 +246,12 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private void removeFooterView() {
         mHeaderViewRecyclerAdapter.reMoveFooterView();
         mHeaderViewRecyclerAdapter.notifyDataSetChanged();
-        mRecyclerView.removeItemDecoration(mDividerItemDecoration);
-        mRecyclerView.addItemDecoration(mDividerItemDecoration);
     }
 
     private void addFooterView() {
         mFooterView = LayoutInflater.from(this)
                 .inflate(R.layout.list_footer_item_remark, mRecyclerView, false);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterView);
-        mRecyclerView.removeItemDecoration(mDividerItemDecoration);
     }
 
     private void initToolbar() {
@@ -284,9 +278,10 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                     requestComments();
                     mNewsEdtComment.getText().clear();
                     mRecyclerView.scrollToPosition(1);
-                    String msgNumber = Integer.parseInt(mWrapView.mBtnMsg.getText().toString()) + 1 + "";
+                    // TODO: 2017/8/2
+                    /*String msgNumber = Integer.parseInt(mWrapView.mBtnMsg.getText().toString()) + 1 + "";
                     mWrapView.mBtnMsg.setText(msgNumber);
-                    mHotNewsContent.remarkNum = msgNumber;
+                    mHotNewsContent.remarkNum = msgNumber;*/
                     RxBus.getDefault().post(mHotNewsContent);
                 }
 
@@ -324,7 +319,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                         }
                     }
                     mWrapView.setData(mHotNewsContent, true);
-                    if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
                     requestComments();
                 }
             }

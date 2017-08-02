@@ -43,16 +43,15 @@
                     android:maxLines="1"
                     android:text="张二叔"
                     android:textColor="#333333"
-                    android:textSize="14sp"/>
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/list_news_text_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:text="2017-02-11"
                     android:textColor="#999999"
-                    android:textSize="12sp"/>
+                    android:textSize="13sp"/>
             </LinearLayout>
 
             <TextView
@@ -110,6 +109,7 @@
         </com.mredrock.cyxbs.component.widget.ExpandableTextView>
 
         <View
+            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginBottom="15dp"

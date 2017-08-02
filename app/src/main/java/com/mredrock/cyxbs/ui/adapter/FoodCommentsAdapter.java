@@ -40,7 +40,7 @@ public class FoodCommentsAdapter extends BaseRecyclerViewAdapter<FoodComment, Fo
 
     @Override
     public RestaurantCommentsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.item_surrounding_food_detail, parent, false);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.item_comment, parent, false);
         return new RestaurantCommentsViewHolder(view);
     }
 

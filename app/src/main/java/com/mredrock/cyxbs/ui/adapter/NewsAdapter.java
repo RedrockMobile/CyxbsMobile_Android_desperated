@@ -118,6 +118,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         public AutoNineGridlayout mAutoNineGridlayout;
         @Bind(R.id.singleImg)
         public ImageView mImageView;
+        @Bind(R.id.divider)
+        public View mDivider;
 
         public View itemView;
         HotNewsContent mHotNewsContent;
