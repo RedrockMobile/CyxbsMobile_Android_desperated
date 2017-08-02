@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.siyamed.shapeimageview.CircularImageView;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.util.GlideHelper;
@@ -35,7 +35,7 @@ public class FoodCommentsAdapter extends BaseRecyclerViewAdapter<FoodComment, Fo
         holder.mCommentContent.setText(data.comment_content);
         holder.mCommentAuthor.setText(data.comment_author_name);
         holder.mCommentDate.setText(
-                new SchoolCalendar(Long.parseLong(data.comment_date)).getString("yyyy年MM月dd日HH:mm"));
+                new SchoolCalendar(Long.parseLong(data.comment_date)).getString("yyyy-MM-dd"));
     }
 
     @Override
@@ -45,13 +45,13 @@ public class FoodCommentsAdapter extends BaseRecyclerViewAdapter<FoodComment, Fo
     }
 
     public static class RestaurantCommentsViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.food_detail_restaurant_comment_content)
+        @Bind(R.id.comment)
         TextView mCommentContent;
-        @Bind(R.id.food_detail_restaurant_comment_user_img)
-        CircularImageView mCommentUserIcon;
-        @Bind(R.id.food_detail_restaurant_comment_author)
+        @Bind(R.id.avatar)
+        ImageView mCommentUserIcon;
+        @Bind(R.id.name)
         TextView mCommentAuthor;
-        @Bind(R.id.food_detail_restaurant_comment_date)
+        @Bind(R.id.date)
         TextView mCommentDate;
 
         public RestaurantCommentsViewHolder(View itemView) {
