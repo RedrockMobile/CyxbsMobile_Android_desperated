@@ -171,7 +171,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
 
     private void initToolbar() {
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(view -> PersonInfoActivity.this.finish());

@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.multi_image_selector.MultiImageSelectorActivity;
-import com.mredrock.cyxbs.component.widget.TextLimitButton;
 import com.mredrock.cyxbs.component.widget.TopicEditText;
 import com.mredrock.cyxbs.component.widget.ninelayout.NineGridlayout;
 import com.mredrock.cyxbs.model.User;
@@ -49,7 +48,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     @Bind(R.id.toolbar_title)
     TextView mTitleText;
     @Bind(R.id.toolbar_save)
-    TextLimitButton mSend;
+    TextView mSend;
     @Bind(R.id.add_news_edit)
     TopicEditText mAddNewsEdit;
     @Bind(R.id.iv_ngrid_layout)
@@ -141,7 +140,6 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         mImgList = new ArrayList<>();
         mImgList.add(new Image(ADD_IMG, Image.TYPE_ADD));
         mNineGridlayout.setImagesData(mImgList);
-        mSend.addTextView(mAddNewsEdit);
         mNineGridlayout.setOnAddImagItemClickListener((v, position) ->
                 RxPermissions.getInstance(this)
                         .request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)

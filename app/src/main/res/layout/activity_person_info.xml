@@ -9,16 +9,17 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/mToolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_toolbar"
+        android:fitsSystemWindows="true">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/person_info"
-            android:textColor="@color/black_lightly"
-            android:textSize="18sp" />
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"/>
 
     </android.support.v7.widget.Toolbar>
 
@@ -30,7 +31,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
