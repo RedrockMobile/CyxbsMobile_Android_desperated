@@ -439,7 +439,7 @@ public class MainActivity extends BaseActivity {
                     mCourseUnfold.setVisibility(View.GONE);
                     mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
                     mToolbarTitle.setText("社 区");
-                    showMenu();
+                    hiddenMenu();
                     break;
                 case 2:
                     hiddenMenu();
