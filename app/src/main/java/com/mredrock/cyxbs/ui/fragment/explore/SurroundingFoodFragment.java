@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.RevealBackgroundView;
 import com.mredrock.cyxbs.component.widget.recycler.EndlessRecyclerViewScrollListener;
 import com.mredrock.cyxbs.component.widget.recycler.RestaurantsItemAnimator;
 import com.mredrock.cyxbs.model.Food;
@@ -32,8 +30,8 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
 
     private static final String TAG = LogUtils.makeLogTag(SurroundingFoodFragment.class);
 
-    @Bind(R.id.reveal_background)
-    RevealBackgroundView mRevealBackground;
+    /*@Bind(R.id.reveal_background)
+    RevealBackgroundView mRevealBackground;*/
     @Bind(R.id.surrounding_food_rv)
     RecyclerView mSurroundingFoodListRv;
 
@@ -83,7 +81,7 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
                 loadFoodList(page, false);
             }
         });
-
+/*
         enableRevealBackground(mRevealBackground, mDrawingStartLocation,
                 savedInstanceState, state -> {
             if (RevealBackgroundView.STATE_FINISHED == state) {
@@ -93,7 +91,7 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
             } else {
                 mSurroundingFoodListRv.setVisibility(View.INVISIBLE);
             }
-        });
+        });*/
         onRefresh();
     }
 
