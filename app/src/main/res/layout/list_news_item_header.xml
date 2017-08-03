@@ -7,22 +7,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#F6F6F6">
+        android:background="#F6F6F6"
+        android:orientation="vertical">
 
         <include layout="@layout/list_news_item"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="#FFFFFF"
-            android:gravity="center_vertical"
             android:paddingBottom="8dp"
             android:paddingLeft="17dp"
-            android:paddingTop="13dp"
-            android:text="评论"
-            android:textColor="#999999"
-            android:textSize="13sp"/>
+            android:paddingTop="13dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评论"
+                android:textColor="#999999"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/msg_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="0"
+                android:textColor="#999999"
+                android:textSize="13sp"/>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

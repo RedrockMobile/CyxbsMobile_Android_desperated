@@ -81,6 +81,7 @@ public class SpecificNewsActivity extends BaseActivity
     ViewGroup mFavor;
     @Bind(R.id.favor_text)
     TextView mFavorBtn;
+    private TextView mMsgNum;
 
     private NewsAdapter.NewsViewHolder mWrapView;
     private View mHeaderView;
@@ -147,6 +148,7 @@ public class SpecificNewsActivity extends BaseActivity
         mWrapView.mBtnFavor.setVisibility(View.GONE);
         mWrapView.mBtnMsg.setVisibility(View.GONE);
         mWrapView.mDivider.setVisibility(View.GONE);
+        mMsgNum = (TextView) mHeaderView.findViewById(R.id.msg_num);
 
         mWrapView.isFromPersonInfo = getIntent().getBooleanExtra(IS_FROM_PERSON_INFO, false);
         HotNewsContent hotNewsContent = getIntent().getParcelableExtra(START_DATA);
@@ -164,7 +166,8 @@ public class SpecificNewsActivity extends BaseActivity
                 doWithNews(mWrapView, mHotNewsContent.officeNewsContent);
             mFavorBtn.setText(mHotNewsContent.likeNum);
             mFavor.setOnClickListener(this);
-            mFavorBtn.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, hotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor), null, null, null);
+            mMsgNum.setText(mHotNewsContent.remarkNum);
+            mFavorBtn.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, hotNewsContent.isMyLike ? R.drawable.ic_favor_blue_comment : R.drawable.ic_favor_blue_white), null, null, null);
             requestComments();
         } else {
             getDataBeanById(article_id);
@@ -397,10 +400,9 @@ public class SpecificNewsActivity extends BaseActivity
                     requestComments();
                     editText.getText().clear();
                     mRecyclerView.scrollToPosition(1);
-                    // TODO: 2017/8/2
-                    /*String msgNumber = Integer.parseInt(mWrapView.mBtnMsg.getText().toString()) + 1 + "";
-                    mWrapView.mBtnMsg.setText(msgNumber);
-                    mHotNewsContent.remarkNum = msgNumber;*/
+                    String msgNumber = Integer.parseInt(mMsgNum.getText().toString()) + 1 + "";
+                    mMsgNum.setText(msgNumber);
+                    mHotNewsContent.remarkNum = msgNumber;
                     RxBus.getDefault().post(mHotNewsContent);
                     mCommentDialog.dismiss();
                 }

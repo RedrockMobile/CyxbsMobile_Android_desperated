@@ -272,7 +272,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             textView.setText(likeNumber);
             textView.setTextColor(Color.parseColor("#788EFA"));
             textView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat
-                            .getDrawable(textView.getContext(), R.drawable.ic_favor_blue),
+                            .getDrawable(textView.getContext(), isSingle ? R.drawable.ic_favor_blue_comment : R.drawable.ic_favor_blue),
                     null, null, null);
 
         }
