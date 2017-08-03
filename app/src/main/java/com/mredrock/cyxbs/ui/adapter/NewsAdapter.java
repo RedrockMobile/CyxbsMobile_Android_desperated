@@ -2,6 +2,7 @@ package com.mredrock.cyxbs.ui.adapter;
 
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -120,6 +121,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         public ImageView mImageView;
         @Bind(R.id.divider)
         public View mDivider;
+        @Bind(R.id.news_item_card_view)
+        public CardView mCardView;
 
         public View itemView;
         HotNewsContent mHotNewsContent;
@@ -204,7 +207,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                             likeToSetDataAndView(textView, likeNumber);
 
 //                    if (isSingle) RxBus.getDefault().post(mHotNewsContent);
-                            if (isSingle) setData(mHotNewsContent, false);
+//                            if (isSingle) setData(mHotNewsContent, false);
                         }
 
                         @Override
@@ -238,7 +241,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                                     mHotNewsContent.articleId, false));
                             disLikeToSetDataAndView(textView, likeNumber);
 //                    if (isSingle) RxBus.getDefault().post(mHotNewsContent);
-                            if (isSingle) setData(mHotNewsContent, false);
+//                            if (isSingle) setData(mHotNewsContent, false);
                         }
 
                         @Override
@@ -256,9 +259,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mHotNewsContent.isMyLike = false;
             mHotNewsContent.likeNum = likeNumber;
             textView.setText(likeNumber);
-            textView.setTextColor(Color.parseColor("#666666"));
+            textView.setTextColor(isSingle ? Color.parseColor("#788EFA") : Color.parseColor("#666666"));
             textView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat
-                            .getDrawable(textView.getContext(), mHotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor),
+                            .getDrawable(textView.getContext(), isSingle ? R.drawable.ic_favor_blue_white : R.drawable.ic_favor),
                     null, null, null);
         }
 
@@ -269,7 +272,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             textView.setText(likeNumber);
             textView.setTextColor(Color.parseColor("#788EFA"));
             textView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat
-                            .getDrawable(textView.getContext(), mHotNewsContent.isMyLike ? R.drawable.ic_favor_blue : R.drawable.ic_favor),
+                            .getDrawable(textView.getContext(), R.drawable.ic_favor_blue),
                     null, null, null);
 
         }

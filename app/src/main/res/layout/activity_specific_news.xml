@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F6F6F6"
     tools:context=".ui.activity.social.SpecificNewsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="0dp">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_toolbar"
             android:fitsSystemWindows="true"
+            app:layout_scrollFlags="enterAlways|scroll|snap"
             app:navigationIcon="@drawable/ic_back">
 
             <TextView
@@ -51,8 +52,7 @@
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/specific_cardView"
-        android:layout_below="@id/appBarLayout">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -62,46 +62,55 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
-        android:id="@+id/specific_cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/crop__button_bar"
+        android:layout_gravity="bottom"
+        android:background="#FFFFFF"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/news_edt_comment"
+        <LinearLayout
+            android:id="@+id/comment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="4"
-            android:background="@drawable/news_edt"
-            android:hint="@string/news_edt"
-            android:maxHeight="140dp"
-            android:maxLength="500"
-            android:minHeight="32dp"
-            android:scrollbars="vertical"
-            android:selectAllOnFocus="true"
-            android:textColorHint="@color/gray_edit"
-            android:textSize="16sp"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"/>
-
-        <com.mredrock.cyxbs.component.widget.TextLimitButton
-            android:id="@+id/btn_send"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_gravity="bottom"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="发送"
-            android:textColor="@color/white"
-            app:free_background_color="@color/colorAccent"
-            app:limit_background_color="@color/gray_edit"
-            app:min_text_length="0"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_comment_blue"
+                android:drawablePadding="11dp"
+                android:text="评论"
+                android:textColor="#788EFA"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="38dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#E7E6E6"/>
+
+        <LinearLayout
+            android:id="@+id/favor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/favor_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_favor_blue_white"
+                android:drawablePadding="11dp"
+                android:text="0"
+                android:textColor="#788EFA"
+                android:textSize="18sp"/>
+        </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
