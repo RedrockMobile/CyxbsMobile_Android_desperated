@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.mredrock.cyxbs.R;
@@ -18,6 +17,7 @@ import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
 import com.mredrock.cyxbs.ui.activity.explore.electric.ElectricChargeActivity;
 import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
+import com.mredrock.cyxbs.ui.adapter.ExploreRollerViewAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.ui.widget.RollerView;
 import com.mredrock.cyxbs.util.LogUtils;
@@ -101,31 +101,14 @@ public class ExploreFragment extends BaseFragment {
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setCurrentItem(Integer.MAX_VALUE / 2);
         mViewPager.setPageMargin(DensityUtils.dp2px(APP.getContext(), 12));*/
-        mRollerView.setAdapter(new RollerView.RollerViewAdapter() {
-            private final int[] IMAGES = new int[]{
-                    R.drawable.img_cqupt1,
-                    R.drawable.img_cqupt2,
-                    R.drawable.img_cqupt3,
-                    R.drawable.img_cqupt1,
-                    R.drawable.img_cqupt2,
-                    R.drawable.img_cqupt3
-            };
 
-            @Override
-            public int getItemCount() {
-                return IMAGES.length;
-            }
-
-            @Override
-            public View getView(ViewGroup container, int position) {
-                LayoutInflater layoutInflater = LayoutInflater.from(container.getContext());
-                View view1 = layoutInflater
-                        .inflate(R.layout.item_explore_roller_view, null, false);
-                ImageView imageView = (ImageView) view1.findViewById(R.id.image);
-                imageView.setImageResource(IMAGES[position]);
-                return view1;
-            }
-        });
+        mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(), new int[]{
+                R.drawable.img_cqupt1,
+                R.drawable.img_cqupt2,
+                R.drawable.img_cqupt3,
+                R.drawable.img_cqupt1,
+                R.drawable.img_cqupt2,
+                R.drawable.img_cqupt3}));
         return view;
     }
 

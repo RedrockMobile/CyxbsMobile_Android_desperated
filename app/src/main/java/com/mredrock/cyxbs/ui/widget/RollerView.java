@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -71,7 +70,7 @@ public class RollerView extends FrameLayout implements Runnable, ViewPager.PageT
     }
 
     private void showMultiPage() {
-        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setOffscreenPageLimit(0);
         mViewPager.setPageMargin(mPageMargin);
 
         mViewPager.setClipChildren(false);
@@ -140,10 +139,6 @@ public class RollerView extends FrameLayout implements Runnable, ViewPager.PageT
     @Override
     public void transformPage(View view, float position) {
         final float minAlpha = 0.5f;
-        CardView cardView;
-        if (view instanceof CardView) {
-            cardView = (CardView) view;
-        }
         if (position < -1) {
             view.setAlpha(minAlpha);
             view.setScaleX(mPageScale);
@@ -188,7 +183,7 @@ public class RollerView extends FrameLayout implements Runnable, ViewPager.PageT
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            removeView((View) object);
+            container.removeView((View) object);
         }
     }
 
