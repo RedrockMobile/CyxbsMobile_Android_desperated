@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#F6F6F6"
     tools:context=".ui.activity.MainActivity">
 
     <LinearLayout
@@ -18,58 +18,79 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="12dp"
-            app:aspectRatio="1.79"
             app:EdgePageSize="32dp"
+            app:aspectRatio="1.79"
             app:pageScale="0.89"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingLeft="17dp"
+            android:paddingRight="17dp"
+            android:paddingTop="20dp">
 
-            <LinearLayout
-                android:id="@+id/explore_portal_holder"
+            <android.support.v7.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="@dimen/explore_holder_height"
+                android:layout_height="125dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_explore_holder"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:background="?attr/selectableItemBackground">
 
-                <ImageView
-                    android:layout_width="@dimen/explore_image_size"
-                    android:layout_height="@dimen/explore_image_size"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_portal"/>
+                <LinearLayout
+                    android:id="@+id/explore_portal_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/explore_portal"/>
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="41dp"
+                        android:layout_height="37dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_portal"/>
 
-            <LinearLayout
-                android:id="@+id/explore_map_holder"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="21dp"
+                        android:text="@string/explore_portal"
+                        android:textColor="#666666"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="@dimen/explore_holder_height"
+                android:layout_height="125dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_explore_holder"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:background="?attr/selectableItemBackground">
 
-                <ImageView
-                    android:layout_width="@dimen/explore_image_size"
-                    android:layout_height="@dimen/explore_image_size"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_map"/>
+                <LinearLayout
+                    android:id="@+id/explore_map_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/explore_map"/>
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="35dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_map"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="21dp"
+                        android:text="重邮地图"
+                        android:textColor="#666666"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
             <LinearLayout
                 android:id="@+id/explore_what_to_eat_holder"
@@ -79,7 +100,8 @@
                 android:background="@drawable/bg_explore_holder"
                 android:clickable="true"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/explore_image_size"
@@ -98,51 +120,71 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="17dp"
+            android:paddingRight="17dp">
 
-            <LinearLayout
-                android:id="@+id/explore_surrounding_food_holder"
+            <android.support.v7.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="@dimen/explore_holder_height"
+                android:layout_height="125dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_explore_holder"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:background="?attr/selectableItemBackground">
 
-                <ImageView
-                    android:layout_width="@dimen/explore_image_size"
-                    android:layout_height="@dimen/explore_image_size"
-                    android:src="@drawable/ic_around_food"/>
+                <LinearLayout
+                    android:id="@+id/explore_surrounding_food_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/explore_around_food"/>
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="39dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_find_food"/>
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="21dp"
+                        android:text="吃什么"
+                        android:textColor="#666666"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-            <LinearLayout
-                android:id="@+id/explore_electric_query_holder"
+            <android.support.v7.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="@dimen/explore_holder_height"
+                android:layout_height="125dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_explore_holder"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:background="?attr/selectableItemBackground">
 
-                <ImageView
-                    android:layout_width="@dimen/explore_image_size"
-                    android:layout_height="@dimen/explore_image_size"
-                    android:src="@drawable/ic_eletric"/>
+                <LinearLayout
+                    android:id="@+id/explore_electric_query_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/explore_electric"/>
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_around_food"/>
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="21dp"
+                        android:text="周边美食"
+                        android:textColor="#666666"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
             <LinearLayout
                 android:id="@+id/explore_lost_and_found_holder"
@@ -152,7 +194,8 @@
                 android:background="@drawable/bg_explore_holder"
                 android:clickable="true"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/explore_image_size"
@@ -164,11 +207,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/lost_and_found"/>
             </LinearLayout>
-
-
         </LinearLayout>
-
     </LinearLayout>
-
 </ScrollView>
 
