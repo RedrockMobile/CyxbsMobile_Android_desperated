@@ -8,19 +8,18 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.jude.rollviewpager.RollPagerView;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.RollViewPagerHint;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
 import com.mredrock.cyxbs.ui.activity.explore.electric.ElectricChargeActivity;
 import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
-import com.mredrock.cyxbs.ui.adapter.ExploreRollViewPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
+import com.mredrock.cyxbs.ui.widget.RollerView;
 import com.mredrock.cyxbs.util.LogUtils;
 
 import butterknife.Bind;
@@ -34,8 +33,8 @@ public class ExploreFragment extends BaseFragment {
 
     private static final String TAG = LogUtils.makeLogTag(ExploreFragment.class);
 
-    @Bind(R.id.explore_roll_view_pager)
-    RollPagerView mRollViewPager;
+    @Bind(R.id.rollerView)
+    RollerView mRollerView;
     @Bind(R.id.explore_what_to_eat_holder)
     LinearLayout mWhatToEatHolder;
     @Bind(R.id.explore_surrounding_food_holder)
@@ -44,7 +43,7 @@ public class ExploreFragment extends BaseFragment {
     @OnClick(R.id.explore_portal_holder)
     void clickToPortal() {
         if (isAdded()) {
-           // WebViewUtils.showPortalWebView(getActivity(), Const.REDROCK_PORTAL);
+            // WebViewUtils.showPortalWebView(getActivity(), Const.REDROCK_PORTAL);
             Uri uri = Uri.parse(Const.REDROCK_PORTAL);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             getActivity().startActivity(intent);
@@ -82,6 +81,7 @@ public class ExploreFragment extends BaseFragment {
     void clickToElectricQuery() {
         getActivity().startActivity(new Intent(getActivity(), ElectricChargeActivity.class));
     }
+
     @OnClick(R.id.explore_lost_and_found_holder)
     void clickToLostAndFound() {
         LostActivity.start(getActivity());
@@ -92,8 +92,40 @@ public class ExploreFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
         ButterKnife.bind(this, view);
-        mRollViewPager.setAdapter(new ExploreRollViewPagerAdapter(mRollViewPager));
-        mRollViewPager.setHintView(new RollViewPagerHint(getContext()));
+        /*mViewPager.setAdapter(new ExploreViewPagerAdapter());
+        ViewGroup.LayoutParams params = mViewPager.getLayoutParams();
+        params.width = DensityUtils.getScreenWidth(APP.getContext())
+                - DensityUtils.dp2px(APP.getContext(), 70);
+        params.height = (int) (params.width * 0.65);
+        mViewPager.setLayoutParams(params);
+        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setCurrentItem(Integer.MAX_VALUE / 2);
+        mViewPager.setPageMargin(DensityUtils.dp2px(APP.getContext(), 12));*/
+        mRollerView.setAdapter(new RollerView.RollerViewAdapter() {
+            private final int[] IMAGES = new int[]{
+                    R.drawable.img_cqupt1,
+                    R.drawable.img_cqupt2,
+                    R.drawable.img_cqupt3,
+                    R.drawable.img_cqupt1,
+                    R.drawable.img_cqupt2,
+                    R.drawable.img_cqupt3
+            };
+
+            @Override
+            public int getItemCount() {
+                return IMAGES.length;
+            }
+
+            @Override
+            public View getView(ViewGroup container, int position) {
+                LayoutInflater layoutInflater = LayoutInflater.from(container.getContext());
+                View view1 = layoutInflater
+                        .inflate(R.layout.item_explore_roller_view, null, false);
+                ImageView imageView = (ImageView) view1.findViewById(R.id.image);
+                imageView.setImageResource(IMAGES[position]);
+                return view1;
+            }
+        });
         return view;
     }
 

@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.ui;
+package com.mredrock.cyxbs.ui.widget;
 
 import android.content.Context;
 import android.preference.TwoStatePreference;

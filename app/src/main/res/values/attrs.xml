@@ -85,4 +85,13 @@
         <attr name="limit_background_color" format="color"/>
         <attr name="free_background_color" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="RollerView">
+        <attr name="pageMargin" format="dimension"/>
+        <attr name="EdgePageSize" format="dimension"/>
+        <attr name="pageScale" format="float"/>
+        <attr name="aspectRatio" format="float"/>
+        <attr name="showMultiPage" format="boolean"/>
+        <attr name="delay" format="integer"/>
+    </declare-styleable>
 </resources>

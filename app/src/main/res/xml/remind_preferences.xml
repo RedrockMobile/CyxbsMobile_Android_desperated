@@ -4,7 +4,7 @@
         android:layout="@layout/preference_title"
         android:title="每节课之前告诉我就好啦">
 
-        <com.mredrock.cyxbs.ui.JSwitchPreference
+        <com.mredrock.cyxbs.ui.widget.JSwitchPreference
             android:defaultValue="false"
             android:key="remind_every_class"
             android:layout="@layout/preference_item"
@@ -12,7 +12,7 @@
             android:title="每课推送"
             android:widgetLayout="@layout/preference_switch"/>
 
-        <com.mredrock.cyxbs.ui.JListPreference
+        <com.mredrock.cyxbs.ui.widget.JListPreference
             android:defaultValue="30"
             android:dialogTitle="提醒时间"
             android:entries="@array/remind_every_class"
@@ -27,7 +27,7 @@
         android:layout="@layout/preference_title"
         android:title="每天告诉我一次就好啦">
 
-        <com.mredrock.cyxbs.ui.JSwitchPreference
+        <com.mredrock.cyxbs.ui.widget.JSwitchPreference
             android:defaultValue="false"
             android:key="remind_every_day"
             android:layout="@layout/preference_item"
@@ -35,7 +35,7 @@
             android:title="每日推送"
             android:widgetLayout="@layout/preference_switch"/>
 
-        <com.mredrock.cyxbs.ui.JListPreference
+        <com.mredrock.cyxbs.ui.widget.JListPreference
             android:defaultValue="22"
             android:entries="@array/remind_every_day"
             android:entryValues="@array/remind_every_day_back"

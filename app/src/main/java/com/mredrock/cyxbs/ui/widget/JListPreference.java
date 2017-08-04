@@ -1,4 +1,4 @@
-package com.mredrock.cyxbs.ui;
+package com.mredrock.cyxbs.ui.widget;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,8 +6,6 @@ import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.mredrock.cyxbs.ui.widget.PickerBottomSheetDialog;
 
 /**
  * Created by Jay on 2017/7/26.

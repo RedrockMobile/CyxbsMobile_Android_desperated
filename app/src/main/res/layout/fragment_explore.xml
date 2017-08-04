@@ -1,4 +1,5 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,19 +10,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <com.jude.rollviewpager.RollPagerView
-            android:id="@+id/explore_roll_view_pager"
+        <com.mredrock.cyxbs.ui.widget.RollerView
+            android:id="@+id/rollerView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/explore_roll_viewpager_height"
-            android:scaleType="fitXY"
-            app:rollviewpager_hint_color="#7c7c7c"
-            app:rollviewpager_hint_paddingBottom="16dp"
-            app:rollviewpager_hint_paddingLeft="16dp"
-            app:rollviewpager_hint_paddingRight="16dp"
-            app:rollviewpager_hint_paddingTop="16dp"
-            app:rollviewpager_play_delay="3000" />
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            app:aspectRatio="1.79"
+            app:EdgePageSize="32dp"
+            app:pageScale="0.89"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,12 +41,12 @@
                     android:layout_width="@dimen/explore_image_size"
                     android:layout_height="@dimen/explore_image_size"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_portal" />
+                    android:src="@drawable/ic_portal"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/explore_portal" />
+                    android:text="@string/explore_portal"/>
             </LinearLayout>
 
             <LinearLayout
@@ -64,12 +63,12 @@
                     android:layout_width="@dimen/explore_image_size"
                     android:layout_height="@dimen/explore_image_size"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_map" />
+                    android:src="@drawable/ic_map"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/explore_map" />
+                    android:text="@string/explore_map"/>
             </LinearLayout>
 
             <LinearLayout
@@ -86,12 +85,12 @@
                     android:layout_width="@dimen/explore_image_size"
                     android:layout_height="@dimen/explore_image_size"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_find_food" />
+                    android:src="@drawable/ic_find_food"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/explore_eat" />
+                    android:text="@string/explore_eat"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -114,12 +113,12 @@
                 <ImageView
                     android:layout_width="@dimen/explore_image_size"
                     android:layout_height="@dimen/explore_image_size"
-                    android:src="@drawable/ic_around_food" />
+                    android:src="@drawable/ic_around_food"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/explore_around_food" />
+                    android:text="@string/explore_around_food"/>
 
             </LinearLayout>
 
@@ -136,12 +135,12 @@
                 <ImageView
                     android:layout_width="@dimen/explore_image_size"
                     android:layout_height="@dimen/explore_image_size"
-                    android:src="@drawable/ic_eletric" />
+                    android:src="@drawable/ic_eletric"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/explore_electric" />
+                    android:text="@string/explore_electric"/>
 
             </LinearLayout>
 
@@ -158,12 +157,12 @@
                 <ImageView
                     android:layout_width="@dimen/explore_image_size"
                     android:layout_height="@dimen/explore_image_size"
-                    android:src="@drawable/ic_lost" />
+                    android:src="@drawable/ic_lost"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/lost_and_found" />
+                    android:text="@string/lost_and_found"/>
             </LinearLayout>
 
 
