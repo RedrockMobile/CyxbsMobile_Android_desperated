@@ -80,7 +80,8 @@ public class EditTextBottomSheetDialog extends BottomSheetDialog implements View
         setContentView(R.layout.dialog_edit_bottom_sheet);
 
         mCancel = (ImageView) findViewById(R.id.cancel);
-        mSend = (TextView) findViewById(R.id.send);
+        mSend = (TextView) findViewById(R.id.sure);
+        mSend.setText("发送");
         mEditText = (EditText) findViewById(R.id.edit_text);
         mCancel.setOnClickListener(this);
         mSend.setOnClickListener(this);
@@ -112,7 +113,7 @@ public class EditTextBottomSheetDialog extends BottomSheetDialog implements View
                 dismiss();
                 break;
 
-            case R.id.send:
+            case R.id.sure:
                 mOnClickListener.onSend(mEditText);
                 break;
         }

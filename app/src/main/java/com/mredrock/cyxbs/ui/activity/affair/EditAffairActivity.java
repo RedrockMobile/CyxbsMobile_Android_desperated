@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
@@ -35,6 +36,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -88,7 +90,7 @@ public class EditAffairActivity extends BaseActivity {
     public void showChooseRemindDialog(View v) {
         KeyboardUtils.hideInput(v);
         if (mPickRemindDialog == null) {
-            initPickRemidDialog();
+            initPickRemindDialog();
         }
         mPickRemindDialog.show();
     }
@@ -101,23 +103,7 @@ public class EditAffairActivity extends BaseActivity {
             initPickWeekDialog();
         }
         mPickWeekDialog.show();
-        /*intro();*/
-
-        /*@OnClick(R.id.edit_affair_iv_week_ok)
-    public void onWeekChooseOkClick() {
-        weeks.clear();
-        weeks.addAll(mWeekAdapter.getWeeks());
-        if (weeks.size() != 0){
-            Collections.sort(weeks);
-            LogUtils.LOGE("EditAffairActivity", weeks.toString());
-            String data = weeks.toString();
-            data = data.substring(1, data.length() - 1);
-            mWeekText.setText("第" + data + "周");
-        }else{
-            mWeekText.setText("选择周数");
-        }
-        intro();
-    }*/
+        TableLayout tableLayout;
     }
 
     @OnClick(R.id.choose_time)
@@ -387,7 +373,7 @@ public class EditAffairActivity extends BaseActivity {
     private void initPickWeekDialog() {
         mPickWeekDialog = new BottomSheetDialog(this);
         View itemView = LayoutInflater.from(this).inflate(R.layout.dialog_pick_week, null, false);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this,
+        GridLayoutManager layoutManager = new GridLayoutManager(this,
                 Math.max(1, DensityUtils.getScreenWidth(this) / DensityUtils.dp2px(this, 100)));
         RecyclerView rv = (RecyclerView) itemView.findViewById(R.id.recyclerView);
         rv.setLayoutManager(layoutManager);
@@ -396,11 +382,25 @@ public class EditAffairActivity extends BaseActivity {
         View cancel = itemView.findViewById(R.id.cancel);
         View sure = itemView.findViewById(R.id.sure);
         cancel.setOnClickListener(v -> mPickWeekDialog.dismiss());
-        sure.setOnClickListener(v -> mPickWeekDialog.dismiss());
+        sure.setOnClickListener(v -> {
+            weeks.clear();
+            weeks.addAll(mWeekAdapter.getWeeks());
+            if (weeks.size() != 0) {
+                Collections.sort(weeks);
+                String data = weeks.toString();
+                data = data.substring(1, data.length() - 1);
+                mWeekText.setText("第" + data + "周");
+                mWeekText.setTextColor(Color.parseColor("#666666"));
+            } else {
+                mWeekText.setText("选择周数");
+                mWeekText.setTextColor(Color.parseColor("#999999"));
+            }
+            mPickWeekDialog.dismiss();
+        });
         mPickWeekDialog.setContentView(itemView);
     }
 
-    private void initPickRemidDialog() {
+    private void initPickRemindDialog() {
         mPickRemindDialog = new PickerBottomSheetDialog(this);
         mPickRemindDialog.setData(TIMES);
         mPickRemindDialog.setOnClickListener(new PickerBottomSheetDialog.OnClickListener() {
