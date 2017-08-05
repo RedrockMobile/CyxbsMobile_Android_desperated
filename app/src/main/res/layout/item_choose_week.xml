@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_tv_choose_week"
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-   android:layout_margin="15dp"
-    android:background="@drawable/circle_text_normal"
-
+    android:layout_width="100dp"
+    android:layout_height="32dp"
+    android:background="@drawable/tv_border_black"
     android:gravity="center"
     android:text="第三周"
-    android:textColor="#595959"
-    android:textSize="12sp" />
-
+    android:textColor="#666666"
+    android:textSize="13sp"/>

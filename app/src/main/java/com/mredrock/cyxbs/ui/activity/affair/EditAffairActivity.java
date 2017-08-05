@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -23,6 +25,9 @@ import com.mredrock.cyxbs.event.TimeChooseEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.mredrock.cyxbs.ui.widget.PickerBottomSheetDialog;
+import com.mredrock.cyxbs.util.DensityUtils;
+import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.mredrock.cyxbs.util.database.DBManager;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -76,25 +81,27 @@ public class EditAffairActivity extends BaseActivity {
     private WeekAdapter mWeekAdapter;
     private ArrayList<Position> positions = new ArrayList<>();
     private int time = 0;
-
+    private BottomSheetDialog mPickWeekDialog;
+    private PickerBottomSheetDialog mPickRemindDialog;
 
     @OnClick(R.id.choose_remind)
     public void showChooseRemindDialog(View v) {
-        // TODO: 2017/8/5 提醒
-        /*KeyboardUtils.hideInput(v);
-        new AlertDialog.Builder(this).setTitle("选择提醒时间")
-                .setItems(TIMES, (dialog, i) -> {
-                    mRemindText.setText(TIMES[i]);
-                    time = TIME_MINUTE[i];
-                }).show();*/
-
+        KeyboardUtils.hideInput(v);
+        if (mPickRemindDialog == null) {
+            initPickRemidDialog();
+        }
+        mPickRemindDialog.show();
     }
 
     @OnClick(R.id.choose_week)
     public void showChooseWeekDialog(View v) {
         // TODO: 2017/8/5 选择周数
-        /*KeyboardUtils.hideInput(v);
-        intro();*/
+        KeyboardUtils.hideInput(v);
+        if (mPickWeekDialog == null) {
+            initPickWeekDialog();
+        }
+        mPickWeekDialog.show();
+        /*intro();*/
 
         /*@OnClick(R.id.edit_affair_iv_week_ok)
     public void onWeekChooseOkClick() {
@@ -375,10 +382,41 @@ public class EditAffairActivity extends BaseActivity {
 
     private void initView() {
         initToolbar();
-        /*RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
-        mRecyclerView.setLayoutManager(layoutManager);
+    }
+
+    private void initPickWeekDialog() {
+        mPickWeekDialog = new BottomSheetDialog(this);
+        View itemView = LayoutInflater.from(this).inflate(R.layout.dialog_pick_week, null, false);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this,
+                Math.max(1, DensityUtils.getScreenWidth(this) / DensityUtils.dp2px(this, 100)));
+        RecyclerView rv = (RecyclerView) itemView.findViewById(R.id.recyclerView);
+        rv.setLayoutManager(layoutManager);
         mWeekAdapter = new WeekAdapter();
-        mRecyclerView.setAdapter(mWeekAdapter);*/
+        rv.setAdapter(mWeekAdapter);
+        View cancel = itemView.findViewById(R.id.cancel);
+        View sure = itemView.findViewById(R.id.sure);
+        cancel.setOnClickListener(v -> mPickWeekDialog.dismiss());
+        sure.setOnClickListener(v -> mPickWeekDialog.dismiss());
+        mPickWeekDialog.setContentView(itemView);
+    }
+
+    private void initPickRemidDialog() {
+        mPickRemindDialog = new PickerBottomSheetDialog(this);
+        mPickRemindDialog.setData(TIMES);
+        mPickRemindDialog.setOnClickListener(new PickerBottomSheetDialog.OnClickListener() {
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onSure(String value, int position) {
+                time = position;
+                mRemindText.setTextColor(position == 0 ?
+                        Color.parseColor("#999999") : Color.parseColor("#666666"));
+                mRemindText.setText(value);
+            }
+        });
     }
 
     private void initToolbar() {
@@ -474,24 +512,24 @@ public class EditAffairActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(WeekAdapter.WeekViewHolder holder, int position) {
-            holder.mTextView.setBackgroundResource(R.drawable.circle_text_normal);
-            holder.mTextView.setTextColor(Color.parseColor("#595959"));
+            holder.mTextView.setBackgroundResource(R.drawable.tv_border_black);
+            holder.mTextView.setTextColor(Color.parseColor("#666666"));
             holder.isChoose = false;
             holder.mTextView.setText(weeks.get(position));
             if (mWeeks.contains(position + 1)) {
                 holder.mTextView.setTextColor(Color.parseColor("#ffffff"));
-                holder.mTextView.setBackgroundResource(R.drawable.circle_text_pressed);
+                holder.mTextView.setBackgroundResource(R.drawable.tv_border_blue);
                 holder.isChoose = true;
             }
             holder.mTextView.setOnClickListener((v) -> {
                 if (holder.isChoose) {
-                    holder.mTextView.setBackgroundResource(R.drawable.circle_text_normal);
-                    holder.mTextView.setTextColor(Color.parseColor("#595959"));
+                    holder.mTextView.setBackgroundResource(R.drawable.tv_border_black);
+                    holder.mTextView.setTextColor(Color.parseColor("#666666"));
                     mWeeks.remove(position + 1);
                     holder.isChoose = false;
                 } else {
                     holder.mTextView.setTextColor(Color.parseColor("#ffffff"));
-                    holder.mTextView.setBackgroundResource(R.drawable.circle_text_pressed);
+                    holder.mTextView.setBackgroundResource(R.drawable.tv_border_blue);
                     mWeeks.add(position + 1);
                     holder.isChoose = true;
                 }
