@@ -40,6 +40,7 @@
             android:background="@null"
             android:ellipsize="start"
             android:hint="请输入标题"
+            android:maxLength="15"
             android:maxLines="1"
             android:textColor="#666666"
             android:textColorHint="#999999"
@@ -85,6 +86,7 @@
             android:ellipsize="start"
             android:gravity="top"
             android:hint="请编辑内容......"
+            android:maxLength="100"
             android:textColor="#666666"
             android:textColorHint="#999999"
             android:textSize="14sp"/>
@@ -150,11 +152,6 @@
         android:layout_height="1dp"
         android:background="#EFEFEF"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#EFEFEF"/>
-
     <LinearLayout
         android:id="@+id/choose_time"
         android:layout_width="match_parent"
@@ -208,8 +205,13 @@
         </RelativeLayout>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EFEFEF"/>
+
     <LinearLayout
-        android:id="@+id/is_remind"
+        android:id="@+id/choose_remind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"

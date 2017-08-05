@@ -5,50 +5,33 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.MalformedJsonException;
-import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Position;
-import com.mredrock.cyxbs.event.AffairAddEvent;
-import com.mredrock.cyxbs.event.AffairModifyEvent;
 import com.mredrock.cyxbs.event.TimeChooseEvent;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.AffairApi;
-import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.network.exception.RedrockApiException;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
-import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
-import com.mredrock.cyxbs.util.KeyboardUtils;
-import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.database.DBManager;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -95,33 +78,25 @@ public class EditAffairActivity extends BaseActivity {
     private int time = 0;
 
 
-    @OnClick(R.id.edit_affair_remind_layout)
-    public void onRemindTimeClick(View v) {
-        KeyboardUtils.hideInput(v);
+    @OnClick(R.id.choose_remind)
+    public void showChooseRemindDialog(View v) {
+        // TODO: 2017/8/5 提醒
+        /*KeyboardUtils.hideInput(v);
         new AlertDialog.Builder(this).setTitle("选择提醒时间")
                 .setItems(TIMES, (dialog, i) -> {
                     mRemindText.setText(TIMES[i]);
                     time = TIME_MINUTE[i];
-                }).show();
+                }).show();*/
 
     }
 
-    @OnClick(R.id.edit_affair_weeks_layout)
-    public void onWeekChooseClick(View v) {
-        KeyboardUtils.hideInput(v);
-        intro();
-        //behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-    }
+    @OnClick(R.id.choose_week)
+    public void showChooseWeekDialog(View v) {
+        // TODO: 2017/8/5 选择周数
+        /*KeyboardUtils.hideInput(v);
+        intro();*/
 
-    @OnClick(R.id.edit_affair_time_layout)
-    public void onTimeChooseClick(View v) {
-        KeyboardUtils.hideInput(v);
-        Intent i = new Intent(this, TimeChooseActivity.class);
-        i.putExtra(TimeChooseActivity.BUNDLE_KEY, positions);
-        startActivity(i);
-    }
-
-    @OnClick(R.id.edit_affair_iv_week_ok)
+        /*@OnClick(R.id.edit_affair_iv_week_ok)
     public void onWeekChooseOkClick() {
         weeks.clear();
         weeks.addAll(mWeekAdapter.getWeeks());
@@ -135,166 +110,167 @@ public class EditAffairActivity extends BaseActivity {
             mWeekText.setText("选择周数");
         }
         intro();
-
-
+    }*/
     }
 
-    @SuppressWarnings("unchecked")
-    @OnClick({R.id.edit_affair_iv_save, R.id.edit_affair_iv_back})
-    public void onSaveClick(View v) {
-        Log.e(TAG, "onNext: " + isStartByCourse );
+    @OnClick(R.id.choose_time)
+    public void showChooseTimeDialog(View v) {
+        // TODO: 2017/8/5 选择时间
+        /*KeyboardUtils.hideInput(v);
+        Intent i = new Intent(this, TimeChooseActivity.class);
+        i.putExtra(TimeChooseActivity.BUNDLE_KEY, positions);
+        startActivity(i);*/
+    }
 
-        KeyboardUtils.hideInput(v);
-        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        if (v.getId() == R.id.edit_affair_iv_save) {
-            String title = mTitleEdit.getText().toString();
-            String content = mContentEdit.getText().toString();
-            if (title.trim().isEmpty()) {
-                Toast.makeText(APP.getContext(), "标题不能为空哦", Toast.LENGTH_SHORT).show();
-            } else if (weeks.size() == 0 || positions.size() == 0) {
-                Toast.makeText(APP.getContext(), "时间或周数不能为空哦", Toast.LENGTH_SHORT).show();
+    /*
+        @SuppressWarnings("unchecked")
+        public void submit(View v) {
+            KeyboardUtils.hideInput(v);
+            if (v.getId() == R.id.edit_affair_iv_save) {
+                String title = mTitleEdit.getText().toString();
+                String content = mContentEdit.getText().toString();
+                if (title.trim().isEmpty()) {
+                    Toast.makeText(APP.getContext(), "标题不能为空哦", Toast.LENGTH_SHORT).show();
+                } else if (weeks.size() == 0 || positions.size() == 0) {
+                    Toast.makeText(APP.getContext(), "时间或周数不能为空哦", Toast.LENGTH_SHORT).show();
+                } else {
+                    DBManager dbManager = DBManager.INSTANCE;
+                    Affair affair = new Affair();
+                    AffairApi.AffairItem affairItem = new AffairApi.AffairItem();
+                    Gson gson = new Gson();
+                    Random ne = new Random();
+                    String x;
+                    if (uid == null)
+                        x = System.currentTimeMillis() + "" + (ne.nextInt(9999 - 1000 + 1) + 1000);//为变量赋随机值10009999
+                    else {
+                        x = uid;
+                    }
+                    affairItem.setContent(content);
+                    affairItem.setTime(time);
+                    affairItem.setId(x);
+                    affairItem.setTitle(title);
+
+
+                    for (Position p : positions) {
+                        AffairApi.AffairItem.DateBean date = new AffairApi.AffairItem.DateBean();
+                        date.setClassX(p.getY());
+                        date.setDay(p.getX());
+                        date.getWeek().addAll(mWeekAdapter.getWeeks());
+                        affairItem.getDate().add(date);
+                    }
+                    affair.week = affairItem.getDate().get(0).getWeek();
+                    if (!isStartByCourse) {
+                        RequestManager.getInstance().addAffair(new SimpleSubscriber<Object>(this, true, false, new SubscriberListener<Object>() {
+                            @Override
+                            public void onCompleted() {
+                                super.onCompleted();
+                                dbManager.insert(true, x, APP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem))
+                                        .subscribeOn(Schedulers.io())
+                                        .unsubscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new Subscriber() {
+                                            @Override
+                                            public void onCompleted() {
+                                                EventBus.getDefault().post(new AffairAddEvent(affair));
+                                                onBackPressed();
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+
+                                            }
+
+                                            @Override
+                                            public void onNext(Object o) {
+
+                                            }
+                                        });
+                            }
+
+                            @Override
+                            public boolean onError(Throwable e) {
+                                if (e instanceof SocketTimeoutException)
+                                    Toast.makeText(EditAffairActivity.this, "连接超时，检查一下网络哦", Toast.LENGTH_SHORT).show();
+                                else if (e instanceof RedrockApiException)
+                                    Toast.makeText(EditAffairActivity.this, "服务器出了点小毛病，请稍后再试", Toast.LENGTH_SHORT).show();
+                                else if (e instanceof MalformedJsonException) {
+
+                                }
+                                return true;
+
+                            }
+
+                            @Override
+                            public void onNext(Object object) {
+                                super.onNext(object);
+                                // LOGE("EditAffairActivity",redrockApiWrapper.id);
+                            }
+
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                            }
+                        }), APP.getUser(this).stuNum, APP.getUser(this).idNum, x, title, content, gson.toJson(affairItem.getDate()), affairItem.getTime());
+                    } else {
+                        //  Log.e(TAG, "onSaveClick: isStartByCourse");
+                        RequestManager.getInstance().editAffair(new SimpleSubscriber<Object>(this, true, false, new SubscriberListener<Object>() {
+                            @Override
+                            public void onCompleted() {
+                                super.onCompleted();
+                                dbManager.insert(true, x, APP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem), true)
+                                        .subscribeOn(Schedulers.io())
+                                        .unsubscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new Subscriber() {
+                                            @Override
+                                            public void onCompleted() {
+                                                EventBus.getDefault().post(new AffairModifyEvent());
+                                                onBackPressed();
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+
+                                            }
+
+                                            @Override
+                                            public void onNext(Object o) {
+
+                                            }
+                                        });
+                            }
+
+                            @Override
+                            public boolean onError(Throwable e) {
+                                if (e instanceof SocketTimeoutException)
+                                    Toast.makeText(EditAffairActivity.this, "连接超时，检查一下网络哦", Toast.LENGTH_SHORT).show();
+                                else if (e instanceof RedrockApiException)
+                                    Toast.makeText(EditAffairActivity.this, "服务器出了点小毛病，请稍后再试", Toast.LENGTH_SHORT).show();
+                                else if (e instanceof MalformedJsonException) {
+                                    Toast.makeText(EditAffairActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.e(TAG, "onError: " + e.getMessage());
+                                }
+                                return true;
+                            }
+
+                            @Override
+                            public void onNext(Object object) {
+                                super.onNext(object);
+                                // LOGE("EditAffairActivity",redrockApiWrapper.id);
+                            }
+
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                            }
+                        }), APP.getUser(this).stuNum, APP.getUser(this).idNum, x, title, content, gson.toJson(affairItem.getDate()), affairItem.getTime());
+                    }
+                }
             } else {
-                DBManager dbManager = DBManager.INSTANCE;
-                Affair affair = new Affair();
-                AffairApi.AffairItem affairItem = new AffairApi.AffairItem();
-                Gson gson = new Gson();
-                Random ne = new Random();
-                String x;
-                if (uid == null)
-                    x = System.currentTimeMillis() + "" + (ne.nextInt(9999 - 1000 + 1) + 1000);//为变量赋随机值10009999
-                else{
-                    x = uid;
-                }
-                affairItem.setContent(content);
-                affairItem.setTime(time);
-                affairItem.setId(x);
-                affairItem.setTitle(title);
-
-
-                for (Position p : positions){
-                    AffairApi.AffairItem.DateBean date = new AffairApi.AffairItem.DateBean();
-                    date.setClassX(p.getY());
-                    date.setDay(p.getX());
-                    date.getWeek().addAll(mWeekAdapter.getWeeks());
-                    affairItem.getDate().add(date);
+                onBackPressed();
             }
-                affair.week = affairItem.getDate().get(0).getWeek();
-                if (!isStartByCourse){
-                    RequestManager.getInstance().addAffair(new SimpleSubscriber<Object>(this, true, false, new SubscriberListener<Object>() {
-                        @Override
-                        public void onCompleted() {
-                            super.onCompleted();
-                            dbManager.insert(true,x,APP.getUser(EditAffairActivity.this).stuNum,gson.toJson(affairItem))
-                                    .subscribeOn(Schedulers.io())
-                                    .unsubscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber() {
-                                        @Override
-                                        public void onCompleted() {
-                                            EventBus.getDefault().post(new AffairAddEvent(affair));
-                                            onBackPressed();
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-
-                                        }
-
-                                        @Override
-                                        public void onNext(Object o) {
-
-                                        }
-                                    });
-                        }
-
-                        @Override
-                        public boolean onError(Throwable e) {
-                            if (e instanceof SocketTimeoutException)
-                                Toast.makeText(EditAffairActivity.this, "连接超时，检查一下网络哦", Toast.LENGTH_SHORT).show();
-                            else if (e instanceof RedrockApiException)
-                                Toast.makeText(EditAffairActivity.this, "服务器出了点小毛病，请稍后再试", Toast.LENGTH_SHORT).show();
-                            else if (e instanceof MalformedJsonException){
-
-                            }
-                            return true;
-
-                        }
-
-                        @Override
-                        public void onNext(Object object) {
-                            super.onNext(object);
-                            // LOGE("EditAffairActivity",redrockApiWrapper.id);
-                        }
-
-                        @Override
-                        public void onStart() {
-                            super.onStart();
-                        }
-                    }),APP.getUser(this).stuNum,APP.getUser(this).idNum,x,title,content,gson.toJson(affairItem.getDate()),affairItem.getTime());
-                }else {
-                  //  Log.e(TAG, "onSaveClick: isStartByCourse");
-                    RequestManager.getInstance().editAffair(new SimpleSubscriber<Object>(this, true, false, new SubscriberListener<Object>() {
-                        @Override
-                        public void onCompleted() {
-                            super.onCompleted();
-                            dbManager.insert(true,x,APP.getUser(EditAffairActivity.this).stuNum,gson.toJson(affairItem),true)
-                                    .subscribeOn(Schedulers.io())
-                                    .unsubscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber() {
-                                        @Override
-                                        public void onCompleted() {
-                                            EventBus.getDefault().post(new AffairModifyEvent());
-                                            onBackPressed();
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-
-                                        }
-
-                                        @Override
-                                        public void onNext(Object o) {
-
-                                        }
-                                    });
-                        }
-
-                        @Override
-                        public boolean onError(Throwable e) {
-                            if (e instanceof SocketTimeoutException)
-                                Toast.makeText(EditAffairActivity.this, "连接超时，检查一下网络哦", Toast.LENGTH_SHORT).show();
-                            else if (e instanceof RedrockApiException)
-                                Toast.makeText(EditAffairActivity.this, "服务器出了点小毛病，请稍后再试", Toast.LENGTH_SHORT).show();
-                            else if (e instanceof MalformedJsonException){
-                                Toast.makeText(EditAffairActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, "onError: " + e.getMessage() );
-                            }
-                            return true;
-                        }
-
-                        @Override
-                        public void onNext(Object object) {
-                            super.onNext(object);
-                           // LOGE("EditAffairActivity",redrockApiWrapper.id);
-                        }
-
-                        @Override
-                        public void onStart() {
-                            super.onStart();
-                        }
-                    }),APP.getUser(this).stuNum,APP.getUser(this).idNum,x,title,content,gson.toJson(affairItem.getDate()),affairItem.getTime());
-                }
-
-
-            }
-        } else {
-            onBackPressed();
         }
-
-
-    }
-
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -302,21 +278,32 @@ public class EditAffairActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
 
-        if (!initData())
-            initCourse();
-        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        /*if (!initData())
+            initCourse();*/
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_affair, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.submit) {
+            // TODO: 2017/8/5 提交
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initCourse() {
-
-        Affair course =  getIntent().getParcelableExtra(COURSE_KEY);
+        Affair course = getIntent().getParcelableExtra(COURSE_KEY);
         if (course == null)
             return;
-        uid =course.uid;
+        uid = course.uid;
         isStartByCourse = true;
         setData(course);
-
 
         DBManager.INSTANCE.queryItem(uid).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -328,20 +315,19 @@ public class EditAffairActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
                     }
 
                     @Override
                     public void onNext(AffairApi.AffairItem affairItem) {
-                        if(affairItem != null){
-                            behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                        if (affairItem != null) {
                             mWeekAdapter.addAllWeekNum(affairItem.getDate().get(0).getWeek());
-                            onWeekChooseOkClick();
+                            //onWeekChooseOkClick();
                             StringBuilder builder = new StringBuilder();
                             for (AffairApi.AffairItem.DateBean dateBean : affairItem.getDate()) {
                                 Position position = new Position(dateBean.getDay(), dateBean.getClassX());
                                 positions.add(position);
-                                for (int i = 0; i < positions.size() && i < 3; i++)   {
+                                for (int i = 0; i < positions.size() && i < 3; i++) {
                                     builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
                                 }
                             }
@@ -350,7 +336,6 @@ public class EditAffairActivity extends BaseActivity {
                             mContentEdit.setText(affairItem.getContent());
                             mRemindText.setText(TIMES[transferTimeToText(course.time)]);
                             mRemindText.setText(TIME_MINUTE[transferTimeToText(course.time)]);
-                            behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                         }
 
                     }
@@ -361,7 +346,7 @@ public class EditAffairActivity extends BaseActivity {
         mTitleEdit.setText(course.course);
         mContentEdit.setText(course.teacher);
         mWeekAdapter.addAllWeekNum(course.week);
-        onWeekChooseOkClick();
+        //onWeekChooseOkClick();
         Position position = new Position(course.hash_day, course.hash_lesson);
         positions.add(position);
         StringBuilder builder = new StringBuilder();
@@ -382,27 +367,33 @@ public class EditAffairActivity extends BaseActivity {
         int currentWeek = getIntent().getIntExtra(WEEK_NUMBER, -1);
         if (currentWeek != -1) {
             mWeekAdapter.addWeekNum(currentWeek);
-            onWeekChooseOkClick();
+            //onWeekChooseOkClick();
             return true;
         }
         return false;
     }
 
     private void initView() {
-        behavior = BottomSheetBehavior.from(findViewById(R.id.scroll));
-        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        mTitleEdit.setOnFocusChangeListener((view, b) -> {
-            if (b)
-                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        });
-        mContentEdit.setOnFocusChangeListener((view, b) -> {
-            if (b)
-                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        });
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
+        initToolbar();
+        /*RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
         mRecyclerView.setLayoutManager(layoutManager);
         mWeekAdapter = new WeekAdapter();
-        mRecyclerView.setAdapter(mWeekAdapter);
+        mRecyclerView.setAdapter(mWeekAdapter);*/
+    }
+
+    private void initToolbar() {
+        if (mToolbar != null) {
+            mToolbar.setTitle("");
+            mToolbarTitle.setText("编辑备忘");
+            setSupportActionBar(mToolbar);
+            mToolbar.setNavigationIcon(R.drawable.ic_back);
+            mToolbar.setNavigationOnClickListener(v -> EditAffairActivity.this.finish());
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeButtonEnabled(true);
+            }
+        }
     }
 
     public static void editAffairActivityStart(Context context, int weekNum) {
@@ -417,24 +408,8 @@ public class EditAffairActivity extends BaseActivity {
         context.startActivity(starter);
     }
 
-    public void intro() {
-        if (behavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
-            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        } else {
-            behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (behavior.getState() != BottomSheetBehavior.STATE_HIDDEN)
-            behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        else
-            super.onBackPressed();
-    }
-
-    private int transferTimeToText(int time){
-        int index = 0;
+    private int transferTimeToText(int time) {
+        int index;
         switch (time) {
             case 5:
                 index = 1;

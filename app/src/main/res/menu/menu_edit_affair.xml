@@ -3,8 +3,8 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_add_news"
-        android:icon="@drawable/ic_add_circle_white"
-        android:title="add News"
+        android:id="@+id/submit"
+        android:icon="@drawable/ic_finish"
+        android:title="submit"
         app:showAsAction="always"/>
 </menu>
