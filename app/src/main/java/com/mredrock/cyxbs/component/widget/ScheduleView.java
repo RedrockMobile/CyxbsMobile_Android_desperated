@@ -196,7 +196,7 @@ public class ScheduleView extends FrameLayout {
         }
         // gd.setColor(showMode ? colorSelector.getCourseColor() : colorSelector.getAffairColor(course.begin_lesson,course.hash_day));
         cardView.setBackgroundDrawable(gd);
-        tvTop.setOnClickListener(v -> {
+        cardView.setOnClickListener(v -> {
             CourseList courseList = new CourseList();
             courseList.list.addAll(courses.list);
             CourseDialog.show(getContext(), courseList);
