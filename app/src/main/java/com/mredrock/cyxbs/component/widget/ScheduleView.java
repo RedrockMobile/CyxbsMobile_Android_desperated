@@ -156,8 +156,7 @@ public class ScheduleView extends FrameLayout {
         flParams.topMargin = mTop;
         flParams.leftMargin = mLeft;
         cardView.setLayoutParams(flParams);
-        cardView.setCardElevation(DensityUtils.dp2px(context, 3));
-        cardView.setRadius(DensityUtils.dp2px(context, 16));
+        cardView.setCardElevation(DensityUtils.dp2px(context, 2));
 
         FrameLayout textContainer = new FrameLayout(context);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

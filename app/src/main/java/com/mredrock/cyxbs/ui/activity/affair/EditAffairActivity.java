@@ -9,6 +9,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,29 +73,21 @@ public class EditAffairActivity extends BaseActivity {
     private final String[] CLASSES = {"一二节", "三四节", "五六节", "七八节", "九十节", "AB节"};
     private boolean isStartByCourse = false;
     private String uid;
-    BottomSheetBehavior behavior;
 
-
-    @Bind(R.id.edit_affair_remind_layout)
-    RelativeLayout chooseRemindTimeLayout;
-
-    @Bind(R.id.edit_affair_tv_remind_time)
-    TextView mRemindTimeText;
-
-    @Bind(R.id.edit_affair_tv_weeks)
+    @Bind(R.id.remind_text)
+    TextView mRemindText;
+    @Bind(R.id.week_text)
     TextView mWeekText;
-
-    @Bind(R.id.edit_affair_tv_choose_time)
-    TextView mTimeChooseText;
-
-    @Bind(R.id.edit_affair_rv_weeks_list)
-    RecyclerView mRecyclerView;
-
-    @Bind(R.id.edit_affair_et_content)
+    @Bind(R.id.time_text)
+    TextView mTimeText;
+    @Bind(R.id.content)
     EditText mContentEdit;
-
-    @Bind(R.id.edit_affair_et_title)
+    @Bind(R.id.title)
     EditText mTitleEdit;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+    @Bind(R.id.toolbar_title)
+    TextView mToolbarTitle;
 
     private List<Integer> weeks = new ArrayList<>();
     private WeekAdapter mWeekAdapter;
@@ -107,7 +100,7 @@ public class EditAffairActivity extends BaseActivity {
         KeyboardUtils.hideInput(v);
         new AlertDialog.Builder(this).setTitle("选择提醒时间")
                 .setItems(TIMES, (dialog, i) -> {
-                    mRemindTimeText.setText(TIMES[i]);
+                    mRemindText.setText(TIMES[i]);
                     time = TIME_MINUTE[i];
                 }).show();
 
@@ -139,7 +132,7 @@ public class EditAffairActivity extends BaseActivity {
             data = data.substring(1, data.length() - 1);
             mWeekText.setText("第" + data + "周");
         }else{
-            mWeekText.setText("请选择周数");
+            mWeekText.setText("选择周数");
         }
         intro();
 
@@ -352,11 +345,11 @@ public class EditAffairActivity extends BaseActivity {
                                     builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
                                 }
                             }
-                            mTimeChooseText.setText(builder.toString());
+                            mTimeText.setText(builder.toString());
                             mTitleEdit.setText(affairItem.getTitle());
                             mContentEdit.setText(affairItem.getContent());
-                            mRemindTimeText.setText(TIMES[transferTimeToText(course.time)]);
-                            mRemindTimeText.setText(TIME_MINUTE[transferTimeToText(course.time)]);
+                            mRemindText.setText(TIMES[transferTimeToText(course.time)]);
+                            mRemindText.setText(TIME_MINUTE[transferTimeToText(course.time)]);
                             behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                         }
 
@@ -372,11 +365,11 @@ public class EditAffairActivity extends BaseActivity {
         Position position = new Position(course.hash_day, course.hash_lesson);
         positions.add(position);
         StringBuilder builder = new StringBuilder();
-        mRemindTimeText.setText(TIMES[transferTimeToText(course.time)]);
+        mRemindText.setText(TIMES[transferTimeToText(course.time)]);
         for (int i = 0; i < positions.size() && i < 3; i++) {
             builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
         }
-        mTimeChooseText.setText(builder.toString());
+        mTimeText.setText(builder.toString());
 
     }
 
@@ -384,7 +377,7 @@ public class EditAffairActivity extends BaseActivity {
         Position position = (Position) getIntent().getSerializableExtra(BUNDLE_KEY);
         if (position != null) {
             positions.add(position);
-            mTimeChooseText.setText(WEEKS[position.getX()] + CLASSES[position.getY()]);
+            mTimeText.setText(WEEKS[position.getX()] + CLASSES[position.getY()]);
         }
         int currentWeek = getIntent().getIntExtra(WEEK_NUMBER, -1);
         if (currentWeek != -1) {
@@ -473,7 +466,7 @@ public class EditAffairActivity extends BaseActivity {
         for (int i = 0; i < positions.size() && i < 3; i++) {
             stringBuffer.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
         }
-        mTimeChooseText.setText(stringBuffer.toString());
+        mTimeText.setText(stringBuffer.toString());
     }
 
 
