@@ -26,9 +26,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class ScheduleView extends FrameLayout {
-
-    private int width;
-    private int height;
+    private int width = (DensityUtils.getScreenWidth(getContext()) - DensityUtils.dp2px(getContext(), 31)) / 7;
+    private int height = DensityUtils.dp2px(getContext(), 100);
     private CourseColorSelector colorSelector = new CourseColorSelector();
     public CourseList[][] course = new CourseList[7][7];
 
@@ -65,15 +64,6 @@ public class ScheduleView extends FrameLayout {
         super(context);
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        width = getMeasuredWidth() / 7;
-        if (height == 0) {
-            height = getMeasuredHeight() / 6;
-        }
-    }
-
     private void initCourse() {
         for (int i = 0; i < 7; i++) {
             if (course[i] == null)
@@ -82,10 +72,6 @@ public class ScheduleView extends FrameLayout {
     }
 
     public void addContentView(List<Course> data) {
-        if (width == 0) {
-            post(() -> addContentView(data));
-            return;
-        }
         removeAllViews();
         initCourse();
         if (data != null) {
@@ -183,7 +169,7 @@ public class ScheduleView extends FrameLayout {
         tvBottom.setText(course.getCourseType() == 1 ? course.classroom : " ");
 
         GradientDrawable gd = new GradientDrawable();
-        gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
+        gd.setCornerRadius(DensityUtils.dp2px(getContext(), 3));
         if (course.getCourseType() == 1)
             gd.setColor(colorSelector.getCourseColor(course.begin_lesson, course.hash_day));
         else {
