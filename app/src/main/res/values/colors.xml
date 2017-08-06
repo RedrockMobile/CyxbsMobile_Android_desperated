@@ -16,6 +16,7 @@
     <color name="tabIndicatorColor">#7196FA</color>
     <color name="tab_background_pressed">#1Affffff</color>
     <color name="tabText">#999999</color>
+    <color name="tabTextColorBlack">#666666</color>
 
 
     <!--TextColor start -->

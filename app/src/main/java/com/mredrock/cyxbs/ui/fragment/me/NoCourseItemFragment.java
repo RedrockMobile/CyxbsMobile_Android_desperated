@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.ui.fragment.me;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -47,11 +48,9 @@ public class NoCourseItemFragment extends BaseFragment {
     @Bind(R.id.no_course_time)
     LinearLayout noCourseTime;
     @Bind(R.id.no_course_schedule_content)
-    NoScheduleView
-            noCourseScheduleContent;
+    NoScheduleView noCourseScheduleContent;
     @Bind(R.id.no_course_swipe_refresh_layout)
-    SwipeRefreshLayout
-            noCourseSwipeRefreshLayout;
+    SwipeRefreshLayout noCourseSwipeRefreshLayout;
 
     private Map<String, List<Course>> mCourseMap;
     private ArrayList<String> mStuNumList;
@@ -60,10 +59,10 @@ public class NoCourseItemFragment extends BaseFragment {
 
     private int mWeek;
     private int count;
-    private int[] mTodayWeekIds = {R.id.view_no_course_today_7,
-            R.id.view_no_course_today_1, R.id.view_no_course_today_2,
-            R.id.view_no_course_today_3, R.id.view_no_course_today_4,
-            R.id.view_no_course_today_5, R.id.view_no_course_today_6};
+    private int[] mTodayWeekIds = {R.id.view_course_today_7,
+            R.id.view_course_today_1, R.id.view_course_today_2,
+            R.id.view_course_today_3, R.id.view_course_today_4,
+            R.id.view_course_today_5, R.id.view_course_today_6};
 
     public NoCourseItemFragment() {
 
@@ -121,29 +120,16 @@ public class NoCourseItemFragment extends BaseFragment {
 
 
     private void initView() {
-        //星期和时间TextView
-        TextView blank = new TextView(getActivity());
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                DensityUtils.dp2px(getContext(), 25f),
-                (LinearLayout.LayoutParams.MATCH_PARENT));
-        layoutParams.leftMargin = DensityUtils.dp2px(getContext(), 1f);
-        blank.setLayoutParams(layoutParams);
-        blank.setBackgroundColor(
-                getResources().getColor(R.color.no_course_day_background));
-        noCourseWeek.addView(blank);
         String[] data = getResources().getStringArray(R.array.no_schedule_week);
         for (int i = 0; i < 7; i++) {
             TextView tv = new TextView(getActivity());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.MATCH_PARENT, 1);
-            params.leftMargin = DensityUtils.dp2px(getContext(), 1f);
+                    LinearLayout.LayoutParams.WRAP_CONTENT, 1);
             tv.setLayoutParams(params);
             tv.setText(data[i]);
-            tv.setTextColor(getResources().getColor(R.color.no_course_day));
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+            tv.setTextColor(Color.parseColor("#7097FA"));
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
             tv.setGravity(Gravity.CENTER);
-            tv.setBackgroundColor(
-                    getResources().getColor(R.color.no_course_day_background));
             noCourseWeek.addView(tv);
         }
         for (int i = 0; i < 12; i++) {
@@ -151,10 +137,9 @@ public class NoCourseItemFragment extends BaseFragment {
             tv.setLayoutParams(new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, 0, 1));
             tv.setText(i + 1 + "");
-            tv.setTextColor(getResources().getColor(R.color.no_course_time));
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            tv.setTextColor(Color.parseColor("#7097FA"));
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
             tv.setGravity(Gravity.CENTER);
-            tv.setHeight(DensityUtils.dp2px(getContext(), 50));
             noCourseTime.addView(tv);
             if (i % 2 != 0) {
                 View divider = new TextView(getActivity());

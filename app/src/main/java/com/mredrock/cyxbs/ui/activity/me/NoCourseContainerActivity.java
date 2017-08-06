@@ -69,7 +69,7 @@ public class NoCourseContainerActivity extends BaseActivity {
             toolbar.setTitle("");
             toolbarTitle.setText("没课约");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
             toolbar.setNavigationOnClickListener(v -> NoCourseContainerActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
