@@ -22,7 +22,6 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
-import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 
 import java.util.ArrayList;
@@ -141,17 +140,9 @@ public class NoCourseItemFragment extends BaseFragment {
             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
             tv.setGravity(Gravity.CENTER);
             noCourseTime.addView(tv);
-            if (i % 2 != 0) {
-                View divider = new TextView(getActivity());
-                divider.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        DensityUtils.dp2px(getActivity(), 1)));
-                divider.setBackgroundColor(getResources().getColor(
-                        R.color.no_course_time_divider));
-                noCourseTime.addView(divider);
-            }
         }
-        if (mWeek == new SchoolCalendar().getWeekOfTerm()) showTodayWeek();
+        if (mWeek == new SchoolCalendar().getWeekOfTerm())
+            showTodayWeek();
 
         noCourseSwipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getContext(), R.color.colorAccent),

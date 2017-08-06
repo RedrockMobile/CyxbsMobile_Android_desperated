@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.component.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 public class NoScheduleView extends FrameLayout {
 
-    private final int width = (int) ((DensityUtils.getScreenWidth(getContext()) - DensityUtils.dp2px(getContext(), 26)) / 7);
+    private final int width = (int) ((DensityUtils.getScreenWidth(getContext()) - DensityUtils.dp2px(getContext(), 31)) / 7);
     private final int height = (int) (DensityUtils.dp2px(getContext(), 100));
     private NoCourseColorSelector colorSelector = new NoCourseColorSelector();
     public NoCourse[][] noCourseArray = new NoCourse[7][7];
@@ -71,16 +72,25 @@ public class NoScheduleView extends FrameLayout {
 
 
     private void createTextView(NoCourse noCourse, int week) {
-        TextView textView = new TextView(getContext());
         int top = height * noCourse.hash_lesson;
         int left = width * noCourse.hash_day;
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                (width - DensityUtils.dp2px(getContext(), 1f)), (height - DensityUtils.dp2px(getContext(), 1f)));
-        params.topMargin = top + DensityUtils.dp2px(getContext(), 1f);
-        params.leftMargin = left + DensityUtils.dp2px(getContext(), 1f);
-        textView.setLayoutParams(params);
+        LayoutParams cardParams = new LayoutParams(
+                (width - DensityUtils.dp2px(getContext(), 2f)), (height - DensityUtils.dp2px(getContext(), 2f)));
+        cardParams.topMargin = top + DensityUtils.dp2px(getContext(), 1f);
+        cardParams.leftMargin = left + DensityUtils.dp2px(getContext(), 1f);
+
+        CardView cardView = new CardView(getContext());
+        cardView.setPadding(DensityUtils.dp2px(context, 4), DensityUtils.dp2px(context, 2),
+                DensityUtils.dp2px(context, 4), DensityUtils.dp2px(context, 2));
+        cardView.setLayoutParams(cardParams);
+        cardView.setCardElevation(DensityUtils.dp2px(context, 2));
+
+        LayoutParams textParams = new LayoutParams(
+                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        TextView textView = new TextView(getContext());
+        textView.setLayoutParams(textParams);
         textView.setTextColor(Color.WHITE);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
         textView.setGravity(Gravity.CENTER);
         StringBuilder sb = new StringBuilder();
         if (week == 0) {
@@ -103,14 +113,15 @@ public class NoScheduleView extends FrameLayout {
                 }
             }
         }
-        textView.setText(sb+"有空");
+        textView.setText(sb.toString());
         GradientDrawable gd = new GradientDrawable();
-        gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
+        gd.setCornerRadius(DensityUtils.dp2px(getContext(), 3));
         gd.setColor(colorSelector.getNoCourseColor(noCourse.hash_day,
                 noCourse.hash_lesson));
-        textView.setBackgroundDrawable(gd);
-        textView.setOnClickListener(v -> showDetailDialog(noCourse));
-        addView(textView);
+        cardView.setBackgroundDrawable(gd);
+        cardView.setOnClickListener(v -> showDetailDialog(noCourse));
+        cardView.addView(textView);
+        addView(cardView);
         if (week == 0 && noCourse.names.size() > 2) {
             addDropTriangle(top, left);
         } else if (noCourse.names.size() > 5) {
@@ -164,16 +175,12 @@ public class NoScheduleView extends FrameLayout {
 
     public static class NoCourseColorSelector {
         private int[] colors = new int[]{
-                Color.argb(200, 254, 145, 103),
-                Color.argb(200, 120, 201, 252),
-                Color.argb(200, 111, 219, 188),
-                Color.argb(200, 191, 161, 233),
+                Color.parseColor("#FF89A5"),
+                Color.parseColor("#FFBF7B"),
+                Color.parseColor("#81B6FE")
         };
 
         public int getNoCourseColor(int hashDay, int hashLesson) {
-            if (hashDay == 5 || hashDay == 6) {
-                return colors[3];
-            }
             switch (hashLesson) {
                 case 0:
                 case 1:
