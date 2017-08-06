@@ -3,16 +3,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-
-    <include
+    <com.mredrock.cyxbs.component.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        layout="@layout/cmp_customer_actionbar" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_toolbar"
+        android:fitsSystemWindows="true"/>
 
     <FrameLayout
         android:id="@+id/image_grid"
-        android:background="#181819"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:background="#181819"/>
 </LinearLayout>

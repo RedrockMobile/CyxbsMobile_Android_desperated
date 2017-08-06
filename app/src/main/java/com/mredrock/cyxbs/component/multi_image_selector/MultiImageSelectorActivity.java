@@ -1,14 +1,16 @@
 package com.mredrock.cyxbs.component.multi_image_selector;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.Button;
 
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.component.widget.Toolbar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,13 +54,23 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
     public static final int MODE_MULTI = 1;
 
     private ArrayList<String> resultList = new ArrayList<>();
-    private Button mSubmitButton;
     private int mDefaultCount;
+    private Toolbar mToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
         Intent intent = getIntent();
         mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, 9);
         int mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI);
@@ -77,25 +89,26 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
                 .add(R.id.image_grid, Fragment.instantiate(this, MultiImageSelectorFragment.class.getName(), bundle))
                 .commit();
 
-        // 返回按钮
-        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
-        });
-
-        // 完成按钮
-        mSubmitButton = (Button) findViewById(R.id.commit);
+        initToolBar();
         if (resultList == null || resultList.size() <= 0) {
-            mSubmitButton.setText(R.string.action_done);
-            mSubmitButton.setEnabled(false);
+            mToolBar.setRightText(getResources().getString(R.string.action_done));
         } else {
             updateDoneText();
-            mSubmitButton.setEnabled(true);
         }
-        mSubmitButton.setOnClickListener(view -> {
+    }
+
+    private void initToolBar() {
+        mToolBar = (Toolbar) findViewById(R.id.toolbar);
+        mToolBar.setTitle("图片");
+
+        mToolBar.setLeftText("取消");
+        mToolBar.setLeftTextListener(v -> {
+            setResult(RESULT_CANCELED);
+            finish();
+        });
+
+        mToolBar.setRightText("完成");
+        mToolBar.setRightTextListener(v -> {
             if (resultList != null && resultList.size() > 0) {
                 // 返回已选择的图片数据
                 Intent data = new Intent();
@@ -107,7 +120,7 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
     }
 
     private void updateDoneText() {
-        mSubmitButton.setText(String.format("%s(%d/%d)",
+        mToolBar.setRightText(String.format("%s(%d/%d)",
                 getString(R.string.action_done), resultList.size(), mDefaultCount));
     }
 
@@ -128,9 +141,6 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
         // 有图片之后，改变按钮状态
         if (resultList.size() > 0) {
             updateDoneText();
-            if (!mSubmitButton.isEnabled()) {
-                mSubmitButton.setEnabled(true);
-            }
         }
     }
 
@@ -142,8 +152,7 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
         updateDoneText();
         // 当为选择图片时候的状态
         if (resultList.size() == 0) {
-            mSubmitButton.setText(R.string.action_done);
-            mSubmitButton.setEnabled(false);
+            mToolBar.setRightText("完成");
         }
     }
 
