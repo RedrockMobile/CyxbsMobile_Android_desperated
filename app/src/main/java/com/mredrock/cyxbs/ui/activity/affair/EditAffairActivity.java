@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,9 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
@@ -81,10 +83,11 @@ public class EditAffairActivity extends BaseActivity {
 
     private List<Integer> weeks = new ArrayList<>();
     private WeekAdapter mWeekAdapter;
-    private ArrayList<Position> positions = new ArrayList<>();
+    private ArrayList<Position> mPositions = new ArrayList<>();
     private int time = 0;
     private BottomSheetDialog mPickWeekDialog;
     private PickerBottomSheetDialog mPickRemindDialog;
+    private BottomSheetDialog mPickTimeDialog;
 
     @OnClick(R.id.choose_remind)
     public void showChooseRemindDialog(View v) {
@@ -97,21 +100,24 @@ public class EditAffairActivity extends BaseActivity {
 
     @OnClick(R.id.choose_week)
     public void showChooseWeekDialog(View v) {
-        // TODO: 2017/8/5 选择周数
         KeyboardUtils.hideInput(v);
         if (mPickWeekDialog == null) {
             initPickWeekDialog();
         }
         mPickWeekDialog.show();
-        TableLayout tableLayout;
     }
 
     @OnClick(R.id.choose_time)
     public void showChooseTimeDialog(View v) {
         // TODO: 2017/8/5 选择时间
-        /*KeyboardUtils.hideInput(v);
+        KeyboardUtils.hideInput(v);
+        if (mPickTimeDialog == null) {
+            initPickTimeDialog();
+        }
+        mPickTimeDialog.show();
+/*
         Intent i = new Intent(this, TimeChooseActivity.class);
-        i.putExtra(TimeChooseActivity.BUNDLE_KEY, positions);
+        i.putExtra(TimeChooseActivity.BUNDLE_KEY, mPositions);
         startActivity(i);*/
     }
 
@@ -124,7 +130,7 @@ public class EditAffairActivity extends BaseActivity {
                 String content = mContentEdit.getText().toString();
                 if (title.trim().isEmpty()) {
                     Toast.makeText(APP.getContext(), "标题不能为空哦", Toast.LENGTH_SHORT).show();
-                } else if (weeks.size() == 0 || positions.size() == 0) {
+                } else if (weeks.size() == 0 || mPositions.size() == 0) {
                     Toast.makeText(APP.getContext(), "时间或周数不能为空哦", Toast.LENGTH_SHORT).show();
                 } else {
                     DBManager dbManager = DBManager.INSTANCE;
@@ -144,7 +150,7 @@ public class EditAffairActivity extends BaseActivity {
                     affairItem.setTitle(title);
 
 
-                    for (Position p : positions) {
+                    for (Position p : mPositions) {
                         AffairApi.AffairItem.DateBean date = new AffairApi.AffairItem.DateBean();
                         date.setClassX(p.getY());
                         date.setDay(p.getX());
@@ -319,9 +325,9 @@ public class EditAffairActivity extends BaseActivity {
                             StringBuilder builder = new StringBuilder();
                             for (AffairApi.AffairItem.DateBean dateBean : affairItem.getDate()) {
                                 Position position = new Position(dateBean.getDay(), dateBean.getClassX());
-                                positions.add(position);
-                                for (int i = 0; i < positions.size() && i < 3; i++) {
-                                    builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
+                                mPositions.add(position);
+                                for (int i = 0; i < mPositions.size() && i < 3; i++) {
+                                    builder.append(WEEKS[mPositions.get(i).getX()] + CLASSES[mPositions.get(i).getY()] + " ");
                                 }
                             }
                             mTimeText.setText(builder.toString());
@@ -341,11 +347,11 @@ public class EditAffairActivity extends BaseActivity {
         mWeekAdapter.addAllWeekNum(course.week);
         //onWeekChooseOkClick();
         Position position = new Position(course.hash_day, course.hash_lesson);
-        positions.add(position);
+        mPositions.add(position);
         StringBuilder builder = new StringBuilder();
         mRemindText.setText(TIMES[transferTimeToText(course.time)]);
-        for (int i = 0; i < positions.size() && i < 3; i++) {
-            builder.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
+        for (int i = 0; i < mPositions.size() && i < 3; i++) {
+            builder.append(WEEKS[mPositions.get(i).getX()] + CLASSES[mPositions.get(i).getY()] + " ");
         }
         mTimeText.setText(builder.toString());
 
@@ -354,7 +360,7 @@ public class EditAffairActivity extends BaseActivity {
     private boolean initData() {
         Position position = (Position) getIntent().getSerializableExtra(BUNDLE_KEY);
         if (position != null) {
-            positions.add(position);
+            mPositions.add(position);
             mTimeText.setText(WEEKS[position.getX()] + CLASSES[position.getY()]);
         }
         int currentWeek = getIntent().getIntExtra(WEEK_NUMBER, -1);
@@ -368,6 +374,76 @@ public class EditAffairActivity extends BaseActivity {
 
     private void initView() {
         initToolbar();
+    }
+
+    private void initPickTimeDialog() {
+        mPickTimeDialog = new BottomSheetDialog(this);
+        View itemView = LayoutInflater.from(this).inflate(R.layout.dialog_pick_time, null, false);
+        mPickTimeDialog.setContentView(itemView);
+
+        itemView.findViewById(R.id.divider).setVisibility(View.GONE);
+        GridView gridView = (GridView) itemView.findViewById(R.id.gridView);
+        int numCol = 7;
+        int size = (DensityUtils.getScreenWidth(this) - DensityUtils.dp2px(this, 35 + 6)) / 7;
+        ArrayList<Position> positions = new ArrayList<>(mPositions);
+        gridView.setNumColumns(numCol);
+        gridView.setAdapter(new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return 7 * CLASSES.length;
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return positions.contains(new Position(position % numCol, position / numCol));
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                CardView cardView = new CardView(EditAffairActivity.this);
+                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, size);
+                cardView.setLayoutParams(layoutParams);
+                Position position1 = new Position(position % numCol, position / numCol);
+                if (positions.contains(position1)) {
+                    cardView.setBackgroundResource(R.drawable.shape_rectangle_blue_fill);
+                    cardView.setCardElevation(DensityUtils.dp2px(parent.getContext(), 2));
+                } else {
+                    cardView.setCardElevation(0);
+                    cardView.setBackgroundColor(Color.WHITE);
+                }
+                return cardView;
+            }
+        });
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+            CardView cardView = (CardView) view;
+            Position position1 = new Position(position % numCol, position / numCol);
+            if (positions.contains(position1)) {
+                cardView.setBackgroundColor(Color.WHITE);
+                cardView.setCardElevation(0);
+                positions.remove(position1);
+            } else {
+                cardView.setBackgroundResource(R.drawable.shape_rectangle_blue_fill);
+                cardView.setCardElevation(DensityUtils.dp2px(this, 2));
+                positions.add(position1);
+            }
+        });
+
+        itemView.findViewById(R.id.cancel).setOnClickListener(v -> {
+            positions.clear();
+            positions.addAll(mPositions);
+            mPickTimeDialog.dismiss();
+        });
+        itemView.findViewById(R.id.sure).setOnClickListener(v -> {
+            mPositions.clear();
+            mPositions.addAll(positions);
+            mPickTimeDialog.dismiss();
+        });
     }
 
     private void initPickWeekDialog() {
@@ -473,11 +549,11 @@ public class EditAffairActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTimeChooseEvent(TimeChooseEvent event) {
-        positions.clear();
-        positions.addAll(event.getPositions());
+        mPositions.clear();
+        mPositions.addAll(event.getPositions());
         StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i < positions.size() && i < 3; i++) {
-            stringBuffer.append(WEEKS[positions.get(i).getX()] + CLASSES[positions.get(i).getY()] + " ");
+        for (int i = 0; i < mPositions.size() && i < 3; i++) {
+            stringBuffer.append(WEEKS[mPositions.get(i).getX()] + CLASSES[mPositions.get(i).getY()] + " ");
         }
         mTimeText.setText(stringBuffer.toString());
     }
@@ -512,24 +588,24 @@ public class EditAffairActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(WeekAdapter.WeekViewHolder holder, int position) {
-            holder.mTextView.setBackgroundResource(R.drawable.tv_border_black);
+            holder.mTextView.setBackgroundResource(R.drawable.shape_rectangle_grey_stroke);
             holder.mTextView.setTextColor(Color.parseColor("#666666"));
             holder.isChoose = false;
             holder.mTextView.setText(weeks.get(position));
             if (mWeeks.contains(position + 1)) {
                 holder.mTextView.setTextColor(Color.parseColor("#ffffff"));
-                holder.mTextView.setBackgroundResource(R.drawable.tv_border_blue);
+                holder.mTextView.setBackgroundResource(R.drawable.shape_rectangle_blue_gradient);
                 holder.isChoose = true;
             }
             holder.mTextView.setOnClickListener((v) -> {
                 if (holder.isChoose) {
-                    holder.mTextView.setBackgroundResource(R.drawable.tv_border_black);
+                    holder.mTextView.setBackgroundResource(R.drawable.shape_rectangle_grey_stroke);
                     holder.mTextView.setTextColor(Color.parseColor("#666666"));
                     mWeeks.remove(position + 1);
                     holder.isChoose = false;
                 } else {
                     holder.mTextView.setTextColor(Color.parseColor("#ffffff"));
-                    holder.mTextView.setBackgroundResource(R.drawable.tv_border_blue);
+                    holder.mTextView.setBackgroundResource(R.drawable.shape_rectangle_blue_gradient);
                     mWeeks.add(position + 1);
                     holder.isChoose = true;
                 }

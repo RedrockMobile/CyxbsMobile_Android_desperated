@@ -60,7 +60,7 @@
                 android:layout_height="29dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/tv_border"
+                android:background="@drawable/shape_rectangle_blue_stroke"
                 android:gravity="center"
                 android:text="下载附件"
                 android:textColor="#788EFA"

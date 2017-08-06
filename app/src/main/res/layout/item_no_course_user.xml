@@ -14,7 +14,7 @@
         android:textColor="#788EFA"
         android:textSize="13sp"
         android:layout_centerInParent="true"
-        android:background="@drawable/tv_border"
+        android:background="@drawable/shape_rectangle_blue_stroke"
         android:text="李佳蔚"/>
 
     <ImageView

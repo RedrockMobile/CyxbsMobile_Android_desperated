@@ -12,5 +12,5 @@
         android:layout_height="41dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_add"
-        android:background="@drawable/tv_border"/>
+        android:background="@drawable/shape_rectangle_blue_stroke"/>
 </FrameLayout>
