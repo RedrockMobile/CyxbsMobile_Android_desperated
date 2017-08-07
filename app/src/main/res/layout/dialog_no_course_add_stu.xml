@@ -17,6 +17,7 @@
         android:background="#FFFFFF"
         android:hint="请输入要查询的学号/姓名"
         android:maxLength="10"
+        android:maxLines="1"
         android:paddingBottom="14dp"
         android:paddingLeft="18dp"
         android:paddingRight="18dp"

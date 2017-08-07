@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="#FFFFFF"
+        android:orientation="vertical"
         android:paddingBottom="18dp"
         android:paddingLeft="17dp"
         android:paddingRight="17dp"
@@ -45,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="19dp"
+            android:background="?selectableItemBackground"
             android:drawableLeft="@drawable/ic_phone"
             android:drawablePadding="8dp"
             android:text="13509495754"
@@ -66,9 +67,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:layout_marginTop="12dp"
         android:background="#FFFFFF"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="7dp"
         android:paddingLeft="18dp"

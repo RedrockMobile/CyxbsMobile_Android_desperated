@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#788EFA"
-            android:paddingTop="25dp"
             android:fitsSystemWindows="true"
+            android:paddingTop="25dp"
             app:theme="?attr/actionBarTheme"
             app:titleTextColor="#F6F6F6">
 
@@ -85,10 +85,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#93A5FB"
-            android:paddingBottom="13dp"
-            android:paddingTop="13dp">
+            android:layout_height="64dp"
+            android:background="#93A5FB">
 
             <View
                 android:id="@+id/divider"
@@ -100,10 +98,11 @@
             <LinearLayout
                 android:id="@+id/relate"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/divider"
+                android:background="?selectableItemBackground"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -120,13 +119,15 @@
                     android:layout_marginLeft="8dp"
                     android:text="0"
                     android:textColor="#FFFFFF"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/trend"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/divider"
@@ -155,6 +156,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
+            android:foreground="?attr/selectableItemBackground"
             android:paddingBottom="11dp"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
@@ -196,6 +198,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
+            android:foreground="?attr/selectableItemBackground"
             android:paddingBottom="11dp"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
@@ -237,6 +240,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
+            android:foreground="?selectableItemBackground"
             android:paddingBottom="11dp"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
@@ -278,6 +282,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
+            android:foreground="?selectableItemBackground"
             android:paddingBottom="11dp"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
@@ -319,6 +324,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
+            android:foreground="?selectableItemBackground"
             android:paddingBottom="11dp"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
@@ -356,6 +362,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:background="#FFFFFF"
+            android:foreground="?selectableItemBackground"
             android:paddingBottom="11dp"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
