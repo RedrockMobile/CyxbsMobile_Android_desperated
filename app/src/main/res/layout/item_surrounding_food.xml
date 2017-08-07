@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
         android:layout_marginBottom="9dp"
         android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp">
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="9dp">
 
         <ImageView
             android:id="@+id/restaurant_photo"
