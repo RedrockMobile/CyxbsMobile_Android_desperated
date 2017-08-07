@@ -9,17 +9,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:background="@drawable/bg_toolbar">
 
         <ImageView
             android:id="@+id/bt_topic_back"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:background="?attr/selectableItemBackground"
-            android:src="@drawable/ic_back_arrow"/>
+            android:src="@drawable/ic_back"/>
 
         <com.mredrock.cyxbs.component.widget.SearchView
             android:id="@+id/sv_topic"

@@ -59,6 +59,8 @@ public class BaseActivity extends AppCompatActivity {
             getWindow().setNavigationBarColor(Color.TRANSPARENT);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
+
+        Log.v("tag", getClass().getPackage().getName());
     }
 
     @Override

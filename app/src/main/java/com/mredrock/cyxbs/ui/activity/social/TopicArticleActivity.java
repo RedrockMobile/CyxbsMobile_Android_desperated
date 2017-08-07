@@ -78,6 +78,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_article);
         ButterKnife.bind(this);
+        initToolbar();
         mAdapter = new TopicArticleAdapter(this);
         mSrlTopic.setColorSchemeResources(R.color.colorAccent);
         mSrlTopic.setOnRefreshListener(this);
