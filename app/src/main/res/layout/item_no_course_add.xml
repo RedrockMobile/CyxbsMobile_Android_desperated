@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/add"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="86dp"
-    android:layout_height="56dp"
-    android:clickable="true"
-    android:focusable="true">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="71dp"
-        android:layout_height="41dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_add"
-        android:background="@drawable/shape_rectangle_blue_stroke"/>
-</FrameLayout>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/add"
+        android:layout_width="86dp"
+        android:layout_height="56dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="71dp"
+            android:layout_height="41dp"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_rectangle_blue_stroke"
+            android:src="@drawable/ic_add"/>
+    </FrameLayout>
+</LinearLayout>

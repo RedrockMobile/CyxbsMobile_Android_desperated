@@ -340,8 +340,10 @@ public class EditAffairActivity extends BaseActivity {
     private void initPickWeekDialog() {
         mPickWeekDialog = new BottomSheetDialog(this);
         View itemView = LayoutInflater.from(this).inflate(R.layout.dialog_pick_week, null, false);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,
-                Math.max(1, DensityUtils.getScreenWidth(this) / DensityUtils.dp2px(this, 100)));
+        int count = Math.max(1, (DensityUtils.getScreenWidth(this)
+                - DensityUtils.dp2px(this, 20)) / DensityUtils.dp2px(this, 100));
+        GridLayoutManager layoutManager = new GridLayoutManager(this, count);
+        layoutManager.setAutoMeasureEnabled(true);
         RecyclerView rv = (RecyclerView) itemView.findViewById(R.id.recyclerView);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(mWeekAdapter);
