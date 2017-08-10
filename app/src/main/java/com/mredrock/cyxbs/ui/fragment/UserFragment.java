@@ -181,9 +181,17 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         ButterKnife.bind(this, view);
+        getPersonInfoData();
         return view;
     }
-/*
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshEditLayout();
+    }
+
+    /*
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -193,12 +201,6 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
         myPageSwitchCompat.setOnCheckedChangeListener(this);
     }
 */
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getPersonInfoData();
-    }
 
     @Override
     public void onDestroyView() {
