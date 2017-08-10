@@ -45,8 +45,6 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     public static final int REQUEST_EDIT_INFO = 10;
 
-    @Bind(R.id.edit)
-    ImageView myPageEditLayout;
     @Bind(R.id.relate)
     LinearLayout myPageRelateLayout;
     @Bind(R.id.trend)
@@ -72,7 +70,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     private User mUser;
 
-    @OnClick({R.id.edit, R.id.name, R.id.introduce, R.id.avatar})
+    @OnClick({R.id.name, R.id.introduce, R.id.avatar})
     void clickToEdit() {
         if (APP.isLogin()) {
             startActivity(new Intent(getActivity(), EditInfoActivity.class));

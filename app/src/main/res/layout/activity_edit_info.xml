@@ -41,6 +41,7 @@
         android:padding="18dp">
 
         <TextView
+            android:id="@+id/title_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -59,10 +60,16 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/arrow"
+            android:layout_toRightOf="@+id/title_name"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:lines="1"
             android:textColor="#666666"
             android:textSize="14sp"/>
     </RelativeLayout>
@@ -80,6 +87,7 @@
         android:padding="18dp">
 
         <TextView
+            android:id="@+id/title_introduce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -98,10 +106,17 @@
 
         <TextView
             android:id="@+id/introduce"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_toLeftOf="@id/arrow1"
+            android:layout_toLeftOf="@+id/arrow1"
+            android:layout_toRightOf="@+id/title_introduce"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:lines="1"
             android:textColor="#666666"
             android:textSize="14sp"/>
     </RelativeLayout>
@@ -119,6 +134,7 @@
         android:padding="18dp">
 
         <TextView
+            android:id="@+id/title_qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -137,10 +153,17 @@
 
         <TextView
             android:id="@+id/qq"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_toLeftOf="@id/arrow2"
+            android:layout_toLeftOf="@+id/arrow2"
+            android:layout_toRightOf="@+id/title_qq"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:lines="1"
             android:textColor="#666666"
             android:textSize="14sp"/>
     </RelativeLayout>
@@ -158,6 +181,7 @@
         android:padding="18dp">
 
         <TextView
+            android:id="@+id/title_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -176,10 +200,17 @@
 
         <TextView
             android:id="@+id/phone"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_toLeftOf="@id/arrow3"
+            android:layout_toLeftOf="@+id/arrow3"
+            android:layout_toRightOf="@+id/title_phone"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:lines="1"
             android:textColor="#666666"
             android:textSize="14sp"/>
     </RelativeLayout>

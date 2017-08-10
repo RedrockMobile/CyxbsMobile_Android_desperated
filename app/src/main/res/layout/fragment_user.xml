@@ -54,7 +54,7 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"/>
 
@@ -62,24 +62,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="27dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="4dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/introduce"
-                    android:layout_width="wrap_content"
+                <View
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="23dp"
-                    android:lines="1"
-                    android:textColor="#FFFFFF"
-                    android:textSize="13sp"/>
+                    android:layout_weight="1"/>
 
-                <ImageView
-                    android:id="@+id/edit"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/ic_edit"/>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3">
+
+                    <TextView
+                        android:id="@+id/introduce"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="17dp"
+                        android:drawablePadding="1dp"
+                        android:drawableRight="@drawable/ic_edit"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -131,6 +144,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/divider"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -147,7 +161,8 @@
                     android:layout_marginLeft="8dp"
                     android:text="0"
                     android:textColor="#FFFFFF"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
             </LinearLayout>
         </RelativeLayout>
 
