@@ -23,6 +23,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
@@ -78,6 +79,7 @@ public class MapActivity extends BaseExploreActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         ButterKnife.bind(this);
         mMapView.onCreate(savedInstanceState);
 

@@ -60,7 +60,7 @@ public class BaseActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
-        Log.v("tag", getClass().getPackage().getName());
+        Log.v("tag", getClass().getName());
     }
 
     @Override

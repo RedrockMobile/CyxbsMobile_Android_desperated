@@ -14,7 +14,9 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="MainActivityTheme" parent="AppTheme"/>
+    <style name="MainActivityTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
 
     <style name="AppThemeFit" parent="AppTheme"/>
 

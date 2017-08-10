@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.NoCourse;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
@@ -58,6 +59,7 @@ public class NoCourseContainerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_course_container);
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         ButterKnife.bind(this);
         initToolbar();
         initViewPager();
