@@ -1,47 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-                tools:ignore="RtlHardcoded"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    android:fitsSystemWindows="true"
+    tools:ignore="RtlHardcoded">
 
     <ImageView
         android:id="@+id/bt_navigation_up"
         android:layout_width="?attr/actionBarSize"
         android:layout_height="?attr/actionBarSize"
-        android:src="@drawable/back"
-        android:background="?attr/selectableItemBackground"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/back"
         tools:ignore="ContentDescription"/>
 
     <info.hoang8f.android.segmented.SegmentedGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        segmentedgroup:sc_border_width="1dp"
-        segmentedgroup:sc_corner_radius="2dp"
-        segmentedgroup:sc_tint_color="@color/colorAccent"
-        segmentedgroup:sc_checked_text_color="@color/colorPrimary"
-        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:orientation="horizontal"
+        segmentedgroup:sc_border_width="1dp"
+        segmentedgroup:sc_checked_text_color="#FFFFFF"
+        segmentedgroup:sc_corner_radius="2dp"
+        segmentedgroup:sc_tint_color="#47A4FA">
 
         <RadioButton
             android:id="@+id/rb_lost"
+            style="@style/RadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lost_post"
             android:checked="true"
-            style="@style/RadioButton"/>
+            android:text="@string/lost_post"/>
 
         <RadioButton
             android:id="@+id/rb_found"
+            style="@style/RadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/found_post"
-            style="@style/RadioButton"/>
+            android:text="@string/found_post"/>
 
     </info.hoang8f.android.segmented.SegmentedGroup>
 
