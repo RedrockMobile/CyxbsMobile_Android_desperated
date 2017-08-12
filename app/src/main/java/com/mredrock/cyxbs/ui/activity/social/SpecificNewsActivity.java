@@ -51,6 +51,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscription;
 
 public class SpecificNewsActivity extends BaseActivity
         implements SwipeRefreshLayout.OnRefreshListener, EditTextBottomSheetDialog.OnClickListener
@@ -96,6 +97,8 @@ public class SpecificNewsActivity extends BaseActivity
     private EditTextBottomSheetDialog mCommentDialog;
 
     private User mUser;
+
+    private Subscription mSubscription;
 
     @Override
     public void onPause() {
@@ -175,6 +178,14 @@ public class SpecificNewsActivity extends BaseActivity
         init();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (!mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
+    }
+
     private void init() {
         initToolbar();
         mRefresh.setOnRefreshListener(this);
@@ -185,7 +196,7 @@ public class SpecificNewsActivity extends BaseActivity
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
 //        mSendText.addTextView(mNewsEdtComment);
 
-        RxBus.getDefault().toObserverable(CommentContent.class)
+        mSubscription = RxBus.getDefault().toObserverable(CommentContent.class)
                 .subscribe(commentContent -> {
                     mCommentDialog.setText("回复 " + commentContent.getNickname() + " : ");
                     mCommentDialog.show();
