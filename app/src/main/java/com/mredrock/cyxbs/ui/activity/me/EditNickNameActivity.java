@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.widget.EditText;
 
 import com.mredrock.cyxbs.APP;
@@ -61,14 +60,13 @@ public class EditNickNameActivity extends EditCommonActivity {
             editCommonToolbar.setLeftText("");
             editCommonToolbar.setLeftTextListener(null);
         }
-        editCommonToolbar.setRightTextListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (editCommonEt.getText().length() == 0) {
-                    Utils.toast(EditNickNameActivity.this, "你还没有输入昵称哟！");
-                } else {
-                    EditNickNameActivity.super.setPersonInfo();
-                }
+        editCommonToolbar.setRightTextListener(v -> {
+            String input = editCommonEt.getText().toString().replaceAll("\\s", "");
+            if (input.length() == 0) {
+                Utils.toast(EditNickNameActivity.this, "你还没有输入昵称哟！");
+            } else {
+                editCommonEt.setText(input);
+                EditNickNameActivity.super.setPersonInfo();
             }
         });
     }

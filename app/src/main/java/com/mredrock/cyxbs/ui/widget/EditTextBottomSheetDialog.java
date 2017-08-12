@@ -101,21 +101,14 @@ public class EditTextBottomSheetDialog extends BottomSheetDialog implements View
 
             @Override
             public void afterTextChanged(Editable s) {
-                mEditText.setClickable(!emptyStr(s.toString()));
+                mSend.setClickable(!emptyStr(s.toString()));
             }
         });
     }
 
-    private boolean emptyStr(String s) {
-        if (s == null || s.equals("")) {
-            return true;
-        }
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) != ' ') {
-                return false;
-            }
-        }
-        return true;
+    public static boolean emptyStr(String s) {
+        s = s.replaceAll("\\s", "");
+        return s.length() == 0;
     }
 
     @Override
