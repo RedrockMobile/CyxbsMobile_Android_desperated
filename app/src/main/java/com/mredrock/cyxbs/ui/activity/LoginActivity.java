@@ -16,7 +16,6 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.me.EditNickNameActivity;
-import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
 import com.mredrock.cyxbs.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -89,6 +88,9 @@ public class LoginActivity extends BaseActivity {
     public void attemptLogin() {
         String stuNum = stuNumEdit.getText().toString();
         String idNum = idNumEdit.getText().toString();
+        if ("".equals(idNum)) {
+            Utils.toast(this, "请输入密码");
+        }
         RequestManager.getInstance()
                 .login(new SimpleSubscriber<>(this, true, false, new SubscriberListener<User>() {
                     @Override
