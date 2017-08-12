@@ -193,6 +193,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                             super.onError(e);
                             LogUtils.LOGE(TAG, "like", e);
                             //disLikeToSetDataAndView(textView);
+                            mBtnFavor.setClickable(true);
                             return false;
                         }
 
@@ -229,6 +230,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                             super.onError(e);
                             // likeToSetDataAndView(textView);
                             e.printStackTrace();
+                            mBtnFavor.setClickable(true);
                             return false;
                         }
 
