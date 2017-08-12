@@ -29,7 +29,7 @@
             android:layout_height="153dp"
             android:background="@null"
             android:gravity="top"
-            android:hint="向大家秀出自己吧"
+            android:hint="编辑个性签名"
             android:paddingLeft="15dp"
             android:paddingTop="14dp"
             android:textColor="@color/text_dark"
