@@ -20,13 +20,19 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="8dp">
+            app:cardElevation="4dp">
 
-            <ImageView
-                android:id="@+id/restaurant_photo"
+            <com.mredrock.cyxbs.ui.widget.RatioLayout
                 android:layout_width="match_parent"
-                android:layout_height="222dp"
-                android:scaleType="centerCrop"/>
+                android:layout_height="wrap_content"
+                app:ratio="0.651">
+
+                <ImageView
+                    android:id="@+id/restaurant_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+            </com.mredrock.cyxbs.ui.widget.RatioLayout>
         </android.support.v7.widget.CardView>
 
         <TextView

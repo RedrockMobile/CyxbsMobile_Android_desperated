@@ -33,22 +33,22 @@ public class RatioLayout extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mRatio > 0) {
             if (MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY) {
-                resetChildrenLayoutParams(true, MeasureSpec.getSize(widthMeasureSpec));
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(
-                        MeasureSpec.getSize(heightMeasureSpec),
-                        MeasureSpec.AT_MOST);
+                int size = MeasureSpec.getSize(widthMeasureSpec);
+                resetChildrenLayoutParams(true, size);
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec((int) (size * mRatio)
+                        , MeasureSpec.EXACTLY);
             } else if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY) {
-                resetChildrenLayoutParams(false, MeasureSpec.getSize(heightMeasureSpec));
-                widthMeasureSpec = MeasureSpec.makeMeasureSpec(
-                        MeasureSpec.getSize(widthMeasureSpec),
-                        MeasureSpec.AT_MOST);
+                int size = MeasureSpec.getSize(heightMeasureSpec);
+                resetChildrenLayoutParams(false, size);
+                widthMeasureSpec = MeasureSpec.makeMeasureSpec((int) (size * mRatio)
+                        , MeasureSpec.EXACTLY);
             }
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     private void resetChildrenLayoutParams(boolean dependOnWidth, int size) {
-        int width = dependOnWidth ? size : (int) (size * mRatio);
+        int width = dependOnWidth ? size : (int) (size / mRatio);
         int height = dependOnWidth ? (int) (size * mRatio) : size;
         for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
