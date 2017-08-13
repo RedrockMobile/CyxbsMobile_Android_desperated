@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -58,9 +59,14 @@ public class BaseActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(option);
             getWindow().setNavigationBarColor(Color.TRANSPARENT);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+            );
         }
 
-        Log.v("tag", getClass().getName());
+//        Log.v("tag", getClass().getName());
     }
 
     @Override
