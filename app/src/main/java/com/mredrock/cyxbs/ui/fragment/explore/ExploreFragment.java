@@ -20,6 +20,7 @@ import com.mredrock.cyxbs.ui.adapter.ExploreRollerViewAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.ui.widget.RollerView;
 import com.mredrock.cyxbs.util.LogUtils;
+import com.mredrock.freshmanspecial.view.SpecialMainActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -96,6 +97,7 @@ public class ExploreFragment extends BaseFragment {
     @OnClick(R.id.explore_freshman_holder)
     void clickToFreshmanSpecial() {
         // TODO: 2017/8/15 新生专题跳转
+        getActivity().startActivity(new Intent(getActivity(), SpecialMainActivity.class));
     }
 
     @Override

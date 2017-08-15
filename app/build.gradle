@@ -160,4 +160,5 @@ dependencies {
     compile 'com.lapism:searchview:4.0'
     compile 'com.github.zcweng:switch-button:0.0.3@aar'
     testCompile 'junit:junit:4.12'
+    compile project(':freshman')
 }
