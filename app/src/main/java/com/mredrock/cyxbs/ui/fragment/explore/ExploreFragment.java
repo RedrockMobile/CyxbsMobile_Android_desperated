@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
@@ -36,9 +35,9 @@ public class ExploreFragment extends BaseFragment {
     @Bind(R.id.rollerView)
     RollerView mRollerView;
     @Bind(R.id.explore_what_to_eat_holder)
-    LinearLayout mWhatToEatHolder;
+    ViewGroup mWhatToEatHolder;
     @Bind(R.id.explore_surrounding_food_holder)
-    LinearLayout mSurroundingFoodHolder;
+    ViewGroup mSurroundingFoodHolder;
 
     @OnClick(R.id.explore_portal_holder)
     void clickToPortal() {

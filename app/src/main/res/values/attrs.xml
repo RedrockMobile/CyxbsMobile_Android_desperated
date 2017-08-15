@@ -98,4 +98,9 @@
     <declare-styleable name="RatioLayout">
         <attr name="ratio" format="float"/>
     </declare-styleable>
+
+    <declare-styleable name="ExploreItem">
+        <attr name="icon" format="reference"/>
+        <attr name="title" format="string"/>
+    </declare-styleable>
 </resources>

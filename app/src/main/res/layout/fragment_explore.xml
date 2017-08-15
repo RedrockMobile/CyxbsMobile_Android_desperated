@@ -25,188 +25,84 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingLeft="17dp"
-            android:paddingRight="17dp"
-            android:paddingTop="20dp">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="125dp"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground">
-
-                <LinearLayout
-                    android:id="@+id/explore_portal_holder"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="41dp"
-                        android:layout_height="37dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_portal"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="21dp"
-                        android:text="@string/explore_portal"
-                        android:textColor="#666666"
-                        android:textSize="13sp"/>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="125dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:id="@+id/explore_map_holder"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="46dp"
-                        android:layout_height="35dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_map"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="21dp"
-                        android:text="重邮地图"
-                        android:textColor="#666666"
-                        android:textSize="13sp"/>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
+            android:orientation="vertical"
+            android:paddingBottom="15dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="15dp">
 
             <LinearLayout
-                android:id="@+id/explore_electric_query_holder"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/explore_holder_height"
-                android:layout_weight="1"
-                android:background="@drawable/bg_explore_holder"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="@dimen/explore_image_size"
-                    android:layout_height="@dimen/explore_image_size"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_find_food"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <com.mredrock.cyxbs.ui.widget.ExploreItem
+                    android:id="@+id/explore_portal_holder"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/explore_eat"/>
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    app:icon="@drawable/ic_portal"
+                    app:ratio="0.75"
+                    app:title="@string/explore_portal"/>
+
+                <com.mredrock.cyxbs.ui.widget.ExploreItem
+                    android:id="@+id/explore_map_holder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    app:icon="@drawable/ic_map"
+                    app:ratio="0.75"
+                    app:title="@string/explore_map"/>
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="17dp"
-            android:paddingRight="17dp">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="125dp"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:id="@+id/explore_what_to_eat_holder"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="44dp"
-                        android:layout_height="39dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_find_food"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="21dp"
-                        android:text="吃什么"
-                        android:textColor="#666666"
-                        android:textSize="13sp"/>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="125dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:id="@+id/explore_surrounding_food_holder"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_around_food"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="21dp"
-                        android:text="周边美食"
-                        android:textColor="#666666"
-                        android:textSize="13sp"/>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
             <LinearLayout
-                android:id="@+id/explore_lost_and_found_holder"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/explore_holder_height"
-                android:layout_weight="1"
-                android:background="@drawable/bg_explore_holder"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="@dimen/explore_image_size"
-                    android:layout_height="@dimen/explore_image_size"
-                    android:src="@drawable/ic_lost"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <com.mredrock.cyxbs.ui.widget.ExploreItem
+                    android:id="@+id/explore_what_to_eat_holder"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/lost_and_found"/>
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    app:icon="@drawable/ic_find_food"
+                    app:ratio="0.75"
+                    app:title="@string/explore_eat"/>
+
+                <com.mredrock.cyxbs.ui.widget.ExploreItem
+                    android:id="@+id/explore_surrounding_food_holder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    app:icon="@drawable/ic_around_food"
+                    app:ratio="0.75"
+                    app:title="@string/explore_around_food"/>
+
+                <com.mredrock.cyxbs.ui.widget.ExploreItem
+                    android:id="@+id/explore_electric_query_holder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_portal"
+                    app:ratio="0.75"
+                    app:title="@string/explore_electric"/>
+
+                <com.mredrock.cyxbs.ui.widget.ExploreItem
+                    android:id="@+id/explore_lost_and_found_holder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_portal"
+                    app:ratio="0.75"
+                    app:title="@string/lost_and_found"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
