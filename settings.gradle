@@ -1,3 +1,2 @@
-include ':app', ':pickerview', ':freshman'
-project(':pickerview').projectDir = new File('FreshmanSpecial/pickerview')
+include ':app', ':freshman'
 project(':freshman').projectDir = new File('FreshmanSpecial/app')
