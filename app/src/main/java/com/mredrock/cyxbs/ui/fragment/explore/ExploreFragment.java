@@ -86,6 +86,18 @@ public class ExploreFragment extends BaseFragment {
         LostActivity.start(getActivity());
     }
 
+    @OnClick(R.id.explore_smaile_holder)
+    void clickToSmailFace() {
+        Uri uri = Uri.parse(Const.SMAILE_FACE);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        getActivity().startActivity(intent);
+    }
+
+    @OnClick(R.id.explore_freshman_holder)
+    void clickToFreshmanSpecial() {
+        // TODO: 2017/8/15 新生专题跳转
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
