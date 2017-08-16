@@ -67,18 +67,6 @@
                 android:visibility="invisible"/>
         </RelativeLayout>
 
-        <com.mredrock.cyxbs.component.widget.ninelayout.AutoNineGridlayout
-            android:id="@+id/autoNineLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="19dp"/>
-
-        <ImageView
-            android:id="@+id/singleImg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <com.mredrock.cyxbs.component.widget.ExpandableTextView
             android:id="@+id/expand_text_view"
             android:layout_width="match_parent"
@@ -107,6 +95,18 @@
                 android:text="展开"
                 android:textColor="#788EFA"/>
         </com.mredrock.cyxbs.component.widget.ExpandableTextView>
+
+        <com.mredrock.cyxbs.component.widget.ninelayout.AutoNineGridlayout
+            android:id="@+id/autoNineLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="19dp"/>
+
+        <ImageView
+            android:id="@+id/singleImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <View
             android:id="@+id/divider"
