@@ -430,6 +430,7 @@ public class MainActivity extends BaseActivity {
                     mCourseUnfold.setVisibility(View.VISIBLE);
                     showMenu();
                     mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
+                    ((View) mToolbarTitle.getParent()).setVisibility(View.VISIBLE);
                     mToolbarTitle.setText(((CourseContainerFragment) courseContainerFragment).getTitle());
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     break;
@@ -439,6 +440,7 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setVisibility(View.VISIBLE);
                     mCourseUnfold.setVisibility(View.GONE);
                     mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
+                    ((View) mToolbarTitle.getParent()).setVisibility(View.VISIBLE);
                     mToolbarTitle.setText("社 区");
                     hiddenMenu();
                     break;
@@ -449,6 +451,7 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setVisibility(View.VISIBLE);
                     mCourseUnfold.setVisibility(View.GONE);
                     mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
+                    ((View) mToolbarTitle.getParent()).setVisibility(View.VISIBLE);
                     mToolbarTitle.setText("发 现");
                     break;
                 case 3:
@@ -458,6 +461,7 @@ public class MainActivity extends BaseActivity {
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     mCourseUnfold.setVisibility(View.GONE);
                     mToolbarTitle.setText("我 的");
+                    ((View) mToolbarTitle.getParent()).setVisibility(View.GONE);
                     mToolbar.setBackgroundColor(Color.parseColor("#788EFA"));
                     if (!APP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
