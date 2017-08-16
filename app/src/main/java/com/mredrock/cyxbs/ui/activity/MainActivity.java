@@ -103,6 +103,7 @@ public class MainActivity extends BaseActivity {
         initView();
         UpdateUtil.checkUpdate(this, false);
         ElectricRemindUtil.check(this);
+        mCourseUnfold.setRotation(180);
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
         // TODO: Filter these intents in another activity (such as LaunchActivity), not here, to fix the fixme above
         intentFilterFor3DTouch();

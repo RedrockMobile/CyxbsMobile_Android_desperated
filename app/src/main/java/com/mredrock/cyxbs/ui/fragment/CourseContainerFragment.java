@@ -152,11 +152,11 @@ public class CourseContainerFragment extends BaseFragment {
                 if (isVisible()) {
                     if (mTabs.getVisibility() == View.VISIBLE) {
                         mTabs.setVisibility(View.GONE);
-                        mCourseUnfold.setRotation(0);
+                        mCourseUnfold.setRotation(180);
                     } else {
                         mTabs.setVisibility(View.VISIBLE);
                         mTabs.setScrollPosition(mPager.getCurrentItem(), 0, true);
-                        mCourseUnfold.setRotation(180);
+                        mCourseUnfold.setRotation(0);
                     }
                 }
             });
@@ -165,11 +165,11 @@ public class CourseContainerFragment extends BaseFragment {
                 if (isVisible()) {
                     if (mTabs.getVisibility() == View.VISIBLE) {
                         mTabs.setVisibility(View.GONE);
-                        mCourseUnfold.setRotation(0);
+                        mCourseUnfold.setRotation(180);
                     } else {
                         mTabs.setVisibility(View.VISIBLE);
                         mTabs.setScrollPosition(mPager.getCurrentItem(), 0, true);
-                        mCourseUnfold.setRotation(180);
+                        mCourseUnfold.setRotation(0);
                     }
                 }
             });
