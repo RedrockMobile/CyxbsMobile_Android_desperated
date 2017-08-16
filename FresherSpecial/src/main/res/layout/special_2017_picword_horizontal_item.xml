@@ -87,6 +87,7 @@
                     android:layout_width="167dp"
                     android:layout_height="wrap_content"
                     android:text="123123123"
+                    android:lineSpacingExtra="2dp"
                     android:textColor="@color/addressColor"
                     android:textSize="12dp" />
 
