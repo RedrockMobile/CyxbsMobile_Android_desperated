@@ -87,12 +87,12 @@
     </string-array>
 
     <string-array name="empty_sections">
-        <item>一二节</item>
-        <item>三四节</item>
-        <item>五六节</item>
-        <item>七八节</item>
-        <item>九十节</item>
-        <item>十一、十二节</item>
+        <item>1、2节</item>
+        <item>3、4节</item>
+        <item>5、6节</item>
+        <item>7、8节</item>
+        <item>9、10节</item>
+        <item>11、12节</item>
     </string-array>
 
     <string-array name="exam_grade_tab_titles">
