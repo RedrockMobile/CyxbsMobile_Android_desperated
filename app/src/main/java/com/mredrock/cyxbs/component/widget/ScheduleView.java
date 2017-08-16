@@ -5,8 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -133,7 +132,8 @@ public class ScheduleView extends FrameLayout {
     private void createLessonText(final CourseList courses) {
         final Course course = courses.list.get(0);
 
-        CardView cardView = new CardView(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        CardView cardView = (CardView) layoutInflater.inflate(R.layout.item_schedule, this, false);
         int mTop = height * course.hash_lesson;
         int mLeft = width * course.hash_day;
         int mWidth = width;
@@ -144,28 +144,10 @@ public class ScheduleView extends FrameLayout {
         cardView.setLayoutParams(flParams);
         cardView.setCardElevation(DensityUtils.dp2px(context, 2));
 
-        FrameLayout textContainer = new FrameLayout(context);
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        textContainer.setLayoutParams(params);
-        textContainer.setPadding(DensityUtils.dp2px(context, 4), DensityUtils.dp2px(context, 2),
-                DensityUtils.dp2px(context, 4), DensityUtils.dp2px(context, 2));
-
-        TextView tvTop = new TextView(context);
-        LayoutParams topParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        topParams.gravity = Gravity.TOP;
-        tvTop.setLayoutParams(topParams);
-        tvTop.setTextColor(Color.WHITE);
-        tvTop.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-        tvTop.setGravity(Gravity.CENTER_HORIZONTAL);
+        TextView tvTop = (TextView) cardView.findViewById(R.id.top);
         tvTop.setText(course.getCourseType() == 1 ? course.course : " ");
 
-        TextView tvBottom = new TextView(context);
-        LayoutParams bottomParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        bottomParams.gravity = Gravity.BOTTOM;
-        tvBottom.setLayoutParams(bottomParams);
-        tvBottom.setTextColor(Color.WHITE);
-        tvBottom.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-        tvBottom.setGravity(Gravity.CENTER_HORIZONTAL);
+        TextView tvBottom = (TextView) cardView.findViewById(R.id.bottom);
         tvBottom.setText(course.getCourseType() == 1 ? course.classroom : " ");
 
         GradientDrawable gd = new GradientDrawable();
@@ -187,9 +169,6 @@ public class ScheduleView extends FrameLayout {
             CourseDialog.show(getContext(), courseList);
         });
 
-        textContainer.addView(tvBottom);
-        textContainer.addView(tvTop);
-        cardView.addView(textContainer);
         addView(cardView);
         if (!showMode) {
             if (courses.list.get(0).getCourseType() == Affair.TYPE) {
