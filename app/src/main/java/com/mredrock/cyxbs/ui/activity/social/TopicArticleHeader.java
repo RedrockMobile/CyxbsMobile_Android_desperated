@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.social.TopicArticle;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicHeaderAdapter;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
@@ -57,7 +58,10 @@ public class TopicArticleHeader implements RecyclerArrayAdapter.ItemView {
         if (mTopicArticle.getPhoto_src() == null || mTopicArticle.getPhoto_src().equals("")) {
             mIvTopicArticleBg.setBackgroundColor(TopicHeaderAdapter.loadByRandom(mContext));
         } else {
-            Glide.with(mContext).load(mTopicArticle.getPhoto_src())
+            String name = mTopicArticle.getPhoto_src();
+            name = name.substring(0, name.indexOf(",") <= 0 ? name.length() : name.indexOf(","));
+            String src = Const.APP_HOME + "/Public/photo/" + name;
+            Glide.with(mContext).load(src)
                     .error(new ColorDrawable(TopicHeaderAdapter.loadByRandom(mContext)))
                     .into(mIvTopicArticleBg);
         }
