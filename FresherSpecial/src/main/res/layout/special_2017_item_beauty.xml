@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:background="#fff"
+              android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="#EBF0F2"/>
+
+    <com.mredrock.freshmanspecial.units.MyImageView
+        android:id="@+id/img_item_beauty"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        app:roundHeight="3dp"
+        app:roundWidth="3dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        />
+
+    <TextView
+        android:id="@+id/title_item_beauty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="title"
+        android:textColor="#666"
+        android:textSize="15dp"/>
+
+    <TextView
+        android:id="@+id/tx_item_beauty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:lineSpacingMultiplier="1.2"
+        android:text="content"
+        android:textColor="#999"
+        android:textSize="12dp"/>
+</LinearLayout>

@@ -1,0 +1,62 @@
+<!-- 军训照片幻灯片格式 -->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context="com.mredrock.freshmanspecial.view.SpecialSlideActivity">
+
+    <com.mredrock.freshmanspecial.units.MyViewPager
+        android:id="@+id/slide_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <RelativeLayout
+        android:id="@+id/slide_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionName="share"
+        >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:background="#8b000000">
+
+            <ImageView
+                android:id="@+id/slide_back"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:src="@drawable/special_2017_back"/>"
+
+            <TextView
+                android:id="@+id/slide_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_marginTop="5dp"
+                android:textSize="25dp"
+                android:text="1/6"
+                android:textColor="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_horizontal"/>
+
+        </FrameLayout>
+
+        <TextView
+            android:alpha="0.7"
+            android:id="@+id/slide_title"
+            android:layout_width="match_parent"
+            android:paddingTop="10dp"
+            android:background="#8b000000"
+            android:layout_height="150dp"
+            android:textColor="@color/colorWhite"
+            android:gravity="top|center"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+
+</FrameLayout>

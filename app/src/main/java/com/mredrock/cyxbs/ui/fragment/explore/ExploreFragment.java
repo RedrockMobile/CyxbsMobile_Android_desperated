@@ -26,6 +26,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
+
 /**
  * Created by Stormouble on 16/4/16.
  */
