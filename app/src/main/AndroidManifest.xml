@@ -43,7 +43,7 @@
             android:value="55d88b23e0f55a71ec007365"/>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="official"/>
+            android:value="${UMENG_CHANNEL_VALUE}"/>
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="c013592261f6ca0f07dbf8660e7fa505"/>

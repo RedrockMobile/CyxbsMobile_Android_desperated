@@ -10,9 +10,24 @@ android {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 36
-        versionName "话题版"
+        versionCode 37
+        versionName "2017迎新版"
         multiDexEnabled true
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "official"]
+    }
+
+    productFlavors {
+        official{}
+        xiaomi {}
+        _360 {}
+        baidu {}
+        wandoujia {}
+        kuan{}
+        tencent{}
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
 
     compileOptions {
@@ -52,6 +67,16 @@ android {
 
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+                        def fileName = "掌上重邮_${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
     }
 
