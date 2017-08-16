@@ -57,9 +57,9 @@ public class DataModel {
         float girlRate = Float.valueOf(bean.getWomenRatio());
         float boyRate = Float.valueOf(bean.getMenRatio());
         girl.setText("女生");
-        girl.setPercentage((int)(girlRate*100));
+        girl.setPercentage((int)(girlRate*100 + 0.5f));
         boy.setText("男生");
-        boy.setPercentage((int)(boyRate*100));
+        boy.setPercentage((int)(boyRate*100 + 0.5f));
         list.add(girl);
         list.add(boy);
         return list;

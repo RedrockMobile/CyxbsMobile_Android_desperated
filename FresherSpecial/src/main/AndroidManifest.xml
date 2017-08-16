@@ -12,7 +12,9 @@
             android:name=".view.SpecialMainActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".guidelines.Guidelines"/>
+        <activity
+            android:name=".guidelines.Guidelines"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity android:name=".view.JunxunActivity"/>
         <activity android:name=".view.DataActivity"/>
         <activity android:name=".view.MienActivity"/>
