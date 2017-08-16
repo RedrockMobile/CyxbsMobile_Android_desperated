@@ -40,6 +40,37 @@ public class SexRateFragment extends BaseFragment implements IDataFragment {
         presenter.setEmptySexRateDate();
         presenter.runChart(dataList);
         initSmallCircle();
+        //在按钮上显示选中学院
+        button.setText("全校");
+        //网络请求该学院数据
+        HttpModel.bulid().getSex(new Subscriber<SexBean>() {
+            private SexBean mSexBean = new SexBean();
+
+            @Override
+            public void onCompleted() {
+                for (SexBean.DataBean bean : mSexBean.getData()) {
+                    if ("全校".equals(bean.getCollege())) {
+                        presenter.setSexRateDataList(bean);
+                        presenter.runChart(dataList);
+                        initSmallCircle();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(), "获取信息失败！", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNext(SexBean sexBean) {
+                mSexBean = sexBean;
+                Log.e("ttt", sexBean.getData().get(0).getCollege());
+
+            }
+        });
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
