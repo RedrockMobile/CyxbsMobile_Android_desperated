@@ -3,14 +3,19 @@
                 android:id="@+id/main_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layerType="hardware"
                 tools:context=".ui.activity.explore.MapActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include
+        layout="@layout/toolbar"
+        android:visibility="gone"/>
 
-    <com.amap.api.maps.MapView
+
+    <WebView
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"/>
+        android:layout_below="@+id/toolbar"
+        android:layerType="hardware"/>
 
 </RelativeLayout>
