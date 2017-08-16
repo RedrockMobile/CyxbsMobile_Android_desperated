@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:drawableLeft="@drawable/ic_location"
+        android:drawableLeft="@drawable/ic_exam_location"
         android:drawablePadding="5dp"
         android:paddingBottom="38dp"
         android:text="3109场47号"
