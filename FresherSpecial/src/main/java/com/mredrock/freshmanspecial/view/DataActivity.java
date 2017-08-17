@@ -8,12 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.freshmanspecial.R;
-import com.mredrock.freshmanspecial.units.ScreenUnit;
-import com.mredrock.freshmanspecial.units.base.BaseActivity;
-import com.mredrock.freshmanspecial.units.ViewPagerAdapter;
 import com.mredrock.freshmanspecial.presenter.DataPresenter;
 import com.mredrock.freshmanspecial.presenter.IDataPresenter;
-import com.mredrock.freshmanspecial.view.dataFragments.JobRateFragment;
+import com.mredrock.freshmanspecial.units.ScreenUnit;
+import com.mredrock.freshmanspecial.units.ViewPagerAdapter;
+import com.mredrock.freshmanspecial.units.base.BaseActivity;
+import com.mredrock.freshmanspecial.view.dataFragments.EmploymentDataFragment;
 import com.mredrock.freshmanspecial.view.dataFragments.MostDifficultFragment;
 import com.mredrock.freshmanspecial.view.dataFragments.SexRateFragment;
 
@@ -37,8 +37,8 @@ public class DataActivity extends BaseActivity implements IDataActivity {
     }
 
     private void initPager() {
-        String[] tabTitles = new String[]{"男女比例", "最难科目", "就业比例"};
-        Fragment[] fragments = new Fragment[]{new SexRateFragment(), new MostDifficultFragment(), new JobRateFragment()};
+        String[] tabTitles = new String[]{"男女比例", "最难科目", "就业数据"};
+        Fragment[] fragments = new Fragment[]{new SexRateFragment(), new MostDifficultFragment(), new EmploymentDataFragment()};
         ViewPagerAdapter adapter = new ViewPagerAdapter(this,getSupportFragmentManager(), tabTitles, fragments);
         viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(adapter);

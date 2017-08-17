@@ -8,8 +8,10 @@ import com.mredrock.freshmanspecial.beans.CampusBean;
 import com.mredrock.freshmanspecial.beans.CuisineBean;
 import com.mredrock.freshmanspecial.beans.DailyLifeBean;
 import com.mredrock.freshmanspecial.beans.DormitoryBean;
+import com.mredrock.freshmanspecial.beans.EmploymentData;
 import com.mredrock.freshmanspecial.beans.FengcaiBeans.JunxunpicBeans;
 import com.mredrock.freshmanspecial.beans.FengcaiBeans.JunxunvideoBeans;
+import com.mredrock.freshmanspecial.beans.HttpResult;
 import com.mredrock.freshmanspecial.beans.MienBeans.BeautyBean;
 import com.mredrock.freshmanspecial.beans.MienBeans.OriginalBean;
 import com.mredrock.freshmanspecial.beans.MienBeans.StudentsBean;
@@ -20,6 +22,7 @@ import com.mredrock.freshmanspecial.beans.ShujuBeans.SexBean;
 import com.mredrock.freshmanspecial.beans.ShujuBeans.WorkBean;
 import com.mredrock.freshmanspecial.beans.SurroundingBeautyBean;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -29,6 +32,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -240,6 +244,21 @@ public class HttpModel {
 
     public void getSurroundingBeauty(Subscriber<SurroundingBeautyBean> subscriber) {
         service.getSurroundingBeauty("BeautyInNear")
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    public void getEmploymentData(Subscriber<ArrayList<EmploymentData>> subscriber) {
+        service.getEmploymentData("DataOfJob")
+                .map(new Func1<HttpResult<ArrayList<EmploymentData>>, ArrayList<EmploymentData>>() {
+                    @Override
+                    public ArrayList<EmploymentData> call
+                            (HttpResult<ArrayList<EmploymentData>> result) {
+                        return result.getData();
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

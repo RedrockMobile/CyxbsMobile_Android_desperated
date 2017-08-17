@@ -5,8 +5,10 @@ import com.mredrock.freshmanspecial.beans.CampusBean;
 import com.mredrock.freshmanspecial.beans.CuisineBean;
 import com.mredrock.freshmanspecial.beans.DailyLifeBean;
 import com.mredrock.freshmanspecial.beans.DormitoryBean;
+import com.mredrock.freshmanspecial.beans.EmploymentData;
 import com.mredrock.freshmanspecial.beans.FengcaiBeans.JunxunpicBeans;
 import com.mredrock.freshmanspecial.beans.FengcaiBeans.JunxunvideoBeans;
+import com.mredrock.freshmanspecial.beans.HttpResult;
 import com.mredrock.freshmanspecial.beans.MienBeans.BeautyBean;
 import com.mredrock.freshmanspecial.beans.MienBeans.OriginalBean;
 import com.mredrock.freshmanspecial.beans.MienBeans.StudentsBean;
@@ -16,6 +18,8 @@ import com.mredrock.freshmanspecial.beans.ShujuBeans.FailBean;
 import com.mredrock.freshmanspecial.beans.ShujuBeans.SexBean;
 import com.mredrock.freshmanspecial.beans.ShujuBeans.WorkBean;
 import com.mredrock.freshmanspecial.beans.SurroundingBeautyBean;
+
+import java.util.ArrayList;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -47,6 +51,11 @@ public interface Services {
     @POST("apiRatio.php")
     Observable<FailBean> getFail(@Field("RequestType") String requestType);
 
+    @FormUrlEncoded
+    @POST("apiRatio.php")
+    Observable<HttpResult<ArrayList<EmploymentData>>> getEmploymentData(
+            @Field("RequestType") String type);
+
     @GET("apiForGuide.php")
     Observable<JunxunpicBeans> getJunxunpic(@Query("RequestType") String requestType);
 
@@ -71,12 +80,6 @@ public interface Services {
     @GET("apiForGuide.php")
     Observable<SurroundingBeautyBean> getSurroundingBeauty(@Query("RequestType") String requestType);
 
-    /**
-     *
-     *
-     *
-     *
-     */
     @GET("apiForText.php")
     Observable<TeacherBean> getTeachers(@Query("RequestType") String requestType);
 
