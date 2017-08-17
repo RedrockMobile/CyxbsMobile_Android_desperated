@@ -38,11 +38,30 @@ public class DataActivity extends BaseActivity implements IDataActivity {
 
     private void initPager() {
         String[] tabTitles = new String[]{"男女比例", "最难科目", "就业数据"};
-        Fragment[] fragments = new Fragment[]{new SexRateFragment(), new MostDifficultFragment(), new EmploymentDataFragment()};
+        final Fragment[] fragments = new Fragment[]{new SexRateFragment(), new MostDifficultFragment(), new EmploymentDataFragment()};
         ViewPagerAdapter adapter = new ViewPagerAdapter(this,getSupportFragmentManager(), tabTitles, fragments);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 2) {
+                    EmploymentDataFragment fragment = (EmploymentDataFragment) fragments[2];
+                    fragment.startAnimation();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
