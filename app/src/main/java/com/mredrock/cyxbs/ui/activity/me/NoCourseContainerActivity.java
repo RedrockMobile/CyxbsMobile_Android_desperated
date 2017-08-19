@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.NoCourse;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
@@ -59,8 +59,8 @@ public class NoCourseContainerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_course_container);
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
         initViewPager();
         initView();
@@ -71,7 +71,7 @@ public class NoCourseContainerActivity extends BaseActivity {
             toolbar.setTitle("");
             toolbarTitle.setText("没课约");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
             toolbar.setNavigationOnClickListener(v -> NoCourseContainerActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {

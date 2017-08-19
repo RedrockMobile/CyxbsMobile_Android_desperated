@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_grey"
     android:orientation="vertical"
     tools:context=".ui.activity.me.EditIntroduceActivity">
@@ -12,6 +13,8 @@
         android:id="@+id/edit_introduce_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_toolbar"
+        android:fitsSystemWindows="true"
         app:text_title="简介"/>
 
     <FrameLayout
@@ -26,12 +29,12 @@
             android:layout_height="153dp"
             android:background="@null"
             android:gravity="top"
-            android:hint="向大家秀出自己吧"
-            android:textColorHint="@color/text_light_2"
+            android:hint="编辑个性签名"
             android:paddingLeft="15dp"
             android:paddingTop="14dp"
             android:textColor="@color/text_dark"
-            android:textSize="14sp" />
+            android:textColorHint="@color/text_light_2"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/edit_introduce_count"
@@ -41,7 +44,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginRight="15dp"
             android:textColor="@color/text_light_2"
-            android:textSize="13sp" />
+            android:textSize="13sp"/>
 
     </FrameLayout>
 

@@ -1,10 +1,12 @@
 package com.mredrock.cyxbs.ui.adapter.me;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -15,10 +17,10 @@ import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 
 import java.util.List;
+import java.util.Locale;
 
-public class ExamScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int HEADER = 0;
-    public static final int NORMAL = 1;
+public class ExamScheduleAdapter extends RecyclerView.Adapter<ExamScheduleAdapter.ExamViewHolder> {
+    private static final int[] IDS = new int[] {R.drawable.circle_pink, R.drawable.circle_blue, R.drawable.circle_yellow};
 
     private Context mContext;
     private List<Exam> mExamList;
@@ -31,70 +33,18 @@ public class ExamScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if (position == 0) {
-            return HEADER;
-        } else {
-            return NORMAL;
-        }
-    }
-
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == HEADER) {
-            final View view = LayoutInflater.from(mContext).inflate(R.layout.item_exam_first, parent, false);
-            return new ExamHeaderViewHolder(view);
-        } else {
-            final View view = LayoutInflater.from(mContext).inflate(R.layout.item_exam, parent, false);
-            return new ExamCommonViewHolder(view);
-        }
+    public ExamScheduleAdapter.ExamViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_exam, parent, false);
+            return new ExamViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        int type = viewHolder.getItemViewType();
-        if (type == HEADER) {
-            bindHeadViewHolder((ExamHeaderViewHolder) viewHolder);
-        } else {
-            bindCommonViewHolder((ExamCommonViewHolder) viewHolder, position);
-        }
+    public void onBindViewHolder(ExamScheduleAdapter.ExamViewHolder viewHolder, int position) {
+        bindCommonViewHolder(viewHolder, position);
     }
 
-    private void bindHeadViewHolder(ExamHeaderViewHolder holder) {
-        Exam exam = mExamList.get(0);
-        if (exam.week != null && exam.weekday != null) {
-            SchoolCalendar schoolCalendar = null;
-            if (exam.week != null && Integer.valueOf(exam.week) != 0) {
-                schoolCalendar = new SchoolCalendar(Integer.valueOf(exam.week),
-                        Integer.valueOf(exam.weekday));
-            }
-            boolean isSuccess = mExamDataHelper.tryModifyData(exam);
-            if (isSuccess && schoolCalendar != null) {
-                //Log.d("aaa", exam.week + "  " + exam.weekday);
-                holder.mTvExamTime.setText(formatData(mContext.getResources().getString(R.string.exam_date),
-                        exam.week, exam.chineseWeekday) + "\n" +
-                        schoolCalendar.getMonth() + "/" +
-                        schoolCalendar.getDay());
-            } else {
-                holder.mTvExamTime.setText(mContext.getResources().getString(R.string.exam_unsure));
-            }
-        } else {
-            holder.mTvExamTime.setText(exam.date);
-        }
-        holder.mTvExamCourse.setText(exam.course);
-        String seat = Integer.valueOf(exam.seat) != 0 ? " @ " + exam.seat : "";
-        holder.mTvExamLocation.setText(exam.classroom + seat);
-        if (exam.begin_time != null && exam.end_time != null) {
-            holder.mTvExamDaytime.setText(formatData(mContext.getResources()
-                            .getString(R.string.exam_detail_date),
-                    exam.begin_time, exam.end_time));
-        } else {
-            holder.mTvExamDaytime.setText(exam.time);
-        }
-    }
-
-    private void bindCommonViewHolder(ExamCommonViewHolder holder, int position) {
+    @SuppressLint("DefaultLocale")
+    private void bindCommonViewHolder(ExamViewHolder holder, int position) {
         Exam exam = mExamList.get(position);
         if (exam.week != null && exam.weekday != null) {
             SchoolCalendar schoolCalendar = null;
@@ -104,66 +54,64 @@ public class ExamScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             boolean isSuccess = mExamDataHelper.tryModifyData(exam);
             if (isSuccess && schoolCalendar != null) {
-                holder.mTvExamTime.setText(formatData(mContext.getResources().getString(R.string.exam_date),
-                        exam.week, exam.chineseWeekday) + "\n" +
-                        schoolCalendar.getMonth() + "/" +
-                        schoolCalendar.getDay());
+                holder.dayOfWeek.setText(String.format("%s周周%s", exam.week, exam.chineseWeekday));
+                holder.dayOfMonth.setText(String.format("%d", schoolCalendar.getDay()));
+                holder.month.setText(String.format("%d月", schoolCalendar.getMonth()));
             } else {
-                holder.mTvExamTime.setText(mContext.getResources().getString(R.string.exam_unsure));
+                holder.dayOfWeek.setText(String.format("%s周周%s", "-", "-"));
+                holder.dayOfMonth.setText(String.format("%s", "-"));
+                holder.month.setText(String.format("%s月", ""));
             }
         } else {
-            holder.mTvExamTime.setText(exam.date);
+            // TODO: 2017/7/23 不知道的玩意儿，暂时删除
+            //holder.mTvExamTime.setText(exam.date);
         }
-        holder.mTvExamCourse.setText(exam.course);
-        String seat = Integer.valueOf(exam.seat) != 0 ? " @ " + exam.seat : "";
-        holder.mTvExamLocation.setText(exam.classroom + seat);
+        holder.examName.setText(exam.course);
+        String seat = Integer.valueOf(exam.seat) != 0 ? exam.seat : "--";
+        if (seat.length() < 2) {
+            seat = 0 + seat;
+        }
+        seat += "号";
+        holder.location.setText(exam.classroom + "场" + seat);
         if (exam.begin_time != null && exam.end_time != null) {
-            holder.mTvExamDaytime.setText(formatData(mContext.getResources()
+            holder.time.setText(String.format(mContext.getResources()
                     .getString(R.string.exam_detail_date), exam.begin_time, exam.end_time));
         } else {
-            holder.mTvExamDaytime.setText(exam.time);
+            holder.time.setText(exam.time);
+        }
+
+        holder.circle.setImageResource(IDS[position % 3]);
+        if (position == getItemCount() - 1) {
+            holder.line.setVisibility(View.GONE);
+        } else {
+            holder.line.setVisibility(View.VISIBLE);
         }
     }
-
-    private String formatData(String format, String... args) {
-        if (args.length != 2)
-            return "";
-        return String.format(format, args[0], args[1]);
-    }
-
 
     @Override
     public int getItemCount() {
         return mExamList.size();
     }
 
-    public class ExamHeaderViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.item_exam_first_tv_time)
-        TextView mTvExamTime;
-        @Bind(R.id.item_exam_first_tv_course)
-        TextView mTvExamCourse;
-        @Bind(R.id.item_exam_first_tv_location)
-        TextView mTvExamLocation;
-        @Bind(R.id.item_exam_first_day_time)
-        TextView mTvExamDaytime;
+    public static class ExamViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.day_of_month)
+        TextView dayOfMonth;
+        @Bind(R.id.month)
+        TextView month;
+        @Bind(R.id.circle)
+        ImageView circle;
+        @Bind(R.id.exam_name)
+        TextView examName;
+        @Bind(R.id.day_of_week)
+        TextView dayOfWeek;
+        @Bind(R.id.time)
+        TextView time;
+        @Bind(R.id.location)
+        TextView location;
+        @Bind(R.id.line)
+        View line;
 
-        public ExamHeaderViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }
-
-    public static class ExamCommonViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.item_exam_tv_time)
-        TextView mTvExamTime;
-        @Bind(R.id.item_exam_tv_course)
-        TextView mTvExamCourse;
-        @Bind(R.id.item_exam_tv_location)
-        TextView mTvExamLocation;
-        @Bind(R.id.item_exam_tv_day_time)
-        TextView mTvExamDaytime;
-
-        public ExamCommonViewHolder(View view) {
+        public ExamViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

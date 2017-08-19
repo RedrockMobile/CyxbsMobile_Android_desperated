@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
@@ -38,29 +37,26 @@ public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<CommentC
         holder.mTextViewNickName.setText(data.getNickname());
         ImageLoader.getInstance().loadAvatar(data.photoThumbnailSrc, holder.mCircleImageView);
         holder.mCircleImageView.setOnClickListener(view -> PersonInfoActivity.StartActivityWithData(view.getContext(), data.photoSrc, data.getNickname(), data.stuNum));
-        holder.mLinearLayout.setOnLongClickListener(view -> {
-            RxBus.getDefault().post(data);
-            return false;
-        });
+        holder.mContainer.setOnClickListener(view -> RxBus.getDefault().post(data));
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_news_comment_item, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false));
     }
 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.list_item_comment)
-        LinearLayout mLinearLayout;
-        @Bind(R.id.list_information_img_avatar)
+        @Bind(R.id.container)
+        ViewGroup mContainer;
+        @Bind(R.id.avatar)
         ImageView mCircleImageView;
-        @Bind(R.id.list_information_text_nickname)
+        @Bind(R.id.name)
         TextView mTextViewNickName;
-        @Bind(R.id.list_information_text_time)
+        @Bind(R.id.date)
         TextView mTextTime;
-        @Bind(R.id.list_information_text_content)
+        @Bind(R.id.comment)
         TextView mTextContent;
 
         public ViewHolder(View itemView) {

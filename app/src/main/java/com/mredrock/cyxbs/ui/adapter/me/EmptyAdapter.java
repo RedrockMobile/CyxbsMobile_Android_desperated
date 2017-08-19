@@ -5,10 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.NoScrollGridView;
@@ -17,6 +15,9 @@ import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 /**
  * Created by skylineTan on 2016/4/19 10:59.
@@ -24,6 +25,7 @@ import java.util.List;
 public class EmptyAdapter extends BaseRecyclerViewAdapter<EmptyRoom,
         EmptyAdapter.ViewHolder> {
 
+    private static final int[] IDS = new int[] {R.drawable.circle_pink, R.drawable.circle_blue, R.drawable.circle_yellow};
 
     public EmptyAdapter(List<EmptyRoom> mDatas, Context context) {
         super(mDatas, context);
@@ -32,12 +34,15 @@ public class EmptyAdapter extends BaseRecyclerViewAdapter<EmptyRoom,
 
     @Override
     protected void bindData(ViewHolder holder, EmptyRoom data, int position) {
-        if (position == 0) {
-            holder.vLine.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+        if (position == getItemCount() - 1) {
+            holder.vLine.setVisibility(View.INVISIBLE);
+        } else {
+            holder.vLine.setVisibility(View.VISIBLE);
         }
         holder.tvBuilding.setText(data.getFloor());
         holder.gvEmptyRoom.setAdapter(new EmptyGvAdapter(mContext, data
                 .getEmptyRooms()));
+        holder.mCircle.setImageResource(IDS[position % 3]);
     }
 
 
@@ -53,6 +58,8 @@ public class EmptyAdapter extends BaseRecyclerViewAdapter<EmptyRoom,
 
         @Bind(R.id.empty_left_line)
         View vLine;
+        @Bind(R.id.empty_left_circle)
+        ImageView mCircle;
         @Bind(R.id.item_empty_tv_building)
         TextView tvBuilding;
         @Bind(R.id.item_empty_gv)

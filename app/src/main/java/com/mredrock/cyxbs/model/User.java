@@ -18,22 +18,22 @@ public class User implements Parcelable {
     public User() {
     }
 
-    public String id;
-    public String stuNum;
-    public String idNum;
-    public String name;
-    public String gender;
-    public String classNum;
-    public String major;
-    public String college;
-    public String grade;
-    public String stu;
-    public String photo_thumbnail_src;
-    public String photo_src;
-    public String nickname;
-    public String qq;
-    public String phone;
-    public String introduction;
+    public String id = "";
+    public String stuNum = "";
+    public String idNum = "";
+    public String name = "";
+    public String gender = "";
+    public String classNum = "";
+    public String major = "";
+    public String college = "";
+    public String grade = "";
+    public String stu = "";
+    public String photo_thumbnail_src = "";
+    public String photo_src = "";
+    public String nickname = "";
+    public String qq = "";
+    public String phone = "";
+    public String introduction = "";
 
     protected User(Parcel in) {
         stuNum = in.readString();

@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,8 +37,10 @@ import butterknife.ButterKnife;
  */
 public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    @Bind(R.id.grade_tv_nothing)
-    TextView gradeTvNothing;
+    @Bind(R.id.no_data)
+    ViewGroup mNoDataLayout;
+    @Bind(R.id.text)
+    TextView mNoDataText;
     @Bind(R.id.grade_recyclerView)
     RecyclerView mGradeRecyclerView;
     @Bind(R.id.grade_swipe_refresh_layout)
@@ -78,7 +82,8 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
             if (NetUtils.isNetWorkAvailable(getActivity())) {
                 showProgress();
             } else {
-                gradeTvNothing.setVisibility(View.VISIBLE);
+                mNoDataLayout.setVisibility(View.VISIBLE);
+                mNoDataText.setText("暂无成绩信息~");
             }
         } else {
             if (mIsVisibleToUser) {
@@ -117,8 +122,9 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
             public boolean onError(Throwable e) {
                 super.onError(e);
                 dismissProgress();
-                if (gradeTvNothing != null) {
-                    gradeTvNothing.setVisibility(View.VISIBLE);
+                if (mNoDataLayout != null) {
+                    mNoDataLayout.setVisibility(View.VISIBLE);
+                    mNoDataText.setText("暂无成绩信息~");
                 }
                 return false;
             }
@@ -130,7 +136,8 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
                 dismissProgress();
                 refresh(gradeList);
                 if (mGradeList.size() == 0) {
-                    gradeTvNothing.setVisibility(View.VISIBLE);
+                    mNoDataLayout.setVisibility(View.VISIBLE);
+                    mNoDataText.setText("暂无成绩信息~");
                 }
             }
         }), mUser.stuNum, mUser.idNum, update);
@@ -139,21 +146,12 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
     private void refresh(List<Grade> gradeList) {
         try {
             mGradeList.clear();
-            addTitleToList();
             mGradeList.addAll(gradeList);
             mGradeAdapter.notifyDataSetChanged();
-            gradeTvNothing.setVisibility(View.GONE);
+            mNoDataLayout.setVisibility(View.GONE);
         } catch (NullPointerException e) {
             LogUtils.LOGW(getClass().getName(), "Callback after activity destroy", e);
         }
-    }
-
-    private void addTitleToList() {
-        Grade grade = new Grade();
-        grade.course = "名称";
-        grade.property = "类型";
-        grade.grade = "成绩";
-        mGradeList.add(grade);
     }
 
     private void showProgress() {

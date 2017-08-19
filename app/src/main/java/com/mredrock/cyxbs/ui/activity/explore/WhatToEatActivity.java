@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.fragment.explore.WhatToEatFragment;
 import com.mredrock.cyxbs.util.LogUtils;
@@ -42,7 +41,6 @@ public class WhatToEatActivity extends BaseExploreActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_what_to_eat);
-        StatusBarUtil.setTranslucent(this, 50);
         int[] startLocation = getIntent().getIntArrayExtra(ARG_DRAWING_START_LOCATION);
         if (savedInstanceState == null) {
             WhatToEatFragment fragment =

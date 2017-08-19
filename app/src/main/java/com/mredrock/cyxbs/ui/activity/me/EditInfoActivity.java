@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
@@ -50,25 +49,25 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
     TextView toolbarTitle;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.edit_info_avatar_layout)
+    @Bind(R.id.edit_avatar)
     RelativeLayout editInfoAvatarLayout;
-    @Bind(R.id.edit_info_nick_layout)
+    @Bind(R.id.edit_name)
     RelativeLayout editInfoNickLayout;
-    @Bind(R.id.edit_info_introduce_layout)
+    @Bind(R.id.edit_introduce)
     RelativeLayout editInfoIntroduceLayout;
-    @Bind(R.id.edit_info_avatar)
+    @Bind(R.id.avatar)
     ImageView editInfoAvatar;
-    @Bind(R.id.edit_info_nick_name)
+    @Bind(R.id.name)
     TextView editInfoNickName;
-    @Bind(R.id.edit_info_introduce)
+    @Bind(R.id.introduce)
     TextView editInfoIntroduce;
-    @Bind(R.id.edit_info_qq)
+    @Bind(R.id.qq)
     TextView editInfoQq;
-    @Bind(R.id.edit_info_qq_layout)
+    @Bind(R.id.edit_qq)
     RelativeLayout editInfoQqLayout;
-    @Bind(R.id.edit_info_phone)
+    @Bind(R.id.phone)
     TextView editInfoPhone;
-    @Bind(R.id.edit_info_phone_layout)
+    @Bind(R.id.edit_phone)
     RelativeLayout editInfoPhoneLayout;
 
     private User mUser;
@@ -81,7 +80,6 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_info);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
         mUser = APP.getUser(this);
         initView();
@@ -103,33 +101,33 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
         mDestinationUri = Uri.fromFile(new File(dir, mUser.stuNum + ".png"));
     }
 
-    @OnClick(R.id.edit_info_avatar_layout)
+    @OnClick(R.id.edit_avatar)
     void clickToDialog() {
         showSelectDialog();
     }
 
-    @OnClick(R.id.edit_info_nick_layout)
+    @OnClick(R.id.edit_name)
     void clickToNickName() {
         Intent intent = new Intent(this, EditNickNameActivity.class);
         intent.putExtra(Const.Extras.EDIT_USER, mUser);
         startActivityForResult(intent, Const.Requests.EDIT_NICKNAME);
     }
 
-    @OnClick(R.id.edit_info_introduce_layout)
+    @OnClick(R.id.edit_introduce)
     void clickToIntroduce() {
         Intent intent = new Intent(this, EditIntroduceActivity.class);
         intent.putExtra(Const.Extras.EDIT_USER, mUser);
         startActivityForResult(intent, Const.Requests.EDIT_INTRODUCE);
     }
 
-    @OnClick(R.id.edit_info_qq_layout)
+    @OnClick(R.id.edit_qq)
     void clickToQQ() {
         Intent intent = new Intent(this, EditQQActivity.class);
         intent.putExtra(Const.Extras.EDIT_USER, mUser);
         startActivityForResult(intent, Const.Requests.EDIT_QQ);
     }
 
-    @OnClick(R.id.edit_info_phone_layout)
+    @OnClick(R.id.edit_phone)
     void clickToPhone() {
         Intent intent = new Intent(this, EditPhoneActivity.class);
         intent.putExtra(Const.Extras.EDIT_USER, mUser);
@@ -190,7 +188,7 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
             toolbar.setTitle("");
             toolbarTitle.setText("修改信息");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
             toolbar.setNavigationOnClickListener(v -> {
                 Intent intent = new Intent();
                 intent.putExtra(Const.Extras.EDIT_USER, mUser);

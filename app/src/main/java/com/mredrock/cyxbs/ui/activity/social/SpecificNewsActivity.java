@@ -3,7 +3,6 @@ package com.mredrock.cyxbs.ui.activity.social;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,17 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.TextLimitButton;
-import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
@@ -38,6 +33,7 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
 import com.mredrock.cyxbs.ui.adapter.SpecificNewsCommentAdapter;
+import com.mredrock.cyxbs.ui.widget.EditTextBottomSheetDialog;
 import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.download.DownloadHelper;
@@ -55,8 +51,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscription;
 
-public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class SpecificNewsActivity extends BaseActivity
+        implements SwipeRefreshLayout.OnRefreshListener, EditTextBottomSheetDialog.OnClickListener
+        , View.OnClickListener {
 
 
     public static final String START_DATA = "dataBean";
@@ -70,34 +69,48 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     Toolbar mToolbar;
     @Bind(R.id.toolbar_title)
     TextView mToolBarTitle;
-    @Bind(R.id.news_edt_comment)
-    EditText mNewsEdtComment;
     @Bind(R.id.refresh)
     SwipeRefreshLayout mRefresh;
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @Bind(R.id.btn_send)
-    TextLimitButton mSendText;
     @Bind(R.id.downText)
     TextView mTextDown;
+
+    @Bind(R.id.comment)
+    ViewGroup mComment;
+    @Bind(R.id.favor)
+    ViewGroup mFavor;
+    @Bind(R.id.favor_text)
+    TextView mFavorBtn;
+    private TextView mMsgNum;
 
     private NewsAdapter.NewsViewHolder mWrapView;
     private View mHeaderView;
     private HotNewsContent mHotNewsContent;
     private SpecificNewsCommentAdapter mSpecificNewsCommentAdapter;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
-    private DividerItemDecoration mDividerItemDecoration;
     private List<CommentContent> mListComments = null;
     private View mFooterView;
     private boolean isFromMyTrend;
     String article_id;
 
+    private EditTextBottomSheetDialog mCommentDialog;
+
     private User mUser;
+
+    private Subscription mSubscription;
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @OnClick(R.id.comment)
+    public void showCommentDialog() {
+        if (mCommentDialog != null) {
+            mCommentDialog.show();
+        }
     }
 
 
@@ -123,14 +136,22 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_news);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
         //  mUser = APP.getUser(this);
+        mCommentDialog = new EditTextBottomSheetDialog(this);
+        mCommentDialog.setOnClickListener(this);
+
         mRefresh.setColorSchemeColors(
                 ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
                 ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
         );
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
         mWrapView = new NewsAdapter.NewsViewHolder(mHeaderView);
+        mWrapView.mCardView.setCardElevation(0);
+        mWrapView.mCardView.setClickable(false);
+        mWrapView.mBtnFavor.setVisibility(View.GONE);
+        mWrapView.mBtnMsg.setVisibility(View.GONE);
+        mWrapView.mDivider.setVisibility(View.GONE);
+        mMsgNum = (TextView) mHeaderView.findViewById(R.id.msg_num);
 
         mWrapView.isFromPersonInfo = getIntent().getBooleanExtra(IS_FROM_PERSON_INFO, false);
         HotNewsContent hotNewsContent = getIntent().getParcelableExtra(START_DATA);
@@ -143,10 +164,13 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
             mHotNewsContent = hotNewsContent;
             mHotNewsContent.officeNewsContent.content = mHotNewsContent.officeNewsContent.content.replace("\\n", "\n");
             mWrapView.setData(mHotNewsContent, true);
-            if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
             mWrapView.mTextContent.setText(mHotNewsContent.officeNewsContent.content);
             if (mHotNewsContent.typeId < BBDDNews.BBDD || (mHotNewsContent.typeId == 6 && mHotNewsContent.user_id == null))
                 doWithNews(mWrapView, mHotNewsContent.officeNewsContent);
+            mFavorBtn.setText(mHotNewsContent.likeNum);
+            mFavor.setOnClickListener(this);
+            mMsgNum.setText(mHotNewsContent.remarkNum);
+            mFavorBtn.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, hotNewsContent.isMyLike ? R.drawable.ic_favor_blue_comment : R.drawable.ic_favor_blue_white), null, null, null);
             requestComments();
         } else {
             getDataBeanById(article_id);
@@ -154,24 +178,28 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
         init();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (!mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
+    }
+
     private void init() {
         initToolbar();
         mRefresh.setOnRefreshListener(this);
         mSpecificNewsCommentAdapter = new SpecificNewsCommentAdapter(mListComments, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mDividerItemDecoration = new DividerItemDecoration(this, LinearLayout.VERTICAL);
-        mRecyclerView.addItemDecoration(mDividerItemDecoration);
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mSpecificNewsCommentAdapter);
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
-        mSendText.addTextView(mNewsEdtComment);
+//        mSendText.addTextView(mNewsEdtComment);
 
-        RxBus.getDefault().toObserverable(CommentContent.class)
+        mSubscription = RxBus.getDefault().toObserverable(CommentContent.class)
                 .subscribe(commentContent -> {
-                    mNewsEdtComment.setText(" ");
-                    mNewsEdtComment.setText("回复 " + commentContent.getNickname() + " : ");
-                    mNewsEdtComment.clearFocus();
-                    mNewsEdtComment.setSelection(mNewsEdtComment.getText().toString().length());
+                    mCommentDialog.setText("回复 " + commentContent.getNickname() + " : ");
+                    mCommentDialog.show();
                 });
 
     }
@@ -251,19 +279,16 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     private void removeFooterView() {
         mHeaderViewRecyclerAdapter.reMoveFooterView();
         mHeaderViewRecyclerAdapter.notifyDataSetChanged();
-        mRecyclerView.removeItemDecoration(mDividerItemDecoration);
-        mRecyclerView.addItemDecoration(mDividerItemDecoration);
     }
 
     private void addFooterView() {
         mFooterView = LayoutInflater.from(this)
                 .inflate(R.layout.list_footer_item_remark, mRecyclerView, false);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterView);
-        mRecyclerView.removeItemDecoration(mDividerItemDecoration);
     }
 
     private void initToolbar() {
-        mToolbar.setNavigationIcon(R.drawable.back);
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
         mToolbar.setTitle("");
         mToolBarTitle.setText(getString(R.string.specific_news_title));
         setSupportActionBar(mToolbar);
@@ -272,36 +297,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     private void getDataFailed() {
         Toast.makeText(this, getString(R.string.erro), Toast.LENGTH_SHORT).show();
-    }
-
-    @OnClick(R.id.btn_send)
-    public void sendComment(View view) {
-        if (mNewsEdtComment.getText().toString().equals(""))
-            Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT).show();
-        else {
-            RequestManager.getInstance().postReMarks(new SimpleSubscriber<>(this,true,false, new SubscriberListener<String>() {
-                @Override
-                public void onCompleted() {
-                    super.onCompleted();
-                    requestComments();
-                    mNewsEdtComment.getText().clear();
-                    mRecyclerView.scrollToPosition(1);
-                    String msgNumber = Integer.parseInt(mWrapView.mBtnMsg.getText().toString()) + 1 + "";
-                    mWrapView.mBtnMsg.setText(msgNumber);
-                    mHotNewsContent.remarkNum = msgNumber;
-                    RxBus.getDefault().post(mHotNewsContent);
-                }
-
-                @Override
-                public boolean onError(Throwable e) {
-                    super.onError(e);
-                    showUploadFail(e.toString());
-                    return false;
-                }
-            }), mHotNewsContent.articleId, mHotNewsContent.typeId, mNewsEdtComment.getText().toString(), mUser.id, mUser.stuNum, mUser.idNum);
-
-        }
-
     }
 
     private void getDataBeanById(String articleId) {
@@ -326,7 +321,6 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
                         }
                     }
                     mWrapView.setData(mHotNewsContent, true);
-                    if (isFromMyTrend) mWrapView.mBtnFavor.setOnClickListener(null);
                     requestComments();
                 }
             }
@@ -334,34 +328,34 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
 
     }
 
+    /*
+        @Override
+        public void onBackPressed() {
+            if (mCommentDialog.getText().toString().isEmpty()) {
+                super.onBackPressed();
+            } else {
+                Handler handler = new Handler(getMainLooper());
+                handler.post(() -> new MaterialDialog.Builder(this)
+                        .title("退出编辑?")
+                        .content("是否放弃编辑内容并且退出?")
+                        .positiveText("退出")
+                        .negativeText("取消")
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                super.onPositive(dialog);
+                                finish();
+                            }
 
-    @Override
-    public void onBackPressed() {
-        if (mNewsEdtComment.getText().toString().isEmpty()) {
-            super.onBackPressed();
-        } else {
-            Handler handler = new Handler(getMainLooper());
-            handler.post(() -> new MaterialDialog.Builder(this)
-                    .title("退出编辑?")
-                    .content("是否放弃编辑内容并且退出?")
-                    .positiveText("退出")
-                    .negativeText("取消")
-                    .callback(new MaterialDialog.ButtonCallback() {
-                        @Override
-                        public void onPositive(MaterialDialog dialog) {
-                            super.onPositive(dialog);
-                            finish();
-                        }
-
-                        @Override
-                        public void onNegative(MaterialDialog dialog) {
-                            super.onNegative(dialog);
-                            dialog.dismiss();
-                        }
-                    }).show());
+                            @Override
+                            public void onNegative(MaterialDialog dialog) {
+                                super.onNegative(dialog);
+                                dialog.dismiss();
+                            }
+                        }).show());
+            }
         }
-    }
-
+    */
     @Override
     protected void onResume() {
         super.onResume();
@@ -398,5 +392,49 @@ public class SpecificNewsActivity extends BaseActivity implements SwipeRefreshLa
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
         getDataBeanById(article_id);
+    }
+
+    @Override
+    public void onCancel() {
+
+    }
+
+    @Override
+    public void onSend(EditText editText) {
+        if (editText.getText().toString().equals(""))
+            Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT).show();
+        else {
+            RequestManager.getInstance().postReMarks(new SimpleSubscriber<>(this, true, false, new SubscriberListener<String>() {
+                @Override
+                public void onCompleted() {
+                    super.onCompleted();
+                    requestComments();
+                    editText.getText().clear();
+                    mRecyclerView.scrollToPosition(1);
+                    String msgNumber = Integer.parseInt(mMsgNum.getText().toString()) + 1 + "";
+                    mMsgNum.setText(msgNumber);
+                    mHotNewsContent.remarkNum = msgNumber;
+                    RxBus.getDefault().post(mHotNewsContent);
+                    mCommentDialog.dismiss();
+                }
+
+                @Override
+                public boolean onError(Throwable e) {
+                    super.onError(e);
+                    showUploadFail(e.toString());
+                    return false;
+                }
+            }), mHotNewsContent.articleId, mHotNewsContent.typeId, editText.getText().toString(), mUser.id, mUser.stuNum, mUser.idNum);
+
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mHotNewsContent.isMyLike) {
+            mWrapView.dislike(mFavorBtn);
+        } else {
+            mWrapView.like(mFavorBtn);
+        }
     }
 }

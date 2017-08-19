@@ -1,189 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_grey"
-    android:orientation="vertical"
-    tools:context=".ui.activity.me.SettingActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background_grey"
+              android:orientation="vertical"
+              tools:context=".ui.activity.me.SettingActivity">
 
-    <include layout="@layout/toolbar" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divider" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:background="@android:color/transparent"/>
+    <include layout="@layout/toolbar"/>
 
     <RelativeLayout
-        android:id="@+id/setting_remind_layout"
+        android:id="@+id/setting_remind"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/bg_layout"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="17dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
-            android:text="@string/setting_news_remind"
-            android:textColor="@color/text_dark"
-            android:textSize="14sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
-            android:background="@color/divider_light" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/setting_course_mode_layout"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/bg_layout"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
             android:text="@string/setting_show_mode"
-            android:textColor="@color/text_dark"
-            android:textSize="14sp" />
-        <android.support.v7.widget.SwitchCompat
+            android:textColor="#333333"
+            android:textSize="14sp"/>
+
+        <com.suke.widget.SwitchButton
             android:id="@+id/setting_switch_show"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-
-            android:layout_marginEnd="25dp"
-            android:layout_marginRight="25dp"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
-            android:background="@color/divider_light" />
-
+            app:sb_background="#BEBEBE"
+            app:sb_button_color="#FFFFFF"
+            app:sb_checked_color="#788EFA"
+            app:sb_effect_duration="200"
+            app:sb_show_indicator="false"
+            app:sb_uncheck_color="#BEBEBE"/>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/setting_feedback_layout"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/bg_layout"
-        android:orientation="vertical">
+        android:layout_height="1dp"
+        android:background="#E4E4E4"/>
+
+    <RelativeLayout
+        android:id="@+id/setting_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="17dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
             android:text="@string/setting_feedback"
-            android:textColor="@color/text_dark"
-            android:textSize="14sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
-            android:background="@color/divider_light" />
-
+            android:textColor="#333333"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/setting_about_layout"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/bg_layout"
-        android:orientation="vertical">
+        android:layout_height="1dp"
+        android:background="#E4E4E4"/>
+
+    <RelativeLayout
+        android:id="@+id/setting_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="17dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
             android:text="@string/setting_about"
-            android:textColor="@color/text_dark"
-            android:textSize="14sp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
-            android:background="@color/divider_light" />
-
+            android:textColor="#333333"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/setting_share_layout"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/bg_layout"
-        android:orientation="vertical">
+        android:layout_height="1dp"
+        android:background="#E4E4E4"/>
+
+    <RelativeLayout
+        android:id="@+id/setting_share"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="17dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
             android:text="分享"
-            android:textColor="@color/text_dark"
-            android:textSize="14sp" />
-
-
+            android:textColor="#333333"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
-    <View
+    <Button
+        android:id="@+id/setting_exit"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divider" />
-
-    <RelativeLayout
-        android:id="@+id/setting_exit_layout"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/bg_layout"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
-            android:text="@string/setting_exit"
-            android:textColor="@color/text_dark"
-            android:textSize="14sp" />
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divider" />
-
+        android:layout_height="45dp"
+        android:layout_margin="17dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/bg_btn"
+        android:text="@string/setting_exit"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"/>
 </LinearLayout>

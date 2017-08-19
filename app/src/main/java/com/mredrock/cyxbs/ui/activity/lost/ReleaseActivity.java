@@ -23,7 +23,6 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bigkoo.pickerview.lib.WheelView;
 import com.google.gson.Gson;
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.lost.LostDetail;
 import com.mredrock.cyxbs.model.lost.LostStatus;
@@ -84,7 +83,6 @@ public class ReleaseActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
         dialog = new AlertDialog.Builder(ReleaseActivity.this).create();
         initToolbar();
         initButton();

@@ -1,13 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.activity.me.AboutActivity">
 
     <include
         android:id="@+id/about_toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar"/>
 
     <ImageView
         android:id="@+id/about_logo"
@@ -17,35 +17,35 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="132dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/about_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="掌上重邮"
         android:layout_below="@id/about_logo"
-        android:layout_marginTop="32dp"
         android:layout_centerInParent="true"
-        android:textSize="20sp" />
+        android:layout_marginTop="32dp"
+        android:text="掌上重邮"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/about_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/about_name"
-        android:layout_marginTop="8dp"
         android:layout_centerInParent="true"
+        android:layout_marginTop="8dp"
         android:textSize="14sp"/>
 
     <LinearLayout
         android:id="@+id/about_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_marginBottom="88dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
@@ -54,12 +54,12 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
             android:text="官网"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="|" />
+            android:text="|"/>
 
         <TextView
             android:id="@+id/about_legal"
@@ -68,12 +68,12 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:text="使用条款"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="|" />
+            android:text="|"/>
 
         <TextView
             android:id="@+id/about_update"
@@ -81,27 +81,27 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:text="更新"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <TextView
         android:id="@+id/about_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_marginBottom="64dp"
-        android:text="红岩网校产品" />
+        android:gravity="center"
+        android:text="红岩网校产品"/>
 
     <TextView
         android:id="@+id/tv_about_copyright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_marginBottom="36dp"
-        android:text="CopyRight@2015-2016 All Rights Reserved" />
+        android:gravity="center"
+        android:text="CopyRight@2017-2018 All Rights Reserved"/>
 
 </RelativeLayout>

@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
@@ -57,7 +56,6 @@ public class DormitorySettingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dormitory_setting);
-        StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         setResult(ElectricChargeActivity.REQUEST_NOT_SET_CODE);
         initView();

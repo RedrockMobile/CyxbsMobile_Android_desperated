@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,8 +43,10 @@ public class ExamScheduleFragment extends BaseFragment {
     public static final String TYPE_EXAM = "exam";
     public static final String TYPE_REEXAM = "reexam";
 
-    @Bind(R.id.exam_tv_nothing)
-    TextView examTvNothing;
+    @Bind(R.id.no_data)
+    ViewGroup mNoDataLayout;
+    @Bind(R.id.text)
+    TextView mNoDataText;
     @Bind(R.id.exam_recyclerView)
     RecyclerView examRecyclerView;
     @Bind(R.id.exam_swipe_refresh_layout)
@@ -97,7 +100,7 @@ public class ExamScheduleFragment extends BaseFragment {
         initRecyclerView();
         examSwipeRefreshLayout.setOnRefreshListener(() -> {
             if (mUser != null) {
-                examTvNothing.setVisibility(View.GONE);
+                mNoDataLayout.setVisibility(View.GONE);
                 loadExamList(true);
             }
         });
@@ -162,7 +165,8 @@ public class ExamScheduleFragment extends BaseFragment {
                     super.onError(e);
                     try {
                         examSwipeRefreshLayout.setRefreshing(false);
-                        examTvNothing.setVisibility(View.VISIBLE);
+                        mNoDataLayout.setVisibility(View.VISIBLE);
+                        mNoDataText.setText(isReExam ? "暂无补考记录~" : "暂无考试记录~");
                     } catch (NullPointerException ex) {
                         LogUtils.LOGW(getClass().getName(), "Callback after activity destroy", ex);
                     }
@@ -177,9 +181,10 @@ public class ExamScheduleFragment extends BaseFragment {
 
                         examSwipeRefreshLayout.setRefreshing(false);
                         if (examList == null || examList.size() == 0) {
-                            examTvNothing.setVisibility(View.VISIBLE);
+                            mNoDataLayout.setVisibility(View.VISIBLE);
+                            mNoDataText.setText(isReExam ? "暂无补考记录~" : "暂无考试记录~");
                         } else {
-                            examTvNothing.setVisibility(View.GONE);
+                            mNoDataLayout.setVisibility(View.GONE);
                             refresh(examList);
                         }
                     } catch (NullPointerException e) {
@@ -206,7 +211,7 @@ public class ExamScheduleFragment extends BaseFragment {
         mExamList.addAll(examList);
         Collections.sort(mExamList);
         mExamScheduleAdapter.notifyDataSetChanged();
-        examTvNothing.setVisibility(View.GONE);
+        mNoDataLayout.setVisibility(View.GONE);
     }
 
     private void showProgress() {

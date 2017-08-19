@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
@@ -54,24 +54,23 @@ public class ExamAndGradeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_and_grade);
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
         initViewPager();
     }
 
     private void initToolbar() {
         if (toolbar != null) {
-            toolbar.setTitle("");
             toolbarTitle.setText("考试与成绩");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.back);
-            toolbar.setNavigationOnClickListener(v -> ExamAndGradeActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeButtonEnabled(true);
+                actionBar.setDisplayShowTitleEnabled(false);
             }
+            toolbar.setNavigationIcon(R.drawable.ic_back);
+            toolbar.setNavigationOnClickListener(
+                    v -> ExamAndGradeActivity.this.finish());
         }
     }
 

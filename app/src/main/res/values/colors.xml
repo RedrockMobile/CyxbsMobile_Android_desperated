@@ -9,13 +9,14 @@
     <color name="data_light_black">#a9a9a9</color>
 
     <!--Common-->
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorPrimary">#58B1FC</color>
+    <color name="colorPrimaryDark">#798DFA</color>
     <!--<color name="colorPrimaryDark">#ffffff</color>-->
-    <color name="colorAccent">#47A4FA</color>
-    <color name="tabIndicatorColor">#c9c9c9</color>
+    <color name="colorAccent">#788EFA</color>
+    <color name="tabIndicatorColor">#7196FA</color>
     <color name="tab_background_pressed">#1Affffff</color>
-    <color name="tabText">#66000000</color>
+    <color name="tabText">#999999</color>
+    <color name="tabTextColorBlack">#666666</color>
 
 
     <!--TextColor start -->
@@ -73,7 +74,7 @@
 
     <color name="black_lightly">#f0000000</color>
     
-    <color name="gray_edit">#A9A7A9</color>
+    <color name="gray_edit">#F6F6F6</color>
     <color name="gray_edit_back">#ECECEF</color>
     <color name="white_black">#ffffff</color>
 

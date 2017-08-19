@@ -1,47 +1,33 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.tag.FlowLayout;
-import com.mredrock.cyxbs.component.widget.tag.TagAdapter;
-import com.mredrock.cyxbs.component.widget.tag.TagFlowLayout;
 import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
-import com.mredrock.cyxbs.ui.adapter.me.BuildingAdapter;
-import com.mredrock.cyxbs.ui.adapter.me.EmptyAdapter;
+import com.mredrock.cyxbs.ui.widget.PickerBottomSheetDialog;
 import com.mredrock.cyxbs.util.EmptyConverter;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.umeng.analytics.MobclickAgent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-import static com.mredrock.cyxbs.APP.getContext;
-
-public class EmptyRoomActivity extends BaseActivity
-        implements TagFlowLayout.OnSelectListener, AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class EmptyRoomActivity extends BaseActivity {
 
     /**
      * 请求时传入的教学楼参数
@@ -52,48 +38,68 @@ public class EmptyRoomActivity extends BaseActivity
      * 请求时传入的课时参数
      */
     public static final String[] sectionNumApiArray = {"0", "1", "2", "3", "4", "5"};
-
-    //    @Bind(R.id.empty_rfab_layout)
-//    RapidFloatingActionLayout mEmptyRfabLayout;
-//    @Bind(R.id.empty_rfab)
-//    RapidFloatingActionButton mEmptyRfabButton;
-//    @Bind(R.id.empty_iv_resultIcon)
-//    ImageView mIvResultIcon;
-//    @Bind(R.id.empty_tv_searchResult)
-//    TextView mTvResult;
-    @Bind(R.id.empty_rv)
-    RecyclerView mEmptyRecyclerView;
-    @Bind(R.id.toolbar_title)
-    TextView toolbarTitle;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.empty_progress)
-    ContentLoadingProgressBar emptyProgress;
-    @Bind(R.id.empty_fab_sp_buildings)
-    Spinner buildingSpinner;
-    @Bind(R.id.empty_fab_section_tagLayout)
-    TagFlowLayout sectionTagFlowLayout;
-    @Bind(R.id.fab_search)
-    FloatingActionButton completeButton;
+    @Bind(R.id.toolbar_title)
+    TextView mToolbarTitle;
+    @Bind(R.id.tv_building)
+    TextView mBuildingTv;
+    @Bind(R.id.tv_section)
+    TextView mSectioinTv;
+    @Bind(R.id.query)
+    Button mQuery;
 
     private int mBuildNumPosition = -1;
-    private Set<Integer> mSectionPosSet;
-
-    /**
-     * 需要请求的次数
-     */
-    private int mNeedReqNum;
-
-    /**
-     * 成功请求的次数
-     */
-
-    private int mSuccessReqNum;
-
-    private List<EmptyRoom> mEmptyRoomList;
-    private EmptyAdapter mEmptyRoomAdapter;
+    private int mSectionPosition = -1;
 
     private EmptyConverter mConverter;
+
+    @OnClick(R.id.select_building)
+    void selectBuilding() {
+        final String[] buildings = getResources().getStringArray(R.array.empty_buildings);
+        PickerBottomSheetDialog dialog = new PickerBottomSheetDialog(this);
+        dialog.setData(buildings);
+        dialog.setOnClickListener(new PickerBottomSheetDialog.OnClickListener() {
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onSure(String value, int position) {
+                mBuildingTv.setText(value);
+                mBuildingTv.setTextColor(Color.parseColor("#333333"));
+                mBuildNumPosition = position;
+            }
+        });
+        dialog.show();
+    }
+
+    @OnClick(R.id.select_section)
+    void selectSection() {
+        final String[] buildings = getResources().getStringArray(R.array.empty_sections);
+        PickerBottomSheetDialog dialog = new PickerBottomSheetDialog(this);
+        dialog.setData(buildings);
+        dialog.setOnClickListener(new PickerBottomSheetDialog.OnClickListener() {
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onSure(String value, int position) {
+                mSectioinTv.setText(value);
+                mSectioinTv.setTextColor(Color.parseColor("#333333"));
+                mSectionPosition = position;
+            }
+        });
+        dialog.show();
+    }
+
+    @OnClick(R.id.query)
+    void query() {
+        onCompleteButtonClickListener(mBuildNumPosition, mSectionPosition);
+    }
 
     @Override
     public void onResume() {
@@ -112,17 +118,14 @@ public class EmptyRoomActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_room);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
         initToolbar();
-        setup();
-        setupAdapter();
     }
 
 
-    public void onCompleteButtonClickListener(int buildNumPosition, Set<Integer> sectionPosSet) {
-        if (buildNumPosition != -1 && buildNumPosition != 0) {
-            if (sectionPosSet != null && !sectionPosSet.isEmpty()) {
-                loadingEmptyData(buildNumPosition, sectionPosSet);
+    public void onCompleteButtonClickListener(int buildNumPosition, int sectionPosition) {
+        if (buildNumPosition >= 0) {
+            if (sectionPosition >= 0) {
+                loadingEmptyData(buildNumPosition, sectionPosition);
             } else {
                 Toast.makeText(this, "请选择课时", Toast.LENGTH_SHORT).show();
             }
@@ -136,159 +139,74 @@ public class EmptyRoomActivity extends BaseActivity
 
     private void initToolbar() {
         if (toolbar != null) {
-            toolbar.setTitle("");
-            toolbarTitle.setText("空教室");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.back);
-            toolbar.setNavigationOnClickListener(
-                    v -> EmptyRoomActivity.this.finish());
+            mToolbarTitle.setText("空教室");
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeButtonEnabled(true);
+                actionBar.setDisplayShowTitleEnabled(false);
             }
+            toolbar.setNavigationIcon(R.drawable.ic_back);
+            toolbar.setNavigationOnClickListener(
+                    v -> EmptyRoomActivity.this.finish());
         }
     }
 
-    public void setup() {
-        final List<String> buildNumList = Arrays.asList(getResources().getStringArray(R.array.empty_buildings));
-        final String[] sectionNumArray = getResources().getStringArray(R.array.empty_sections);
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        setupSpBuildings(buildNumList);
-        setupSectionTagLayout(inflater, sectionNumArray);
-        final FloatingActionButton completeBtn = completeButton;
-        completeBtn.setOnClickListener(this);
-    }
+    /*
+    * 加载数据.
+    *
+    * @param buildNumPosition 教学楼
+    * @param sectionPosition    课时
+    */
+    private void loadingEmptyData(int buildNumPosition, int sectionPosition) {
+        String buildingNum = buildNumApiArray[buildNumPosition];
+        String sectionNum = sectionNumApiArray[sectionPosition];
 
-    private void setupSpBuildings(final List<String> buildNumList) {
-        Spinner mSpBuildings = buildingSpinner;
-        BuildingAdapter buildingAdapter = new BuildingAdapter(buildNumList);
-        mSpBuildings.setAdapter(buildingAdapter);
-        mSpBuildings.setOnItemSelectedListener(this);
-    }
-
-    private void setupSectionTagLayout(LayoutInflater inflater,
-                                       final String[] sectionNumArray) {
-        TagFlowLayout mSectionTagLayout = sectionTagFlowLayout;
-        mSectionTagLayout.setAdapter(new TagAdapter<String>(sectionNumArray) {
-            @Override
-            public View getView(FlowLayout parent, int position, String section) {
-                TextView tv = (TextView) inflater.inflate(R.layout.item_empty_fab_tag_item,
-                        mSectionTagLayout, false);
-                tv.setText(section);
-                return tv;
-            }
-        });
-        mSectionTagLayout.setOnSelectListener(this);
-    }
-
-
-    private void setupAdapter() {
-        mEmptyRoomList = new ArrayList<>();
-        mEmptyRoomAdapter = new EmptyAdapter(mEmptyRoomList, this);
-        mEmptyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mEmptyRecyclerView.setAdapter(mEmptyRoomAdapter);
-    }
-
-
-    /**
-     * 加载数据.
-     *
-     * @param buildNumPosition 教学楼
-     * @param sectionPosSet    课时
-     */
-    private void loadingEmptyData(int buildNumPosition, Set<Integer> sectionPosSet) {
-        String buildingNum = buildNumApiArray[buildNumPosition - 1];
-        List<String> courseTimeList = new ArrayList<>();
-        for (Integer pos : sectionPosSet) {
-            courseTimeList.add(sectionNumApiArray[pos]);
-        }
-
-        initialise(courseTimeList);
+        mConverter = new EmptyConverter();
 
         SchoolCalendar calendar = new SchoolCalendar();
         String week = String.valueOf(calendar.getWeekOfTerm());
         String weekday = String.valueOf(calendar.getDayOfWeek());
-        for (String courseTime : courseTimeList) {
-            RequestManager.getInstance().getEmptyRoomList(
-                    new SimpleSubscriber<>(this,
-                            new SubscriberListener<List<String>>() {
+        ProgressDialog progressDialog = new ProgressDialog(EmptyRoomActivity.this);
+        progressDialog.setMessage("查询中...");
+        RequestManager.getInstance().getEmptyRoomList(
+                new SimpleSubscriber<>(this,
+                        new SubscriberListener<List<String>>() {
 
-                                @Override
-                                public void onStart() {
-                                    super.onStart();
-                                    emptyProgress.setVisibility(View.VISIBLE);
-                                }
-
-
-                                @Override
-                                public void onNext(List<String> strings) {
-                                    super.onNext(strings);
-                                    mSuccessReqNum++;
-                                    mConverter.setEmptyData(strings);
-                                    if (mSuccessReqNum == mNeedReqNum) {
-                                        updateEmptyAdapter();
-                                    }
-                                    emptyProgress.setVisibility(View.GONE);
-                                }
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                                progressDialog.show();
+                            }
 
 
-                                @Override
-                                public void onCompleted() {
-                                    super.onCompleted();
-                                }
+                            @Override
+                            public void onNext(List<String> strings) {
+                                super.onNext(strings);
+                                mConverter.setEmptyData(strings);
+                                sendQueryResult();
+                                progressDialog.dismiss();
+                            }
 
 
-                                @Override
-                                public boolean onError(Throwable e) {
-                                    super.onError(e);
-                                    emptyProgress.setVisibility(View.GONE);
-                                    return false;
-                                }
-                            }), buildingNum, week, weekday, courseTime);
-        }
+                            @Override
+                            public void onCompleted() {
+                                super.onCompleted();
+                            }
+
+
+                            @Override
+                            public boolean onError(Throwable e) {
+                                super.onError(e);
+                                progressDialog.dismiss();
+                                return false;
+                            }
+                        }), buildingNum, week, weekday, sectionNum);
     }
 
-
-    /**
-     * 请求时，初始化变量.
-     */
-    private void initialise(List<String> courseTimeList) {
-        mSuccessReqNum = 0;
-        mConverter = new EmptyConverter();
-        mNeedReqNum = courseTimeList.size();
-    }
-
-
-    private void updateEmptyAdapter() {
-        mEmptyRoomList.clear();
-        mEmptyRoomList.addAll(mConverter.convert());
-        mEmptyRoomAdapter.notifyDataSetChanged();
-//        mIvResultIcon.setVisibility(View.VISIBLE);
-//        mTvResult.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onSelected(Set<Integer> selectPosSet) {
-        mSectionPosSet = selectPosSet;
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mBuildNumPosition = position;
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fab_search:
-                onCompleteButtonClickListener(mBuildNumPosition, mSectionPosSet);
-                break;
-        }
+    private void sendQueryResult() {
+        EmptyRoom[] emptyRooms = mConverter.convert().toArray(new EmptyRoom[]{});
+        Intent intent = new Intent(this, EmptyRoomResultActivity.class);
+        intent.putExtra("data", emptyRooms);
+        startActivity(intent);
     }
 }

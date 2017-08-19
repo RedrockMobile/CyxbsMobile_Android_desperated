@@ -2,10 +2,10 @@
     <string name="cyxbsmobile">掌上重邮</string>
     <string name="app_name">掌上重邮</string>
     <string name="action_settings">Setting</string>
-    <string name="community">社区</string>
-    <string name="course">课表</string>
-    <string name="explore">发现</string>
-    <string name="my_page">我的</string>
+    <string name="community">社 区</string>
+    <string name="course">课 表</string>
+    <string name="explore">发 现</string>
+    <string name="my_page">我 的</string>
 
     <string name="now_week">本周</string>
     <string-array name="titles_weeks">
@@ -31,13 +31,13 @@
     </string-array>
 
     <string-array name="course_weekdays">
-        <item>一</item>
-        <item>二</item>
-        <item>三</item>
-        <item>四</item>
-        <item>五</item>
-        <item>六</item>
-        <item>日</item>
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
     </string-array>
 
     <string-array name="schedule_weekday">
@@ -79,7 +79,6 @@
     </string-array>
 
     <string-array name="empty_buildings">
-        <item>请选择教学楼</item>
         <item>二教</item>
         <item>三教</item>
         <item>四教</item>
@@ -88,12 +87,12 @@
     </string-array>
 
     <string-array name="empty_sections">
-        <item>一二节</item>
-        <item>三四节</item>
-        <item>五六节</item>
-        <item>七八节</item>
-        <item>九十节</item>
-        <item>AB节</item>
+        <item>1–2节</item>
+        <item>3–4节</item>
+        <item>5–6节</item>
+        <item>7–8节</item>
+        <item>9–10节</item>
+        <item>11–12节</item>
     </string-array>
 
     <string-array name="exam_grade_tab_titles">
@@ -162,7 +161,7 @@
     <string name="explore_map">重邮地图</string>
     <string name="explore_eat">吃什么</string>
     <string name="explore_around_food">周边美食</string>
-    <string name="explore_electric">电费查询</string>
+    <string name="explore_electric">查电费</string>
 
     <string name="explore_fresher_special">迎新网</string>
     <string name="explore_community">重邮社区</string>

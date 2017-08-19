@@ -104,7 +104,7 @@ public class APP extends MultiDexApplication {
     }
 
     public static boolean isFresh() {
-        return isLogin() && getUser(getContext()).stuNum.substring(0, 4).equals("2016");
+        return isLogin() && getUser(getContext()).stuNum.substring(0, 4).equals("2017");
     }
 
     public static void setLogin(boolean login) {

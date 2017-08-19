@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:background="#ffffff"
+    android:padding="10dp">
+    <View
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/special_2017_gradient_background"
+        android:layout_width="3dp"
+        android:layout_height="match_parent" />
+    <TextView
+        android:id="@+id/fengcai_text"
+        android:text="军训图片"
+        android:textSize="14dp"
+        android:textColor="#333"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
