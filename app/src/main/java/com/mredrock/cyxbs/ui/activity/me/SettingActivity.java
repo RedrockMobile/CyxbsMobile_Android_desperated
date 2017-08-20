@@ -117,7 +117,8 @@ public class SettingActivity extends BaseActivity {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
             ClipData data = ClipData.newPlainText("QQ Group", "570919844");
             clipboard.setPrimaryClip(data);
-            Toast.makeText(this, "未安装手Q或安装的版本不支持，已将掌邮bug反馈群的群号复制至手机剪贴板",
+            Toast.makeText(this, "抱歉，由于您未安装手机QQ或版本不支持，无法跳转至掌邮bug反馈群。" +
+                            "已将群号复制至您的手机剪贴板，请您手动添加",
                     Toast.LENGTH_LONG).show();
         }
     }
