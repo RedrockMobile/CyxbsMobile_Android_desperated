@@ -73,6 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             app:animDuration="200"
+            app:collapseDrawable="@drawable/ic_collapse"
+            app:expandDrawable="@drawable/ic_expand"
             app:maxCollapsedLines="2">
 
             <TextView
@@ -91,7 +93,7 @@
                 android:layout_gravity="left|bottom"
                 android:background="@android:color/transparent"
                 android:drawablePadding="4dp"
-                android:drawableRight="@drawable/ic_arrow_up_blue"
+                android:drawableRight="@drawable/ic_expand"
                 android:text="展开"
                 android:textColor="#788EFA"/>
         </com.mredrock.cyxbs.component.widget.ExpandableTextView>
