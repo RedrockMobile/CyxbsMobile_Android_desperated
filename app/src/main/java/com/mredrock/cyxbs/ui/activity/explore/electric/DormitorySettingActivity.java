@@ -89,6 +89,7 @@ public class DormitorySettingActivity extends BaseActivity {
         if (building.isEmpty())
             return;
         buildingNumberEdit.setText(building+"栋");
+        buildingNumber = Integer.parseInt(building);
         String dormitory = (String) SPUtils.get(APP.getContext(),DORMITORY_KEY,"");
         dormitoryNumberEdit.setText(dormitory);
 

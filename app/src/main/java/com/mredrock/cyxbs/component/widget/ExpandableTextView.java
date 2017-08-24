@@ -160,7 +160,8 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         }
 
         mCollapsed = !mCollapsed;
-        mButton.setCompoundDrawables(null, null, mCollapsed ? mExpandDrawable : mCollapseDrawable, null);
+        mButton.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                mCollapsed ? mExpandDrawable : mCollapseDrawable, null);
         mButton.setText(mCollapsed ? "展开" : "收起");
         if (mCollapsedStatus != null) {
             mCollapsedStatus.put(mPosition, mCollapsed);

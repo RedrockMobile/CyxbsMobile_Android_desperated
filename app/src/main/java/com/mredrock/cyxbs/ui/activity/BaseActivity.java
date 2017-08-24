@@ -66,7 +66,7 @@ public class BaseActivity extends AppCompatActivity {
             );
         }
 
-//        Log.v("tag", getClass().getName());
+        Log.v("tag", getClass().getName());
     }
 
     @Override
