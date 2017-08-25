@@ -27,9 +27,9 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     @Override
     protected void setDate(NewsAdapter.NewsViewHolder holder, HotNewsContent hotNewsContent) {
         super.setDate(holder, hotNewsContent);
-        holder.enableAvatarClick = !(hotNewsContent.user_id.equals("0") || hotNewsContent.typeId < 5);
+        holder.enableAvatarClick = !(hotNewsContent.user_id.equals("0") || hotNewsContent.typeId <
+                5 || hotNewsContent.typeId == 7);
     }
-
 
     @Override
     protected void init() {
