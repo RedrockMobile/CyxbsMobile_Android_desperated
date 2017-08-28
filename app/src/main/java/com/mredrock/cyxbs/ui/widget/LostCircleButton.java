@@ -1,21 +1,13 @@
 package com.mredrock.cyxbs.ui.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.ImageFormat;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Checkable;
-import android.widget.RadioGroup;
-
-import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.util.LogUtils;
 
 /**
  * Created by wusui on 2017/3/4.

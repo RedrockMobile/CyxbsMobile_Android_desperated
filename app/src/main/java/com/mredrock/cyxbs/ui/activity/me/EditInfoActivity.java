@@ -33,7 +33,7 @@ import com.yalantis.ucrop.UCrop;
 import java.io.File;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
@@ -45,29 +45,29 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
 
     private static final String PATH_CROP_PICTURES = Environment.getExternalStorageDirectory() + "/cyxbsmobile/" + "Pictures";
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.edit_avatar)
+    @BindView(R.id.edit_avatar)
     RelativeLayout editInfoAvatarLayout;
-    @Bind(R.id.edit_name)
+    @BindView(R.id.edit_name)
     RelativeLayout editInfoNickLayout;
-    @Bind(R.id.edit_introduce)
+    @BindView(R.id.edit_introduce)
     RelativeLayout editInfoIntroduceLayout;
-    @Bind(R.id.avatar)
+    @BindView(R.id.avatar)
     ImageView editInfoAvatar;
-    @Bind(R.id.name)
+    @BindView(R.id.name)
     TextView editInfoNickName;
-    @Bind(R.id.introduce)
+    @BindView(R.id.introduce)
     TextView editInfoIntroduce;
-    @Bind(R.id.qq)
+    @BindView(R.id.qq)
     TextView editInfoQq;
-    @Bind(R.id.edit_qq)
+    @BindView(R.id.edit_qq)
     RelativeLayout editInfoQqLayout;
-    @Bind(R.id.phone)
+    @BindView(R.id.phone)
     TextView editInfoPhone;
-    @Bind(R.id.edit_phone)
+    @BindView(R.id.edit_phone)
     RelativeLayout editInfoPhoneLayout;
 
     private User mUser;

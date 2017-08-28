@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -32,9 +32,9 @@ import butterknife.ButterKnife;
  */
 public class SocialContainerFragment extends BaseFragment {
 
-    @Bind(R.id.community_TabLayout)
+    @BindView(R.id.community_TabLayout)
     TabLayout mTabLayout;
-    @Bind(R.id.community_ViewPager)
+    @BindView(R.id.community_ViewPager)
     ViewPager mViewPager;
     private boolean firstLogin = false;
     private int resumenCount = 0;
@@ -120,7 +120,7 @@ public class SocialContainerFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     public void changeViewPagerIndex(int index) {

@@ -23,7 +23,7 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.EditTextBottomSheetDialog;
 import com.umeng.analytics.MobclickAgent;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
@@ -31,11 +31,11 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
     public static final String EXTRA_EDIT_INTRODUCE = "extra_edit_introduce";
 
     public static final int MAX_SIZE_TEXT = 30;
-    @Bind(R.id.edit_introduce_toolbar)
+    @BindView(R.id.edit_introduce_toolbar)
     Toolbar editIntroduceToolbar;
-    @Bind(R.id.edit_introduce_et)
+    @BindView(R.id.edit_introduce_et)
     EditText editIntroduceEt;
-    @Bind(R.id.edit_introduce_count)
+    @BindView(R.id.edit_introduce_count)
     TextView editIntroduceCount;
 
     private User mUser;

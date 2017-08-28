@@ -17,14 +17,14 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends Activity {
 
     public static final String TAG = "SplashActivity";
 
-    @Bind(R.id.iv_splash)
+    @BindView(R.id.iv_splash)
     ImageView mIvSplash;
 
     @Override
@@ -51,7 +51,7 @@ public class SplashActivity extends Activity {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 SplashActivity.this.finish();
             }
-        }, 2000);
+        }, 1000);
 
         RemindManager.getInstance().pushAll(this);
 

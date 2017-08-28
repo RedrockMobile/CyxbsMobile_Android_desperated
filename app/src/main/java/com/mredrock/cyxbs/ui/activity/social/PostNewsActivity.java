@@ -33,7 +33,7 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
@@ -45,17 +45,17 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     public static final String EXTRA_TOPIC_ID = "extra_topic_id";
     public static final String EXTRA_TOPIC_TITLE = "extra_topic_title";
     private final static int REQUEST_IMAGE = 0001;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mTitleText;
-    @Bind(R.id.toolbar_save)
+    @BindView(R.id.toolbar_save)
     TextView mSend;
-    @Bind(R.id.add_news_edit)
+    @BindView(R.id.add_news_edit)
     TopicEditText mAddNewsEdit;
-    @Bind(R.id.iv_ngrid_layout)
+    @BindView(R.id.iv_ngrid_layout)
     NineGridlayout mNineGridlayout;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.iv_add_topic)
+    @BindView(R.id.iv_add_topic)
     AppCompatImageView mIvAddTopic;
     private List<Image> mImgList;
     private User mUser;

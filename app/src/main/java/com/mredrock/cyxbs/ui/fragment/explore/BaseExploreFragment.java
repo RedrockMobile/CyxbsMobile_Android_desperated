@@ -65,7 +65,7 @@ abstract class BaseExploreFragment extends BaseFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     protected void enableRevealBackground(RevealBackgroundView revealBackground

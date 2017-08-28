@@ -36,7 +36,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -48,15 +48,15 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
     public static final String TAG = TopicArticleActivity.class.getSimpleName();
     public static final int RESULT_CODE = 1001;
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mTvTopicArticleTitle;
-    @Bind(R.id.rv_topic_article)
+    @BindView(R.id.rv_topic_article)
     EasyRecyclerView mRvTopicArticle;
-    @Bind(R.id.ll_topic_join)
+    @BindView(R.id.ll_topic_join)
     LinearLayout mLlTopicJoin;
-    @Bind(R.id.srl_topic)
+    @BindView(R.id.srl_topic)
     SwipeRefreshLayout mSrlTopic;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     TopicArticleAdapter mAdapter;

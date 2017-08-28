@@ -53,7 +53,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
@@ -76,19 +76,19 @@ public class EditAffairActivity extends BaseActivity {
     private boolean isStartByCourse = false;
     private String uid;
 
-    @Bind(R.id.remind_text)
+    @BindView(R.id.remind_text)
     TextView mRemindText;
-    @Bind(R.id.week_text)
+    @BindView(R.id.week_text)
     TextView mWeekText;
-    @Bind(R.id.time_text)
+    @BindView(R.id.time_text)
     TextView mTimeText;
-    @Bind(R.id.content)
+    @BindView(R.id.content)
     EditText mContentEdit;
-    @Bind(R.id.title)
+    @BindView(R.id.title)
     EditText mTitleEdit;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolbarTitle;
 
     private List<Integer> weeks = new ArrayList<>();
@@ -513,7 +513,7 @@ public class EditAffairActivity extends BaseActivity {
 
         class WeekViewHolder extends RecyclerView.ViewHolder {
 
-            @Bind(R.id.item_tv_choose_week)
+            @BindView(R.id.item_tv_choose_week)
             TextView mTextView;
             private boolean isChoose = false;
             private RelativeLayout layout;

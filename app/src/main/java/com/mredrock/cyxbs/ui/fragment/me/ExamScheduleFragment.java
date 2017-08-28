@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
 
@@ -43,13 +42,13 @@ public class ExamScheduleFragment extends BaseFragment {
     public static final String TYPE_EXAM = "exam";
     public static final String TYPE_REEXAM = "reexam";
 
-    @Bind(R.id.no_data)
+    @BindView(R.id.no_data)
     ViewGroup mNoDataLayout;
-    @Bind(R.id.text)
+    @BindView(R.id.text)
     TextView mNoDataText;
-    @Bind(R.id.exam_recyclerView)
+    @BindView(R.id.exam_recyclerView)
     RecyclerView examRecyclerView;
-    @Bind(R.id.exam_swipe_refresh_layout)
+    @BindView(R.id.exam_swipe_refresh_layout)
     SwipeRefreshLayout examSwipeRefreshLayout;
 
     private List<Exam> mExamList;
@@ -135,7 +134,7 @@ public class ExamScheduleFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     private void parseArguments() {

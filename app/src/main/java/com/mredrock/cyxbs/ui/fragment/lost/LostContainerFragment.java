@@ -3,7 +3,6 @@ package com.mredrock.cyxbs.ui.fragment.lost;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,17 +15,10 @@ import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.ui.activity.explore.BaseExploreActivity;
-import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
-import com.mredrock.cyxbs.ui.adapter.lost.LostTabPagerAdapter;
 import com.mredrock.cyxbs.ui.adapter.lost.LostViewPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -34,9 +26,9 @@ import butterknife.ButterKnife;
  */
 
 public class LostContainerFragment extends BaseFragment{
-    @Bind(R.id.lost_tab_layout)
+    @BindView(R.id.lost_tab_layout)
     TabLayout tab;
-    @Bind(R.id.lost_view_pager)
+    @BindView(R.id.lost_view_pager)
     ViewPager pager;
     private boolean firstLogin = false;
     private int resumeCount = 0;
@@ -155,7 +147,7 @@ public class LostContainerFragment extends BaseFragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     public void changeViewPagerIndex(int index) {

@@ -41,7 +41,7 @@ import com.mredrock.cyxbs.util.permission.EasyPermissions;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscription;
@@ -58,9 +58,9 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     private static final int RC_PHONE = 124;
     private static final long ANIMATION_DURATION = 700;
 
-    @Bind(R.id.surrounding_food_detail_rv)
+    @BindView(R.id.surrounding_food_detail_rv)
     RecyclerView mFoodDetailRv;
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton mFloatingActionButton;
 
     private String mRestaurantKey;
@@ -281,17 +281,17 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     }
 
     class HeaderViewWrapper {
-        @Bind(R.id.restaurant_photo)
+        @BindView(R.id.restaurant_photo)
         ImageView mRestaurantPhoto;
-        /*@Bind(R.id.restaurant_introduction)
+        /*@BindView(R.id.restaurant_introduction)
         TextView mRestaurantIntroduction;*/
-        @Bind(R.id.restaurant_phone)
+        @BindView(R.id.restaurant_phone)
         TextView mRestaurantPhone;
-        @Bind(R.id.restaurant_location)
+        @BindView(R.id.restaurant_location)
         TextView mRestaurantLocation;
-        /*@Bind(R.id.restaurant_promotion)
+        /*@BindView(R.id.restaurant_promotion)
         TextView mRestaurantPromotion;
-        @Bind(R.id.restaurant_comment)
+        @BindView(R.id.restaurant_comment)
         TextView mRestaurantComment;*/
 
         private String phone;

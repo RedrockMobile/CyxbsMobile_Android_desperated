@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.adapter.rxjava.HttpException;
@@ -49,21 +49,21 @@ import retrofit2.adapter.rxjava.HttpException;
 
 
 public class ReleaseActivity extends BaseActivity {
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolbarTitle;
-    @Bind(R.id.edit_describe)
+    @BindView(R.id.edit_describe)
     EditText mDescribe;
-    @Bind(R.id.lost_place)
+    @BindView(R.id.lost_place)
     EditText mPlace;
-    @Bind(R.id.lost_tel)
+    @BindView(R.id.lost_tel)
     EditText mTel;
-    @Bind(R.id.lost_qq_number)
+    @BindView(R.id.lost_qq_number)
     EditText mQQ;
-    @Bind(R.id.lost_type)
+    @BindView(R.id.lost_type)
     TextView mType;
-    @Bind(R.id.lost_choose_time)
+    @BindView(R.id.lost_choose_time)
     TextView mTime;
     ImageView mAlertImage;
     TextView mAlertText;

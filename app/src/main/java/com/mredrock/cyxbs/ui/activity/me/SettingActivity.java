@@ -28,7 +28,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
@@ -39,21 +39,21 @@ public class SettingActivity extends BaseActivity {
     public static final String SHOW_MODE = "showMode";
 
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.setting_remind)
+    @BindView(R.id.setting_remind)
     RelativeLayout settingRemindLayout;
-    @Bind(R.id.setting_feedback)
+    @BindView(R.id.setting_feedback)
     RelativeLayout settingFeedbackLayout;
-    @Bind(R.id.setting_about)
+    @BindView(R.id.setting_about)
     RelativeLayout settingAboutLayout;
-    @Bind(R.id.setting_exit)
+    @BindView(R.id.setting_exit)
     Button settingExit;
-    @Bind(R.id.setting_share)
+    @BindView(R.id.setting_share)
     RelativeLayout mSettingShareLayout;
-    @Bind(R.id.setting_switch_show)
+    @BindView(R.id.setting_switch_show)
     SwitchButton switchCompat;
 
     private SharedPreferences preferences;

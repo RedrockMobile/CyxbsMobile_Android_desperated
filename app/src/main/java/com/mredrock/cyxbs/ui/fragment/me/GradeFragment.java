@@ -9,8 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +27,7 @@ import com.mredrock.cyxbs.util.NetUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -37,13 +35,13 @@ import butterknife.ButterKnife;
  */
 public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    @Bind(R.id.no_data)
+    @BindView(R.id.no_data)
     ViewGroup mNoDataLayout;
-    @Bind(R.id.text)
+    @BindView(R.id.text)
     TextView mNoDataText;
-    @Bind(R.id.grade_recyclerView)
+    @BindView(R.id.grade_recyclerView)
     RecyclerView mGradeRecyclerView;
-    @Bind(R.id.grade_swipe_refresh_layout)
+    @BindView(R.id.grade_swipe_refresh_layout)
     SwipeRefreshLayout
             mGradeRefreshLayout;
 
@@ -104,7 +102,7 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     @Override

@@ -30,7 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -42,13 +42,13 @@ public class NoCourseItemFragment extends BaseFragment {
     public static final String EXTRA_STU_NUM_LIST = "extra_stu_num_list";
     public static final String EXTRA_NAME_LIST = "extra_name_list";
 
-    @Bind(R.id.no_course_week)
+    @BindView(R.id.no_course_week)
     LinearLayout noCourseWeek;
-    @Bind(R.id.no_course_time)
+    @BindView(R.id.no_course_time)
     LinearLayout noCourseTime;
-    @Bind(R.id.no_course_schedule_content)
+    @BindView(R.id.no_course_schedule_content)
     NoScheduleView noCourseScheduleContent;
-    @Bind(R.id.no_course_swipe_refresh_layout)
+    @BindView(R.id.no_course_swipe_refresh_layout)
     SwipeRefreshLayout noCourseSwipeRefreshLayout;
 
     private Map<String, List<Course>> mCourseMap;
@@ -108,7 +108,7 @@ public class NoCourseItemFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
 

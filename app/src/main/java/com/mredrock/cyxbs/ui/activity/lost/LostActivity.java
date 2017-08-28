@@ -14,7 +14,7 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.lost.LostViewPagerAdapter;
 import com.mredrock.cyxbs.util.LogUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -25,12 +25,12 @@ import butterknife.OnClick;
 
 public class LostActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar) RelativeLayout toolbar;
-    @Bind(R.id.rb_lost) RadioButton chooseModeLost;
-    @Bind(R.id.rb_found) RadioButton chooseModeFound;
+    @BindView(R.id.toolbar) RelativeLayout toolbar;
+    @BindView(R.id.rb_lost) RadioButton chooseModeLost;
+    @BindView(R.id.rb_found) RadioButton chooseModeFound;
 
-    @Bind(R.id.view_pager) ViewPager pager;
-    @Bind(R.id.tab_layout) TabLayout tab;
+    @BindView(R.id.view_pager) ViewPager pager;
+    @BindView(R.id.tab_layout) TabLayout tab;
 
     LostViewPagerAdapter adapter;
     String[] lostKindList;

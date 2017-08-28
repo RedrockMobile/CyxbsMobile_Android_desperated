@@ -34,7 +34,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
 
@@ -46,14 +46,14 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     public static final int PER_PAGE_NUM = 10;
     public static final String TAG = "BaseNewsFragment";
     public static final int FIRST_PAGE_INDEX = 0;
-    @Bind(R.id.fab_main)
+    @BindView(R.id.fab_main)
     FloatingActionButton mFabMain;
 
     private boolean hasLoginStateChanged = false;
 
-    @Bind(R.id.information_RecyclerView)
+    @BindView(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
-    @Bind(R.id.information_refresh)
+    @BindView(R.id.information_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
@@ -237,7 +237,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     @Override

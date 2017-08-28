@@ -22,7 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -32,16 +32,16 @@ public class TimeChooseActivity extends BaseActivity {
 
     public static final String BUNDLE_KEY = "TIME_CHOOSE";
 
-    @Bind(R.id.course_weeks)
+    @BindView(R.id.course_weeks)
     LinearLayout mCourseWeeks;
-    @Bind(R.id.course_weekday)
+    @BindView(R.id.course_weekday)
     LinearLayout mCourseWeekday;
-    @Bind(R.id.course_time)
+    @BindView(R.id.course_time)
     LinearLayout mCourseTime;
-    @Bind(R.id.course_schedule_holder)
+    @BindView(R.id.course_schedule_holder)
     LinearLayout mCourseScheduleHolder;
 
-    @Bind(R.id.time_choose_content)
+    @BindView(R.id.time_choose_content)
     TimeChooseView timeChooseView;
 
 

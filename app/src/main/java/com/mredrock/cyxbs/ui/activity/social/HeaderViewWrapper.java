@@ -25,7 +25,7 @@ import com.mredrock.cyxbs.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -37,7 +37,7 @@ public class HeaderViewWrapper {
 
     public static final String TAG = HeaderViewWrapper.class.getSimpleName();
 
-    @Bind(R.id.rv_topic_header)
+    @BindView(R.id.rv_topic_header)
     EasyRecyclerView mRvTopicHeader;
     private View mView;
 

@@ -15,7 +15,7 @@ import com.mredrock.cyxbs.util.LogUtils;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FoodListAdapter extends BaseRecyclerViewAdapter<Food, FoodListAdapter.RestaurantsViewHolder> {
@@ -45,13 +45,13 @@ public class FoodListAdapter extends BaseRecyclerViewAdapter<Food, FoodListAdapt
     }
 
     public static class RestaurantsViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.restaurant_name)
+        @BindView(R.id.restaurant_name)
         TextView title;
-        @Bind(R.id.restaurant_introduction)
+        @BindView(R.id.restaurant_introduction)
         TextView introduction;
-        @Bind(R.id.restaurant_location)
+        @BindView(R.id.restaurant_location)
         TextView location;
-        @Bind(R.id.restaurant_photo)
+        @BindView(R.id.restaurant_photo)
         ImageView shopImage;
 
         public RestaurantsViewHolder(View itemView) {

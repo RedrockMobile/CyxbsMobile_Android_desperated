@@ -52,21 +52,21 @@ import org.greenrobot.eventbus.EventBus;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import butterknife.Bind;
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
-    @Bind(R.id.main_toolbar_title)
+    @BindView(R.id.main_toolbar_title)
     TextView mToolbarTitle;
-    @Bind(R.id.main_toolbar)
+    @BindView(R.id.main_toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.main_coordinator_layout)
+    @BindView(R.id.main_coordinator_layout)
     LinearLayout mCoordinatorLayout;
-    @Bind(R.id.main_view_pager)
+    @BindView(R.id.main_view_pager)
     ViewPager mViewPager;
-    @Bind(R.id.course_unfold)
+    @BindView(R.id.course_unfold)
     ImageView mCourseUnfold;
 
     @BindString(R.string.community)
@@ -83,9 +83,9 @@ public class MainActivity extends BaseActivity {
     BaseFragment exploreFragment;
     BaseFragment userFragment;
     BaseFragment unLoginFragment;
-    /*@Bind(R.id.main_toolbar_face)
+    /*@BindView(R.id.main_toolbar_face)
     CircleImageView mMainToolbarFace;*/
-    @Bind(R.id.main_bnv)
+    @BindView(R.id.main_bnv)
     BottomNavigationView mMainBottomNavView;
 
     private Menu mMenu;
@@ -344,7 +344,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+
     }
 
     public int getCurrentPosition() {

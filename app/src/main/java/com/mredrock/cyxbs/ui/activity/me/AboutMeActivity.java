@@ -25,19 +25,19 @@ import com.mredrock.cyxbs.ui.adapter.me.AboutMeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AboutMeActivity extends BaseActivity implements
         SwipeRefreshLayout.OnRefreshListener, AboutMeAdapter.OnItemClickListener {
 
-    @Bind(R.id.relate_me_recycler_View)
+    @BindView(R.id.relate_me_recycler_View)
     RecyclerView aboutMeRecyclerView;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.about_me_swipe_refresh)
+    @BindView(R.id.about_me_swipe_refresh)
     SwipeRefreshLayout aboutMeSwipeRefresh;
 
     private List<AboutMe> mAboutMeList;

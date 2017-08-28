@@ -19,7 +19,7 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -34,14 +34,14 @@ public class PastElectricChargeActivity extends BaseActivity {
     private List<PastElectric> pastElectrics = new ArrayList<>();
     private List<String> months = new ArrayList<>();
 
-    @Bind(R.id.tv_past_electric_end)
+    @BindView(R.id.tv_past_electric_end)
     TextView mEndTextView;
-    @Bind(R.id.tv_past_electric_start)
+    @BindView(R.id.tv_past_electric_start)
     TextView mStartTextView;
-    @Bind(R.id.tv_past_electric_spend)
+    @BindView(R.id.tv_past_electric_spend)
     TextView mSpendTextView;
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView title;
 
     @Override

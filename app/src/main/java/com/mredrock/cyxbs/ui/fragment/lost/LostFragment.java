@@ -38,7 +38,7 @@ import com.mredrock.cyxbs.util.RxBus;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.Subscription;
@@ -67,9 +67,9 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     private Subscription mSubscription;
 
 
-    @Bind(R.id.information_RecyclerView) RecyclerView recycler;
-    @Bind(R.id.fab_main) FloatingActionButton mFabMain;
-    @Bind(R.id.information_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.information_RecyclerView) RecyclerView recycler;
+    @BindView(R.id.fab_main) FloatingActionButton mFabMain;
+    @BindView(R.id.information_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -264,16 +264,16 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
         unregisterObservable();
     }
 
 
     public static class FooterViewWrapper {
 
-        @Bind(R.id.progressBar)
+        @BindView(R.id.progressBar)
         CircleProgressBar mCircleProgressBar;
-        @Bind(R.id.textLoadingFailed)
+        @BindView(R.id.textLoadingFailed)
         TextView mTextLoadingFailed;
 
         private View footerView;

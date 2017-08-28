@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.util.TimeUtils;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -88,21 +88,21 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.about_me_avatar)
+        @BindView(R.id.about_me_avatar)
         ImageView aboutMeAvatar;
-        @Bind(R.id.about_me_nick_name)
+        @BindView(R.id.about_me_nick_name)
         TextView aboutMeNickName;
-        @Bind(R.id.about_me_type)
+        @BindView(R.id.about_me_type)
         TextView aboutMeType;
-        @Bind(R.id.about_me_time)
+        @BindView(R.id.about_me_time)
         TextView aboutMeTime;
-        @Bind(R.id.about_me_content)
+        @BindView(R.id.about_me_content)
         TextView aboutMeContent;
-        @Bind(R.id.about_me_new_img)
+        @BindView(R.id.about_me_new_img)
         ImageView aboutMeNewImg;
-        @Bind(R.id.about_me_new_content)
+        @BindView(R.id.about_me_new_content)
         TextView aboutMeNewContent;
-        @Bind(R.id.about_me_new_author)
+        @BindView(R.id.about_me_new_author)
         TextView author;
 
         public ViewHolder(View itemView) {

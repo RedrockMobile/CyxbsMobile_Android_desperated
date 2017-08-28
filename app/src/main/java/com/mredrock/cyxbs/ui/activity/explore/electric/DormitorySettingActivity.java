@@ -26,18 +26,18 @@ import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.Utils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
 public class DormitorySettingActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView titleText;
-    @Bind(R.id.et_building_number)
+    @BindView(R.id.et_building_number)
     EditText buildingNumberEdit;
-    @Bind(R.id.et_dormitory_number)
+    @BindView(R.id.et_dormitory_number)
     EditText dormitoryNumberEdit;
 
     private static final String TAG = "DormitorySetting";

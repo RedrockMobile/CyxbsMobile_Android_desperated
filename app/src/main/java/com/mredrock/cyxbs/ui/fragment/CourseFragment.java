@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
@@ -76,19 +76,19 @@ public class CourseFragment extends BaseFragment {
     private User mUser;
     //当前实际的周数
 
-    @Bind(R.id.course_swipe_refresh_layout)
+    @BindView(R.id.course_swipe_refresh_layout)
     SwipeRefreshLayout mCourseSwipeRefreshLayout;
-    @Bind(R.id.course_weeks)
+    @BindView(R.id.course_weeks)
     LinearLayout mCourseWeeks;
-    @Bind(R.id.course_weekday)
+    @BindView(R.id.course_weekday)
     LinearLayout mCourseWeekday;
-    @Bind(R.id.course_time)
+    @BindView(R.id.course_time)
     LinearLayout mCourseTime;
-    @Bind(R.id.course_schedule_content)
+    @BindView(R.id.course_schedule_content)
     ScheduleView mCourseScheduleContent;
-    @Bind(R.id.course_schedule_holder)
+    @BindView(R.id.course_schedule_holder)
     LinearLayout mCourseScheduleHolder;
-    @Bind(R.id.course_month)
+    @BindView(R.id.course_month)
     TextView mCourseMonth;
 
     // private boolean showAffairContent = true;
@@ -202,7 +202,7 @@ public class CourseFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     private void showTodayWeek() {

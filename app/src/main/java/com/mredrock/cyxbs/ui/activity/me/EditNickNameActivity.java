@@ -16,15 +16,15 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import rx.Subscriber;
 
 public class EditNickNameActivity extends EditCommonActivity {
 
-    @Bind(R.id.edit_common_toolbar)
+    @BindView(R.id.edit_common_toolbar)
     Toolbar editCommonToolbar;
 
-    @Bind(R.id.edit_common_et)
+    @BindView(R.id.edit_common_et)
     EditText editCommonEt;
 
     boolean isForceModify;

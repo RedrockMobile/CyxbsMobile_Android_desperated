@@ -20,7 +20,7 @@ import com.mredrock.cyxbs.util.UIUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import rx.Subscription;
 
 /**
@@ -30,9 +30,9 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
 
     private static final String TAG = LogUtils.makeLogTag(SurroundingFoodFragment.class);
 
-    /*@Bind(R.id.reveal_background)
+    /*@BindView(R.id.reveal_background)
     RevealBackgroundView mRevealBackground;*/
-    @Bind(R.id.surrounding_food_rv)
+    @BindView(R.id.surrounding_food_rv)
     RecyclerView mSurroundingFoodListRv;
 
     private int[] mDrawingStartLocation;

@@ -10,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.ui.fragment.BaseLazyFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -21,11 +20,11 @@ import butterknife.ButterKnife;
  */
 
 public class BaseLostFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
-    @Bind(R.id.fab_main)
+    @BindView(R.id.fab_main)
     FloatingActionButton mFabMain;
-    @Bind(R.id.information_RecyclerView)
+    @BindView(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
-    @Bind(R.id.information_refresh)
+    @BindView(R.id.information_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
 

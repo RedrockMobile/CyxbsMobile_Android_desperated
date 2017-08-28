@@ -1,10 +1,6 @@
 package com.mredrock.cyxbs.component.widget;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
-import java.util.Comparator;
 
 /**
  * Created by ：AceMurder

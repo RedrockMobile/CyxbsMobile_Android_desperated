@@ -23,7 +23,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -38,15 +38,15 @@ public class EmptyRoomActivity extends BaseActivity {
      * 请求时传入的课时参数
      */
     public static final String[] sectionNumApiArray = {"0", "1", "2", "3", "4", "5"};
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolbarTitle;
-    @Bind(R.id.tv_building)
+    @BindView(R.id.tv_building)
     TextView mBuildingTv;
-    @Bind(R.id.tv_section)
+    @BindView(R.id.tv_section)
     TextView mSectioinTv;
-    @Bind(R.id.query)
+    @BindView(R.id.query)
     Button mQuery;
 
     private int mBuildNumPosition = -1;

@@ -48,7 +48,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscription;
@@ -65,22 +65,22 @@ public class SpecificNewsActivity extends BaseActivity
 
     public static final String TAG = "SpecificNewsActivity";
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolBarTitle;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     SwipeRefreshLayout mRefresh;
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @Bind(R.id.downText)
+    @BindView(R.id.downText)
     TextView mTextDown;
 
-    @Bind(R.id.comment)
+    @BindView(R.id.comment)
     ViewGroup mComment;
-    @Bind(R.id.favor)
+    @BindView(R.id.favor)
     ViewGroup mFavor;
-    @Bind(R.id.favor_text)
+    @BindView(R.id.favor_text)
     TextView mFavorBtn;
     private TextView mMsgNum;
 

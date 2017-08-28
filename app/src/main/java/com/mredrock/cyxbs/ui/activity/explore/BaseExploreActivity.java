@@ -18,7 +18,7 @@ import com.mredrock.cyxbs.util.Utils;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -32,11 +32,11 @@ public abstract class BaseExploreActivity extends BaseActivity {
     private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
     private static final int MAIN_CONTENT_FADEOUT_DURATION = 150;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolbarTitle;
-    @Bind(R.id.main_content)
+    @BindView(R.id.main_content)
     View mMainContent;
 
     @Override
@@ -56,7 +56,7 @@ public abstract class BaseExploreActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+
     }
 
     @Override

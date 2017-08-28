@@ -1,13 +1,9 @@
 package com.mredrock.cyxbs.network.func;
 
-import com.mredrock.cyxbs.config.Config;
 import com.mredrock.cyxbs.model.Affair;
-import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.AffairApi;
-import com.mredrock.cyxbs.model.social.Image;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import rx.functions.Func1;

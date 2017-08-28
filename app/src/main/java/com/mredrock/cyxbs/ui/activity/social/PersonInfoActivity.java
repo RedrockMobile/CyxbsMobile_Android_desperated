@@ -39,7 +39,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -52,11 +52,11 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     public static final String PERSON_NICKNAME = "userNickName";
     public static final String PERSON_USER_ID = "userId";
 
-    @Bind(R.id.mToolbar)
+    @BindView(R.id.mToolbar)
     Toolbar mToolbar;
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @Bind(R.id.swipeRefreshLayout)
+    @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     private String mUserAvatar;
@@ -206,13 +206,13 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
     class HeaderViewWrapper {
         View view;
-        @Bind(R.id.person_info_avatar)
+        @BindView(R.id.person_info_avatar)
         ImageView mCircleImageView;
-        @Bind(R.id.peron_info_nickname)
+        @BindView(R.id.peron_info_nickname)
         TextView mTextNickName;
-        @Bind(R.id.person_info_introduction)
+        @BindView(R.id.person_info_introduction)
         TextView mTextIntroduction;
-        @Bind(R.id.person_info_gender)
+        @BindView(R.id.person_info_gender)
         TextView mTextGender;
 
         public HeaderViewWrapper(Context context, int layoutId) {

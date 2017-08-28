@@ -13,16 +13,14 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.me.EmptyAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EmptyRoomResultActivity extends BaseActivity {
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.rv)
+    @BindView(R.id.rv)
     RecyclerView mRecyclerView;
 
     private ArrayList<EmptyRoom> mEmptyRoomList;

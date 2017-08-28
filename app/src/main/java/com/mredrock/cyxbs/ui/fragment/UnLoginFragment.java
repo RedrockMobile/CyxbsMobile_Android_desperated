@@ -6,23 +6,21 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.LoginActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by simonla on 2016/8/9.
  * Have a good day.
  */
 public class UnLoginFragment extends BaseFragment {
-    @Bind(R.id.tv_login)
+    @BindView(R.id.tv_login)
     TextView mTvLogin;
 
     @Nullable
@@ -46,6 +44,6 @@ public class UnLoginFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 }

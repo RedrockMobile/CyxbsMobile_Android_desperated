@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -47,9 +47,9 @@ public class CourseContainerFragment extends BaseFragment {
 
     private boolean mIsFirstLaunch;
 
-    @Bind(R.id.tab_course_tabs)
+    @BindView(R.id.tab_course_tabs)
     TabLayout mTabs;
-    @Bind(R.id.tab_course_viewpager)
+    @BindView(R.id.tab_course_viewpager)
     ViewPager mPager;
 
     @OnClick(R.id.course_fab)
@@ -202,7 +202,7 @@ public class CourseContainerFragment extends BaseFragment {
         mPager.removeOnPageChangeListener(mTabListener);
         mPager.removeOnPageChangeListener(mPageListener);
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     @Override

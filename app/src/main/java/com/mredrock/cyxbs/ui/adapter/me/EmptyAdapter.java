@@ -15,7 +15,7 @@ import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -56,13 +56,13 @@ public class EmptyAdapter extends BaseRecyclerViewAdapter<EmptyRoom,
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.empty_left_line)
+        @BindView(R.id.empty_left_line)
         View vLine;
-        @Bind(R.id.empty_left_circle)
+        @BindView(R.id.empty_left_circle)
         ImageView mCircle;
-        @Bind(R.id.item_empty_tv_building)
+        @BindView(R.id.item_empty_tv_building)
         TextView tvBuilding;
-        @Bind(R.id.item_empty_gv)
+        @BindView(R.id.item_empty_gv)
         NoScrollGridView gvEmptyRoom;
 
         public ViewHolder(View itemView) {

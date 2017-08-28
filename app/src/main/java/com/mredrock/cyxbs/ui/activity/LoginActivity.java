@@ -21,20 +21,20 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
-    @Bind(R.id.login_stu_num_edit)
+    @BindView(R.id.login_stu_num_edit)
     AppCompatEditText stuNumEdit;
-    @Bind(R.id.login_id_num_edit)
+    @BindView(R.id.login_id_num_edit)
     AppCompatEditText idNumEdit;
-    @Bind(R.id.login_submit_button)
+    @BindView(R.id.login_submit_button)
     Button submitButton;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
 
     public static final String TAG = "LoginActivity";
@@ -120,7 +120,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     @Override

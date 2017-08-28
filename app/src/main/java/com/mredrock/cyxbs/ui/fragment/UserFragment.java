@@ -34,7 +34,7 @@ import com.mredrock.cyxbs.util.ImageLoader;
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -45,27 +45,27 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     public static final int REQUEST_EDIT_INFO = 10;
 
-    @Bind(R.id.relate)
+    @BindView(R.id.relate)
     LinearLayout myPageRelateLayout;
-    @Bind(R.id.trend)
+    @BindView(R.id.trend)
     LinearLayout myPageTrendLayout;
-    @Bind(R.id.no_course)
+    @BindView(R.id.no_course)
     RelativeLayout myPageNoCourseLayout;
-    @Bind(R.id.empty_classroom)
+    @BindView(R.id.empty_classroom)
     RelativeLayout myPageEmptyLayout;
-    @Bind(R.id.grade)
+    @BindView(R.id.grade)
     RelativeLayout myPageGradeLayout;
-    @Bind(R.id.calendar)
+    @BindView(R.id.calendar)
     RelativeLayout myPageCalendarLayout;
-    @Bind(R.id.option)
+    @BindView(R.id.option)
     RelativeLayout myPageSettingLayout;
-    @Bind(R.id.avatar)
+    @BindView(R.id.avatar)
     ImageView myPageAvatar;
-    @Bind(R.id.name)
+    @BindView(R.id.name)
     TextView myPageNickName;
-    @Bind(R.id.introduce)
+    @BindView(R.id.introduce)
     TextView myPageIntroduce;
-    @Bind(R.id.remind)
+    @BindView(R.id.remind)
     RelativeLayout mMyPageRemindLayout;
 
     private User mUser;
@@ -205,7 +205,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     private void getPersonInfoData() {

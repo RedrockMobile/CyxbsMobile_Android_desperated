@@ -15,19 +15,19 @@ import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AboutActivity extends BaseActivity {
 
-    @Bind(R.id.about_1)
+    @BindView(R.id.about_1)
     TextView about1;
-    @Bind(R.id.about_version)
+    @BindView(R.id.about_version)
     TextView aboutVersion;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar  toolbar;
 
     @OnClick(R.id.about_website)

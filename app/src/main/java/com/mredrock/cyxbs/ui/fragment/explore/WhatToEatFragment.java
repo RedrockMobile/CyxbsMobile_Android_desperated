@@ -29,7 +29,7 @@ import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscription;
@@ -45,11 +45,11 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
     private static final int MAIN_CONTENT_SCALE_DURATION = 200;
     private static final int SHAKE_FORCE = 350;
 
-    @Bind(R.id.what_to_eat_container)
+    @BindView(R.id.what_to_eat_container)
     FrameLayout mContainerLayout;
-    @Bind(R.id.shake_container)
+    @BindView(R.id.shake_container)
     ViewGroup mShakeContainer;
-    @Bind(R.id.shake)
+    @BindView(R.id.shake)
     ImageView mShakePhoto;
 
     private int[] mDrawingStartLocation;
@@ -219,13 +219,13 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
     }
 
     class ResultViewWrapper {
-        @Bind(R.id.restaurant_photo)
+        @BindView(R.id.restaurant_photo)
         ImageView mRestaurantImageView;
-        @Bind(R.id.restaurant_name)
+        @BindView(R.id.restaurant_name)
         TextView mRestaurantName;
-        @Bind(R.id.restaurant_location)
+        @BindView(R.id.restaurant_location)
         TextView mRestaurantAddress;
-        @Bind(R.id.shake_again)
+        @BindView(R.id.shake_again)
         TextView mAgainText;
 
         @OnClick(R.id.restaurant_photo)

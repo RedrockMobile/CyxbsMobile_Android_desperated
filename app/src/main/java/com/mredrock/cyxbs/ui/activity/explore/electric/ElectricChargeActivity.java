@@ -26,7 +26,7 @@ import com.mredrock.cyxbs.util.Utils;
 
 import java.text.DecimalFormat;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -41,23 +41,23 @@ public class ElectricChargeActivity extends BaseActivity {
     private String dormitoryNum;
     private ElectricCharge mElectricCharge;
 
-    @Bind(R.id.ecv_electric_circle_view)
+    @BindView(R.id.ecv_electric_circle_view)
     ElectricCircleView electricCircleView;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolbarText;
-    @Bind(R.id.tv_electric_query_notice)
+    @BindView(R.id.tv_electric_query_notice)
     TextView mNoticeText;
-    @Bind(R.id.tv_electric_query_begin)
+    @BindView(R.id.tv_electric_query_begin)
     TextView mBeginText;
-    @Bind(R.id.tv_electric_query_free)
+    @BindView(R.id.tv_electric_query_free)
     TextView mFreeText;
-    @Bind(R.id.tv_electric_query_end)
+    @BindView(R.id.tv_electric_query_end)
     TextView mEndText;
-    @Bind(R.id.tv_electric_query_average)
+    @BindView(R.id.tv_electric_query_average)
     TextView mAverageText;
-    @Bind(R.id.tool_iv_right)
+    @BindView(R.id.tool_iv_right)
     ImageView mToolbarRightImage;
-    @Bind(R.id.electric_query_toolbar)
+    @BindView(R.id.electric_query_toolbar)
     View toolbar;
 
     private PopupWindow popupWindow;

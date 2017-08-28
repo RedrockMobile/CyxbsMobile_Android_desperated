@@ -22,7 +22,7 @@ import com.mredrock.cyxbs.ui.widget.RollerView;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.freshmanspecial.view.SpecialMainActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -35,11 +35,11 @@ public class ExploreFragment extends BaseFragment {
 
     private static final String TAG = LogUtils.makeLogTag(ExploreFragment.class);
 
-    @Bind(R.id.rollerView)
+    @BindView(R.id.rollerView)
     RollerView mRollerView;
-    @Bind(R.id.explore_what_to_eat_holder)
+    @BindView(R.id.explore_what_to_eat_holder)
     ViewGroup mWhatToEatHolder;
-    @Bind(R.id.explore_surrounding_food_holder)
+    @BindView(R.id.explore_surrounding_food_holder)
     ViewGroup mSurroundingFoodHolder;
 
     @OnClick(R.id.explore_portal_holder)
@@ -135,6 +135,6 @@ public class ExploreFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 }

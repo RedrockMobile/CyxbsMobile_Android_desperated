@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbs.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -19,9 +19,9 @@ import butterknife.ButterKnife;
 
 public class FooterViewWrapper {
 
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     CircleProgressBar mCircleProgressBar;
-    @Bind(R.id.textLoadingFailed)
+    @BindView(R.id.textLoadingFailed)
     TextView mTextLoadingFailed;
 
     private View footerView;

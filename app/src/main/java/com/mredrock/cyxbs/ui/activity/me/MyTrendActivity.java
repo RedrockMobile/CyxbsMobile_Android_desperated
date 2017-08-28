@@ -27,20 +27,20 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MyTrendActivity extends BaseActivity
         implements SwipeRefreshLayout.OnRefreshListener {
 
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.my_trend_recycler_view)
+    @BindView(R.id.my_trend_recycler_view)
     RecyclerView myTrendRecyclerView;
-    @Bind(R.id.my_trend_refresh_layout)
+    @BindView(R.id.my_trend_refresh_layout)
     SwipeRefreshLayout myTrendRefreshLayout;
 
     private List<HotNews> mNewsList;

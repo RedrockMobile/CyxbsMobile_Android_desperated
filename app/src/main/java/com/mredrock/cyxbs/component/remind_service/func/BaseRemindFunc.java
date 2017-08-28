@@ -1,7 +1,7 @@
 package com.mredrock.cyxbs.component.remind_service.func;
 
-import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.component.remind_service.Reminder;
+import com.mredrock.cyxbs.model.Course;
 
 import java.util.ArrayList;
 import java.util.List;

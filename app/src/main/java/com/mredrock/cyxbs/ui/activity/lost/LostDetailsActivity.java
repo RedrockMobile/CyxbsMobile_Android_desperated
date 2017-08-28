@@ -11,32 +11,32 @@ import com.mredrock.cyxbs.model.lost.LostDetail;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LostDetailsActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mTitle;
-    @Bind(R.id.detail_lost_img_avatar)
+    @BindView(R.id.detail_lost_img_avatar)
     CircularImageView mAvatar;
-    @Bind(R.id.detail_lost_text_nickname)
+    @BindView(R.id.detail_lost_text_nickname)
     TextView mNickName;
-    @Bind(R.id.detail_lost_text_kind)
+    @BindView(R.id.detail_lost_text_kind)
     TextView mType;
-    @Bind(R.id.textView_content)
+    @BindView(R.id.textView_content)
     TextView mContent;
-    @Bind(R.id.lost_detail_connect)
+    @BindView(R.id.lost_detail_connect)
     TextView mConnectName;
-    @Bind(R.id.lost_detail_time)
+    @BindView(R.id.lost_detail_time)
     TextView mTime;
-    @Bind(R.id.lost_detail_place)
+    @BindView(R.id.lost_detail_place)
     TextView mPlace;
-    @Bind(R.id.lost_detail_tel)
+    @BindView(R.id.lost_detail_tel)
     TextView mTel;
-    @Bind(R.id.lost_detail_qq)
+    @BindView(R.id.lost_detail_qq)
     TextView mQQ;
     LostDetail lostDetail;
     @Override

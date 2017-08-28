@@ -8,16 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.widget.recycler.DividerItemDecoration;
 import com.mredrock.cyxbs.model.Student;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.me.SelectStudentAdapter;
 import com.umeng.analytics.MobclickAgent;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -25,11 +23,11 @@ public class SelectStudentActivity extends BaseActivity {
 
     public static final String EXTRA_STUDENT_LIST = "extra_student_list";
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.select_recycler_view)
+    @BindView(R.id.select_recycler_view)
     RecyclerView selectRecyclerView;
 
 

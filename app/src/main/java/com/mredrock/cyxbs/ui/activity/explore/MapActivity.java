@@ -18,7 +18,7 @@ public class MapActivity extends BaseExploreActivity
 
     //    private static final int RC_STORAGE = 123;
 //
-//    @Bind(R.id.map)
+//    @BindView(R.id.map)
 //    MapView mMapView;
 //
 //    private AMap mAMap;

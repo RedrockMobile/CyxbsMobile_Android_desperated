@@ -28,13 +28,13 @@ import com.mredrock.cyxbs.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String EXTRA_TYPE = "topic_type";
-    @Bind(R.id.rv_topic)
+    @BindView(R.id.rv_topic)
     EasyRecyclerView mRvTopic;
     private RecyclerArrayAdapter<Topic> mAdapter;
     private int mPage = 0;
@@ -130,7 +130,7 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     @Override

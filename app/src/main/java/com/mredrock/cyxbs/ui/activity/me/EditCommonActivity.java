@@ -25,7 +25,7 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
 
@@ -34,13 +34,13 @@ import rx.Subscriber;
  */
 public abstract class EditCommonActivity extends BaseActivity implements TextWatcher {
 
-    @Bind(R.id.edit_common_toolbar)
+    @BindView(R.id.edit_common_toolbar)
     Toolbar editCommonToolbar;
-    @Bind(R.id.edit_common_et)
+    @BindView(R.id.edit_common_et)
     EditText editCommonEt;
-    @Bind(R.id.edit_common_delete)
+    @BindView(R.id.edit_common_delete)
     ImageView editCommonDelete;
-    @Bind(R.id.edit_common_count)
+    @BindView(R.id.edit_common_count)
     TextView editCommonCount;
 
     protected User mUser;

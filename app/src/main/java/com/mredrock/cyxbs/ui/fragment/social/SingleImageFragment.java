@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.ui.fragment.social;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -9,7 +8,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,24 +16,18 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.jakewharton.rxbinding.view.RxView;
-import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.fragment.BaseLazyFragment;
 import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.SaveImageUtils;
-import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
 import com.mredrock.cyxbs.util.permission.EasyPermissions;
-import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.functions.Action1;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 
@@ -45,11 +37,11 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAttacher.OnPhotoTapListener, EasyPermissions.PermissionCallbacks {
 
 
-    @Bind(R.id.fragment_progressBar)
+    @BindView(R.id.fragment_progressBar)
     ProgressBar mProgressBar;
-    @Bind(R.id.image_shot)
+    @BindView(R.id.image_shot)
     ImageView mImageView;
-    @Bind(R.id.layout)
+    @BindView(R.id.layout)
     RelativeLayout layout;
     PhotoViewAttacher mAttacher;
     private String url;
@@ -69,7 +61,7 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     public void showProgress() {
