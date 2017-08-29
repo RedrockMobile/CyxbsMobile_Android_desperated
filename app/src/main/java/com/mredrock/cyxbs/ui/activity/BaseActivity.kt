@@ -22,8 +22,9 @@ import com.umeng.analytics.MobclickAgent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.AnkoLogger
 
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity(), AnkoLogger {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,10 +104,7 @@ open class BaseActivity : AppCompatActivity() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     open fun onLoginStateChangeEvent(event: LoginStateChangeEvent) {
-        // Override this method in sub activity
-        // event.getNewState() == true : user login
-        // event.getNewState() == false : user logout
-        Log.d("LoginStateChangeEvent", "in" + localClassName + "login state: " + event.newState + "")
+        Log.d("LoginStateChangeEvent", "in $localClassName login state: ${event.newState}")
     }
 
     override fun onDestroy() {
