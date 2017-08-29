@@ -17,7 +17,7 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
@@ -36,5 +36,6 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.1'
     api 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     api 'de.hdodenhof:circleimageview:2.1.0'
+    testCompile 'junit:junit:4.12'
     api 'com.umeng.analytics:analytics:6.1.2'
 }
