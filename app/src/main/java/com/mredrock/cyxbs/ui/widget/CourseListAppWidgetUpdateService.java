@@ -10,7 +10,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.network.func.AppWidgetCacheAndUpdateFunc;
 import com.mredrock.cyxbs.network.observable.CourseListProvider;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
@@ -19,7 +19,7 @@ import com.mredrock.cyxbs.util.database.DBManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.schedulers.Schedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class CourseListAppWidgetUpdateService extends Service {
 
@@ -63,7 +63,7 @@ public class CourseListAppWidgetUpdateService extends Service {
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(new SimpleSubscriber<List<Course>>(getApplicationContext(), false, false, new SubscriberListener<List<Course>>() {
+                .subscribe(new SimpleObserver<List<Course>>(getApplicationContext(), false, false, new SubscriberListener<List<Course>>() {
                     @Override
                     public void onNext(List<Course> affairs) {
                         LogUtils.LOGD("UpdateSuccess", affairs.toString());

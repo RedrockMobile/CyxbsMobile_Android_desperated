@@ -25,15 +25,15 @@ import com.mredrock.freshmanspecial.beans.SurroundingBeautyBean;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+
 
 /**
  * Created by zxzhu on 2017/8/6.
@@ -61,7 +61,7 @@ public class HttpModel {
         retrofit = new Retrofit.Builder()
                 .client(httpClientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(URL)
                 .build();
 
@@ -82,15 +82,15 @@ public class HttpModel {
     /**
      * 获取男女比例
      *
-     * @param subscriber
+     * @param
      */
-    public void getSex(Subscriber<SexBean> subscriber) {
+    public void getSex(Observer<SexBean> observer) {
         Log.e("ttt", "getSex");
         service.getSex("SexRatio")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 
     /**
@@ -140,128 +140,123 @@ public class HttpModel {
     /**
      * 获取QQ群
      *
-     * @param subscriber
+     * @param observer
      */
-    public void getQQGroups(Subscriber<QQGroupsBean> subscriber) {
+    public void getQQGroups(Observer<QQGroupsBean> observer) {
         service.getQQGroups("QQGroup")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 
     /**
      * 获取优秀教师
      *
-     * @param subscriber
+     * @param observer
      */
-    public void getTeachers(Subscriber<TeacherBean> subscriber) {
+    public void getTeachers(Observer<TeacherBean> observer) {
         service.getTeachers("excellentTech")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 
     /**
      * 获取优秀学生
      *
-     * @param subscriber
+     * @param observer
      */
-    public void getStudents(Subscriber<StudentsBean> subscriber) {
+    public void getStudents(Observer<StudentsBean> observer) {
         service.getStudents("excellentStu")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+
+                .subscribe(observer);
     }
 
     /**
      * 获取美在重邮
      *
-     * @param subscriber
+     * @param observer
      */
-    public void getBeauties(Subscriber<BeautyBean> subscriber) {
+    public void getBeauties(Observer<BeautyBean> observer) {
         service.getBeauties("beautyInCQUPT")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 
     /**
      * 获取原创重邮
      *
-     * @param subscriber
+     * @param observer
      */
-    public void getBOriginal(Subscriber<OriginalBean> subscriber) {
+    public void getBOriginal(Observer<OriginalBean> observer) {
         service.getOriginal("natureCQUPT")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 
-    public void getCafeteria(Subscriber<CafeteriaBean> subscriber) {
+    public void getCafeteria(Observer<CafeteriaBean> observer) {
         service.getCafeteriaBean("Canteen")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 
-    public void getSchoolBuildings(Subscriber<CampusBean> subscriber) {
+    public void getSchoolBuildings(Observer<CampusBean> observer) {
         service.getSchoolBuildings("SchoolBuildings")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 
-    public void getDailyLife(Subscriber<DailyLifeBean> subscriber) {
+    public void getDailyLife(Observer<DailyLifeBean> observer) {
         service.getDailyLife("LifeInNear")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 
-    public void getDormitory(Subscriber<DormitoryBean> subscriber) {
+    public void getDormitory(Observer<DormitoryBean> observer) {
         service.getDormitory("Dormitory")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 
-    public void getCuisine(Subscriber<CuisineBean> subscriber) {
+    public void getCuisine(Observer<CuisineBean> observer) {
         service.getCuisine("Cate")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 
-    public void getSurroundingBeauty(Subscriber<SurroundingBeautyBean> subscriber) {
+    public void getSurroundingBeauty(Observer<SurroundingBeautyBean> observer) {
         service.getSurroundingBeauty("BeautyInNear")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 
-    public void getEmploymentData(Subscriber<ArrayList<EmploymentData>> subscriber) {
+    public void getEmploymentData(Observer<ArrayList<EmploymentData>> observer) {
         service.getEmploymentData("DataOfJob")
-                .map(new Func1<HttpResult<ArrayList<EmploymentData>>, ArrayList<EmploymentData>>() {
-                    @Override
-                    public ArrayList<EmploymentData> call
-                            (HttpResult<ArrayList<EmploymentData>> result) {
-                        return result.getData();
-                    }
-                })
+                .map(HttpResult::getData)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(observer);
     }
 }

@@ -13,7 +13,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.lost.LostViewPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
@@ -95,7 +95,7 @@ public class LostContainerFragment extends BaseFragment{
             return;
         }
         if (mUser != null){
-            RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(getActivity(), new SubscriberListener<PersonInfo>() {
+            RequestManager.getInstance().getPersonInfo(new SimpleObserver<>(getActivity(), new SubscriberListener<PersonInfo>() {
                 @Override
                 public void onNext(PersonInfo personInfo) {
                     super.onNext(personInfo);

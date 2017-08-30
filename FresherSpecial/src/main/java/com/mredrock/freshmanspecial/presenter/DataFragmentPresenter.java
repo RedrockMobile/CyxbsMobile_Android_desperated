@@ -19,9 +19,10 @@ import com.mredrock.freshmanspecial.view.dataFragments.IDataFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by zia on 17-8-5.
@@ -35,7 +36,7 @@ public class DataFragmentPresenter implements IDataFragmentPresenter {
     private List<FailBean.DataBean> failDataBeanList = new ArrayList<FailBean.DataBean>();
     private final static String TAG = "dataFragmentPresenter";
 
-    public DataFragmentPresenter(IDataFragment fragment){
+    public DataFragmentPresenter(IDataFragment fragment) {
         this.fragment = fragment;
         model = new DataModel();
     }
@@ -72,7 +73,7 @@ public class DataFragmentPresenter implements IDataFragmentPresenter {
     @Override
     public void setJobRateDataList(WorkBean.DataBean bean) {
         fragment.getDataList().clear();
-        if(model.getJobRateDataList(bean) != null){
+        if (model.getJobRateDataList(bean) != null) {
             fragment.getDataList().addAll(model.getJobRateDataList(bean));
         }
     }
@@ -81,7 +82,7 @@ public class DataFragmentPresenter implements IDataFragmentPresenter {
     /**
      * 一个回调接口，当pickerView
      */
-    public interface OnPickerViewChoosed{
+    public interface OnPickerViewChoosed {
         void getString(String data);
     }
 
@@ -90,29 +91,26 @@ public class DataFragmentPresenter implements IDataFragmentPresenter {
      */
     @Override
     public void showPickerView(final List<String> collegeList, final OnPickerViewChoosed onPickerViewChoosed) {
-         optionsPickerView = new OptionsPickerView.Builder(fragment.getActivity(), new OptionsPickerView.OnOptionsSelectListener() {
+        optionsPickerView = new OptionsPickerView.Builder(fragment.getActivity(), new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
                 //选择回调接口
                 onPickerViewChoosed.getString(collegeList.get(options1));
-                Log.d("test",collegeList.get(options1));
+                Log.d("test", collegeList.get(options1));
             }
         })
                 .setLayoutRes(R.layout.special_2017_options_picker_view, new CustomListener() {
                     @Override
                     public void customLayout(View v) {
-                        TextView textView = (TextView) v.findViewById(R.id.tv_finish);
-                        textView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                optionsPickerView.returnData(view);
-                                disMissPickerView();
-                            }
+                        TextView textView = v.findViewById(R.id.tv_finish);
+                        textView.setOnClickListener(view -> {
+                            optionsPickerView.returnData(view);
+                            disMissPickerView();
                         });
                     }
                 })
-                 .setTextColorCenter(Color.parseColor("#81C0FE"))
+                .setTextColorCenter(Color.parseColor("#81C0FE"))
                 .setBgColor(Color.parseColor("#FFFFFF"))
                 .setTitleBgColor(Color.parseColor("#FFFFFF"))
                 .setSubmitColor(Color.parseColor("#81C0FE"))
@@ -124,14 +122,14 @@ public class DataFragmentPresenter implements IDataFragmentPresenter {
 
     @Override
     public void disMissPickerView() {
-        if(optionsPickerView != null) {
+        if (optionsPickerView != null) {
             optionsPickerView.dismiss();
         }
     }
 
     @Override
-    public void runChart(List<ChartData> dataList){
-        if(fragment.getChart() == null) return;
+    public void runChart(List<ChartData> dataList) {
+        if (fragment.getChart() == null) return;
         fragment.getChart().setData(dataList);
         //fragment.getChart().setSpace(ScreenUnit.dip2px(fragment.getActivity(),28));
         fragment.getChart().setSpeed(2);
@@ -156,7 +154,9 @@ public class DataFragmentPresenter implements IDataFragmentPresenter {
         bean.setMajor("");
         bean.setCollege("");
         List<FailBean.DataBean> list = new ArrayList<>();
-        list.add(bean);list.add(bean);list.add(bean);
+        list.add(bean);
+        list.add(bean);
+        list.add(bean);
         fragment.getDataList().addAll(model.getMostDifficultDataList(list));
     }
 
@@ -171,22 +171,17 @@ public class DataFragmentPresenter implements IDataFragmentPresenter {
     /**
      * 回调
      */
-    public interface OnDataLoaded{
+    public interface OnDataLoaded {
         void finish(String msg);
     }
 
     @Override
     public void loadJobRateData(final String college, final OnDataLoaded onDataLoaded) {
         HttpModel.bulid().getWork()
-                .flatMap(new Func1<WorkBean, Observable<WorkBean.DataBean>>() {
+                .flatMap(workBean -> Observable.fromIterable(workBean.getData()))
+                .subscribe(new Observer<WorkBean.DataBean>() {
                     @Override
-                    public Observable<WorkBean.DataBean> call(WorkBean workBean) {
-                        return Observable.from(workBean.getData());
-                    }
-                })
-                .subscribe(new Subscriber<WorkBean.DataBean>() {
-                    @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         onDataLoaded.finish(college);
                     }
 
@@ -197,9 +192,14 @@ public class DataFragmentPresenter implements IDataFragmentPresenter {
                     }
 
                     @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
                     public void onNext(WorkBean.DataBean dataBean) {
-                        if(dataBean.getCollege().equals(college)){
-                            Log.d("Job",dataBean.getCollege());
+                        if (dataBean.getCollege().equals(college)) {
+                            Log.d("Job", dataBean.getCollege());
                             setJobRateDataList(dataBean);
                         }
                     }
@@ -210,21 +210,16 @@ public class DataFragmentPresenter implements IDataFragmentPresenter {
     public void loadFailMajorList(final String college, final OnDataLoaded onDataLoaded) {
         failDataBeanList.clear();
         HttpModel.bulid().getFail()
-                .flatMap(new Func1<FailBean, Observable<FailBean.DataBean>>() {
+                .flatMap(failBean -> Observable.fromIterable(failBean.getData()))
+                .subscribe(new Observer<FailBean.DataBean>() {
                     @Override
-                    public Observable<FailBean.DataBean> call(FailBean failBean) {
-                        return Observable.from(failBean.getData());
-                    }
-                })
-                .subscribe(new Subscriber<FailBean.DataBean>() {
-                    @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         fragment.getMajorList().clear();
                         for (FailBean.DataBean d : failDataBeanList) {
                             fragment.getMajorList().add(d.getMajor());
                         }
                         //清除重复元素
-                        for  ( int  i  =   0 ; i  <  fragment.getMajorList().size()  -   1 ; i ++ ) {
+                        for (int i = 0; i < fragment.getMajorList().size() - 1; i++) {
                             for (int j = fragment.getMajorList().size() - 1; j > i; j--) {
                                 if (fragment.getMajorList().get(j).equals(fragment.getMajorList().get(i))) {
                                     fragment.getMajorList().remove(j);
@@ -240,10 +235,15 @@ public class DataFragmentPresenter implements IDataFragmentPresenter {
                     }
 
                     @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
                     public void onNext(FailBean.DataBean dataBean) {
-                        if(dataBean.getCollege().equals(college)){
+                        if (dataBean.getCollege().equals(college)) {
                             failDataBeanList.add(dataBean);
-                            Log.d(TAG,dataBean.getCourse());
+                            Log.d(TAG, dataBean.getCourse());
                         }
                     }
                 });
@@ -251,13 +251,13 @@ public class DataFragmentPresenter implements IDataFragmentPresenter {
 
     @Override
     public void loadFailData(final String major, OnDataLoaded onDataLoaded) {
-        if(failDataBeanList == null) return;
+        if (failDataBeanList == null) return;
         //挑选该学院所有major，交给model排序并返回chartData
         List<FailBean.DataBean> majorBeanList = new ArrayList<FailBean.DataBean>();
         for (FailBean.DataBean bean : failDataBeanList) {
-            if(bean.getMajor().equals(major)){
+            if (bean.getMajor().equals(major)) {
                 majorBeanList.add(bean);
-                Log.d(TAG,bean.getRatio());
+                Log.d(TAG, bean.getRatio());
             }
         }
         fragment.getDataList().clear();

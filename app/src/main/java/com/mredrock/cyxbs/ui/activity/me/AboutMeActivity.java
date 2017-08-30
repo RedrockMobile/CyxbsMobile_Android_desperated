@@ -16,7 +16,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.activity.social.SpecificNewsActivity;
@@ -86,7 +86,7 @@ public class AboutMeActivity extends BaseActivity implements
     }
 
     public void getCurrentData(boolean update) {
-        RequestManager.getInstance().getAboutMeList(new SimpleSubscriber<>(this, new SubscriberListener<List<AboutMe>>() {
+        RequestManager.getInstance().getAboutMeList(new SimpleObserver<>(this, new SubscriberListener<List<AboutMe>>() {
             @Override
             public boolean onError(Throwable e) {
                 super.onError(e);

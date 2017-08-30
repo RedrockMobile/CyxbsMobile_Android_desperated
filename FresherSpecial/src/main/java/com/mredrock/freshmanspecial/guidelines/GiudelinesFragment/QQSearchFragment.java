@@ -15,18 +15,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mredrock.freshmanspecial.beans.QQGroupsBean;
 import com.mredrock.freshmanspecial.R;
+import com.mredrock.freshmanspecial.beans.QQGroupsBean;
+import com.mredrock.freshmanspecial.model.HttpModel;
 import com.mredrock.freshmanspecial.units.MyRecyclerAdapter;
 import com.mredrock.freshmanspecial.units.base.BaseFragment;
-import com.mredrock.freshmanspecial.model.HttpModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 public class QQSearchFragment extends BaseFragment {
     private EditText editText;
@@ -75,10 +77,14 @@ public class QQSearchFragment extends BaseFragment {
     }
 
     private void getData() {
-        HttpModel.bulid().getQQGroups(new Subscriber<QQGroupsBean>() {
+        HttpModel.bulid().getQQGroups(new Observer<QQGroupsBean>() {
             @Override
-            public void onCompleted() {
+            public void onComplete() {
 
+            }
+
+            @Override
+            public void onSubscribe(Disposable d) {
             }
 
             @Override

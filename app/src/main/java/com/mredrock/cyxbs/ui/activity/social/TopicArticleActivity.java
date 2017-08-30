@@ -23,7 +23,7 @@ import com.mredrock.cyxbs.event.ItemChangedEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.TopicArticle;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicArticleAdapter;
@@ -146,9 +146,9 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
 
     private void loadArticle() {
         User user = APP.getUser(this);
-        RequestManager.getInstance().getTopicArticle(new SimpleSubscriber<>(this, new SubscriberListener<TopicArticle>() {
+        RequestManager.getInstance().getTopicArticle(new SimpleObserver<>(this, new SubscriberListener<TopicArticle>() {
             @Override
-            public void onCompleted() {
+             public void onComplete() {
                 super.onCompleted();
                 mPage++;
                 mSrlTopic.setRefreshing(false);

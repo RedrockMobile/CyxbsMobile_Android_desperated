@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.fragment.explore.eletric.DialogRemindFragment;
@@ -129,9 +129,9 @@ public class DormitorySettingActivity extends BaseActivity {
             SPUtils.set(APP.getContext(),BUILDING_KEY,String.valueOf(buildingNumber));
             SPUtils.set(APP.getContext(),DORMITORY_KEY,dormitoryNumberEdit.getText().toString()+"");
             SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
-            SimpleSubscriber<Object> subscriber = new SimpleSubscriber<Object>(this, true, new SubscriberListener<Object>() {
+            SimpleObserver<Object> subscriber = new SimpleObserver<Object>(this, true, new SubscriberListener<Object>() {
                 @Override
-                public void onCompleted() {
+                 public void onComplete() {
                     super.onCompleted();
                     setResult(ElectricChargeActivity.REQUEST_SET_CODE);
                     onBackPressed();

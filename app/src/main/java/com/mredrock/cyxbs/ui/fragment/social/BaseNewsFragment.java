@@ -20,7 +20,7 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.EndlessRecyclerOnScrollListener;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.social.FooterViewWrapper;
 import com.mredrock.cyxbs.ui.activity.social.HeaderViewWrapper;
@@ -36,7 +36,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscriber;
+import io.reactivex.Observer;
+
 
 /**
  * Created by mathiasluo on 16-4-26.
@@ -64,7 +65,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     protected NewsAdapter mNewsAdapter;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
-    abstract void provideData(Subscriber<List<HotNews>> subscriber, int size, int page);
+    abstract void provideData(Observer<List<HotNews>> observer, int size, int page);
 
     @Nullable
     @Override
@@ -148,7 +149,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
 
     public void getCurrentData(int size, int page) {
         mSwipeRefreshLayout.post(this::showLoadingProgress);
-        provideData(new SimpleSubscriber<>(getActivity(), new SubscriberListener<List<HotNews>>() {
+        provideData(new SimpleObserver<>(getActivity(), new SubscriberListener<List<HotNews>>() {
             @Override
             public boolean onError(Throwable e) {
                 super.onError(e);
@@ -204,7 +205,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
 
     private void getNextPageData(int size, int page) {
         mFooterViewWrapper.showLoading();
-        provideData(new SimpleSubscriber<>(getContext(), new SubscriberListener<List<HotNews>>() {
+        provideData(new SimpleObserver<>(getContext(), new SubscriberListener<List<HotNews>>() {
             @Override
             public boolean onError(Throwable e) {
                 super.onError(e);

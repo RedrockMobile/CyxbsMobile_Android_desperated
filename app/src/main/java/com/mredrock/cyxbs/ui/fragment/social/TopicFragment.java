@@ -19,7 +19,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.Topic;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.social.TopicArticleActivity;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicAdapter;
@@ -62,7 +62,7 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
 
     public void getTopic() {
         User user = APP.getUser(getContext());
-        RequestManager.getInstance().getTopicList(new SimpleSubscriber<>(getContext(),
+        RequestManager.getInstance().getTopicList(new SimpleObserver<>(getContext(),
                 false, new SubscriberListener<List<Topic>>() {
             @Override
             public boolean onError(Throwable e) {
@@ -72,7 +72,7 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
             }
 
             @Override
-            public void onCompleted() {
+             public void onComplete() {
                 super.onCompleted();
                 if (mRvTopic != null && mRvTopic.getSwipeToRefresh() != null)
                     mRvTopic.setRefreshing(false);

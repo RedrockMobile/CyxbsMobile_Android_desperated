@@ -18,7 +18,9 @@ import com.mredrock.freshmanspecial.model.HttpModel;
 
 import java.util.List;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by Glossimar on 2017/8/3.
@@ -26,7 +28,7 @@ import rx.Subscriber;
  * 界面 ： 邮子攻略-校园环境
  */
 
-public class CampusEnvironmentFragment extends Fragment{
+public class CampusEnvironmentFragment extends Fragment {
     private List<GuidelinesVerticalBean> admissionBeanList;
     private RecyclerView recyclerView;
     private CampusRecyclerAdapter adapter;
@@ -45,10 +47,14 @@ public class CampusEnvironmentFragment extends Fragment{
     }
 
     public void initData(final View v) {
-        HttpModel.bulid().getSchoolBuildings(new Subscriber<CampusBean>() {
+        HttpModel.bulid().getSchoolBuildings(new Observer<CampusBean>() {
             @Override
-            public void onCompleted() {
+            public void onComplete() {
 
+            }
+
+            @Override
+            public void onSubscribe(Disposable d) {
             }
 
             @Override

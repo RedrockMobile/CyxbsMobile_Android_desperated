@@ -10,18 +10,19 @@ import com.mredrock.cyxbs.component.widget.recycler.EndlessRecyclerViewScrollLis
 import com.mredrock.cyxbs.component.widget.recycler.RestaurantsItemAnimator;
 import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.BaseExploreActivity;
 import com.mredrock.cyxbs.ui.adapter.FoodListAdapter;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
 
+import org.reactivestreams.Subscription;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import rx.Subscription;
 
 /**
  * Created by Stormouble on 16/5/4.
@@ -103,7 +104,7 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
 
     private void loadFoodList(int page, boolean shouldRefresh) {
         Subscription subscription = RequestManager.getInstance().getFoodList(
-                new SimpleSubscriber<List<Food>>(getActivity(), new SubscriberListener<List<Food>>() {
+                new SimpleObserver<List<Food>>(getActivity(), new SubscriberListener<List<Food>>() {
 
             @Override
             public void onStart() {
@@ -113,7 +114,7 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
             }
 
             @Override
-            public void onCompleted() {
+             public void onComplete() {
                 onRefreshingStateChanged(false);
                 onErrorLayoutVisibleChanged(mSurroundingFoodListRv, false);
             }

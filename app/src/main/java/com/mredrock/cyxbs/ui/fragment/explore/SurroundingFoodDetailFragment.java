@@ -29,7 +29,7 @@ import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.FoodCommentsAdapter;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
@@ -38,13 +38,15 @@ import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
 import com.mredrock.cyxbs.util.permission.EasyPermissions;
 
+import org.reactivestreams.Subscription;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
+
 
 /**
  * Created by Stormouble on 16/4/16.
@@ -156,7 +158,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
      */
     private void getFoodAndCommentList(int page, boolean firstLoaded) {
         Subscription subscription = RequestManager.getInstance().getFoodAndCommentList(
-                new SimpleSubscriber<FoodDetail>(getActivity(), firstLoaded, new SubscriberListener<FoodDetail>() {
+                new SimpleObserver<FoodDetail>(getActivity(), firstLoaded, new SubscriberListener<FoodDetail>() {
                     @Override
                     public void onStart() {
                         if (!firstLoaded) {
@@ -165,7 +167,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                     }
 
                     @Override
-                    public void onCompleted() {
+                     public void onComplete() {
                         onRefreshingStateChanged(false);
                         onErrorLayoutVisibleChanged(mFoodDetailRv, false);
 
@@ -206,7 +208,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
      */
     private void getFoodCommentList(int page) {
         Subscription subscription = RequestManager.getInstance().getFoodCommentList(
-                new SimpleSubscriber<List<FoodComment>>(getActivity(), new SubscriberListener<List<FoodComment>>() {
+                new SimpleObserver<List<FoodComment>>(getActivity(), new SubscriberListener<List<FoodComment>>() {
                     @Override
                     public void onNext(List<FoodComment> foodCommentList) {
                         if (page == 1) {
@@ -223,7 +225,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     private void sendCommentAndRefresh(String content, boolean shouldRetry) {
         User user = APP.getUser(getActivity());
         Subscription subscription = RequestManager.getInstance().sendCommentAndRefresh(
-                new SimpleSubscriber<List<FoodComment>>(getActivity(), true, new SubscriberListener<List<FoodComment>>() {
+                new SimpleObserver<List<FoodComment>>(getActivity(), true, new SubscriberListener<List<FoodComment>>() {
                     @Override
                     public void onNext(List<FoodComment> commentList) {
                         if (commentList != null) {

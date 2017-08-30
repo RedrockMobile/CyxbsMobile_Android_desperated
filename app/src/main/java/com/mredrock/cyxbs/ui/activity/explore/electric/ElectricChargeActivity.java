@@ -18,7 +18,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ElectricCircleView;
 import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.SPUtils;
@@ -95,7 +95,7 @@ public class ElectricChargeActivity extends BaseActivity {
             startActivityForResult(new Intent(this,DormitorySettingActivity.class),1);
             return;
         }
-        RequestManager.INSTANCE.queryElectricCharge(new SimpleSubscriber<ElectricCharge>(this,true, new SubscriberListener<ElectricCharge>() {
+        RequestManager.INSTANCE.queryElectricCharge(new SimpleObserver<ElectricCharge>(this,true, new SubscriberListener<ElectricCharge>() {
             @Override
             public void onNext(ElectricCharge electricCharge) {
                 super.onNext(electricCharge);

@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import rx.functions.Func1;
+import io.reactivex.functions.Function;
+
 
 /**
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class UserCourseFilterByWeekDayFunc implements Func1<List<Course>, List<Course>> {
+public class UserCourseFilterByWeekDayFunc implements Function<List<Course>, List<Course>> {
 
     private int dayOfWeek;
 
@@ -33,7 +34,7 @@ public class UserCourseFilterByWeekDayFunc implements Func1<List<Course>, List<C
     }
 
     @Override
-    public List<Course> call(List<Course> courses) {
+    public List<Course> apply(List<Course> courses) {
         int hashDay;
         if (dayOfWeek >= Calendar.MONDAY) {
             hashDay = dayOfWeek - 2;

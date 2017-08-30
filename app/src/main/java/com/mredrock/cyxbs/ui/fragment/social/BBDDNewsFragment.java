@@ -9,19 +9,20 @@ import com.mredrock.cyxbs.util.RxBus;
 
 import java.util.List;
 
-import rx.Subscriber;
-import rx.Subscription;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by mathiasluo on 16-4-26.
  */
 public class BBDDNewsFragment extends BaseNewsFragment {
 
-    private Subscription mSubscription;
+    private Disposable mSubscription;
 
     @Override
-    void provideData(Subscriber<List<HotNews>> subscriber, int size, int page) {
-        RequestManager.getInstance().getListArticle(subscriber, BBDDNews.BBDD, size, page);
+    void provideData(Observer<List<HotNews>> observer, int size, int page) {
+        RequestManager.getInstance().getListArticle(observer, BBDDNews.BBDD, size, page);
     }
 
     @Override

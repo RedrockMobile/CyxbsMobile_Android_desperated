@@ -4,14 +4,15 @@ import com.mredrock.cyxbs.model.Affair;
 
 import java.util.List;
 
-import rx.functions.Func1;
+import io.reactivex.functions.Function;
+
 
 /**
  * Created by simonla on 2016/11/16.
  * 下午3:20
  */
 
-public class AffairWeekFilterFunc implements Func1<List<Affair>, List<Affair>> {
+public class AffairWeekFilterFunc implements Function<List<Affair>, List<Affair>> {
 
     private int mWeek;
 
@@ -20,7 +21,7 @@ public class AffairWeekFilterFunc implements Func1<List<Affair>, List<Affair>> {
     }
 
     @Override
-    public List<Affair> call(List<Affair> affairs) {
+    public List<Affair> apply(List<Affair> affairs) throws Exception {
         for (Affair a : affairs) {
             if (!a.week.contains(mWeek)) {
                 affairs.remove(a);

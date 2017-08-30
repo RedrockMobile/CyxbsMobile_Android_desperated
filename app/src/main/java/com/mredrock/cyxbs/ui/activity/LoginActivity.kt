@@ -8,7 +8,7 @@ import com.mredrock.cyxbs.R
 import com.mredrock.cyxbs.event.LoginStateChangeEvent
 import com.mredrock.cyxbs.model.User
 import com.mredrock.cyxbs.network.RequestManager
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber
+import com.mredrock.cyxbs.subscriber.SimpleObserver
 import com.mredrock.cyxbs.subscriber.SubscriberListener
 import com.mredrock.cyxbs.ui.activity.me.EditNickNameActivity
 import com.umeng.analytics.MobclickAgent
@@ -45,7 +45,7 @@ class LoginActivity : BaseActivity() {
      * 软键盘登录
      */
     private fun autoSendFn() {
-        login_id_num_edit.setOnEditorActionListener { v, actionId, event ->
+        login_id_num_edit.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 attemptLogin()
             }
@@ -62,7 +62,7 @@ class LoginActivity : BaseActivity() {
         val idNum = login_id_num_edit.text.toString()
         if (idNum.isBlank()) toast("请输入密码")
         RequestManager.getInstance()
-                .login(SimpleSubscriber(this, true, false, object : SubscriberListener<User>() {
+                .login(SimpleObserver(this, true, false, object : SubscriberListener<User>() {
                     override fun onNext(user: User?) {
                         super.onNext(user)
                         if (user != null) {
@@ -73,8 +73,8 @@ class LoginActivity : BaseActivity() {
                         }
                     }
 
-                    override fun onCompleted() {
-                        super.onCompleted()
+                    override fun onComplete() {
+                        super.onComplete()
                         EventBus.getDefault().post(LoginStateChangeEvent(true))
                         finish()
                         if (!APP.hasNickName()) {

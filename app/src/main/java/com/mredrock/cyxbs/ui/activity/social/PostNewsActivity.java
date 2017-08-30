@@ -23,12 +23,12 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.Image;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.Utils;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +36,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 public class PostNewsActivity extends BaseActivity implements View.OnClickListener,TopicEditText.OnTopicEditListener {
     public static final String TAG = "PostNewsActivity";
@@ -80,9 +80,9 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
             observable = uploadWithImg(currentImgs, title, content, BBDDNews.TOPIC_ARTICLE, topicId);
         else observable = uploadWithoutImg(title, content, BBDDNews.TOPIC_ARTICLE, topicId);
 
-        observable.subscribe(new SimpleSubscriber<>(this, true, false, new SubscriberListener<Object>() {
+        observable.subscribe(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
             @Override
-            public void onCompleted() {
+             public void onComplete() {
                 super.onCompleted();
                 Intent intent = new Intent();
                 intent.putExtra(TopicArticleActivity.EXTRA_POST_SUCCESS, true);
@@ -188,9 +188,9 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
             observable = uploadWithImg(currentImgs, title, content, type, null);
         else observable = uploadWithoutImg(title, content, type, null);
 
-        observable.subscribe(new SimpleSubscriber<>(this, true, false, new SubscriberListener<Object>() {
+        observable.subscribe(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
             @Override
-            public void onCompleted() {
+             public void onComplete() {
                 super.onCompleted();
                 showUploadSuccess(content);
             }
@@ -258,7 +258,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                             mImgList.add(image);
                             return mImgList;
                         })
-                        .subscribe(new SimpleSubscriber<>(this, new SubscriberListener<List<Image>>() {
+                        .subscribe(new SimpleObserver<>(this, new SubscriberListener<List<Image>>() {
                             @Override
                             public void onNext(List<Image> list) {
                                 super.onNext(list);

@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.PickerBottomSheetDialog;
@@ -169,7 +169,7 @@ public class EmptyRoomActivity extends BaseActivity {
         ProgressDialog progressDialog = new ProgressDialog(EmptyRoomActivity.this);
         progressDialog.setMessage("查询中...");
         RequestManager.getInstance().getEmptyRoomList(
-                new SimpleSubscriber<>(this,
+                new SimpleObserver<>(this,
                         new SubscriberListener<List<String>>() {
 
                             @Override
@@ -189,7 +189,7 @@ public class EmptyRoomActivity extends BaseActivity {
 
 
                             @Override
-                            public void onCompleted() {
+                             public void onComplete() {
                                 super.onCompleted();
                             }
 

@@ -8,17 +8,17 @@ import android.widget.Toast;
 
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.config.Config;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by wusui on 16/11/13.
@@ -28,19 +28,19 @@ public class SaveImageUtils {
     public static void imageSave(final Bitmap bitmap,final String url,Context context){
         Observable.create(new Observable.OnSubscribe<Bitmap>() {
             @Override
-            public void call(Subscriber<? super Bitmap> subscriber) {
+            public void call(Observer<? super Bitmap> subscriber) {
                 subscriber.onNext(bitmap);
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<Bitmap>(context, new SubscriberListener<Bitmap>() {
+                .subscribe(new SimpleObserver<Bitmap>(context, new SubscriberListener<Bitmap>() {
                     @Override
                     public void onStart() {
                         super.onStart();
                     }
 
                     @Override
-                    public void onCompleted() {
+                     public void onComplete() {
                         super.onCompleted();
                     }
 

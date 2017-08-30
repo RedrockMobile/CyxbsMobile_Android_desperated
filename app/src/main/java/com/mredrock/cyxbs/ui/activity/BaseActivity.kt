@@ -88,17 +88,9 @@ open class BaseActivity : AppCompatActivity(), AnkoLogger {
                     .content(event.msg)
                     .positiveText("马上去登录")
                     .negativeText("我再看看")
-                    .callback(object : MaterialDialog.ButtonCallback() {
-                        override fun onPositive(dialog: MaterialDialog?) {
-                            super.onPositive(dialog)
-                            onLoginEvent(LoginEvent())
-                        }
-
-                        override fun onNegative(dialog: MaterialDialog?) {
-                            super.onNegative(dialog)
-                            dialog!!.dismiss()
-                        }
-                    }).show()
+                    .onPositive { _, _ -> onLoginEvent(LoginEvent()) }
+                    .onNegative { dialog, _ -> dialog.dismiss() }
+                    .show()
         }
     }
 

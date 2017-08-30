@@ -5,7 +5,8 @@ import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.umeng.analytics.MobclickAgent;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+
 
 public class EditQQActivity extends EditCommonActivity {
 
@@ -24,9 +25,9 @@ public class EditQQActivity extends EditCommonActivity {
 
 
     @Override
-    protected void provideData(Subscriber<RedrockApiWrapper<Object>> subscriber, String
+    protected void provideData(Observer<RedrockApiWrapper<Object>> observer, String
             stuNum, String idNum, String info) {
-        RequestManager.getInstance().setPersonQQ(subscriber, stuNum, idNum, info);
+        RequestManager.getInstance().setPersonQQ(observer, stuNum, idNum, info);
     }
 
 

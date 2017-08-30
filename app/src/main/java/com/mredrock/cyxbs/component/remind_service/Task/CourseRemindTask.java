@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import com.mredrock.cyxbs.component.remind_service.Reminder;
 import com.mredrock.cyxbs.component.remind_service.func.CourseRemindConvertFunc;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class CourseRemindTask extends BaskRemindTask {
     @Override
     public void task(Callback callback) {
         int delay = Integer.valueOf(mSp.getString(SP_REMIND_EVERY_CLASS_DELAY, "0"));
-        RequestManager.getInstance().getRemindableList(new SimpleSubscriber<>(mContext,
+        RequestManager.getInstance().getRemindableList(new SimpleObserver<>(mContext,
                 new SubscriberListener<List<Reminder>>() {
 
                     @Override

@@ -16,7 +16,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.Topic;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicHeaderAdapter;
 import com.mredrock.cyxbs.ui.fragment.social.TopicFragment;
@@ -51,9 +51,9 @@ public class HeaderViewWrapper {
         topicHeaderAdapter.addFooter(new Header());
         User user = APP.getUser(context);
         ArrayList<Topic> list = new ArrayList<>();
-        RequestManager.getInstance().getTopicList(new SimpleSubscriber<>(context, new SubscriberListener<List<Topic>>() {
+        RequestManager.getInstance().getTopicList(new SimpleObserver<>(context, new SubscriberListener<List<Topic>>() {
             @Override
-            public void onCompleted() {
+             public void onComplete() {
                 super.onCompleted();
             }
 

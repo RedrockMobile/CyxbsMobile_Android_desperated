@@ -35,7 +35,7 @@ import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.PickerBottomSheetDialog;
@@ -56,9 +56,9 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class EditAffairActivity extends BaseActivity {
@@ -163,9 +163,9 @@ public class EditAffairActivity extends BaseActivity {
         /*setData(course);*/
         DBManager.INSTANCE.queryItem(uid).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AffairApi.AffairItem>() {
+                .subscribe(new Observer<AffairApi.AffairItem>() {
                     @Override
-                    public void onCompleted() {
+                     public void onComplete() {
 
                     }
 
@@ -569,9 +569,9 @@ public class EditAffairActivity extends BaseActivity {
             }
             affair.week = affairItem.getDate().get(0).getWeek();
             if (!isStartByCourse) {
-                RequestManager.getInstance().addAffair(new SimpleSubscriber<>(this, true, false, new SubscriberListener<Object>() {
+                RequestManager.getInstance().addAffair(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
                     @Override
-                    public void onCompleted() {
+                     public void onComplete() {
                         super.onCompleted();
                         dbManager.insert(true, x, APP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem))
                                 .subscribeOn(Schedulers.io())
@@ -579,7 +579,7 @@ public class EditAffairActivity extends BaseActivity {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Subscriber() {
                                     @Override
-                                    public void onCompleted() {
+                                     public void onComplete() {
                                         EventBus.getDefault().post(new AffairAddEvent(affair));
                                         onBackPressed();
                                     }
@@ -622,9 +622,9 @@ public class EditAffairActivity extends BaseActivity {
                 }), APP.getUser(this).stuNum, APP.getUser(this).idNum, x, title, content, gson.toJson(affairItem.getDate()), affairItem.getTime());
             } else {
                 //  Log.e(TAG, "onSaveClick: isStartByCourse");
-                RequestManager.getInstance().editAffair(new SimpleSubscriber<Object>(this, true, false, new SubscriberListener<Object>() {
+                RequestManager.getInstance().editAffair(new SimpleObserver<Object>(this, true, false, new SubscriberListener<Object>() {
                     @Override
-                    public void onCompleted() {
+                     public void onComplete() {
                         super.onCompleted();
                         dbManager.insert(true, x, APP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem), true)
                                 .subscribeOn(Schedulers.io())
@@ -632,7 +632,7 @@ public class EditAffairActivity extends BaseActivity {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Subscriber() {
                                     @Override
-                                    public void onCompleted() {
+                                     public void onComplete() {
                                         EventBus.getDefault().post(new AffairModifyEvent());
                                         onBackPressed();
                                     }

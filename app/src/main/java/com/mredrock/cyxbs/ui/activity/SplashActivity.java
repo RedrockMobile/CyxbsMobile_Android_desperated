@@ -10,7 +10,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.remind_service.RemindManager;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.umeng.analytics.MobclickAgent;
 
@@ -55,7 +55,7 @@ public class SplashActivity extends Activity {
 
         RemindManager.getInstance().pushAll(this);
 
-        RequestManager.getInstance().getStartPage(new SimpleSubscriber<>(this, new SubscriberListener<StartPage>() {
+        RequestManager.getInstance().getStartPage(new SimpleObserver<>(this, new SubscriberListener<StartPage>() {
             @Override
             public void onNext(StartPage startPage) {
                 if (startPage != null) {

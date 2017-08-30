@@ -220,7 +220,7 @@ public class MapActivity extends BaseExploreActivity
 //
 //    private void getMapOverlayImageUrl(boolean shouldCache) {
 //        RequestManager.getInstance().getMapOverlayImageUrl(
-//                new SimpleSubscriber<>(this, new SubscriberListener<String>() {
+//                new SimpleObserver<>(this, new SubscriberListener<String>() {
 //                    @Override
 //                    public void onStart() {
 //                        onLoadProgress();

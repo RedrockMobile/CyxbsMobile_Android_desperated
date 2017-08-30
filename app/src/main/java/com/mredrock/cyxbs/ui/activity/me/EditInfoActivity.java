@@ -36,10 +36,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
+import io.reactivex.schedulers.Schedulers;
 
 public class EditInfoActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
@@ -225,7 +225,7 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
         options.setCompressionFormat(Bitmap.CompressFormat.PNG);
         options.setCompressionQuality(90);
         options.setToolbarTitleTextColor(ContextCompat.getColor(this, R.color.black_lightly));
-        options.setLogoColor(ContextCompat.getColor(this,R.color.black_lightly));
+        options.setLogoColor(ContextCompat.getColor(this, R.color.black_lightly));
         options.setToolbarColor(
                 ContextCompat.getColor(this, R.color.colorPrimary));
         options.setStatusBarColor(
@@ -242,15 +242,17 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
             RequestManager.getInstance()
                     .uploadNewsImg(mUser.stuNum, resultUri.getPath())
                     .subscribeOn(Schedulers.io())
-                    .flatMap((Func1<UploadImgResponse.Response, Observable<?>>) response -> {
-                        mUser.photo_thumbnail_src = response.thumbnailSrc;
-                        mUser.photo_src = response.photoSrc;
-                        return RequestManager.getInstance()
-                                .setPersonInfo(mUser.stuNum,
-                                        mUser.idNum,
-                                        response.thumbnailSrc,
-                                        response.photoSrc);
-                    })
+                    .flatMap(response ->
+                            {
+                                mUser.photo_thumbnail_src = response.thumbnailSrc;
+                                mUser.photo_src = response.photoSrc;
+                                return RequestManager.getInstance()
+                                        .setPersonInfo(mUser.stuNum,
+                                                mUser.idNum,
+                                                response.thumbnailSrc,
+                                                response.photoSrc);
+                            }
+                    )
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(okResponse -> {
                         dismissProgress();

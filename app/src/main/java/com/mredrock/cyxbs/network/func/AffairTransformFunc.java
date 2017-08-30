@@ -6,7 +6,7 @@ import com.mredrock.cyxbs.model.AffairApi;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.functions.Func1;
+import io.reactivex.functions.Function;
 
 
 /**
@@ -16,10 +16,10 @@ import rx.functions.Func1;
  * Enjoy it !!!
  */
 
-public class AffairTransformFunc implements Func1<AffairApi<List<AffairApi.AffairItem>>, List<Affair>> {
+public class AffairTransformFunc implements Function<AffairApi<List<AffairApi.AffairItem>>, List<Affair>> {
 
     @Override
-    public List<Affair> call(AffairApi<List<AffairApi.AffairItem>> listAffairApi) {
+    public List<Affair> apply(AffairApi<List<AffairApi.AffairItem>> listAffairApi) throws Exception {
         ArrayList<Affair> affairs = new ArrayList<>();
         for (AffairApi.AffairItem item : listAffairApi.data) {
             for (AffairApi.AffairItem.DateBean date : item.getDate()) {
@@ -40,7 +40,6 @@ public class AffairTransformFunc implements Func1<AffairApi<List<AffairApi.Affai
                 affairs.add(affair);
             }
         }
-
         return affairs;
     }
 }

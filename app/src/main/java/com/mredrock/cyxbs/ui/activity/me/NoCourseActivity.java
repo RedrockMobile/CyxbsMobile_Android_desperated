@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Student;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.me.NoCourseAdapter;
@@ -175,7 +175,7 @@ public class NoCourseActivity extends BaseActivity
                     .show();
         } else {
             RequestManager.INSTANCE.getStudent(
-                    new SimpleSubscriber<>(this, true,
+                    new SimpleObserver<>(this, true,
                             new SubscriberListener<List<Student>>() {
                                 @Override
                                 public void onNext(List<Student> students) {

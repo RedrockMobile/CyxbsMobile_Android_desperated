@@ -21,7 +21,7 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.model.social.Image;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.social.ImageActivity;
 import com.mredrock.cyxbs.ui.activity.social.PersonInfoActivity;
@@ -39,7 +39,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
 
 /**
  * Created by mathiasluo on 16-4-4.
@@ -186,7 +185,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         public void like(TextView textView) {
-            RequestManager.getInstance().addThumbsUp(new SimpleSubscriber<>(textView.getContext()
+            RequestManager.getInstance().addThumbsUp(new SimpleObserver<>(textView.getContext()
                             , new SubscriberListener<String>() {
                         @Override
                         public boolean onError(Throwable e) {
@@ -212,7 +211,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         }
 
                         @Override
-                        public void onCompleted() {
+                         public void onComplete() {
                             super.onCompleted();
                             mBtnFavor.setClickable(true);
                         }
@@ -223,7 +222,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         public void dislike(TextView textView) {
-            RequestManager.getInstance().cancelThumbsUp(new SimpleSubscriber<>(textView.getContext()
+            RequestManager.getInstance().cancelThumbsUp(new SimpleObserver<>(textView.getContext()
                             , new SubscriberListener<String>() {
                         @Override
                         public boolean onError(Throwable e) {
@@ -247,7 +246,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         }
 
                         @Override
-                        public void onCompleted() {
+                         public void onComplete() {
                             super.onCompleted();
                             mBtnFavor.setClickable(true);
                         }

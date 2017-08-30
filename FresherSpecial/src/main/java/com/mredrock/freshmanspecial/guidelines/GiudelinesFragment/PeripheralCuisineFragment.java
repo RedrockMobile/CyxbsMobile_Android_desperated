@@ -18,7 +18,9 @@ import com.mredrock.freshmanspecial.model.HttpModel;
 
 import java.util.List;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by Glossimar on 2017/8/3.
@@ -42,10 +44,14 @@ public class PeripheralCuisineFragment extends Fragment {
     }
 
     public void initData(final View view) {
-        HttpModel.bulid().getCuisine(new Subscriber<CuisineBean>() {
+        HttpModel.bulid().getCuisine(new Observer<CuisineBean>() {
             @Override
-            public void onCompleted() {
+            public void onComplete() {
 
+            }
+
+            @Override
+            public void onSubscribe(Disposable d) {
             }
 
             @Override

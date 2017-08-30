@@ -12,6 +12,7 @@ import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.network.kt.RequestManagerKt;
 import com.mredrock.cyxbs.network.encrypt.UserInfoEncryption;
 import com.mredrock.cyxbs.ui.activity.exception.ExceptionActivity;
 import com.mredrock.cyxbs.util.LogUtils;
@@ -26,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import rx.Subscriber;
+
 
 
 /**
@@ -124,6 +125,7 @@ public class APP extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Config.DEBUG = true;
+        RequestManagerKt.INSTANCE.init();
         UMShareAPI.get(this);
         initShareKey();
         context = getApplicationContext();
@@ -146,9 +148,9 @@ public class APP extends MultiDexApplication {
     public void reloadCourseList() {
         if (isLogin()) {
             User user = getUser(getContext());
-            RequestManager.getInstance().getCourseList(new Subscriber<List<Course>>() {
+            RequestManager.getInstance().getCourseList(new Observer<List<Course>>() {
                                                            @Override
-                                                           public void onCompleted() {}
+                                                            public void onComplete() {}
 
                                                            @Override
                                                            public void onError(Throwable e) {

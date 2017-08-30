@@ -1,2 +1,1 @@
 include ':app', ':pickerview', ':FresherSpecial'
-//project(':freshman').projectDir = new File('FreshmanSpecial/app')

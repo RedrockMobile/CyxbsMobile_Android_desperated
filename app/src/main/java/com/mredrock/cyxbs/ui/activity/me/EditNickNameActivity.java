@@ -17,7 +17,8 @@ import com.mredrock.cyxbs.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
-import rx.Subscriber;
+import io.reactivex.Observer;
+
 
 public class EditNickNameActivity extends EditCommonActivity {
 
@@ -50,8 +51,8 @@ public class EditNickNameActivity extends EditCommonActivity {
     }
 
     @Override
-    protected void provideData(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String info) {
-        RequestManager.getInstance().setPersonNickName(subscriber, stuNum, idNum, info);
+    protected void provideData(Observer<RedrockApiWrapper<Object>> observer, String stuNum, String idNum, String info) {
+        RequestManager.getInstance().setPersonNickName(observer, stuNum, idNum, info);
     }
 
     private void initialize() {

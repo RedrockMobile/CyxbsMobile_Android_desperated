@@ -6,14 +6,15 @@ import com.mredrock.cyxbs.model.Course;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.functions.Func1;
+import io.reactivex.functions.Function;
+
 
 /**
  * Created by simonla on 2017/3/21.
  * 下午9:58
  */
 
-public abstract class BaseRemindFunc implements Func1<List<Course>, List<Reminder>> {
+public abstract class BaseRemindFunc implements Function<List<Course>, List<Reminder>> {
 
     int mDelay;
     List<Reminder> mReminders = new ArrayList<>();
@@ -23,5 +24,5 @@ public abstract class BaseRemindFunc implements Func1<List<Course>, List<Reminde
     }
 
     @Override
-    abstract public List<Reminder> call(List<Course> courses);
+    abstract public List<Reminder> apply(List<Course> courses) throws Exception;
 }

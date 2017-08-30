@@ -4,13 +4,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.Toast;
 
-import com.mredrock.freshmanspecial.beans.MienBeans.OriginalBean;
 import com.mredrock.freshmanspecial.R;
+import com.mredrock.freshmanspecial.beans.MienBeans.OriginalBean;
+import com.mredrock.freshmanspecial.model.HttpModel;
 import com.mredrock.freshmanspecial.units.MyRecyclerAdapter;
 import com.mredrock.freshmanspecial.units.base.BaseFragment;
-import com.mredrock.freshmanspecial.model.HttpModel;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by zxzhu on 2017/8/4.
@@ -18,23 +20,28 @@ import rx.Subscriber;
 
 public class OriginalFragment extends BaseFragment {
     private RecyclerView recyclerView;
+
     @Override
     protected void initData() {
         recyclerView = $(R.id.list_original);
         setRecyclerView();
     }
 
-    private void setRecyclerView(){
-        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        HttpModel.bulid().getBOriginal(new Subscriber<OriginalBean>() {
+    private void setRecyclerView() {
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        HttpModel.bulid().getBOriginal(new Observer<OriginalBean>() {
             @Override
-            public void onCompleted() {
+            public void onComplete() {
 
             }
 
             @Override
+            public void onSubscribe(Disposable d) {
+            }
+
+            @Override
             public void onError(Throwable e) {
-                Toast.makeText(getActivity(),"获取数据失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -48,7 +55,7 @@ public class OriginalFragment extends BaseFragment {
                 originalBean.getData().get(6).setTime("20:48");
                 originalBean.getData().get(7).setTime("02:50");
                 recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(new MyRecyclerAdapter(getActivity(),originalBean.getData(),MyRecyclerAdapter.ORIGINAL));
+                recyclerView.setAdapter(new MyRecyclerAdapter(getActivity(), originalBean.getData(), MyRecyclerAdapter.ORIGINAL));
             }
         });
     }

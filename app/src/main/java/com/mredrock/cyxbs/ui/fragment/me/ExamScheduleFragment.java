@@ -18,7 +18,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.me.ExamScheduleAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
@@ -31,7 +31,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscriber;
+import io.reactivex.Observer;
+
 
 /**
  * Created by skylineTan on 2016/4/22 22:09.
@@ -157,7 +158,7 @@ public class ExamScheduleFragment extends BaseFragment {
 
     public void loadExamList(boolean update) {
         if (mUser != null) {
-            Subscriber<List<Exam>> subscriber = new SimpleSubscriber<>(
+            Observer<List<Exam>> subscriber = new SimpleObserver<>(
                     getActivity(), new SubscriberListener<List<Exam>>() {
                 @Override
                 public boolean onError(Throwable e) {
@@ -193,9 +194,9 @@ public class ExamScheduleFragment extends BaseFragment {
 
             });
             if (isReExam) {
-                RequestManager.getInstance().getReExamList(subscriber, mUser.stu, update);
+                RequestManager.getInstance().getReExamList(observer, mUser.stu, update);
             } else {
-                RequestManager.getInstance().getExamList(subscriber, mUser.stu, update);
+                RequestManager.getInstance().getExamList(observer, mUser.stu, update);
             }
         } else {
             if (mIsVisibleToUser) {

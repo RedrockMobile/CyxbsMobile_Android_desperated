@@ -18,7 +18,7 @@ import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.me.AboutMeActivity;
 import com.mredrock.cyxbs.ui.activity.me.EditInfoActivity;
@@ -218,7 +218,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
         }
         mUser = APP.getUser(getActivity());
         if (mUser != null) {
-            RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(getActivity(),
+            RequestManager.getInstance().getPersonInfo(new SimpleObserver<>(getActivity(),
                     new SubscriberListener<User>() {
                         @Override
                         public void onNext(User user) {

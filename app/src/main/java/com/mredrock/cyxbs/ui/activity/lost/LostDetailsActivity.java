@@ -61,7 +61,7 @@ public class LostDetailsActivity extends BaseActivity {
     public void init(){
         /*lost = (Lost) getIntent().getSerializableExtra("LOST");
         if (lost != null){
-            RequestManager.getInstance().getLostDetail(new SimpleSubscriber<LostDetail>(this, new SubscriberListener<LostDetail>() {
+            RequestManager.getInstance().getLostDetail(new SimpleObserver<LostDetail>(this, new SubscriberListener<LostDetail>() {
                 @Override
                 public boolean onError(Throwable e) {
                     Toast.makeText(LostDetailsActivity.this, "抱歉，未拉取到数据", Toast.LENGTH_SHORT).show();

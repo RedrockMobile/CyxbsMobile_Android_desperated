@@ -12,7 +12,7 @@ import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 
@@ -53,7 +53,7 @@ public class PastElectricChargeActivity extends BaseActivity {
 
         mUser = APP.getUser(this);
         RequestManager.INSTANCE.queryPastElectricCharge(mUser.stuNum, mUser.idNum,
-                new SimpleSubscriber<PastElectric.PastElectricResultWrapper>(this, true, new SubscriberListener<PastElectric.PastElectricResultWrapper>() {
+                new SimpleObserver<PastElectric.PastElectricResultWrapper>(this, true, new SubscriberListener<PastElectric.PastElectricResultWrapper>() {
                     @Override
                     public void onNext(PastElectric.PastElectricResultWrapper pastElectricResultWrapper) {
                         super.onNext(pastElectricResultWrapper);

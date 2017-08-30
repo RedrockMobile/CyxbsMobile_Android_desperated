@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.component.widget.Toolbar;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.EditTextBottomSheetDialog;
@@ -88,11 +88,11 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
             editIntroduceEt.setText("");
         }
         RequestManager.getInstance()
-                .setPersonIntroduction(new SimpleSubscriber<>(
+                .setPersonIntroduction(new SimpleObserver<>(
                                 EditIntroduceActivity.this, true, new SubscriberListener<RedrockApiWrapper<Object>>() {
 
                             @Override
-                            public void onCompleted() {
+                             public void onComplete() {
                                 super.onCompleted();
                                 Intent intent = new Intent();
                                 intent.putExtra(EXTRA_EDIT_INTRODUCE,

@@ -11,7 +11,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.electric.DormitorySettingActivity;
 import com.mredrock.cyxbs.ui.activity.explore.electric.ElectricChargeActivity;
@@ -44,7 +44,7 @@ public class ElectricRemindUtil {
         float money = (float) SPUtils.get(APP.getContext(), ElectricRemindActivity.ELECTRIC_REMIND_MONEY, -1.0f);
         if (money == -1)
             return;
-        RequestManager.INSTANCE.queryElectricCharge(new SimpleSubscriber<ElectricCharge>(context, new SubscriberListener<ElectricCharge>() {
+        RequestManager.INSTANCE.queryElectricCharge(new SimpleObserver<ElectricCharge>(context, new SubscriberListener<ElectricCharge>() {
             @Override
             public void onNext(ElectricCharge electricCharge) {
                 super.onNext(electricCharge);

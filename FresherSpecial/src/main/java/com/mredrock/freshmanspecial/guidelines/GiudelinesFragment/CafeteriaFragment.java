@@ -19,7 +19,9 @@ import com.mredrock.freshmanspecial.model.HttpModel;
 
 import java.util.List;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by Glossimar on 2017/8/3.
@@ -37,18 +39,19 @@ public class CafeteriaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.special_2017_fragment_cafeteria, container, false);
         iniData(view);
-        recyclerView = (RecyclerView) view.findViewById(R.id.cafeteria_recycler);
+        recyclerView = view.findViewById(R.id.cafeteria_recycler);
         return view;
     }
 
     public void iniData(final View v) {
-        HttpModel.bulid().getCafeteria(new Subscriber<CafeteriaBean>() {
+        HttpModel.bulid().getCafeteria(new Observer<CafeteriaBean>() {
             @Override
-            public void onCompleted() {
+             public void onComplete() {
 
             }
 
-            @Override
+                        @Override            public void onSubscribe(Disposable d) {                            }
+@Override
             public void onError(Throwable e) {
                 e.printStackTrace();
                 Toast.makeText(v.getContext(), e.toString(), Toast.LENGTH_LONG).show();

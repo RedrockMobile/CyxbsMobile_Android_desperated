@@ -5,16 +5,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import com.mredrock.freshmanspecial.beans.MienBeans.TeacherBean;
 import com.mredrock.freshmanspecial.R;
+import com.mredrock.freshmanspecial.beans.MienBeans.TeacherBean;
+import com.mredrock.freshmanspecial.model.HttpModel;
 import com.mredrock.freshmanspecial.units.MyRecyclerAdapter;
 import com.mredrock.freshmanspecial.units.base.BaseFragment;
-import com.mredrock.freshmanspecial.model.HttpModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by zxzhu on 2017/8/8.
@@ -35,15 +37,19 @@ public class TeacherFragment extends BaseFragment {
     private void setData() {
         LinearLayoutManager manager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(manager);
-        HttpModel.bulid().getTeachers(new Subscriber<TeacherBean>() {
+        HttpModel.bulid().getTeachers(new Observer<TeacherBean>() {
             @Override
-            public void onCompleted() {
+            public void onComplete() {
 
             }
 
             @Override
+            public void onSubscribe(Disposable d) {
+            }
+
+            @Override
             public void onError(Throwable e) {
-                Toast.makeText(getActivity(),"获取数据失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

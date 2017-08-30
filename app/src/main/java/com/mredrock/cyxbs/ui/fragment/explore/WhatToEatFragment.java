@@ -21,7 +21,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.BaseExploreActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
@@ -29,10 +29,11 @@ import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
 
+import org.reactivestreams.Subscription;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
 
 /**
  * Created by Stormouble on 16/4/27.
@@ -150,7 +151,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
             mLastTime = System.currentTimeMillis();
 
             Subscription subscription = RequestManager.getInstance().getShake(
-                    new SimpleSubscriber<>(getActivity(), new SubscriberListener<Shake>() {
+                    new SimpleObserver<>(getActivity(), new SubscriberListener<Shake>() {
                         @Override
                         public void onNext(Shake data) {
                             setFoodData(data);
@@ -178,9 +179,9 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
 
 
     private void getFood() {
-        Subscription subscription = RequestManager.getInstance().getFood(new SimpleSubscriber<>(getActivity(), new SubscriberListener<FoodDetail>() {
+        Subscription subscription = RequestManager.getInstance().getFood(new SimpleObserver<>(getActivity(), new SubscriberListener<FoodDetail>() {
             @Override
-            public void onCompleted() {
+             public void onComplete() {
                 onRefreshingStateChanged(false);
                 onErrorLayoutVisibleChanged(mContainerLayout, false);
             }

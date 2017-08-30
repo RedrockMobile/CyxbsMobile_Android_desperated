@@ -21,12 +21,12 @@ import com.mredrock.freshmanspecial.beans.SurroundingBeautyBean;
 
 import java.util.ArrayList;
 
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Created by zxzhu on 2017/8/6.

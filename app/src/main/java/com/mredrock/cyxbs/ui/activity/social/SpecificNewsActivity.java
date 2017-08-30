@@ -27,7 +27,7 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.model.social.OfficeNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
@@ -44,6 +44,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.reactivestreams.Subscription;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +52,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
 
 public class SpecificNewsActivity extends BaseActivity
         implements SwipeRefreshLayout.OnRefreshListener, EditTextBottomSheetDialog.OnClickListener
@@ -246,7 +246,7 @@ public class SpecificNewsActivity extends BaseActivity
     }
 
     private void requestComments() {
-        RequestManager.getInstance().getRemarks(new SimpleSubscriber<>(this, new SubscriberListener<List<CommentContent>>() {
+        RequestManager.getInstance().getRemarks(new SimpleObserver<>(this, new SubscriberListener<List<CommentContent>>() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -300,7 +300,7 @@ public class SpecificNewsActivity extends BaseActivity
     }
 
     private void getDataBeanById(String articleId) {
-        RequestManager.getInstance().getTrendDetail(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
+        RequestManager.getInstance().getTrendDetail(new SimpleObserver<>(this, new SubscriberListener<List<HotNews>>() {
             @Override
             public boolean onError(Throwable e) {
                 super.onError(e);
@@ -404,9 +404,9 @@ public class SpecificNewsActivity extends BaseActivity
         if (editText.getText().toString().equals(""))
             Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT).show();
         else {
-            RequestManager.getInstance().postReMarks(new SimpleSubscriber<>(this, true, false, new SubscriberListener<String>() {
+            RequestManager.getInstance().postReMarks(new SimpleObserver<>(this, true, false, new SubscriberListener<String>() {
                 @Override
-                public void onCompleted() {
+                 public void onComplete() {
                     super.onCompleted();
                     requestComments();
                     editText.getText().clear();

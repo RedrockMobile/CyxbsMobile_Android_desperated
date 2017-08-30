@@ -18,7 +18,9 @@ import com.mredrock.freshmanspecial.model.HttpModel;
 
 import java.util.List;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by Glossimar on 2017/8/3.
@@ -42,10 +44,14 @@ public class SurroundingBeautyFragment extends Fragment {
     }
 
     public void initData(final View view) {
-        HttpModel.bulid().getSurroundingBeauty(new Subscriber<SurroundingBeautyBean>() {
+        HttpModel.bulid().getSurroundingBeauty(new Observer<SurroundingBeautyBean>() {
             @Override
-            public void onCompleted() {
+            public void onComplete() {
 
+            }
+
+            @Override
+            public void onSubscribe(Disposable d) {
             }
 
             @Override

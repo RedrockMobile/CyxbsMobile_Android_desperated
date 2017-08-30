@@ -18,7 +18,7 @@ public class CourseRemindConvertFunc extends BaseRemindFunc {
     }
 
     @Override
-    public List<Reminder> call(List<Course> courses) {
+    public List<Reminder> apply(List<Course> courses) throws Exception {
         for (Course c : courses) {
             Calendar calendar = delayCompute(courseToCalendar(c), mDelay);
             if (isToadyCourse(calendar) && !isLateToRemind(calendar)) {

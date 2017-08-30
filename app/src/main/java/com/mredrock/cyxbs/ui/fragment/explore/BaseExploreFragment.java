@@ -17,7 +17,6 @@ import com.mredrock.cyxbs.util.GlideHelper;
 import com.mredrock.cyxbs.util.LogUtils;
 
 import butterknife.ButterKnife;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Stormouble on 16/5/3.

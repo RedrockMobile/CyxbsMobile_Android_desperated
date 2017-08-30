@@ -1,9 +1,8 @@
 package com.mredrock.cyxbs.util;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 /**
  * Created by mathiasluo on 16-4-25.
@@ -11,7 +10,7 @@ import rx.subjects.Subject;
 public class RxBus {
     private static volatile RxBus   defaultInstance;
     // 主题
-    private final           Subject bus;
+    private final Subject bus;
 
     // PublishSubject只会把在订阅发生的时间点之后来自原始Observable的数据发射给观察者
     public RxBus() {

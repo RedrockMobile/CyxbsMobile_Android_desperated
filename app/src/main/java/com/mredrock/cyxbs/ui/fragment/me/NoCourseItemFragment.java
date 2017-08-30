@@ -19,7 +19,7 @@ import com.mredrock.cyxbs.component.widget.NoScheduleView;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.NoCourse;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.util.SchoolCalendar;
@@ -163,7 +163,7 @@ public class NoCourseItemFragment extends BaseFragment {
 
     private void loadWeekNoCourse() {
         RequestManager.getInstance().getPublicCourse(new
-                SimpleSubscriber<>(getActivity(), new SubscriberListener<List<Course>>() {
+                SimpleObserver<>(getActivity(), new SubscriberListener<List<Course>>() {
 
             @Override
             public void onStart() {
@@ -181,7 +181,7 @@ public class NoCourseItemFragment extends BaseFragment {
 
 
             @Override
-            public void onCompleted() {
+             public void onComplete() {
                 super.onCompleted();
                 dismissProgress();
                 getNoCourseTable();

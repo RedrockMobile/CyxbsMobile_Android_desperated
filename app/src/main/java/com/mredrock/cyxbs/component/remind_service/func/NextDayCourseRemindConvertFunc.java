@@ -18,7 +18,7 @@ public class NextDayCourseRemindConvertFunc extends BaseRemindFunc {
     }
 
     @Override
-    public List<Reminder> call(List<Course> courses) {
+    public List<Reminder> apply(List<Course> courses) throws Exception {
         for (Course c : courses) {
             if (isTomorrowHasClass(c.hash_day) && !isLate()) {
                 Calendar calendar = Calendar.getInstance();

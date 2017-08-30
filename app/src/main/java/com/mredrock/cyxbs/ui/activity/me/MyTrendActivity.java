@@ -16,7 +16,7 @@ import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
@@ -127,7 +127,7 @@ public class MyTrendActivity extends BaseActivity
     private void getMyTrendData() {
         if (mUser != null) {
             Logger.d(mUser.toString());
-            RequestManager.getInstance().getMyTrend(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
+            RequestManager.getInstance().getMyTrend(new SimpleObserver<>(this, new SubscriberListener<List<HotNews>>() {
                 @Override
                 public boolean onError(Throwable e) {
                     super.onError(e);

@@ -27,7 +27,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.lost.LostDetail;
 import com.mredrock.cyxbs.model.lost.LostStatus;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.LostCircleButton;
@@ -41,7 +41,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.adapter.rxjava.HttpException;
+import retrofit2.HttpException;
 
 /**
  * Created by wusui on 2017/2/7.
@@ -223,7 +223,7 @@ public class ReleaseActivity extends BaseActivity {
             return;
         }
 
-        RequestManager.getInstance().createLost(new SimpleSubscriber<LostStatus>(getBaseContext(), new SubscriberListener<LostStatus>() {
+        RequestManager.getInstance().createLost(new SimpleObserver<LostStatus>(getBaseContext(), new SubscriberListener<LostStatus>() {
             @Override
             public boolean onError(Throwable e) {
                 if (e instanceof HttpException) {

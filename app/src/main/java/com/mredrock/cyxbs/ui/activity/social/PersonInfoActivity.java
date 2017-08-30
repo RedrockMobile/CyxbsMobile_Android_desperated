@@ -26,7 +26,7 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
@@ -103,7 +103,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
     private void requestData() {
 
-        RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(this, new SubscriberListener<PersonInfo>() {
+        RequestManager.getInstance().getPersonInfo(new SimpleObserver<>(this, new SubscriberListener<PersonInfo>() {
             @Override
             public void onNext(PersonInfo personInfo) {
                 super.onNext(personInfo);
@@ -118,7 +118,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
             }
         }), mUserId, mUser.stuNum, mUser.idNum);
 
-        RequestManager.getInstance().getPersonLatestList(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
+        RequestManager.getInstance().getPersonLatestList(new SimpleObserver<>(this, new SubscriberListener<List<HotNews>>() {
             @Override
             public boolean onError(Throwable e) {
                 super.onError(e);

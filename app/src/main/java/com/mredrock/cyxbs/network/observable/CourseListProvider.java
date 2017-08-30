@@ -8,13 +8,14 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.util.FileUtils;
 import com.mredrock.cyxbs.util.LogUtils;
 
+import org.reactivestreams.Subscriber;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.util.List;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.Observable;
 
 /**
  * Get Course List From Network or Cache
@@ -40,7 +41,7 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
      * @param preferRefresh if true, we will try network first, or try cache first
      * @return RxJava Observable
      */
-    public static Observable<List<Course>> start(String stuNum, String idNum, boolean preferRefresh,boolean forceFetch) {
+    public static Observable<List<Course>> start(String stuNum, String idNum, boolean preferRefresh, boolean forceFetch) {
         return Observable.create(new CourseListProvider(stuNum, idNum, preferRefresh,forceFetch));
     }
 

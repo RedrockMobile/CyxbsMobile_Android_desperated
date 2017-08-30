@@ -19,7 +19,7 @@ import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.ForceFetchCourseEvent;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.MainActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
@@ -226,7 +226,7 @@ public class CourseContainerFragment extends BaseFragment {
     }
 
     private void loadNowWeek() {
-        RequestManager.INSTANCE.getNowWeek(new SimpleSubscriber<>(APP.getContext(), new SubscriberListener<Integer>() {
+        RequestManager.INSTANCE.getNowWeek(new SimpleObserver<>(APP.getContext(), new SubscriberListener<Integer>() {
             @Override
             public void onNext(Integer i) {
                 int nowWeek = i;

@@ -1,7 +1,6 @@
 package com.mredrock.freshmanspecial.view.dataFragments;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -18,7 +17,8 @@ import com.mredrock.freshmanspecial.units.base.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 
 public class SexRateFragment extends BaseFragment implements IDataFragment {
@@ -43,11 +43,11 @@ public class SexRateFragment extends BaseFragment implements IDataFragment {
         //在按钮上显示选中学院
         button.setText("全校");
         //网络请求该学院数据
-        HttpModel.bulid().getSex(new Subscriber<SexBean>() {
+        HttpModel.bulid().getSex(new Observer<SexBean>() {
             private SexBean mSexBean = new SexBean();
 
             @Override
-            public void onCompleted() {
+             public void onComplete() {
                 for (SexBean.DataBean bean : mSexBean.getData()) {
                     if ("全校".equals(bean.getCollege())) {
                         presenter.setSexRateDataList(bean);
@@ -57,7 +57,8 @@ public class SexRateFragment extends BaseFragment implements IDataFragment {
                 }
             }
 
-            @Override
+                        @Override            public void onSubscribe(Disposable d) {                            }
+@Override
             public void onError(Throwable e) {
                 e.printStackTrace();
                 Toast.makeText(getContext(), "获取信息失败！", Toast.LENGTH_SHORT).show();
@@ -71,57 +72,56 @@ public class SexRateFragment extends BaseFragment implements IDataFragment {
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //从本地设置学院集合
-                presenter.setSexRateCollegeList();
-                //将集合加载到pickerView里
-                presenter.showPickerView(collegeList, new DataFragmentPresenter.OnPickerViewChoosed() {
+        button.setOnClickListener(view -> {
+            //从本地设置学院集合
+            presenter.setSexRateCollegeList();
+            //将集合加载到pickerView里
+            presenter.showPickerView(collegeList, data -> {
+                //在按钮上显示选中学院
+                button.setText(data);
+                //网络请求该学院数据
+                HttpModel.bulid().getSex(new Observer<SexBean>() {
+                    private SexBean mSexBean = new SexBean();
                     @Override
-                    public void getString(final String data) {
-                        //在按钮上显示选中学院
-                        button.setText(data);
-                        //网络请求该学院数据
-                        HttpModel.bulid().getSex(new Subscriber<SexBean>() {
-                            private SexBean mSexBean = new SexBean();
-                            @Override
-                            public void onCompleted() {
-                                for (SexBean.DataBean bean : mSexBean.getData()) {
-                                    if (data.equals(bean.getCollege())) {
-                                        presenter.setSexRateDataList(bean);
-                                        presenter.runChart(dataList);
-                                        initSmallCircle();
-                                    }
-                                }
+                     public void onComplete() {
+                        for (SexBean.DataBean bean : mSexBean.getData()) {
+                            if (data.equals(bean.getCollege())) {
+                                presenter.setSexRateDataList(bean);
+                                presenter.runChart(dataList);
+                                initSmallCircle();
                             }
+                        }
+                    }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                e.printStackTrace();
-                                Toast.makeText(getContext(), "获取信息失败！", Toast.LENGTH_SHORT).show();
-                            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Toast.makeText(getContext(), "获取信息失败！", Toast.LENGTH_SHORT).show();
+                    }
 
-                            @Override
-                            public void onNext(SexBean sexBean) {
-                                mSexBean = sexBean;
-                                Log.e("ttt", sexBean.getData().get(0).getCollege());
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-                            }
-                        });
+                    }
+
+                    @Override
+                    public void onNext(SexBean sexBean) {
+                        mSexBean = sexBean;
+                        Log.e("ttt", sexBean.getData().get(0).getCollege());
 
                     }
                 });
 
-            }
+            });
+
         });
     }
 
     private void initSmallCircle(){
         if(dataList.size() == 0) return;
-        List<String> texts = new ArrayList<String>();
-        List<Integer> colors = new ArrayList<Integer>();
-        List<Integer> shadows = new ArrayList<Integer>();
+        List<String> texts = new ArrayList<>();
+        List<Integer> colors = new ArrayList<>();
+        List<Integer> shadows = new ArrayList<>();
         for (ChartData d : dataList) {
             texts.add(d.getText());
             colors.add(d.getColor());

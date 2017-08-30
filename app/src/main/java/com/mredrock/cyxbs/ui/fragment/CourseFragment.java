@@ -30,7 +30,7 @@ import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
@@ -49,10 +49,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class CourseFragment extends BaseFragment {
@@ -219,7 +219,7 @@ public class CourseFragment extends BaseFragment {
             if (mUser != null) {
                 //强制从教务在线抓取课表时，当前显示的周数与实际周数相同就展示ProgressDialog
                 RequestManager.getInstance()
-                        .getCourseList(new SimpleSubscriber<>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
+                        .getCourseList(new SimpleObserver<>(getActivity(), false, false, new SubscriberListener<List<Course>>() {
                             @Override
                             public void onStart() {
                                 super.onStart();
@@ -243,16 +243,16 @@ public class CourseFragment extends BaseFragment {
                             }
 
                             @Override
-                            public void onCompleted() {
+                             public void onComplete() {
                                 super.onCompleted();
                                 loadAffair(week);
                                 hideRefreshLoading();
                             }
                         }), mUser.stuNum, mUser.idNum, week, update, forceFetch);
 
-                RequestManager.getInstance().getAffair(new SimpleSubscriber<List<Affair>>(getActivity(), false, false, new SubscriberListener<List<Affair>>() {
+                RequestManager.getInstance().getAffair(new SimpleObserver<List<Affair>>(getActivity(), false, false, new SubscriberListener<List<Affair>>() {
                     @Override
-                    public void onCompleted() {
+                     public void onComplete() {
                         super.onCompleted();
                     }
 
@@ -262,9 +262,9 @@ public class CourseFragment extends BaseFragment {
                                 .subscribeOn(Schedulers.io())
                                 .unsubscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<List<Course>>() {
+                                .subscribe(new Observer<List<Course>>() {
                                     @Override
-                                    public void onCompleted() {
+                                     public void onComplete() {
 
                                     }
 
@@ -321,7 +321,7 @@ public class CourseFragment extends BaseFragment {
             mCourseScheduleContent.addContentView(tempCourseList);
             Observable<List<Course>> observable = Observable.create(new Observable.OnSubscribe<List<Course>>() {
                 @Override
-                public void call(Subscriber<? super List<Course>> subscriber) {
+                public void call(Observer<? super List<Course>> subscriber) {
                     subscriber.onNext(affairList);
                     subscriber.onCompleted();
                 }
@@ -339,9 +339,9 @@ public class CourseFragment extends BaseFragment {
     public void onAffairDeleteEvent(AffairDeleteEvent event) {
         if (mWeek == 0 || event.getCourse().week.contains(mWeek)) {
             Affair affair = (Affair) event.getCourse();
-            RequestManager.getInstance().deleteAffair(new SimpleSubscriber<Object>(getActivity(), true, true, new SubscriberListener<Object>() {
+            RequestManager.getInstance().deleteAffair(new SimpleObserver<Object>(getActivity(), true, true, new SubscriberListener<Object>() {
                 @Override
-                public void onCompleted() {
+                 public void onComplete() {
                     super.onCompleted();
 
 
@@ -360,9 +360,9 @@ public class CourseFragment extends BaseFragment {
                             .observeOn(Schedulers.io())
                             .unsubscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new SimpleSubscriber(getActivity(), new SubscriberListener() {
+                            .subscribe(new SimpleObserver(getActivity(), new SubscriberListener() {
                                 @Override
-                                public void onCompleted() {
+                                 public void onComplete() {
                                     super.onCompleted();
                                 }
 

@@ -5,12 +5,13 @@ import com.mredrock.cyxbs.model.Course;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.functions.Func1;
+import io.reactivex.functions.Function;
+
 
 /**
  * Created by cc on 16/5/8.
  */
-public class UserCourseFilterFunc implements Func1<List<Course>, List<Course>> {
+public class UserCourseFilterFunc implements Function<List<Course>, List<Course>> {
     private int week;
 
     public UserCourseFilterFunc(int week) {
@@ -18,10 +19,8 @@ public class UserCourseFilterFunc implements Func1<List<Course>, List<Course>> {
     }
 
     @Override
-    public List<Course> call(List<Course> courses) {
-
+    public List<Course> apply(List<Course> courses) throws Exception {
         ArrayList<Course> list = new ArrayList<>();
-
         for (int i = 0; i < courses.size(); i++) {
             Course c = courses.get(i);
             if (week == 0 || c.week.contains(week)) {

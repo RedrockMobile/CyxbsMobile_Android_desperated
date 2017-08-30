@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.me.GradeAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
@@ -113,7 +113,7 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
     }
 
     private void loadGradeList(boolean update) {
-        RequestManager.getInstance().getGradeList(new SimpleSubscriber<>(
+        RequestManager.getInstance().getGradeList(new SimpleObserver<>(
                 getActivity(), new SubscriberListener<List<Grade>>() {
 
             @Override
