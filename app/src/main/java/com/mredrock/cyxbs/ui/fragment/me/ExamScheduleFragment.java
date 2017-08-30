@@ -158,7 +158,7 @@ public class ExamScheduleFragment extends BaseFragment {
 
     public void loadExamList(boolean update) {
         if (mUser != null) {
-            Observer<List<Exam>> subscriber = new SimpleObserver<>(
+            Observer<List<Exam>> observer = new SimpleObserver<>(
                     getActivity(), new SubscriberListener<List<Exam>>() {
                 @Override
                 public boolean onError(Throwable e) {

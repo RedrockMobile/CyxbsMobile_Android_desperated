@@ -57,7 +57,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -171,6 +173,11 @@ public class EditAffairActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
                     }
 
@@ -572,12 +579,12 @@ public class EditAffairActivity extends BaseActivity {
                 RequestManager.getInstance().addAffair(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
                     @Override
                      public void onComplete() {
-                        super.onCompleted();
+                        super.onComplete();
                         dbManager.insert(true, x, APP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem))
                                 .subscribeOn(Schedulers.io())
                                 .unsubscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber() {
+                                .subscribe(new Observer() {
                                     @Override
                                      public void onComplete() {
                                         EventBus.getDefault().post(new AffairAddEvent(affair));
@@ -586,6 +593,11 @@ public class EditAffairActivity extends BaseActivity {
 
                                     @Override
                                     public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
 
                                     }
 
@@ -625,12 +637,12 @@ public class EditAffairActivity extends BaseActivity {
                 RequestManager.getInstance().editAffair(new SimpleObserver<Object>(this, true, false, new SubscriberListener<Object>() {
                     @Override
                      public void onComplete() {
-                        super.onCompleted();
+                        super.onComplete();
                         dbManager.insert(true, x, APP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem), true)
                                 .subscribeOn(Schedulers.io())
                                 .unsubscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber() {
+                                .subscribe(new Observer() {
                                     @Override
                                      public void onComplete() {
                                         EventBus.getDefault().post(new AffairModifyEvent());
@@ -639,6 +651,11 @@ public class EditAffairActivity extends BaseActivity {
 
                                     @Override
                                     public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
 
                                     }
 

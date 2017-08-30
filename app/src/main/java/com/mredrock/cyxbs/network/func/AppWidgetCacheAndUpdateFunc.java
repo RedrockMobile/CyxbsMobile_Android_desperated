@@ -26,7 +26,7 @@ public class AppWidgetCacheAndUpdateFunc implements Function<List<Course>, List<
     @Override
     public List<Course> apply(List<Course> courses)throws Exception {
         List<Course> weekCourses = new UserCourseFilterFunc(new SchoolCalendar().getWeekOfTerm()).apply(courses);
-        List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)).call(weekCourses);
+        List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)).apply(weekCourses);
         // List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(Calendar.THURSDAY).call(weekCourses);
         FileUtils.writeStringToFile(new Gson().toJson(dayCourses), new File(APP.getContext().getFilesDir().getAbsolutePath() + "/" + Config.APP_WIDGET_CACHE_FILE_NAME));
         CourseListAppWidget.updateNow(APP.getContext());

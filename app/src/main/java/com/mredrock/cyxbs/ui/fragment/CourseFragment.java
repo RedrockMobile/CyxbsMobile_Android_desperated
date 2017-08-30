@@ -50,8 +50,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
-
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -244,7 +245,7 @@ public class CourseFragment extends BaseFragment {
 
                             @Override
                              public void onComplete() {
-                                super.onCompleted();
+                                super.onComplete();
                                 loadAffair(week);
                                 hideRefreshLoading();
                             }
@@ -253,7 +254,7 @@ public class CourseFragment extends BaseFragment {
                 RequestManager.getInstance().getAffair(new SimpleObserver<List<Affair>>(getActivity(), false, false, new SubscriberListener<List<Affair>>() {
                     @Override
                      public void onComplete() {
-                        super.onCompleted();
+                        super.onComplete();
                     }
 
                     @Override
@@ -270,6 +271,11 @@ public class CourseFragment extends BaseFragment {
 
                                     @Override
                                     public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
 
                                     }
 
@@ -319,12 +325,9 @@ public class CourseFragment extends BaseFragment {
         if (mCourseScheduleContent != null) {
             mCourseScheduleContent.clearList();
             mCourseScheduleContent.addContentView(tempCourseList);
-            Observable<List<Course>> observable = Observable.create(new Observable.OnSubscribe<List<Course>>() {
-                @Override
-                public void call(Observer<? super List<Course>> subscriber) {
-                    subscriber.onNext(affairList);
-                    subscriber.onCompleted();
-                }
+            Observable<List<Course>> observable = Observable.create(subscriber -> {
+                subscriber.onNext(affairList);
+                subscriber.onComplete();
             });
             observable.map(courses -> {
                 CourseListAppWidgetUpdateService.start(getActivity(), false);
@@ -342,7 +345,7 @@ public class CourseFragment extends BaseFragment {
             RequestManager.getInstance().deleteAffair(new SimpleObserver<Object>(getActivity(), true, true, new SubscriberListener<Object>() {
                 @Override
                  public void onComplete() {
-                    super.onCompleted();
+                    super.onComplete();
 
 
                 }
@@ -363,7 +366,7 @@ public class CourseFragment extends BaseFragment {
                             .subscribe(new SimpleObserver(getActivity(), new SubscriberListener() {
                                 @Override
                                  public void onComplete() {
-                                    super.onCompleted();
+                                    super.onComplete();
                                 }
 
                                 @Override

@@ -93,7 +93,7 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
 
                             @Override
                              public void onComplete() {
-                                super.onCompleted();
+                                super.onComplete();
                                 Intent intent = new Intent();
                                 intent.putExtra(EXTRA_EDIT_INTRODUCE,
                                         editIntroduceEt.getText().toString());

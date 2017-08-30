@@ -83,7 +83,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         observable.subscribe(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
             @Override
              public void onComplete() {
-                super.onCompleted();
+                super.onComplete();
                 Intent intent = new Intent();
                 intent.putExtra(TopicArticleActivity.EXTRA_POST_SUCCESS, true);
                 PostNewsActivity.this.setResult(TopicArticleActivity.RESULT_CODE, intent);
@@ -136,12 +136,13 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void init() {
+        RxPermissions rxPermissions = new RxPermissions(this);
         mAddNewsEdit.setTopicEditListener(this);
         mImgList = new ArrayList<>();
         mImgList.add(new Image(ADD_IMG, Image.TYPE_ADD));
         mNineGridlayout.setImagesData(mImgList);
         mNineGridlayout.setOnAddImagItemClickListener((v, position) ->
-                RxPermissions.getInstance(this)
+                rxPermissions
                         .request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
                         .subscribe(granted -> {
                             if (granted) {
@@ -191,7 +192,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         observable.subscribe(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
             @Override
              public void onComplete() {
-                super.onCompleted();
+                super.onComplete();
                 showUploadSuccess(content);
             }
 
@@ -205,7 +206,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private Observable<String> uploadWithImg(List<Image> currentImgs, String title, String content, int type, @Nullable Integer topicId) {
-        return Observable.from(currentImgs)
+        return Observable.fromIterable(currentImgs)
                 .observeOn(Schedulers.io())
                 .map(image -> image.url)
                 .flatMap(url -> RequestManager.getInstance().uploadNewsImg(mUser.stuNum, url))
@@ -252,7 +253,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                     Utils.toast(this, "最多只能选9张图");
                     return;
                 }
-                Observable.from(pathList)
+                Observable.fromIterable(pathList)
                         .map(s -> new Image(s, Image.TYPE_NORMAL))
                         .map(image -> {
                             mImgList.add(image);

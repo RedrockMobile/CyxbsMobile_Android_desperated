@@ -17,6 +17,7 @@ import com.mredrock.cyxbs.util.GlideHelper;
 import com.mredrock.cyxbs.util.LogUtils;
 
 import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Stormouble on 16/5/3.
@@ -29,7 +30,7 @@ abstract class BaseExploreFragment extends BaseFragment
     ViewStub mErrorLayout;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    CompositeSubscription mCompositeSubscription;
+    CompositeDisposable mCompositeDisposable;
     GlideHelper mGlideHelper;
 
     public abstract int layoutId();
@@ -48,23 +49,20 @@ abstract class BaseExploreFragment extends BaseFragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        mCompositeSubscription = new CompositeSubscription();
+        mCompositeDisposable = new CompositeDisposable();
         mGlideHelper = new GlideHelper(getActivity(), R.drawable.place_holder);
-
         trySetupSwipeRefreshLayout();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mCompositeSubscription.clear();
+        mCompositeDisposable.clear();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
     }
 
     protected void enableRevealBackground(RevealBackgroundView revealBackground

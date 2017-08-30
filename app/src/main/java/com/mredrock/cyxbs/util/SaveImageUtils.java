@@ -16,7 +16,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import io.reactivex.Observable;
-
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -26,12 +27,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SaveImageUtils {
     public static void imageSave(final Bitmap bitmap,final String url,Context context){
-        Observable.create(new Observable.OnSubscribe<Bitmap>() {
-            @Override
-            public void call(Observer<? super Bitmap> subscriber) {
-                subscriber.onNext(bitmap);
-            }
-        }).subscribeOn(Schedulers.io())
+        Observable.create(subscriber -> subscriber.onNext(bitmap)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleObserver<Bitmap>(context, new SubscriberListener<Bitmap>() {
                     @Override
@@ -41,7 +37,7 @@ public class SaveImageUtils {
 
                     @Override
                      public void onComplete() {
-                        super.onCompleted();
+                        super.onComplete();
                     }
 
                     @Override

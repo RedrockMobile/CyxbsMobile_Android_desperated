@@ -190,7 +190,7 @@ public class EmptyRoomActivity extends BaseActivity {
 
                             @Override
                              public void onComplete() {
-                                super.onCompleted();
+                                super.onComplete();
                             }
 
 

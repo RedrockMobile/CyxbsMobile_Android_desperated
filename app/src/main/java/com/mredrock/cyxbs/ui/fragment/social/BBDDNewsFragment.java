@@ -11,14 +11,13 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by mathiasluo on 16-4-26.
  */
 public class BBDDNewsFragment extends BaseNewsFragment {
 
-    private Disposable mSubscription;
+    private Disposable mCompositeDisposable;
 
     @Override
     void provideData(Observer<List<HotNews>> observer, int size, int page) {
@@ -39,7 +38,7 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     }
 
     private void registerObservable() {
-        mSubscription = RxBus.getDefault()
+        mCompositeDisposable = RxBus.getDefault()
                 .toObserverable(HotNews.class)
                 .subscribe(s -> {
                     ((SocialContainerFragment) getParentFragment()).changeViewPagerIndex(1);
@@ -50,8 +49,8 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     }
 
     private void unregisterObservable() {
-        if (mSubscription != null && !mSubscription.isUnsubscribed())
-            mSubscription.unsubscribe();
+        if (mCompositeDisposable != null && !mCompositeDisposable.isDisposed())
+            mCompositeDisposable.dispose();
     }
 
     @Override

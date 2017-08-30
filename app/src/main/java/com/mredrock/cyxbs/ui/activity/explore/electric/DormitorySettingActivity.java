@@ -132,7 +132,7 @@ public class DormitorySettingActivity extends BaseActivity {
             SimpleObserver<Object> subscriber = new SimpleObserver<Object>(this, true, new SubscriberListener<Object>() {
                 @Override
                  public void onComplete() {
-                    super.onCompleted();
+                    super.onComplete();
                     setResult(ElectricChargeActivity.REQUEST_SET_CODE);
                     onBackPressed();
                 }

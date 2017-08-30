@@ -35,14 +35,13 @@ import com.mredrock.cyxbs.ui.fragment.BaseLazyFragment;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.RxBus;
 
-import org.reactivestreams.Subscription;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * @author Haruue Icymoon haruue@caoyue.com.cn
@@ -65,8 +64,7 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     public LostAdapter mAdapter;
     private FooterViewWrapper mFooterViewWrapper;
     private List<Lost>mLostlist = new ArrayList<>();
-    private Subscription mSubscription;
-
+    private Disposable mDisposable;
 
     @BindView(R.id.information_RecyclerView) RecyclerView recycler;
     @BindView(R.id.fab_main) FloatingActionButton mFabMain;
@@ -318,7 +316,7 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
 
     }
     private void registerObservable() {
-        mSubscription = RxBus.getDefault()
+        mDisposable = RxBus.getDefault()
                 .toObserverable(HotNews.class)
                 .subscribe(s -> {
                     getCurrentData(theme,category,FIRST_PAGE_INDEX);
@@ -327,8 +325,8 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     }
 
     private void unregisterObservable() {
-        if (mSubscription != null && !mSubscription.isUnsubscribed())
-            mSubscription.unsubscribe();
+        if (mDisposable != null && !mDisposable.isDisposed())
+            mDisposable.dispose();
     }
     @Override
     public void onLoginStateChangeEvent(LoginStateChangeEvent event) {

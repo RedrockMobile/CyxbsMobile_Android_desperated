@@ -29,11 +29,10 @@ import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
 
-import org.reactivestreams.Subscription;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Stormouble on 16/4/27.
@@ -150,7 +149,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
             mVibrator.vibrate(500);
             mLastTime = System.currentTimeMillis();
 
-            Subscription subscription = RequestManager.getInstance().getShake(
+            CompositeDisposable subscription = RequestManager.getInstance().getShake(
                     new SimpleObserver<>(getActivity(), new SubscriberListener<Shake>() {
                         @Override
                         public void onNext(Shake data) {
@@ -158,7 +157,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
                         }
                     }));
 
-            mCompositeSubscription.add(subscription);
+            subscription.add(subscription);
         }
     }
 
@@ -179,7 +178,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
 
 
     private void getFood() {
-        Subscription subscription = RequestManager.getInstance().getFood(new SimpleObserver<>(getActivity(), new SubscriberListener<FoodDetail>() {
+        CompositeDisposable subscription = RequestManager.getInstance().getFood(new SimpleObserver<>(getActivity(), new SubscriberListener<FoodDetail>() {
             @Override
              public void onComplete() {
                 onRefreshingStateChanged(false);
@@ -201,7 +200,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
             }
         }), mResultViewWrapper.mRestaurantKey);
 
-        mCompositeSubscription.add(subscription);
+        subscription.add(subscription);
     }
 
     private void startIntroAnimation() {

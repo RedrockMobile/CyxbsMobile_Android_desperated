@@ -38,14 +38,13 @@ import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
 import com.mredrock.cyxbs.util.permission.EasyPermissions;
 
-import org.reactivestreams.Subscription;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.CompositeDisposable;
 
 
 /**
@@ -153,11 +152,17 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                 Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mCompositeDisposable.clear();
+    }
+
     /**
      * Get food data and comments
      */
     private void getFoodAndCommentList(int page, boolean firstLoaded) {
-        Subscription subscription = RequestManager.getInstance().getFoodAndCommentList(
+        CompositeDisposable subscription = RequestManager.getInstance().getFoodAndCommentList(
                 new SimpleObserver<FoodDetail>(getActivity(), firstLoaded, new SubscriberListener<FoodDetail>() {
                     @Override
                     public void onStart() {
@@ -200,14 +205,14 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
 
                 }), mRestaurantKey, String.valueOf(page));
 
-        mCompositeSubscription.add(subscription);
+        mCompositeDisposable.add(subscription);
     }
 
     /**
      * Get comments
      */
     private void getFoodCommentList(int page) {
-        Subscription subscription = RequestManager.getInstance().getFoodCommentList(
+        CompositeDisposable subscription = RequestManager.getInstance().getFoodCommentList(
                 new SimpleObserver<List<FoodComment>>(getActivity(), new SubscriberListener<List<FoodComment>>() {
                     @Override
                     public void onNext(List<FoodComment> foodCommentList) {
@@ -219,12 +224,12 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                     }
                 }), mRestaurantKey, String.valueOf(page));
 
-        mCompositeSubscription.add(subscription);
+        mCompositeDisposable.add(subscription);
     }
 
     private void sendCommentAndRefresh(String content, boolean shouldRetry) {
         User user = APP.getUser(getActivity());
-        Subscription subscription = RequestManager.getInstance().sendCommentAndRefresh(
+        CompositeDisposable subscription = RequestManager.getInstance().sendCommentAndRefresh(
                 new SimpleObserver<List<FoodComment>>(getActivity(), true, new SubscriberListener<List<FoodComment>>() {
                     @Override
                     public void onNext(List<FoodComment> commentList) {
@@ -243,7 +248,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                     }
                 }), mRestaurantKey, user.stuNum, user.idNum, content, user.name);
 
-        mCompositeSubscription.add(subscription);
+        mCompositeDisposable.add(subscription);
     }
 
     private void animateFab() {

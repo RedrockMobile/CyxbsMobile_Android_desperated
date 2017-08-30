@@ -8,14 +8,14 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.util.FileUtils;
 import com.mredrock.cyxbs.util.LogUtils;
 
-import org.reactivestreams.Subscriber;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 /**
  * Get Course List From Network or Cache
@@ -25,7 +25,7 @@ import io.reactivex.Observable;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class CourseListProvider implements Observable.OnSubscribe<List<Course>> {
+public class CourseListProvider implements ObservableOnSubscribe<List<Course>> {
 
     private String stuNum;
     private String idNum;
@@ -66,8 +66,8 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
     }
 
     @Override
-    public void call(Subscriber<? super List<Course>> subscriber) {
-        doubleTryLoad(subscriber);
+    public void subscribe(ObservableEmitter<List<Course>> e) throws Exception {
+        doubleTryLoad(e);
     }
 
     private List<Course> doubleTryLoadSync() {
@@ -93,25 +93,24 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
         }
     }
 
-    private void doubleTryLoad(Subscriber<? super List<Course>> subscriber) {
-        subscriber.onStart();
+    private void doubleTryLoad(ObservableEmitter<? super List<Course>> emitter) {
         try {
             if (preferRefresh) {
-                subscriber.onNext(getCourseFromNetwork());
+                emitter.onNext(getCourseFromNetwork());
             } else {
-                subscriber.onNext(getCourseFromCache());
+                emitter.onNext(getCourseFromCache());
             }
-            subscriber.onCompleted();
+            emitter.onComplete();
         } catch (Throwable e) {
             try {
                 if (preferRefresh) {
-                    subscriber.onNext(getCourseFromCache());
+                    emitter.onNext(getCourseFromCache());
                 } else {
-                    subscriber.onNext(getCourseFromNetwork());
+                    emitter.onNext(getCourseFromNetwork());
                 }
-                subscriber.onCompleted();
+                emitter.onComplete();
             } catch (Throwable ex) {
-                subscriber.onError(new ConnectException());
+                emitter.onError(new ConnectException());
                 LogUtils.LOGE("CourseProviderObservable", preferRefresh ? "NetworkError" : "CacheError", e);
                 LogUtils.LOGE("CourseProviderObservable", preferRefresh ? "CacheError" : "NetworkError", ex);
             }
@@ -143,5 +142,4 @@ public class CourseListProvider implements Observable.OnSubscribe<List<Course>> 
         LogUtils.LOGI("CourseProviderObservable", "onCacheCourseList");
         FileUtils.writeStringToFile(new Gson().toJson(courses), new File(cacheFilePath));
     }
-
 }

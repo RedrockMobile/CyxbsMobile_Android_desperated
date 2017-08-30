@@ -38,13 +38,13 @@ import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.download.DownloadHelper;
 import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.reactivestreams.Subscription;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,6 +52,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 public class SpecificNewsActivity extends BaseActivity
         implements SwipeRefreshLayout.OnRefreshListener, EditTextBottomSheetDialog.OnClickListener
@@ -93,12 +95,13 @@ public class SpecificNewsActivity extends BaseActivity
     private View mFooterView;
     private boolean isFromMyTrend;
     String article_id;
+    private RxPermissions mRxPermissions;
 
     private EditTextBottomSheetDialog mCommentDialog;
 
     private User mUser;
 
-    private Subscription mSubscription;
+    private Disposable mDisposable;
 
     @Override
     public void onPause() {
@@ -135,6 +138,7 @@ public class SpecificNewsActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_news);
+        mRxPermissions = new RxPermissions(this);
         ButterKnife.bind(this);
         //  mUser = APP.getUser(this);
         mCommentDialog = new EditTextBottomSheetDialog(this);
@@ -181,8 +185,8 @@ public class SpecificNewsActivity extends BaseActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (!mSubscription.isUnsubscribed()) {
-            mSubscription.unsubscribe();
+        if (!mDisposable.isDisposed()) {
+            mDisposable.dispose();
         }
     }
 
@@ -196,7 +200,7 @@ public class SpecificNewsActivity extends BaseActivity
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
 //        mSendText.addTextView(mNewsEdtComment);
 
-        mSubscription = RxBus.getDefault().toObserverable(CommentContent.class)
+        mDisposable = RxBus.getDefault().toObserverable(CommentContent.class)
                 .subscribe(commentContent -> {
                     mCommentDialog.setText("回复 " + commentContent.getNickname() + " : ");
                     mCommentDialog.show();
@@ -225,7 +229,7 @@ public class SpecificNewsActivity extends BaseActivity
     public void showDownListDialog(String[] address, String[] names) {
 
         DownloadHelper downloadHelper = new DownloadHelper(this, true);
-        downloadHelper.prepare(Arrays.asList(names), Arrays.asList(address),
+        downloadHelper.prepare(mRxPermissions, Arrays.asList(names), Arrays.asList(address),
                 new OnDownloadListener() {
                     @Override
                     public void startDownload() {
@@ -406,8 +410,8 @@ public class SpecificNewsActivity extends BaseActivity
         else {
             RequestManager.getInstance().postReMarks(new SimpleObserver<>(this, true, false, new SubscriberListener<String>() {
                 @Override
-                 public void onComplete() {
-                    super.onCompleted();
+                public void onComplete() {
+                    super.onComplete();
                     requestComments();
                     editText.getText().clear();
                     mRecyclerView.scrollToPosition(1);

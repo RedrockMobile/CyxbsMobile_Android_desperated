@@ -39,6 +39,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by mathiasluo on 16-4-4.
@@ -131,8 +132,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         public boolean isFromMyTrend = false;
 
         private boolean isSingle = false;
-        private Subscription mSubscription;
-
+        private Disposable mDisposable;
 
         public NewsViewHolder(View itemView) {
             super(itemView);
@@ -170,7 +170,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         private void registerObservable() {
-            mSubscription = RxBus.getDefault()
+            mDisposable = RxBus.getDefault()
                     .toObserverable(HotNewsContent.class)
                     .subscribe(hotNewsContent -> {
 //                        setData(hotNewsContent, false);
@@ -179,8 +179,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         private void unregisterObservable() {
-            if (mSubscription != null && !mSubscription.isUnsubscribed()) {
-                mSubscription.unsubscribe();
+            if (mDisposable != null && !mDisposable.isDisposed()) {
+                mDisposable.dispose();
             }
         }
 
@@ -212,7 +212,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
                         @Override
                          public void onComplete() {
-                            super.onCompleted();
+                            super.onComplete();
                             mBtnFavor.setClickable(true);
                         }
                     }),
@@ -247,7 +247,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
                         @Override
                          public void onComplete() {
-                            super.onCompleted();
+                            super.onComplete();
                             mBtnFavor.setClickable(true);
                         }
                     }), mHotNewsContent.articleId, mHotNewsContent.typeId,

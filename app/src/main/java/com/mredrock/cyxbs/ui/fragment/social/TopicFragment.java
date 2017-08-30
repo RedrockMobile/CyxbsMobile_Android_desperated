@@ -73,7 +73,7 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
 
             @Override
              public void onComplete() {
-                super.onCompleted();
+                super.onComplete();
                 if (mRvTopic != null && mRvTopic.getSwipeToRefresh() != null)
                     mRvTopic.setRefreshing(false);
             }

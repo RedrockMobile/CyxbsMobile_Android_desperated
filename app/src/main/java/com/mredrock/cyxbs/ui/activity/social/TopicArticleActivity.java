@@ -149,7 +149,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
         RequestManager.getInstance().getTopicArticle(new SimpleObserver<>(this, new SubscriberListener<TopicArticle>() {
             @Override
              public void onComplete() {
-                super.onCompleted();
+                super.onComplete();
                 mPage++;
                 mSrlTopic.setRefreshing(false);
                 mLlTopicJoin.setVisibility(View.VISIBLE);

@@ -17,12 +17,11 @@ import com.mredrock.cyxbs.ui.adapter.FoodListAdapter;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
 
-import org.reactivestreams.Subscription;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Stormouble on 16/5/4.
@@ -103,7 +102,7 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
 
 
     private void loadFoodList(int page, boolean shouldRefresh) {
-        Subscription subscription = RequestManager.getInstance().getFoodList(
+        CompositeDisposable subscription = RequestManager.getInstance().getFoodList(
                 new SimpleObserver<List<Food>>(getActivity(), new SubscriberListener<List<Food>>() {
 
             @Override
@@ -136,6 +135,6 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
             }
         }), String.valueOf(page), getResources().getString(R.string.restaurant_default_intro));
 
-        mCompositeSubscription.add(subscription);
+        mCompositeDisposable.add(subscription);
     }
 }

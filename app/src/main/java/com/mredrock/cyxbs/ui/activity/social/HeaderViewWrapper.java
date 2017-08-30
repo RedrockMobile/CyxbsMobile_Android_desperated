@@ -54,7 +54,7 @@ public class HeaderViewWrapper {
         RequestManager.getInstance().getTopicList(new SimpleObserver<>(context, new SubscriberListener<List<Topic>>() {
             @Override
              public void onComplete() {
-                super.onCompleted();
+                super.onComplete();
             }
 
             @Override

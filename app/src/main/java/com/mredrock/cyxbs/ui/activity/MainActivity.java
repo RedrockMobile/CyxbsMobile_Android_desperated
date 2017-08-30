@@ -46,6 +46,7 @@ import com.mredrock.cyxbs.util.ElectricRemindUtil;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.UpdateUtil;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -101,7 +102,7 @@ public class MainActivity extends BaseActivity {
         SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         ButterKnife.bind(this);
         initView();
-        UpdateUtil.checkUpdate(this, false);
+        UpdateUtil.checkUpdate(this, false,new RxPermissions(this));
         ElectricRemindUtil.check(this);
         mCourseUnfold.setRotation(180);
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.

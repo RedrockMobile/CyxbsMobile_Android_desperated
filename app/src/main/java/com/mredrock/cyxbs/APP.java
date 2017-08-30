@@ -12,8 +12,8 @@ import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.network.kt.RequestManagerKt;
 import com.mredrock.cyxbs.network.encrypt.UserInfoEncryption;
+import com.mredrock.cyxbs.network.kt.RequestManagerKt;
 import com.mredrock.cyxbs.ui.activity.exception.ExceptionActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SPUtils;
@@ -27,7 +27,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.Method;
 import java.util.List;
 
-
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -149,17 +150,24 @@ public class APP extends MultiDexApplication {
         if (isLogin()) {
             User user = getUser(getContext());
             RequestManager.getInstance().getCourseList(new Observer<List<Course>>() {
-                                                           @Override
-                                                            public void onComplete() {}
+                @Override
+                public void onComplete() {
+                }
 
-                                                           @Override
-                                                           public void onError(Throwable e) {
-                                                               Log.e("CSET", "reloadCourseList", e);
-                                                           }
+                @Override
+                public void onError(Throwable e) {
+                    Log.e("CSET", "reloadCourseList", e);
+                }
 
-                                                           @Override
-                                                           public void onNext(List<Course> courses) {}
-                                                       }, user.stuNum, user.idNum, 0, true);
+                @Override
+                public void onSubscribe(Disposable d) {
+
+                }
+
+                @Override
+                public void onNext(List<Course> courses) {
+                }
+            }, user.stuNum, user.idNum, 0, true);
         }
     }
 
