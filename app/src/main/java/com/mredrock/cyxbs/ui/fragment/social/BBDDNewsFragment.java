@@ -17,7 +17,7 @@ import io.reactivex.disposables.Disposable;
  */
 public class BBDDNewsFragment extends BaseNewsFragment {
 
-    private Disposable mCompositeDisposable;
+    private Disposable mDisposable;
 
     @Override
     void provideData(Observer<List<HotNews>> observer, int size, int page) {
@@ -38,8 +38,8 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     }
 
     private void registerObservable() {
-        mCompositeDisposable = RxBus.getDefault()
-                .toObserverable(HotNews.class)
+        mDisposable = RxBus.getDefault()
+                .toFlowable(HotNews.class)
                 .subscribe(s -> {
                     ((SocialContainerFragment) getParentFragment()).changeViewPagerIndex(1);
                     //注释掉的这句话是把 最新发送的推到顶部
@@ -49,8 +49,8 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     }
 
     private void unregisterObservable() {
-        if (mCompositeDisposable != null && !mCompositeDisposable.isDisposed())
-            mCompositeDisposable.dispose();
+        if (mDisposable != null && !mDisposable.isDisposed())
+            mDisposable.dispose();
     }
 
     @Override

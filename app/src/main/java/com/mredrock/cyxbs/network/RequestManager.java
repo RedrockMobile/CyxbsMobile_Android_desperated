@@ -65,15 +65,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subscribers.DisposableSubscriber;
 import io.rx_cache2.DynamicKey;
 import io.rx_cache2.EvictDynamicKey;
 import io.rx_cache2.Reply;
@@ -146,19 +143,19 @@ public enum RequestManager {
         Observable<UpdateInfo> observable = redrockApiService.update()
                 .map(new UpdateVerifyFunc(versionCode));
 
-         emitObservable(observable, observer);
+        emitObservable(observable, observer);
     }
 
-    public CompositeDisposable login(Observer<User> observer, String stuNum, String idNum) {
+    public void login(Observer<User> observer, String stuNum, String idNum) {
         Observable<User> observable = redrockApiService.verify(stuNum, idNum)
                 .map(new RedrockApiWrapperFunc<>())
                 .zipWith(redrockApiService.getPersonInfo(stuNum, idNum)
                         .map(new RedrockApiWrapperFunc<>()), User::cloneFromUserInfo);
 
-        return emitObservable(observable, observer);
+        emitObservable(observable, observer);
     }
 
-    public CompositeDisposable getNowWeek(Observer<Integer> observer, String stuNum, String idNum) {
+    public void getNowWeek(Observer<Integer> observer, String stuNum, String idNum) {
         Observable<Integer> observable = redrockApiService.getCourse(stuNum, idNum, "0")
                 .map(courseWrapper -> {
                     if (courseWrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
@@ -166,30 +163,29 @@ public enum RequestManager {
                     }
                     return Integer.parseInt(courseWrapper.nowWeek);
                 });
-        return emitObservable(observable, observer);
+         emitObservable(observable, observer);
     }
 
-    public CompositeDisposable getCourseList(Observer<List<Course>> observer, String stuNum, String idNum, int week, boolean update) {
+    public void getCourseList(Observer<List<Course>> observer, String stuNum, String idNum, int week, boolean update) {
 //        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update,false)
 //                .map(new UserCourseFilterFunc(week));
 
-        return getCourseList(observer, stuNum, idNum, week, update, false);
+         getCourseList(observer, stuNum, idNum, week, update, false);
     }
 
-    public CompositeDisposable getCourseList(Observer<List<Course>> observer, String stuNum, String idNum,
+    public void getCourseList(Observer<List<Course>> observer, String stuNum, String idNum,
                                              int week, boolean update, boolean forceFetch) {
         Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update, forceFetch)
                 .map(new UserCourseFilterFunc(week));
-
-        return emitObservable(observable, observer);
+         emitObservable(observable, observer);
     }
 
-    public CompositeDisposable getRemindableList(Observer<List<Reminder>> observer, Context context, BaseRemindFunc remindFunc) {
+    public void getRemindableList(Observer<List<Reminder>> observer, Context context, BaseRemindFunc remindFunc) {
         Observable<List<Reminder>> observable = CourseListProvider.start(APP.getUser(context).stuNum, APP.getUser(context).idNum, false, false)
                 .map(new UserCourseFilterFunc(new SchoolCalendar()
                         .getWeekOfTerm()))
                 .map(remindFunc);
-        return emitObservable(observable, observer);
+         emitObservable(observable, observer);
     }
 
     public Observable<List<Course>> getCourseList(String stuNum, String idNum) {
@@ -201,29 +197,27 @@ public enum RequestManager {
         return response.body().data;
     }
 
-    public CompositeDisposable getMapOverlayImageUrl(Observer<String> observer, String name, String path) {
-        Observable<String> observable = redrockApiService.getMapOverlayImageUrl(name, path)
-                .map(wrapper -> {
-                    if (wrapper.status != 204) {
-                        throw new RedrockApiException(wrapper.info);
-                    } else {
-                        return wrapper.data;
-                    }
-                })
-                .flatMap(urlList -> Observable.just(urlList.get(0)));
+//    public CompositeDisposable getMapOverlayImageUrl(Observer<String> observer, String name, String path) {
+//        Observable<String> observable = redrockApiService.getMapOverlayImageUrl(name, path)
+//                .map(wrapper -> {
+//                    if (wrapper.status != 204) {
+//                        throw new RedrockApiException(wrapper.info);
+//                    } else {
+//                        return wrapper.data;
+//                    }
+//                })
+//                .flatMap(urlList -> Observable.just(urlList.get(0)));
+//        return emitObservable(observable, observer);
+//    }
 
-
-        return emitObservable(observable, observer);
-    }
-
-    public CompositeDisposable getShake(Observer<Shake> observer) {
+    public Disposable getShake(DisposableObserver<Shake> observer) {
         Observable<Shake> observable = redrockApiService.getShake()
                 .map(new RedrockApiWrapperFunc<>());
 
         return emitObservable(observable, observer);
     }
 
-    public CompositeDisposable getFoodList(Observer<List<Food>> observer, String page, String defaultIntro) {
+    public Disposable getFoodList(DisposableObserver<List<Food>> observer, String page, String defaultIntro) {
         Observable<List<Food>> observable = redrockApiService.getFoodList(page)
                 .map(new RedrockApiWrapperFunc<>())
                 .filter(Utils::checkNotNullAndNotEmpty)
@@ -253,7 +247,7 @@ public enum RequestManager {
     }
 
 
-    public CompositeDisposable getFoodAndCommentList(Observer<FoodDetail> observer, String shopId, String page) {
+    public Disposable getFoodAndCommentList(DisposableObserver<FoodDetail> observer, String shopId, String page) {
 
         Observable<FoodDetail> observable = redrockApiService.getFoodDetail(shopId)
                 .map(new RedrockApiWrapperFunc<>())
@@ -278,13 +272,13 @@ public enum RequestManager {
         return emitObservable(observable, observer);
     }
 
-    public CompositeDisposable getFood(Observer<FoodDetail> observer, String restaurantKey) {
+    public Disposable getFood(DisposableObserver<FoodDetail> observer, String restaurantKey) {
         Observable<FoodDetail> observable = redrockApiService.getFoodDetail(restaurantKey)
                 .map(new RedrockApiWrapperFunc<>());
         return emitObservable(observable, observer);
     }
 
-    public CompositeDisposable sendCommentAndRefresh(Observer<List<FoodComment>> observer, String shopId, String userId, String userPassword, String content, String authorName) {
+    public Disposable sendCommentAndRefresh(DisposableObserver<List<FoodComment>> observer, String shopId, String userId, String userPassword, String content, String authorName) {
         Observable<RedrockApiWrapper<Object>> sendObservable = redrockApiService.sendFoodComment(shopId, userId, userPassword, content, authorName);
         Observable<List<FoodComment>> foodCommentObservable =
                 redrockApiService.getFoodComments(shopId, "1").map(new RedrockApiWrapperFunc<>())
@@ -304,7 +298,7 @@ public enum RequestManager {
         return emitObservable(observable, observer);
     }
 
-    public CompositeDisposable getFoodCommentList(Observer<List<FoodComment>> observer
+    public Disposable getFoodCommentList(DisposableObserver<List<FoodComment>> observer
             , String shopId, String page) {
         Observable<List<FoodComment>> observable =
                 redrockApiService.getFoodComments(shopId, page)
@@ -718,7 +712,7 @@ public enum RequestManager {
         emitObservable(observable, observer);
     }
 
-    private <T> CompositeDisposable emitObservable(Observable<T> o, DisposableObserver<T> s) {
+    private <T> Disposable emitObservable(Observable<T> o, DisposableObserver<T> s) {
         return o.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -737,7 +731,6 @@ public enum RequestManager {
         } else {
             return true;
         }
-
     }
 }
 

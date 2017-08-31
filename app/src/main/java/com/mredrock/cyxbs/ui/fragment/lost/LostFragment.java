@@ -317,7 +317,7 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     }
     private void registerObservable() {
         mDisposable = RxBus.getDefault()
-                .toObserverable(HotNews.class)
+                .toFlowable(HotNews.class)
                 .subscribe(s -> {
                     getCurrentData(theme,category,FIRST_PAGE_INDEX);
                     recycler.scrollToPosition(0);

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Stormouble on 16/5/4.
@@ -102,7 +102,7 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
 
 
     private void loadFoodList(int page, boolean shouldRefresh) {
-        CompositeDisposable subscription = RequestManager.getInstance().getFoodList(
+        Disposable subscription = RequestManager.getInstance().getFoodList(
                 new SimpleObserver<List<Food>>(getActivity(), new SubscriberListener<List<Food>>() {
 
             @Override

@@ -13,7 +13,6 @@ import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.network.encrypt.UserInfoEncryption;
-import com.mredrock.cyxbs.network.kt.RequestManagerKt;
 import com.mredrock.cyxbs.ui.activity.exception.ExceptionActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SPUtils;
@@ -126,7 +125,6 @@ public class APP extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Config.DEBUG = true;
-        RequestManagerKt.INSTANCE.init();
         UMShareAPI.get(this);
         initShareKey();
         context = getApplicationContext();

@@ -45,6 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -152,17 +153,11 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                 Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mCompositeDisposable.clear();
-    }
-
     /**
      * Get food data and comments
      */
     private void getFoodAndCommentList(int page, boolean firstLoaded) {
-        CompositeDisposable subscription = RequestManager.getInstance().getFoodAndCommentList(
+        Disposable subscription = RequestManager.getInstance().getFoodAndCommentList(
                 new SimpleObserver<FoodDetail>(getActivity(), firstLoaded, new SubscriberListener<FoodDetail>() {
                     @Override
                     public void onStart() {
@@ -212,7 +207,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
      * Get comments
      */
     private void getFoodCommentList(int page) {
-        CompositeDisposable subscription = RequestManager.getInstance().getFoodCommentList(
+        Disposable subscription = RequestManager.getInstance().getFoodCommentList(
                 new SimpleObserver<List<FoodComment>>(getActivity(), new SubscriberListener<List<FoodComment>>() {
                     @Override
                     public void onNext(List<FoodComment> foodCommentList) {
@@ -229,7 +224,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
 
     private void sendCommentAndRefresh(String content, boolean shouldRetry) {
         User user = APP.getUser(getActivity());
-        CompositeDisposable subscription = RequestManager.getInstance().sendCommentAndRefresh(
+        Disposable subscription = RequestManager.getInstance().sendCommentAndRefresh(
                 new SimpleObserver<List<FoodComment>>(getActivity(), true, new SubscriberListener<List<FoodComment>>() {
                     @Override
                     public void onNext(List<FoodComment> commentList) {

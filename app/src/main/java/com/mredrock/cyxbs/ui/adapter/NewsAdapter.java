@@ -171,7 +171,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         private void registerObservable() {
             mDisposable = RxBus.getDefault()
-                    .toObserverable(HotNewsContent.class)
+                    .toFlowable(HotNewsContent.class)
                     .subscribe(hotNewsContent -> {
 //                        setData(hotNewsContent, false);
                         unregisterObservable();

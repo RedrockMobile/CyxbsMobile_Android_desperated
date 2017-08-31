@@ -32,7 +32,7 @@ import com.mredrock.cyxbs.util.UIUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Stormouble on 16/4/27.
@@ -148,8 +148,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
         if (System.currentTimeMillis() - mLastTime > MIN_SHAKE_DURATION) {
             mVibrator.vibrate(500);
             mLastTime = System.currentTimeMillis();
-
-            CompositeDisposable subscription = RequestManager.getInstance().getShake(
+            Disposable subscription = RequestManager.getInstance().getShake(
                     new SimpleObserver<>(getActivity(), new SubscriberListener<Shake>() {
                         @Override
                         public void onNext(Shake data) {
@@ -157,7 +156,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
                         }
                     }));
 
-            subscription.add(subscription);
+            mCompositeDisposable.add(subscription);
         }
     }
 
@@ -178,7 +177,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
 
 
     private void getFood() {
-        CompositeDisposable subscription = RequestManager.getInstance().getFood(new SimpleObserver<>(getActivity(), new SubscriberListener<FoodDetail>() {
+        Disposable subscription = RequestManager.getInstance().getFood(new SimpleObserver<>(getActivity(), new SubscriberListener<FoodDetail>() {
             @Override
              public void onComplete() {
                 onRefreshingStateChanged(false);
@@ -200,7 +199,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
             }
         }), mResultViewWrapper.mRestaurantKey);
 
-        subscription.add(subscription);
+        mCompositeDisposable.add(subscription);
     }
 
     private void startIntroAnimation() {

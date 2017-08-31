@@ -7,18 +7,16 @@ import com.mredrock.cyxbs.component.task.progress.ProgressCancelListener;
 import com.mredrock.cyxbs.component.task.progress.ProgressDialogHandler;
 import com.mredrock.cyxbs.network.ErrorHandler;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * Created by cc on 16/3/19.
  */
-public class SimpleObserver<T> implements ProgressCancelListener, Observer<T> {
+public class SimpleObserver<T>extends DisposableObserver<T> implements ProgressCancelListener  {
     private Context context;
     protected SubscriberListener<T> listener;
     private ProgressDialogHandler mProgressDialogHandler;
     private ErrorHandler mErrorHandler;
-    private Disposable mDisposable;
 
     public SimpleObserver(Context context, SubscriberListener<T> listener) {
         this(context, false, listener);
@@ -55,8 +53,7 @@ public class SimpleObserver<T> implements ProgressCancelListener, Observer<T> {
 
     @CallSuper
     @Override
-    public void onSubscribe(Disposable d) {
-        mDisposable = d;
+    protected void onStart() {
         showProgressDialog();
         if (listener != null) {
             listener.onStart();
@@ -73,8 +70,8 @@ public class SimpleObserver<T> implements ProgressCancelListener, Observer<T> {
 
     @Override
     public void onCancelProgress() {
-        if (!mDisposable.isDisposed()) {
-            mDisposable.dispose();
+        if (isDisposed()) {
+            dispose();
         }
     }
 

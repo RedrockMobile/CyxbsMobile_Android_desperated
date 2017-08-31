@@ -52,7 +52,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposable;
 
 public class SpecificNewsActivity extends BaseActivity
@@ -200,7 +200,7 @@ public class SpecificNewsActivity extends BaseActivity
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
 //        mSendText.addTextView(mNewsEdtComment);
 
-        mDisposable = RxBus.getDefault().toObserverable(CommentContent.class)
+        mDisposable = RxBus.getDefault().toFlowable(CommentContent.class)
                 .subscribe(commentContent -> {
                     mCommentDialog.setText("回复 " + commentContent.getNickname() + " : ");
                     mCommentDialog.show();
