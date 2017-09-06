@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.ui.activity.social;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +25,8 @@ public class FooterViewWrapper {
 
     private View footerView;
 
-    public FooterViewWrapper(Context context, ViewGroup parent) {
-        footerView = LayoutInflater.from(context)
+    public FooterViewWrapper(ViewGroup parent) {
+        footerView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_footer_item_news, parent, false);
         ButterKnife.bind(this, footerView);
     }
@@ -60,7 +59,7 @@ public class FooterViewWrapper {
     }
 
     public void onFailedClick(View.OnClickListener onClickListener) {
-        mTextLoadingFailed.setOnClickListener(onClickListener::onClick);
+        mTextLoadingFailed.setOnClickListener(onClickListener);
     }
 
     public CircleProgressBar getCircleProgressBar() {

@@ -163,7 +163,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     }
 
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
-        mFooterViewWrapper = new FooterViewWrapper(this, mRecyclerView);
+        mFooterViewWrapper = new FooterViewWrapper(mRecyclerView);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterViewWrapper.getFooterView());
         mFooterViewWrapper.showLoadingNoMoreData();
         mFooterViewWrapper.onFailedClick(view -> requestData());

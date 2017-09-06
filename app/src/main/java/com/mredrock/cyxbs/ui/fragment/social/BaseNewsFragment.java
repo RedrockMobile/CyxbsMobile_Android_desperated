@@ -191,7 +191,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     }
 
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
-        mFooterViewWrapper = new FooterViewWrapper(getContext(), mRecyclerView);
+        mFooterViewWrapper = new FooterViewWrapper(mRecyclerView);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterViewWrapper.getFooterView());
         mFooterViewWrapper.onFailedClick(view -> {
             if (currentIndex == 0) getCurrentData(PER_PAGE_NUM, currentIndex);
