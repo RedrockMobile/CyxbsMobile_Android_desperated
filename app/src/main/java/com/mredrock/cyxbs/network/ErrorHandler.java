@@ -35,9 +35,9 @@ public class ErrorHandler {
                 } else {
                     Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
                 }
-            } else if (e.getMessage().equals("authentication error")) {
+            } else if (e.getMessage()!=null&&e.getMessage().equals("authentication error")) {
                 Toast.makeText(context, "登录失败：学号或者密码错误,请检查输入", Toast.LENGTH_SHORT).show();
-            } else if (e.getMessage().equals("student id error")) {
+            } else if (e.getMessage()!=null&&e.getMessage().equals("student id error")) {
                 Toast.makeText(context, "登录失败：学号不存在,请检查输入", Toast.LENGTH_SHORT).show();
             } else if (e instanceof HttpException) {
                 if (BuildConfig.DEBUG) {
@@ -49,7 +49,7 @@ public class ErrorHandler {
                 }
                 LogUtils.LOGE("HttpException", "RawResponse: " + ((HttpException) e).response().raw().toString());
             } else {
-                if (BuildConfig.DEBUG) {
+                if (e.getMessage()!=null&&BuildConfig.DEBUG) {
                     Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }

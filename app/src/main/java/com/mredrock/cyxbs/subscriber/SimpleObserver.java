@@ -12,7 +12,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * Created by cc on 16/3/19.
  */
-public class SimpleObserver<T>extends DisposableObserver<T> implements ProgressCancelListener  {
+public class SimpleObserver<T> extends DisposableObserver<T> implements ProgressCancelListener {
     private Context context;
     protected SubscriberListener<T> listener;
     private ProgressDialogHandler mProgressDialogHandler;

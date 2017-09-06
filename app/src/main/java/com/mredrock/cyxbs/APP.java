@@ -17,9 +17,7 @@ import com.mredrock.cyxbs.ui.activity.exception.ExceptionActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.orhanobut.logger.Logger;
-import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
-import com.umeng.socialize.UMShareAPI;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -124,9 +122,9 @@ public class APP extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Config.DEBUG = true;
-        UMShareAPI.get(this);
-        initShareKey();
+        // Config.DEBUG = true;
+        // UMShareAPI.get(this);
+        // initShareKey();
         context = getApplicationContext();
         initThemeMode();
         //  FIR.init(this);
