@@ -18,11 +18,13 @@ android {
     productFlavors {
         official{}
         xiaomi {}
-        _360 {}
+   //     _360 {}
         baidu {}
         wandoujia {}
         kuan{}
         tencent{}
+        anzhi{}
+   //     _91{}
     }
 
     productFlavors.all { flavor ->
@@ -57,6 +59,16 @@ android {
             zipAlignEnabled false
             shrinkResources false
             signingConfig signingConfigs.debug
+            buildConfigField("String", "BUGLY_APP_ID", "\"68682669e7\"")
+            applicationVariants.all{ variant ->
+                variant.outputs.each{ out ->
+                    def outputFile = out.outputFile
+                    if (outputFile != null && outputFile.name.endsWith(".apk")){
+                        def fileName = "掌上重邮_${defaultConfig.versionName}_degug.apk"
+                        out.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
 
         release {
@@ -66,11 +78,11 @@ android {
 
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BUGLY_APP_ID", "\"68682669e7\"")
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
                         def fileName = "掌上重邮_${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
@@ -184,4 +196,10 @@ dependencies {
     compile 'com.github.zcweng:switch-button:0.0.3@aar'
     testCompile 'junit:junit:4.12'
     compile project(':FresherSpecial')
+
+    //bugly
+    compile 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+
+
 }
