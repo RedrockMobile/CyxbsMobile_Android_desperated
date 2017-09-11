@@ -52,9 +52,9 @@
 
     <string-array name="schedule_time">
         <item>8:00 ~ 9:40 am</item>
-        <item>10:05 ~ 11:45 am</item>
+        <item>10:15 ~ 11:55 am</item>
         <item>2:00 ~ 3:40 pm</item>
-        <item>4:05 ~ 5:45 pm</item>
+        <item>4:15 ~ 5:55 pm</item>
         <item>7:00 ~ 8:40 pm</item>
         <item>8:50 ~ 10:30 pm</item>
     </string-array>
