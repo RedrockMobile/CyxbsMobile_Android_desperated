@@ -19,7 +19,7 @@
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/main_bnv"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="48dp"
         android:layout_gravity="bottom"
         android:background="#FFFFFF"
         app:itemIconTint="@color/selector_main_bottom_navigation"

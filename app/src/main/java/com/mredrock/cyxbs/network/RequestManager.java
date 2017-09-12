@@ -720,7 +720,10 @@ public enum RequestManager {
     }
 
     private <T> void emitObservable(Observable<T> o, Observer<T> s) {
-        o.subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s);
+        o.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s);
     }
 
 
