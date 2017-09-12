@@ -19,19 +19,6 @@
             android:fitsSystemWindows="true"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/main_toolbar_face"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/default_avatar"
-                    android:visibility="gone"/>
-            </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 
         <RelativeLayout
