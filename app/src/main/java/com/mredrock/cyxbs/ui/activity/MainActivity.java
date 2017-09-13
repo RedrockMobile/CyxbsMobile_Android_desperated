@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -42,6 +41,7 @@ import com.mredrock.cyxbs.ui.fragment.UnLoginFragment;
 import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
+import com.mredrock.cyxbs.ui.widget.BottomNavigationViewHelper;
 import com.mredrock.cyxbs.util.ElectricRemindUtil;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
@@ -49,7 +49,6 @@ import com.mredrock.cyxbs.util.UpdateUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -107,26 +106,9 @@ public class MainActivity extends BaseActivity {
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
         // TODO: Filter these intents in another activity (such as LaunchActivity), not here, to fix the fixme above
         intentFilterFor3DTouch();
-        enableBottomNavAnim(false);
-    }
-
-    private void enableBottomNavAnim(boolean b) {
-        if (!b) {
-            try {
-                Field field = mMainBottomNavView.getClass().getDeclaredField("mMenuView");
-                field.setAccessible(true);
-                BottomNavigationMenuView menuView = (BottomNavigationMenuView) field.get(mMainBottomNavView);
-                Field field1 = menuView.getClass().getDeclaredField("mShiftingMode");
-                field1.setAccessible(true);
-                field1.setBoolean(menuView, false);
-                menuView.updateMenuView();
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-
-        }
+        BottomNavigationViewHelper btNavViewHelper = new BottomNavigationViewHelper(mMainBottomNavView);
+        btNavViewHelper.enableBottomNavAnim(false);
+        btNavViewHelper.setBottomNavTextSize(10);
     }
 
     /**
