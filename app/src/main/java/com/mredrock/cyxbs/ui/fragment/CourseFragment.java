@@ -250,7 +250,7 @@ public class CourseFragment extends BaseFragment {
                             }
                         }), mUser.stuNum, mUser.idNum, week, update, forceFetch);
 
-                RequestManager.getInstance().getAffair(new SimpleSubscriber<List<Affair>>(getActivity(), false, false, new SubscriberListener<List<Affair>>() {
+                RequestManager.getInstance().getAffair(new SimpleSubscriber<>(getActivity(), false, false, new SubscriberListener<List<Affair>>() {
                     @Override
                     public void onCompleted() {
                         super.onCompleted();
@@ -319,12 +319,9 @@ public class CourseFragment extends BaseFragment {
         if (mCourseScheduleContent != null) {
             mCourseScheduleContent.clearList();
             mCourseScheduleContent.addContentView(tempCourseList);
-            Observable<List<Course>> observable = Observable.create(new Observable.OnSubscribe<List<Course>>() {
-                @Override
-                public void call(Subscriber<? super List<Course>> subscriber) {
-                    subscriber.onNext(affairList);
-                    subscriber.onCompleted();
-                }
+            Observable<List<Course>> observable = Observable.create(subscriber -> {
+                subscriber.onNext(affairList);
+                subscriber.onCompleted();
             });
             observable.map(courses -> {
                 CourseListAppWidgetUpdateService.start(getActivity(), false);
@@ -339,7 +336,7 @@ public class CourseFragment extends BaseFragment {
     public void onAffairDeleteEvent(AffairDeleteEvent event) {
         if (mWeek == 0 || event.getCourse().week.contains(mWeek)) {
             Affair affair = (Affair) event.getCourse();
-            RequestManager.getInstance().deleteAffair(new SimpleSubscriber<Object>(getActivity(), true, true, new SubscriberListener<Object>() {
+            RequestManager.getInstance().deleteAffair(new SimpleSubscriber<>(getActivity(), true, true, new SubscriberListener<Object>() {
                 @Override
                 public void onCompleted() {
                     super.onCompleted();
@@ -421,7 +418,6 @@ public class CourseFragment extends BaseFragment {
         mCourseScheduleContent.setShowMode(event.showMode);
         loadCourse(mWeek, false, false);
     }
-
 
     private void hideRefreshLoading() {
         if (mCourseSwipeRefreshLayout != null) {

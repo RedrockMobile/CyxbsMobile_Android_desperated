@@ -59,7 +59,7 @@ public class SplashActivity extends Activity {
             @Override
             public void onNext(StartPage startPage) {
                 if (startPage != null) {
-                    Glide.with(SplashActivity.this).load(startPage.getPhoto_src()).into(mIvSplash);
+                    Glide.with(SplashActivity.this).load(startPage.getPhoto_src()).centerCrop().into(mIvSplash);
                 }
             }
         }));

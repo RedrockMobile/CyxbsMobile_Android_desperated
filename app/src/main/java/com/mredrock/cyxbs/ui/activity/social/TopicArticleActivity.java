@@ -40,7 +40,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, RecyclerArrayAdapter.OnMoreListener {
+public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLayout
+        .OnRefreshListener, RecyclerArrayAdapter.OnMoreListener {
 
     public static final String EXTRA_ID = "topic_article_id";
     public static final String EXTRA_POST_SUCCESS = "post_article_success";
@@ -190,6 +191,9 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
     /*@OnClick(R.id.iv_topic_share)*/
     public void onViewClicked() {
         Toast.makeText(this, "开发中...", Toast.LENGTH_SHORT).show();
+        //网页 URL 建议改成
+        //http://hongyan.cqupt.edu.cn/cyxbsMobileTalk/react/?id=42
+        //不过以前那个仍然可以使用
 //        RxPermissions.getInstance(this).request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 //                .subscribe(granted -> {
 //                    if (granted) {
