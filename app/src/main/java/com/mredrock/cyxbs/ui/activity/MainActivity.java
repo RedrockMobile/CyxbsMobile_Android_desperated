@@ -2,14 +2,11 @@ package com.mredrock.cyxbs.ui.activity;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -17,18 +14,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.jaeger.library.StatusBarUtil;
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
@@ -36,12 +28,10 @@ import com.mredrock.cyxbs.component.widget.CourseDialog;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
 import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
-import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.electric.DormitorySettingActivity;
-import com.mredrock.cyxbs.ui.activity.me.EditInfoActivity;
 import com.mredrock.cyxbs.ui.activity.me.NewsRemindActivity;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
 import com.mredrock.cyxbs.ui.activity.social.PostNewsActivity;
@@ -52,25 +42,19 @@ import com.mredrock.cyxbs.ui.fragment.UnLoginFragment;
 import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
-import com.mredrock.cyxbs.ui.widget.CourseListAppWidget;
 import com.mredrock.cyxbs.util.ElectricRemindUtil;
-import com.mredrock.cyxbs.util.ImageLoader;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.UpdateUtil;
-import com.mredrock.cyxbs.util.Utils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity {
 
@@ -82,6 +66,8 @@ public class MainActivity extends BaseActivity {
     LinearLayout mCoordinatorLayout;
     @Bind(R.id.main_view_pager)
     ViewPager mViewPager;
+    @Bind(R.id.course_unfold)
+    ImageView mCourseUnfold;
 
     @BindString(R.string.community)
     String mStringCommunity;
@@ -97,12 +83,10 @@ public class MainActivity extends BaseActivity {
     BaseFragment exploreFragment;
     BaseFragment userFragment;
     BaseFragment unLoginFragment;
-    @Bind(R.id.main_toolbar_face)
-    CircleImageView mMainToolbarFace;
+    /*@Bind(R.id.main_toolbar_face)
+    CircleImageView mMainToolbarFace;*/
     @Bind(R.id.main_bnv)
     BottomNavigationView mMainBottomNavView;
-    @Bind(R.id.main_app_bar)
-    AppBarLayout mMainAppBar;
 
     private Menu mMenu;
     private ArrayList<Fragment> mFragments;
@@ -119,6 +103,7 @@ public class MainActivity extends BaseActivity {
         initView();
         UpdateUtil.checkUpdate(this, false);
         ElectricRemindUtil.check(this);
+        mCourseUnfold.setRotation(180);
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
         // TODO: Filter these intents in another activity (such as LaunchActivity), not here, to fix the fixme above
         intentFilterFor3DTouch();
@@ -188,10 +173,10 @@ public class MainActivity extends BaseActivity {
         //判断是否登陆
         if (!APP.isLogin()) {
             mFragments.add(unLoginFragment);
-            unLoginFace();
+//            unLoginFace();
         } else {
             mFragments.add(courseContainerFragment);
-            loginFace();
+//            loginFace();
         }
         mFragments.add(socialContainerFragment);
         mFragments.add(exploreFragment);
@@ -208,6 +193,7 @@ public class MainActivity extends BaseActivity {
         mViewPager.addOnPageChangeListener(new ViewPagerChangedListener());
         mMainBottomNavView.setOnNavigationItemSelectedListener(new BottomSelectedListener());
     }
+/*
 
     private void unLoginFace() {
         Glide.with(this).load(R.drawable.ic_default_avatar).into(mMainToolbarFace);
@@ -220,6 +206,7 @@ public class MainActivity extends BaseActivity {
         mMainToolbarFace.setOnClickListener(view ->
                 startActivity(new Intent(this, EditInfoActivity.class)));
     }
+*/
 
     @Override
     public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
@@ -230,22 +217,22 @@ public class MainActivity extends BaseActivity {
             mFragments.remove(0);
             mFragments.add(0, new UnLoginFragment());
             mAdapter.notifyDataSetChanged();
-            SPUtils.set(APP.getContext(), DormitorySettingActivity.BUILDING_KEY,"");
-            SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME,System.currentTimeMillis() / 2);
-            unLoginFace();
+            SPUtils.set(APP.getContext(), DormitorySettingActivity.BUILDING_KEY, "");
+            SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
+//            unLoginFace();
         } else {
             mFragments.remove(0);
             mFragments.add(0, new CourseContainerFragment());
             //mBottomBar.setCurrentView(0);
             mAdapter.notifyDataSetChanged();
-            loginFace();
+//            loginFace();
         }
     }
 
     private void initToolbar() {
         if (mToolbar != null) {
-            setTitle("课表");
             setSupportActionBar(mToolbar);
+            setTitle("课 表");
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayShowTitleEnabled(false);
@@ -282,7 +269,7 @@ public class MainActivity extends BaseActivity {
                         } else
                             PostNewsActivity.startActivity(this);
                     } else {
-                        showPopupWindow();
+                        EditAffairActivity.editAffairActivityStart(this, new SchoolCalendar().getWeekOfTerm());
                     }
                 } else {
                     // Utils.toast(getApplicationContext(), "尚未登录");
@@ -293,7 +280,7 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+/*
     public void showPopupWindow() {
         Rect frame = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
@@ -327,6 +314,7 @@ public class MainActivity extends BaseActivity {
         popWind.showAtLocation(parentView, Gravity.RIGHT | Gravity.TOP,
                 yOffset, xOffset);
     }
+*/
 
 
     private void hiddenMenu() {
@@ -347,6 +335,10 @@ public class MainActivity extends BaseActivity {
 
     public TextView getToolbarTitle() {
         return mToolbarTitle;
+    }
+
+    public ImageView getCourseUnfold() {
+        return mCourseUnfold;
     }
 
     @Override
@@ -391,27 +383,27 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setVisibility(View.VISIBLE);
                     showMenu();
                     setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
-                    mMainToolbarFace.setVisibility(View.VISIBLE);
+//                    mMainToolbarFace.setVisibility(View.VISIBLE);
                     break;
                 case 1:
                     mMainBottomNavView.setSelectedItemId(R.id.item2);
                     hiddenMenu();
-                    mMainToolbarFace.setVisibility(View.GONE);
+//                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.GONE);
                     break;
                 case 2:
                     hiddenMenu();
                     mMainBottomNavView.setSelectedItemId(R.id.item3);
-                    mMainToolbarFace.setVisibility(View.GONE);
+//                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
-                    mToolbarTitle.setText("发现");
+                    mToolbarTitle.setText("发 现");
                     break;
                 case 3:
                     hiddenMenu();
                     mMainBottomNavView.setSelectedItemId(R.id.item4);
                     mToolbar.setVisibility(View.VISIBLE);
-                    mMainToolbarFace.setVisibility(View.GONE);
-                    mToolbarTitle.setText("我的");
+//                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbarTitle.setText("我 的");
                     if (!APP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
                     }
@@ -427,19 +419,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
-
-    private void toolbarStepByStepClose(float positionOffset, boolean shouldShow) {
-        Log.d(TAG, "toolbarStepByStepClose: " + positionOffset);
-        if (shouldShow) {
-            mMainAppBar.animate().translationY(0).alpha(225*positionOffset).start();
-            mMainAppBar.invalidate();
-        } else {
-            mMainAppBar.animate().translationY(0).alpha(-mMainAppBar.getBottom() * (1 - positionOffset)).start();
-            mMainAppBar.invalidate();
-        }
-    }
-
     private class BottomSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
 
         @Override
@@ -448,29 +427,42 @@ public class MainActivity extends BaseActivity {
                 case 0:
                     mViewPager.setCurrentItem(0);
                     mToolbar.setVisibility(View.VISIBLE);
+                    mCourseUnfold.setVisibility(View.VISIBLE);
                     showMenu();
-                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
-                    mMainToolbarFace.setVisibility(View.VISIBLE);
+                    mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
+                    ((View) mToolbarTitle.getParent()).setVisibility(View.VISIBLE);
+                    mToolbarTitle.setText(((CourseContainerFragment) courseContainerFragment).getTitle());
+//                    mMainToolbarFace.setVisibility(View.GONE);
                     break;
                 case 1:
                     mViewPager.setCurrentItem(1);
+//                    mMainToolbarFace.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.VISIBLE);
+                    mCourseUnfold.setVisibility(View.GONE);
+                    mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
+                    ((View) mToolbarTitle.getParent()).setVisibility(View.VISIBLE);
+                    mToolbarTitle.setText("社 区");
                     hiddenMenu();
-                    mMainToolbarFace.setVisibility(View.GONE);
-                    mToolbar.setVisibility(View.GONE);
                     break;
                 case 2:
                     hiddenMenu();
                     mViewPager.setCurrentItem(2);
-                    mMainToolbarFace.setVisibility(View.GONE);
+//                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
-                    mToolbarTitle.setText("发现");
+                    mCourseUnfold.setVisibility(View.GONE);
+                    mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
+                    ((View) mToolbarTitle.getParent()).setVisibility(View.VISIBLE);
+                    mToolbarTitle.setText("发 现");
                     break;
                 case 3:
                     hiddenMenu();
                     mViewPager.setCurrentItem(3);
-                    mToolbar.setVisibility(View.VISIBLE);
-                    mMainToolbarFace.setVisibility(View.GONE);
-                    mToolbarTitle.setText("我的");
+                    mToolbar.setVisibility(View.GONE);
+//                    mMainToolbarFace.setVisibility(View.GONE);
+                    mCourseUnfold.setVisibility(View.GONE);
+                    mToolbarTitle.setText("我 的");
+                    ((View) mToolbarTitle.getParent()).setVisibility(View.GONE);
+                    mToolbar.setBackgroundColor(Color.parseColor("#788EFA"));
                     if (!APP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
                     }

@@ -47,7 +47,7 @@
 
     <shortcut
         android:shortcutId="static_date"
-        android:icon="@drawable/ic_my_page_no_course"
+        android:icon="@drawable/ic_no_course"
         android:enabled="true"
         android:shortcutShortLabel="@string/date"
         android:shortcutLongLabel="@string/date"

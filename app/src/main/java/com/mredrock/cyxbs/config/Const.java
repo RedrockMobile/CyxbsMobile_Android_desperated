@@ -20,6 +20,7 @@ public class Const {
     public static final String API_FOOD_DETAIL         = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shopinfo";
     public static final String API_FOOD_COMMENT_LIST   = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/comList";
     public static final String API_SEND_FOOD_COMMENT   = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/addCom";
+    public static final String SMAILE_FACE = "http://hongyan.cqupt.edu.cn/stuface2017/";
 
     public static final String APT_SEARCH_STUDENT = "/cyxbsMobile/index.php/home/searchPeople/peopleList";
 

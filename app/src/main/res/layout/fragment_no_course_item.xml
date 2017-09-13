@@ -1,127 +1,128 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="27dp"
+        android:background="#EEF6FD"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/no_course_month"
+            android:layout_width="31dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#7097FA"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:id="@+id/no_course_week"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"/>
+    </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/no_course_swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/no_schedule_view"
+                android:id="@+id/course_schedule_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/no_course_week"
-                    android:layout_width="match_parent"
-                    android:layout_height="26dp"
-                    android:orientation="horizontal"/>
+                    android:id="@+id/no_course_time"
+                    android:layout_width="31dp"
+                    android:layout_height="match_parent"
+                    android:background="#EEF6FD"
+                    android:gravity="end"
+                    android:orientation="vertical"/>
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="600dp"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF">
 
+                    <!--就只是七个选中今日的底色-->
                     <LinearLayout
-                        android:id="@+id/no_course_time"
-                        android:layout_width="26dp"
-                        android:layout_height="600dp"
-                        android:layout_marginTop="1dp"
-                        android:gravity="right"
-                        android:orientation="vertical"/>
-
-                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
                         <View
-                            android:layout_width="1dp"
+                            android:id="@+id/view_course_today_1"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:background="@color/no_course_time_divider"/>
+                            android:layout_weight="1"
+                            android:background="#FFFBEB"
+                            android:visibility="invisible"/>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <View
+                            android:id="@+id/view_course_today_2"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:background="#FFFBEB"
+                            android:visibility="invisible"/>
 
-                            <View
-                                android:id="@+id/view_no_course_today_1"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="#fdf6ea"
-                                android:visibility="invisible"/>
+                        <View
+                            android:id="@+id/view_course_today_3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#FFFBEB"
+                            android:visibility="invisible"/>
 
-                            <View
-                                android:id="@+id/view_no_course_today_2"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="#fdf6ea"
-                                android:visibility="invisible"/>
+                        <View
+                            android:id="@+id/view_course_today_4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#FFFBEB"
+                            android:visibility="invisible"/>
 
-                            <View
-                                android:id="@+id/view_no_course_today_3"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="#fdf6ea"
-                                android:visibility="invisible"/>
+                        <View
+                            android:id="@+id/view_course_today_5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#FFFBEB"
+                            android:visibility="invisible"/>
 
-                            <View
-                                android:id="@+id/view_no_course_today_4"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="#fdf6ea"
-                                android:visibility="invisible"/>
+                        <View
+                            android:id="@+id/view_course_today_6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#FFFBEB"
+                            android:visibility="invisible"/>
 
-                            <View
-                                android:id="@+id/view_no_course_today_5"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="#fdf6ea"
-                                android:visibility="invisible"/>
+                        <View
+                            android:id="@+id/view_course_today_7"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#FFFBEB"
+                            android:visibility="invisible"/>
+                    </LinearLayout>
 
-                            <View
-                                android:id="@+id/view_no_course_today_6"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="#fdf6ea"
-                                android:visibility="invisible"/>
-
-                            <View
-                                android:id="@+id/view_no_course_today_7"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="#fdf6ea"
-                                android:visibility="invisible"/>
-
-                        </LinearLayout>
-
-                        <com.mredrock.cyxbs.component.widget.NoScheduleView
-                            android:id="@+id/no_course_schedule_content"
-                            android:layout_width="match_parent"
-                            android:layout_height="600dp"/>
-
-                    </FrameLayout>
-
-                </LinearLayout>
-
+                    <com.mredrock.cyxbs.component.widget.NoScheduleView
+                        android:id="@+id/no_course_schedule_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="600dp"/>
+                </FrameLayout>
             </LinearLayout>
-
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
-</RelativeLayout>
+</LinearLayout>

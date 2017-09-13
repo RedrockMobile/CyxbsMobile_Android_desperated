@@ -1,438 +1,412 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/background_grey"
-              tools:context=".ui.fragment.UserFragment">
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.UserFragment">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_grey">
+        android:background="#F6F6F6"
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#788EFA"
+            android:fitsSystemWindows="true"
+            android:paddingTop="25dp"
+            app:theme="?attr/actionBarTheme"
+            app:titleTextColor="#F6F6F6">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="我 的"
+                android:textColor="#F6F6F6"
+                android:textSize="18sp"/>
+        </android.support.v7.widget.Toolbar>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#788EFA"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/avatar"
+                android:layout_width="74dp"
+                android:layout_height="74dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/default_avatar"/>
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"/>
+
             <LinearLayout
-                android:id="@+id/my_page_edit_layout"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:background="@drawable/bg_layout"
-                android:orientation="horizontal"
-                android:paddingBottom="15dp"
-                android:paddingEnd="15dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="15dp"
-                android:paddingStart="20dp"
-                android:paddingTop="15dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="27dp"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/my_page_avatar"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_default_avatar"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/introduce"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="17dp"
+                        android:drawablePadding="1dp"
+                        android:drawableRight="@drawable/ic_edit"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"/>
+                </RelativeLayout>
 
-                        <TextView
-                            android:id="@+id/my_page_nick_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginStart="12dp"
-                            android:textColor="@color/text_dark"
-                            android:textSize="15sp"/>
-
-                        <TextView
-                            android:id="@+id/my_page_gender"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginStart="4dp"
-                            android:gravity="center"
-                            android:paddingBottom="1dp"
-                            android:textColor="@color/pink"
-                            android:textSize="18sp"
-                            tools:text="♂"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginStart="12dp"
-                            android:layout_marginTop="2dp"
-                            android:text="@string/my_page_introduce"
-                            android:textColor="@color/text_light_2"
-                            android:textSize="12sp"/>
-
-                        <TextView
-                            android:id="@+id/my_page_introduce"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:ellipsize="end"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:textColor="@color/text_light_2"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
-
-                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/divider"/>
-
-            <RelativeLayout
-                android:id="@+id/my_page_relate_layout"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/bg_layout"
-                android:paddingLeft="24dp"
-                android:paddingStart="24dp">
-
-                <ImageView
-                    android:id="@+id/my_page_iv_relate"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_page_relate"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toRightOf="@+id/my_page_iv_relate"
-                    android:text="@string/my_page_relate"
-                    android:textColor="@color/text_dark"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="44dp"
-                    android:background="@color/divider_light"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/my_page_trend_layout"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:background="@drawable/bg_layout"
-                android:paddingLeft="24dp"
-                android:paddingStart="24dp">
-
-                <ImageView
-                    android:id="@+id/my_page_iv_trend"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_page_trend"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toRightOf="@+id/my_page_iv_trend"
-                    android:text="@string/my_page_trend"
-                    android:textColor="@color/text_dark"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="44dp"
-                    android:background="@color/divider_light"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/my_page_no_course_layout"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:background="@drawable/bg_layout"
-                android:paddingLeft="24dp"
-                android:paddingStart="24dp">
-
-                <ImageView
-                    android:id="@+id/my_page_iv_no_course"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_page_no_course"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toRightOf="@+id/my_page_iv_no_course"
-                    android:text="@string/my_page_no_course"
-                    android:textColor="@color/text_dark"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="44dp"
-                    android:background="@color/divider_light"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/my_page_empty_layout"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:background="@drawable/bg_layout"
-                android:paddingLeft="24dp"
-                android:paddingStart="24dp">
-
-                <ImageView
-                    android:id="@+id/my_page_iv_empty"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_page_empty"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toRightOf="@+id/my_page_iv_empty"
-                    android:text="@string/my_page_empty"
-                    android:textColor="@color/text_dark"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="44dp"
-                    android:background="@color/divider_light"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/my_page_grade_layout"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:background="@drawable/bg_layout"
-                android:paddingLeft="24dp"
-                android:paddingStart="24dp">
-
-                <ImageView
-                    android:id="@+id/my_page_iv_grade"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_page_grade"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toRightOf="@+id/my_page_iv_grade"
-                    android:text="@string/my_page_grade"
-                    android:textColor="@color/text_dark"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="44dp"
-                    android:background="@color/divider_light"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/my_page_calendar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:background="@drawable/bg_layout"
-                android:paddingLeft="24dp"
-                android:paddingStart="24dp">
-
-                <ImageView
-                    android:id="@+id/my_page_iv_calendar"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_page_calendar"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toRightOf="@+id/my_page_iv_calendar"
-                    android:text="@string/my_page_calendar"
-                    android:textColor="@color/text_dark"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="44dp"
-                    android:background="@color/divider_light"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/my_page_remind_layout"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:background="@drawable/bg_layout"
-                android:paddingLeft="24dp"
-                android:paddingStart="24dp">
-
-                <ImageView
-                    android:id="@+id/my_page_iv_remind"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_page_remind"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toRightOf="@+id/my_page_iv_remind"
-                    android:text="课前提醒"
-                    android:textColor="@color/text_dark"/>
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginBottom="15dp"
-                android:background="@color/divider"/>
-
-            <RelativeLayout
-                android:id="@+id/my_page_night_layout"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:background="@color/white"
-                android:paddingLeft="24dp"
-                android:paddingStart="24dp"
-                android:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/my_page_iv_night"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_page_night"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toRightOf="@+id/my_page_iv_night"
-                    android:text="@string/my_page_night"
-                    android:textColor="@color/text_dark"/>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/my_page_switch_compat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginRight="15dp"
-                    android:theme="@style/SwitchStyle"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="44dp"
-                    android:background="@color/divider_light"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/my_page_setting_layout"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:background="@drawable/bg_layout"
-                android:paddingLeft="24dp"
-                android:paddingStart="24dp">
-
-                <ImageView
-                    android:id="@+id/my_page_iv_setting"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_page_setting"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toRightOf="@+id/my_page_iv_setting"
-                    android:text="@string/my_page_setting"
-                    android:textColor="@color/text_dark"/>
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginBottom="15dp"
-                android:background="@color/divider"/>
-
         </LinearLayout>
 
-    </ScrollView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="#93A5FB">
 
-</LinearLayout>
+            <View
+                android:id="@+id/divider"
+                android:layout_width="2dp"
+                android:layout_height="38dp"
+                android:layout_centerInParent="true"
+                android:background="#FFFFFF"/>
+
+            <LinearLayout
+                android:id="@+id/relate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/divider"
+                android:background="?selectableItemBackground"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="与我相关"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="0"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/trend"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/divider"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的动态"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="0"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/no_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingBottom="11dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="11dp">
+
+            <ImageView
+                android:id="@+id/ic_no_course"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_no_course"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/ic_no_course"
+                android:text="没课约"
+                android:textColor="#333333"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_arrow_right"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E4E4E4"/>
+
+        <RelativeLayout
+            android:id="@+id/empty_classroom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingBottom="11dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="11dp">
+
+            <ImageView
+                android:id="@+id/ic_empty_classroom"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_empty_classroom"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/ic_empty_classroom"
+                android:text="空教室"
+                android:textColor="#333333"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_arrow_right"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E4E4E4"/>
+
+        <RelativeLayout
+            android:id="@+id/grade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:foreground="?selectableItemBackground"
+            android:paddingBottom="11dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="11dp">
+
+            <ImageView
+                android:id="@+id/ic_grade"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_grade"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/ic_grade"
+                android:text="考试与成绩"
+                android:textColor="#333333"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_arrow_right"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E4E4E4"/>
+
+        <RelativeLayout
+            android:id="@+id/calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:foreground="?selectableItemBackground"
+            android:paddingBottom="11dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="11dp">
+
+            <ImageView
+                android:id="@+id/ic_calendar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_calendar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/ic_calendar"
+                android:text="校历"
+                android:textColor="#333333"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_arrow_right"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E4E4E4"/>
+
+        <RelativeLayout
+            android:id="@+id/remind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:foreground="?selectableItemBackground"
+            android:paddingBottom="11dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="11dp">
+
+            <ImageView
+                android:id="@+id/ic_remind"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_remind"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/ic_remind"
+                android:text="课前提醒"
+                android:textColor="#333333"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_arrow_right"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="#FFFFFF"
+            android:foreground="?selectableItemBackground"
+            android:paddingBottom="11dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="11dp">
+
+            <ImageView
+                android:id="@+id/ic_option"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_empty_classroom"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/ic_option"
+                android:text="设置"
+                android:textColor="#333333"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_arrow_right"/>
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

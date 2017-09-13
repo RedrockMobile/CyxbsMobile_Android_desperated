@@ -1,13 +1,10 @@
 package com.mredrock.cyxbs.component.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
@@ -15,7 +12,7 @@ import com.mredrock.cyxbs.R;
 /**
  * Created by skylineTan on 2016/4/27 01:35.
  */
-public class Toolbar extends FrameLayout {
+public class Toolbar extends android.support.v7.widget.Toolbar {
 
     private TextView right, left, title;
     private CharSequence rightText, leftText, titleText;
@@ -33,11 +30,6 @@ public class Toolbar extends FrameLayout {
     public Toolbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public Toolbar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     public void setLeftText(CharSequence text) {

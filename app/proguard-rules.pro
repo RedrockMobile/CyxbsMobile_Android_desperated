@@ -18,7 +18,8 @@
 #-------------------------------------------定制化区域----------------------------------------------
 #---------------------------------1.实体类---------------------------------
 -keep class com.mredrock.cyxbs.model.**{ *; }
-
+-keep class com.mredrock.cyxbs.freshmanspecial.**{ *;}
+-keep class com.bigkoo.pikerview.**{ *;}
 -keep class com.mredrock.cyxbs.network.**{ *;}
 -keep public class * extends android.support.v4.app.Fragment
 
@@ -285,3 +286,6 @@
        }
        #----------------------------------------------------------------------------
        #---------------------------------------------------------------------------------------------------
+
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

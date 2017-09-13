@@ -7,41 +7,20 @@
     android:orientation="vertical"
     tools:context=".ui.activity.me.NoCourseContainerActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <include layout="@layout/toolbar"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/no_course_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            app:navigationIcon="@drawable/back"
-            app:titleTextColor="@color/black_lightly"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <TextView
-                android:id="@+id/toolbar_title"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-        </android.support.v7.widget.Toolbar>
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/no_course_tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/tabIndicatorColor"
-            app:tabMode="scrollable" />
-
-    </android.support.design.widget.AppBarLayout>
+        android:layout_height="47dp"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/tabIndicatorColor"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/tabIndicatorColor"
+        app:tabTextColor="@color/tabTextColorBlack"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/no_course_view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 </LinearLayout>

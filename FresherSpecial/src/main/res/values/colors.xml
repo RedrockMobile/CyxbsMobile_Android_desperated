@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#65B2FF</color>
+    <color name="colorPrimaryDark">#65B2FF</color>
+    <color name="colorAccent">#65B2FF</color>
+    <color name="colorWhite">#FFF5F5F5</color>
+    <color name="colorDeepGray">#FF383535</color>
+    <color name="tabTextColor">#949494</color>
+    <color name="tabSelectedTextColor">#65B2FF</color>
+    <color name="underTabColor">#F5F5F5</color>
+    <color name="addressColor">#9CCBFF</color>
+    <color name="colorBlack">#000000</color>
+
+    <color name="black_overlay">#66000000</color>
+</resources>

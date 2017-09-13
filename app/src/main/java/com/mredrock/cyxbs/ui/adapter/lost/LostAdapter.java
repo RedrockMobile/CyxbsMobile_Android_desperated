@@ -77,7 +77,7 @@ public class LostAdapter extends RecyclerView.Adapter<LostAdapter.ViewHolder> im
         @Bind(R.id.list_lost_text_kind)TextView mType;
         @Bind(R.id.list_lost_text_time)TextView mTime;
         @Bind(R.id.textView_content)TextView mContent;
-        public static final String TAG = "LostAdapter.ViewHolder";
+        public static final String TAG = "LostAdapter.NormalViewHolder";
 
         public ViewHolder(View itemView) {
             super(itemView);

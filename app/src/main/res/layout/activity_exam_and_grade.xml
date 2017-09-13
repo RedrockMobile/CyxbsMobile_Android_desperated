@@ -1,49 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context=".ui.activity.me.ExamAndGradeActivity">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.me.ExamAndGradeActivity">
+
+    <include layout="@layout/toolbar"/>
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/exam_grade_tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:fitsSystemWindows="true"
-            app:navigationIcon="@drawable/back"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <TextView
-                android:id="@+id/toolbar_title"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_width="wrap_content"
-                android:textColor="@color/black_lightly"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="18sp"/>
-        </android.support.v7.widget.Toolbar>
-
-
-
+            android:layout_height="57dp"
+            app:tabBackground="@color/white_black"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="#9BC5FF"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#333333"
+            app:tabTextColor="#666666"/>
     </android.support.design.widget.AppBarLayout>
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/exam_grade_tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabBackground="@color/grey"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/colorAccent"
-        app:tabTextColor="@color/material_color_gray_600"/>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -52,8 +33,6 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/exam_grade_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/crop__button_bar"/>
+            android:layout_height="match_parent"/>
     </android.support.design.widget.CoordinatorLayout>
-
 </LinearLayout>

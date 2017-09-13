@@ -9,11 +9,11 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_course_tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="39dp"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@color/colorAccent"
+        app:tabIndicatorColor="@color/tabIndicatorColor"
         app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabSelectedTextColor="@color/tabIndicatorColor"
         app:tabTextColor="@color/tabText"/>
 
     <android.support.design.widget.CoordinatorLayout

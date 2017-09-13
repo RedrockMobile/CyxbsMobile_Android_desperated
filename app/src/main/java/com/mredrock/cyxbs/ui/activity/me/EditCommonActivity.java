@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,7 +15,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Toolbar;
@@ -55,8 +56,18 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_common);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
+        initToolbar();
         init();
+    }
+
+    private void initToolbar() {
+        if (editCommonToolbar != null) {
+            setSupportActionBar(editCommonToolbar);
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayShowTitleEnabled(false);
+            }
+        }
     }
 
     private void init() {
@@ -65,15 +76,18 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
             case Const.Extras.EDIT_QQ:
                 editCommonEt.setHint("客官，留个QQ呗～");
                 editTextContent = mUser.qq;
+                editCommonEt.setInputType(InputType.TYPE_CLASS_NUMBER);
                 editCommonToolbar.setTitle("QQ");
                 break;
             case Const.Extras.EDIT_PHONE:
                 editCommonEt.setHint("客官，留个电话呗～");
+                editCommonEt.setInputType(InputType.TYPE_CLASS_NUMBER);
                 editTextContent = mUser.phone;
                 editCommonToolbar.setTitle("电话");
                 break;
             case Const.Extras.EDIT_NICK_NAME:
                 editCommonEt.setHint("怎么可以没有昵称");
+                editCommonEt.setInputType(InputType.TYPE_CLASS_TEXT);
                 editTextContent = mUser.nickname;
                 editCommonToolbar.setTitle("昵称");
                 break;

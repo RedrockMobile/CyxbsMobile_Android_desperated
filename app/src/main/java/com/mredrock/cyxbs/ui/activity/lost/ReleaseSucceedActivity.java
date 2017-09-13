@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 
@@ -28,7 +27,6 @@ public class ReleaseSucceedActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release_succeed);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
         initializeToolbar();
     }
 

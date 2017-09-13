@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.PastElectricChartView;
@@ -49,7 +48,6 @@ public class PastElectricChargeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_past_electric_charge);
-        StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         initView();
 

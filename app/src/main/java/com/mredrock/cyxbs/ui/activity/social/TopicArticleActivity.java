@@ -4,13 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,12 +28,7 @@ import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicArticleAdapter;
 import com.mredrock.cyxbs.util.Utils;
-import com.tbruyelle.rxpermissions.RxPermissions;
-import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMWeb;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -55,18 +49,16 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
     public static final String TAG = TopicArticleActivity.class.getSimpleName();
     public static final int RESULT_CODE = 1001;
 
-    @Bind(R.id.tv_topic_article_title)
+    @Bind(R.id.toolbar_title)
     TextView mTvTopicArticleTitle;
-    @Bind(R.id.iv_topic_share)
-    ImageView mIvTopicShare;
     @Bind(R.id.rv_topic_article)
     EasyRecyclerView mRvTopicArticle;
     @Bind(R.id.ll_topic_join)
     LinearLayout mLlTopicJoin;
-    @Bind(R.id.bt_topic_article_back)
-    AppCompatImageView mBtTopicArticleBack;
     @Bind(R.id.srl_topic)
     SwipeRefreshLayout mSrlTopic;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
 
     TopicArticleAdapter mAdapter;
     private int mID;
@@ -87,6 +79,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_article);
         ButterKnife.bind(this);
+        initToolbar();
         mAdapter = new TopicArticleAdapter(this);
         mSrlTopic.setColorSchemeResources(R.color.colorAccent);
         mSrlTopic.setOnRefreshListener(this);
@@ -113,14 +106,28 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
         onRefresh();
     }
 
-    @OnClick({R.id.bt_topic_article_back, R.id.iv_topic_share, R.id.ll_topic_join})
+    private void initToolbar() {
+        if (mToolbar != null) {
+            mToolbar.setTitle("");
+            setSupportActionBar(mToolbar);
+            mToolbar.setNavigationIcon(R.drawable.ic_back);
+            mToolbar.setNavigationOnClickListener(v -> TopicArticleActivity.this.finish());
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeButtonEnabled(true);
+            }
+        }
+    }
+
+    @OnClick(R.id.ll_topic_join)
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.bt_topic_article_back:
+            /*case R.id.bt_topic_article_back:
                 finish();
                 break;
             case R.id.iv_topic_share:
-                break;
+                break;*/
             case R.id.ll_topic_join:
                 Intent intent = new Intent(this, PostNewsActivity.class);
                 intent.putExtra(PostNewsActivity.EXTRA_TOPIC_ID, mID);
@@ -181,7 +188,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
 
     }
 
-    @OnClick(R.id.iv_topic_share)
+    /*@OnClick(R.id.iv_topic_share)*/
     public void onViewClicked() {
         Toast.makeText(this, "开发中...", Toast.LENGTH_SHORT).show();
         //网页 URL 建议改成

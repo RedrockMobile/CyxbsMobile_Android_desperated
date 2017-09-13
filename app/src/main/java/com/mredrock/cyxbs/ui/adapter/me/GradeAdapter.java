@@ -35,10 +35,8 @@ public class GradeAdapter extends BaseRecyclerViewAdapter<Grade, GradeAdapter
 
     @Override
     protected void bindData(ViewHolder holder, Grade data, int position) {
-        setItemBackgroundColor(holder.itemView, position);
         holder.mTvCourse.setText(data.course);
-        trySetGradeTitleColor(holder, position);
-        holder.mTvProperty.setText(data.property);
+        holder.mTvProperty.setText(data.property.equals("理论") ? "理论" : "实践");
         holder.mTvGrade.setText(data.grade);
     }
 
@@ -47,27 +45,6 @@ public class GradeAdapter extends BaseRecyclerViewAdapter<Grade, GradeAdapter
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(mContext).inflate(R.layout.item_grade, parent, false);
         return new ViewHolder(view);
-    }
-
-    /**
-     * 为每个Item设置不同的背景色.
-     */
-    private void setItemBackgroundColor(View view, int position) {
-        if (position % 2 != 0) {
-            view.setBackgroundColor(Color.parseColor(darker_grey));
-        } else {
-            view.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-        }
-    }
-
-    private void trySetGradeTitleColor(ViewHolder holder, int position) {
-        int titleColor = Color.parseColor(drawer_primary_text);
-        if (position == 0) {
-            titleColor = mContext.getResources().getColor(R.color.black_lightly);
-        }
-        holder.mTvCourse.setTextColor(titleColor);
-        holder.mTvProperty.setTextColor(titleColor);
-        holder.mTvGrade.setTextColor(titleColor);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -85,6 +85,9 @@ public class HotNewsContent implements Parcelable {
             case 5:
                 type = "哔哔叨叨";
                 break;
+            case 7:
+                type = "话题";
+                break;
             default:
                 break;
         }

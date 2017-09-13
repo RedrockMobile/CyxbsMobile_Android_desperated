@@ -1,26 +1,29 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.AffairShowModeEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.network.func.AppWidgetCacheAndUpdateFunc;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
-import com.mredrock.cyxbs.util.LogUtils;
+import com.suke.widget.SwitchButton;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,7 +32,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
 public class SettingActivity extends BaseActivity {
@@ -41,18 +43,18 @@ public class SettingActivity extends BaseActivity {
     TextView toolbarTitle;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.setting_remind_layout)
+    @Bind(R.id.setting_remind)
     RelativeLayout settingRemindLayout;
-    @Bind(R.id.setting_feedback_layout)
+    @Bind(R.id.setting_feedback)
     RelativeLayout settingFeedbackLayout;
-    @Bind(R.id.setting_about_layout)
+    @Bind(R.id.setting_about)
     RelativeLayout settingAboutLayout;
-    @Bind(R.id.setting_exit_layout)
-    RelativeLayout settingExitLayout;
-    @Bind(R.id.setting_share_layout)
+    @Bind(R.id.setting_exit)
+    Button settingExit;
+    @Bind(R.id.setting_share)
     RelativeLayout mSettingShareLayout;
     @Bind(R.id.setting_switch_show)
-    SwitchCompat switchCompat;
+    SwitchButton switchCompat;
 
     private SharedPreferences preferences;
     private boolean currentMode = true;
@@ -65,9 +67,8 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         initToolbar();
-        StatusBarUtil.setTranslucent(this, 50);
         if (!APP.isLogin()) {
-            settingExitLayout.setVisibility(View.GONE);
+            settingExit.setVisibility(View.GONE);
         }
 
         initSwitchCompat();
@@ -104,23 +105,30 @@ public class SettingActivity extends BaseActivity {
         MobclickAgent.onPause(this);
     }
 
-
-    @OnClick(R.id.setting_remind_layout)
-    void clickToRemind() {
-        startActivity(new Intent(this, NewsRemindActivity.class));
-    }
-
-    @OnClick(R.id.setting_feedback_layout)
+    /*
+        @OnClick(R.id.setting_remind)
+        void clickToRemind() {
+            startActivity(new Intent(this, NewsRemindActivity.class));
+        }
+    */
+    @OnClick(R.id.setting_feedback)
     void clickToFeedback() {
-
+        if (!joinQQGroup("DXvamN9Ox1Kthaab1N_0w7s5N3aUYVIf")) {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            ClipData data = ClipData.newPlainText("QQ Group", "570919844");
+            clipboard.setPrimaryClip(data);
+            Toast.makeText(this, "抱歉，由于您未安装手机QQ或版本不支持，无法跳转至掌邮bug反馈群。" +
+                            "已将群号复制至您的手机剪贴板，请您手动添加",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
-    @OnClick(R.id.setting_about_layout)
+    @OnClick(R.id.setting_about)
     void clickToAbout() {
         startActivity(new Intent(this, AboutActivity.class));
     }
 
-    @OnClick(R.id.setting_exit_layout)
+    @OnClick(R.id.setting_exit)
     void clickToExit() {
         Handler handler = new Handler(getMainLooper());
         handler.post(() -> new MaterialDialog.Builder(this)
@@ -146,12 +154,34 @@ public class SettingActivity extends BaseActivity {
                 }).show());
     }
 
+    /****************
+     *
+     * 发起添加群流程。群号：掌上重邮反馈群(570919844) 的 key 为： DXvamN9Ox1Kthaab1N_0w7s5N3aUYVIf
+     * 调用 joinQQGroup(DXvamN9Ox1Kthaab1N_0w7s5N3aUYVIf) 即可发起手Q客户端申请加群 掌上重邮反馈群(570919844)
+     *
+     * @param key 由官网生成的key
+     * @return 返回true表示呼起手Q成功，返回fals表示呼起失败
+     ******************/
+    public boolean joinQQGroup(String key) {
+        Intent intent = new Intent();
+        intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + key));
+        // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        try {
+            startActivity(intent);
+            return true;
+        } catch (Exception e) {
+            // 未安装手Q或安装的版本不支持
+            return false;
+        }
+    }
+
+
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
-            toolbarTitle.setText("设置");
+            toolbarTitle.setText("设 置");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
             toolbar.setNavigationOnClickListener(v -> SettingActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
@@ -172,7 +202,7 @@ public class SettingActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.setting_share_layout)
+    @OnClick(R.id.setting_share)
     public void onClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(R.layout.dialog_share).show();

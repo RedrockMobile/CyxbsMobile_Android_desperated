@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,13 +9,40 @@
         android:id="@+id/what_to_eat_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"/>
+        android:background="#FFFFFF">
+
+        <LinearLayout
+            android:id="@+id/shake_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/shake"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:src="@drawable/ic_shake"/>
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:text="拿起手机摇一摇~"
+                android:textColor="#4B535B"
+                android:textSize="15sp"/>
+        </LinearLayout>
+    </FrameLayout>
 
     <ViewStub
         android:id="@+id/error_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:inflatedId="@+id/error_layout"
-        android:layout="@layout/explore_error" />
-
+        android:layout="@layout/explore_error"/>
 </android.support.v4.widget.SwipeRefreshLayout>

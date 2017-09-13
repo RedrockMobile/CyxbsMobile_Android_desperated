@@ -3,9 +3,9 @@ package com.mredrock.cyxbs.component.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -25,9 +25,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class ScheduleView extends FrameLayout {
-
-    private final int width = (int) ((DensityUtils.getScreenWidth(getContext()) - DensityUtils.dp2px(getContext(), 56)) / 7);
-    private int height = (int) DensityUtils.dp2px(getContext(), 100);
+    private int width = (DensityUtils.getScreenWidth(getContext()) - DensityUtils.dp2px(getContext(), 31)) / 7;
+    private int height = DensityUtils.dp2px(getContext(), 100);
     private CourseColorSelector colorSelector = new CourseColorSelector();
     public CourseList[][] course = new CourseList[7][7];
 
@@ -36,12 +35,9 @@ public class ScheduleView extends FrameLayout {
     private int startX, startY, endX, endY;
     private boolean showMode = true; //是否在课表界面显示事项内容
 
-
-
-
+    private final int mMarginLeft = DensityUtils.dp2px(getContext(), 2);
 
     private OnImageViewClickListener onImageViewClickListener;
-
 
     public interface OnImageViewClickListener {
         void onClick(int x, int y);
@@ -56,9 +52,11 @@ public class ScheduleView extends FrameLayout {
         this.context = context;
         /* 如果超大屏幕课表太短了，给它填满屏幕 */
         int screeHeight = DensityUtils.getScreenHeight(context);
-        if (DensityUtils.px2dp(context, screeHeight) > 700) height = screeHeight / 6;
-        initCourse();
+        if (DensityUtils.px2dp(context, screeHeight) > 700) {
+            height = screeHeight / 6;
+        }
         setWillNotDraw(false);
+        initCourse();
     }
 
     public ScheduleView(Context context) {
@@ -78,9 +76,9 @@ public class ScheduleView extends FrameLayout {
         if (data != null) {
             for (Course aData : data) {
                 if (aData.getCourseType() == 1)
-                    colorSelector.addCourse(aData.begin_lesson,aData.hash_day);
+                    colorSelector.addCourse(aData.begin_lesson, aData.hash_day);
                 else
-                    colorSelector.addAffair(aData.begin_lesson,aData.hash_day);
+                    colorSelector.addAffair(aData.begin_lesson, aData.hash_day);
                 //colorSelector.addCourse(aData.begin_lesson, aData.hash_day);
                 int x = aData.hash_day;
                 int y = aData.hash_lesson;
@@ -131,62 +129,63 @@ public class ScheduleView extends FrameLayout {
         addView(anchor);
     }
 
-
     private void createLessonText(final CourseList courses) {
         final Course course = courses.list.get(0);
 
-        TextView tv = new TextView(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        CardView cardView = (CardView) layoutInflater.inflate(R.layout.item_schedule, this, false);
         int mTop = height * course.hash_lesson;
         int mLeft = width * course.hash_day;
         int mWidth = width;
         int mHeight = (int) (height * (float) course.period / 2);
+        LayoutParams flParams = new LayoutParams(mWidth - mMarginLeft, (mHeight - DensityUtils.dp2px(getContext(), 1f)));
+        flParams.topMargin = mTop;
+        flParams.leftMargin = mLeft;
+        cardView.setLayoutParams(flParams);
+        cardView.setCardElevation(DensityUtils.dp2px(context, 2));
 
-        LayoutParams flParams = new LayoutParams((mWidth - DensityUtils.dp2px(getContext(), 1f)), (mHeight - DensityUtils.dp2px(getContext(), 1f)));
-        flParams.topMargin = (mTop + DensityUtils.dp2px(getContext(), 1f));
-        flParams.leftMargin = (mLeft + DensityUtils.dp2px(getContext(), 1f));
-        tv.setLayoutParams(flParams);
-        tv.setTextColor(Color.WHITE);
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-        tv.setGravity(Gravity.CENTER);
-        tv.setText(course.getCourseType() == 1 ? course.toCourseString() : " ");
+        TextView tvTop = (TextView) cardView.findViewById(R.id.top);
+        tvTop.setText(course.getCourseType() == 1 ? course.course : " ");
+
+        TextView tvBottom = (TextView) cardView.findViewById(R.id.bottom);
+        tvBottom.setText(course.getCourseType() == 1 ? course.classroom : " ");
 
         GradientDrawable gd = new GradientDrawable();
-        gd.setCornerRadius(DensityUtils.dp2px(getContext(), 1));
+        gd.setCornerRadius(DensityUtils.dp2px(getContext(), 3));
         if (course.getCourseType() == 1)
-            gd.setColor(colorSelector.getCourseColor(course.begin_lesson,course.hash_day));
-        else{
-            if (showMode){
+            gd.setColor(colorSelector.getCourseColor(course.begin_lesson, course.hash_day));
+        else {
+            if (showMode) {
                 gd.setColor(colorSelector.getAffairColor());
-                tv.setText(course.course);
-            }else
-                gd.setColor(colorSelector.getAffairColor(course.begin_lesson,course.hash_day));
+                tvTop.setText(course.course);
+            } else
+                gd.setColor(colorSelector.getAffairColor(course.begin_lesson, course.hash_day));
         }
-           // gd.setColor(showMode ? colorSelector.getCourseColor() : colorSelector.getAffairColor(course.begin_lesson,course.hash_day));
-        tv.setBackgroundDrawable(gd);
-        tv.setOnClickListener(v -> {
+        // gd.setColor(showMode ? colorSelector.getCourseColor() : colorSelector.getAffairColor(course.begin_lesson,course.hash_day));
+        cardView.setBackgroundDrawable(gd);
+        cardView.setOnClickListener(v -> {
             CourseList courseList = new CourseList();
             courseList.list.addAll(courses.list);
             CourseDialog.show(getContext(), courseList);
         });
-        addView(tv);
-        if (!showMode){
-            if (courses.list.get(0).getCourseType() == Affair.TYPE){
+
+        addView(cardView);
+        if (!showMode) {
+            if (courses.list.get(0).getCourseType() == Affair.TYPE) {
                 View drop = new View(getContext());
                 int beginLesson = courses.list.get(0).hash_lesson;
 
-                if (beginLesson < 2){
-                    drop.setBackgroundResource(R.drawable.ic_corner_right_top_blue);
-                }
-                else if (beginLesson < 4){
-                    drop.setBackgroundResource(R.drawable.ic_corner_right_top_yellow);
-                }
-                else{
+                if (beginLesson < 2) {
                     drop.setBackgroundResource(R.drawable.ic_corner_right_top_green);
+                } else if (beginLesson < 4) {
+                    drop.setBackgroundResource(R.drawable.ic_corner_right_top_blue);
+                } else {
+                    drop.setBackgroundResource(R.drawable.ic_corner_right_top_yellow);
                 }
 
                 LayoutParams dropLayout = new LayoutParams(mWidth / 5, mWidth / 5);
                 dropLayout.topMargin = mTop + DensityUtils.dp2px(context, 3);
-                dropLayout.leftMargin = mLeft + mWidth * 4 / 5 - DensityUtils.dp2px(context,1);
+                dropLayout.leftMargin = mLeft + mWidth * 4 / 5 - DensityUtils.dp2px(context, 1);
                 drop.setLayoutParams(dropLayout);
                 addView(drop);
             }
@@ -228,7 +227,7 @@ public class ScheduleView extends FrameLayout {
         }
     }
 
-    public void addDropTopView(){
+    public void addDropTopView() {
 
     }
 
@@ -247,7 +246,7 @@ public class ScheduleView extends FrameLayout {
         if (distance <= 2) {
             int x = (int) (event.getX() / getWidth() * 7);
             int y = (int) (event.getY() / getHeight() * 12);
-            if (course[x][y / 2] == null || course[x][y / 2].list == null || course[x][y / 2].list.size() == 0){
+            if (course[x][y / 2] == null || course[x][y / 2].list == null || course[x][y / 2].list.size() == 0) {
                 if (mClickImageView == null) {
                     mClickImageView = new ImageView(context);
                     mClickImageView.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.ic_add_circle));
@@ -274,7 +273,7 @@ public class ScheduleView extends FrameLayout {
         }
 
         return true;
-      //  return false;
+        //  return false;
 
     }
 
@@ -293,9 +292,9 @@ public class ScheduleView extends FrameLayout {
 //                Color.argb(200, 111, 219, 188),
 //                Color.argb(200, 191, 161, 233),
 
-                Color.parseColor("#64d2f7"),
-                Color.parseColor("#f9af58"),
-                Color.parseColor("#79dbc4"),
+                Color.parseColor("#FF89A5"),
+                Color.parseColor("#FFBF7B"),
+                Color.parseColor("#81B6FE"),
                 Color.parseColor("#bdc3c7")
         };
 
@@ -356,7 +355,7 @@ public class ScheduleView extends FrameLayout {
             return mCourseColorMap.get(name);
         }
 
-        public int getAffairColor(){
+        public int getAffairColor() {
             return colors[3];
         }
     }

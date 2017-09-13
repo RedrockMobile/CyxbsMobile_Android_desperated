@@ -15,7 +15,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.fragment.me.RemindFragment;
@@ -39,7 +38,6 @@ public class RemindActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remind);
-        StatusBarUtil.setTranslucent(this, 50);
         ButterKnife.bind(this);
         initToolbar();
         initFragment();
@@ -54,7 +52,12 @@ public class RemindActivity extends BaseActivity {
         if (!pm.isIgnoringBatteryOptimizations(packageName)) {
             intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
             intent.setData(Uri.parse("package:" + packageName));
-            startActivityForResult(intent, 0);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(intent, 0);
+            } else {
+                Toast.makeText(this, "抱歉，由于您的手机系统原因此功能无法使用", Toast.LENGTH_SHORT).show();
+                finish();
+            }
         }
     }
 
@@ -77,7 +80,7 @@ public class RemindActivity extends BaseActivity {
             mToolbar.setTitle("");
             mToolbarTitle.setText("课前提醒");
             setSupportActionBar(mToolbar);
-            mToolbar.setNavigationIcon(R.drawable.back);
+            mToolbar.setNavigationIcon(R.drawable.ic_back);
             mToolbar.setNavigationOnClickListener(
                     v -> RemindActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();

@@ -31,14 +31,13 @@ public class CourseDialog {
 
         if (list.list.size() == 1 && list.list.get(0).getCourseType() == 2) {
             ViewGroup.LayoutParams params = view.getLayoutParams();
-            params.height = DensityUtils.dp2px(context, 220);
+            params.height = DensityUtils.dp2px(context, DensityUtils.getScreenWidth(context) * 2 / 3);
             view.setLayoutParams(params);
         }
 
         AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle("详细信息")
                 .setCancelable(true)
-                .setView(layout, DensityUtils.dp2px(context, 12), DensityUtils.dp2px(context, 24), DensityUtils.dp2px(context, 12), DensityUtils.dp2px(context, 24))
+                .setView(layout, DensityUtils.dp2px(context, 16), DensityUtils.dp2px(context, 47), DensityUtils.dp2px(context, 16), DensityUtils.dp2px(context, 24))
                 .create();
 
         CoursePagerAdapter adapter = new CoursePagerAdapter(context, inflater, list, dialog);

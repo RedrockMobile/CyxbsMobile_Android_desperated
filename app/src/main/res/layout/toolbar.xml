@@ -9,22 +9,22 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:navigationIcon="@drawable/back"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:titleTextColor="@color/black_lightly">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_toolbar"
+        android:fitsSystemWindows="true"
+        app:navigationIcon="@drawable/ic_back"
+        app:theme="?attr/actionBarTheme"
+        app:titleTextColor="#F6F6F6">
 
         <TextView
-            android:gravity="center"
             android:id="@+id/toolbar_title"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:textColor="@color/black_lightly"
+            android:gravity="center"
+            android:textColor="#F6F6F6"
             android:textSize="18sp"/>
-
     </android.support.v7.widget.Toolbar>
 
 </android.support.design.widget.AppBarLayout>

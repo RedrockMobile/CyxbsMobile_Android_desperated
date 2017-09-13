@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 
@@ -31,17 +30,16 @@ public class SchoolCalendarActivity extends BaseActivity {
         setContentView(R.layout.activity_school_calendar);
         ButterKnife.bind(this);
         initToolbar();
-        StatusBarUtil.setTranslucent(this, 50);
-        Glide.with(this).load(R.drawable.img_calendar_s1).into(mCalendarImgS1);
-        Glide.with(this).load(R.drawable.img_calendar_s2).into(mCalendarImgS2);
+        Glide.with(this).load(R.drawable.img_calendar_1).into(mCalendarImgS1);
+        Glide.with(this).load(R.drawable.img_calendar_2).into(mCalendarImgS2);
     }
 
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
-            toolbarTitle.setText("校历");
+            toolbarTitle.setText("校 历");
             setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationIcon(R.drawable.ic_back);
             toolbar.setNavigationOnClickListener(
                     v -> SchoolCalendarActivity.this.finish());
             ActionBar actionBar = getSupportActionBar();

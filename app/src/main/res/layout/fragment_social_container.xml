@@ -6,30 +6,25 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/community_TabLayout"
-            style="@style/CustomTabLayout"
-            app:elevation="16dp"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            app:tabBackground="@color/colorPrimary"
+            android:layout_height="57dp"
+            app:tabBackground="@color/white_black"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/colorAccent"
-            app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/colorAccent"
-            app:tabTextColor="@color/material_color_gray_700"/>
+            app:tabIndicatorColor="#9BC5FF"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#333333"
+            app:tabTextColor="#666666"/>
     </android.support.design.widget.AppBarLayout>
 
 
     <android.support.v4.view.ViewPager
-        android:layout_marginTop="?attr/actionBarSize"
         android:id="@+id/community_ViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/crop__button_bar"/>
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </android.support.design.widget.CoordinatorLayout>

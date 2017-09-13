@@ -1,8 +1,8 @@
 package com.mredrock.cyxbs.ui.fragment.explore;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,20 +10,18 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.Theme;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.recycler.EndlessRecyclerViewScrollListener;
@@ -35,6 +33,7 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.FoodCommentsAdapter;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
+import com.mredrock.cyxbs.ui.widget.EditTextBottomSheetDialog;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
 import com.mredrock.cyxbs.util.permission.EasyPermissions;
@@ -121,7 +120,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
         });
 
         mFloatingActionButton.setVisibility(View.VISIBLE);
-        mFloatingActionButton.setImageResource(R.drawable.ic_add);
+        mFloatingActionButton.setImageResource(R.drawable.ic_add_white);
         mFloatingActionButton.setOnClickListener(v -> onFabClick());
 
         mFoodDetailRv.setVisibility(View.INVISIBLE);
@@ -168,7 +167,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                     @Override
                     public void onCompleted() {
                         onRefreshingStateChanged(false);
-                        onErrorLayoutVisibleChanged(mFoodDetailRv,false);
+                        onErrorLayoutVisibleChanged(mFoodDetailRv, false);
 
                         if (firstLoaded) {
                             animateFab();
@@ -184,6 +183,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
 
                     @Override
                     public void onNext(FoodDetail foodDetail) {
+                        getActivity().setTitle(foodDetail.shop_name);
                         mHeaderViewWrapper.setData(foodDetail.shop_name, foodDetail.shop_content,
                                 foodDetail.shop_tel, foodDetail.shop_address,
                                 foodDetail.shop_sale_content, foodDetail.shop_image[0]);
@@ -259,32 +259,40 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     }
 
     private void onFabClick() {
-        new MaterialDialog.Builder(getActivity())
-                .title(R.string.send_comment_dialog_title)
-                .inputType(InputType.TYPE_CLASS_TEXT)
-                .input(R.string.send_comment_dialog_hint, R.string.send_comment_dialog_prefill, false, (dialog, input) -> {
-                    sendCommentAndRefresh(input.toString(), true);
-                })
-                .positiveText(R.string.send_comment_dialog_positive_text)
-                .negativeText(R.string.send_comment_dialog_negative_text)
-                .show();
+        EditTextBottomSheetDialog dialog = new EditTextBottomSheetDialog(getActivity());
+        dialog.setOnClickListener(new EditTextBottomSheetDialog.OnClickListener() {
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onSend(EditText editText) {
+                String comment = editText.getText().toString();
+                if (comment.equals("")) {
+                    Toast.makeText(getContext(), "你还没有输入评论哦~", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                sendCommentAndRefresh(comment, true);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     class HeaderViewWrapper {
-        @Bind(R.id.restaurant_name)
-        TextView mRestaurantName;
         @Bind(R.id.restaurant_photo)
         ImageView mRestaurantPhoto;
-        @Bind(R.id.restaurant_introduction)
-        TextView mRestaurantIntroduction;
+        /*@Bind(R.id.restaurant_introduction)
+        TextView mRestaurantIntroduction;*/
         @Bind(R.id.restaurant_phone)
         TextView mRestaurantPhone;
         @Bind(R.id.restaurant_location)
         TextView mRestaurantLocation;
-        @Bind(R.id.restaurant_promotion)
+        /*@Bind(R.id.restaurant_promotion)
         TextView mRestaurantPromotion;
         @Bind(R.id.restaurant_comment)
-        TextView mRestaurantComment;
+        TextView mRestaurantComment;*/
 
         private String phone;
         private Fragment fragment;
@@ -292,23 +300,21 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
 
         @OnClick(R.id.restaurant_phone)
         public void onRestaurantPhoneCall() {
-            new MaterialDialog.Builder(getActivity())
-                    .title(R.string.phone_call_dialog_title)
-                    .content(R.string.phone_call_dialog_content)
-                    .theme(Theme.LIGHT)
-                    .positiveText(R.string.phone_call_dialog_positive)
-                    .negativeText(R.string.phone_call_dialog_negative)
-                    .callback(new MaterialDialog.ButtonCallback() {
-                        @Override
-                        public void onPositive(MaterialDialog dialog) {
-                            if (phone == null || phone.isEmpty()) {
-                                return;
-                            }
-
-                            phoneCall();
-                        }
-                    })
-                    .show();
+            View itemView = LayoutInflater.from(getActivity())
+                    .inflate(R.layout.dialog_phone_call, null, false);
+            TextView cancel = (TextView) itemView.findViewById(R.id.cancel);
+            TextView ok = (TextView) itemView.findViewById(R.id.ok);
+            Dialog dialog = new MaterialDialog.Builder(getActivity())
+                    .customView(itemView, false)
+                    .build();
+            cancel.setOnClickListener(v -> dialog.dismiss());
+            ok.setOnClickListener(v -> {
+                if (phone == null || phone.isEmpty()) {
+                    return;
+                }
+                phoneCall();
+            });
+            dialog.show();
         }
 
 
@@ -317,34 +323,34 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
             contentView = inflater.inflate(R.layout.food_detail_header, container, false);
             ButterKnife.bind(this, contentView);
 
-            setupTextLeftDrawable();
+            /*setupTextLeftDrawable();*/
         }
 
-        public void setupTextLeftDrawable() {
-            Drawable phoneDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_phone);
-            Drawable locationDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_location);
-            Drawable promotionDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_promotion);
-            Drawable commentDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_comment);
+        /*
+                public void setupTextLeftDrawable() {
+                    Drawable phoneDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_phone);
+                    Drawable locationDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_location);
+                    Drawable promotionDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_promotion);
+                    Drawable commentDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_restaurant_comment);
 
-            setDrawable(mRestaurantPhone, phoneDrawable);
-            setDrawable(mRestaurantLocation, locationDrawable);
-            setDrawable(mRestaurantPromotion, promotionDrawable);
-            setDrawable(mRestaurantComment, commentDrawable);
-        }
+                    setDrawable(mRestaurantPhone, phoneDrawable);
+                    setDrawable(mRestaurantLocation, locationDrawable);
+                    setDrawable(mRestaurantPromotion, promotionDrawable);
+                    setDrawable(mRestaurantComment, commentDrawable);
+                }
 
-        private void setDrawable(TextView textView, Drawable leftDrawable) {
-            leftDrawable.setBounds(0, 0, (int)getResources().getDimension(R.dimen.restaurant_icon_width), (int)getResources().getDimension(R.dimen.restaurant_icon_height));
-            textView.setCompoundDrawablePadding((int) getResources().getDimension(R.dimen.padding_normal));
-            textView.setCompoundDrawables(leftDrawable, null, null, null);
-        }
-
+                private void setDrawable(TextView textView, Drawable leftDrawable) {
+                    leftDrawable.setBounds(0, 0, (int) getResources().getDimension(R.dimen.restaurant_icon_width), (int) getResources().getDimension(R.dimen.restaurant_icon_height));
+                    textView.setCompoundDrawablePadding((int) getResources().getDimension(R.dimen.padding_normal));
+                    textView.setCompoundDrawables(leftDrawable, null, null, null);
+                }
+        */
         public void setData(String name, String introduction, String phone,
                             String location, String promotion, String imageUrl) {
-            mRestaurantName.setText(name);
-            mRestaurantIntroduction.setText(introduction.replaceAll("\t", "").replaceAll("\r\n", ""));
+//            mRestaurantIntroduction.setText(introduction.replaceAll("\t", "").replaceAll("\r\n", ""));
             mRestaurantPhone.setText(phone);
             mRestaurantLocation.setText(location);
-            mRestaurantPromotion.setText(promotion);
+            /*mRestaurantPromotion.setText(promotion);*/
             mGlideHelper.loadImage(imageUrl, mRestaurantPhoto);
 
             this.phone = phone;

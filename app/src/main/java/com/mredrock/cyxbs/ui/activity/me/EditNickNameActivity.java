@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.widget.EditText;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Toolbar;
@@ -49,7 +47,6 @@ public class EditNickNameActivity extends EditCommonActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
-        StatusBarUtil.setTranslucent(this, 50);
     }
 
     @Override
@@ -63,21 +60,20 @@ public class EditNickNameActivity extends EditCommonActivity {
             editCommonToolbar.setLeftText("");
             editCommonToolbar.setLeftTextListener(null);
         }
-        editCommonToolbar.setRightTextListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (editCommonEt.getText().length() == 0) {
-                    Utils.toast(EditNickNameActivity.this, "你还没有输入昵称哟！");
-                } else {
-                    EditNickNameActivity.super.setPersonInfo();
-                }
+        editCommonToolbar.setRightTextListener(v -> {
+            String input = editCommonEt.getText().toString().replaceAll("\\s", "");
+            if (input.length() == 0) {
+                Utils.toast(EditNickNameActivity.this, "你还没有输入昵称哟！");
+            } else {
+                editCommonEt.setText(input);
+                EditNickNameActivity.super.setPersonInfo();
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        Snackbar.make(editCommonEt,"要有昵称才能浏览哦~~~",Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(editCommonEt, "要有昵称才能浏览哦~~~", Snackbar.LENGTH_SHORT).show();
         if (!isForceModify) {
             super.onBackPressed();
         }

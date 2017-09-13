@@ -5,7 +5,12 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.remind_service.RemindManager;
 import com.mredrock.cyxbs.component.remind_service.Task.CourseRemindTask;
 import com.mredrock.cyxbs.component.remind_service.Task.DayRemindTask;
@@ -30,6 +35,11 @@ public class RemindFragment extends PreferenceFragment implements SharedPreferen
     private Preference mSwitchEveryDay;
     private Preference mChooseTime;
     private SharedPreferences mSp;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_preference, container, false);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

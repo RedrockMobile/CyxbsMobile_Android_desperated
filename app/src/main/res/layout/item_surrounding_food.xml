@@ -1,43 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_layout"
+    android:background="#FFFFFF"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_micro"
-        android:layout_marginTop="@dimen/spacing_micro"
-        android:minHeight="@dimen/item_min_height_xxlarge"
-        android:padding="@dimen/spacing_normal">
+        android:layout_marginBottom="9dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="9dp">
 
         <ImageView
             android:id="@+id/restaurant_photo"
-            android:layout_width="@dimen/restaurant_photo_width"
-            android:layout_height="@dimen/restaurant_photo_height"
+            android:layout_width="126dp"
+            android:layout_height="95dp"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="@dimen/spacing_normal"
-            android:layout_marginRight="@dimen/spacing_normal"
-            android:contentDescription="@null"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/restaurant_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/restaurant_photo"
+            android:layout_marginLeft="11dp"
             android:layout_toRightOf="@+id/restaurant_photo"
-            android:gravity="top"
-            android:includeFontPadding="false"
-            android:paddingLeft="@dimen/spacing_normal"
-            android:paddingRight="@dimen/spacing_normal"
-            android:textColor="@color/body_text_1"
-            android:textSize="@dimen/app_text_size_large"
-            tools:text="@string/placeholder_explore_restaurant_name" />
+            android:text="九九牛肉馆"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/restaurant_introduction"
@@ -45,39 +39,25 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/restaurant_name"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_toEndOf="@+id/restaurant_photo"
             android:layout_toRightOf="@+id/restaurant_photo"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/spacing_normal"
             android:paddingRight="@dimen/spacing_normal"
+            android:text="@string/placeholder_explore_restaurant_recommend"
             android:textColor="@color/text_light_3"
             android:textSize="@dimen/app_text_size_small"
-            tools:text="@string/placeholder_explore_restaurant_recommend" />
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/restaurant_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/restaurant_photo"
-            android:layout_below="@id/restaurant_introduction"
-            android:layout_toEndOf="@+id/restaurant_photo"
+            android:layout_below="@id/restaurant_name"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="14dp"
             android:layout_toRightOf="@+id/restaurant_photo"
-            android:gravity="bottom"
-            android:includeFontPadding="false"
-            android:paddingLeft="@dimen/spacing_normal"
-            android:paddingRight="@dimen/spacing_normal"
-            android:textColor="@color/text_light_1"
-            android:textSize="@dimen/app_text_size_medium"
-            tools:text="@string/placeholder_explore_restaurant_location" />
-
+            android:text="@string/placeholder_explore_restaurant_location"
+            android:textColor="#666666"
+            android:textSize="13sp"/>
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="@dimen/padding_normal"
-        android:layout_marginRight="@dimen/padding_normal"
-        android:background="@color/divider" />
-
 </LinearLayout>

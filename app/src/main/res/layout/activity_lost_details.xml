@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_lost_details"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/activity_lost_details"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
 
-    tools:context="com.mredrock.cyxbs.ui.activity.lost.LostDetailsActivity">
+              tools:context="com.mredrock.cyxbs.ui.activity.lost.LostDetailsActivity">
     <include
         android:id="@+id/toolbar_detail"
         layout="@layout/toolbar"/>
@@ -34,7 +33,7 @@
                 android:layout_width="@dimen/information_img_avatar"
                 android:layout_height="@dimen/information_img_avatar"
                 android:scaleType="fitCenter"
-                tools:src="@drawable/ic_default_avatar"/>
+                tools:src="@drawable/default_avatar"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"

@@ -68,9 +68,9 @@ public class SimpleSubscriber<T> extends Subscriber<T> implements ProgressCancel
                     Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
                 }
             } else if (e.getMessage().equals("authentication error")) {
-                Toast.makeText(context, "学号或者密码错误,请检查输入", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "登录失败：学号或者密码错误,请检查输入", Toast.LENGTH_SHORT).show();
             } else if (e.getMessage().equals("student id error")) {
-                Toast.makeText(context, "学号不存在,请检查输入", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "登录失败：学号不存在,请检查输入", Toast.LENGTH_SHORT).show();
             } else if (e instanceof HttpException) {
                 if (BuildConfig.DEBUG) {
                     Toast.makeText(context, "HttpException: " + ((HttpException) e).response().raw().toString(), Toast.LENGTH_SHORT).show();

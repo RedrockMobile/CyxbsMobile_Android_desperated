@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
-import com.jaeger.library.StatusBarUtil;
 import com.mredrock.cyxbs.APP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Toolbar;
@@ -21,6 +20,7 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.mredrock.cyxbs.ui.widget.EditTextBottomSheetDialog;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.Bind;
@@ -32,7 +32,7 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
 
     public static final int MAX_SIZE_TEXT = 30;
     @Bind(R.id.edit_introduce_toolbar)
-    Toolbar  editIntroduceToolbar;
+    Toolbar editIntroduceToolbar;
     @Bind(R.id.edit_introduce_et)
     EditText editIntroduceEt;
     @Bind(R.id.edit_introduce_count)
@@ -59,7 +59,6 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_introduce);
         ButterKnife.bind(this);
-        StatusBarUtil.setTranslucent(this, 50);
         init();
     }
 
@@ -85,55 +84,55 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
 
 
     private void setPersonIntroduction() {
-        if (!editIntroduceEt.getText().toString().equals("")) {
-            RequestManager.getInstance()
-
-                          .setPersonIntroduction(new SimpleSubscriber<>(
-                                          EditIntroduceActivity.this, true, new SubscriberListener<RedrockApiWrapper<Object>>() {
-
-                                      @Override
-                                      public void onCompleted() {
-                                          super.onCompleted();
-                                          Intent intent = new Intent();
-                                          intent.putExtra(EXTRA_EDIT_INTRODUCE,
-                                                  editIntroduceEt.getText().toString());
-                                          setResult(RESULT_OK, intent);
-                                          finish();
-                                      }
-
-
-                                      @Override
-                                      public boolean onError(Throwable e) {
-                                          super.onError(e);
-                                          finish();
-                                          return false;
-                                      }
-                                  }), mUser.stuNum, mUser.idNum,
-                                  editIntroduceEt.getText().toString());
+        if (EditTextBottomSheetDialog.emptyStr(editIntroduceEt.getText().toString())) {
+            editIntroduceEt.setText("");
         }
+        RequestManager.getInstance()
+                .setPersonIntroduction(new SimpleSubscriber<>(
+                                EditIntroduceActivity.this, true, new SubscriberListener<RedrockApiWrapper<Object>>() {
+
+                            @Override
+                            public void onCompleted() {
+                                super.onCompleted();
+                                Intent intent = new Intent();
+                                intent.putExtra(EXTRA_EDIT_INTRODUCE,
+                                        editIntroduceEt.getText().toString());
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+
+
+                            @Override
+                            public boolean onError(Throwable e) {
+                                super.onError(e);
+                                finish();
+                                return false;
+                            }
+                        }), mUser.stuNum, mUser.idNum,
+                        editIntroduceEt.getText().toString());
     }
 
 
     private void showDialog(Context context) {
         new MaterialDialog.Builder(context).theme(Theme.LIGHT)
-                                           .content("退出此次编辑？")
-                                           .positiveText("退出")
-                                           .negativeText("取消")
-                                           .callback(new MaterialDialog.ButtonCallback() {
-                                               @Override
-                                               public void onPositive(MaterialDialog dialog) {
-                                                   super.onPositive(dialog);
-                                                   finish();
-                                               }
+                .content("退出此次编辑？")
+                .positiveText("退出")
+                .negativeText("取消")
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        finish();
+                    }
 
 
-                                               @Override
-                                               public void onNegative(MaterialDialog dialog) {
-                                                   super.onNegative(dialog);
-                                                   dialog.dismiss();
-                                               }
-                                           })
-                                           .show();
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
 

@@ -5,50 +5,57 @@
     android:layout_width="match_parent"
     android:layout_height="220dp">
 
-    <ImageView
-        android:id="@+id/iv_topic_bg"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="#000000">
+
+        <ImageView
+            android:id="@+id/iv_topic_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.7"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_topic_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/ll_topic_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_topic_title"
+        android:layout_centerHorizontal="true">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/topic_number_hint"/>
 
         <TextView
-            android:layout_marginTop="50dp"
-            android:id="@+id/tv_topic_title"
+            android:id="@+id/tv_topic_join_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_marginTop="7dp"
             android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textSize="14sp"/>
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_centerHorizontal="true"
-            android:id="@+id/ll_topic_content"
-            android:layout_below="@+id/tv_topic_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_marginTop="10dp"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/topic_number_hint"/>
-
-            <TextView
-                android:layout_marginTop="7dp"
-                android:textSize="14sp"
-                android:id="@+id/tv_topic_join_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"/>
-        </LinearLayout>
-
-        <View
-            android:layout_marginTop="10dp"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_width="80dp"
-            android:layout_height="2dp"
-            android:background="@color/colorAccent"
-            android:layout_below="@+id/ll_topic_content"/>
+    <View
+        android:layout_width="80dp"
+        android:layout_height="2dp"
+        android:layout_below="@+id/ll_topic_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorAccent"/>
 
 </RelativeLayout>
