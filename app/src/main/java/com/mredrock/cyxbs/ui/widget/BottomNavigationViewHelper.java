@@ -44,7 +44,8 @@ public class BottomNavigationViewHelper {
     }
 
     private void enableBtNavAnimInternal(boolean enable) {
-        if (!enable && mMenuView != null) {
+        if (mMenuView == null) throw new RuntimeException("get mMenuView by reflect failed");
+        if (!enable) {
             try {
                 Field field1 = mMenuView.getClass().getDeclaredField("mShiftingMode");
                 field1.setAccessible(true);
@@ -59,7 +60,7 @@ public class BottomNavigationViewHelper {
     }
 
     private void updateMenuView() {
-        if (mMenuView == null) return;
+        if (mMenuView == null) throw new RuntimeException("get mMenuView by reflect failed");
         try {
             Class<?> clazz = mMenuView.getClass();
             Method method = clazz.getDeclaredMethod("updateMenuView");
@@ -78,20 +79,16 @@ public class BottomNavigationViewHelper {
     }
 
     private void setBtNavTextSizeInternal(int size) {
-        if (mMenuView == null) return;
+        if (mMenuView == null) throw new RuntimeException("get mMenuView by reflect failed");
         try {
             Field field = mMenuView.getClass().getDeclaredField("mButtons");
             field.setAccessible(true);
             BottomNavigationItemView[] bottoms = (BottomNavigationItemView[]) field.get(mMenuView);
             for (BottomNavigationItemView view : bottoms) {
                 Class<?> clazz = view.getClass();
-                Field smallLabelField = clazz.getDeclaredField("mSmallLabel");
                 Field largeLabelField = clazz.getDeclaredField("mLargeLabel");
-                smallLabelField.setAccessible(true);
                 largeLabelField.setAccessible(true);
-                TextView smallLabel = (TextView) smallLabelField.get(view);
                 TextView largeLabel = (TextView) largeLabelField.get(view);
-                smallLabel.setTextSize(size);
                 largeLabel.setTextSize(size);
                 updateMenuView();
             }
