@@ -83,8 +83,8 @@ public class BottomNavigationViewHelper {
         try {
             Field field = mMenuView.getClass().getDeclaredField("mButtons");
             field.setAccessible(true);
-            BottomNavigationItemView[] bottoms = (BottomNavigationItemView[]) field.get(mMenuView);
-            for (BottomNavigationItemView view : bottoms) {
+            BottomNavigationItemView[] buttons = (BottomNavigationItemView[]) field.get(mMenuView);
+            for (BottomNavigationItemView view : buttons) {
                 Class<?> clazz = view.getClass();
                 Field largeLabelField = clazz.getDeclaredField("mLargeLabel");
                 largeLabelField.setAccessible(true);
