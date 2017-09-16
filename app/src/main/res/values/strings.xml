@@ -28,6 +28,13 @@
         <item>第十六周</item>
         <item>第十七周</item>
         <item>第十八周</item>
+        <item>第十九周</item>
+        <item>第二十周</item>
+        <item>第二十一周</item>
+        <item>第二十二周</item>
+        <item>第二十三周</item>
+        <item>第二十四周</item>
+        <item>第二十五周</item>
     </string-array>
 
     <string-array name="course_weekdays">
