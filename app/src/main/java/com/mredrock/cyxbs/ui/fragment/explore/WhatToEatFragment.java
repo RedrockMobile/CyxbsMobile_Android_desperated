@@ -173,6 +173,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
         }
         mResultViewWrapper.mRestaurantName.setText(data.name);
         mResultViewWrapper.mRestaurantAddress.setText(data.address);
+        mResultViewWrapper.mRestaurantKey = data.id;
         mGlideHelper.loadImage(data.img, mResultViewWrapper.mRestaurantImageView);
     }
 
