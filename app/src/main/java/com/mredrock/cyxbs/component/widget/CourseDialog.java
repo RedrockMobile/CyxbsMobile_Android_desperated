@@ -31,7 +31,7 @@ public class CourseDialog {
 
         if (list.list.size() == 1 && list.list.get(0).getCourseType() == 2) {
             ViewGroup.LayoutParams params = view.getLayoutParams();
-            params.height = DensityUtils.dp2px(view.getContext(), 300);
+            params.height = DensityUtils.dp2px(view.getContext(), 200);
             view.setLayoutParams(params);
         }
 
