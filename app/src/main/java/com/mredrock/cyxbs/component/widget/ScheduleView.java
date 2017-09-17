@@ -172,7 +172,7 @@ public class ScheduleView extends FrameLayout {
         addView(cardView);
         if (!showMode) {
             if (courses.list.get(0).getCourseType() == Affair.TYPE) {
-                View drop = new View(getContext());
+                View drop = cardView.findViewById(R.id.drop);
                 int beginLesson = courses.list.get(0).hash_lesson;
 
                 if (beginLesson < 2) {
@@ -183,33 +183,30 @@ public class ScheduleView extends FrameLayout {
                     drop.setBackgroundResource(R.drawable.ic_corner_right_top_yellow);
                 }
 
-                LayoutParams dropLayout = new LayoutParams(mWidth / 5, mWidth / 5);
+                /*RelativeLayout.LayoutParams dropLayout = new RelativeLayout.LayoutParams(mWidth / 5, mWidth / 5);
                 dropLayout.topMargin = mTop + DensityUtils.dp2px(context, 3);
                 dropLayout.leftMargin = mLeft + mWidth * 4 / 5 - DensityUtils.dp2px(context, 1);
-                drop.setLayoutParams(dropLayout);
-                addView(drop);
+                drop.setLayoutParams(dropLayout);*/
             }
         }
 
 
         if (courses.list.size() > 1) {
             if (courses.list.get(courses.list.size() - 1).getCourseType() == 2) {
-                View drop = new View(getContext());
+                View drop = cardView.findViewById(R.id.drop);
                 drop.setBackgroundResource(R.drawable.ic_corner_right_top);
-                LayoutParams dropLayout = new LayoutParams(mWidth / 5, mWidth / 5);
+                /*RelativeLayout.LayoutParams dropLayout = new RelativeLayout.LayoutParams(mWidth / 5, mWidth / 5);
                 dropLayout.topMargin = mTop + DensityUtils.dp2px(context, 3);
                 dropLayout.leftMargin = mLeft + mWidth * 4 / 5 - DensityUtils.dp2px(context, 1);
-                drop.setLayoutParams(dropLayout);
-                addView(drop);
+                drop.setLayoutParams(dropLayout);*/
             }
             if (courses.list.get(1).getCourseType() == 1) {
-                View drop = new View(getContext());
-                drop.setBackgroundResource(R.drawable.ic_corner_right_bottom);
-                LayoutParams dropLayout = new LayoutParams(mWidth / 5, mWidth / 5);
+                View drop = cardView.findViewById(R.id.drop);
+                drop.setBackgroundResource(R.drawable.ic_corner_right_top);
+                /*RelativeLayout.LayoutParams dropLayout = new RelativeLayout.LayoutParams(mWidth / 5, mWidth / 5);
                 dropLayout.topMargin = mTop + mHeight - mWidth / 5;
                 dropLayout.leftMargin = mLeft + mWidth * 4 / 5;
-                drop.setLayoutParams(dropLayout);
-                addView(drop);
+                drop.setLayoutParams(dropLayout);*/
             }
 
 
