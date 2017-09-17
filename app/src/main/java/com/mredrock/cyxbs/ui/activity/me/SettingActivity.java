@@ -4,14 +4,19 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +28,7 @@ import com.mredrock.cyxbs.event.AffairShowModeEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.network.func.AppWidgetCacheAndUpdateFunc;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.mredrock.cyxbs.util.SaveImageUtils;
 import com.suke.widget.SwitchButton;
 import com.umeng.analytics.MobclickAgent;
 
@@ -205,6 +211,16 @@ public class SettingActivity extends BaseActivity {
     @OnClick(R.id.setting_share)
     public void onClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.dialog_share).show();
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_share, null, false);
+        builder.setView(view).show();
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+        imageView.setOnLongClickListener(v -> {
+            Drawable drawable = imageView.getDrawable();
+            if (drawable instanceof BitmapDrawable) {
+                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                SaveImageUtils.imageSave(bitmap, System.currentTimeMillis() + "", this);
+            }
+            return true;
+        });
     }
 }
