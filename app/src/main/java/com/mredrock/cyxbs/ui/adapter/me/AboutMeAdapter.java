@@ -54,8 +54,8 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
             holder.aboutMeNewImg.setVisibility(View.VISIBLE);
             ImageLoader.getInstance().loadRedrockImage(url, holder.aboutMeNewImg);
         }
-        if (data.type.equals(TYPE_PRAISE)) {
-            ImageLoader.getInstance().loadRedrockImage(url, holder.aboutMeNewImg);
+        //if (data.type.equals(TYPE_PRAISE)) {
+        //ImageLoader.getInstance().loadRedrockImage(url, holder.aboutMeNewImg);
             if (data.type.equals(TYPE_PRAISE)) {
                 holder.aboutMeType.setText("赞了我");
                 holder.aboutMeContent.setVisibility(View.GONE);
@@ -67,7 +67,7 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
                 holder.itemView.setOnClickListener(v -> mOnItemClickListener.onItemClick(holder.itemView,
                         position, data));
             }
-        }
+        //}
     }
 
 
