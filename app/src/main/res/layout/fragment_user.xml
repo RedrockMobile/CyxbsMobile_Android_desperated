@@ -56,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                tools:text="Jay"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -70,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
 
-                <RelativeLayout
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3">
@@ -79,15 +80,17 @@
                         android:id="@+id/introduce"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="17dp"
-                        android:drawablePadding="1dp"
-                        android:drawableRight="@drawable/ic_edit"
                         android:ellipsize="end"
                         android:lines="1"
                         android:textColor="#FFFFFF"
-                        android:textSize="13sp"/>
-                </RelativeLayout>
+                        android:textSize="13sp"
+                        app:layout_constraintHorizontal_bias="0.55"
+                        android:drawablePadding="2dp"
+                        android:drawableRight="@drawable/ic_edit"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:text="We are red-rocker"/>
+                </android.support.constraint.ConstraintLayout>
 
                 <View
                     android:layout_width="0dp"
