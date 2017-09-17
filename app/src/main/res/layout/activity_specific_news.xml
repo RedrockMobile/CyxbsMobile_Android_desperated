@@ -17,8 +17,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/toolbar_padding"
             android:background="@drawable/bg_toolbar"
-            android:fitsSystemWindows="true"
             app:layout_scrollFlags="enterAlways|scroll|snap"
             app:navigationIcon="@drawable/ic_back">
 
