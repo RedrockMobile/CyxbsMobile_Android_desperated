@@ -199,7 +199,7 @@ public class MainActivity extends BaseActivity {
             mFragments.remove(0);
             mFragments.add(0, new UnLoginFragment());
             mAdapter.notifyDataSetChanged();
-            SPUtils.set(APP.getContext(), DormitorySettingActivity.BUILDING_KEY, "");
+            SPUtils.set(APP.getContext(), DormitorySettingActivity.BUILDING_KEY, -1);
             SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
 //            unLoginFace();
         } else {

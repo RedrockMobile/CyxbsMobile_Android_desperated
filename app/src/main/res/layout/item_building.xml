@@ -5,18 +5,18 @@
     android:layout_height="wrap_content">
     <TextView
         android:id="@+id/tv_item_building"
-        android:layout_width="80dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginLeft="20dp"
         android:drawableLeft="@drawable/ic_small_circle"
         android:drawablePadding="10dp"
         android:textSize="16sp"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:text="28栋"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="30dp"
         android:background="#e3e3e3"/>
 
 </LinearLayout>

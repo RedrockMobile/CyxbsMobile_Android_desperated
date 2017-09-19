@@ -37,13 +37,14 @@ public class ElectricRemindUtil {
             return;
         }
 
-        String building = (String) SPUtils.get(APP.getContext(), DormitorySettingActivity.BUILDING_KEY, "");
-        if (building.isEmpty())
+        int buildingPosition = (int) SPUtils.get(APP.getContext(), DormitorySettingActivity.BUILDING_KEY, -1);
+        if (buildingPosition < 0)
             return;
         String dormitoryNum = (String) SPUtils.get(APP.getContext(), DormitorySettingActivity.DORMITORY_KEY, "");
         float money = (float) SPUtils.get(APP.getContext(), ElectricRemindActivity.ELECTRIC_REMIND_MONEY, -1.0f);
         if (money == -1)
             return;
+        String building = APP.getContext().getResources().getStringArray(R.array.dormitory_buildings_api)[buildingPosition];
         RequestManager.INSTANCE.queryElectricCharge(new SimpleSubscriber<ElectricCharge>(context, new SubscriberListener<ElectricCharge>() {
             @Override
             public void onNext(ElectricCharge electricCharge) {
