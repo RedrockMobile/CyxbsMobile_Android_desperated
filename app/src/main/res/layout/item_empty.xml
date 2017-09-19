@@ -45,6 +45,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="43dp"
         android:horizontalSpacing="14dp"
+        android:minHeight="38dp"
         android:numColumns="5"
         android:stretchMode="columnWidth"
         android:verticalSpacing="8dp"/>
