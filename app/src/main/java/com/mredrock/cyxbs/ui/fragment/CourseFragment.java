@@ -90,6 +90,8 @@ public class CourseFragment extends BaseFragment {
     LinearLayout mCourseScheduleHolder;
     @Bind(R.id.course_month)
     TextView mCourseMonth;
+    @Bind(R.id.no_course_holder)
+    View mNoCourseHolder;
 
     // private boolean showAffairContent = true;
     private SharedPreferences sharedPreferences;
@@ -233,6 +235,14 @@ public class CourseFragment extends BaseFragment {
                                 courseList.addAll(courses);
                                 loadAffair(mWeek);
 
+                                if (courses.isEmpty()) {
+                                    mNoCourseHolder.setVisibility(View.VISIBLE);
+                                    mNoCourseHolder.setTranslationY(DensityUtils.getScreenHeight(getContext()) * 0.13f);
+                                    mCourseScheduleContent.setVisibility(View.GONE);
+                                } else {
+                                    mNoCourseHolder.setVisibility(View.GONE);
+                                    mCourseScheduleContent.setVisibility(View.VISIBLE);
+                                }
                             }
 
                             @Override
