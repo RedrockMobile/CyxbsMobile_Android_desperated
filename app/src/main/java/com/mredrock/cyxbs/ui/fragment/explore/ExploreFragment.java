@@ -22,10 +22,24 @@ import com.mredrock.cyxbs.ui.widget.RollerView;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.freshmanspecial.view.SpecialMainActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 /**
@@ -116,6 +130,11 @@ public class ExploreFragment extends BaseFragment {
         mViewPager.setCurrentItem(Integer.MAX_VALUE / 2);
         mViewPager.setPageMargin(DensityUtils.dp2px(APP.getContext(), 12));*/
 
+        setRollerView();
+        return view;
+    }
+
+    private void setRollerView() {
         mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(), new int[]{
                 R.drawable.img_cqupt1,
                 R.drawable.img_cqupt2,
@@ -123,7 +142,37 @@ public class ExploreFragment extends BaseFragment {
                 R.drawable.img_cqupt1,
                 R.drawable.img_cqupt2,
                 R.drawable.img_cqupt3}));
-        return view;
+
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("pic_num", "4");
+        RequestBody body = builder.build();
+        final Request request = new Request.Builder()
+                .url("http://hongyan.cqupt.edu.cn/app/api/pictureCarousel.php")
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                List<ExploreRollerViewAdapter.Url> urlList = new ArrayList<ExploreRollerViewAdapter.Url>();
+                try {
+                    JSONObject object = new JSONObject(response.body().string());
+                    JSONArray data = object.getJSONArray("data");
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject json = (JSONObject) data.get(i);
+                        urlList.add(new ExploreRollerViewAdapter.Url(json.getString("picture_url"), json.getString("picture_goto_url")));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                getActivity().runOnUiThread(()-> mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(),urlList)));
+            }
+        });
     }
 
     @Override
