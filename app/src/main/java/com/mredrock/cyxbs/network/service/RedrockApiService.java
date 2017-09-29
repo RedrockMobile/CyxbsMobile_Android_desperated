@@ -13,6 +13,7 @@ import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
+import com.mredrock.cyxbs.model.RollerViewInfo;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.Student;
@@ -332,4 +333,7 @@ public interface RedrockApiService {
                                                  @Field("stuNum") String stuNum,
                                                  @Field("idNum") String idNum,
                                                  @Field("official") boolean official);
+    @FormUrlEncoded
+    @POST(Const.API_ROLLER_VIEW)
+    Observable<RedrockApiWrapper<List<RollerViewInfo>>> getRollerViewInfo(@Field("pic_num") String pic_num);
 }

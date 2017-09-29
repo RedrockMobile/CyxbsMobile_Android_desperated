@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
+import com.mredrock.cyxbs.model.RollerViewInfo;
+import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
@@ -20,26 +24,14 @@ import com.mredrock.cyxbs.ui.adapter.ExploreRollerViewAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.ui.widget.RollerView;
 import com.mredrock.cyxbs.util.LogUtils;
+import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.freshmanspecial.view.SpecialMainActivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 /**
@@ -143,7 +135,30 @@ public class ExploreFragment extends BaseFragment {
                 R.drawable.img_cqupt2,
                 R.drawable.img_cqupt3}));
 
-        OkHttpClient client = new OkHttpClient();
+        RequestManager.getInstance().getRollerViewInfo(new SimpleSubscriber< >(getActivity(), new SubscriberListener<List<RollerViewInfo>>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onCompleted() {
+                super.onCompleted();
+            }
+
+            @Override
+            public boolean onError(Throwable e) {
+                Utils.toast(getActivity(), "轮播图获取失败");
+                return super.onError(e);
+            }
+
+            @Override
+            public void onNext(List<RollerViewInfo> rollerViewInfoList) {
+                mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(),rollerViewInfoList));
+                super.onNext(rollerViewInfoList);
+            }
+        }), "4");
+        /*OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("pic_num", "4");
         RequestBody body = builder.build();
@@ -172,7 +187,7 @@ public class ExploreFragment extends BaseFragment {
                 }
                 getActivity().runOnUiThread(()-> mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(),urlList)));
             }
-        });
+        });*/
     }
 
     @Override

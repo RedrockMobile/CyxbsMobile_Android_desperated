@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.mredrock.cyxbs.model.RollerViewInfo;
 import com.mredrock.cyxbs.ui.activity.explore.RollerViewActivity;
 import com.mredrock.cyxbs.ui.widget.RollerView;
 
@@ -31,19 +32,19 @@ public class ExploreRollerViewAdapter extends RollerView.RollerViewAdapter {
         }
     }
 
-    public ExploreRollerViewAdapter(Context context, List<Url> urlList ) {
+    public ExploreRollerViewAdapter(Context context, List<RollerViewInfo> urlList ) {
         mImageViews = new ArrayList<>();
-        for (Url url : urlList) {
+        for (RollerViewInfo url : urlList) {
             ImageView imageView = new ImageView(context);
             imageView.setLayoutParams(new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            if (url.webUrl != null) {
-                imageView.setOnClickListener(v -> RollerViewActivity.startRollerViewActivity(url.webUrl, context)
+            if (url.picture_goto_url != null) {
+                imageView.setOnClickListener(v -> RollerViewActivity.startRollerViewActivity(url.picture_goto_url, context)
                         //context.startActivity(new Intent(context, SplashActivity.class))
                 );
             }
-            Glide.with(context).load(url.imageUrl).into(imageView);
+            Glide.with(context).load(url.picture_url).into(imageView);
             mImageViews.add(imageView);
         }
     }
@@ -58,13 +59,4 @@ public class ExploreRollerViewAdapter extends RollerView.RollerViewAdapter {
         return mImageViews.get(position);
     }
 
-    public static class Url {
-        public Url(String imageUrl, String webUrl) {
-            this.imageUrl = imageUrl;
-            this.webUrl = webUrl;
-        }
-
-        private String imageUrl;
-        private String webUrl;
-    }
 }
