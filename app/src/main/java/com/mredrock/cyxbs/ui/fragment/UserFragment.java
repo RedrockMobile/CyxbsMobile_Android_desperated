@@ -29,6 +29,7 @@ import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
 import com.mredrock.cyxbs.ui.activity.me.RemindActivity;
 import com.mredrock.cyxbs.ui.activity.me.SchoolCalendarActivity;
 import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
+import com.mredrock.cyxbs.ui.activity.me.VolunteerTimeLoginActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
 
 import org.apache.commons.lang3.StringUtils;
@@ -57,6 +58,8 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
     RelativeLayout myPageGradeLayout;
     @Bind(R.id.calendar)
     RelativeLayout myPageCalendarLayout;
+    @Bind(R.id.volunteer_time)
+    RelativeLayout myVolunteerTime;
     @Bind(R.id.option)
     RelativeLayout myPageSettingLayout;
     @Bind(R.id.avatar)
@@ -123,6 +126,11 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
     @OnClick(R.id.calendar)
     void clickToCalendar() {
         startActivity(new Intent(getActivity(), SchoolCalendarActivity.class));
+    }
+
+    @OnClick(R.id.volunteer_time)
+    void clickToVolunteerTime() {
+        startActivity(new Intent(getActivity(), VolunteerTimeLoginActivity.class));
     }
 
     @OnClick(R.id.remind)

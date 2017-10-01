@@ -23,6 +23,7 @@ import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
+import com.mredrock.cyxbs.model.VolunteerTime;
 import com.mredrock.cyxbs.model.lost.Lost;
 import com.mredrock.cyxbs.model.lost.LostDetail;
 import com.mredrock.cyxbs.model.lost.LostStatus;
@@ -49,6 +50,7 @@ import com.mredrock.cyxbs.network.interceptor.StudentNumberInterceptor;
 import com.mredrock.cyxbs.network.observable.CourseListProvider;
 import com.mredrock.cyxbs.network.service.LostApiService;
 import com.mredrock.cyxbs.network.service.RedrockApiService;
+import com.mredrock.cyxbs.network.service.VolunteerService;
 import com.mredrock.cyxbs.network.setting.CacheProviders;
 import com.mredrock.cyxbs.network.setting.QualifiedTypeConverterFactory;
 import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
@@ -96,6 +98,7 @@ public enum RequestManager {
     private LostApiService lostApiService;
     private CacheProviders cacheProviders;
     private OkHttpClient okHttpClient;
+    private VolunteerService volunteerService;
 
     RequestManager() {
         okHttpClient = configureOkHttp(new OkHttpClient.Builder());
@@ -114,6 +117,16 @@ public enum RequestManager {
 
         redrockApiService = retrofit.create(RedrockApiService.class);
         lostApiService = retrofit.create(LostApiService.class);
+
+        Retrofit volunteerRetrofit = new Retrofit.Builder()
+                .baseUrl(Const.API_VOLUNTEER)
+                .client(okHttpClient)
+                .addConverterFactory(new QualifiedTypeConverterFactory(
+                        GsonConverterFactory.create(), SimpleXmlConverterFactory.create()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        volunteerService = volunteerRetrofit.create(VolunteerService.class);
     }
 
     public static RequestManager getInstance() {
@@ -163,6 +176,17 @@ public enum RequestManager {
                     }
                     return Integer.parseInt(courseWrapper.nowWeek);
                 });
+        return emitObservable(observable, subscriber);
+    }
+
+    public Subscription getVolunteer(Subscriber<VolunteerTime> subscriber, String account, String password) {
+        Observable<VolunteerTime> observable = volunteerService.getVolunteerUseLogin(account, password);
+        return emitObservable(observable, subscriber);
+    }
+
+    public Subscription getVolunteerTime(Subscriber<VolunteerTime.DataBean> subscriber, String uid) {
+        Observable<VolunteerTime.DataBean> observable = volunteerService.getVolunteerUseUid(uid)
+                .map(VolunteerTime::getData);
         return emitObservable(observable, subscriber);
     }
 
@@ -341,7 +365,6 @@ public enum RequestManager {
     public void getGradeList(Subscriber<List<Grade>> subscriber, String
             stuNum, String stuId, boolean update) {
         Observable<List<Grade>> observable = redrockApiService.getGrade(stuNum, stuId)
-
                 .map(new RedrockApiWrapperFunc<>());
         cacheProviders.getCachedGradeList(observable, new DynamicKey
                 (stuNum), new EvictDynamicKey(update))

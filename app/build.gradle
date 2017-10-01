@@ -16,15 +16,15 @@ android {
     }
 
     productFlavors {
-        official{}
+        official {}
         xiaomi {}
-   //     _360 {}
+        //     _360 {}
         baidu {}
         wandoujia {}
-        kuan{}
-        tencent{}
-        anzhi{}
-   //     _91{}
+        kuan {}
+        tencent {}
+        anzhi {}
+        //     _91{}
     }
 
     productFlavors.all { flavor ->
@@ -60,10 +60,10 @@ android {
             shrinkResources false
             signingConfig signingConfigs.debug
             buildConfigField("String", "BUGLY_APP_ID", "\"68682669e7\"")
-            applicationVariants.all{ variant ->
-                variant.outputs.each{ out ->
+            applicationVariants.all { variant ->
+                variant.outputs.each { out ->
                     def outputFile = out.outputFile
-                    if (outputFile != null && outputFile.name.endsWith(".apk")){
+                    if (outputFile != null && outputFile.name.endsWith(".apk")) {
                         def fileName = "掌上重邮_${defaultConfig.versionName}_degug.apk"
                         out.outputFile = new File(outputFile.parent, fileName)
                     }
@@ -198,8 +198,10 @@ dependencies {
     compile project(':FresherSpecial')
 
     //bugly
-    compile 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
-    compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+    compile 'com.tencent.bugly:crashreport:latest.release'
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    compile 'com.tencent.bugly:nativecrashreport:latest.release'
+    //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
 
 
 }

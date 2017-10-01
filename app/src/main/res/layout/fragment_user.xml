@@ -338,6 +338,48 @@
             android:background="#E4E4E4"/>
 
         <RelativeLayout
+            android:id="@+id/volunteer_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:foreground="?selectableItemBackground"
+            android:paddingBottom="11dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="11dp">
+
+            <ImageView
+                android:id="@+id/ic_volunteer_time"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_volunteer_time"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/ic_volunteer_time"
+                android:text="志愿时长"
+                android:textColor="#333333"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_arrow_right"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E4E4E4"/>
+
+        <RelativeLayout
             android:id="@+id/remind"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
