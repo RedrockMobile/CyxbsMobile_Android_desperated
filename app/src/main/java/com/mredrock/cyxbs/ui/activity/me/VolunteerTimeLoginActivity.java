@@ -48,6 +48,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_time_login);
+
         ButterKnife.bind(this);
         initToolbar();
         initData();
@@ -85,7 +86,6 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
 
     private void login(String account, String password) {
         RequestManager.INSTANCE.getVolunteer(new Subscriber<VolunteerTime>() {
-
 
             @Override
             public void onCompleted() {}

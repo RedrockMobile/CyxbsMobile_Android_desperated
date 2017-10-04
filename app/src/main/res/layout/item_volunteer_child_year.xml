@@ -11,7 +11,7 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:src="@drawable/volunteer_year_ic"/>
         <TextView
             android:id="@+id/volunteer_time_year"
@@ -20,13 +20,13 @@
             android:text="2017"
             android:textColor="@color/volunteer_login_background"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp"/>
+            android:layout_marginTop="15dp"/>
         <TextView
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:background="@color/volunteer_time_left"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="56dp"/>
+            android:layout_marginTop="46dp"/>
 
     </FrameLayout>
     <android.support.v7.widget.RecyclerView

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.VolunteerTime;
 import com.mredrock.cyxbs.network.RequestManager;
@@ -68,6 +69,7 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_time);
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         ButterKnife.bind(this);
         initToolbar();
         initData();
