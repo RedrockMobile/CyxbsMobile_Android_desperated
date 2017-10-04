@@ -5,9 +5,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,16 +30,19 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
 
     private VolunteerTimeSP volunteerSP;
 
-    @Bind(R.id.toolbar)
+    @Bind(R.id.volunteer_toolbar)
     Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
+    @Bind(R.id.volunteer_login_back)
+    ImageView backImage;
+    @Bind(R.id.volunteer_toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.account)
+    @Bind(R.id.volunteer_account)
     EditText accountView;
-    @Bind(R.id.password)
+    @Bind(R.id.volunteer_password)
     EditText passwordView;
-    @Bind(R.id.login_volunteer_button)
-    Button loginButton;
+    @Bind(R.id.volunteer_login)
+    ImageView login;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,23 +53,20 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
         initData();
     }
 
-    @OnClick(R.id.login_volunteer_button)
+    @OnClick(R.id.volunteer_login)
     void loginButtonClick(View v) {
         initData();
-        if (v.getId() == R.id.login_volunteer_button) login(account, password);;
+        if (v.getId() == R.id.volunteer_login) login(account, password);
     }
 
+    @OnClick(R.id.volunteer_login_back)
+    public void finishActivity(View v) {
+        finish();
+    }
     private void initToolbar() {
         if (toolbar != null) {
-            toolbarTitle.setText("服务记录");
+            toolbar.setTitle("");
             setSupportActionBar(toolbar);
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayShowTitleEnabled(false);
-            }
-            toolbar.setNavigationIcon(R.drawable.ic_back);
-            toolbar.setNavigationOnClickListener(
-                    v ->VolunteerTimeLoginActivity.this.finish());
         }
     }
 
@@ -92,6 +94,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
             public void onError(Throwable e) {
                 Toast.makeText(VolunteerTimeLoginActivity.this,
                         "亲，网络有问题哦", Toast.LENGTH_SHORT).show();
+                Log.d("RequestManager", "onError: ------------------------------------------------------------------------------");
                 e.printStackTrace();
             }
 

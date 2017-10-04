@@ -22,5 +22,5 @@ public interface VolunteerService {
 
     @FormUrlEncoded
     @POST(Const.API_VOLUNTEER_UID)
-    Observable<VolunteerTime> getVolunteerUseUid(@JsonFilter("uid") String uid);
+    Observable<VolunteerTime> getVolunteerUseUid(@Field("uid") String uid);
 }

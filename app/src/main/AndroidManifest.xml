@@ -301,7 +301,7 @@
         <!-- 社会化分享 -->
         <activity android:name=".ui.activity.me.EmptyRoomResultActivity" />
         <activity android:name=".ui.activity.me.VolunteerTimeLoginActivity" />
-        <activity android:name=".ui.activity.me.VolunteerTimeActivity"></activity>
+        <activity android:name=".ui.activity.me.VolunteerTimeActivity" />
     </application>
 
 </manifest>

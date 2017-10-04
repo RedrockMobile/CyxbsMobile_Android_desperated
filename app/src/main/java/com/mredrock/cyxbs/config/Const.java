@@ -12,7 +12,7 @@ public class Const {
     public static final String REDROCK_PORTAL = "http://hongyan.cqupt.edu.cn/aboutus/";
     public static final String API_PERSON_SCHEDULE = "/redapi2/api/kebiao";
     public static final String APP_WEBSITE = "http://hongyan.cqupt.edu.cn/app/";
-    public static final String API_VOLUNTEER = "http://servicerecord.redrock.team";
+    public static final String API_VOLUNTEER = "https://wx.idsbllp.cn/servicerecord/";
 
     //Explore
     public static final String API_MAP_PICTURE         = "/welcome/2015/index.php/home/api/banner";
@@ -61,8 +61,8 @@ public class Const {
     //动态查询
     public static final String API_SEARCH_ARTICLE = "/cyxbsMobile/index.php/Home/NewArticle/searchtrends";
     //志愿时长查询
-    public static final String API_VOLUNTEER_LOGIN = "/login";
-    public static final String API_VOLUNTEER_UID = "/getrecord";
+    public static final String API_VOLUNTEER_LOGIN = "login";
+    public static final String API_VOLUNTEER_UID = "getrecord";
 
     //Affair
     public static final  String API_GET_AFFAIR = "/cyxbsMobile/index.php/Home/Person/getTransaction";

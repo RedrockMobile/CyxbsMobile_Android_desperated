@@ -142,6 +142,14 @@ dependencies {
 
     // compile 'com.bigkoo:pickerview:2.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile project(':FresherSpecial')
+
+    //bugly
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton:disklrucache:2.0.2'
@@ -190,18 +198,10 @@ dependencies {
     compile 'com.github.markushi:circlebutton:1.1'
     compile 'com.contrarywind:Android-PickerView:3.0.7'
     compile 'com.jude:swipebackhelper:3.1.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jude:easyrecyclerview:4.4.0'
     compile 'com.lapism:searchview:4.0'
     compile 'com.github.zcweng:switch-button:0.0.3@aar'
-    testCompile 'junit:junit:4.12'
-    compile project(':FresherSpecial')
-
-    //bugly
     compile 'com.tencent.bugly:crashreport:latest.release'
-    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
-    //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
-
-
+    testCompile 'junit:junit:4.12'
 }
