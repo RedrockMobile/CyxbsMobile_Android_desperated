@@ -103,4 +103,12 @@
         <attr name="icon" format="reference"/>
         <attr name="title" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="MultiSelector">
+        <attr name="max_num" format="integer"/>
+        <attr name="min_num" format="integer"/>
+        <attr name="values" format="reference"/>
+        <attr name="display_values" format="reference"/>
+        <attr name="radio_button_mode" format="boolean"/>
+    </declare-styleable>
 </resources>

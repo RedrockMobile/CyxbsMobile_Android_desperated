@@ -384,4 +384,7 @@
         <item>31</item>
         <item>39</item>
     </string-array>
+
+    <integer name="no_limit">-1</integer>
+
 </resources>

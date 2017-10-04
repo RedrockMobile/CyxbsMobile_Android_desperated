@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    tools:context="com.mredrock.cyxbs.ui.activity.me.EmptyRoomQueryActivity">
+
+    <include layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:id="@+id/selector_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.mredrock.cyxbs.component.widget.selector.MultiSelector
+            android:id="@+id/week_selector"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:display_values="@array/titles_weeks"
+            app:radio_button_mode="true"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="9dp"
+            android:background="#F1F1F1"/>
+
+        <com.mredrock.cyxbs.component.widget.selector.MultiSelector
+            android:id="@+id/weekday_selector"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:radio_button_mode="true"
+            app:display_values="@array/course_weekdays"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F1F1F1"/>
+
+        <com.mredrock.cyxbs.component.widget.selector.MultiSelector
+            android:id="@+id/building_selector"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:radio_button_mode="true"
+            app:display_values="@array/empty_buildings"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F1F1F1"/>
+
+        <com.mredrock.cyxbs.component.widget.selector.MultiSelector
+            android:id="@+id/section_selector"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:display_values="@array/empty_sections"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#F1F1F1"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_empty_room_query_arrow"/>
+    </FrameLayout>
+</LinearLayout>

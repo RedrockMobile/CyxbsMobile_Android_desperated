@@ -22,7 +22,7 @@ import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.me.AboutMeActivity;
 import com.mredrock.cyxbs.ui.activity.me.EditInfoActivity;
-import com.mredrock.cyxbs.ui.activity.me.EmptyRoomActivity;
+import com.mredrock.cyxbs.ui.activity.me.EmptyRoomQueryActivity;
 import com.mredrock.cyxbs.ui.activity.me.ExamAndGradeActivity;
 import com.mredrock.cyxbs.ui.activity.me.MyTrendActivity;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
@@ -108,7 +108,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     @OnClick(R.id.empty_classroom)
     void clickToEmpty() {
-        startActivity(new Intent(getActivity(), EmptyRoomActivity.class));
+        startActivity(new Intent(getActivity(), EmptyRoomQueryActivity.class));
     }
 
     @OnClick(R.id.grade)
