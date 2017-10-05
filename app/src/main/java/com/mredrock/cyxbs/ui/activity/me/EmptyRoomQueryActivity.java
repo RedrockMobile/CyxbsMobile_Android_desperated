@@ -271,6 +271,9 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
     public void onItemSelectedChange(MultiSelector selector, RecyclerView.ViewHolder viewHolder, int value, boolean checked, int position) {
         if (mBuildingSelector.selectedSize() > 0 && mSectionSelector.selectedSize() > 0) {
             query();
+        } else if (mResultAdapter != null) {
+            mResultAdapter.getDataSource().clear();
+            mResultAdapter.notifyDataSetChanged();
         }
     }
 }

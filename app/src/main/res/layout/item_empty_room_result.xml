@@ -36,7 +36,7 @@
         android:id="@+id/item_empty_gv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="9"
+        android:layout_weight="12"
         android:numColumns="5"
         android:stretchMode="columnWidth"
         android:verticalSpacing="8dp"/>
