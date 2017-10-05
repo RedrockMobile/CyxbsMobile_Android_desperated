@@ -8,7 +8,7 @@ public class Const {
 
     public static final String APP_HOME = "http://hongyan.cqupt.edu.cn/cyxbsMobile";
 
-    public static final String END_POINT_REDROCK = "https://wx.idsbllp.cn";
+    public static final String END_POINT_REDROCK = "https://redrock.team";
     public static final String REDROCK_PORTAL = "http://hongyan.cqupt.edu.cn/aboutus/";
     public static final String API_PERSON_SCHEDULE = "/redapi2/api/kebiao";
     public static final String APP_WEBSITE = "http://hongyan.cqupt.edu.cn/app/";

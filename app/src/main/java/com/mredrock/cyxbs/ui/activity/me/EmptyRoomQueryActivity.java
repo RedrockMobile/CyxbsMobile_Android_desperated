@@ -2,6 +2,7 @@ package com.mredrock.cyxbs.ui.activity.me;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
@@ -57,8 +59,12 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
     ImageView mArrow;
     @Bind(R.id.result)
     RecyclerView mRecyclerView;
+    @Bind(R.id.querying)
+    ImageView mQuerying;
+
     private EmptyRoomResultAdapter mResultAdapter;
 
+    private ObjectAnimator mQueryAnimator;
     private ValueAnimator mExpandedAnimator;
     private boolean mExpanded = true;
 
@@ -73,9 +79,7 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
 
     @OnClick(R.id.arrow)
     void onArrowClick() {
-        if (mExpandedAnimator == null || mExpandedAnimator.isRunning()) {
-            return;
-        }
+        if (disallowExpandedAnimator()) return;
         if (mExpanded) mExpandedAnimator.start();
         else mExpandedAnimator.reverse();
     }
@@ -94,6 +98,7 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         initData();
         initSelectors();
         initExpandedAnimator();
+        initQueryingAnimator();
         initRv();
     }
 
@@ -170,7 +175,7 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
     private void initExpandedAnimator() {
         mSelectorContainer.post(() -> {
             ViewGroup.LayoutParams layoutParams = mSelectorContainer.getLayoutParams();
-            mExpandedAnimator = ValueAnimator.ofInt(mSelectorContainer.getHeight(), 0);
+            mExpandedAnimator = ValueAnimator.ofInt(mSelectorContainer.getHeight(), DensityUtils.dp2px(this, 6));
             mExpandedAnimator.setDuration(500);
             mExpandedAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
             mExpandedAnimator.addUpdateListener(animation -> {
@@ -188,49 +193,16 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         });
     }
 
+    private void initQueryingAnimator() {
+        mQueryAnimator = ObjectAnimator.ofFloat(mQuerying, "rotation", 0, 360);
+        mQueryAnimator.setDuration(500).setRepeatCount(ObjectAnimator.INFINITE);
+        mQueryAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+    }
+
     private void initRv() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                if (mExpandedAnimator.isRunning()) {
-                    //进行动画时不允许滑动
-                    return true;
-                }
-                float y = e.getY();
-                switch (e.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mY = y;
-                        break;
-
-                    case MotionEvent.ACTION_MOVE:
-                        if (mExpanded && mY - y > 0) {
-                            //向上滑动时若选择器展开则先收起
-                            mExpandedAnimator.start();
-                            return true;
-                        } else if (!mExpanded && mY - y < 0) {
-                            //向下滑动时若选择器收起则先展开
-                            mExpandedAnimator.reverse();
-                            return true;
-                        }
-                        mY = y;
-                        break;
-                }
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
     }
 
     private void query() {
@@ -243,12 +215,23 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
                     @Override
                     public void onStart() {
                         super.onStart();
+                        mQuerying.setVisibility(View.VISIBLE);
+                        mRecyclerView.setVisibility(View.GONE);
+                        mQueryAnimator.start();
                     }
 
                     @Override
                     public void onNext(List<EmptyRoom> emptyRooms) {
                         super.onNext(emptyRooms);
                         refreshResult(emptyRooms);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        mQuerying.setVisibility(View.GONE);
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                        mQueryAnimator.cancel();
                     }
                 }), week, weekday, building, sections);
     }
@@ -259,6 +242,21 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
             mRecyclerView.setAdapter(mResultAdapter);
         } else {
             mResultAdapter.updateData(emptyRooms);
+        }
+    }
+
+    private boolean disallowExpandedAnimator() {
+        if (mExpandedAnimator == null || mExpandedAnimator.isRunning()) {
+            return true;
+        }
+        if (!mExpanded) {
+            return false;
+        } else if (mResultAdapter == null || mResultAdapter.getDataSource().isEmpty()) {
+            return true;
+        } else if (mQueryAnimator != null && mQueryAnimator.isRunning()) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -275,5 +273,34 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
             mResultAdapter.getDataSource().clear();
             mResultAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent e) {
+        float y = e.getY();
+        if (y < mArrow.getBottom()) {
+            return super.dispatchTouchEvent(e);
+        }
+        switch (e.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mY = y;
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                if (!disallowExpandedAnimator()) {
+                    if (mExpanded && mY - y > 0) {
+                        //向上滑动时若选择器展开则先收起
+                        mExpandedAnimator.start();
+                        return true;
+                    } else if (!mExpanded && mY - y < 0) {
+                        //向下滑动时若选择器收起则先展开
+                        mExpandedAnimator.reverse();
+                        return true;
+                    }
+                }
+                mY = y;
+                break;
+        }
+        return super.dispatchTouchEvent(e);
     }
 }
