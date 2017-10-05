@@ -117,16 +117,16 @@ public enum RequestManager {
 
         redrockApiService = retrofit.create(RedrockApiService.class);
         lostApiService = retrofit.create(LostApiService.class);
+        volunteerService = retrofit.create(VolunteerService.class);
 
-        Retrofit volunteerRetrofit = new Retrofit.Builder()
-                .baseUrl(Const.API_VOLUNTEER)
-                .client(okHttpClient)
-                .addConverterFactory(new QualifiedTypeConverterFactory(
-                        GsonConverterFactory.create(), SimpleXmlConverterFactory.create()))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+//        Retrofit volunteerRetrofit = new Retrofit.Builder()
+//                .baseUrl(Const.API_VOLUNTEER)
+//                .client(okHttpClient)
+//                .addConverterFactory(new QualifiedTypeConverterFactory(
+//                        GsonConverterFactory.create(), SimpleXmlConverterFactory.create()))
+//                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                .build();
 
-        volunteerService = volunteerRetrofit.create(VolunteerService.class);
     }
 
     public static RequestManager getInstance() {
