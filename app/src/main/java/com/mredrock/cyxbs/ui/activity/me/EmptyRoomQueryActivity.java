@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
@@ -67,6 +68,8 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
     private static final int[] sWeekdayApi = {1, 2, 3, 4, 5, 6, 7};
     private static final int[] sBuildingApi = {2, 3, 4, 5, 8};
     private static final int[] sSectionApi = {0, 1, 2, 3, 4, 5};
+
+    private float mY = -1;
 
     @OnClick(R.id.arrow)
     void onArrowClick() {
@@ -189,6 +192,45 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                if (mExpandedAnimator.isRunning()) {
+                    //进行动画时不允许滑动
+                    return true;
+                }
+                float y = e.getY();
+                switch (e.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mY = y;
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        if (mExpanded && mY - y > 0) {
+                            //向上滑动时若选择器展开则先收起
+                            mExpandedAnimator.start();
+                            return true;
+                        } else if (!mExpanded && mY - y < 0) {
+                            //向下滑动时若选择器收起则先展开
+                            mExpandedAnimator.reverse();
+                            return true;
+                        }
+                        mY = y;
+                        break;
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
     }
 
     private void query() {
