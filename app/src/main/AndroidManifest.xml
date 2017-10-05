@@ -133,7 +133,6 @@
         <activity android:name=".ui.activity.me.NoCourseContainerActivity"/>
         <activity android:name=".ui.activity.me.NoCourseActivity"/>
         <activity android:name=".ui.activity.me.SelectStudentActivity"/>
-        <activity android:name=".ui.activity.me.EmptyRoomActivity"/>
         <activity android:name=".ui.activity.me.ExamAndGradeActivity"/>
         <activity android:name=".ui.activity.me.SchoolCalendarActivity"/>
         <activity android:name=".ui.activity.me.AboutActivity"/>
@@ -302,8 +301,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <!-- 社会化分享 -->
-        <activity android:name=".ui.activity.me.EmptyRoomResultActivity">
-        </activity>
         <activity android:name=".ui.activity.me.EmptyRoomQueryActivity">
         </activity>
     </application>

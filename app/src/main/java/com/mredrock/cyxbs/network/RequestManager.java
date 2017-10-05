@@ -333,13 +333,13 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void getEmptyRoomList(Subscriber<List<String>> subscriber, String
-            buildNum, String week, String weekdayNum, String sectionNum) {
-        Observable<List<String>> observable = redrockApiService
-                .getEmptyRoomList(buildNum, week, weekdayNum, sectionNum)
-                .map(new RedrockApiWrapperFunc<>());
-        emitObservable(observable, subscriber);
-    }
+//    public void getEmptyRoomList(Subscriber<List<String>> subscriber, String
+//            buildNum, String week, String weekdayNum, String sectionNum) {
+//        Observable<List<String>> observable = redrockApiService
+//                .getEmptyRoomList(buildNum, week, weekdayNum, sectionNum)
+//                .map(new RedrockApiWrapperFunc<>());
+//        emitObservable(observable, subscriber);
+//    }
 
     public void queryEmptyRoomList(Subscriber<List<EmptyRoom>> subscriber, int week, int weekday, int build, int[] sections) {
         Observable<List<EmptyRoom>> observable = EmptyRoomListProvider.INSTANCE

@@ -108,12 +108,12 @@ public interface RedrockApiService {
     @GET(Const.APT_SEARCH_STUDENT)
     Observable<Student.StudentWrapper> getStudent(@Query("stu") String stu);
 
-    @FormUrlEncoded
-    @POST(Const.API_EMPTYROOM)
-    Observable<Empty> getEmptyRoomList(@Field("buildNum") String buildNum,
-                                       @Field("week") String week,
-                                       @Field("weekdayNum") String weekdayNum,
-                                       @Field("sectionNum") String sectionNum);
+//    @FormUrlEncoded
+//    @POST(Const.API_EMPTYROOM)
+//    Observable<Empty> getEmptyRoomList(@Field("buildNum") String buildNum,
+//                                       @Field("week") String week,
+//                                       @Field("weekdayNum") String weekdayNum,
+//                                       @Field("sectionNum") String sectionNum);
 
     @FormUrlEncoded
     @POST(Const.API_EMPTYROOM)
