@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
@@ -19,6 +20,9 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.selector.MultiSelector;
 import com.mredrock.cyxbs.component.widget.selector.StringAdapter;
 import com.mredrock.cyxbs.component.widget.selector.ViewInitializer;
+import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
@@ -99,10 +103,10 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
     }
 
     private void initSelectors() {
-        initSelector(mWeekSelector, mWeekApi, 0);
-        initSelector(mWeekdaySelector, sWeekdayApi, mSchoolCalendar.getDayOfWeek() - 1);
-        initSelector(mBuildingSelector, sBuildingApi, -1);
-        initSelector(mSectionSelector, sSectionApi, -1);
+        initSelector(mWeekSelector, mWeekApi, 0, 0);
+        initSelector(mWeekdaySelector, sWeekdayApi, mSchoolCalendar.getDayOfWeek() - 1, 1);
+        initSelector(mBuildingSelector, sBuildingApi, -1, 2);
+        initSelector(mSectionSelector, sSectionApi, -1, 3);
     }
 
     private void initToolbar() {
@@ -119,7 +123,7 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         }
     }
 
-    private void initSelector(MultiSelector selector, int[] values, int defaultSelected) {
+    private void initSelector(MultiSelector selector, int[] values, int defaultSelected, int tag) {
         final int dp_15 = DensityUtils.dp2px(this, 12);
         final int dp_3 = DensityUtils.dp2px(this, 3);
         ViewInitializer initializer = new ViewInitializer.Builder(this)
@@ -151,6 +155,7 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         }
         selector.setViewInitializer(initializer);
         selector.setOnItemSelectedChangeListener(this);
+        selector.setTag(tag);
     }
 
     private void initExpandedAnimator() {
@@ -174,6 +179,21 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         });
     }
 
+    private void load() {
+        int week = mWeekSelector.getSelectedValues()[0];
+        int weekday = mWeekdaySelector.getSelectedValues()[0];
+        int building = mBuildingSelector.getSelectedValues()[0];
+        int section = mSectionSelector.getSelectedValues()[0];
+        RequestManager.getInstance().queryEmptyRoomList(new SimpleSubscriber<>(this,
+                new SubscriberListener<List<String>>() {
+                    @Override
+                    public void onNext(List<String> strings) {
+                        super.onNext(strings);
+                        Log.d("tag", strings.toString());
+                    }
+                }), week, weekday, building, section);
+    }
+
     @Override
     public void onItemClickListener(MultiSelector selector, RecyclerView.ViewHolder viewHolder, int position) {
 
@@ -181,6 +201,8 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
 
     @Override
     public void onItemSelectedChange(MultiSelector selector, RecyclerView.ViewHolder viewHolder, int value, boolean checked, int position) {
-
+        if (mBuildingSelector.selectedSize() > 0 && mSectionSelector.selectedSize() > 0) {
+            load();
+        }
     }
 }

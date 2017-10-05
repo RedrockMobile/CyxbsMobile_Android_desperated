@@ -12,6 +12,7 @@ import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.ElectricCharge;
+import com.mredrock.cyxbs.model.Empty;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.model.FoodComment;
@@ -47,6 +48,7 @@ import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
 import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.network.interceptor.StudentNumberInterceptor;
 import com.mredrock.cyxbs.network.observable.CourseListProvider;
+import com.mredrock.cyxbs.network.observable.EmptyRoomListProvider;
 import com.mredrock.cyxbs.network.service.LostApiService;
 import com.mredrock.cyxbs.network.service.RedrockApiService;
 import com.mredrock.cyxbs.network.setting.CacheProviders;
@@ -336,6 +338,17 @@ public enum RequestManager {
                 .getEmptyRoomList(buildNum, week, weekdayNum, sectionNum)
                 .map(new RedrockApiWrapperFunc<>());
         emitObservable(observable, subscriber);
+    }
+
+    public void queryEmptyRoomList(Subscriber<List<String>> subscriber, int week, int weekday, int build, int section) {
+        Observable<List<String>> observable = EmptyRoomListProvider.INSTANCE
+                .createObservable(week, weekday, build, section);
+        emitObservable(observable, subscriber);
+    }
+
+    public List<String> getEmptyRoomListSync(int week, int weekday, int build, int section) throws IOException {
+        Response<Empty> response = redrockApiService.getEmptyRoomListCall(week, weekday, build, section).execute();
+        return response.body().data;
     }
 
     public void getGradeList(Subscriber<List<Grade>> subscriber, String

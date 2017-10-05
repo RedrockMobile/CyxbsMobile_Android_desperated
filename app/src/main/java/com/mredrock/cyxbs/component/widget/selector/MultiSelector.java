@@ -16,6 +16,7 @@ import com.mredrock.cyxbs.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -193,7 +194,7 @@ public class MultiSelector extends FrameLayout {
     public <T> List<T> getSelectedDisplayValue() {
         List<T> values = new ArrayList<>();
         for (int selectedNumber : mSelectedNumbers) {
-            values.add((T) getDisplayValue(selectedNumber));
+            values.add(getDisplayValue(selectedNumber));
         }
         return values;
     }
@@ -210,10 +211,11 @@ public class MultiSelector extends FrameLayout {
         return value;
     }
 
-    public List<Integer> getSelectedValues() {
-        List<Integer> values = new ArrayList<>();
-        for (int selectedNumber : mSelectedNumbers) {
-            values.add(getValue(selectedNumber));
+    public int[] getSelectedValues() {
+        int[] values = new int[mSelectedNumbers.size()];
+        Iterator<Integer> iterator = mSelectedNumbers.iterator();
+        for (int i = 0; i < mSelectedNumbers.size(); i++) {
+            values[i] = getValue(iterator.next());
         }
         return values;
     }
