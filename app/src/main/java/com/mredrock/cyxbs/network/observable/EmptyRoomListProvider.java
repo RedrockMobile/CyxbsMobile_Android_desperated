@@ -2,8 +2,10 @@ package com.mredrock.cyxbs.network.observable;
 
 import android.util.SparseArray;
 
+import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
+import com.mredrock.cyxbs.util.EmptyConverter;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,11 +29,9 @@ public enum EmptyRoomListProvider {
     private static final short SECTION_MASK = BUILDING_MASK >> 3;
 
     private final SparseArray<List<String>> mMemoryCache;
-    private final SparseArray<Subscriber> mRequestMap;
 
     EmptyRoomListProvider() {
         mMemoryCache = new SparseArray<>();
-        mRequestMap = new SparseArray<>();
     }
 
     public static int makeKey(int week, int weekday, int building, int section) {
@@ -42,28 +42,32 @@ public enum EmptyRoomListProvider {
         return INSTANCE;
     }
 
-    public Observable<List<String>> createObservable(int week, int weekday, int building, int section) {
-        return Observable.create(new OnSubscribe(week, weekday, building, section));
+    public Observable<EmptyRoom[]> createObservable(int week, int weekday, int building, int[] sections) {
+        return Observable.create(new OnSubscribe(week, weekday, building, sections));
     }
 
-    private class OnSubscribe implements Observable.OnSubscribe<List<String>> {
+    private class OnSubscribe implements Observable.OnSubscribe<EmptyRoom[]> {
         private final int mWeek;
         private final int mWeekday;
         private final int mBuilding;
-        private final int mSection;
+        private final int[] mSections;
 
-        private OnSubscribe(int week, int weekday, int building, int section) {
+        private OnSubscribe(int week, int weekday, int building, int[] sections) {
             mWeek = week;
             mWeekday = weekday;
             mBuilding = building;
-            mSection = section;
+            mSections = sections;
         }
 
         @Override
-        public void call(Subscriber<? super List<String>> subscriber) {
+        public void call(Subscriber<? super EmptyRoom[]> subscriber) {
             subscriber.onStart();
             try {
-                subscriber.onNext(load());
+                EmptyConverter converter = new EmptyConverter();
+                for (int section : mSections) {
+                    converter.setEmptyData(load(section));
+                }
+                subscriber.onNext(converter.convert().toArray(new EmptyRoom[]{}));
                 subscriber.onCompleted();
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
@@ -71,13 +75,13 @@ public enum EmptyRoomListProvider {
             }
         }
 
-        private List<String> load() throws IOException {
-            final int key = makeKey(mWeek, mWeekday, mBuilding, mSection);
+        private List<String> load(int section) throws IOException {
+            final int key = makeKey(mWeek, mWeekday, mBuilding, section);
             List<String> list = mMemoryCache.get(key, null);
             if (list == null) {
-                list = RequestManager.getInstance().getEmptyRoomListSync(mWeek, mWeekday, mBuilding, mSection);
+                list = RequestManager.getInstance().getEmptyRoomListSync(mWeek, mWeekday, mBuilding, section);
                 if (list == null) {
-                    throw new RedrockApiException("no data is returned");
+                    throw new RedrockApiException();
                 }
                 mMemoryCache.put(key, list);
             }

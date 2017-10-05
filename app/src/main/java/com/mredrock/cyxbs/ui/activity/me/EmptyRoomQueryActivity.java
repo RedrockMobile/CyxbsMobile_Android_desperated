@@ -20,6 +20,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.selector.MultiSelector;
 import com.mredrock.cyxbs.component.widget.selector.StringAdapter;
 import com.mredrock.cyxbs.component.widget.selector.ViewInitializer;
+import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
@@ -179,19 +180,19 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         });
     }
 
-    private void load() {
+    private void query() {
         int week = mWeekSelector.getSelectedValues()[0];
         int weekday = mWeekdaySelector.getSelectedValues()[0];
         int building = mBuildingSelector.getSelectedValues()[0];
-        int section = mSectionSelector.getSelectedValues()[0];
+        int[] sections = mSectionSelector.getSelectedValues();
         RequestManager.getInstance().queryEmptyRoomList(new SimpleSubscriber<>(this,
-                new SubscriberListener<List<String>>() {
+                new SubscriberListener<EmptyRoom[]>() {
                     @Override
-                    public void onNext(List<String> strings) {
-                        super.onNext(strings);
-                        Log.d("tag", strings.toString());
+                    public void onNext(EmptyRoom[] emptyRooms) {
+                        super.onNext(emptyRooms);
+                        Log.d("tag", emptyRooms.toString());
                     }
-                }), week, weekday, building, section);
+                }), week, weekday, building, sections);
     }
 
     @Override
@@ -202,7 +203,7 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
     @Override
     public void onItemSelectedChange(MultiSelector selector, RecyclerView.ViewHolder viewHolder, int value, boolean checked, int position) {
         if (mBuildingSelector.selectedSize() > 0 && mSectionSelector.selectedSize() > 0) {
-            load();
+            query();
         }
     }
 }

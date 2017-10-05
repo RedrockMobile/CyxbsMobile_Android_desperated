@@ -13,6 +13,7 @@ import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.model.Empty;
+import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.model.FoodComment;
@@ -340,9 +341,9 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void queryEmptyRoomList(Subscriber<List<String>> subscriber, int week, int weekday, int build, int section) {
-        Observable<List<String>> observable = EmptyRoomListProvider.INSTANCE
-                .createObservable(week, weekday, build, section);
+    public void queryEmptyRoomList(Subscriber<EmptyRoom[]> subscriber, int week, int weekday, int build, int[] sections) {
+        Observable<EmptyRoom[]> observable = EmptyRoomListProvider.INSTANCE
+                .createObservable(week, weekday, build, sections);
         emitObservable(observable, subscriber);
     }
 
