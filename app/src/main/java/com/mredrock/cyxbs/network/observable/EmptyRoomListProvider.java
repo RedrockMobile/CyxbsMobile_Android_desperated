@@ -42,11 +42,11 @@ public enum EmptyRoomListProvider {
         return INSTANCE;
     }
 
-    public Observable<EmptyRoom[]> createObservable(int week, int weekday, int building, int[] sections) {
+    public Observable<List<EmptyRoom>> createObservable(int week, int weekday, int building, int[] sections) {
         return Observable.create(new OnSubscribe(week, weekday, building, sections));
     }
 
-    private class OnSubscribe implements Observable.OnSubscribe<EmptyRoom[]> {
+    private class OnSubscribe implements Observable.OnSubscribe<List<EmptyRoom>> {
         private final int mWeek;
         private final int mWeekday;
         private final int mBuilding;
@@ -60,14 +60,14 @@ public enum EmptyRoomListProvider {
         }
 
         @Override
-        public void call(Subscriber<? super EmptyRoom[]> subscriber) {
+        public void call(Subscriber<? super List<EmptyRoom>> subscriber) {
             subscriber.onStart();
             try {
                 EmptyConverter converter = new EmptyConverter();
                 for (int section : mSections) {
                     converter.setEmptyData(load(section));
                 }
-                subscriber.onNext(converter.convert().toArray(new EmptyRoom[]{}));
+                subscriber.onNext(converter.convert());
                 subscriber.onCompleted();
             } catch (Throwable throwable) {
                 throwable.printStackTrace();

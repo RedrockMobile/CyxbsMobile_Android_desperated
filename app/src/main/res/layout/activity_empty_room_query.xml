@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FFFFFF"
+    android:orientation="vertical"
     tools:context="com.mredrock.cyxbs.ui.activity.me.EmptyRoomQueryActivity">
 
     <include layout="@layout/toolbar"/>
@@ -33,8 +33,8 @@
             android:id="@+id/weekday_selector"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            app:radio_button_mode="true"
-            app:display_values="@array/course_weekdays"/>
+            app:display_values="@array/course_weekdays"
+            app:radio_button_mode="true"/>
 
         <View
             android:layout_width="match_parent"
@@ -45,8 +45,8 @@
             android:id="@+id/building_selector"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            app:radio_button_mode="true"
-            app:display_values="@array/empty_buildings"/>
+            app:display_values="@array/empty_buildings"
+            app:radio_button_mode="true"/>
 
         <View
             android:layout_width="match_parent"
@@ -62,19 +62,27 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp">
+        android:layout_height="wrap_content">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:background="#F1F1F1"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:background="#F1F1F1"/>
 
         <ImageView
             android:id="@+id/arrow"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="6dp"
             android:src="@drawable/ic_empty_room_query_arrow"/>
     </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"/>
 </LinearLayout>

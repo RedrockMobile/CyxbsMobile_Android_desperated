@@ -7,9 +7,9 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
@@ -25,6 +25,7 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.mredrock.cyxbs.ui.adapter.me.EmptyRoomResultAdapter;
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 
@@ -53,6 +54,9 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
     MultiSelector mSectionSelector;
     @Bind(R.id.arrow)
     ImageView mArrow;
+    @Bind(R.id.result)
+    RecyclerView mRecyclerView;
+    private EmptyRoomResultAdapter mResultAdapter;
 
     private ValueAnimator mExpandedAnimator;
     private boolean mExpanded = true;
@@ -87,6 +91,7 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         initData();
         initSelectors();
         initExpandedAnimator();
+        initRv();
     }
 
     private void initData() {
@@ -145,7 +150,7 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
                     public void onBindView(TextView textView, String displayValue, boolean selected, int position) {
                         super.onBindView(textView, displayValue, selected, position);
                         Drawable drawable = selected ? getResources().getDrawable(R.drawable.shape_empty_room_query_item) : null;
-                        int color = selected ? Color.parseColor("#FFFFFF") : Color.parseColor("#000000");
+                        int color = selected ? Color.parseColor("#FFFFFF") : Color.parseColor("#393939");
                         textView.setBackgroundDrawable(drawable);
                         textView.setTextColor(color);
                     }
@@ -180,19 +185,39 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         });
     }
 
+    private void initRv() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+    }
+
     private void query() {
         int week = mWeekSelector.getSelectedValues()[0];
         int weekday = mWeekdaySelector.getSelectedValues()[0];
         int building = mBuildingSelector.getSelectedValues()[0];
         int[] sections = mSectionSelector.getSelectedValues();
         RequestManager.getInstance().queryEmptyRoomList(new SimpleSubscriber<>(this,
-                new SubscriberListener<EmptyRoom[]>() {
+                new SubscriberListener<List<EmptyRoom>>() {
                     @Override
-                    public void onNext(EmptyRoom[] emptyRooms) {
+                    public void onStart() {
+                        super.onStart();
+                    }
+
+                    @Override
+                    public void onNext(List<EmptyRoom> emptyRooms) {
                         super.onNext(emptyRooms);
-                        Log.d("tag", emptyRooms.toString());
+                        refreshResult(emptyRooms);
                     }
                 }), week, weekday, building, sections);
+    }
+
+    private void refreshResult(List<EmptyRoom> emptyRooms) {
+        if (mResultAdapter == null) {
+            mResultAdapter = new EmptyRoomResultAdapter(emptyRooms, this);
+            mRecyclerView.setAdapter(mResultAdapter);
+        } else {
+            mResultAdapter.updateData(emptyRooms);
+        }
     }
 
     @Override

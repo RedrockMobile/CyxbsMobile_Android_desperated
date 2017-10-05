@@ -341,8 +341,8 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void queryEmptyRoomList(Subscriber<EmptyRoom[]> subscriber, int week, int weekday, int build, int[] sections) {
-        Observable<EmptyRoom[]> observable = EmptyRoomListProvider.INSTANCE
+    public void queryEmptyRoomList(Subscriber<List<EmptyRoom>> subscriber, int week, int weekday, int build, int[] sections) {
+        Observable<List<EmptyRoom>> observable = EmptyRoomListProvider.INSTANCE
                 .createObservable(week, weekday, build, sections);
         emitObservable(observable, subscriber);
     }

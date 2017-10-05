@@ -10,11 +10,9 @@ import android.support.v7.widget.Toolbar;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
-import com.mredrock.cyxbs.ui.adapter.me.EmptyAdapter;
+import com.mredrock.cyxbs.ui.adapter.me.EmptyRoomResultAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,8 +57,8 @@ public class EmptyRoomResultActivity extends BaseActivity {
     }
 
     private void initRv() {
-        EmptyAdapter emptyAdapter = new EmptyAdapter(mEmptyRoomList, this);
+        EmptyRoomResultAdapter emptyRoomResultAdapter = new EmptyRoomResultAdapter(mEmptyRoomList, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(emptyAdapter);
+        mRecyclerView.setAdapter(emptyRoomResultAdapter);
     }
 }
