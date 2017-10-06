@@ -285,6 +285,8 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         float y = e.getY();
         if (y < mArrow.getBottom()) {
             return super.dispatchTouchEvent(e);
+        } else if (mExpandedAnimator.isRunning()) {
+            return true;
         }
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
