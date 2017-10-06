@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.mredrock.cyxbs">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -56,6 +56,7 @@
         <meta-data
             android:name="BUGLY_APP_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}"/>
+
 
         <activity
             android:name=".ui.activity.MainActivity"
@@ -303,6 +304,7 @@
         <!-- 社会化分享 -->
         <activity android:name=".ui.activity.me.EmptyRoomQueryActivity">
         </activity>
+        <activity android:name=".ui.activity.explore.RollerViewActivity"></activity>
     </application>
 
 </manifest>

@@ -21,6 +21,7 @@ import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
+import com.mredrock.cyxbs.model.RollerViewInfo;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
@@ -746,6 +747,12 @@ public enum RequestManager {
             return true;
         }
 
+    }
+
+    public void getRollerViewInfo(Subscriber<List<RollerViewInfo>> subscriber, String pic_num) {
+        Observable<List<RollerViewInfo>> observable = redrockApiService.getRollerViewInfo(pic_num)
+                .map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable, subscriber);
     }
 }
 
