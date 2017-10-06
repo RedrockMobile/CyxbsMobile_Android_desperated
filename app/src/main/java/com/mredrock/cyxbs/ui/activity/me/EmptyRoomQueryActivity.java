@@ -106,6 +106,11 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         mSchoolCalendar = new SchoolCalendar();
         int week = mSchoolCalendar.getWeekOfTerm();
         List<String> list = new ArrayList<>(mWeekSelector.getDisplayValues());
+        //删除第一行的“整学期”
+        list.remove(0);
+        //对week的值进行修正
+        week = week > list.size() ? 0 : week - 1;
+        //删除本周之前的周数
         for (int i = 0; i < week; i++) {
             list.remove(0);
         }
