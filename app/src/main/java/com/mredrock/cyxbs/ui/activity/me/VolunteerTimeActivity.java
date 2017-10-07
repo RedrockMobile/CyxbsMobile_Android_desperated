@@ -2,12 +2,15 @@ package com.mredrock.cyxbs.ui.activity.me;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnTabSelectedListener{
     private static final String TAG = "VolunteerTimeActivity";
 
@@ -64,6 +68,8 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     ImageView showTab;
     @Bind(R.id.volunteer_unshow_image)
     ImageView unshowTab;
+    @Bind(R.id.volunteer_refresh)
+    ImageView refreshHeart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +116,10 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
 
             @Override
             public void onNext(VolunteerTime.DataBean dataBean) {
+                refreshHeart.setVisibility(View.GONE);
                 if (dataBean.getRecord().size() == 0) {
                     for (int i = 0; i < 5; i++) {
+                        fragmentList = new ArrayList<Fragment>();
                         fragmentList.add(new NoTimeVolunteerFragment());
                     }
                 } else {
@@ -326,4 +334,5 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
 }

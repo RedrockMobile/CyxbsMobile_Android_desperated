@@ -7,97 +7,90 @@
     android:orientation="vertical"
     android:background="#FFFFFF"
     tools:context="com.mredrock.cyxbs.ui.activity.me.VolunteerTimeLoginActivity">
-
-   <TextView
-       android:layout_width="match_parent"
-       android:layout_height="10dp"
-       android:background="@color/volunteer_toolbar_color"/>
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/volunteer_toolbar"
-        android:background="@color/volunteer_toolbar_color">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/volunteer_login_back"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/volunteer_back"
-                android:layout_gravity="center"
-                />
-            <TextView
-                android:id="@+id/volunteer_toolbar_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textColor="#F6F6F6"
-                android:textSize="18sp"
-                android:text="完善信息"/>
-        </LinearLayout>
-    </android.support.v7.widget.Toolbar>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/volunteer_login_background"
-       />
-
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:layout_marginTop="45dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/volunteer_login_number"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="9dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/volunteer_background_login"
+            />
+
+        <android.support.v7.widget.Toolbar
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/volunteer_toolbar"
+            android:background="#00000000"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/volunteer_login_back"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/volunteer_back"
+                    android:layout_gravity="center"
+                    />
+                <TextView
+                    android:id="@+id/volunteer_toolbar_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="#F6F6F6"
+                    android:textSize="18sp"
+                    android:text="完善信息"/>
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#00000000"/>
+
+    </FrameLayout>
+
         <EditText
             android:id="@+id/volunteer_account"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
             android:layout_width="270dp"
             android:layout_height="50dp"
-            android:gravity="center_horizontal"
+            android:drawableLeft="@drawable/volunteer_login_number"
+            android:drawablePadding="16dp"
+            android:inputType="number"
             android:hint="@string/volunteer_account"
             android:textColorHint="@color/volunteer_edit_Normal"
             android:textCursorDrawable="@drawable/volunteer_cursor_color"
             android:cursorVisible="true"
-            app:theme="@style/VolunteerEditText"
-           />
-    </FrameLayout>
+            android:lines="1"
+            android:singleLine="true"
+            android:imeOptions="actionGo"
+            app:theme="@style/VolunteerEditText"/>
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+
+    <EditText
+        android:id="@+id/volunteer_password"
+        android:layout_width="270dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal">
+        android:cursorVisible="true"
+        android:drawableLeft="@drawable/volunteer_login_password"
+        android:drawablePadding="16dp"
+        android:hint="@string/volunteer_password"
+        android:lines="1"
+        android:password="true"
+        android:singleLine="true"
+        android:imeOptions="actionGo"
+        android:textColorHint="@color/volunteer_edit_Normal"
+        android:textCursorDrawable="@drawable/volunteer_cursor_color"
+        app:theme="@style/VolunteerEditText" />
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/volunteer_login_password"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="9dp"/>
-        <EditText
-            android:id="@+id/volunteer_password"
-            android:layout_width="270dp"
-            android:layout_height="50dp"
-            android:gravity="center_horizontal"
-            android:hint="@string/volunteer_password"
-            android:password="true"
-            android:textColorHint="@color/volunteer_edit_Normal"
-            android:textCursorDrawable="@drawable/volunteer_cursor_color"
-            android:cursorVisible="true"
-            app:theme="@style/VolunteerEditText"
-            />
-    </FrameLayout>
 
     <FrameLayout
         android:layout_width="wrap_content"

@@ -86,16 +86,24 @@
         app:tabSelectedTextColor="@color/volunteer_time_left"
         app:tabIndicatorColor="@color/volunteer_edit_activated" />
 
+    <ImageView
+        android:id="@+id/volunteer_refresh"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/volunteer_full_heart"
+        android:scaleType="centerCrop"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/volunteer_time_nohour">
+
         <android.support.v4.view.ViewPager
             android:id="@+id/volunteer_view_pager"
-            android:background="@color/volunteer_pager_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            android:background="@color/volunteer_pager_background" />
 
     </LinearLayout>
 

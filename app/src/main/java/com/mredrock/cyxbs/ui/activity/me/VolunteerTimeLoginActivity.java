@@ -1,23 +1,33 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.VolunteerTime;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.VolunteerTimeSP;
+import com.wangjie.androidbucket.thread.Runtask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,6 +39,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
     private String password;
 
     private VolunteerTimeSP volunteerSP;
+    private ProgressDialog dialog;
 
     @Bind(R.id.volunteer_toolbar)
     Toolbar toolbar;
@@ -51,11 +62,13 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
 
         ButterKnife.bind(this);
         initToolbar();
+        useSoftKeyboard();
         initData();
     }
 
     @OnClick(R.id.volunteer_login)
     void loginButtonClick(View v) {
+        showProgressDialog();
         initData();
         if (v.getId() == R.id.volunteer_login) login(account, password);
     }
@@ -84,6 +97,24 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
         }
     }
 
+    private void useSoftKeyboard() {
+        passwordView.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                showProgressDialog();
+                initData();
+                login(account,password);
+                handled = true;
+
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager.isActive()) {
+                    inputMethodManager.hideSoftInputFromWindow(VolunteerTimeLoginActivity.this.getCurrentFocus().getWindowToken(), 0);
+                }
+            }
+            return handled;
+        });
+    }
+
     private void login(String account, String password) {
         RequestManager.INSTANCE.getVolunteer(new Subscriber<VolunteerTime>() {
 
@@ -92,8 +123,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable e) {
-                Toast.makeText(VolunteerTimeLoginActivity.this,
-                        "亲，网络有问题哦", Toast.LENGTH_SHORT).show();
+//               showUnsuccessDialog("网络有问题哦");
                 Log.d("RequestManager", "onError: ------------------------------------------------------------------------------");
                 e.printStackTrace();
             }
@@ -105,30 +135,62 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
                         volunteerSP.bindVolunteerInfo(account, password, dataBean.getData().getUid());
                         Intent intent = new Intent(VolunteerTimeLoginActivity.this, VolunteerTimeActivity.class);
                         startActivity(intent);
+                        dialog.dismiss();
                         finish();
                         break;
-                    case 001:
-                        showToast("亲，输入的账号或密码有误哦");
+                    case 1:
+                        showUnsuccessDialog("亲，输入的账号或密码有误哦");
                         break;
-                    case 002:
-                        showToast("亲，输入的账号不存在哦");
+                    case 2:
+                        showUnsuccessDialog("亲，输入的账号不存在哦");
                         break;
-                    case 003:
-                        showToast("亲，请填入正确的密码");
+                    case 3:
+                        showUnsuccessDialog("亲，请填入正确的密码");
                         break;
-                    case 004:
-                        showToast("亲，请填入正确的账号");
+                    case 4:
+                        showUnsuccessDialog("亲，请填入正确的账号");
                         break;
                 }
             }
         }, account, password);
     }
 
-    public void showToast(String content) {
-        VolunteerTimeLoginActivity.this.runOnUiThread(new Runnable() {
+    public void showProgressDialog() {
+        dialog = new ProgressDialog(VolunteerTimeLoginActivity.this);
+        dialog.setMessage("登录中...");
+        dialog.setCancelable(true);
+        dialog.show();
+    }
+
+    public void showUnsuccessDialog(String text){
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(VolunteerTimeLoginActivity.this, content, Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(() -> {
+                    new MaterialDialog.Builder(VolunteerTimeLoginActivity.this)
+                            .title("登录失败")
+                            .content(text)
+                            .positiveText("我知道啦")
+                            .negativeText("取消")
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog dialog) {
+                                    super.onPositive(dialog);
+                                    accountView.setText("");
+                                    passwordView.setText("");
+                                }
+
+                                @Override
+                                public void onNegative(MaterialDialog dialog) {
+                                    super.onNegative(dialog);
+                                    accountView.setText("");
+                                    passwordView.setText("");
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                });
             }
         });
     }
