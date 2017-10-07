@@ -247,7 +247,7 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(() -> new MaterialDialog.Builder(this)
                     .title("解除账号绑定？")
-                    .content("亲，真的要取消已绑定的账号咩？")
+                    .content("亲，真的要取消已绑定的账号吗？")
                     .positiveText("确定")
                     .negativeText("取消")
                     .callback(new MaterialDialog.ButtonCallback() {
