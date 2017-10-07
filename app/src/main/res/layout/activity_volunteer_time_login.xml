@@ -27,13 +27,13 @@
             >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/volunteer_login_back"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/volunteer_back"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_vertical"
                     />
                 <TextView
                     android:id="@+id/volunteer_toolbar_title"
