@@ -181,11 +181,7 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
 
             allFragment.setRecordBeanList(allRecordList);
             allFragment.setYearList(allYearList);
-            if (allRecordList.get(0).size() == 0) {
-                fragmentList.add(0, new NoTimeVolunteerFragment());
-            } else {
-                fragmentList.add(0, allFragment);
-            }
+            fragmentList.add(0, allFragment);
         }
     }
 
@@ -224,9 +220,6 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
             }
         }
 
-//        if (.size() == 0) {
-//            yearMap.put(yearListInt.get(nowYear), null);
-//        } else if (monthList.size() != 0) {
         switch (nowYear) {
             case 0:
                 yearMap.put(yearListInt.get(nowYear), firstYear);
