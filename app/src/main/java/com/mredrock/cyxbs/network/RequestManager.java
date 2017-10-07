@@ -12,6 +12,8 @@ import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.ElectricCharge;
+import com.mredrock.cyxbs.model.Empty;
+import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.model.FoodComment;
@@ -19,6 +21,7 @@ import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
+import com.mredrock.cyxbs.model.RollerViewInfo;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
@@ -48,6 +51,7 @@ import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
 import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.network.interceptor.StudentNumberInterceptor;
 import com.mredrock.cyxbs.network.observable.CourseListProvider;
+import com.mredrock.cyxbs.network.observable.EmptyRoomListProvider;
 import com.mredrock.cyxbs.network.service.LostApiService;
 import com.mredrock.cyxbs.network.service.RedrockApiService;
 import com.mredrock.cyxbs.network.service.VolunteerService;
@@ -354,12 +358,23 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void getEmptyRoomList(Subscriber<List<String>> subscriber, String
-            buildNum, String week, String weekdayNum, String sectionNum) {
-        Observable<List<String>> observable = redrockApiService
-                .getEmptyRoomList(buildNum, week, weekdayNum, sectionNum)
-                .map(new RedrockApiWrapperFunc<>());
+//    public void getEmptyRoomList(Subscriber<List<String>> subscriber, String
+//            buildNum, String week, String weekdayNum, String sectionNum) {
+//        Observable<List<String>> observable = redrockApiService
+//                .getEmptyRoomList(buildNum, week, weekdayNum, sectionNum)
+//                .map(new RedrockApiWrapperFunc<>());
+//        emitObservable(observable, subscriber);
+//    }
+
+    public void queryEmptyRoomList(Subscriber<List<EmptyRoom>> subscriber, int week, int weekday, int build, int[] sections) {
+        Observable<List<EmptyRoom>> observable = EmptyRoomListProvider.INSTANCE
+                .createObservable(week, weekday, build, sections);
         emitObservable(observable, subscriber);
+    }
+
+    public List<String> getEmptyRoomListSync(int week, int weekday, int build, int section) throws IOException {
+        Response<Empty> response = redrockApiService.getEmptyRoomListCall(week, weekday, build, section).execute();
+        return response.body().data;
     }
 
     public void getGradeList(Subscriber<List<Grade>> subscriber, String
@@ -755,6 +770,12 @@ public enum RequestManager {
             return true;
         }
 
+    }
+
+    public void getRollerViewInfo(Subscriber<List<RollerViewInfo>> subscriber, String pic_num) {
+        Observable<List<RollerViewInfo>> observable = redrockApiService.getRollerViewInfo(pic_num)
+                .map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable, subscriber);
     }
 }
 

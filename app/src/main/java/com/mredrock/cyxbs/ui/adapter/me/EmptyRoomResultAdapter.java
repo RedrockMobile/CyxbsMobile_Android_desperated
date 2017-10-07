@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
@@ -22,44 +21,30 @@ import butterknife.ButterKnife;
 /**
  * Created by skylineTan on 2016/4/19 10:59.
  */
-public class EmptyAdapter extends BaseRecyclerViewAdapter<EmptyRoom,
-        EmptyAdapter.ViewHolder> {
+public class EmptyRoomResultAdapter extends BaseRecyclerViewAdapter<EmptyRoom,
+        EmptyRoomResultAdapter.ViewHolder> {
 
-    private static final int[] IDS = new int[] {R.drawable.circle_pink, R.drawable.circle_blue, R.drawable.circle_yellow};
-
-    public EmptyAdapter(List<EmptyRoom> mDatas, Context context) {
-        super(mDatas, context);
+    public EmptyRoomResultAdapter(List<EmptyRoom> data, Context context) {
+        super(data, context);
     }
-
 
     @Override
     protected void bindData(ViewHolder holder, EmptyRoom data, int position) {
-        if (position == getItemCount() - 1) {
-            holder.vLine.setVisibility(View.INVISIBLE);
-        } else {
-            holder.vLine.setVisibility(View.VISIBLE);
-        }
         holder.tvBuilding.setText(data.getFloor());
         holder.gvEmptyRoom.setAdapter(new EmptyGvAdapter(mContext, data
                 .getEmptyRooms()));
-        holder.mCircle.setImageResource(IDS[position % 3]);
     }
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_empty,
+                .inflate(R.layout.item_empty_room_result,
                         parent, false));
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-        @Bind(R.id.empty_left_line)
-        View vLine;
-        @Bind(R.id.empty_left_circle)
-        ImageView mCircle;
         @Bind(R.id.item_empty_tv_building)
         TextView tvBuilding;
         @Bind(R.id.item_empty_gv)

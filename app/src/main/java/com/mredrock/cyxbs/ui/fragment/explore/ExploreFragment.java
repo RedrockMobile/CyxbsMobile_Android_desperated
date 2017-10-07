@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
+import com.mredrock.cyxbs.model.RollerViewInfo;
+import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
@@ -20,12 +24,14 @@ import com.mredrock.cyxbs.ui.adapter.ExploreRollerViewAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.ui.widget.RollerView;
 import com.mredrock.cyxbs.util.LogUtils;
+import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.freshmanspecial.view.SpecialMainActivity;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 
 
 /**
@@ -116,6 +122,11 @@ public class ExploreFragment extends BaseFragment {
         mViewPager.setCurrentItem(Integer.MAX_VALUE / 2);
         mViewPager.setPageMargin(DensityUtils.dp2px(APP.getContext(), 12));*/
 
+        setRollerView();
+        return view;
+    }
+
+    private void setRollerView() {
         mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(), new int[]{
                 R.drawable.img_cqupt1,
                 R.drawable.img_cqupt2,
@@ -123,7 +134,60 @@ public class ExploreFragment extends BaseFragment {
                 R.drawable.img_cqupt1,
                 R.drawable.img_cqupt2,
                 R.drawable.img_cqupt3}));
-        return view;
+
+        RequestManager.getInstance().getRollerViewInfo(new SimpleSubscriber< >(getActivity(), new SubscriberListener<List<RollerViewInfo>>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onCompleted() {
+                super.onCompleted();
+            }
+
+            @Override
+            public boolean onError(Throwable e) {
+                Utils.toast(getActivity(), "轮播图获取失败");
+                return super.onError(e);
+            }
+
+            @Override
+            public void onNext(List<RollerViewInfo> rollerViewInfoList) {
+                mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(),rollerViewInfoList));
+                super.onNext(rollerViewInfoList);
+            }
+        }), "4");
+        /*OkHttpClient client = new OkHttpClient();
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("pic_num", "4");
+        RequestBody body = builder.build();
+        final Request request = new Request.Builder()
+                .url("http://hongyan.cqupt.edu.cn/app/api/pictureCarousel.php")
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                List<ExploreRollerViewAdapter.Url> urlList = new ArrayList<ExploreRollerViewAdapter.Url>();
+                try {
+                    JSONObject object = new JSONObject(response.body().string());
+                    JSONArray data = object.getJSONArray("data");
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject json = (JSONObject) data.get(i);
+                        urlList.add(new ExploreRollerViewAdapter.Url(json.getString("picture_url"), json.getString("picture_goto_url")));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                getActivity().runOnUiThread(()-> mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(),urlList)));
+            }
+        });*/
     }
 
     @Override

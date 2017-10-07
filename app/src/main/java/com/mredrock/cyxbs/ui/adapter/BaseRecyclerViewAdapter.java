@@ -17,8 +17,8 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
 
     AdapterView.OnItemClickListener mItemClickListener;
 
-    public BaseRecyclerViewAdapter(List<T> mDatas, Context context) {
-        this.mDatas = mDatas;
+    public BaseRecyclerViewAdapter(List<T> data, Context context) {
+        this.mDatas = data;
         this.mContext = context;
     }
 

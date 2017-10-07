@@ -27,5 +27,10 @@ public class NoScrollGridView extends GridView {
         int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
                 MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
+        int minHeight = getSuggestedMinimumHeight();
+        if (getMeasuredHeight() < minHeight) {
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(minHeight, MeasureSpec.EXACTLY);
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
     }
 }

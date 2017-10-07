@@ -64,6 +64,9 @@ public class Const {
     public static final String API_VOLUNTEER_LOGIN = "/servicerecord/login";
     public static final String API_VOLUNTEER_UID = "/servicerecord/getrecord";
 
+    //轮播图
+    public static final String API_ROLLER_VIEW = "http://hongyan.cqupt.edu.cn/app/api/pictureCarousel.php";
+
     //Affair
     public static final  String API_GET_AFFAIR = "/cyxbsMobile/index.php/Home/Person/getTransaction";
 

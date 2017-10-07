@@ -13,6 +13,7 @@ import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
+import com.mredrock.cyxbs.model.RollerViewInfo;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.Student;
@@ -37,6 +38,7 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -108,12 +110,19 @@ public interface RedrockApiService {
     @GET(Const.APT_SEARCH_STUDENT)
     Observable<Student.StudentWrapper> getStudent(@Query("stu") String stu);
 
+//    @FormUrlEncoded
+//    @POST(Const.API_EMPTYROOM)
+//    Observable<Empty> getEmptyRoomList(@Field("buildNum") String buildNum,
+//                                       @Field("week") String week,
+//                                       @Field("weekdayNum") String weekdayNum,
+//                                       @Field("sectionNum") String sectionNum);
+
     @FormUrlEncoded
     @POST(Const.API_EMPTYROOM)
-    Observable<Empty> getEmptyRoomList(@Field("buildNum") String buildNum,
-                                       @Field("week") String week,
-                                       @Field("weekdayNum") String weekdayNum,
-                                       @Field("sectionNum") String sectionNum);
+    Call<Empty> getEmptyRoomListCall(@Field("week") int week,
+                                     @Field("weekdayNum") int weekdayNum,
+                                     @Field("buildNum") int buildNum,
+                                     @Field("sectionNum") int sectionNum);
 
     @FormUrlEncoded
     @POST(Const.API_SCORE)
@@ -333,4 +342,7 @@ public interface RedrockApiService {
                                                  @Field("stuNum") String stuNum,
                                                  @Field("idNum") String idNum,
                                                  @Field("official") boolean official);
+    @FormUrlEncoded
+    @POST(Const.API_ROLLER_VIEW)
+    Observable<RedrockApiWrapper<List<RollerViewInfo>>> getRollerViewInfo(@Field("pic_num") String pic_num);
 }
