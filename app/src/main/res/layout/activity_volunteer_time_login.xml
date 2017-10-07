@@ -25,7 +25,7 @@
             android:id="@+id/volunteer_toolbar"
             android:background="#00000000"
             >
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
@@ -44,7 +44,7 @@
                     android:textColor="#F6F6F6"
                     android:textSize="18sp"
                     android:text="完善信息"/>
-            </LinearLayout>
+            </FrameLayout>
         </android.support.v7.widget.Toolbar>
 
         <TextView
