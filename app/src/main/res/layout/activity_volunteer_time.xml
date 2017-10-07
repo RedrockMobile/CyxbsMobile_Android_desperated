@@ -19,51 +19,58 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
-            <TextView
-                android:id="@+id/volunteer_time_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="全部"
-                android:textColor="@color/volunteer_login_background"
-                android:textSize="20dp" />
-
+            <!--android:layout_centerInParent="true"-->
             <ImageView
                 android:id="@+id/volunteer_time_back"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/volunteer_time_back_arrow" />
-
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/volunteer_time_title"
-                android:layout_centerVertical="true">
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+                <TextView
+                    android:id="@+id/volunteer_time_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="全部"
+                    android:textColor="@color/volunteer_login_background"
+                    android:textSize="20dp" />
 
-                <ImageView
-                    android:id="@+id/volunteer_unshow_image"
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="7dp"
-                    android:paddingTop="7dp"
-                    android:paddingLeft="5dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/volunteer_time_unshow_tab" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/volunteer_time_title"
+                    android:layout_centerVertical="true">
 
-                <ImageView
-                    android:id="@+id/volunteer_show_image"
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="7dp"
-                    android:paddingTop="7dp"
-                    android:paddingLeft="5dp"
-                    android:visibility="gone"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/volunteer_time_show_tab"/>
-            </FrameLayout>
+                    <ImageView
+                        android:id="@+id/volunteer_unshow_image"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="7dp"
+                        android:paddingTop="7dp"
+                        android:paddingLeft="5dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/volunteer_time_unshow_tab" />
+
+                    <ImageView
+                        android:id="@+id/volunteer_show_image"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="7dp"
+                        android:paddingTop="7dp"
+                        android:paddingLeft="5dp"
+                        android:visibility="gone"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/volunteer_time_show_tab"/>
+                </FrameLayout>
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/volunteer_unbind"
