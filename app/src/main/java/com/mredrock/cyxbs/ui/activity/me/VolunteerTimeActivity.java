@@ -116,17 +116,13 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
 
             @Override
             public void onNext(VolunteerTime.DataBean dataBean) {
+                fragmentList = new ArrayList<>();
+                allYearList = new ArrayList<>();
                 refreshHeart.setVisibility(View.GONE);
-                if (dataBean.getRecord().size() == 0) {
-                    for (int i = 0; i < 5; i++) {
-                        fragmentList = new ArrayList<Fragment>();
-                        fragmentList.add(new NoTimeVolunteerFragment());
-                    }
-                } else {
-                    initializeYears();
-                    initFragmentList(dataBean);
-                    setTabLayout();
-                }
+
+                initializeYears();
+                initFragmentList(dataBean);
+                setTabLayout();
             }
         }, uid);
     }
@@ -155,42 +151,41 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     }
 
     private void initFragmentList(VolunteerTime.DataBean dataBean){
-        List<VolunteerTime.DataBean.RecordBean> recordBeen;
-        List<List<VolunteerTime.DataBean.RecordBean>> allRecordList = new ArrayList<>();
-        fragmentList = new ArrayList<>();
-        allYearList = new ArrayList<>();
-        AllVolunteerFragment allFragment = new AllVolunteerFragment();
-        allFragment.setContext(VolunteerTimeActivity.this);
-        allFragment.setAllHour(dataBean.getHours() + "");
-
-        for (int i = 1; i < yearList.size(); i++) {
-            dealYear(dataBean, i - 1);
-            recordBeen = yearMap.get(Integer.parseInt(yearList.get(i)));
-            allRecordList.add(recordBeen);
-            if (recordBeen == null || recordBeen.size() == 0) {
+        if (dataBean.getRecord().size() == 0) {
+            for (int i = 0; i < 5; i++) {
                 fragmentList.add(new NoTimeVolunteerFragment());
-            } else if (recordBeen.size() != 0 && yearMap.get(Integer.parseInt(yearList.get(i))).size() > 0 && !(yearList.get(i).equals("全部"))
-                    ) {
-                FirstVolunteerTimeFragment fragment = new FirstVolunteerTimeFragment();
-                fragment.setContext(VolunteerTimeActivity.this);
-                fragment.setRecordBeanList(recordBeen);
-                fragment.setYear(yearList.get(i));
-                fragmentList.add(fragment);
-
             }
-        }
-
-        for (List<VolunteerTime.DataBean.RecordBean> recordList : allRecordList) {
-            for (VolunteerTime.DataBean.RecordBean record : recordList) {
-                Log.d(TAG, "initFragmentList: ：：：：：：：：：：：：：：：：：：：：：：：：：：：：：：：：：：：：：：" + record.getTitle());
-            }
-        }
-        allFragment.setRecordBeanList(allRecordList);
-        allFragment.setYearList(allYearList);
-        if (allRecordList.get(0).size() == 0) {
-            fragmentList.add(0, new NoTimeVolunteerFragment());
         } else {
-            fragmentList.add(0, allFragment);
+            List<VolunteerTime.DataBean.RecordBean> recordBeen;
+            List<List<VolunteerTime.DataBean.RecordBean>> allRecordList = new ArrayList<>();
+            AllVolunteerFragment allFragment = new AllVolunteerFragment();
+            allFragment.setContext(VolunteerTimeActivity.this);
+            allFragment.setAllHour(dataBean.getHours() + "");
+
+            for (int i = 1; i < yearList.size(); i++) {
+                dealYear(dataBean, i - 1);
+                recordBeen = yearMap.get(Integer.parseInt(yearList.get(i)));
+                allRecordList.add(recordBeen);
+                if (recordBeen == null || recordBeen.size() == 0) {
+                    fragmentList.add(new NoTimeVolunteerFragment());
+                } else if (recordBeen.size() != 0 && yearMap.get(Integer.parseInt(yearList.get(i))).size() > 0 && !(yearList.get(i).equals("全部"))
+                        ) {
+                    FirstVolunteerTimeFragment fragment = new FirstVolunteerTimeFragment();
+                    fragment.setContext(VolunteerTimeActivity.this);
+                    fragment.setRecordBeanList(recordBeen);
+                    fragment.setYear(yearList.get(i));
+                    fragmentList.add(fragment);
+
+                }
+            }
+
+            allFragment.setRecordBeanList(allRecordList);
+            allFragment.setYearList(allYearList);
+            if (allRecordList.get(0).size() == 0) {
+                fragmentList.add(0, new NoTimeVolunteerFragment());
+            } else {
+                fragmentList.add(0, allFragment);
+            }
         }
     }
 
@@ -207,7 +202,7 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
         List<Integer> yearListInt = new ArrayList<>();
         List<VolunteerTime.DataBean.RecordBean> recordBeen = dataBean.getRecord();
         for (int x = 0; x < 4; x ++) {
-            yearListInt.add((Integer) yearCalender - x);
+            yearListInt.add(yearCalender - x);
         }
         for (int x = 0; x < recordBeen.size(); x ++) {
             year = Integer.parseInt(recordBeen.get(x).getStart_time().substring(0,4));
@@ -215,19 +210,16 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
                 switch (nowYear) {
                     case 0:
                         firstYear.add(recordBeen.get(x));
-                        Log.d(TAG, "dealYear: ,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + recordBeen.get(x).getTitle());
                         break;
                     case 1:
                         secondYear.add(recordBeen.get(x));
-                        Log.d(TAG, "dealYear: ,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + recordBeen.get(x).getTitle());
                         break;
                     case 2:
                         thirdYear.add(recordBeen.get(x));
-                        Log.d(TAG, "dealYear: ,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + recordBeen.get(x).getTitle());
                         break;
                     case 3:
                         lastYear.add(recordBeen.get(x));
-                        Log.d(TAG, "dealYear: ,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + recordBeen.get(x).getTitle());
+                        break;
                 }
             }
         }
