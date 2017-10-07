@@ -3,23 +3,17 @@ package com.mredrock.cyxbs.ui.activity.me;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.R;
@@ -27,7 +21,6 @@ import com.mredrock.cyxbs.model.VolunteerTime;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.VolunteerTimeSP;
-import com.wangjie.androidbucket.thread.Runtask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -158,7 +151,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
     public void showProgressDialog() {
         dialog = new ProgressDialog(VolunteerTimeLoginActivity.this);
         dialog.setMessage("登录中...");
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.show();
     }
 
