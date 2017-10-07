@@ -20,7 +20,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <application
         android:name=".APP"
@@ -306,7 +306,9 @@
         <activity android:name=".ui.activity.me.VolunteerTimeActivity"/>
         <activity android:name=".ui.activity.me.EmptyRoomQueryActivity">
         </activity>
-        <activity android:name=".ui.activity.explore.RollerViewActivity"></activity>
+        <activity
+            android:name=".ui.activity.explore.RollerViewActivity"
+            android:theme="@style/Fullscreen"/>
     </application>
 
 </manifest>

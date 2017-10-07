@@ -25,7 +25,6 @@ import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.ui.widget.RollerView;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.Utils;
-import com.mredrock.freshmanspecial.view.SpecialMainActivity;
 
 import java.util.List;
 
@@ -95,18 +94,6 @@ public class ExploreFragment extends BaseFragment {
         LostActivity.start(getActivity());
     }
 
-    /*@OnClick(R.id.explore_smaile_holder)
-    void clickToSmailFace() {
-        Uri uri = Uri.parse(Const.SMAILE_FACE);
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        getActivity().startActivity(intent);
-    }*/
-
-    @OnClick(R.id.explore_freshman_holder)
-    void clickToFreshmanSpecial() {
-        getActivity().startActivity(new Intent(getActivity(), SpecialMainActivity.class));
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -135,7 +122,7 @@ public class ExploreFragment extends BaseFragment {
                 R.drawable.img_cqupt2,
                 R.drawable.img_cqupt3}));
 
-        RequestManager.getInstance().getRollerViewInfo(new SimpleSubscriber< >(getActivity(), new SubscriberListener<List<RollerViewInfo>>() {
+        RequestManager.getInstance().getRollerViewInfo(new SimpleSubscriber<>(getActivity(), new SubscriberListener<List<RollerViewInfo>>() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -154,7 +141,7 @@ public class ExploreFragment extends BaseFragment {
 
             @Override
             public void onNext(List<RollerViewInfo> rollerViewInfoList) {
-                mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(),rollerViewInfoList));
+                mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(), rollerViewInfoList));
                 super.onNext(rollerViewInfoList);
             }
         }), "4");
