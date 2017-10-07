@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
@@ -68,8 +69,8 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     ImageView showTab;
     @Bind(R.id.volunteer_unshow_image)
     ImageView unshowTab;
-    @Bind(R.id.volunteer_refresh)
-    ImageView refreshHeart;
+    @Bind(R.id.volunteer_time_progress)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +119,7 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
             public void onNext(VolunteerTime.DataBean dataBean) {
                 fragmentList = new ArrayList<>();
                 allYearList = new ArrayList<>();
-                refreshHeart.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
                 initializeYears();
                 initFragmentList(dataBean);
@@ -265,6 +266,21 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
                             dialog.dismiss();
                         }
                     }).show());
+        }
+    }
+
+    @OnClick(R.id.volunteer_time_title)
+    public void showTabFromTitle(View view) {
+        if (view.getId() == R.id.volunteer_time_title) {
+            if (tabLayout.getVisibility() == View.VISIBLE) {
+                tabLayout.setVisibility(View.GONE);
+                unshowTab.setVisibility(View.VISIBLE);
+                showTab.setVisibility(View.GONE);
+            } else if (tabLayout.getVisibility() == View.GONE) {
+                tabLayout.setVisibility(View.VISIBLE);
+                unshowTab.setVisibility(View.GONE);
+                showTab.setVisibility(View.VISIBLE);
+            }
         }
     }
 

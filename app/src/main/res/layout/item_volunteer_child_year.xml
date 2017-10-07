@@ -6,7 +6,6 @@
 
     <FrameLayout
         android:layout_width="50dp"
-        android:layout_marginLeft="1dp"
         android:layout_height="match_parent">
         <ImageView
             android:layout_width="50dp"
