@@ -172,21 +172,12 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
                         .title("登录失败")
                         .content(text)
                         .positiveText("我知道啦")
-                        .negativeText("取消")
                         .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog dialog) {
                                 super.onPositive(dialog);
                                 accountView.setText("");
                                 passwordView.setText("");
-                            }
-
-                            @Override
-                            public void onNegative(MaterialDialog dialog) {
-                                super.onNegative(dialog);
-                                accountView.setText("");
-                                passwordView.setText("");
-                                dialog.dismiss();
                             }
                         }).show());
             }
