@@ -28,6 +28,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
+                android:layout_centerVertical="true"
                 android:src="@drawable/volunteer_time_back_arrow" />
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -39,6 +40,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="全部"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/volunteer_login_background"
                     android:textSize="20dp" />
 
@@ -52,8 +55,8 @@
                         android:id="@+id/volunteer_unshow_image"
                         android:layout_width="20dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="7dp"
-                        android:paddingTop="7dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="10dp"
                         android:paddingLeft="5dp"
                         android:scaleType="fitXY"
                         android:src="@drawable/volunteer_time_unshow_tab" />
@@ -62,8 +65,8 @@
                         android:id="@+id/volunteer_show_image"
                         android:layout_width="20dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="7dp"
-                        android:paddingTop="7dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="10dp"
                         android:paddingLeft="5dp"
                         android:visibility="gone"
                         android:scaleType="fitXY"
