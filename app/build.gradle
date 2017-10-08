@@ -9,8 +9,8 @@ android {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 37
-        versionName "2017迎新版"
+        versionCode 38
+        versionName "2017秋季版"
         multiDexEnabled true
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "official"]
     }
