@@ -24,7 +24,6 @@ import com.mredrock.cyxbs.ui.adapter.ExploreRollerViewAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.ui.widget.RollerView;
 import com.mredrock.cyxbs.util.LogUtils;
-import com.mredrock.cyxbs.util.Utils;
 
 import java.util.List;
 
@@ -99,16 +98,6 @@ public class ExploreFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
         ButterKnife.bind(this, view);
-        /*mViewPager.setAdapter(new ExploreViewPagerAdapter());
-        ViewGroup.LayoutParams params = mViewPager.getLayoutParams();
-        params.width = DensityUtils.getScreenWidth(APP.getContext())
-                - DensityUtils.dp2px(APP.getContext(), 70);
-        params.height = (int) (params.width * 0.65);
-        mViewPager.setLayoutParams(params);
-        mViewPager.setOffscreenPageLimit(2);
-        mViewPager.setCurrentItem(Integer.MAX_VALUE / 2);
-        mViewPager.setPageMargin(DensityUtils.dp2px(APP.getContext(), 12));*/
-
         setRollerView();
         return view;
     }
@@ -135,7 +124,7 @@ public class ExploreFragment extends BaseFragment {
 
             @Override
             public boolean onError(Throwable e) {
-                Utils.toast(getActivity(), "轮播图获取失败");
+                e.printStackTrace();
                 return super.onError(e);
             }
 
@@ -145,36 +134,6 @@ public class ExploreFragment extends BaseFragment {
                 super.onNext(rollerViewInfoList);
             }
         }), "4");
-        /*OkHttpClient client = new OkHttpClient();
-        FormBody.Builder builder = new FormBody.Builder();
-        builder.add("pic_num", "4");
-        RequestBody body = builder.build();
-        final Request request = new Request.Builder()
-                .url("http://hongyan.cqupt.edu.cn/app/api/pictureCarousel.php")
-                .post(body)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                List<ExploreRollerViewAdapter.Url> urlList = new ArrayList<ExploreRollerViewAdapter.Url>();
-                try {
-                    JSONObject object = new JSONObject(response.body().string());
-                    JSONArray data = object.getJSONArray("data");
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject json = (JSONObject) data.get(i);
-                        urlList.add(new ExploreRollerViewAdapter.Url(json.getString("picture_url"), json.getString("picture_goto_url")));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                getActivity().runOnUiThread(()-> mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(),urlList)));
-            }
-        });*/
     }
 
     @Override

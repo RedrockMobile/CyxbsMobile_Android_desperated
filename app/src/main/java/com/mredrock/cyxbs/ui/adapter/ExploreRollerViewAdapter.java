@@ -34,6 +34,7 @@ public class ExploreRollerViewAdapter extends RollerView.RollerViewAdapter {
 
     public ExploreRollerViewAdapter(Context context, List<RollerViewInfo> urlList ) {
         mImageViews = new ArrayList<>();
+        if (urlList == null) return;
         for (RollerViewInfo url : urlList) {
             ImageView imageView = new ImageView(context);
             imageView.setLayoutParams(new ViewGroup.LayoutParams(
