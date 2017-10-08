@@ -130,9 +130,18 @@ public class MultiSelector extends FrameLayout {
         }
 
         if (changed && mInitializer != null) {
+            scrollToPosition(position);
             mInitializer.getAdapter().notifyDataSetChanged();
         }
         return changed;
+    }
+
+    private void scrollToPosition(int position) {
+        if (mRecyclerView != null && mInitializer != null) {
+            int count = mInitializer.getAdapter().getItemCount();
+            position = position >= count ? count : position;
+            mRecyclerView.scrollToPosition(position);
+        }
     }
 
     public boolean toggle(int position) {
@@ -161,6 +170,9 @@ public class MultiSelector extends FrameLayout {
         mRecyclerView.setAdapter(mInitializer.getAdapter());
         if (mInitializer.getItemDecoration() != null) {
             mRecyclerView.addItemDecoration(mInitializer.getItemDecoration());
+        }
+        if (selectedSize() > 0) {
+            scrollToPosition(mSelectedNumbers.toArray(new Integer[]{})[0]);
         }
     }
 

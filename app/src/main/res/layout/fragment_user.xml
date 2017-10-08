@@ -375,6 +375,7 @@
                 android:src="@drawable/ic_arrow_right"/>
 
             <ImageView
+                android:id="@+id/new_function"
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/volunteer_ic_new"
