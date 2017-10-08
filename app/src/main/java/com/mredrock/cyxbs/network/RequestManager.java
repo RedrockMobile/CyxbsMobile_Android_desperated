@@ -198,7 +198,7 @@ public enum RequestManager {
 //        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update,false)
 //                .map(new UserCourseFilterFunc(week));
 
-        return getCourseList(subscriber, stuNum, idNum, week, update, false);
+        return getCourseList(subscriber, stuNum, idNum, week, update, true);
     }
 
     public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum,
