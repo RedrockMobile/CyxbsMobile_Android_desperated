@@ -8,7 +8,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
@@ -82,7 +82,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initUser() {
-        APP.setUser(this, null);
+        BaseAPP.setUser(this, null);
     }
 
     public void attemptLogin() {
@@ -97,7 +97,7 @@ public class LoginActivity extends BaseActivity {
                     public void onNext(User user) {
                         super.onNext(user);
                         if (user != null) {
-                            APP.setUser(LoginActivity.this, user);
+                            BaseAPP.setUser(LoginActivity.this, user);
                             MobclickAgent.onProfileSignIn(stuNum);
                         } else {
                             Utils.toast(LoginActivity.this, "登录失败, 返回了信息为空");
@@ -109,8 +109,8 @@ public class LoginActivity extends BaseActivity {
                         super.onCompleted();
                         EventBus.getDefault().post(new LoginStateChangeEvent(true));
                         finish();
-                        if (!APP.hasNickName()) {
-                            EditNickNameActivity.start(APP.getContext());
+                        if (!BaseAPP.hasNickName()) {
+                            EditNickNameActivity.start(BaseAPP.getContext());
                         }
                     }
                 }), stuNum, idNum);

@@ -2,7 +2,7 @@ package com.mredrock.cyxbs.network;
 
 import android.content.Context;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.component.remind_service.Reminder;
 import com.mredrock.cyxbs.component.remind_service.func.BaseRemindFunc;
@@ -116,7 +116,7 @@ public enum RequestManager {
                 .build();
 
         cacheProviders = new RxCache.Builder()
-                .persistence(APP.getContext().getFilesDir(), new JacksonSpeaker())
+                .persistence(BaseAPP.getContext().getFilesDir(), new JacksonSpeaker())
                 .using(CacheProviders.class);
 
         redrockApiService = retrofit.create(RedrockApiService.class);
@@ -210,7 +210,7 @@ public enum RequestManager {
     }
 
     public Subscription getRemindableList(Subscriber<List<Reminder>> subscriber, Context context, BaseRemindFunc remindFunc) {
-        Observable<List<Reminder>> observable = CourseListProvider.start(APP.getUser(context).stuNum, APP.getUser(context).idNum, false, false)
+        Observable<List<Reminder>> observable = CourseListProvider.start(BaseAPP.getUser(context).stuNum, BaseAPP.getUser(context).idNum, false, false)
                 .map(new UserCourseFilterFunc(new SchoolCalendar()
                         .getWeekOfTerm()))
                 .map(remindFunc);
@@ -437,8 +437,8 @@ public enum RequestManager {
                 })
                 .map(hotNewses -> {
                     for (HotNews h : hotNewses) {
-                        h.data.nickName = APP.getUser(APP.getContext()).getNickname();
-                        h.data.userHead = APP.getUser(APP.getContext()).photo_thumbnail_src;
+                        h.data.nickName = BaseAPP.getUser(BaseAPP.getContext()).getNickname();
+                        h.data.userHead = BaseAPP.getUser(BaseAPP.getContext()).photo_thumbnail_src;
                     }
                     return hotNewses;
                 });
@@ -451,7 +451,7 @@ public enum RequestManager {
     public Observable<UploadImgResponse.Response> uploadNewsImg(String stuNum, String filePath) {
         File file = new File(filePath);
         try {
-            file = BitmapUtil.decodeBitmapFromRes(APP.getContext(), filePath);
+            file = BitmapUtil.decodeBitmapFromRes(BaseAPP.getContext(), filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -711,7 +711,7 @@ public enum RequestManager {
 
     public void createLost(Subscriber<LostStatus> subscriber, LostDetail detail, int theme) {
         if (!checkWithUserId("需要先登录才能发送失物招领信息哦")) return;
-        User user = APP.getUser(APP.getContext());
+        User user = BaseAPP.getUser(BaseAPP.getContext());
         String themeString;
         if (theme == LostActivity.THEME_LOST) {
             themeString = "寻物启事";
@@ -763,7 +763,7 @@ public enum RequestManager {
     }
 
     public boolean checkWithUserId(String s) {
-        if (!APP.isLogin()) {
+        if (!BaseAPP.isLogin()) {
             EventBus.getDefault().post(new AskLoginEvent(s));
             return false;
         } else {

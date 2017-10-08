@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.recycler.EndlessRecyclerViewScrollListener;
 import com.mredrock.cyxbs.model.FoodComment;
@@ -221,7 +221,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     }
 
     private void sendCommentAndRefresh(String content, boolean shouldRetry) {
-        User user = APP.getUser(getActivity());
+        User user = BaseAPP.getUser(getActivity());
         Subscription subscription = RequestManager.getInstance().sendCommentAndRefresh(
                 new SimpleSubscriber<List<FoodComment>>(getActivity(), true, new SubscriberListener<List<FoodComment>>() {
                     @Override

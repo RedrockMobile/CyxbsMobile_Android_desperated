@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.PastElectricChartView;
 import com.mredrock.cyxbs.model.ElectricCharge;
@@ -51,7 +51,7 @@ public class PastElectricChargeActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
 
-        mUser = APP.getUser(this);
+        mUser = BaseAPP.getUser(this);
         RequestManager.INSTANCE.queryPastElectricCharge(mUser.stuNum, mUser.idNum,
                 new SimpleSubscriber<PastElectric.PastElectricResultWrapper>(this, true, new SubscriberListener<PastElectric.PastElectricResultWrapper>() {
                     @Override
@@ -61,7 +61,7 @@ public class PastElectricChargeActivity extends BaseActivity {
 
                         ElectricCharge electricCharge = pastElectricResultWrapper.getResult().getCurrent();
                         if (electricCharge == null)
-                            Toast.makeText(APP.getContext(),"没有获取到数据，请检查设置的寝室号",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BaseAPP.getContext(),"没有获取到数据，请检查设置的寝室号",Toast.LENGTH_SHORT).show();
                         else {
                             for (int i = pastElectricResultWrapper.getResult().getTrend().size(); i > 0; i--) {
                                 electricSpends.add((double) pastElectricResultWrapper.getResult().getTrend().get(i - 1).getSpend());

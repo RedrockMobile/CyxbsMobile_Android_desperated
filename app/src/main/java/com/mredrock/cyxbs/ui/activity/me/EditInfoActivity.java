@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.User;
@@ -81,7 +81,7 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
         setContentView(R.layout.activity_edit_info);
         ButterKnife.bind(this);
         initToolbar();
-        mUser = APP.getUser(this);
+        mUser = BaseAPP.getUser(this);
         initView();
     }
 

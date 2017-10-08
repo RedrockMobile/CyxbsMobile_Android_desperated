@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.LoginEvent;
@@ -75,7 +75,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     @OnClick({R.id.name, R.id.introduce, R.id.avatar})
     void clickToEdit() {
-        if (APP.isLogin()) {
+        if (BaseAPP.isLogin()) {
             startActivity(new Intent(getActivity(), EditInfoActivity.class));
         } else {
             EventBus.getDefault().post(new LoginEvent());
@@ -84,7 +84,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     @OnClick(R.id.relate)
     void clickToRelate() {
-        if (APP.isLogin()) {
+        if (BaseAPP.isLogin()) {
             startActivity(new Intent(getActivity(), AboutMeActivity.class));
         } else {
             EventBus.getDefault().post(new AskLoginEvent("登录后才能查看与我相关哦"));
@@ -93,7 +93,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     @OnClick(R.id.trend)
     void clickToLatest() {
-        if (APP.isLogin()) {
+        if (BaseAPP.isLogin()) {
             startActivity(new Intent(getActivity(), MyTrendActivity.class));
         } else {
             EventBus.getDefault().post(new AskLoginEvent("登录后才能查看我的动态哦"));
@@ -102,7 +102,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     @OnClick(R.id.no_course)
     void clickToNoCourse() {
-        if (APP.isLogin()) {
+        if (BaseAPP.isLogin()) {
             startActivity(new Intent(getActivity(), NoCourseActivity.class));
         } else {
             EventBus.getDefault().post(new AskLoginEvent("登录后才能使用没课约哦"));
@@ -116,7 +116,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     @OnClick(R.id.grade)
     void clickToGrade() {
-        if (APP.isLogin()) {
+        if (BaseAPP.isLogin()) {
             startActivity(new Intent(getActivity(), ExamAndGradeActivity.class));
         } else {
             EventBus.getDefault().post(new AskLoginEvent("登录后才能查看考试成绩哦"));
@@ -135,7 +135,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     @OnClick(R.id.remind)
     public void onClick() {
-        if (APP.isLogin()) {
+        if (BaseAPP.isLogin()) {
             startActivity(new Intent(getActivity(), RemindActivity.class));
         } else {
             EventBus.getDefault().post(new AskLoginEvent("登录后才能使用课前提醒哟"));
@@ -217,14 +217,14 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
     }
 
     private void getPersonInfoData() {
-        if (!APP.isLogin()) {
+        if (!BaseAPP.isLogin()) {
             myPageNickName.setText("点我登录");
             myPageAvatar.setImageResource(R.drawable.default_avatar);
             myPageIntroduce.setText("");
             //myPageGender.setText("");
             return;
         }
-        mUser = APP.getUser(getActivity());
+        mUser = BaseAPP.getUser(getActivity());
         if (mUser != null) {
             RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(getActivity(),
                     new SubscriberListener<User>() {
@@ -233,7 +233,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
                             super.onNext(user);
                             if (user != null) {
                                 mUser = User.cloneFromUserInfo(mUser, user);
-                                APP.setUser(getActivity(), mUser);
+                                BaseAPP.setUser(getActivity(), mUser);
                                 refreshEditLayout();
                             }
                         }
@@ -243,8 +243,8 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
     }
 
     private void refreshEditLayout() {
-        if (APP.isLogin()) {
-            mUser = APP.getUser(getActivity());
+        if (BaseAPP.isLogin()) {
+            mUser = BaseAPP.getUser(getActivity());
             ImageLoader.getInstance().loadAvatar(mUser.photo_thumbnail_src, myPageAvatar);
             myPageNickName.setText(StringUtils.isBlank(mUser.nickname) ? "点我完善个人信息" : mUser.nickname);
             myPageIntroduce.setText(mUser.introduction);
