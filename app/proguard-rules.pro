@@ -32,44 +32,6 @@
 
 #---------------------------------2.第三方包-------------------------------
 
-#umeng push -start
--dontwarn com.tencent.bugly.**
--keep public class com.tencent.bugly.**{*;}
-
--dontwarn com.taobao.**
--dontwarn anet.channel.**
--dontwarn anetwork.channel.**
--dontwarn org.android.**
--dontwarn org.apache.thrift.**
--dontwarn com.xiaomi.**
--dontwarn com.huawei.**
-
--keepattributes *Annotation*
-
--keep class com.taobao.** {*;}
--keep class org.android.** {*;}
--keep class anet.channel.** {*;}
--keep class com.umeng.** {*;}
--keep class com.xiaomi.** {*;}
--keep class com.huawei.** {*;}
--keep class org.apache.thrift.** {*;}
-
--keep class com.alibaba.sdk.android.**{*;}
--keep class com.ut.**{*;}
--keep class com.ta.**{*;}
-
--keep public class **.R$*{
-   public static final int *;
-}
-
--assumenosideeffects class android.util.Log {
-   public static *** v(...);
-   public static *** d(...);
-   public static *** i(...);
-   public static *** w(...);
- }
-#umeng push -end
-
 -dontwarn com.fasterxml.jackson.**
 -keep class com.fasterxml.jackson.** { *; }
 -dontwarn com.mredrock.cyxbs.component.**
@@ -318,3 +280,52 @@
        }
        #----------------------------------------------------------------------------
        #---------------------------------------------------------------------------------------------------
+
+-dontwarn com.taobao.**
+-dontwarn anet.channel.**
+-dontwarn anetwork.channel.**
+-dontwarn org.android.**
+-dontwarn org.apache.thrift.**
+-dontwarn com.xiaomi.**
+-dontwarn com.huawei.**
+
+-keepattributes *Annotation*
+
+-keep class com.taobao.** {*;}
+-keep class org.android.** {*;}
+-keep class anet.channel.** {*;}
+-keep class com.umeng.** {*;}
+-keep class com.xiaomi.** {*;}
+-keep class com.huawei.** {*;}
+-keep class org.apache.thrift.** {*;}
+
+-keep class com.alibaba.sdk.android.**{*;}
+-keep class com.ut.**{*;}
+-keep class com.ta.**{*;}
+
+-keep public class **.R$*{
+   public static final int *;
+}
+
+-dontshrink
+-keep,allowshrinking class com.umeng.message.* {
+    public <fields>;
+    public <methods>;
+}
+-keep,allowshrinking class com.umeng.message.protobuffer.MessageResponse$PushResponse$Info {
+    public <fields>;
+    public <methods>;
+}
+-keep,allowshrinking class com.umeng.message.protobuffer.MessageResponse$PushResponse$Info$Builder {
+    public <fields>;
+    public <methods>;
+}
+-keep,allowshrinking class org.android.agoo.impl.*{
+    public <fields>;
+    public <methods>;
+}
+-keep,allowshrinking class org.android.agoo.service.* {*;}
+-keep,allowshrinking class org.android.spdy.**{*;}
+-keep public class com.mredrock.cyxbs.R$*{
+    public static final int *;
+}

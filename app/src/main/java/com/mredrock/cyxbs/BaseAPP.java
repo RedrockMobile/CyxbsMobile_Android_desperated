@@ -29,6 +29,7 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import org.android.agoo.xiaomi.MiPushRegistar;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
@@ -155,7 +156,7 @@ public class BaseAPP extends MultiDexApplication {
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "123b419248120b9fb91a38260a13e972");
         UMConfigure.setLogEnabled(true);
         PushAgent mPushAgent = PushAgent.getInstance(this);
-
+        MiPushRegistar.register(this,"2882303761517258683","5341725868683");
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String deviceToken) {
