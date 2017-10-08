@@ -152,19 +152,15 @@ public class BaseAPP extends MultiDexApplication {
     }
 
     private void initPush() {
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "123b419248120b9fb91a38260a13e972");
         UMConfigure.setLogEnabled(true);
-        if (onMainThread()) {
-            UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "123b419248120b9fb91a38260a13e972");
-        }
         PushAgent mPushAgent = PushAgent.getInstance(this);
 
         mPushAgent.register(new IUmengRegisterCallback() {
-
             @Override
             public void onSuccess(String deviceToken) {
                 Log.d(TAG, "友盟注册成功: " + deviceToken);
             }
-
             @Override
             public void onFailure(String s, String s1) {
                 Log.e(TAG, "onFailure: 友盟注册失败" + s + s1);
