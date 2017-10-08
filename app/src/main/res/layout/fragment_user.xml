@@ -366,12 +366,21 @@
                 android:textSize="14sp"/>
 
             <ImageView
+                android:id="@+id/user_volunteer_enter"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_arrow_right"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/volunteer_ic_new"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/user_volunteer_enter"
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
 
         <View
