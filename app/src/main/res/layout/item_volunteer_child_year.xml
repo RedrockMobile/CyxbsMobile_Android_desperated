@@ -21,10 +21,19 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"/>
         <TextView
+            android:id="@+id/volunteer_time_divider_line"
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:background="@color/volunteer_time_left"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="46dp"/>
+        <View
+            android:id="@+id/volunteer_time_divider_block"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:background="#fff"
+            android:layout_gravity="bottom|center"
+            android:visibility="gone"
             android:layout_marginTop="46dp"/>
 
     </FrameLayout>
