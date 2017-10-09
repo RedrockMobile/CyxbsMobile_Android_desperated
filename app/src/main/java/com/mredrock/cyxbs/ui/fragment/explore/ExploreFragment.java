@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
+import com.mredrock.cyxbs.model.RollerViewInfo;
+import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
@@ -20,12 +24,12 @@ import com.mredrock.cyxbs.ui.adapter.ExploreRollerViewAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.ui.widget.RollerView;
 import com.mredrock.cyxbs.util.LogUtils;
-import com.mredrock.freshmanspecial.view.SpecialMainActivity;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 
 
 /**
@@ -89,33 +93,16 @@ public class ExploreFragment extends BaseFragment {
         LostActivity.start(getActivity());
     }
 
-    /*@OnClick(R.id.explore_smaile_holder)
-    void clickToSmailFace() {
-        Uri uri = Uri.parse(Const.SMAILE_FACE);
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        getActivity().startActivity(intent);
-    }*/
-
-    @OnClick(R.id.explore_freshman_holder)
-    void clickToFreshmanSpecial() {
-        getActivity().startActivity(new Intent(getActivity(), SpecialMainActivity.class));
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
         ButterKnife.bind(this, view);
-        /*mViewPager.setAdapter(new ExploreViewPagerAdapter());
-        ViewGroup.LayoutParams params = mViewPager.getLayoutParams();
-        params.width = DensityUtils.getScreenWidth(APP.getContext())
-                - DensityUtils.dp2px(APP.getContext(), 70);
-        params.height = (int) (params.width * 0.65);
-        mViewPager.setLayoutParams(params);
-        mViewPager.setOffscreenPageLimit(2);
-        mViewPager.setCurrentItem(Integer.MAX_VALUE / 2);
-        mViewPager.setPageMargin(DensityUtils.dp2px(APP.getContext(), 12));*/
+        setRollerView();
+        return view;
+    }
 
+    private void setRollerView() {
         mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(), new int[]{
                 R.drawable.img_cqupt1,
                 R.drawable.img_cqupt2,
@@ -123,7 +110,30 @@ public class ExploreFragment extends BaseFragment {
                 R.drawable.img_cqupt1,
                 R.drawable.img_cqupt2,
                 R.drawable.img_cqupt3}));
-        return view;
+
+        RequestManager.getInstance().getRollerViewInfo(new SimpleSubscriber<>(getActivity(), new SubscriberListener<List<RollerViewInfo>>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onCompleted() {
+                super.onCompleted();
+            }
+
+            @Override
+            public boolean onError(Throwable e) {
+                e.printStackTrace();
+                return super.onError(e);
+            }
+
+            @Override
+            public void onNext(List<RollerViewInfo> rollerViewInfoList) {
+                mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(), rollerViewInfoList));
+                super.onNext(rollerViewInfoList);
+            }
+        }), "4");
     }
 
     @Override

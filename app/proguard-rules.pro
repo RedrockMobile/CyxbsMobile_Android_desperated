@@ -31,10 +31,6 @@
 #-------------------------------------------------------------------------
 
 #---------------------------------2.第三方包-------------------------------
-#Map
-#-libraryjars src/libs/Android_Map_V2.5.0.jar
--dontwarn com.Android_Map_V2.5.0.*
--keep class Android_Map_V2.5.0.** { *;}
 
 -dontwarn com.fasterxml.jackson.**
 -keep class com.fasterxml.jackson.** { *; }
@@ -47,12 +43,10 @@
 -keep class org.simpleframework.xml.** { *; }
 
 
--dontwarn com.amap.api.**
 -dontwarn com.a.a.**
 -dontwarn com.autonavi.**
 
 
--keep class com.amap.api.** {*;}
 -keep class com.autonavi.** {*;}
 -keep class com.a.a.** {*;}
 #butterknife

@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.mredrock.cyxbs.model.RollerViewInfo;
+import com.mredrock.cyxbs.ui.activity.explore.RollerViewActivity;
 import com.mredrock.cyxbs.ui.widget.RollerView;
 
 import java.util.ArrayList;
@@ -30,6 +32,24 @@ public class ExploreRollerViewAdapter extends RollerView.RollerViewAdapter {
         }
     }
 
+    public ExploreRollerViewAdapter(Context context, List<RollerViewInfo> urlList ) {
+        mImageViews = new ArrayList<>();
+        if (urlList == null) return;
+        for (RollerViewInfo url : urlList) {
+            ImageView imageView = new ImageView(context);
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            if (url.picture_goto_url != null) {
+                imageView.setOnClickListener(v -> RollerViewActivity.startRollerViewActivity(url.picture_goto_url, context)
+                        //context.startActivity(new Intent(context, SplashActivity.class))
+                );
+            }
+            Glide.with(context).load(url.picture_url).into(imageView);
+            mImageViews.add(imageView);
+        }
+    }
+
     @Override
     public int getItemCount() {
         return mImageViews.size();
@@ -39,4 +59,5 @@ public class ExploreRollerViewAdapter extends RollerView.RollerViewAdapter {
     public View getView(ViewGroup container, int position) {
         return mImageViews.get(position);
     }
+
 }

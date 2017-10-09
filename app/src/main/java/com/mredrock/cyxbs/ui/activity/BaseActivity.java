@@ -18,6 +18,7 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jude.swipbackhelper.SwipeBackHelper;
+import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.ExitEvent;
@@ -66,7 +67,9 @@ public class BaseActivity extends AppCompatActivity {
             );
         }
 
-        Log.v("tag", getClass().getName());
+        if (BuildConfig.DEBUG) {
+            Log.v("activity", getClass().getName());
+        }
     }
 
     @Override

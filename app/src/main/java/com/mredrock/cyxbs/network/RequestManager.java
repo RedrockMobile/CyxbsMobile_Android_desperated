@@ -12,6 +12,8 @@ import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.ElectricCharge;
+import com.mredrock.cyxbs.model.Empty;
+import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.model.FoodComment;
@@ -19,10 +21,12 @@ import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
+import com.mredrock.cyxbs.model.RollerViewInfo;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.model.User;
+import com.mredrock.cyxbs.model.VolunteerTime;
 import com.mredrock.cyxbs.model.lost.Lost;
 import com.mredrock.cyxbs.model.lost.LostDetail;
 import com.mredrock.cyxbs.model.lost.LostStatus;
@@ -47,8 +51,10 @@ import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
 import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.network.interceptor.StudentNumberInterceptor;
 import com.mredrock.cyxbs.network.observable.CourseListProvider;
+import com.mredrock.cyxbs.network.observable.EmptyRoomListProvider;
 import com.mredrock.cyxbs.network.service.LostApiService;
 import com.mredrock.cyxbs.network.service.RedrockApiService;
+import com.mredrock.cyxbs.network.service.VolunteerService;
 import com.mredrock.cyxbs.network.setting.CacheProviders;
 import com.mredrock.cyxbs.network.setting.QualifiedTypeConverterFactory;
 import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
@@ -96,6 +102,7 @@ public enum RequestManager {
     private LostApiService lostApiService;
     private CacheProviders cacheProviders;
     private OkHttpClient okHttpClient;
+    private VolunteerService volunteerService;
 
     RequestManager() {
         okHttpClient = configureOkHttp(new OkHttpClient.Builder());
@@ -114,6 +121,16 @@ public enum RequestManager {
 
         redrockApiService = retrofit.create(RedrockApiService.class);
         lostApiService = retrofit.create(LostApiService.class);
+        volunteerService = retrofit.create(VolunteerService.class);
+
+//        Retrofit volunteerRetrofit = new Retrofit.Builder()
+//                .baseUrl(Const.API_VOLUNTEER)
+//                .client(okHttpClient)
+//                .addConverterFactory(new QualifiedTypeConverterFactory(
+//                        GsonConverterFactory.create(), SimpleXmlConverterFactory.create()))
+//                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                .build();
+
     }
 
     public static RequestManager getInstance() {
@@ -166,11 +183,22 @@ public enum RequestManager {
         return emitObservable(observable, subscriber);
     }
 
+    public Subscription getVolunteer(Subscriber<VolunteerTime> subscriber, String account, String password) {
+        Observable<VolunteerTime> observable = volunteerService.getVolunteerUseLogin(account, password);
+        return emitObservable(observable, subscriber);
+    }
+
+    public Subscription getVolunteerTime(Subscriber<VolunteerTime.DataBean> subscriber, String uid) {
+        Observable<VolunteerTime.DataBean> observable = volunteerService.getVolunteerUseUid(uid)
+                .map(VolunteerTime::getData);
+        return emitObservable(observable, subscriber);
+    }
+
     public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum, int week, boolean update) {
 //        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update,false)
 //                .map(new UserCourseFilterFunc(week));
 
-        return getCourseList(subscriber, stuNum, idNum, week, update, false);
+        return getCourseList(subscriber, stuNum, idNum, week, update, true);
     }
 
     public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum,
@@ -330,18 +358,28 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
-    public void getEmptyRoomList(Subscriber<List<String>> subscriber, String
-            buildNum, String week, String weekdayNum, String sectionNum) {
-        Observable<List<String>> observable = redrockApiService
-                .getEmptyRoomList(buildNum, week, weekdayNum, sectionNum)
-                .map(new RedrockApiWrapperFunc<>());
+//    public void getEmptyRoomList(Subscriber<List<String>> subscriber, String
+//            buildNum, String week, String weekdayNum, String sectionNum) {
+//        Observable<List<String>> observable = redrockApiService
+//                .getEmptyRoomList(buildNum, week, weekdayNum, sectionNum)
+//                .map(new RedrockApiWrapperFunc<>());
+//        emitObservable(observable, subscriber);
+//    }
+
+    public void queryEmptyRoomList(Subscriber<List<EmptyRoom>> subscriber, int week, int weekday, int build, int[] sections) {
+        Observable<List<EmptyRoom>> observable = EmptyRoomListProvider.INSTANCE
+                .createObservable(week, weekday, build, sections);
         emitObservable(observable, subscriber);
+    }
+
+    public List<String> getEmptyRoomListSync(int week, int weekday, int build, int section) throws IOException {
+        Response<Empty> response = redrockApiService.getEmptyRoomListCall(week, weekday, build, section).execute();
+        return response.body().data;
     }
 
     public void getGradeList(Subscriber<List<Grade>> subscriber, String
             stuNum, String stuId, boolean update) {
         Observable<List<Grade>> observable = redrockApiService.getGrade(stuNum, stuId)
-
                 .map(new RedrockApiWrapperFunc<>());
         cacheProviders.getCachedGradeList(observable, new DynamicKey
                 (stuNum), new EvictDynamicKey(update))
@@ -732,6 +770,12 @@ public enum RequestManager {
             return true;
         }
 
+    }
+
+    public void getRollerViewInfo(Subscriber<List<RollerViewInfo>> subscriber, String pic_num) {
+        Observable<List<RollerViewInfo>> observable = redrockApiService.getRollerViewInfo(pic_num)
+                .map(new RedrockApiWrapperFunc<>());
+        emitObservable(observable, subscriber);
     }
 }
 

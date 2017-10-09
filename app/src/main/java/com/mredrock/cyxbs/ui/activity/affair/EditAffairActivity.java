@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -283,8 +284,8 @@ public class EditAffairActivity extends BaseActivity {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 CardView cardView = new CardView(EditAffairActivity.this);
-                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, size);
+                AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(
+                        AbsListView.LayoutParams.MATCH_PARENT, size);
                 cardView.setLayoutParams(layoutParams);
                 Position position1 = new Position(position % numCol, position / numCol);
                 if (positions.contains(position1)) {

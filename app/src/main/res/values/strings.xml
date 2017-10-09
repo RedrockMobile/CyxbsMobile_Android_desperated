@@ -297,6 +297,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_course">没课的日子总是充满对课堂的思恋</string>
 
     <string-array name="dormitory_buildings">
         <item>知行苑1舍(01栋)</item>
@@ -383,4 +384,11 @@
         <item>31</item>
         <item>39</item>
     </string-array>
+
+    <integer name="no_limit">-1</integer>
+
+
+    <!--volunteer Time-->
+    <string name="volunteer_account"><font size="16">请输入暖青汇账号</font></string>
+    <string name="volunteer_password"><font size="16">请输入密码</font></string>
 </resources>

@@ -20,7 +20,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <application
         android:name=".APP"
@@ -55,7 +55,7 @@
         <!-- 配置APP渠道号 -->
         <meta-data
             android:name="BUGLY_APP_CHANNEL"
-            android:value="${UMENG_CHANNEL_VALUE}" />
+            android:value="${UMENG_CHANNEL_VALUE}"/>
 
 
         <activity
@@ -134,7 +134,6 @@
         <activity android:name=".ui.activity.me.NoCourseContainerActivity"/>
         <activity android:name=".ui.activity.me.NoCourseActivity"/>
         <activity android:name=".ui.activity.me.SelectStudentActivity"/>
-        <activity android:name=".ui.activity.me.EmptyRoomActivity"/>
         <activity android:name=".ui.activity.me.ExamAndGradeActivity"/>
         <activity android:name=".ui.activity.me.SchoolCalendarActivity"/>
         <activity android:name=".ui.activity.me.AboutActivity"/>
@@ -303,8 +302,13 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <!-- 社会化分享 -->
-        <activity android:name=".ui.activity.me.EmptyRoomResultActivity">
+        <activity android:name=".ui.activity.me.VolunteerTimeLoginActivity"/>
+        <activity android:name=".ui.activity.me.VolunteerTimeActivity"/>
+        <activity android:name=".ui.activity.me.EmptyRoomQueryActivity">
         </activity>
+        <activity
+            android:name=".ui.activity.explore.RollerViewActivity"
+            android:theme="@style/Fullscreen"/>
     </application>
 
 </manifest>

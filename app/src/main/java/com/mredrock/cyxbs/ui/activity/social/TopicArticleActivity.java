@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,16 +47,14 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
     public static final String TAG = TopicArticleActivity.class.getSimpleName();
     public static final int RESULT_CODE = 1001;
 
-    @Bind(R.id.toolbar_title)
-    TextView mTvTopicArticleTitle;
     @Bind(R.id.rv_topic_article)
     EasyRecyclerView mRvTopicArticle;
     @Bind(R.id.ll_topic_join)
     LinearLayout mLlTopicJoin;
     @Bind(R.id.srl_topic)
     SwipeRefreshLayout mSrlTopic;
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
+    /*@Bind(R.id.toolbar)
+    JToolbar mToolbar;*/
 
     TopicArticleAdapter mAdapter;
     private int mID;
@@ -79,7 +75,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_article);
         ButterKnife.bind(this);
-        initToolbar();
+        //initToolbar();
         mAdapter = new TopicArticleAdapter(this);
         mSrlTopic.setColorSchemeResources(R.color.colorAccent);
         mSrlTopic.setOnRefreshListener(this);
@@ -106,20 +102,22 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
         onRefresh();
     }
 
-    private void initToolbar() {
-        if (mToolbar != null) {
-            mToolbar.setTitle("");
-            setSupportActionBar(mToolbar);
-            mToolbar.setNavigationIcon(R.drawable.ic_back);
-            mToolbar.setNavigationOnClickListener(v -> TopicArticleActivity.this.finish());
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeButtonEnabled(true);
+    /*
+        private void initToolbar() {
+            if (mToolbar != null) {
+                setSupportActionBar(mToolbar);
+                setTitle("");
+                mToolbar.getTitleTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                mToolbar.setNavigationIcon(R.drawable.ic_back);
+                mToolbar.setNavigationOnClickListener(v -> TopicArticleActivity.this.finish());
+                ActionBar actionBar = getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    actionBar.setHomeButtonEnabled(true);
+                }
             }
         }
-    }
-
+    */
     @OnClick(R.id.ll_topic_join)
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -171,7 +169,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
                 } else {
                     mAdapter.addAll(topicArticles.getArticles());
                 }
-                mTvTopicArticleTitle.setText("#" + topicArticles.getKeyword() + "#");
+                setTitle("#" + topicArticles.getKeyword() + "#");
                 mTitle = topicArticles.getKeyword();
                 mHeader.setTopicArticle(topicArticles);
             }
