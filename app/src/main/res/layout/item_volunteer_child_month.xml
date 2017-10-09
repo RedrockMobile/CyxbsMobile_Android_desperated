@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="23dp"
+    android:layout_marginBottom="23dp"
     android:background="@color/volunteer_login_background"
     app:cardCornerRadius="6dp"
     app:cardElevation="1dp">
@@ -47,7 +47,7 @@
             android:gravity="center_vertical"
             android:text="活动"
             android:textColor="@color/colour_title_text"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
