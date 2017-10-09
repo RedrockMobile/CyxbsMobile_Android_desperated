@@ -3,20 +3,18 @@ package com.mredrock.cyxbs.ui.activity.me;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jude.swipbackhelper.SwipeBackHelper;
@@ -152,7 +150,7 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     }
 
     private void initFragmentList(VolunteerTime.DataBean dataBean){
-        if (dataBean.getRecord().size() == 0) {
+        if (dataBean == null || dataBean.getRecord().size() == 0) {
             for (int i = 0; i < 5; i++) {
                 fragmentList.add(new NoTimeVolunteerFragment());
             }
