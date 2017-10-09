@@ -13,9 +13,9 @@ import org.android.agoo.common.AgooConstants;
  * Created by simonla on 2017/10/8.
  */
 
-public class MipushTestActivity extends UmengNotifyClickActivity {
+public class PushActivity extends UmengNotifyClickActivity {
 
-    private static String TAG = MipushTestActivity.class.getName();
+    private static String TAG = PushActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle bundle) {

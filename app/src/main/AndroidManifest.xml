@@ -318,7 +318,7 @@
             android:name=".ui.activity.explore.RollerViewActivity"
             android:theme="@style/Fullscreen"/>
         <activity
-            android:name=".MipushTestActivity"
+            android:name=".PushActivity"
             android:exported="true" />
     </application>
 
