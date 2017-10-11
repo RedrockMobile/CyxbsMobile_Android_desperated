@@ -189,6 +189,11 @@ public class NoCourseItemFragment extends BaseFragment {
                 count++;
             }
 
+            @Override
+            public boolean onError(Throwable e) {
+                blocked = false;
+                return super.onError(e);
+            }
 
             @Override
             public void onCompleted() {
