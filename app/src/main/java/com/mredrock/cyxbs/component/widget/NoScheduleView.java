@@ -167,7 +167,7 @@ public class NoScheduleView extends FrameLayout {
         NoCourseDialogAdapter adapter = new NoCourseDialogAdapter(noCourse.names, context);
         recyclerView.setAdapter(adapter);
         MaterialDialog dialog = new MaterialDialog.Builder(context)
-                .title("详情")
+                .title("他们这个时段有空：")
                 .customView(layout, true)
                 .show();
         certain.setOnClickListener(view -> dialog.dismiss());

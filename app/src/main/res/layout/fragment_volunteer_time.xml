@@ -46,34 +46,39 @@
                             android:text="时长"
                             android:textColor="@color/volunteer_pager_background"
                             android:textSize="30dp" />
-
-                        <TextView
-                            android:id="@+id/volunteer_time_number"
+                        <RelativeLayout
+                            android:id="@+id/volunteer_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignEnd="@+id/textview1"
-                            android:layout_alignRight="@+id/textview1"
+                            android:orientation="horizontal"
                             android:layout_below="@+id/textview1"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginEnd="38dp"
-                            android:layout_marginRight="38dp"
-                            android:layout_marginTop="2dp"
-                            android:textColor="@color/volunteer_pager_background"
-                            android:textSize="50dp" />
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp">
+                            <TextView
+                                android:id="@+id/volunteer_time_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="33"
+                                android:textColor="@color/volunteer_pager_background"
+                                android:textSize="50dp"
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="22dp"
-                            android:layout_marginStart="22dp"
-                            android:text="小时"
-                            android:gravity="center"
-                            android:textColor="@color/volunteer_pager_background"
-                            android:textSize="32dp"
-                            android:layout_alignTop="@+id/volunteer_time_number"
-                            android:layout_alignLeft="@+id/textview1"
-                            android:layout_alignStart="@+id/textview1"
-                            android:layout_alignBottom="@+id/volunteer_time_number" />
+                                />
+
+                            <TextView
+                                android:id="@+id/volunteer_time_unit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="小时"
+                                android:textColor="@color/volunteer_pager_background"
+                                android:textSize="32dp"
+
+                                android:layout_alignBaseline="@+id/volunteer_time_number"
+                                android:layout_alignBottom="@+id/volunteer_time_number"
+                                android:layout_toRightOf="@+id/volunteer_time_number"
+                                android:layout_toEndOf="@+id/volunteer_time_number" />
+
+                        </RelativeLayout>
+
                     </RelativeLayout>
 
                 </android.support.v7.widget.CardView>

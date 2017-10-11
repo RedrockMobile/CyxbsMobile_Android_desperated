@@ -116,8 +116,9 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable e) {
-//               showUnsuccessDialog("网络有问题哦");
+               showUnsuccessDialog("网络有问题哦");
                 Log.d("RequestManager", "onError: ------------------------------------------------------------------------------");
+                dialog.dismiss();
                 e.printStackTrace();
             }
 

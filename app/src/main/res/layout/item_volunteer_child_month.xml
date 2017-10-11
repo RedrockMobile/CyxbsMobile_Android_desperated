@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="23dp"
+    android:layout_marginBottom="23dp"
     android:background="@color/volunteer_login_background"
     app:cardCornerRadius="6dp"
     app:cardElevation="1dp">
@@ -20,18 +20,21 @@
             android:layout_marginTop="10dp">
 
             <ImageView
-                android:layout_width="74dp"
-                android:layout_height="26dp"
-                android:src="@drawable/volunteer_day_ic" />
+                android:layout_width="68dp"
+                android:layout_height="27dp"
+                android:src="@drawable/volunteer_new_date" />
+            <RelativeLayout
+                android:layout_width="59dp"
+                android:layout_height="23dp">
 
-            <TextView
-                android:id="@+id/volunteer_time_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="2.5dp"
-                android:text="mm-dd"
-                android:textColor="@color/volunteer_login_background" />
+                <TextView
+                    android:id="@+id/volunteer_time_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="mm-dd"
+                    android:textColor="@color/volunteer_login_background" />
+            </RelativeLayout>
         </FrameLayout>
 
         <TextView
@@ -44,7 +47,7 @@
             android:gravity="center_vertical"
             android:text="活动"
             android:textColor="@color/colour_title_text"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

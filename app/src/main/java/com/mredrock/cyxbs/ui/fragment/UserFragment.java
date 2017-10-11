@@ -31,6 +31,7 @@ import com.mredrock.cyxbs.ui.activity.me.SchoolCalendarActivity;
 import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
 import com.mredrock.cyxbs.ui.activity.me.VolunteerTimeLoginActivity;
 import com.mredrock.cyxbs.util.ImageLoader;
+import com.mredrock.cyxbs.util.SPUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -70,6 +71,9 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
     TextView myPageIntroduce;
     @Bind(R.id.remind)
     RelativeLayout mMyPageRemindLayout;
+
+    @Bind(R.id.new_function)
+    ImageView mNewFunction;
 
     private User mUser;
 
@@ -130,6 +134,8 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     @OnClick(R.id.volunteer_time)
     void clickToVolunteerTime() {
+        SPUtils.set(getContext(), "showNewFunctionIcon", false);
+        mNewFunction.setVisibility(View.GONE);
         startActivity(new Intent(getActivity(), VolunteerTimeLoginActivity.class));
     }
 
@@ -190,6 +196,8 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         ButterKnife.bind(this, view);
         getPersonInfoData();
+        boolean showNewFunctionIcon = (boolean) SPUtils.get(getContext(), "showNewFunctionIcon", true);
+        mNewFunction.setVisibility(showNewFunctionIcon ? View.VISIBLE : View.GONE);
         return view;
     }
 
