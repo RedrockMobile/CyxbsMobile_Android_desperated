@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.PersonInfo;
@@ -62,8 +62,8 @@ public class SocialContainerFragment extends BaseFragment {
     }
 
     private void getUserData() {
-        if (APP.isLogin()) {
-            mUser = APP.getUser(getContext());
+        if (BaseAPP.isLogin()) {
+            mUser = BaseAPP.getUser(getContext());
             if (mUser.id == null) getPersonInfoData();
             else init();
         } else {
@@ -79,7 +79,7 @@ public class SocialContainerFragment extends BaseFragment {
     }
 
     private void getPersonInfoData() {
-        if (!APP.isLogin()) {
+        if (!BaseAPP.isLogin()) {
 //            EventBus.getDefault().post(new LoginEvent());
             return;
         }
@@ -90,7 +90,7 @@ public class SocialContainerFragment extends BaseFragment {
                     super.onNext(personInfo);
                     super.onNext(personInfo);
                     mUser = User.cloneFromUserInfo(mUser, personInfo);
-                    APP.setUser(getActivity(), mUser);
+                    BaseAPP.setUser(getActivity(), mUser);
 //                    init();
                 }
             }), mUser.stuNum, mUser.stuNum, mUser.idNum);

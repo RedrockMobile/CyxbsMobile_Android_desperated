@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '25.0.3'
 
     defaultConfig {
@@ -141,7 +141,7 @@ dependencies {
     // compile 'im.fir:fir-sdk:latest.integration@aar'
 
     // compile 'com.bigkoo:pickerview:2.1.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
     //bugly
 
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
@@ -202,4 +202,5 @@ dependencies {
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
     testCompile 'junit:junit:4.12'
+    compile project(':push')
 }
