@@ -2,9 +2,7 @@ package com.mredrock.cyxbs.ui.activity;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,19 +10,17 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jude.swipbackhelper.SwipeBackHelper;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.CourseDialog;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
@@ -51,7 +47,6 @@ import com.mredrock.cyxbs.util.ElectricRemindUtil;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.UpdateUtil;
-import com.thefinestartist.utils.content.TypedValueUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -156,7 +151,7 @@ public class MainActivity extends BaseActivity {
 
         mFragments = new ArrayList<>();
         //判断是否登陆
-        if (!APP.isLogin()) {
+        if (!BaseAPP.isLogin()) {
             mFragments.add(unLoginFragment);
 //            unLoginFace();
         } else {
@@ -187,7 +182,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void loginFace() {
-        ImageLoader.getInstance().loadAvatar(APP.getUser(this).photo_thumbnail_src, mMainToolbarFace);
+        ImageLoader.getInstance().loadAvatar(BaseAPP.getUser(this).photo_thumbnail_src, mMainToolbarFace);
         mMainToolbarFace.setOnClickListener(view ->
                 startActivity(new Intent(this, EditInfoActivity.class)));
     }
@@ -197,13 +192,13 @@ public class MainActivity extends BaseActivity {
     public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
         super.onLoginStateChangeEvent(event);
         boolean isLogin = event.getNewState();
-        Log.d(TAG, "onLoginStateChangeEvent: " + APP.isFresh());
+        Log.d(TAG, "onLoginStateChangeEvent: " + BaseAPP.isFresh());
         if (!isLogin) {
             mFragments.remove(0);
             mFragments.add(0, new UnLoginFragment());
             mAdapter.notifyDataSetChanged();
-            SPUtils.set(APP.getContext(), DormitorySettingActivity.BUILDING_KEY, -1);
-            SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
+            SPUtils.set(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, -1);
+            SPUtils.set(BaseAPP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
 //            unLoginFace();
         } else {
             mFragments.remove(0);
@@ -248,9 +243,9 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_news:
-                if (APP.isLogin()) {
+                if (BaseAPP.isLogin()) {
                     if (mViewPager.getCurrentItem() == 1) {
-                        if (APP.getUser(this).id == null || APP.getUser(this).id.equals("0")) {
+                        if (BaseAPP.getUser(this).id == null || BaseAPP.getUser(this).id.equals("0")) {
                             RequestManager.getInstance().checkWithUserId("还没有完善信息，不能发动态哟！");
                             mViewPager.setCurrentItem(3);
                             //mBottomBar.setCurrentView(3);
@@ -389,7 +384,7 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setVisibility(View.VISIBLE);
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     setTitle("我 的");
-                    if (!APP.isLogin()) {
+                    if (!BaseAPP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
                     }
                     break;
@@ -439,7 +434,7 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setVisibility(View.GONE);
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     setCourseUnfold(false, mUnfold);
-                    if (!APP.isLogin()) {
+                    if (!BaseAPP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
                     }
                     break;

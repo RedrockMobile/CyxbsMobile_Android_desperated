@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.SpaceDecoration;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.ItemChangedEvent;
 import com.mredrock.cyxbs.model.User;
@@ -144,7 +144,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
     }
 
     private void loadArticle() {
-        User user = APP.getUser(this);
+        User user = BaseAPP.getUser(this);
         RequestManager.getInstance().getTopicArticle(new SimpleSubscriber<>(this, new SubscriberListener<TopicArticle>() {
             @Override
             public void onCompleted() {

@@ -150,7 +150,7 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     }
 
     private void initFragmentList(VolunteerTime.DataBean dataBean){
-        if (dataBean == null || dataBean.getRecord().size() == 0) {
+        if (dataBean == null || dataBean.getRecord() == null || dataBean.getRecord().size() == 0) {
             for (int i = 0; i < 5; i++) {
                 fragmentList.add(new NoTimeVolunteerFragment());
             }

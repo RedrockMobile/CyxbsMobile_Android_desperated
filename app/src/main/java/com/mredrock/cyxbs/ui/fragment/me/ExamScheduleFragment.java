@@ -10,11 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.model.User;
@@ -108,7 +107,7 @@ public class ExamScheduleFragment extends BaseFragment {
                 (getContext(), R.color.colorAccent), ContextCompat.getColor(getContext(), R.color.colorPrimary));
 
 
-        mUser = APP.getUser(getActivity());
+        mUser = BaseAPP.getUser(getActivity());
         mUser.stu = mUser.stuNum;
         if (mUser != null) {
             if (NetUtils.isNetWorkAvailable(getActivity())) {

@@ -3,7 +3,7 @@ package com.mredrock.cyxbs.network.encrypt;
 import android.util.Base64;
 import android.util.Log;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.config.Config;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.util.LogUtils;
@@ -29,7 +29,7 @@ public class UserInfoEncryption {
             isSupportEncrypt = false;
         }
         synchronized (UserInfoEncryption.class) {
-            int currentVersion = (int) SPUtils.get(APP.getContext(), Config.SP_KEY_ENCRYPT_VERSION_USER);
+            int currentVersion = (int) SPUtils.get(BaseAPP.getContext(), Config.SP_KEY_ENCRYPT_VERSION_USER);
             if (currentVersion < Config.USER_INFO_ENCRYPT_VERSION) {
                 onUpdate(currentVersion, Config.USER_INFO_ENCRYPT_VERSION);
             }
@@ -78,14 +78,14 @@ public class UserInfoEncryption {
     public void onUpdate(int i, int ii) {
         Log.d("CSET_UIE", "onUpdate: " + i + ", " + ii);
         if (i == 0 && ii == 1) {
-            String unEncryptedJson = (String) SPUtils.get(APP.getContext(), Const.SP_KEY_USER, "");
+            String unEncryptedJson = (String) SPUtils.get(BaseAPP.getContext(), Const.SP_KEY_USER, "");
             if (!"".equals(unEncryptedJson)) {
                 String encryptedJson = encrypt(unEncryptedJson);
-                SPUtils.set(APP.getContext(), Const.SP_KEY_USER, encryptedJson);
+                SPUtils.set(BaseAPP.getContext(), Const.SP_KEY_USER, encryptedJson);
             }
         }
 
-        SPUtils.set(APP.getContext(), Config.SP_KEY_ENCRYPT_VERSION_USER, ii);
+        SPUtils.set(BaseAPP.getContext(), Config.SP_KEY_ENCRYPT_VERSION_USER, ii);
     }
 
 

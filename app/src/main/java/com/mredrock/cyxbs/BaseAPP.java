@@ -2,6 +2,7 @@ package com.mredrock.cyxbs;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
@@ -21,10 +22,15 @@ import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.Utils;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import org.android.agoo.huawei.HuaWeiRegister;
+import org.android.agoo.xiaomi.MiPushRegistar;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
@@ -39,7 +45,7 @@ import rx.Subscriber;
 /**
  * Created by cc on 16/3/18.
  */
-public class APP extends MultiDexApplication {
+public class BaseAPP extends MultiDexApplication {
     private static Context context;
     private static User mUser;
     private static boolean login;
@@ -61,11 +67,11 @@ public class APP extends MultiDexApplication {
         String userJson;
         mUser = user;
         if (user == null) {
-            APP.setLogin(false);
+            BaseAPP.setLogin(false);
             userJson = "";
         } else {
             userJson = new Gson().toJson(user);
-            APP.setLogin(true);
+            BaseAPP.setLogin(true);
         }
         String encryptedJson = userInfoEncryption.encrypt(userJson);
         SPUtils.set(context, Const.SP_KEY_USER, encryptedJson);
@@ -115,7 +121,7 @@ public class APP extends MultiDexApplication {
     }
 
     public static void setLogin(boolean login) {
-        APP.login = login;
+        BaseAPP.login = login;
     }
 
     public static boolean hasSetInfo() {
@@ -131,6 +137,7 @@ public class APP extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Config.DEBUG = BuildConfig.DEBUG;
+        initPush();
         UMShareAPI.get(this);
         initShareKey();
         context = getApplicationContext();
@@ -146,6 +153,28 @@ public class APP extends MultiDexApplication {
         initBugly();
     }
 
+    private void initPush() {
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "123b419248120b9fb91a38260a13e972");
+        UMConfigure.setLogEnabled(true);
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        MiPushRegistar.register(this,"2882303761517258683","5341725868683");
+        HuaWeiRegister.register(this);
+        mPushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String deviceToken) {
+                Log.d(TAG, "友盟注册成功: " + deviceToken);
+            }
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.e(TAG, "onFailure: 友盟注册失败" + s + s1);
+            }
+        });
+    }
+
+    private boolean onMainThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
+    }
+
     private void initShareKey() {
         PlatformConfig.setSinaWeibo("197363903", "7700116c567ab2bb28ffec2dcf67851d", "http://hongyan.cqupt.edu.cn/app/");
         PlatformConfig.setQQZone("1106072365", "v9w1F3OSDhkX14gA");
@@ -155,17 +184,19 @@ public class APP extends MultiDexApplication {
         if (isLogin()) {
             User user = getUser(getContext());
             RequestManager.getInstance().getCourseList(new Subscriber<List<Course>>() {
-                                                           @Override
-                                                           public void onCompleted() {}
+                @Override
+                public void onCompleted() {
+                }
 
-                                                           @Override
-                                                           public void onError(Throwable e) {
-                                                               Log.e("CSET", "reloadCourseList", e);
-                                                           }
+                @Override
+                public void onError(Throwable e) {
+                    Log.e("CSET", "reloadCourseList", e);
+                }
 
-                                                           @Override
-                                                           public void onNext(List<Course> courses) {}
-                                                       }, user.stuNum, user.idNum, 0, true);
+                @Override
+                public void onNext(List<Course> courses) {
+                }
+            }, user.stuNum, user.idNum, 0, true);
         }
     }
 
@@ -200,7 +231,7 @@ public class APP extends MultiDexApplication {
         }
     }
 
-    private void initBugly(){
+    private void initBugly() {
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getContext());
         strategy.setAppVersion(Utils.getAppVersionName(getContext()));      //App的版本
 

@@ -9,7 +9,7 @@ import android.provider.MediaStore.Images;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,7 +41,7 @@ public class FileUtils {
      * @return 文件
      */
     public static File getFile(Uri uri) {
-        Context context = APP.getContext();
+        Context context = BaseAPP.getContext();
         String path = null, scheme = uri.getScheme();
         if (scheme.equals("file")) {
             path = uri.getEncodedPath();

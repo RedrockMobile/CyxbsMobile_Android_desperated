@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
@@ -55,9 +55,9 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
         holder.aboutMeNickName.setText(data.nickname.equals("") ? "来自一位没有名字的同学" : data.nickname);
         holder.aboutMeContent.setText(filterContent(data.content));
         holder.aboutMeTime.setText(TimeUtils.getTimeDetail(data.created_time));
-        String myNickName = APP.getUser(APP.getContext()).nickname;
+        String myNickName = BaseAPP.getUser(BaseAPP.getContext()).nickname;
 //        SpannableStringBuilder aboutMeNewContentSpanText = new SpannableStringBuilder(myNickName + "：" + data.article_content);
-//        aboutMeNewContentSpanText.setSpan(new ForegroundColorSpan(APP.getContext().getResources().getColor(R.color.link_blue)), 0, myNickName.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+//        aboutMeNewContentSpanText.setSpan(new ForegroundColorSpan(BaseAPP.getContext().getResources().getColor(R.color.link_blue)), 0, myNickName.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         holder.aboutMeNewContent.setText(data.article_content);
         holder.author.setText(myNickName + "：");
         ImageLoader.getInstance().loadAvatar(data.photo_src, holder.aboutMeAvatar);

@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.HotNews;
@@ -77,7 +77,7 @@ public class MyTrendActivity extends BaseActivity
 
 
     private void init() {
-        mUser = APP.getUser(this);
+        mUser = BaseAPP.getUser(this);
         myTrendRefreshLayout.setOnRefreshListener(this);
 
         myTrendRefreshLayout.setColorSchemeColors(
