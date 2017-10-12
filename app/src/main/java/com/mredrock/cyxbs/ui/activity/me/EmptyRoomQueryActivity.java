@@ -117,7 +117,7 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         mWeekSelector.setDisplayValues(list);
         mWeekApi = new int[list.size()];
         for (int i = 0; i < list.size(); i++) {
-            mWeekApi[i] = week++;
+            mWeekApi[i] = ++week;
         }
     }
 
