@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
@@ -92,7 +92,7 @@ public class DormitorySettingActivity extends BaseActivity {
             return;
         buildingNumberEdit.setText(sDormitoryBuildings[buildingPosition]);
         mBuildingPosition = buildingPosition;
-        String dormitory = (String) SPUtils.get(APP.getContext(),DORMITORY_KEY,"");
+        String dormitory = (String) SPUtils.get(BaseAPP.getContext(),DORMITORY_KEY,"");
         dormitoryNumberEdit.setText(dormitory);
 
     }
@@ -127,10 +127,10 @@ public class DormitorySettingActivity extends BaseActivity {
             dialogRemindFragment.setArguments(bundle);
             dialogRemindFragment.show(getFragmentManager(),"DialogRemindFragment");
         }else {
-            User user = APP.getUser(this);
-            SPUtils.set(APP.getContext(), BUILDING_KEY, mBuildingPosition);
-            SPUtils.set(APP.getContext(),DORMITORY_KEY,dormitoryNumberEdit.getText().toString()+"");
-            SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
+            User user = BaseAPP.getUser(this);
+            SPUtils.set(BaseAPP.getContext(), BUILDING_KEY, mBuildingPosition);
+            SPUtils.set(BaseAPP.getContext(),DORMITORY_KEY,dormitoryNumberEdit.getText().toString()+"");
+            SPUtils.set(BaseAPP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
             SimpleSubscriber<Object> subscriber = new SimpleSubscriber<Object>(this, true, new SubscriberListener<Object>() {
                 @Override
                 public void onCompleted() {

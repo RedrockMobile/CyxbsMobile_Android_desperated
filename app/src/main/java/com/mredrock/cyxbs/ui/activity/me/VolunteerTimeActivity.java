@@ -22,6 +22,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.VolunteerTime;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
+import com.mredrock.cyxbs.ui.activity.MainActivity;
 import com.mredrock.cyxbs.ui.adapter.me.VolunteerFragmentAdapter;
 import com.mredrock.cyxbs.ui.fragment.me.AllVolunteerFragment;
 import com.mredrock.cyxbs.ui.fragment.me.FirstVolunteerTimeFragment;
@@ -38,8 +39,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
 
-@RequiresApi(api = Build.VERSION_CODES.M)
-public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnTabSelectedListener{
+import static android.support.v4.view.ViewPager.*;
+
+public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener{
     private static final String TAG = "VolunteerTimeActivity";
 
     private String uid;
@@ -69,6 +71,8 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     ImageView unshowTab;
     @Bind(R.id.volunteer_time_progress)
     ProgressBar progressBar;
+    @Bind(R.id.volunteer_time_title)
+    TextView toolbarTittle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -322,6 +326,9 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         viewPager.setCurrentItem(tab.getPosition());
+        if (toolbar != null)
+            toolbarTittle.setText(yearList.get(tab.getPosition()));
+
     }
 
     @Override
@@ -334,4 +341,19 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
 
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (toolbar != null)
+            toolbarTittle.setText(yearList.get(position));
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }

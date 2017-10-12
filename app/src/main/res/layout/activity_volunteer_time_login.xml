@@ -62,7 +62,6 @@
             android:layout_height="50dp"
             android:drawableLeft="@drawable/volunteer_login_number"
             android:drawablePadding="16dp"
-            android:inputType="number"
             android:hint="@string/volunteer_account"
             android:textColorHint="@color/volunteer_edit_Normal"
             android:textCursorDrawable="@drawable/volunteer_cursor_color"

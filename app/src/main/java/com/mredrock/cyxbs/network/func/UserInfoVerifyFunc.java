@@ -1,6 +1,6 @@
 package com.mredrock.cyxbs.network.func;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.ui.activity.me.EditNickNameActivity;
 
@@ -13,7 +13,7 @@ public class UserInfoVerifyFunc implements Func1<User, User>{
     @Override
     public User call(User user) {
         if (user == null) {
-            EditNickNameActivity.start(APP.getContext());
+            EditNickNameActivity.start(BaseAPP.getContext());
         }
         return user;
     }

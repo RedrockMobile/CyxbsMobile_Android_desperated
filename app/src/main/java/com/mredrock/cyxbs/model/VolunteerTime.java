@@ -50,7 +50,7 @@ public class VolunteerTime {
          */
 
         private String uid;
-        private int hours;
+        private double hours;
         private List<RecordBean> record;
 
         public String getUid() {
@@ -61,11 +61,11 @@ public class VolunteerTime {
             this.uid = uid;
         }
 
-        public int getHours() {
+        public double getHours() {
             return hours;
         }
 
-        public void setHours(int hours) {
+        public void setHours(double hours) {
             this.hours = hours;
         }
 

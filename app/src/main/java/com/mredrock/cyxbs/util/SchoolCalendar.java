@@ -1,6 +1,6 @@
 package com.mredrock.cyxbs.util;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,7 +20,7 @@ public class SchoolCalendar {
 
     public SchoolCalendar() {
         // 鄙人认为，在这个时候，我们有必要去更新一下firstDay
-        long first = (long) SPUtils.get(APP.getContext(), "first_day", firstDay.getTimeInMillis());
+        long first = (long) SPUtils.get(BaseAPP.getContext(), "first_day", firstDay.getTimeInMillis());
         firstDay.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
         firstDay.setTimeInMillis(first);
         currentTime = new GregorianCalendar();

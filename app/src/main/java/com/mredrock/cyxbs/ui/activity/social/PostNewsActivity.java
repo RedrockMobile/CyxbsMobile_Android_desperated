@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.multi_image_selector.MultiImageSelectorActivity;
 import com.mredrock.cyxbs.component.widget.TopicEditText;
@@ -109,7 +109,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_news);
         ButterKnife.bind(this);
-        mUser = APP.getUser(this);
+        mUser = BaseAPP.getUser(this);
         init();
         initToolbar();
         Intent intent = getIntent();

@@ -3,28 +3,20 @@ package com.mredrock.cyxbs.ui.fragment.lost;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.ui.activity.explore.BaseExploreActivity;
-import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
-import com.mredrock.cyxbs.ui.adapter.lost.LostTabPagerAdapter;
 import com.mredrock.cyxbs.ui.adapter.lost.LostViewPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -89,8 +81,8 @@ public class LostContainerFragment extends BaseFragment{
         return fragment;
     }
     private void getUserData() {
-        if (APP.isLogin()) {
-            mUser = APP.getUser(getContext());
+        if (BaseAPP.isLogin()) {
+            mUser = BaseAPP.getUser(getContext());
             if (mUser.id == null) getPersonInfoData();
             //else init();
         }else {
@@ -99,7 +91,7 @@ public class LostContainerFragment extends BaseFragment{
     }
 
     public void getPersonInfoData() {
-        if (!APP.isLogin()){
+        if (!BaseAPP.isLogin()){
             return;
         }
         if (mUser != null){
@@ -109,7 +101,7 @@ public class LostContainerFragment extends BaseFragment{
                     super.onNext(personInfo);
                     super.onNext(personInfo);
                     mUser = User.cloneFromUserInfo(mUser, personInfo);
-                    APP.setUser(getActivity(), mUser);
+                    BaseAPP.setUser(getActivity(), mUser);
                 }
             }), mUser.stuNum, mUser.stuNum, mUser.idNum);
         }

@@ -3,7 +3,7 @@ package com.mredrock.cyxbs.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class Course implements Serializable, Parcelable {
         weekEnd = in.readInt();
         type = in.readString();
         week = new ArrayList<>(0);
-        in.readList(week, APP.getContext().getClassLoader());
+        in.readList(week, BaseAPP.getContext().getClassLoader());
         status = in.readString();
         period = in.readInt();
     }

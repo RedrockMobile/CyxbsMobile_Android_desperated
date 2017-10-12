@@ -9,12 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.User;
@@ -77,7 +75,7 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
                 (getContext(), R.color.colorAccent), ContextCompat.getColor
                 (getContext(), R.color.black_lightly));
 
-        mUser = APP.getUser(getActivity());
+        mUser = BaseAPP.getUser(getActivity());
         if (mUser != null) {
             if (NetUtils.isNetWorkAvailable(getActivity())) {
                 showProgress();

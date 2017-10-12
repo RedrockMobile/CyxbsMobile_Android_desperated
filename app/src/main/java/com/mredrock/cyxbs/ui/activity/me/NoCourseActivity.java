@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.JsonSyntaxException;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Student;
 import com.mredrock.cyxbs.model.User;
@@ -89,8 +89,8 @@ public class NoCourseActivity extends BaseActivity
         mNoCourseAdapter = new NoCourseAdapter(this, nameList);
         mNoCourseAdapter.setOnItemButtonClickListener(this);
 
-        if (APP.isLogin()) {
-            mUser = APP.getUser(this);
+        if (BaseAPP.isLogin()) {
+            mUser = BaseAPP.getUser(this);
         }
         if (mUser != null) {
             addStudent(mUser.stuNum, mUser.name);
@@ -154,8 +154,8 @@ public class NoCourseActivity extends BaseActivity
 
 
     private void addStudent(String stuNum, String name) {
-        stuNumList.add(stuNum);
-        nameList.add(name);
+        stuNumList.add(0, stuNum);
+        nameList.add(0, name);
         mNoCourseAdapter.notifyDataSetChanged();
     }
 

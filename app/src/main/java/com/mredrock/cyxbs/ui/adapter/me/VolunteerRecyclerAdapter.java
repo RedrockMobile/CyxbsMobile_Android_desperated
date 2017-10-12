@@ -6,7 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.VolunteerTime;
@@ -37,11 +39,13 @@ public class VolunteerRecyclerAdapter extends RecyclerView.Adapter<VolunteerRecy
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView yearText;
         RecyclerView monthRecycler;
+        TextView divider;
 
         public ViewHolder(View itemView) {
             super(itemView);
             yearText = (TextView) itemView.findViewById(R.id.volunteer_time_year);
             monthRecycler = (RecyclerView) itemView.findViewById(R.id.volunteer_time_child_recycler);
+            divider = (TextView) itemView.findViewById(R.id.volunteer_time_divider_line);
         }
     }
     @Override
@@ -60,8 +64,16 @@ public class VolunteerRecyclerAdapter extends RecyclerView.Adapter<VolunteerRecy
         } else {
             adapter = new VolunteerRecyclerChildAdapter(allList.get(position));
         }
+
         holder.monthRecycler.setAdapter(adapter);
         holder.monthRecycler.setLayoutManager(new LinearLayoutManager(context));
+
+        if (position == yearList.size()-1){
+
+            holder.divider.setVisibility(View.VISIBLE);
+
+
+        }
     }
 
     @Override

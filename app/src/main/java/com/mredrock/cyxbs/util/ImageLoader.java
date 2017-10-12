@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ninelayout.CustomImageView;
 
@@ -35,7 +35,7 @@ public class ImageLoader {
 
     public void loadOffcialImg(String url, ImageView imageView, View itemView) {
         Context context = itemView.getContext();
-        Glide.with(APP.getContext())
+        Glide.with(BaseAPP.getContext())
                 .load(url.startsWith("http") ? url : CustomImageView.BASE_NORMAL_IMG_URL + url)
                 .placeholder(R.drawable.place_holder)
                 .error(R.drawable.place_holder)
@@ -81,7 +81,7 @@ public class ImageLoader {
 
     public void loadRedrockImage(String url, ImageView imageView) {
         if (url.length() > 0) {
-            Glide.with(APP.getContext())
+            Glide.with(BaseAPP.getContext())
                     .load(url.startsWith("http") ? url : CustomImageView.BASE_THUMBNAIL_IMG_URL + url)
                     .placeholder(R.drawable.place_holder)
                     .error(R.drawable.place_holder)
@@ -92,7 +92,7 @@ public class ImageLoader {
     }
 
     public void loadAvatar(String url, ImageView imageView) {
-        Glide.with(APP.getContext())
+        Glide.with(BaseAPP.getContext())
                 .load(url)
                 .asBitmap()
                 .placeholder(R.drawable.default_avatar)
@@ -106,7 +106,7 @@ public class ImageLoader {
 
 
     public void loadImageWithTargetView(String url, SimpleTarget simpleTarget) {
-        Glide.with(APP.getContext())
+        Glide.with(BaseAPP.getContext())
                 .load(url.startsWith("http") ? url : CustomImageView.BASE_NORMAL_IMG_URL + url)
                 .asBitmap()
                 .placeholder(R.drawable.place_holder)
@@ -116,7 +116,7 @@ public class ImageLoader {
 
     @SuppressWarnings("unchecked")
     public void loadLocalImage(int resId, SimpleTarget<Bitmap> simpleTarget) {
-        Glide.with(APP.getContext())
+        Glide.with(BaseAPP.getContext())
                 .load(resId)
                 .asBitmap()
                 .centerCrop()
