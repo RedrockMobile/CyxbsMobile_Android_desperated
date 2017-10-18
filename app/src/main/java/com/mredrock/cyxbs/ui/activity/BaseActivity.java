@@ -62,7 +62,6 @@ public class BaseActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(option);
             getWindow().setNavigationBarColor(Color.TRANSPARENT);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
-            getWindow().setNavigationBarColor(Color.parseColor("#65A3FB"));
         } else if (Build.VERSION.SDK_INT >= 19) {
             getWindow().setFlags(
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,

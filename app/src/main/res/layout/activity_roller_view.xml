@@ -6,6 +6,8 @@
     android:orientation="vertical"
     tools:context=".ui.activity.explore.RollerViewActivity">
 
+    <include layout="@layout/toolbar"/>
+
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"

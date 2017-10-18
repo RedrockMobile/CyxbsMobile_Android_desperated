@@ -92,6 +92,8 @@ public class CourseFragment extends BaseFragment {
     TextView mCourseMonth;
     @Bind(R.id.no_course_holder)
     View mNoCourseHolder;
+    @Bind(R.id.course_holder)
+    View mCourseHolder;
 
     // private boolean showAffairContent = true;
     private SharedPreferences sharedPreferences;
@@ -122,6 +124,7 @@ public class CourseFragment extends BaseFragment {
 
         int screeHeight = DensityUtils.getScreenHeight(getContext());
         if (DensityUtils.px2dp(getContext(), screeHeight) > 700) {
+            mCourseHolder.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, screeHeight));
             mCourseTime.setLayoutParams(new LinearLayout.LayoutParams(DensityUtils.dp2px(getContext(), 40), screeHeight));
             mCourseScheduleContent.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, screeHeight));
         }
