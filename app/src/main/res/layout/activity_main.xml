@@ -16,7 +16,5 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_main"/>
+    <include layout="@layout/content_main" />
 </LinearLayout>

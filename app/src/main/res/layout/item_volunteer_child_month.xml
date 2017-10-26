@@ -57,7 +57,6 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/volunteer_imageView2"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:layout_gravity="center_vertical"
@@ -89,7 +88,6 @@
                     android:textColor="@color/volunteer_time_left"
                     android:textSize="12dp" />
                 <ImageView
-                    android:id="@+id/volunteer_imageView"
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:layout_toLeftOf="@id/volunteer_time_hour"

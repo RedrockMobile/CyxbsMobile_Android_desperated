@@ -1,7 +1,6 @@
 <resources>
     <string name="cyxbsmobile">掌上重邮</string>
     <string name="app_name">掌上重邮</string>
-    <string name="action_settings">Setting</string>
     <string name="community">社 区</string>
     <string name="course">课 表</string>
     <string name="explore">发 现</string>
@@ -108,35 +107,12 @@
         <item>补考安排</item>
     </string-array>
 
-    <string name="my_page_introduce">简介：</string>
-    <string name="my_page_relate">与我相关</string>
-    <string name="my_page_trend">我的动态</string>
-    <string name="my_page_no_course">没课约</string>
-    <string name="my_page_empty">空教室</string>
-    <string name="my_page_grade">考试与成绩</string>
-    <string name="my_page_calendar">校历</string>
-    <string name="my_page_night">夜间模式</string>
-    <string name="my_page_setting">设置</string>
-
-    <string name="edit_info_avatar">头像修改</string>
-    <string name="edit_info_nick_name">昵称</string>
-    <string name="edit_info_introduce">简介</string>
-    <string name="edit_info_qq">QQ</string>
-    <string name="edit_info_phone">电话</string>
-
-    <string name="setting_news_remind">新消息提醒</string>
     <string name="setting_feedback">意见反馈</string>
     <string name="setting_about">关于</string>
     <string name="setting_show_mode">在课表上没课的地方显示备忘内容</string>
 
     <string name="setting_exit">退出当前账号</string>
 
-    <string name="grade_title_name">名称</string>
-    <string name="grade_title_property">类型</string>
-    <string name="grade_title_score">成绩</string>
-
-    <string name="exam_unsure">时间待定</string>
-    <string name="exam_date">%1$s周周%2$s</string>
     <string name="exam_detail_date">%1$s - %2$s</string>
 
     <string name="news_remind_hint">打开后将推送响应类型的消息</string>
@@ -149,17 +125,6 @@
         <item>资讯</item>
     </string-array>
 
-    <string-array name="lost_tab_tiles">
-        <item>全部</item>
-        <item>一卡通</item>
-        <item>钱包</item>
-        <item>钥匙</item>
-        <item>电子产品</item>
-        <item>雨伞</item>
-        <item>衣物</item>
-        <item>其他</item>
-
-    </string-array>
     ？
     <!--explore page start-->
     <string name="error_text">加载失败</string>
@@ -170,58 +135,26 @@
     <string name="explore_around_food">周边美食</string>
     <string name="explore_electric">查电费</string>
 
-    <string name="explore_fresher_special">迎新网</string>
-    <string name="explore_community">重邮社区</string>
-    <string name="explore_business">创业谷</string>
-
     <string name="portal_title">红岩主页</string>
-    <string name="portal_menu_overflow">overflow</string>
     <string name="portal_menu_share">分享链接</string>
     <string name="portal_menu_refresh">刷新页面</string>
     <string name="portal_menu_copy">复制链接</string>
     <string name="portal_open_with">用浏览器打开</string>
 
     <string name="map_activity_name">重邮地图</string>
-    <string name="map_flow_dialog_title">流量警告</string>
-    <string name="map_flow_dialog_content">当前不在wifi下哦，是否用流量下载重邮地图？</string>
-    <string name="map_flow_dialog_positive">就是任性</string>
-    <string name="map_flow_dialog_negative">还是算了</string>
-    <string name="map_progress_dialog_title">正在下载地图</string>
-    <string name="map_progress_dialog_content">请稍候</string>
-    <string name="map_permission_explanation">使用缓存, 节省你的流量</string>
 
     <string name="what_to_eat_activity_name">吃什么</string>
-    <string name="shake_again_text">不想吃这个？再摇一摇</string>
 
     <string name="surrounding_food_activity_name">周边美食</string>
     <string name="restaurant_default_intro">暂无本店简介</string>
-    <string name="restaurant_default_promotion">暂无促销信息</string>
-    <string name="restaurant_default_average_cost">人均消费: 暂无数据</string>
-    <string name="restaurant_comment">评论</string>
-    <string name="phone_call_dialog_title">拨打电话</string>
-    <string name="phone_call_dialog_content">是否拨打该电话</string>
-    <string name="phone_call_dialog_positive">好的</string>
-    <string name="phone_call_dialog_negative">不了</string>
     <string name="phone_permission_explanation">不给权限,我也没办法了,亲</string>
 
-    <string name="send_comment_dialog_title">请输入评论</string>
-    <string name="send_comment_dialog_hint">"请输入"</string>
-    <string name="send_comment_dialog_prefill">""</string>
-    <string name="send_comment_dialog_positive_text">发送</string>
-    <string name="send_comment_dialog_negative_text">取消</string>
     <string name="send_comment_fail">发送失败</string>
     <string name="send_comment_fail_again">发送失败,请检查网络</string>
     <string name="send_comment_again">重新发送</string>
 
-    <string name="placeholder_explore_restaurant_name">九九牛肉馆</string>
     <string name="placeholder_explore_restaurant_recommend">新鲜大盘牛肉, 肉多耐嚼, 值得拥有</string>
-    <string name="placeholder_explore_restaurant_cost">人均消费: 99元</string>
-    <string name="placeholder_explore_restaurant_phone">13509495754</string>
     <string name="placeholder_explore_restaurant_location">南岸区南山路99号(近崇文路), 在重庆邮电大学堕落街附近</string>
-    <string name="placeholder_explore_restaurant_promotion">牛排大促销, 只要30元, 再附送小配菜, 走过路过不要错过</string>
-    <string name="placeholder_explore_restaurant_comment">好吃</string>
-    <string name="placeholder_explore_restaurant_author">王二小</string>
-    <string name="placeholder_explore_restaurant_date">2016年5月1号</string>
     <!--explore page end-->
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -234,25 +167,17 @@
     <string name="load_open_file">下载成功,是否打开?</string>
     <string name="load_file_path">文件位于%1$s</string>
     <string name="load_failed">下载失败了~</string>
-    <string name="load_error_prepare">加载异常</string>
 
-    <string name="news_edt">说点什么吧...</string>
     <string name="specific_news_title">详情</string>
-    <string name="specific_news_nev">返回</string>
 
     <string name="activity_add_news_title">发表动态</string>
-    <string name="save">完成</string>
-    <string name="cancel">取消</string>
     <string name="add_news_edit_hint">点击输入文字...</string>
-    <string name="annex">含附件</string>
     <string name="erro">获取数据失败,你的网络不靠谱呀</string>
     <string name="alter">你没有输入任何东西哟</string>
     <string name="noContent">你没有输入消息哟!</string>
     <string name="loadingFailed">加载失败，点击重新加载</string>
-    <string name="title_activity_login">登录</string>
 
 
-    <string name="jwzx">教务在线</string>
     <string name="person_info">详细资料</string>
     <string name="latest">近期动态</string>
 
@@ -266,14 +191,11 @@
     <string name="action_done">完成</string>
     <string name="photo_unit">张</string>
     <string name="tip_take_photo">拍摄照片</string>
-    <string name="un_login">还没有登录</string>
     <string name="schedule">我的课表</string>
     <string name="news">我的动态</string>
     <string name="foods">周边美食</string>
     <string name="date">没课约</string>
 
-    <string name="add_affair_edit_hint">写点内容哦</string>
-    <string name="add_affair_edit_title">给你的提醒设置一个标题吧</string>
     <string name="send">发送</string>
     <string name="lost_post">失物启事</string>
     <string name="found_post">招领启事</string>
@@ -296,7 +218,6 @@
     <string name="unLoginHint">点击登录,拯救课表菌！！！</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="empty_course">没课的日子总是充满对课堂的思恋</string>
 
     <string-array name="dormitory_buildings">
@@ -389,6 +310,6 @@
 
 
     <!--volunteer Time-->
-    <string name="volunteer_account"><font size="16">请输入暖青汇账号</font></string>
-    <string name="volunteer_password"><font size="16">请输入密码</font></string>
+    <string name="volunteer_account"></string>
+    <string name="volunteer_password"></string>
 </resources>

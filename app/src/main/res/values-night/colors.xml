@@ -9,9 +9,6 @@
 
     <color name="divider">#1A222D</color>
     <color name="divider_light">#1A222D</color>
-    <color name="divider_relate_me">#1A222D</color>
-    <color name="divider_edit_info">#1A222D</color>
-    <color name="divider_edit_introduce">#1A222D</color>
 
     <color name="background_grey">#303030</color>
     <color name="background_relate_me">#303030</color>
