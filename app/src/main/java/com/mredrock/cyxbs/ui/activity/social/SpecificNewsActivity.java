@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
@@ -52,7 +52,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposable;
 
 public class SpecificNewsActivity extends BaseActivity
@@ -140,13 +139,13 @@ public class SpecificNewsActivity extends BaseActivity
         setContentView(R.layout.activity_specific_news);
         mRxPermissions = new RxPermissions(this);
         ButterKnife.bind(this);
-        //  mUser = APP.getUser(this);
+        //  mUser = BaseAPP.getUser(this);
         mCommentDialog = new EditTextBottomSheetDialog(this);
         mCommentDialog.setOnClickListener(this);
 
         mRefresh.setColorSchemeColors(
-                ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
-                ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
+                ContextCompat.getColor(BaseAPP.getContext(), R.color.colorAccent),
+                ContextCompat.getColor(BaseAPP.getContext(), R.color.colorPrimary)
         );
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.list_news_item_header, null, false);
         mWrapView = new NewsAdapter.NewsViewHolder(mHeaderView);
@@ -363,7 +362,7 @@ public class SpecificNewsActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mUser = APP.getUser(this);
+        mUser = BaseAPP.getUser(this);
 
         MobclickAgent.onResume(this);
     }

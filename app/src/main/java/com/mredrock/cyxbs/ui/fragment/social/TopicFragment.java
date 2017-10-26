@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.SpaceDecoration;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.Topic;
@@ -61,7 +61,7 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
     }
 
     public void getTopic() {
-        User user = APP.getUser(getContext());
+        User user = BaseAPP.getUser(getContext());
         RequestManager.getInstance().getTopicList(new SimpleObserver<>(getContext(),
                 false, new SubscriberListener<List<Topic>>() {
             @Override

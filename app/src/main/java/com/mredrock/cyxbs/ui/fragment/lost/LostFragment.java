@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.lost.Lost;
@@ -97,7 +97,7 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
 
         init();
         mFabMain.setOnClickListener(view1 -> {
-            if (APP.getUser(getActivity()).id == null || APP.getUser(getActivity()).id.equals("0")) {
+            if (BaseAPP.getUser(getActivity()).id == null || BaseAPP.getUser(getActivity()).id.equals("0")) {
                 RequestManager.getInstance().checkWithUserId("还没有完善信息，不能发动态哟！");
             } else
                 ReleaseActivity.startActivity(getActivity());
@@ -105,8 +105,8 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     }
     public void init(){
         mSwipeRefreshLayout.setColorSchemeColors(
-                ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
-                ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
+                ContextCompat.getColor(BaseAPP.getContext(), R.color.colorAccent),
+                ContextCompat.getColor(BaseAPP.getContext(), R.color.colorPrimary)
         );
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());

@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.ItemChangedEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
@@ -80,7 +80,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
         super.onViewCreated(view, savedInstanceState);
         init();
         mFabMain.setOnClickListener(view1 -> {
-            if (APP.getUser(getActivity()).id == null || APP.getUser(getActivity()).id.equals("0")) {
+            if (BaseAPP.getUser(getActivity()).id == null || BaseAPP.getUser(getActivity()).id.equals("0")) {
                 RequestManager.getInstance().checkWithUserId("还没有完善信息，不能发动态哟！");
             } else
                 PostNewsActivity.startActivity(getActivity());
@@ -89,8 +89,8 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
 
     protected void init() {
         mSwipeRefreshLayout.setColorSchemeColors(
-                ContextCompat.getColor(APP.getContext(), R.color.colorAccent),
-                ContextCompat.getColor(APP.getContext(), R.color.colorPrimary)
+                ContextCompat.getColor(BaseAPP.getContext(), R.color.colorAccent),
+                ContextCompat.getColor(BaseAPP.getContext(), R.color.colorPrimary)
         );
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mLinearLayoutManager = new LinearLayoutManager(getParentFragment().getActivity());

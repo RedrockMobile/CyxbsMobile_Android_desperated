@@ -31,7 +31,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * Created by cc on 16/3/18.
  */
-public class APP extends MultiDexApplication {
+public class BaseAPP extends MultiDexApplication {
     private static Context context;
     private static User mUser;
     private static boolean login;
@@ -53,11 +53,11 @@ public class APP extends MultiDexApplication {
         String userJson;
         mUser = user;
         if (user == null) {
-            APP.setLogin(false);
+            BaseAPP.setLogin(false);
             userJson = "";
         } else {
             userJson = new Gson().toJson(user);
-            APP.setLogin(true);
+            BaseAPP.setLogin(true);
         }
         String encryptedJson = userInfoEncryption.encrypt(userJson);
         SPUtils.set(context, Const.SP_KEY_USER, encryptedJson);
@@ -107,7 +107,7 @@ public class APP extends MultiDexApplication {
     }
 
     public static void setLogin(boolean login) {
-        APP.login = login;
+        BaseAPP.login = login;
     }
 
     public static boolean hasSetInfo() {

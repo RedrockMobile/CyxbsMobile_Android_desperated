@@ -108,13 +108,13 @@ public class ExploreFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         /*mViewPager.setAdapter(new ExploreViewPagerAdapter());
         ViewGroup.LayoutParams params = mViewPager.getLayoutParams();
-        params.width = DensityUtils.getScreenWidth(APP.getContext())
-                - DensityUtils.dp2px(APP.getContext(), 70);
+        params.width = DensityUtils.getScreenWidth(BaseAPP.getContext())
+                - DensityUtils.dp2px(BaseAPP.getContext(), 70);
         params.height = (int) (params.width * 0.65);
         mViewPager.setLayoutParams(params);
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setCurrentItem(Integer.MAX_VALUE / 2);
-        mViewPager.setPageMargin(DensityUtils.dp2px(APP.getContext(), 12));*/
+        mViewPager.setPageMargin(DensityUtils.dp2px(BaseAPP.getContext(), 12));*/
 
         mRollerView.setAdapter(new ExploreRollerViewAdapter(getContext(), new int[]{
                 R.drawable.img_cqupt1,

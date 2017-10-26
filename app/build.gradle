@@ -167,7 +167,6 @@ dependencies {
     implementation 'com.jude:easyrecyclerview:4.4.0'
     implementation 'com.lapism:searchview:4.0'
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
-    implementation project(':FresherSpecial')
 
     // kotlin support
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"

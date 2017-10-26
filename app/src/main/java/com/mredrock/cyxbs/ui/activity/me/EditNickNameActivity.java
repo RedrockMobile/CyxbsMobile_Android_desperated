@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.widget.EditText;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Toolbar;
 import com.mredrock.cyxbs.config.Const;
@@ -56,7 +56,7 @@ public class EditNickNameActivity extends EditCommonActivity {
     }
 
     private void initialize() {
-        isForceModify = !APP.hasNickName();
+        isForceModify = !BaseAPP.hasNickName();
         if (isForceModify) {
             editCommonToolbar.setLeftText("");
             editCommonToolbar.setLeftTextListener(null);

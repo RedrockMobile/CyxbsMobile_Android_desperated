@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Position;
 import com.mredrock.cyxbs.component.widget.TimeChooseView;
@@ -96,7 +96,7 @@ public class TimeChooseActivity extends BaseActivity {
         ArrayList<Position> positions = new ArrayList<>();
         positions.addAll(timeChooseView.getPositions());
         if (positions.size() == 0){
-            Toast.makeText(APP.getContext(),"还没有选择时间哦",Toast.LENGTH_SHORT).show();
+            Toast.makeText(BaseAPP.getContext(),"还没有选择时间哦",Toast.LENGTH_SHORT).show();
         }else {
             Collections.sort(positions);
             for (Position p : positions)

@@ -1,6 +1,6 @@
 package com.mredrock.cyxbs.network.interceptor;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.config.Const;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class StudentNumberInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         String url = chain.request().url().toString();
-        if (APP.isLogin() && (
+        if (BaseAPP.isLogin() && (
                    url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_HOT_LIST)
                 || url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_BBDD_LIST)
                 || url.equals(Const.END_POINT_REDROCK + Const.API_GET_PERSON_LATEST)
@@ -47,8 +47,8 @@ public class StudentNumberInterceptor implements Interceptor {
                 newBuilder.addEncoded(((FormBody) originalFormBody).encodedName(i), ((FormBody) originalFormBody).encodedValue(i));
             }
             // Add optional idNum and stuNum
-            newBuilder.add("idNum", APP.getUser(APP.getContext()).idNum);
-            newBuilder.add("stuNum", APP.getUser(APP.getContext()).stuNum);
+            newBuilder.add("idNum", BaseAPP.getUser(BaseAPP.getContext()).idNum);
+            newBuilder.add("stuNum", BaseAPP.getUser(BaseAPP.getContext()).stuNum);
             builder.method(originalRequest.method(), newBuilder.build());
         }
         return chain.proceed(builder.build());

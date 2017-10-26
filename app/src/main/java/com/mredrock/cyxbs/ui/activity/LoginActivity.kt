@@ -3,7 +3,7 @@ package com.mredrock.cyxbs.ui.activity
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import butterknife.ButterKnife
-import com.mredrock.cyxbs.APP
+import com.mredrock.cyxbs.BaseAPP
 import com.mredrock.cyxbs.R
 import com.mredrock.cyxbs.event.LoginStateChangeEvent
 import com.mredrock.cyxbs.model.User
@@ -54,7 +54,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun initUser() {
-        APP.setUser(this, null)
+        BaseAPP.setUser(this, null)
     }
 
     private fun attemptLogin() {
@@ -66,7 +66,7 @@ class LoginActivity : BaseActivity() {
                     override fun onNext(user: User?) {
                         super.onNext(user)
                         if (user != null) {
-                            APP.setUser(this@LoginActivity, user)
+                            BaseAPP.setUser(this@LoginActivity, user)
                             MobclickAgent.onProfileSignIn(stuNum)
                         } else {
                             toast("登录失败, 返回了信息为空")
@@ -77,8 +77,8 @@ class LoginActivity : BaseActivity() {
                         super.onComplete()
                         EventBus.getDefault().post(LoginStateChangeEvent(true))
                         finish()
-                        if (!APP.hasNickName()) {
-                            EditNickNameActivity.start(APP.getContext())
+                        if (!BaseAPP.hasNickName()) {
+                            EditNickNameActivity.start(BaseAPP.getContext())
                         }
                     }
                 }), stuNum, idNum)

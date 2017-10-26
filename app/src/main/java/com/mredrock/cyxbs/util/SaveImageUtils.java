@@ -6,7 +6,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.config.Config;
 import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
@@ -43,7 +43,7 @@ public class SaveImageUtils {
                     public boolean onError(Throwable e) {
                         super.onError(e);
                         Log.e("SaveImageUtils",e.toString());
-                        Toast.makeText(APP.getContext(),"图片保存失败",Toast.LENGTH_LONG).show();
+                        Toast.makeText(BaseAPP.getContext(),"图片保存失败",Toast.LENGTH_LONG).show();
                         return true;
                     }
 
@@ -70,7 +70,7 @@ public class SaveImageUtils {
                             bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
                             outputStream.flush();
                             outputStream.close();
-                            Toast.makeText(APP.getContext(),"图片成功保存至"+name+"目录",Toast.LENGTH_LONG).show();
+                            Toast.makeText(BaseAPP.getContext(),"图片成功保存至"+name+"目录",Toast.LENGTH_LONG).show();
                         }catch (IOException e){
                             e.printStackTrace();
                             onError(e);

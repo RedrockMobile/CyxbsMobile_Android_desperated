@@ -2,7 +2,7 @@ package com.mredrock.cyxbs.network.observable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.util.FileUtils;
@@ -62,7 +62,7 @@ public class CourseListProvider implements ObservableOnSubscribe<List<Course>> {
         this.idNum = idNum;
         this.preferRefresh = preferRefresh;
         this.forceFetch = forceFetch;
-        cacheFilePath = APP.getContext().getFilesDir().getAbsolutePath() + "/" + "UserCourse$" + stuNum + ".json";
+        cacheFilePath = BaseAPP.getContext().getFilesDir().getAbsolutePath() + "/" + "UserCourse$" + stuNum + ".json";
     }
 
     @Override

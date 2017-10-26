@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Toolbar;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
@@ -64,7 +64,7 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
 
 
     private void init() {
-        mUser = APP.getUser(this);
+        mUser = BaseAPP.getUser(this);
 
         editIntroduceEt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_SIZE_TEXT)});
         editIntroduceEt.setText(mUser.introduction);

@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ElectricCircleView;
 import com.mredrock.cyxbs.model.ElectricCharge;
@@ -85,8 +85,8 @@ public class ElectricChargeActivity extends BaseActivity {
     }
 
     private void initData() {
-        buildingNum = (String) SPUtils.get(APP.getContext(), DormitorySettingActivity.BUILDING_KEY, String.valueOf("null"));
-        dormitoryNum = (String) SPUtils.get(APP.getContext(), DormitorySettingActivity.DORMITORY_KEY, String.valueOf("null"));
+        buildingNum = (String) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, String.valueOf("null"));
+        dormitoryNum = (String) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.DORMITORY_KEY, String.valueOf("null"));
         noticeInfo = getResources().getString(R.string.electric_notice_info);
     }
 
@@ -139,8 +139,8 @@ public class ElectricChargeActivity extends BaseActivity {
             Log.i(TAG,"onActivityResult");
             if (resultCode == REQUEST_SET_CODE){
                 onActivityResult = true;
-                buildingNum = (String) SPUtils.get(APP.getContext(), DormitorySettingActivity.BUILDING_KEY, String.valueOf("null"));
-                dormitoryNum = (String) SPUtils.get(APP.getContext(), DormitorySettingActivity.DORMITORY_KEY, String.valueOf("null"));
+                buildingNum = (String) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, String.valueOf("null"));
+                dormitoryNum = (String) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.DORMITORY_KEY, String.valueOf("null"));
                 queryElectricCharge();
             }else
                 onActivityResult = false;

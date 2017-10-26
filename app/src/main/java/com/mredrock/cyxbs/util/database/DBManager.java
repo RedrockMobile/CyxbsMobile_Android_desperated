@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.Gson;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.model.Course;
@@ -187,6 +187,6 @@ public enum  DBManager {
 
     private void open(){
         if (db == null || !db.isOpen())
-            db = new AffairDatabaseHelper(APP.getContext()).getWritableDatabase();
+            db = new AffairDatabaseHelper(BaseAPP.getContext()).getWritableDatabase();
     }
 }

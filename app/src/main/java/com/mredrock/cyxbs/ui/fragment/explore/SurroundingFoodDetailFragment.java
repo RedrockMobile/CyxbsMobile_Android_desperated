@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.recycler.EndlessRecyclerViewScrollListener;
 import com.mredrock.cyxbs.model.FoodComment;
@@ -44,7 +44,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 
@@ -223,7 +222,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     }
 
     private void sendCommentAndRefresh(String content, boolean shouldRetry) {
-        User user = APP.getUser(getActivity());
+        User user = BaseAPP.getUser(getActivity());
         Disposable subscription = RequestManager.getInstance().sendCommentAndRefresh(
                 new SimpleObserver<List<FoodComment>>(getActivity(), true, new SubscriberListener<List<FoodComment>>() {
                     @Override

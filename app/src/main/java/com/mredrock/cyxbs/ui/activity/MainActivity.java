@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jude.swipbackhelper.SwipeBackHelper;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.CourseDialog;
 import com.mredrock.cyxbs.component.widget.ScheduleView;
@@ -172,7 +172,7 @@ public class MainActivity extends BaseActivity {
 
         mFragments = new ArrayList<>();
         //判断是否登陆
-        if (!APP.isLogin()) {
+        if (!BaseAPP.isLogin()) {
             mFragments.add(unLoginFragment);
 //            unLoginFace();
         } else {
@@ -203,7 +203,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void loginFace() {
-        ImageLoader.getInstance().loadAvatar(APP.getUser(this).photo_thumbnail_src, mMainToolbarFace);
+        ImageLoader.getInstance().loadAvatar(BaseAPP.getUser(this).photo_thumbnail_src, mMainToolbarFace);
         mMainToolbarFace.setOnClickListener(view ->
                 startActivity(new Intent(this, EditInfoActivity.class)));
     }
@@ -213,13 +213,13 @@ public class MainActivity extends BaseActivity {
     public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
         super.onLoginStateChangeEvent(event);
         boolean isLogin = event.getNewState();
-        Log.d(TAG, "onLoginStateChangeEvent: " + APP.isFresh());
+        Log.d(TAG, "onLoginStateChangeEvent: " + BaseAPP.isFresh());
         if (!isLogin) {
             mFragments.remove(0);
             mFragments.add(0, new UnLoginFragment());
             mAdapter.notifyDataSetChanged();
-            SPUtils.set(APP.getContext(), DormitorySettingActivity.BUILDING_KEY, "");
-            SPUtils.set(APP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
+            SPUtils.set(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, "");
+            SPUtils.set(BaseAPP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
 //            unLoginFace();
         } else {
             mFragments.remove(0);
@@ -260,9 +260,9 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_news:
-                if (APP.isLogin()) {
+                if (BaseAPP.isLogin()) {
                     if (mViewPager.getCurrentItem() == 1) {
-                        if (APP.getUser(this).id == null || APP.getUser(this).id.equals("0")) {
+                        if (BaseAPP.getUser(this).id == null || BaseAPP.getUser(this).id.equals("0")) {
                             RequestManager.getInstance().checkWithUserId("还没有完善信息，不能发动态哟！");
                             mViewPager.setCurrentItem(3);
                             //mBottomBar.setCurrentView(3);
@@ -405,7 +405,7 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setVisibility(View.VISIBLE);
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbarTitle.setText("我 的");
-                    if (!APP.isLogin()) {
+                    if (!BaseAPP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
                     }
                     break;
@@ -464,7 +464,7 @@ public class MainActivity extends BaseActivity {
                     mToolbarTitle.setText("我 的");
                     ((View) mToolbarTitle.getParent()).setVisibility(View.GONE);
                     mToolbar.setBackgroundColor(Color.parseColor("#788EFA"));
-                    if (!APP.isLogin()) {
+                    if (!BaseAPP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
                     }
                     break;

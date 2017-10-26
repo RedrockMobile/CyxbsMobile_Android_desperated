@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ExpandableTextView;
 import com.mredrock.cyxbs.component.widget.ninelayout.AutoNineGridlayout;
@@ -160,7 +160,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         @OnClick(R.id.list_news_btn_favorites)
         public void clickLikeAndDisLike() {
-            if (APP.isLogin())
+            if (BaseAPP.isLogin())
                 mBtnFavor.setClickable(false);
             if (mHotNewsContent.isMyLike) {
                 NewsAdapter.NewsViewHolder.this.dislike(mBtnFavor);
@@ -217,8 +217,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         }
                     }),
                     mHotNewsContent.articleId, mHotNewsContent.typeId,
-                    APP.getUser(textView.getContext()).stuNum,
-                    APP.getUser(textView.getContext()).idNum);
+                    BaseAPP.getUser(textView.getContext()).stuNum,
+                    BaseAPP.getUser(textView.getContext()).idNum);
         }
 
         public void dislike(TextView textView) {
@@ -251,8 +251,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                             mBtnFavor.setClickable(true);
                         }
                     }), mHotNewsContent.articleId, mHotNewsContent.typeId,
-                    APP.getUser(textView.getContext()).stuNum,
-                    APP.getUser(textView.getContext()).idNum);
+                    BaseAPP.getUser(textView.getContext()).stuNum,
+                    BaseAPP.getUser(textView.getContext()).idNum);
         }
 
         public void disLikeToSetDataAndView(TextView textView, String likeNumber) {

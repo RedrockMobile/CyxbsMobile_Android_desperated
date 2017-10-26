@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.network.func.AppWidgetCacheAndUpdateFunc;
 import com.mredrock.cyxbs.network.observable.CourseListProvider;
@@ -41,7 +41,7 @@ public class CourseListAppWidgetUpdateService extends Service {
     }
 
     private void load(Intent intent){
-        if (!APP.isLogin()) {
+        if (!BaseAPP.isLogin()) {
             LogUtils.LOGI("AppWidgetUpdateService", "not login, stop here");
             return;
         }
@@ -52,8 +52,8 @@ public class CourseListAppWidgetUpdateService extends Service {
             LogUtils.LOGW("AppWidgetUpdateService", "can't get extra", e);
         }
         DBManager dbManager = DBManager.INSTANCE;
-        dbManager.query(APP.getUser(getApplicationContext()).stuNum, new SchoolCalendar().getWeekOfTerm())
-                .zipWith(CourseListProvider.start(APP.getUser(APP.getContext()).stuNum, "", update,false), (courses, courses2) -> {
+        dbManager.query(BaseAPP.getUser(getApplicationContext()).stuNum, new SchoolCalendar().getWeekOfTerm())
+                .zipWith(CourseListProvider.start(BaseAPP.getUser(BaseAPP.getContext()).stuNum, "", update,false), (courses, courses2) -> {
                     if (courses == null) courses = new ArrayList<>();
                     if (courses2 == null) courses2 = new ArrayList<>();
                     courses.addAll(courses2);

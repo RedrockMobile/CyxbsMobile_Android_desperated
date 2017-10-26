@@ -1,7 +1,7 @@
 package com.mredrock.cyxbs.network.func;
 
 import com.google.gson.Gson;
-import com.mredrock.cyxbs.APP;
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.config.Config;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.ui.widget.CourseListAppWidget;
@@ -28,16 +28,16 @@ public class AppWidgetCacheAndUpdateFunc implements Function<List<Course>, List<
         List<Course> weekCourses = new UserCourseFilterFunc(new SchoolCalendar().getWeekOfTerm()).apply(courses);
         List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)).apply(weekCourses);
         // List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(Calendar.THURSDAY).call(weekCourses);
-        FileUtils.writeStringToFile(new Gson().toJson(dayCourses), new File(APP.getContext().getFilesDir().getAbsolutePath() + "/" + Config.APP_WIDGET_CACHE_FILE_NAME));
-        CourseListAppWidget.updateNow(APP.getContext());
+        FileUtils.writeStringToFile(new Gson().toJson(dayCourses), new File(BaseAPP.getContext().getFilesDir().getAbsolutePath() + "/" + Config.APP_WIDGET_CACHE_FILE_NAME));
+        CourseListAppWidget.updateNow(BaseAPP.getContext());
         return courses;
     }
 
     public static void deleteCache() {
         try {
             //noinspection ResultOfMethodCallIgnored
-            new File(APP.getContext().getFilesDir().getAbsolutePath() + "/" + Config.APP_WIDGET_CACHE_FILE_NAME).delete();
-            CourseListAppWidget.updateNow(APP.getContext());
+            new File(BaseAPP.getContext().getFilesDir().getAbsolutePath() + "/" + Config.APP_WIDGET_CACHE_FILE_NAME).delete();
+            CourseListAppWidget.updateNow(BaseAPP.getContext());
         } catch (Exception ignored) {
 
         }
