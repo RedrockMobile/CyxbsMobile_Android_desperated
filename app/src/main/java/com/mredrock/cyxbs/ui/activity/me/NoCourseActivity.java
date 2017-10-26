@@ -154,8 +154,8 @@ public class NoCourseActivity extends BaseActivity
 
 
     private void addStudent(String stuNum, String name) {
-        stuNumList.add(stuNum);
-        nameList.add(name);
+        stuNumList.add(0, stuNum);
+        nameList.add(0, name);
         mNoCourseAdapter.notifyDataSetChanged();
     }
 

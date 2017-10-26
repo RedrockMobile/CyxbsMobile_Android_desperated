@@ -2,9 +2,12 @@ package com.mredrock.cyxbs;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Looper;
 import android.os.StrictMode;
+import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -16,11 +19,22 @@ import com.mredrock.cyxbs.network.encrypt.UserInfoEncryption;
 import com.mredrock.cyxbs.ui.activity.exception.ExceptionActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SPUtils;
+import com.mredrock.cyxbs.util.Utils;
 import com.orhanobut.logger.Logger;
+import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
+import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 
+import org.android.agoo.huawei.HuaWeiRegister;
+import org.android.agoo.xiaomi.MiPushRegistar;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -122,9 +136,10 @@ public class BaseAPP extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        // Config.DEBUG = true;
-        // UMShareAPI.get(this);
-        // initShareKey();
+        Config.DEBUG = BuildConfig.DEBUG;
+        initPush();
+        UMShareAPI.get(this);
+        initShareKey();
         context = getApplicationContext();
         initThemeMode();
         //  FIR.init(this);
@@ -135,6 +150,29 @@ public class BaseAPP extends MultiDexApplication {
         // Refresh Course List When Start
         reloadCourseList();
         disableFileUriExposedException();
+        initBugly();
+    }
+
+    private void initPush() {
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "123b419248120b9fb91a38260a13e972");
+        UMConfigure.setLogEnabled(true);
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        MiPushRegistar.register(this,"2882303761517258683","5341725868683");
+        HuaWeiRegister.register(this);
+        mPushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String deviceToken) {
+                Log.d(TAG, "友盟注册成功: " + deviceToken);
+            }
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.e(TAG, "onFailure: 友盟注册失败" + s + s1);
+            }
+        });
+    }
+
+    private boolean onMainThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
     }
 
     private void initShareKey() {
@@ -197,4 +235,42 @@ public class BaseAPP extends MultiDexApplication {
             }
         }
     }
+
+    private void initBugly() {
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getContext());
+        strategy.setAppVersion(Utils.getAppVersionName(getContext()));      //App的版本
+
+        String packageName = context.getPackageName();
+// 获取当前进程名
+        String processName = getProcessName(android.os.Process.myPid());
+
+        strategy.setUploadProcess(processName == null || processName.equals(packageName));
+
+        CrashReport.initCrashReport(getApplicationContext(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG, strategy);
+    }
+
+    @Nullable
+    private static String getProcessName(int pid) {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
+            String processName = reader.readLine();
+            if (!TextUtils.isEmpty(processName)) {
+                processName = processName.trim();
+            }
+            return processName;
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return null;
+    }
+
 }

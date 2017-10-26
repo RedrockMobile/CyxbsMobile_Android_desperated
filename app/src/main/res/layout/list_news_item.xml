@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/list_news_img_avatar"
                 android:layout_width="37dp"
                 android:layout_height="37dp"

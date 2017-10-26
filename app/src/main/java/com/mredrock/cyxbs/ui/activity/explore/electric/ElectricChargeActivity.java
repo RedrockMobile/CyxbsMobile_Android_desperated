@@ -37,7 +37,7 @@ public class ElectricChargeActivity extends BaseActivity {
     public static final int REQUEST_NOT_SET_CODE = -1;
 
     private static final String TAG = "ElectricChargeActivity";
-    private String buildingNum;
+    private int mBuildingPosition;
     private String dormitoryNum;
     private ElectricCharge mElectricCharge;
 
@@ -85,17 +85,18 @@ public class ElectricChargeActivity extends BaseActivity {
     }
 
     private void initData() {
-        buildingNum = (String) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, String.valueOf("null"));
+        mBuildingPosition = (int) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, -1);
         dormitoryNum = (String) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.DORMITORY_KEY, String.valueOf("null"));
         noticeInfo = getResources().getString(R.string.electric_notice_info);
     }
 
     private void queryElectricCharge() {
-        if (dormitoryNum.equals("null")){
+        if (mBuildingPosition < 0) {
             startActivityForResult(new Intent(this,DormitorySettingActivity.class),1);
             return;
         }
-        RequestManager.INSTANCE.queryElectricCharge(new SimpleObserver<ElectricCharge>(this,true, new SubscriberListener<ElectricCharge>() {
+        String building = BaseAPP.getContext().getResources().getStringArray(R.array.dormitory_buildings_api)[mBuildingPosition];
+        RequestManager.INSTANCE.queryElectricCharge(new SimpleSubscriber<ElectricCharge>(this,true, new SubscriberListener<ElectricCharge>() {
             @Override
             public void onNext(ElectricCharge electricCharge) {
                 super.onNext(electricCharge);
@@ -103,7 +104,7 @@ public class ElectricChargeActivity extends BaseActivity {
                 if (mElectricCharge != null)
                     updateView();
             }
-        }), buildingNum, dormitoryNum);
+        }), building, dormitoryNum);
     }
 
 
@@ -139,7 +140,7 @@ public class ElectricChargeActivity extends BaseActivity {
             Log.i(TAG,"onActivityResult");
             if (resultCode == REQUEST_SET_CODE){
                 onActivityResult = true;
-                buildingNum = (String) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, String.valueOf("null"));
+                mBuildingPosition = (int) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, -1);
                 dormitoryNum = (String) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.DORMITORY_KEY, String.valueOf("null"));
                 queryElectricCharge();
             }else

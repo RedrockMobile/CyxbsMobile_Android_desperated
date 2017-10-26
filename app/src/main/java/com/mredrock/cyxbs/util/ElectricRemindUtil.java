@@ -37,8 +37,8 @@ public class ElectricRemindUtil {
             return;
         }
 
-        String building = (String) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, "");
-        if (building.isEmpty())
+        int buildingPosition = (int) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, -1);
+        if (buildingPosition < 0)
             return;
         String dormitoryNum = (String) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.DORMITORY_KEY, "");
         float money = (float) SPUtils.get(BaseAPP.getContext(), ElectricRemindActivity.ELECTRIC_REMIND_MONEY, -1.0f);

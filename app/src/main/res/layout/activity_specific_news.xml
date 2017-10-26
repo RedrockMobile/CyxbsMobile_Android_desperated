@@ -9,7 +9,6 @@
     tools:context=".ui.activity.social.SpecificNewsActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,8 +16,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/toolbar_padding"
             android:background="@drawable/bg_toolbar"
-            android:fitsSystemWindows="true"
             app:layout_scrollFlags="enterAlways|scroll|snap"
             app:navigationIcon="@drawable/ic_back">
 
@@ -62,7 +61,6 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
-        android:id="@+id/commentContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

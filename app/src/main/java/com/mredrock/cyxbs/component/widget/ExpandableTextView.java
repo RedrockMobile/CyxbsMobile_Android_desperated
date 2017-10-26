@@ -44,6 +44,9 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class ExpandableTextView extends LinearLayout implements View.OnClickListener {
 
@@ -90,8 +93,6 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     /* For saving collapsed status when used in ListView */
     private SparseBooleanArray mCollapsedStatus;
     private int mPosition;
-
-    private int a = 0, b = 0;
 
     public ExpandableTextView(Context context) {
         this(context, null);
@@ -297,36 +298,27 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         if (text == null) {
             text = "";
         }
-        try {
-            if (hasTopic(text)) {
-                SpannableString spanned = new SpannableString(text);
-                spanned.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(),
-                        R.color.colorAccent)), a, b, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                mTv.setText(spanned, TextView.BufferType.SPANNABLE);
-            } else {
-                mTv.setText(text);
-            }
-        } finally {
-            a = 0;
-            b = 0;
+        String matcher = getTopicMatcher(text);
+        if (matcher != null&&text.substring(0,matcher.length()).equals(matcher)) {
+            SpannableString spanned = new SpannableString(text);
+            spanned.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(),
+                    R.color.colorAccent)), 0, matcher.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            mTv.setText(spanned, TextView.BufferType.SPANNABLE);
+        } else {
+            mTv.setText(text);
         }
         setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
     }
 
-    private boolean hasTopic(String text) {
-        boolean perMatched = false;
-        for (int i = 0; i < text.length(); i++) {
-            if (a != b) break;
-            if (text.charAt(i) == '#') {
-                if (!perMatched) {
-                    a = i;
-                    perMatched = true;
-                } else {
-                    b = i + 1;
-                }
-            }
+    @Nullable
+    private String getTopicMatcher(String text) {
+        Pattern pattern = Pattern.compile("#.*?#");
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            return matcher.group(0);
+        } else {
+            return null;
         }
-        return (b <= text.length() && (a < b));
     }
 
     public void setmMaxCollapsedLines(int mMaxCollapsedLines) {

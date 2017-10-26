@@ -43,13 +43,14 @@ public class DormitorySettingActivity extends BaseActivity {
     private static final String TAG = "DormitorySetting";
     private BottomSheetBehavior bottomSheetBehavior;
     private BottomSheetDialog dialog;
-    private int buildingNumber;
+    private int mBuildingPosition = -1;
 
 
-    public static final String BUILDING_KEY = "building_number";
+    public static final String BUILDING_KEY = "building_position";
     public static final String DORMITORY_KEY = "dormitory_number";
 
-
+    public static String[] sDormitoryBuildings;
+    public static String[] sDormitoryBuildingsApi;
 
 
     @Override
@@ -58,8 +59,9 @@ public class DormitorySettingActivity extends BaseActivity {
         setContentView(R.layout.activity_dormitory_setting);
         ButterKnife.bind(this);
         setResult(ElectricChargeActivity.REQUEST_NOT_SET_CODE);
+        sDormitoryBuildings = getResources().getStringArray(R.array.dormitory_buildings);
+        sDormitoryBuildingsApi = getResources().getStringArray(R.array.dormitory_buildings_api);
         initView();
-
     }
 
     private void initView() {
@@ -78,18 +80,18 @@ public class DormitorySettingActivity extends BaseActivity {
         bottomSheetBehavior.setPeekHeight((int) Utils.dp2PxInt(this, 250));
 
         DormitoryAdapter adapter = new DormitoryAdapter();
-        adapter.setOnItemClickListener(((position, text) -> {
-            buildingNumberEdit.setText(text);
-            buildingNumber = position + 1;
+        adapter.setOnItemClickListener(((position) -> {
+            buildingNumberEdit.setText(sDormitoryBuildings[position]);
+            mBuildingPosition = position;
             dialog.dismiss();
         }));
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        String building = (String) SPUtils.get(BaseAPP.getContext(),BUILDING_KEY,"");
-        if (building.isEmpty())
+        int buildingPosition = (int) SPUtils.get(this, BUILDING_KEY, -1);
+        if (buildingPosition < 0)
             return;
-        buildingNumberEdit.setText(building+"栋");
-        buildingNumber = Integer.parseInt(building);
+        buildingNumberEdit.setText(sDormitoryBuildings[buildingPosition]);
+        mBuildingPosition = buildingPosition;
         String dormitory = (String) SPUtils.get(BaseAPP.getContext(),DORMITORY_KEY,"");
         dormitoryNumberEdit.setText(dormitory);
 
@@ -111,11 +113,11 @@ public class DormitorySettingActivity extends BaseActivity {
     @OnClick(R.id.btn_dormitory_ok)
     public void onOkClick(){
 
-        if (buildingNumber == 0 || dormitoryNumberEdit.getText().toString().length() < 3){
+        if (mBuildingPosition < 0 || dormitoryNumberEdit.getText().toString().length() < 3) {
             //Toast.makeText(this,"信息不完整",Toast.LENGTH_SHORT).show();
             Bundle bundle = new Bundle();
             DialogRemindFragment dialogRemindFragment = new DialogRemindFragment();
-            if (buildingNumber == 0 && dormitoryNumberEdit.getText().toString().isEmpty()) {
+            if (mBuildingPosition < 0 && dormitoryNumberEdit.getText().toString().isEmpty()) {
                 bundle.putString("REMIND_TEXT", "你还没有填写哦");
             }else if(dormitoryNumberEdit.getText().toString().length() < 3 && dormitoryNumberEdit.getText().toString().length() > 0 ){
                 bundle.putString("REMIND_TEXT", "请填写正确的寝室号");
@@ -126,10 +128,10 @@ public class DormitorySettingActivity extends BaseActivity {
             dialogRemindFragment.show(getFragmentManager(),"DialogRemindFragment");
         }else {
             User user = BaseAPP.getUser(this);
-            SPUtils.set(BaseAPP.getContext(),BUILDING_KEY,String.valueOf(buildingNumber));
+            SPUtils.set(BaseAPP.getContext(), BUILDING_KEY, mBuildingPosition);
             SPUtils.set(BaseAPP.getContext(),DORMITORY_KEY,dormitoryNumberEdit.getText().toString()+"");
             SPUtils.set(BaseAPP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
-            SimpleObserver<Object> subscriber = new SimpleObserver<Object>(this, true, new SubscriberListener<Object>() {
+            SimpleObserver<Object> subscriber = new SimpleSubscriber<Object>(this, true, new SubscriberListener<Object>() {
                 @Override
                  public void onComplete() {
                     super.onComplete();
@@ -143,7 +145,9 @@ public class DormitorySettingActivity extends BaseActivity {
 
                 }
             });
-            RequestManager.INSTANCE.bindDormitory(user.stuNum,user.idNum,buildingNumber + "-" + dormitoryNumberEdit.getText().toString(),subscriber);
+            RequestManager.INSTANCE.bindDormitory(user.stuNum, user.idNum,
+                    sDormitoryBuildingsApi[mBuildingPosition] + "-"
+                            + dormitoryNumberEdit.getText().toString(), subscriber);
 
         }
 
@@ -167,13 +171,12 @@ public class DormitorySettingActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(final DormitoryAdapter.Holder holder, int position) {
-            holder.tv.setText(String.format("%02d栋", position + 1));
+            holder.tv.setText(sDormitoryBuildings[position]);
             if(mItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mItemClickListener.onItemClick(holder.getLayoutPosition(),
-                                holder.tv.getText().toString());
+                        mItemClickListener.onItemClick(holder.getLayoutPosition());
                     }
                 });
             }
@@ -181,7 +184,7 @@ public class DormitorySettingActivity extends BaseActivity {
 
         @Override
         public int getItemCount() {
-            return 39;
+            return sDormitoryBuildings.length;
         }
 
         class Holder extends RecyclerView.ViewHolder {
@@ -194,7 +197,7 @@ public class DormitorySettingActivity extends BaseActivity {
         }
 
         interface OnItemClickListener {
-            void onItemClick(int position, String text);
+            void onItemClick(int position);
         }
     }
 

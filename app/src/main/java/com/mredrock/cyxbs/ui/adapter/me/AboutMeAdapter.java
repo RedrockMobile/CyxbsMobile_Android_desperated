@@ -34,11 +34,26 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
         super(mDatas, context);
     }
 
+    /**
+     * 删除content中的回复xxx
+     *
+     * @param content
+     * @return
+     */
+    private String filterContent(String content) {
+        if (content == null) {
+            return "";
+        } else if (content.contains("回复")) {
+            return content.replaceAll("(回复).*?([:：])", "").trim();
+        } else {
+            return content;
+        }
+    }
 
     @Override
     protected void bindData(ViewHolder holder, AboutMe data, int position) {
         holder.aboutMeNickName.setText(data.nickname.equals("") ? "来自一位没有名字的同学" : data.nickname);
-        holder.aboutMeContent.setText(data.content.contains("回复") ? data.content.substring(data.content.lastIndexOf(":") + 2) : data.content);
+        holder.aboutMeContent.setText(filterContent(data.content));
         holder.aboutMeTime.setText(TimeUtils.getTimeDetail(data.created_time));
         String myNickName = BaseAPP.getUser(BaseAPP.getContext()).nickname;
 //        SpannableStringBuilder aboutMeNewContentSpanText = new SpannableStringBuilder(myNickName + "：" + data.article_content);
@@ -54,8 +69,8 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
             holder.aboutMeNewImg.setVisibility(View.VISIBLE);
             ImageLoader.getInstance().loadRedrockImage(url, holder.aboutMeNewImg);
         }
-        if (data.type.equals(TYPE_PRAISE)) {
-            ImageLoader.getInstance().loadRedrockImage(url, holder.aboutMeNewImg);
+        //if (data.type.equals(TYPE_PRAISE)) {
+        //ImageLoader.getInstance().loadRedrockImage(url, holder.aboutMeNewImg);
             if (data.type.equals(TYPE_PRAISE)) {
                 holder.aboutMeType.setText("赞了我");
                 holder.aboutMeContent.setVisibility(View.GONE);
@@ -67,7 +82,7 @@ public class AboutMeAdapter extends BaseRecyclerViewAdapter<AboutMe, AboutMeAdap
                 holder.itemView.setOnClickListener(v -> mOnItemClickListener.onItemClick(holder.itemView,
                         position, data));
             }
-        }
+        //}
     }
 
 

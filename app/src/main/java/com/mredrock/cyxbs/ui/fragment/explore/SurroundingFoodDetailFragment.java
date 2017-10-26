@@ -369,4 +369,10 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
             }
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().setTitle("周边美食");
+    }
 }

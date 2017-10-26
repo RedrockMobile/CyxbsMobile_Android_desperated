@@ -6,14 +6,12 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:layout_marginTop="150dp"
-        android:id="@+id/appCompatImageView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:gravity="center"
         android:src="@drawable/topic_avatar"/>
     <TextView
         android:layout_marginTop="20dp"
-        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center"

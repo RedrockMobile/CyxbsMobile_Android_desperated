@@ -62,7 +62,6 @@
                     android:orientation="vertical"/>
 
                 <FrameLayout
-                    android:id="@+id/course_scheduleview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF">
@@ -130,10 +129,38 @@
                             android:visibility="invisible"/>
                     </LinearLayout>
 
-                    <com.mredrock.cyxbs.component.widget.ScheduleView
-                        android:id="@+id/course_schedule_content"
+                    <FrameLayout
+                        android:id="@+id/course_holder"
                         android:layout_width="match_parent"
-                        android:layout_height="600dp"/>
+                        android:layout_height="600dp">
+
+                        <com.mredrock.cyxbs.component.widget.ScheduleView
+                            android:id="@+id/course_schedule_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <LinearLayout
+                            android:id="@+id/no_course_holder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/bg_empty_course"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:text="@string/empty_course"
+                                android:textSize="16sp"/>
+                        </LinearLayout>
+                    </FrameLayout>
                 </FrameLayout>
             </LinearLayout>
         </ScrollView>

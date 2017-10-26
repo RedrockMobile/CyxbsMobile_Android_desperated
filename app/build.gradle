@@ -10,8 +10,8 @@ android {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 37
-        versionName "2017迎新版"
+        versionCode 38
+        versionName "2017秋季版"
         multiDexEnabled true
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "official"]
     }
@@ -21,11 +21,13 @@ android {
     productFlavors {
         official {}
         xiaomi {}
-        _360 {}
+        //     _360 {}
         baidu {}
         wandoujia {}
         kuan {}
         tencent {}
+        anzhi {}
+        //     _91{}
     }
 
     productFlavors.all { flavor ->
@@ -60,15 +62,26 @@ android {
             zipAlignEnabled false
             shrinkResources false
             signingConfig signingConfigs.debug
+            buildConfigField("String", "BUGLY_APP_ID", "\"68682669e7\"")
+            applicationVariants.all { variant ->
+                variant.outputs.each { out ->
+                    def outputFile = out.outputFile
+                    if (outputFile != null && outputFile.name.endsWith(".apk")) {
+                        def fileName = "掌上重邮_${defaultConfig.versionName}_degug.apk"
+                        out.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
 
         release {
-            minifyEnabled false
+            minifyEnabled true
             zipAlignEnabled true
-            shrinkResources false
+            shrinkResources true
 
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BUGLY_APP_ID", "\"68682669e7\"")
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
                     outputFileName = "Cyxbs_${variant.name}_${variant.versionName}.apk"
@@ -115,6 +128,7 @@ dependencies {
         exclude group: 'stax', module: 'stax-api'
         exclude group: 'stax', module: 'stax'
     }
+
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation 'com.jakewharton:butterknife:8.8.1'
@@ -167,6 +181,12 @@ dependencies {
     implementation 'com.jude:easyrecyclerview:4.4.0'
     implementation 'com.lapism:searchview:4.0'
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+
+    compile project(':push')
+
+    compile 'com.tencent.bugly:crashreport:latest.release'
+    compile 'com.tencent.bugly:nativecrashreport:latest.release'
+    testCompile 'junit:junit:4.12'
 
     // kotlin support
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"

@@ -41,7 +41,6 @@ import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.umeng.analytics.MobclickAgent;
 
-import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -215,8 +214,8 @@ public class SpecificNewsActivity extends BaseActivity
         mWrapView.mImgAvatar.setImageResource(R.drawable.ic_official_notification);
 
 
-        if (StringUtils.startsWith(mHotNewsContent.officeNewsContent.content, "<div"))
-            mWrapView.mTextContent.setText(mHotNewsContent.officeNewsContent.title);
+        /*if (StringUtils.startsWith(mHotNewsContent.officeNewsContent.content, "<div"))
+            mWrapView.mTextContent.setText(mHotNewsContent.officeNewsContent.title);*/
         if (bean.address != null && !bean.address.equals("")) {
             mTextDown.setVisibility(View.VISIBLE);
             String[] address = bean.address.split("\\|");

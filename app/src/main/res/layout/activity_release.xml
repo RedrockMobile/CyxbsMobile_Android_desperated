@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/activity_release"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context="com.mredrock.cyxbs.ui.activity.lost.ReleaseActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mredrock.cyxbs.ui.activity.lost.ReleaseActivity">
 
     <include layout="@layout/toolbar"/>
 
@@ -55,7 +54,7 @@
 
             </RelativeLayout>
             <View
-                android:background="@color/grey"
+                android:background="@color/ab__gray_light"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
@@ -94,7 +93,6 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
-                    android:id="@+id/image_distinguish"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
                     android:layout_centerVertical="true"
@@ -104,7 +102,7 @@
             </RelativeLayout>
 
             <View
-                android:background="@color/grey"
+                android:background="@color/ab__gray_light"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <LinearLayout
@@ -137,7 +135,7 @@
                     android:layout_height="150dp" />
             </LinearLayout>
             <View
-                android:background="@color/grey"
+                android:background="@color/ab__gray_light"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
@@ -185,7 +183,7 @@
             </RelativeLayout>
 
             <View
-                android:background="@color/grey"
+                android:background="@color/ab__gray_light"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
@@ -217,7 +215,7 @@
             </LinearLayout>
 
             <View
-                android:background="@color/grey"
+                android:background="@color/ab__gray_light"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
@@ -248,7 +246,7 @@
             </LinearLayout>
 
             <View
-                android:background="@color/grey"
+                android:background="@color/ab__gray_light"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
@@ -280,14 +278,14 @@
             </LinearLayout>
 
             <View
-                android:background="@color/grey"
+                android:background="@color/ab__gray_light"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <Button
                 android:id="@+id/release_details"
                 android:layout_marginTop="10dp"
                 android:text="发布信息"
-                android:textColor="@color/grey"
+                android:textColor="@color/ab__gray_light"
                 android:background="@drawable/circle_radius_corner"
                 android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"

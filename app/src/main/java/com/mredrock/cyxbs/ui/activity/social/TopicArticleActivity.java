@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +38,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, RecyclerArrayAdapter.OnMoreListener {
+public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLayout
+        .OnRefreshListener, RecyclerArrayAdapter.OnMoreListener {
 
     public static final String EXTRA_ID = "topic_article_id";
     public static final String EXTRA_POST_SUCCESS = "post_article_success";
@@ -48,16 +47,14 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
     public static final String TAG = TopicArticleActivity.class.getSimpleName();
     public static final int RESULT_CODE = 1001;
 
-    @BindView(R.id.toolbar_title)
-    TextView mTvTopicArticleTitle;
     @BindView(R.id.rv_topic_article)
     EasyRecyclerView mRvTopicArticle;
     @BindView(R.id.ll_topic_join)
     LinearLayout mLlTopicJoin;
     @BindView(R.id.srl_topic)
     SwipeRefreshLayout mSrlTopic;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    /*@Bind(R.id.toolbar)
+    JToolbar mToolbar;*/
 
     TopicArticleAdapter mAdapter;
     private int mID;
@@ -78,7 +75,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_article);
         ButterKnife.bind(this);
-        initToolbar();
+        //initToolbar();
         mAdapter = new TopicArticleAdapter(this);
         mSrlTopic.setColorSchemeResources(R.color.colorAccent);
         mSrlTopic.setOnRefreshListener(this);
@@ -105,20 +102,22 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
         onRefresh();
     }
 
-    private void initToolbar() {
-        if (mToolbar != null) {
-            mToolbar.setTitle("");
-            setSupportActionBar(mToolbar);
-            mToolbar.setNavigationIcon(R.drawable.ic_back);
-            mToolbar.setNavigationOnClickListener(v -> TopicArticleActivity.this.finish());
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeButtonEnabled(true);
+    /*
+        private void initToolbar() {
+            if (mToolbar != null) {
+                setSupportActionBar(mToolbar);
+                setTitle("");
+                mToolbar.getTitleTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                mToolbar.setNavigationIcon(R.drawable.ic_back);
+                mToolbar.setNavigationOnClickListener(v -> TopicArticleActivity.this.finish());
+                ActionBar actionBar = getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    actionBar.setHomeButtonEnabled(true);
+                }
             }
         }
-    }
-
+    */
     @OnClick(R.id.ll_topic_join)
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -170,7 +169,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
                 } else {
                     mAdapter.addAll(topicArticles.getArticles());
                 }
-                mTvTopicArticleTitle.setText("#" + topicArticles.getKeyword() + "#");
+                setTitle("#" + topicArticles.getKeyword() + "#");
                 mTitle = topicArticles.getKeyword();
                 mHeader.setTopicArticle(topicArticles);
             }
@@ -190,6 +189,9 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
     /*@OnClick(R.id.iv_topic_share)*/
     public void onViewClicked() {
         Toast.makeText(this, "开发中...", Toast.LENGTH_SHORT).show();
+        //网页 URL 建议改成
+        //http://hongyan.cqupt.edu.cn/cyxbsMobileTalk/react/?id=42
+        //不过以前那个仍然可以使用
 //        RxPermissions.getInstance(this).request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 //                .subscribe(granted -> {
 //                    if (granted) {

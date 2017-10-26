@@ -6,12 +6,13 @@ package com.mredrock.cyxbs.config;
 public class Const {
     public static final int REDROCK_API_STATUS_SUCCESS = 200;
 
-    public static final String APP_HOME = "http://hongyan.cqupt.edu.cn/cyxbsMobile";
+    public static final String APP_HOME = "https://wx.idsbllp.cn/cyxbsMobile";
 
-    public static final String END_POINT_REDROCK = "http://hongyan.cqupt.edu.cn";
-    public static final String REDROCK_PORTAL = "http://hongyan.cqupt.edu.cn/aboutus/";
+    public static final String END_POINT_REDROCK = "https://wx.idsbllp.cn";
+    public static final String REDROCK_PORTAL = "https://wx.idsbllp.cn/aboutus/";
     public static final String API_PERSON_SCHEDULE = "/redapi2/api/kebiao";
-    public static final String APP_WEBSITE = "http://hongyan.cqupt.edu.cn/app/";
+    public static final String APP_WEBSITE = "https://wx.idsbllp.cn/app/";
+    public static final String API_VOLUNTEER = "https://wx.idsbllp.cn/servicerecord/";
 
     //Explore
     public static final String API_MAP_PICTURE         = "/welcome/2015/index.php/home/api/banner";
@@ -20,7 +21,6 @@ public class Const {
     public static final String API_FOOD_DETAIL         = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shopinfo";
     public static final String API_FOOD_COMMENT_LIST   = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/comList";
     public static final String API_SEND_FOOD_COMMENT   = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/addCom";
-    public static final String SMAILE_FACE = "http://hongyan.cqupt.edu.cn/stuface2017/";
 
     public static final String APT_SEARCH_STUDENT = "/cyxbsMobile/index.php/home/searchPeople/peopleList";
 
@@ -59,6 +59,12 @@ public class Const {
     public static final String API_TREND_DETAIL = "/cyxbsMobile/index.php/Home/NewArticle/searchContent";
     //动态查询
     public static final String API_SEARCH_ARTICLE = "/cyxbsMobile/index.php/Home/NewArticle/searchtrends";
+    //志愿时长查询
+    public static final String API_VOLUNTEER_LOGIN = "/servicerecord/login";
+    public static final String API_VOLUNTEER_UID = "/servicerecord/getrecord";
+
+    //轮播图
+    public static final String API_ROLLER_VIEW = "https://wx.idsbllp.cn/app/api/pictureCarousel.php";
 
     //Affair
     public static final  String API_GET_AFFAIR = "/cyxbsMobile/index.php/Home/Person/getTransaction";
@@ -82,7 +88,7 @@ public class Const {
 
     // 失物招领
 
-    public static final String END_POINT_LOST = "http://hongyan.cqupt.edu.cn/laf/api";
+    public static final String END_POINT_LOST = "https://wx.idsbllp.cn/app/laf/api";
     public static final String API_LOST_LIST = "/view/{theme}/{category}/{page}";
     public static final String PATH_THEME = "theme";
     public static final String PATH_CATEGORY = "category";

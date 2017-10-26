@@ -97,6 +97,7 @@ public class NoCourseContainerActivity extends BaseActivity {
         mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(),
                 mFragmentList, mTitleList);
         noCourseViewPager.setAdapter(mTabPagerAdapter);
+        noCourseViewPager.setOffscreenPageLimit(0);
         noCourseViewPager.addOnPageChangeListener(new TabLayout
                 .TabLayoutOnPageChangeListener(noCourseTabLayout));
         noCourseTabLayout.setupWithViewPager(noCourseViewPager);

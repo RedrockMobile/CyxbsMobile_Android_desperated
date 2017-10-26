@@ -55,6 +55,7 @@ public class NoCourseItemFragment extends BaseFragment {
     private ArrayList<String> mStuNumList;
     private ArrayList<String> mNameList;
     private List<NoCourse> mNoCourseList;
+    private boolean blocked = false;
 
     private int mWeek;
     private int count;
@@ -149,24 +150,33 @@ public class NoCourseItemFragment extends BaseFragment {
                 ContextCompat.getColor(getContext(), R.color.colorPrimary));
         noCourseSwipeRefreshLayout.setOnRefreshListener(() -> {
             if (mStuNumList.size() != 0) {
+                clearnUp();
                 loadWeekNoCourse();
             }
         });
 
         mCourseMap = new LinkedHashMap<>();
         mNoCourseList = new ArrayList<>();
-        if (mStuNumList.size() != 0) {
+        if (mStuNumList.size() != 0 && mCourseMap.size() == 0) {
+            clearnUp();
             showProgress();
         }
     }
 
+    private void clearnUp() {
+        mCourseMap.clear();
+        count = 0;
+    }
+
 
     private void loadWeekNoCourse() {
+        if (blocked) return;
         RequestManager.getInstance().getPublicCourse(new
                 SimpleObserver<>(getActivity(), new SubscriberListener<List<Course>>() {
 
             @Override
             public void onStart() {
+                blocked = true;
                 super.onStart();
                 count = 0;
             }
@@ -179,12 +189,18 @@ public class NoCourseItemFragment extends BaseFragment {
                 count++;
             }
 
+            @Override
+            public boolean onError(Throwable e) {
+                blocked = false;
+                return super.onError(e);
+            }
 
             @Override
              public void onComplete() {
                 super.onComplete();
                 dismissProgress();
                 getNoCourseTable();
+                blocked = false;
             }
         }), mStuNumList, String.valueOf(mWeek));
     }
@@ -223,29 +239,7 @@ public class NoCourseItemFragment extends BaseFragment {
                             }
                             if (course.week.size() < 15) {
                                 isAllSemester = false;
-                                switch (course.rawWeek) {
-                                    case "单周":
-                                        rawWeek = "(双周)";
-                                        break;
-                                    case "双周":
-                                        rawWeek = "(单周)";
-                                        break;
-                                    case "7-14周":
-                                        rawWeek = "(1-6周)";
-                                        break;
-                                    case "1-8周":
-                                        rawWeek = "(9-16周)";
-                                        break;
-                                    case "9-16周":
-                                        rawWeek = "(1-8周)";
-                                        break;
-                                    case "1-10周":
-                                        rawWeek = "(11-16周)";
-                                        break;
-                                    default:
-                                        rawWeek = "(除" + course.rawWeek + ")";
-                                        break;
-                                }
+                                rawWeek = convert(course.rawWeek);
                             }
                             isNoCourse = false;
                         }
@@ -272,6 +266,25 @@ public class NoCourseItemFragment extends BaseFragment {
         }
         if (noCourseScheduleContent != null) {
             noCourseScheduleContent.addContentView(mNoCourseList, mWeek);
+        }
+    }
+
+    private String convert(String rawWeek) {
+        switch (rawWeek) {
+            case "单周":
+                return "(双周)";
+            case "双周":
+                return "(单周)";
+            case "7-14周":
+                return "(1-6周)";
+            case "1-8周":
+                return "(9-16周)";
+            case "9-16周":
+                return "(1-8周)";
+            case "1-10周":
+                return "(11-16周)";
+            default:
+                return "(除" + rawWeek + ")";
         }
     }
 

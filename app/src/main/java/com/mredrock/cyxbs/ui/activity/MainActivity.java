@@ -2,22 +2,20 @@ package com.mredrock.cyxbs.ui.activity;
 
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -42,6 +40,9 @@ import com.mredrock.cyxbs.ui.fragment.UnLoginFragment;
 import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
+import com.mredrock.cyxbs.ui.widget.BottomNavigationViewHelper;
+import com.mredrock.cyxbs.ui.widget.JToolbar;
+import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.ElectricRemindUtil;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
@@ -50,7 +51,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import butterknife.BindString;
@@ -59,16 +59,12 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.main_toolbar_title)
-    TextView mToolbarTitle;
     @BindView(R.id.main_toolbar)
-    Toolbar mToolbar;
+    JToolbar mToolbar;
     @BindView(R.id.main_coordinator_layout)
     LinearLayout mCoordinatorLayout;
     @BindView(R.id.main_view_pager)
     ViewPager mViewPager;
-    @BindView(R.id.course_unfold)
-    ImageView mCourseUnfold;
 
     @BindString(R.string.community)
     String mStringCommunity;
@@ -92,6 +88,7 @@ public class MainActivity extends BaseActivity {
     private Menu mMenu;
     private ArrayList<Fragment> mFragments;
     private TabPagerAdapter mAdapter;
+    private boolean mUnfold;
 
     public static final String TAG = "MainActivity";
 
@@ -104,30 +101,13 @@ public class MainActivity extends BaseActivity {
         initView();
         UpdateUtil.checkUpdate(this, false,new RxPermissions(this));
         ElectricRemindUtil.check(this);
-        mCourseUnfold.setRotation(180);
+        setCourseUnfold(true, false);
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
         // TODO: Filter these intents in another activity (such as LaunchActivity), not here, to fix the fixme above
         intentFilterFor3DTouch();
-        enableBottomNavAnim(false);
-    }
-
-    private void enableBottomNavAnim(boolean b) {
-        if (!b) {
-            try {
-                Field field = mMainBottomNavView.getClass().getDeclaredField("mMenuView");
-                field.setAccessible(true);
-                BottomNavigationMenuView menuView = (BottomNavigationMenuView) field.get(mMainBottomNavView);
-                Field field1 = menuView.getClass().getDeclaredField("mShiftingMode");
-                field1.setAccessible(true);
-                field1.setBoolean(menuView, false);
-                menuView.updateMenuView();
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-
-        }
+        BottomNavigationViewHelper btNavViewHelper = new BottomNavigationViewHelper(mMainBottomNavView);
+        btNavViewHelper.enableBottomNavAnim(false);
+        btNavViewHelper.setBottomNavTextSize(10);
     }
 
     /**
@@ -218,7 +198,7 @@ public class MainActivity extends BaseActivity {
             mFragments.remove(0);
             mFragments.add(0, new UnLoginFragment());
             mAdapter.notifyDataSetChanged();
-            SPUtils.set(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, "");
+            SPUtils.set(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, -1);
             SPUtils.set(BaseAPP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
 //            unLoginFace();
         } else {
@@ -234,6 +214,10 @@ public class MainActivity extends BaseActivity {
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
             setTitle("课 表");
+            mToolbar.getTitleTextView().setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            mToolbar.getTitleTextView().setCompoundDrawablePadding(
+                    DensityUtils.dp2px(this, 5)
+            );
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayShowTitleEnabled(false);
@@ -245,7 +229,7 @@ public class MainActivity extends BaseActivity {
     protected void onTitleChanged(CharSequence title, int color) {
         super.onTitleChanged(title, color);
         if (mToolbar != null) {
-            mToolbarTitle.setText(title);
+            mToolbar.setTitle(title);
         }
     }
 
@@ -335,11 +319,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public TextView getToolbarTitle() {
-        return mToolbarTitle;
-    }
-
-    public ImageView getCourseUnfold() {
-        return mCourseUnfold;
+        return mToolbar.getTitleTextView();
     }
 
     @Override
@@ -397,14 +377,14 @@ public class MainActivity extends BaseActivity {
                     mMainBottomNavView.setSelectedItemId(R.id.item3);
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
-                    mToolbarTitle.setText("发 现");
+                    setTitle("发 现");
                     break;
                 case 3:
                     hiddenMenu();
                     mMainBottomNavView.setSelectedItemId(R.id.item4);
                     mToolbar.setVisibility(View.VISIBLE);
 //                    mMainToolbarFace.setVisibility(View.GONE);
-                    mToolbarTitle.setText("我 的");
+                    setTitle("我 的");
                     if (!BaseAPP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
                     }
@@ -428,21 +408,17 @@ public class MainActivity extends BaseActivity {
                 case 0:
                     mViewPager.setCurrentItem(0);
                     mToolbar.setVisibility(View.VISIBLE);
-                    mCourseUnfold.setVisibility(View.VISIBLE);
+                    setCourseUnfold(true, mUnfold);
                     showMenu();
-                    mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
-                    ((View) mToolbarTitle.getParent()).setVisibility(View.VISIBLE);
-                    mToolbarTitle.setText(((CourseContainerFragment) courseContainerFragment).getTitle());
+                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     break;
                 case 1:
                     mViewPager.setCurrentItem(1);
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
-                    mCourseUnfold.setVisibility(View.GONE);
-                    mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
-                    ((View) mToolbarTitle.getParent()).setVisibility(View.VISIBLE);
-                    mToolbarTitle.setText("社 区");
+                    setCourseUnfold(false, mUnfold);
+                    setTitle("社 区");
                     hiddenMenu();
                     break;
                 case 2:
@@ -450,20 +426,15 @@ public class MainActivity extends BaseActivity {
                     mViewPager.setCurrentItem(2);
 //                    mMainToolbarFace.setVisibility(View.GONE);
                     mToolbar.setVisibility(View.VISIBLE);
-                    mCourseUnfold.setVisibility(View.GONE);
-                    mToolbar.setBackgroundResource(R.drawable.bg_toolbar);
-                    ((View) mToolbarTitle.getParent()).setVisibility(View.VISIBLE);
-                    mToolbarTitle.setText("发 现");
+                    setCourseUnfold(false, mUnfold);
+                    setTitle("发 现");
                     break;
                 case 3:
                     hiddenMenu();
                     mViewPager.setCurrentItem(3);
                     mToolbar.setVisibility(View.GONE);
 //                    mMainToolbarFace.setVisibility(View.GONE);
-                    mCourseUnfold.setVisibility(View.GONE);
-                    mToolbarTitle.setText("我 的");
-                    ((View) mToolbarTitle.getParent()).setVisibility(View.GONE);
-                    mToolbar.setBackgroundColor(Color.parseColor("#788EFA"));
+                    setCourseUnfold(false, mUnfold);
                     if (!BaseAPP.isLogin()) {
                         EventBus.getDefault().post(new LoginEvent());
                     }
@@ -479,5 +450,20 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         checkCourseListToShow();
+    }
+
+    public void setCourseUnfold(boolean isShow, boolean unFold) {
+        if (!isShow) {
+            mToolbar.getTitleTextView().setCompoundDrawablesWithIntrinsicBounds(
+                    null, null, null, null
+            );
+            return;
+        }
+        mUnfold = unFold;
+        int id = unFold ? R.drawable.ic_course_fold : R.drawable.ic_course_expand;
+        Drawable drawable = getResources().getDrawable(id);
+        mToolbar.getTitleTextView().setCompoundDrawablesWithIntrinsicBounds(
+                null, null, drawable, null
+        );
     }
 }

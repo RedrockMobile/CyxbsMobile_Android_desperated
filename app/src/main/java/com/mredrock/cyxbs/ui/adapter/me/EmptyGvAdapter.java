@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.ui.adapter.me;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,10 +43,10 @@ public class EmptyGvAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_empty_gv_item, parent, false);
         }
         TextView room = (TextView) convertView.findViewById(R.id.item_empty_gv_room);
-        room.setText(datas.get(position));
-
+        String raw = datas.get(position);
+        int start = raw.startsWith("8") ? 3 : 2;
+        String text = raw.substring(0, start) + "<font color='#6197FB'>" + raw.substring(start) + "</font>";
+        room.setText(Html.fromHtml(text));
         return convertView;
     }
-
-
 }

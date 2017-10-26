@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -290,8 +291,8 @@ public class EditAffairActivity extends BaseActivity {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 CardView cardView = new CardView(EditAffairActivity.this);
-                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, size);
+                AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(
+                        AbsListView.LayoutParams.MATCH_PARENT, size);
                 cardView.setLayoutParams(layoutParams);
                 Position position1 = new Position(position % numCol, position / numCol);
                 if (positions.contains(position1)) {
@@ -578,8 +579,8 @@ public class EditAffairActivity extends BaseActivity {
             if (!isStartByCourse) {
                 RequestManager.getInstance().addAffair(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
                     @Override
-                     public void onComplete() {
-                        super.onComplete();
+                    public void onCompleted() {
+                        super.onCompleted();
                         dbManager.insert(true, x, BaseAPP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem))
                                 .subscribeOn(Schedulers.io())
                                 .unsubscribeOn(Schedulers.io())
@@ -636,8 +637,8 @@ public class EditAffairActivity extends BaseActivity {
                 //  Log.e(TAG, "onSaveClick: isStartByCourse");
                 RequestManager.getInstance().editAffair(new SimpleObserver<Object>(this, true, false, new SubscriberListener<Object>() {
                     @Override
-                     public void onComplete() {
-                        super.onComplete();
+                    public void onCompleted() {
+                        super.onCompleted();
                         dbManager.insert(true, x, BaseAPP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem), true)
                                 .subscribeOn(Schedulers.io())
                                 .unsubscribeOn(Schedulers.io())

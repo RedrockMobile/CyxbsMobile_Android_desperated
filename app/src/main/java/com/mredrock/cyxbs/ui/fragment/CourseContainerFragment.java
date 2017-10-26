@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mredrock.cyxbs.BaseAPP;
@@ -58,7 +57,6 @@ public class CourseContainerFragment extends BaseFragment {
     }
 
     private TextView mToolbarTitle;
-    private ImageView mCourseUnfold;
     private String title;
 
     private TabPagerAdapter mAdapter;
@@ -113,7 +111,6 @@ public class CourseContainerFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         mAdapter = new TabPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentList, mTitles);
         mToolbarTitle = ((MainActivity) getActivity()).getToolbarTitle();
-        mCourseUnfold = ((MainActivity) getActivity()).getCourseUnfold();
         mPager.setAdapter(mAdapter);
 //        mPager.setOffscreenPageLimit(mTitles.size());
         mPager.addOnPageChangeListener(mTabListener = new TabLayout.TabLayoutOnPageChangeListener(mTabs));
@@ -152,24 +149,11 @@ public class CourseContainerFragment extends BaseFragment {
                 if (isVisible()) {
                     if (mTabs.getVisibility() == View.VISIBLE) {
                         mTabs.setVisibility(View.GONE);
-                        mCourseUnfold.setRotation(180);
+                        ((MainActivity) getActivity()).setCourseUnfold(true, false);
                     } else {
                         mTabs.setVisibility(View.VISIBLE);
                         mTabs.setScrollPosition(mPager.getCurrentItem(), 0, true);
-                        mCourseUnfold.setRotation(0);
-                    }
-                }
-            });
-
-            mCourseUnfold.setOnClickListener(v -> {
-                if (isVisible()) {
-                    if (mTabs.getVisibility() == View.VISIBLE) {
-                        mTabs.setVisibility(View.GONE);
-                        mCourseUnfold.setRotation(180);
-                    } else {
-                        mTabs.setVisibility(View.VISIBLE);
-                        mTabs.setScrollPosition(mPager.getCurrentItem(), 0, true);
-                        mCourseUnfold.setRotation(0);
+                        ((MainActivity) getActivity()).setCourseUnfold(true, true);
                     }
                 }
             });
@@ -226,7 +210,7 @@ public class CourseContainerFragment extends BaseFragment {
     }
 
     private void loadNowWeek() {
-        RequestManager.INSTANCE.getNowWeek(new SimpleObserver<>(BaseAPP.getContext(), new SubscriberListener<Integer>() {
+        RequestManager.INSTANCE.getNowWeek(new SimpleSubscriber<>(BaseAPP.getContext(), new SubscriberListener<Integer>() {
             @Override
             public void onNext(Integer i) {
                 int nowWeek = i;
