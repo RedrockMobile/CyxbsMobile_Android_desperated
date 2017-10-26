@@ -59,7 +59,6 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
     RelativeLayout myPageGradeLayout;
     @BindView(R.id.calendar)
     RelativeLayout myPageCalendarLayout;
-    @BindView(R.id.option)
     @BindView(R.id.volunteer_time)
     RelativeLayout myVolunteerTime;
     @BindView(R.id.option)

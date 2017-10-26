@@ -210,7 +210,7 @@ public class CourseContainerFragment extends BaseFragment {
     }
 
     private void loadNowWeek() {
-        RequestManager.INSTANCE.getNowWeek(new SimpleSubscriber<>(BaseAPP.getContext(), new SubscriberListener<Integer>() {
+        RequestManager.INSTANCE.getNowWeek(new SimpleObserver<>(BaseAPP.getContext(), new SubscriberListener<Integer>() {
             @Override
             public void onNext(Integer i) {
                 int nowWeek = i;

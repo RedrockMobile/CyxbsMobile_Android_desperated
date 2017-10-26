@@ -13,7 +13,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.me.EditNickNameActivity;
 import com.mredrock.cyxbs.util.Utils;
@@ -21,20 +21,20 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
-    @Bind(R.id.login_stu_num_edit)
+    @BindView(R.id.login_stu_num_edit)
     AppCompatEditText stuNumEdit;
-    @Bind(R.id.login_id_num_edit)
+    @BindView(R.id.login_id_num_edit)
     AppCompatEditText idNumEdit;
-    @Bind(R.id.login_submit_button)
+    @BindView(R.id.login_submit_button)
     Button submitButton;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
 
     public static final String TAG = "LoginActivity";
@@ -92,7 +92,7 @@ public class LoginActivity extends BaseActivity {
             Utils.toast(this, "请输入密码");
         }
         RequestManager.getInstance()
-                .login(new SimpleSubscriber<>(this, true, false, new SubscriberListener<User>() {
+                .login(new SimpleObserver<>(this, true, false, new SubscriberListener<User>() {
                     @Override
                     public void onNext(User user) {
                         super.onNext(user);
@@ -105,8 +105,8 @@ public class LoginActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
+                    public void onComplete() {
+                        super.onComplete();
                         EventBus.getDefault().post(new LoginStateChangeEvent(true));
                         finish();
                         if (!BaseAPP.hasNickName()) {
@@ -120,7 +120,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     @Override

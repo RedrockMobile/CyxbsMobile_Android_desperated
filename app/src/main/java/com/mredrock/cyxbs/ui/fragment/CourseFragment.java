@@ -91,9 +91,9 @@ public class CourseFragment extends BaseFragment {
     LinearLayout mCourseScheduleHolder;
     @BindView(R.id.course_month)
     TextView mCourseMonth;
-    @Bind(R.id.no_course_holder)
+    @BindView(R.id.no_course_holder)
     View mNoCourseHolder;
-    @Bind(R.id.course_holder)
+    @BindView(R.id.course_holder)
     View mCourseHolder;
 
     // private boolean showAffairContent = true;
@@ -264,7 +264,7 @@ public class CourseFragment extends BaseFragment {
                             }
                         }), mUser.stuNum, mUser.idNum, week, update, forceFetch);
 
-                RequestManager.getInstance().getAffair(new SimpleSubscriber<>(getActivity(), false, false, new SubscriberListener<List<Affair>>() {
+                RequestManager.getInstance().getAffair(new SimpleObserver<>(getActivity(), false, false, new SubscriberListener<List<Affair>>() {
                     @Override
                      public void onComplete() {
                         super.onComplete();
@@ -355,7 +355,7 @@ public class CourseFragment extends BaseFragment {
     public void onAffairDeleteEvent(AffairDeleteEvent event) {
         if (mWeek == 0 || event.getCourse().week.contains(mWeek)) {
             Affair affair = (Affair) event.getCourse();
-            RequestManager.getInstance().deleteAffair(new SimpleSubscriber<>(getActivity(), true, true, new SubscriberListener<Object>() {
+            RequestManager.getInstance().deleteAffair(new SimpleObserver<>(getActivity(), true, true, new SubscriberListener<Object>() {
                 @Override
                  public void onComplete() {
                     super.onComplete();

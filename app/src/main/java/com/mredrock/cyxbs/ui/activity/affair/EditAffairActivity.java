@@ -57,7 +57,6 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -579,15 +578,15 @@ public class EditAffairActivity extends BaseActivity {
             if (!isStartByCourse) {
                 RequestManager.getInstance().addAffair(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
+                    public void onComplete() {
+                        super.onComplete();
                         dbManager.insert(true, x, BaseAPP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem))
                                 .subscribeOn(Schedulers.io())
                                 .unsubscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Observer() {
                                     @Override
-                                     public void onComplete() {
+                                    public void onComplete() {
                                         EventBus.getDefault().post(new AffairAddEvent(affair));
                                         onBackPressed();
                                     }
@@ -637,8 +636,8 @@ public class EditAffairActivity extends BaseActivity {
                 //  Log.e(TAG, "onSaveClick: isStartByCourse");
                 RequestManager.getInstance().editAffair(new SimpleObserver<Object>(this, true, false, new SubscriberListener<Object>() {
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
+                    public void onComplete() {
+                        super.onComplete();
                         dbManager.insert(true, x, BaseAPP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem), true)
                                 .subscribeOn(Schedulers.io())
                                 .unsubscribeOn(Schedulers.io())

@@ -22,10 +22,11 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.VolunteerTimeSP;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by glossimarsun on 2017/10/2.
@@ -39,17 +40,17 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
     private VolunteerTimeSP volunteerSP;
     private ProgressDialog dialog;
 
-    @Bind(R.id.volunteer_toolbar)
+    @BindView(R.id.volunteer_toolbar)
     Toolbar toolbar;
-    @Bind(R.id.volunteer_login_back)
+    @BindView(R.id.volunteer_login_back)
     ImageView backImage;
-    @Bind(R.id.volunteer_toolbar_title)
+    @BindView(R.id.volunteer_toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.volunteer_account)
+    @BindView(R.id.volunteer_account)
     EditText accountView;
-    @Bind(R.id.volunteer_password)
+    @BindView(R.id.volunteer_password)
     EditText passwordView;
-    @Bind(R.id.volunteer_login)
+    @BindView(R.id.volunteer_login)
     ImageView login;
 
 
@@ -114,10 +115,11 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
     }
 
     private void login(String account, String password) {
-        RequestManager.INSTANCE.getVolunteer(new Subscriber<VolunteerTime>() {
+        RequestManager.INSTANCE.getVolunteer(new Observer<VolunteerTime>() {
 
             @Override
-            public void onCompleted() {}
+            public void onComplete() {
+            }
 
             @Override
             public void onError(Throwable e) {
@@ -125,6 +127,11 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
                 Log.d("RequestManager", "onError: ------------------------------------------------------------------------------");
                 dialog.dismiss();
                 e.printStackTrace();
+            }
+
+            @Override
+            public void onSubscribe(Disposable d) {
+
             }
 
             @Override

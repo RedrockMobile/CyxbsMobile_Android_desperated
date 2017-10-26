@@ -183,22 +183,22 @@ public enum RequestManager {
          emitObservable(observable, observer);
     }
 
-    public Subscription getVolunteer(Subscriber<VolunteerTime> subscriber, String account, String password) {
+    public void getVolunteer(Observer<VolunteerTime> subscriber, String account, String password) {
         Observable<VolunteerTime> observable = volunteerService.getVolunteerUseLogin(account, password);
-        return emitObservable(observable, subscriber);
+        emitObservable(observable, subscriber);
     }
 
-    public Subscription getVolunteerTime(Subscriber<VolunteerTime.DataBean> subscriber, String uid) {
+    public void getVolunteerTime(Observer<VolunteerTime.DataBean> subscriber, String uid) {
         Observable<VolunteerTime.DataBean> observable = volunteerService.getVolunteerUseUid(uid)
                 .map(VolunteerTime::getData);
-        return emitObservable(observable, subscriber);
+        emitObservable(observable, subscriber);
     }
 
-    public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum, int week, boolean update) {
+    public void getCourseList(Observer<List<Course>> observer, String stuNum, String idNum, int week, boolean update) {
 //        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update,false)
 //                .map(new UserCourseFilterFunc(week));
 
-         getCourseList(observer, stuNum, idNum, week, update, false);
+        getCourseList(observer, stuNum, idNum, week, update, true);
     }
 
     public void getCourseList(Observer<List<Course>> observer, String stuNum, String idNum,
@@ -363,10 +363,10 @@ public enum RequestManager {
 //        emitObservable(observable, subscriber);
 //    }
 
-    public void queryEmptyRoomList(Subscriber<List<EmptyRoom>> subscriber, int week, int weekday, int build, int[] sections) {
+    public void queryEmptyRoomList(Observer<List<EmptyRoom>> observer, int week, int weekday, int build, int[] sections) {
         Observable<List<EmptyRoom>> observable = EmptyRoomListProvider.INSTANCE
                 .createObservable(week, weekday, build, sections);
-        emitObservable(observable, subscriber);
+        emitObservable(observable, observer);
     }
 
     public List<String> getEmptyRoomListSync(int week, int weekday, int build, int section) throws IOException {
@@ -374,7 +374,7 @@ public enum RequestManager {
         return response.body().data;
     }
 
-    public void getGradeList(Subscriber<List<Grade>> subscriber, String
+    public void getGradeList(Observer<List<Grade>> observer, String
             stuNum, String stuId, boolean update) {
         Observable<List<Grade>> observable = redrockApiService.getGrade(stuNum, stuId)
                 .map(new RedrockApiWrapperFunc<>());
@@ -775,10 +775,10 @@ public enum RequestManager {
 
     }
 
-    public void getRollerViewInfo(Subscriber<List<RollerViewInfo>> subscriber, String pic_num) {
+    public void getRollerViewInfo(Observer<List<RollerViewInfo>> observer, String pic_num) {
         Observable<List<RollerViewInfo>> observable = redrockApiService.getRollerViewInfo(pic_num)
                 .map(new RedrockApiWrapperFunc<>());
-        emitObservable(observable, subscriber);
+        emitObservable(observable, observer);
     }
 }
 

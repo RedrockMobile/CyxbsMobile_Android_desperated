@@ -96,7 +96,7 @@ public class ElectricChargeActivity extends BaseActivity {
             return;
         }
         String building = BaseAPP.getContext().getResources().getStringArray(R.array.dormitory_buildings_api)[mBuildingPosition];
-        RequestManager.INSTANCE.queryElectricCharge(new SimpleSubscriber<ElectricCharge>(this,true, new SubscriberListener<ElectricCharge>() {
+        RequestManager.INSTANCE.queryElectricCharge(new SimpleObserver<>(this, true, new SubscriberListener<ElectricCharge>() {
             @Override
             public void onNext(ElectricCharge electricCharge) {
                 super.onNext(electricCharge);

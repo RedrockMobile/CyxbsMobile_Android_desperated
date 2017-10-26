@@ -71,6 +71,11 @@ public class SplashActivity extends Activity {
 
         RequestManager.getInstance().getStartPage(new SimpleObserver<>(this, new SubscriberListener<StartPage>() {
             @Override
+            public boolean onError(Throwable e) {
+                return true;
+            }
+
+            @Override
             public void onNext(StartPage startPage) {
                 if (startPage != null) {
                     Glide.with(SplashActivity.this).load(startPage.getPhoto_src()).centerCrop().into(mIvSplash);

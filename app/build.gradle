@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.mredrock.cyxbs"
@@ -64,11 +64,11 @@ android {
             signingConfig signingConfigs.debug
             buildConfigField("String", "BUGLY_APP_ID", "\"68682669e7\"")
             applicationVariants.all { variant ->
-                variant.outputs.each { out ->
+                variant.outputs.all { out ->
                     def outputFile = out.outputFile
                     if (outputFile != null && outputFile.name.endsWith(".apk")) {
                         def fileName = "掌上重邮_${defaultConfig.versionName}_degug.apk"
-                        out.outputFile = new File(outputFile.parent, fileName)
+                        outputFileName = new File(outputFile.parent, fileName)
                     }
                 }
             }

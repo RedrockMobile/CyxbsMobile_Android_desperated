@@ -44,7 +44,8 @@ public class ElectricRemindUtil {
         float money = (float) SPUtils.get(BaseAPP.getContext(), ElectricRemindActivity.ELECTRIC_REMIND_MONEY, -1.0f);
         if (money == -1)
             return;
-        RequestManager.INSTANCE.queryElectricCharge(new SimpleObserver<ElectricCharge>(context, new SubscriberListener<ElectricCharge>() {
+        String building = BaseAPP.getContext().getResources().getStringArray(R.array.dormitory_buildings_api)[buildingPosition];
+        RequestManager.INSTANCE.queryElectricCharge(new SimpleObserver<>(context, new SubscriberListener<ElectricCharge>() {
             @Override
             public void onNext(ElectricCharge electricCharge) {
                 super.onNext(electricCharge);

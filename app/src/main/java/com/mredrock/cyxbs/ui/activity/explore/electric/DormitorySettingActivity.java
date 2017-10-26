@@ -131,7 +131,7 @@ public class DormitorySettingActivity extends BaseActivity {
             SPUtils.set(BaseAPP.getContext(), BUILDING_KEY, mBuildingPosition);
             SPUtils.set(BaseAPP.getContext(),DORMITORY_KEY,dormitoryNumberEdit.getText().toString()+"");
             SPUtils.set(BaseAPP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
-            SimpleObserver<Object> subscriber = new SimpleSubscriber<Object>(this, true, new SubscriberListener<Object>() {
+            SimpleObserver<Object> subscriber = new SimpleObserver<>(this, true, new SubscriberListener<Object>() {
                 @Override
                  public void onComplete() {
                     super.onComplete();
