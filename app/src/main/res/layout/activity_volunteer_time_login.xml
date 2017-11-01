@@ -54,22 +54,22 @@
 
     </FrameLayout>
 
-        <EditText
-            android:id="@+id/volunteer_account"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="270dp"
-            android:layout_height="50dp"
-            android:drawableLeft="@drawable/volunteer_login_number"
-            android:drawablePadding="16dp"
-            android:hint="@string/volunteer_account"
-            android:textColorHint="@color/volunteer_edit_Normal"
-            android:textCursorDrawable="@drawable/volunteer_cursor_color"
-            android:cursorVisible="true"
-            android:lines="1"
-            android:singleLine="true"
-            android:imeOptions="actionGo"
-            app:theme="@style/VolunteerEditText"/>
+    <EditText
+        android:id="@+id/volunteer_account"
+        android:layout_width="270dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:cursorVisible="true"
+        android:drawableLeft="@drawable/volunteer_login_number"
+        android:drawablePadding="16dp"
+        android:hint="@string/volunteer_account"
+        android:imeOptions="actionGo"
+        android:lines="1"
+        android:singleLine="true"
+        android:textColorHint="@color/volunteer_edit_Normal"
+        android:textCursorDrawable="@drawable/volunteer_cursor_color"
+        app:theme="@style/VolunteerEditText" />
 
 
     <EditText
