@@ -310,6 +310,6 @@
 
 
     <!--volunteer Time-->
-    <string name="volunteer_account"></string>
-    <string name="volunteer_password"></string>
+    <string name="volunteer_account">默认是身份证号或者手机号哦</string>
+    <string name="volunteer_password">在这里输入密码</string>
 </resources>
