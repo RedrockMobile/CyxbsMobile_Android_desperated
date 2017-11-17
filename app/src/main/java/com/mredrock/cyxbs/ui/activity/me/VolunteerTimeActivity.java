@@ -2,11 +2,9 @@ package com.mredrock.cyxbs.ui.activity.me;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +20,6 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.VolunteerTime;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
-import com.mredrock.cyxbs.ui.activity.MainActivity;
 import com.mredrock.cyxbs.ui.adapter.me.VolunteerFragmentAdapter;
 import com.mredrock.cyxbs.ui.fragment.me.AllVolunteerFragment;
 import com.mredrock.cyxbs.ui.fragment.me.FirstVolunteerTimeFragment;
@@ -34,12 +31,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TreeMap;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscriber;
-
-import static android.support.v4.view.ViewPager.*;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by glossimarsun on 2017/10/2.
@@ -60,23 +56,23 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     private List<VolunteerTime.DataBean.RecordBean> lastYear;
     private TreeMap<Integer, List<VolunteerTime.DataBean.RecordBean>> yearMap;
 
-    @Bind(R.id.volunteer_time_toolbar)
+    @BindView(R.id.volunteer_time_toolbar)
     Toolbar toolbar;
-    @Bind(R.id.volunteer_time_back)
+    @BindView(R.id.volunteer_time_back)
     ImageView backIcon;
-    @Bind(R.id.volunteer_unbind)
+    @BindView(R.id.volunteer_unbind)
     TextView unbindInfo;
-    @Bind(R.id.volunteer_view_pager)
+    @BindView(R.id.volunteer_view_pager)
     ViewPager viewPager;
-    @Bind(R.id.volunteer_time_tab)
+    @BindView(R.id.volunteer_time_tab)
     TabLayout tabLayout;
-    @Bind(R.id.volunteer_show_image)
+    @BindView(R.id.volunteer_show_image)
     ImageView showTab;
-    @Bind(R.id.volunteer_unshow_image)
+    @BindView(R.id.volunteer_unshow_image)
     ImageView unshowTab;
-    @Bind(R.id.volunteer_time_progress)
+    @BindView(R.id.volunteer_time_progress)
     ProgressBar progressBar;
-    @Bind(R.id.volunteer_time_title)
+    @BindView(R.id.volunteer_time_title)
     TextView toolbarTittle;
 
     @Override
@@ -110,15 +106,21 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
         }
     }
     private void loadVolunteerTime(String uid) {
-        RequestManager.INSTANCE.getVolunteerTime(new Subscriber<VolunteerTime.DataBean>() {
-            @Override
-            public void onCompleted() {
-
-            }
+        RequestManager.INSTANCE.getVolunteerTime(new Observer<VolunteerTime.DataBean>() {
 
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSubscribe(Disposable d) {
+
             }
 
             @Override

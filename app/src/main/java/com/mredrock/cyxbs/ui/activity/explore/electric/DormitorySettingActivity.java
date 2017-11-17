@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.fragment.explore.eletric.DialogRemindFragment;
@@ -26,18 +26,18 @@ import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.Utils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
 public class DormitorySettingActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView titleText;
-    @Bind(R.id.et_building_number)
+    @BindView(R.id.et_building_number)
     EditText buildingNumberEdit;
-    @Bind(R.id.et_dormitory_number)
+    @BindView(R.id.et_dormitory_number)
     EditText dormitoryNumberEdit;
 
     private static final String TAG = "DormitorySetting";
@@ -131,10 +131,10 @@ public class DormitorySettingActivity extends BaseActivity {
             SPUtils.set(BaseAPP.getContext(), BUILDING_KEY, mBuildingPosition);
             SPUtils.set(BaseAPP.getContext(),DORMITORY_KEY,dormitoryNumberEdit.getText().toString()+"");
             SPUtils.set(BaseAPP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
-            SimpleSubscriber<Object> subscriber = new SimpleSubscriber<Object>(this, true, new SubscriberListener<Object>() {
+            SimpleObserver<Object> subscriber = new SimpleObserver<>(this, true, new SubscriberListener<Object>() {
                 @Override
-                public void onCompleted() {
-                    super.onCompleted();
+                 public void onComplete() {
+                    super.onComplete();
                     setResult(ElectricChargeActivity.REQUEST_SET_CODE);
                     onBackPressed();
                 }

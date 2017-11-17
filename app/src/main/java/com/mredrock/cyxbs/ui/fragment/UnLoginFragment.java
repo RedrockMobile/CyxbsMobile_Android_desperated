@@ -12,7 +12,7 @@ import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.LoginActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * Have a good day.
  */
 public class UnLoginFragment extends BaseFragment {
-    @Bind(R.id.tv_login)
+    @BindView(R.id.tv_login)
     TextView mTvLogin;
 
     @Nullable
@@ -44,6 +44,6 @@ public class UnLoginFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 }

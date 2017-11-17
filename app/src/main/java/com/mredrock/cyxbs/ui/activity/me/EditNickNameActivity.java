@@ -16,15 +16,16 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 
-import butterknife.Bind;
-import rx.Subscriber;
+import butterknife.BindView;
+import io.reactivex.Observer;
+
 
 public class EditNickNameActivity extends EditCommonActivity {
 
-    @Bind(R.id.edit_common_toolbar)
+    @BindView(R.id.edit_common_toolbar)
     Toolbar editCommonToolbar;
 
-    @Bind(R.id.edit_common_et)
+    @BindView(R.id.edit_common_et)
     EditText editCommonEt;
 
     boolean isForceModify;
@@ -50,8 +51,8 @@ public class EditNickNameActivity extends EditCommonActivity {
     }
 
     @Override
-    protected void provideData(Subscriber<RedrockApiWrapper<Object>> subscriber, String stuNum, String idNum, String info) {
-        RequestManager.getInstance().setPersonNickName(subscriber, stuNum, idNum, info);
+    protected void provideData(Observer<RedrockApiWrapper<Object>> observer, String stuNum, String idNum, String info) {
+        RequestManager.getInstance().setPersonNickName(observer, stuNum, idNum, info);
     }
 
     private void initialize() {

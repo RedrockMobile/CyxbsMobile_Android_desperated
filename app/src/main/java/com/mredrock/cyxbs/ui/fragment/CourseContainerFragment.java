@@ -18,7 +18,7 @@ import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.event.ForceFetchCourseEvent;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.MainActivity;
 import com.mredrock.cyxbs.ui.adapter.TabPagerAdapter;
@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -46,9 +46,9 @@ public class CourseContainerFragment extends BaseFragment {
 
     private boolean mIsFirstLaunch;
 
-    @Bind(R.id.tab_course_tabs)
+    @BindView(R.id.tab_course_tabs)
     TabLayout mTabs;
-    @Bind(R.id.tab_course_viewpager)
+    @BindView(R.id.tab_course_viewpager)
     ViewPager mPager;
 
     @OnClick(R.id.course_fab)
@@ -186,7 +186,7 @@ public class CourseContainerFragment extends BaseFragment {
         mPager.removeOnPageChangeListener(mTabListener);
         mPager.removeOnPageChangeListener(mPageListener);
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     @Override
@@ -210,7 +210,7 @@ public class CourseContainerFragment extends BaseFragment {
     }
 
     private void loadNowWeek() {
-        RequestManager.INSTANCE.getNowWeek(new SimpleSubscriber<>(BaseAPP.getContext(), new SubscriberListener<Integer>() {
+        RequestManager.INSTANCE.getNowWeek(new SimpleObserver<>(BaseAPP.getContext(), new SubscriberListener<Integer>() {
             @Override
             public void onNext(Integer i) {
                 int nowWeek = i;

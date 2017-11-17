@@ -20,18 +20,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ExamAndGradeActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.exam_grade_tab_layout)
+    @BindView(R.id.exam_grade_tab_layout)
     TabLayout examGradeTabLayout;
-    @Bind(R.id.exam_grade_view_pager)
+    @BindView(R.id.exam_grade_view_pager)
     ViewPager examGradeViewPager;
 
     private List<String> mTitleList;

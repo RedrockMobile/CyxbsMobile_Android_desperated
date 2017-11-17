@@ -16,7 +16,7 @@ import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.NewsAdapter;
@@ -27,20 +27,20 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MyTrendActivity extends BaseActivity
         implements SwipeRefreshLayout.OnRefreshListener {
 
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.my_trend_recycler_view)
+    @BindView(R.id.my_trend_recycler_view)
     RecyclerView myTrendRecyclerView;
-    @Bind(R.id.my_trend_refresh_layout)
+    @BindView(R.id.my_trend_refresh_layout)
     SwipeRefreshLayout myTrendRefreshLayout;
 
     private List<HotNews> mNewsList;
@@ -127,7 +127,7 @@ public class MyTrendActivity extends BaseActivity
     private void getMyTrendData() {
         if (mUser != null) {
             Logger.d(mUser.toString());
-            RequestManager.getInstance().getMyTrend(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
+            RequestManager.getInstance().getMyTrend(new SimpleObserver<>(this, new SubscriberListener<List<HotNews>>() {
                 @Override
                 public boolean onError(Throwable e) {
                     super.onError(e);

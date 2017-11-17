@@ -47,22 +47,23 @@ import com.mredrock.cyxbs.util.ElectricRemindUtil;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.UpdateUtil;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
-    @Bind(R.id.main_toolbar)
+    @BindView(R.id.main_toolbar)
     JToolbar mToolbar;
-    @Bind(R.id.main_coordinator_layout)
+    @BindView(R.id.main_coordinator_layout)
     LinearLayout mCoordinatorLayout;
-    @Bind(R.id.main_view_pager)
+    @BindView(R.id.main_view_pager)
     ViewPager mViewPager;
 
     @BindString(R.string.community)
@@ -79,9 +80,9 @@ public class MainActivity extends BaseActivity {
     BaseFragment exploreFragment;
     BaseFragment userFragment;
     BaseFragment unLoginFragment;
-    /*@Bind(R.id.main_toolbar_face)
+    /*@BindView(R.id.main_toolbar_face)
     CircleImageView mMainToolbarFace;*/
-    @Bind(R.id.main_bnv)
+    @BindView(R.id.main_bnv)
     BottomNavigationView mMainBottomNavView;
 
     private Menu mMenu;
@@ -98,7 +99,7 @@ public class MainActivity extends BaseActivity {
         SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         ButterKnife.bind(this);
         initView();
-        UpdateUtil.checkUpdate(this, false);
+        UpdateUtil.checkUpdate(this, false,new RxPermissions(this));
         ElectricRemindUtil.check(this);
         setCourseUnfold(true, false);
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
@@ -324,7 +325,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+
     }
 
     public int getCurrentPosition() {

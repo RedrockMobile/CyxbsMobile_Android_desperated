@@ -39,7 +39,8 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -183,14 +184,19 @@ public class BaseAPP extends MultiDexApplication {
     public void reloadCourseList() {
         if (isLogin()) {
             User user = getUser(getContext());
-            RequestManager.getInstance().getCourseList(new Subscriber<List<Course>>() {
+            RequestManager.getInstance().getCourseList(new Observer<List<Course>>() {
                 @Override
-                public void onCompleted() {
+                public void onComplete() {
                 }
 
                 @Override
                 public void onError(Throwable e) {
                     Log.e("CSET", "reloadCourseList", e);
+                }
+
+                @Override
+                public void onSubscribe(Disposable d) {
+
                 }
 
                 @Override

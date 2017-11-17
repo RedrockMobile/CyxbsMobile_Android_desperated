@@ -27,7 +27,7 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.model.social.OfficeNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
@@ -38,6 +38,7 @@ import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.download.DownloadHelper;
 import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -47,10 +48,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
+import io.reactivex.disposables.Disposable;
 
 public class SpecificNewsActivity extends BaseActivity
         implements SwipeRefreshLayout.OnRefreshListener, EditTextBottomSheetDialog.OnClickListener
@@ -64,22 +65,22 @@ public class SpecificNewsActivity extends BaseActivity
 
     public static final String TAG = "SpecificNewsActivity";
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolBarTitle;
-    @Bind(R.id.refresh)
+    @BindView(R.id.refresh)
     SwipeRefreshLayout mRefresh;
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @Bind(R.id.downText)
+    @BindView(R.id.downText)
     TextView mTextDown;
 
-    @Bind(R.id.comment)
+    @BindView(R.id.comment)
     ViewGroup mComment;
-    @Bind(R.id.favor)
+    @BindView(R.id.favor)
     ViewGroup mFavor;
-    @Bind(R.id.favor_text)
+    @BindView(R.id.favor_text)
     TextView mFavorBtn;
     private TextView mMsgNum;
 
@@ -92,12 +93,13 @@ public class SpecificNewsActivity extends BaseActivity
     private View mFooterView;
     private boolean isFromMyTrend;
     String article_id;
+    private RxPermissions mRxPermissions;
 
     private EditTextBottomSheetDialog mCommentDialog;
 
     private User mUser;
 
-    private Subscription mSubscription;
+    private Disposable mDisposable;
 
     @Override
     public void onPause() {
@@ -134,6 +136,7 @@ public class SpecificNewsActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_news);
+        mRxPermissions = new RxPermissions(this);
         ButterKnife.bind(this);
         //  mUser = BaseAPP.getUser(this);
         mCommentDialog = new EditTextBottomSheetDialog(this);
@@ -180,8 +183,8 @@ public class SpecificNewsActivity extends BaseActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (!mSubscription.isUnsubscribed()) {
-            mSubscription.unsubscribe();
+        if (!mDisposable.isDisposed()) {
+            mDisposable.dispose();
         }
     }
 
@@ -195,7 +198,7 @@ public class SpecificNewsActivity extends BaseActivity
         mHeaderViewRecyclerAdapter.addHeaderView(mWrapView.itemView);
 //        mSendText.addTextView(mNewsEdtComment);
 
-        mSubscription = RxBus.getDefault().toObserverable(CommentContent.class)
+        mDisposable = RxBus.getDefault().toFlowable(CommentContent.class)
                 .subscribe(commentContent -> {
                     mCommentDialog.setText("回复 " + commentContent.getNickname() + " : ");
                     mCommentDialog.show();
@@ -224,7 +227,7 @@ public class SpecificNewsActivity extends BaseActivity
     public void showDownListDialog(String[] address, String[] names) {
 
         DownloadHelper downloadHelper = new DownloadHelper(this, true);
-        downloadHelper.prepare(Arrays.asList(names), Arrays.asList(address),
+        downloadHelper.prepare(mRxPermissions, Arrays.asList(names), Arrays.asList(address),
                 new OnDownloadListener() {
                     @Override
                     public void startDownload() {
@@ -245,7 +248,7 @@ public class SpecificNewsActivity extends BaseActivity
     }
 
     private void requestComments() {
-        RequestManager.getInstance().getRemarks(new SimpleSubscriber<>(this, new SubscriberListener<List<CommentContent>>() {
+        RequestManager.getInstance().getRemarks(new SimpleObserver<>(this, new SubscriberListener<List<CommentContent>>() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -299,7 +302,7 @@ public class SpecificNewsActivity extends BaseActivity
     }
 
     private void getDataBeanById(String articleId) {
-        RequestManager.getInstance().getTrendDetail(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
+        RequestManager.getInstance().getTrendDetail(new SimpleObserver<>(this, new SubscriberListener<List<HotNews>>() {
             @Override
             public boolean onError(Throwable e) {
                 super.onError(e);
@@ -403,10 +406,10 @@ public class SpecificNewsActivity extends BaseActivity
         if (editText.getText().toString().equals(""))
             Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT).show();
         else {
-            RequestManager.getInstance().postReMarks(new SimpleSubscriber<>(this, true, false, new SubscriberListener<String>() {
+            RequestManager.getInstance().postReMarks(new SimpleObserver<>(this, true, false, new SubscriberListener<String>() {
                 @Override
-                public void onCompleted() {
-                    super.onCompleted();
+                public void onComplete() {
+                    super.onComplete();
                     requestComments();
                     editText.getText().clear();
                     mRecyclerView.scrollToPosition(1);

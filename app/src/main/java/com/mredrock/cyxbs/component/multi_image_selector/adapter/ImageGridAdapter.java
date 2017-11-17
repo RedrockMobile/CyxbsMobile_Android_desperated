@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-
 import com.bumptech.glide.Glide;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.multi_image_selector.bean.Image;

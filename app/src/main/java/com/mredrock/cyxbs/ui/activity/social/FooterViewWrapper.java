@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.ui.activity.social;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,7 @@ import android.widget.TextView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mredrock.cyxbs.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -19,15 +18,15 @@ import butterknife.ButterKnife;
 
 public class FooterViewWrapper {
 
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     CircleProgressBar mCircleProgressBar;
-    @Bind(R.id.textLoadingFailed)
+    @BindView(R.id.textLoadingFailed)
     TextView mTextLoadingFailed;
 
     private View footerView;
 
-    public FooterViewWrapper(Context context, ViewGroup parent) {
-        footerView = LayoutInflater.from(context)
+    public FooterViewWrapper(ViewGroup parent) {
+        footerView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_footer_item_news, parent, false);
         ButterKnife.bind(this, footerView);
     }
@@ -60,7 +59,7 @@ public class FooterViewWrapper {
     }
 
     public void onFailedClick(View.OnClickListener onClickListener) {
-        mTextLoadingFailed.setOnClickListener(onClickListener::onClick);
+        mTextLoadingFailed.setOnClickListener(onClickListener);
     }
 
     public CircleProgressBar getCircleProgressBar() {

@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 

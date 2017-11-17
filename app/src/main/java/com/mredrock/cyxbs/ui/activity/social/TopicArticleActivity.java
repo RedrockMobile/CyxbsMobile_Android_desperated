@@ -21,7 +21,7 @@ import com.mredrock.cyxbs.event.ItemChangedEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.TopicArticle;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicArticleAdapter;
@@ -34,7 +34,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -47,11 +47,11 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
     public static final String TAG = TopicArticleActivity.class.getSimpleName();
     public static final int RESULT_CODE = 1001;
 
-    @Bind(R.id.rv_topic_article)
+    @BindView(R.id.rv_topic_article)
     EasyRecyclerView mRvTopicArticle;
-    @Bind(R.id.ll_topic_join)
+    @BindView(R.id.ll_topic_join)
     LinearLayout mLlTopicJoin;
-    @Bind(R.id.srl_topic)
+    @BindView(R.id.srl_topic)
     SwipeRefreshLayout mSrlTopic;
     /*@Bind(R.id.toolbar)
     JToolbar mToolbar;*/
@@ -145,10 +145,10 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
 
     private void loadArticle() {
         User user = BaseAPP.getUser(this);
-        RequestManager.getInstance().getTopicArticle(new SimpleSubscriber<>(this, new SubscriberListener<TopicArticle>() {
+        RequestManager.getInstance().getTopicArticle(new SimpleObserver<>(this, new SubscriberListener<TopicArticle>() {
             @Override
-            public void onCompleted() {
-                super.onCompleted();
+             public void onComplete() {
+                super.onComplete();
                 mPage++;
                 mSrlTopic.setRefreshing(false);
                 mLlTopicJoin.setVisibility(View.VISIBLE);

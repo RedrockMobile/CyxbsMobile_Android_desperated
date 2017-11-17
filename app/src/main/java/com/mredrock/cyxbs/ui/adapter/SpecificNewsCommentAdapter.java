@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.util.TimeUtils;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -48,15 +48,15 @@ public class SpecificNewsCommentAdapter extends BaseRecyclerViewAdapter<CommentC
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.container)
+        @BindView(R.id.container)
         ViewGroup mContainer;
-        @Bind(R.id.avatar)
+        @BindView(R.id.avatar)
         ImageView mCircleImageView;
-        @Bind(R.id.name)
+        @BindView(R.id.name)
         TextView mTextViewNickName;
-        @Bind(R.id.date)
+        @BindView(R.id.date)
         TextView mTextTime;
-        @Bind(R.id.comment)
+        @BindView(R.id.comment)
         TextView mTextContent;
 
         public ViewHolder(View itemView) {

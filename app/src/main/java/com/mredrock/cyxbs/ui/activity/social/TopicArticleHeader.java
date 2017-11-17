@@ -18,7 +18,7 @@ import com.mredrock.cyxbs.model.social.TopicArticle;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicHeaderAdapter;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -30,17 +30,17 @@ public class TopicArticleHeader implements RecyclerArrayAdapter.ItemView {
 
     public static final String TAG = TopicArticleHeader.class.getSimpleName();
 
-    @Bind(R.id.iv_topic_article_bg)
+    @BindView(R.id.iv_topic_article_bg)
     ImageView mIvTopicArticleBg;
-    @Bind(R.id.tv_topic_join_number)
+    @BindView(R.id.tv_topic_join_number)
     TextView mTvTopicJoinNumber;
-    @Bind(R.id.tv_topic_article_header_title)
+    @BindView(R.id.tv_topic_article_header_title)
     TextView mTvTopicArticleTitle;
-    @Bind(R.id.expandable_text)
+    @BindView(R.id.expandable_text)
     TextView mExpandableText;
-    @Bind(R.id.expand_collapse)
+    @BindView(R.id.expand_collapse)
     ImageButton mExpandCollapse;
-    @Bind(R.id.etv_topic_content)
+    @BindView(R.id.etv_topic_content)
     ExpandableTextView mEtvTopicContent;
     private TopicArticle mTopicArticle;
     private Context mContext;

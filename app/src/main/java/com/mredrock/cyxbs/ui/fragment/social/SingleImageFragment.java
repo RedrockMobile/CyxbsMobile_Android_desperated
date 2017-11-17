@@ -16,7 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.mredrock.cyxbs.R;
@@ -27,7 +26,7 @@ import com.mredrock.cyxbs.util.permission.EasyPermissions;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -38,11 +37,11 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAttacher.OnPhotoTapListener, EasyPermissions.PermissionCallbacks {
 
 
-    @Bind(R.id.fragment_progressBar)
+    @BindView(R.id.fragment_progressBar)
     ProgressBar mProgressBar;
-    @Bind(R.id.image_shot)
+    @BindView(R.id.image_shot)
     ImageView mImageView;
-    @Bind(R.id.layout)
+    @BindView(R.id.layout)
     RelativeLayout layout;
     PhotoViewAttacher mAttacher;
     private String url;
@@ -62,7 +61,7 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     public void showProgress() {

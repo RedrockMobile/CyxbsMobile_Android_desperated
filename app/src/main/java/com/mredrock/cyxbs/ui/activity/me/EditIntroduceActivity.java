@@ -17,13 +17,13 @@ import com.mredrock.cyxbs.component.widget.Toolbar;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.EditTextBottomSheetDialog;
 import com.umeng.analytics.MobclickAgent;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
@@ -31,11 +31,11 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
     public static final String EXTRA_EDIT_INTRODUCE = "extra_edit_introduce";
 
     public static final int MAX_SIZE_TEXT = 30;
-    @Bind(R.id.edit_introduce_toolbar)
+    @BindView(R.id.edit_introduce_toolbar)
     Toolbar editIntroduceToolbar;
-    @Bind(R.id.edit_introduce_et)
+    @BindView(R.id.edit_introduce_et)
     EditText editIntroduceEt;
-    @Bind(R.id.edit_introduce_count)
+    @BindView(R.id.edit_introduce_count)
     TextView editIntroduceCount;
 
     private User mUser;
@@ -88,12 +88,12 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
             editIntroduceEt.setText("");
         }
         RequestManager.getInstance()
-                .setPersonIntroduction(new SimpleSubscriber<>(
+                .setPersonIntroduction(new SimpleObserver<>(
                                 EditIntroduceActivity.this, true, new SubscriberListener<RedrockApiWrapper<Object>>() {
 
                             @Override
-                            public void onCompleted() {
-                                super.onCompleted();
+                             public void onComplete() {
+                                super.onComplete();
                                 Intent intent = new Intent();
                                 intent.putExtra(EXTRA_EDIT_INTRODUCE,
                                         editIntroduceEt.getText().toString());

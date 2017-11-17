@@ -17,7 +17,6 @@
         android:paddingLeft="15dp">
 
         <View
-            android:id="@+id/bar"
             android:layout_width="2dp"
             android:layout_height="13dp"
             android:background="@drawable/shape_empty_room_result_item"/>

@@ -25,7 +25,7 @@ import com.mredrock.cyxbs.model.lost.LostWrapper;
 import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.EndlessRecyclerOnScrollListener;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
 import com.mredrock.cyxbs.ui.activity.lost.LostDetailsActivity;
@@ -38,10 +38,10 @@ import com.mredrock.cyxbs.util.RxBus;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscriber;
-import rx.Subscription;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * @author Haruue Icymoon haruue@caoyue.com.cn
@@ -64,12 +64,11 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     public LostAdapter mAdapter;
     private FooterViewWrapper mFooterViewWrapper;
     private List<Lost>mLostlist = new ArrayList<>();
-    private Subscription mSubscription;
+    private Disposable mDisposable;
 
-
-    @Bind(R.id.information_RecyclerView) RecyclerView recycler;
-    @Bind(R.id.fab_main) FloatingActionButton mFabMain;
-    @Bind(R.id.information_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.information_RecyclerView) RecyclerView recycler;
+    @BindView(R.id.fab_main) FloatingActionButton mFabMain;
+    @BindView(R.id.information_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,8 +123,8 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
         getCurrentData(theme,category, FIRST_PAGE_INDEX);
     }
 
-    public void provideData(Subscriber<LostWrapper<List<Lost>>>subscriber, int theme, String category, int page){
-        RequestManager.getInstance().getLostList(subscriber,theme,category,page);
+    public void provideData(Observer<LostWrapper<List<Lost>>> observer, int theme, String category, int page){
+        RequestManager.getInstance().getLostList(observer,theme,category,page);
     }
     private void addOnScrollListener() {
         if (endlessRecyclerOnScrollListener != null)
@@ -173,7 +172,7 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.post(this::showLoadingProgress);
         }
-        provideData(new SimpleSubscriber<LostWrapper<List<Lost>>>(getActivity(), new SubscriberListener<LostWrapper<List<Lost>>>() {
+        provideData(new SimpleObserver<LostWrapper<List<Lost>>>(getActivity(), new SubscriberListener<LostWrapper<List<Lost>>>() {
             @Override
             public boolean onError(Throwable e) {
                 super.onError(e);
@@ -204,7 +203,7 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
         mAdapter.setOnItemClickListener(new LostAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, Lost lost) {
-                RequestManager.getInstance().getLostDetail(new SimpleSubscriber<LostDetail>(getContext(), new SubscriberListener<LostDetail>() {
+                RequestManager.getInstance().getLostDetail(new SimpleObserver<LostDetail>(getContext(), new SubscriberListener<LostDetail>() {
                     @Override
                     public boolean onError(Throwable e) {
                         super.onError(e);
@@ -232,7 +231,7 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
 
     public void getNextPageData(int theme,String category,int page){
         mFooterViewWrapper.showLoading();
-        provideData(new SimpleSubscriber<LostWrapper<List<Lost>>>(getContext(), new SubscriberListener<LostWrapper<List<Lost>>>() {
+        provideData(new SimpleObserver<LostWrapper<List<Lost>>>(getContext(), new SubscriberListener<LostWrapper<List<Lost>>>() {
             @Override
             public boolean onError(Throwable e) {
                  super.onError(e);
@@ -264,16 +263,16 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
         unregisterObservable();
     }
 
 
     public static class FooterViewWrapper {
 
-        @Bind(R.id.progressBar)
+        @BindView(R.id.progressBar)
         CircleProgressBar mCircleProgressBar;
-        @Bind(R.id.textLoadingFailed)
+        @BindView(R.id.textLoadingFailed)
         TextView mTextLoadingFailed;
 
         private View footerView;
@@ -312,13 +311,13 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
         }
 
         public void onFailedClick(View.OnClickListener onClickListener) {
-            mTextLoadingFailed.setOnClickListener(onClickListener::onClick);
+            mTextLoadingFailed.setOnClickListener(onClickListener);
         }
 
     }
     private void registerObservable() {
-        mSubscription = RxBus.getDefault()
-                .toObserverable(HotNews.class)
+        mDisposable = RxBus.getDefault()
+                .toFlowable(HotNews.class)
                 .subscribe(s -> {
                     getCurrentData(theme,category,FIRST_PAGE_INDEX);
                     recycler.scrollToPosition(0);
@@ -326,8 +325,8 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     }
 
     private void unregisterObservable() {
-        if (mSubscription != null && !mSubscription.isUnsubscribed())
-            mSubscription.unsubscribe();
+        if (mDisposable != null && !mDisposable.isDisposed())
+            mDisposable.dispose();
     }
     @Override
     public void onLoginStateChangeEvent(LoginStateChangeEvent event) {

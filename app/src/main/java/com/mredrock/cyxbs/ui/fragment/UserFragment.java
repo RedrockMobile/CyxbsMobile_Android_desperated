@@ -18,7 +18,7 @@ import com.mredrock.cyxbs.event.LoginEvent;
 import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.me.AboutMeActivity;
 import com.mredrock.cyxbs.ui.activity.me.EditInfoActivity;
@@ -36,7 +36,7 @@ import com.mredrock.cyxbs.util.SPUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -47,32 +47,32 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
 
     public static final int REQUEST_EDIT_INFO = 10;
 
-    @Bind(R.id.relate)
+    @BindView(R.id.relate)
     LinearLayout myPageRelateLayout;
-    @Bind(R.id.trend)
+    @BindView(R.id.trend)
     LinearLayout myPageTrendLayout;
-    @Bind(R.id.no_course)
+    @BindView(R.id.no_course)
     RelativeLayout myPageNoCourseLayout;
-    @Bind(R.id.empty_classroom)
+    @BindView(R.id.empty_classroom)
     RelativeLayout myPageEmptyLayout;
-    @Bind(R.id.grade)
+    @BindView(R.id.grade)
     RelativeLayout myPageGradeLayout;
-    @Bind(R.id.calendar)
+    @BindView(R.id.calendar)
     RelativeLayout myPageCalendarLayout;
-    @Bind(R.id.volunteer_time)
+    @BindView(R.id.volunteer_time)
     RelativeLayout myVolunteerTime;
-    @Bind(R.id.option)
+    @BindView(R.id.option)
     RelativeLayout myPageSettingLayout;
-    @Bind(R.id.avatar)
+    @BindView(R.id.avatar)
     ImageView myPageAvatar;
-    @Bind(R.id.name)
+    @BindView(R.id.name)
     TextView myPageNickName;
-    @Bind(R.id.introduce)
+    @BindView(R.id.introduce)
     TextView myPageIntroduce;
-    @Bind(R.id.remind)
+    @BindView(R.id.remind)
     RelativeLayout mMyPageRemindLayout;
 
-    @Bind(R.id.new_function)
+    @BindView(R.id.new_function)
     ImageView mNewFunction;
 
     private User mUser;
@@ -221,7 +221,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     private void getPersonInfoData() {
@@ -234,7 +234,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
         }
         mUser = BaseAPP.getUser(getActivity());
         if (mUser != null) {
-            RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(getActivity(),
+            RequestManager.getInstance().getPersonInfo(new SimpleObserver<>(getActivity(),
                     new SubscriberListener<User>() {
                         @Override
                         public void onNext(User user) {

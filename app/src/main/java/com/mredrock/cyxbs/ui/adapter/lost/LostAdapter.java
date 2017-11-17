@@ -15,7 +15,7 @@ import com.mredrock.cyxbs.util.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -72,11 +72,11 @@ public class LostAdapter extends RecyclerView.Adapter<LostAdapter.ViewHolder> im
         }
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.list_lost_img_avatar)CircularImageView mAvator;
-        @Bind(R.id.list_lost_text_nickname)TextView mNickName;
-        @Bind(R.id.list_lost_text_kind)TextView mType;
-        @Bind(R.id.list_lost_text_time)TextView mTime;
-        @Bind(R.id.textView_content)TextView mContent;
+        @BindView(R.id.list_lost_img_avatar)CircularImageView mAvator;
+        @BindView(R.id.list_lost_text_nickname)TextView mNickName;
+        @BindView(R.id.list_lost_text_kind)TextView mType;
+        @BindView(R.id.list_lost_text_time)TextView mTime;
+        @BindView(R.id.textView_content)TextView mContent;
         public static final String TAG = "LostAdapter.NormalViewHolder";
 
         public ViewHolder(View itemView) {

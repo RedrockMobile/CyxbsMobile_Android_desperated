@@ -11,7 +11,7 @@ import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.electric.DormitorySettingActivity;
 import com.mredrock.cyxbs.ui.activity.explore.electric.ElectricChargeActivity;
@@ -45,7 +45,7 @@ public class ElectricRemindUtil {
         if (money == -1)
             return;
         String building = BaseAPP.getContext().getResources().getStringArray(R.array.dormitory_buildings_api)[buildingPosition];
-        RequestManager.INSTANCE.queryElectricCharge(new SimpleSubscriber<ElectricCharge>(context, new SubscriberListener<ElectricCharge>() {
+        RequestManager.INSTANCE.queryElectricCharge(new SimpleObserver<>(context, new SubscriberListener<ElectricCharge>() {
             @Override
             public void onNext(ElectricCharge electricCharge) {
                 super.onNext(electricCharge);

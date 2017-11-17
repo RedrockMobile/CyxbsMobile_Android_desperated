@@ -36,7 +36,7 @@ import com.mredrock.cyxbs.model.Affair;
 import com.mredrock.cyxbs.model.AffairApi;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.PickerBottomSheetDialog;
@@ -54,12 +54,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class EditAffairActivity extends BaseActivity {
@@ -77,19 +78,19 @@ public class EditAffairActivity extends BaseActivity {
     private boolean isStartByCourse = false;
     private String uid;
 
-    @Bind(R.id.remind_text)
+    @BindView(R.id.remind_text)
     TextView mRemindText;
-    @Bind(R.id.week_text)
+    @BindView(R.id.week_text)
     TextView mWeekText;
-    @Bind(R.id.time_text)
+    @BindView(R.id.time_text)
     TextView mTimeText;
-    @Bind(R.id.content)
+    @BindView(R.id.content)
     EditText mContentEdit;
-    @Bind(R.id.title)
+    @BindView(R.id.title)
     EditText mTitleEdit;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolbarTitle;
 
     private List<Integer> weeks = new ArrayList<>();
@@ -164,14 +165,19 @@ public class EditAffairActivity extends BaseActivity {
         /*setData(course);*/
         DBManager.INSTANCE.queryItem(uid).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AffairApi.AffairItem>() {
+                .subscribe(new Observer<AffairApi.AffairItem>() {
                     @Override
-                    public void onCompleted() {
+                     public void onComplete() {
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
                     }
 
@@ -514,7 +520,7 @@ public class EditAffairActivity extends BaseActivity {
 
         class WeekViewHolder extends RecyclerView.ViewHolder {
 
-            @Bind(R.id.item_tv_choose_week)
+            @BindView(R.id.item_tv_choose_week)
             TextView mTextView;
             private boolean isChoose = false;
             private RelativeLayout layout;
@@ -570,23 +576,28 @@ public class EditAffairActivity extends BaseActivity {
             }
             affair.week = affairItem.getDate().get(0).getWeek();
             if (!isStartByCourse) {
-                RequestManager.getInstance().addAffair(new SimpleSubscriber<>(this, true, false, new SubscriberListener<Object>() {
+                RequestManager.getInstance().addAffair(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
+                    public void onComplete() {
+                        super.onComplete();
                         dbManager.insert(true, x, BaseAPP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem))
                                 .subscribeOn(Schedulers.io())
                                 .unsubscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber() {
+                                .subscribe(new Observer() {
                                     @Override
-                                    public void onCompleted() {
+                                    public void onComplete() {
                                         EventBus.getDefault().post(new AffairAddEvent(affair));
                                         onBackPressed();
                                     }
 
                                     @Override
                                     public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
 
                                     }
 
@@ -623,23 +634,28 @@ public class EditAffairActivity extends BaseActivity {
                 }), BaseAPP.getUser(this).stuNum, BaseAPP.getUser(this).idNum, x, title, content, gson.toJson(affairItem.getDate()), affairItem.getTime());
             } else {
                 //  Log.e(TAG, "onSaveClick: isStartByCourse");
-                RequestManager.getInstance().editAffair(new SimpleSubscriber<Object>(this, true, false, new SubscriberListener<Object>() {
+                RequestManager.getInstance().editAffair(new SimpleObserver<Object>(this, true, false, new SubscriberListener<Object>() {
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
+                    public void onComplete() {
+                        super.onComplete();
                         dbManager.insert(true, x, BaseAPP.getUser(EditAffairActivity.this).stuNum, gson.toJson(affairItem), true)
                                 .subscribeOn(Schedulers.io())
                                 .unsubscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber() {
+                                .subscribe(new Observer() {
                                     @Override
-                                    public void onCompleted() {
+                                     public void onComplete() {
                                         EventBus.getDefault().post(new AffairModifyEvent());
                                         onBackPressed();
                                     }
 
                                     @Override
                                     public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
 
                                     }
 

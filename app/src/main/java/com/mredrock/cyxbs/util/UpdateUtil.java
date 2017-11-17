@@ -9,18 +9,18 @@ import com.mredrock.cyxbs.config.Config;
 import com.mredrock.cyxbs.model.UpdateInfo;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.service.UpdateService;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 /**
  * Created by cc on 16/5/8.
  */
 public class UpdateUtil {
 
-    public static void checkUpdate(Context context, boolean shouldReturnResult) {
+    public static void checkUpdate(Context context, boolean shouldReturnResult,RxPermissions permissions) {
         RequestManager.getInstance()
-                      .checkUpdate(new SimpleSubscriber<>(context, shouldReturnResult, false, new SubscriberListener<UpdateInfo>() {
+                      .checkUpdate(new SimpleObserver<>(context, shouldReturnResult, false, new SubscriberListener<UpdateInfo>() {
                                   @Override
                                   public void onNext(UpdateInfo updateInfo) {
                                       if (updateInfo != null) {
@@ -30,27 +30,17 @@ public class UpdateUtil {
                                                   .content("最新版本:" + updateInfo.versionName + "\n" + updateInfo.updateContent + "\n点击点击，现在就更新一发吧~")
                                                   .positiveText("更新")
                                                   .negativeText("下次吧")
-                                                  .callback(new MaterialDialog.ButtonCallback() {
-                                                      @Override
-                                                      public void onNegative(MaterialDialog dialog) {
-                                                          super.onNegative(dialog);
-                                                          dialog.dismiss();
-                                                      }
-
-                                                      @Override
-                                                      public void onPositive(MaterialDialog dialog) {
-                                                          super.onPositive(dialog);
-                                                          RxPermissions.getInstance(context)
-                                                                       .request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                                                       .subscribe(granted -> {
-                                                                           if (granted) {
-                                                                               startDownload(updateInfo.apkURL, context);
-                                                                           } else {
-                                                                               Utils.toast(context, "没有赋予权限就不能更新哦");
-                                                                           }
-                                                                       });
-                                                      }
-                                                  })
+                                                  .onNegative((dialog, which) -> dialog.dismiss())
+                                                  .onPositive(((dialog, which) -> permissions
+                                                          .request(Manifest.permission.READ_EXTERNAL_STORAGE,
+                                                                  Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                                          .subscribe(granted -> {
+                                                              if (granted) {
+                                                                  startDownload(updateInfo.apkURL, context);
+                                                              } else {
+                                                                  Utils.toast(context, "没有赋予权限就不能更新哦");
+                                                              }
+                                                          })))
                                                   .cancelable(false)
                                                   .show();
 

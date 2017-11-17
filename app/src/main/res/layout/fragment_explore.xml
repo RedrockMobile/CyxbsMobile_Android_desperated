@@ -1,5 +1,4 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,99 +7,114 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <com.mredrock.cyxbs.ui.widget.RollerView
             android:id="@+id/rollerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="12dp"
             app:EdgePageSize="32dp"
-            app:aspectRatio="1.53"
-            app:pageScale="0.89"/>
+            app:aspectRatio="1.97"
+            app:pageScale="0.89" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:paddingBottom="20dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.mredrock.cyxbs.ui.widget.ExploreItem
+                android:id="@+id/explore_portal_holder"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                app:icon="@drawable/ic_portal"
+                app:ratio="0.572"
+                app:title="@string/explore_portal" />
 
-                <com.mredrock.cyxbs.ui.widget.ExploreItem
-                    android:id="@+id/explore_portal_holder"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    app:icon="@drawable/ic_portal"
-                    app:ratio="0.741"
-                    app:title="@string/explore_portal"/>
+            <View
+                android:layout_width="12dp"
+                android:layout_height="0dp" />
 
-                <com.mredrock.cyxbs.ui.widget.ExploreItem
-                    android:id="@+id/explore_map_holder"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    app:icon="@drawable/ic_map"
-                    app:ratio="0.741"
-                    app:title="@string/explore_map"/>
-
-                <com.mredrock.cyxbs.ui.widget.ExploreItem
-                    android:id="@+id/explore_surrounding_food_holder"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    app:icon="@drawable/ic_around_food"
-                    app:ratio="0.741"
-                    app:title="@string/explore_around_food"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.mredrock.cyxbs.ui.widget.ExploreItem
+                android:id="@+id/explore_map_holder"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                app:icon="@drawable/ic_map"
+                app:ratio="0.572"
+                app:title="@string/explore_map" />
+        </LinearLayout>
 
-                <com.mredrock.cyxbs.ui.widget.ExploreItem
-                    android:id="@+id/explore_electric_query_holder"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    app:icon="@drawable/ic_eletric"
-                    app:ratio="0.741"
-                    app:title="@string/explore_electric"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
 
-                <com.mredrock.cyxbs.ui.widget.ExploreItem
-                    android:id="@+id/explore_lost_and_found_holder"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    app:icon="@drawable/ic_lost"
-                    app:ratio="0.741"
-                    app:title="@string/lost_and_found"/>
+            <com.mredrock.cyxbs.ui.widget.ExploreItem
+                android:id="@+id/explore_surrounding_food_holder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                app:icon="@drawable/ic_around_food"
+                app:ratio="0.572"
+                app:title="@string/explore_around_food" />
 
-                <com.mredrock.cyxbs.ui.widget.ExploreItem
-                    android:id="@+id/explore_what_to_eat_holder"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    app:icon="@drawable/ic_find_food"
-                    app:ratio="0.741"
-                    app:title="@string/explore_eat"/>
-            </LinearLayout>
+            <View
+                android:layout_width="12dp"
+                android:layout_height="0dp" />
+
+            <com.mredrock.cyxbs.ui.widget.ExploreItem
+                android:id="@+id/explore_electric_query_holder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                app:icon="@drawable/ic_eletric"
+                app:ratio="0.572"
+                app:title="@string/explore_electric" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <com.mredrock.cyxbs.ui.widget.ExploreItem
+                android:id="@+id/explore_lost_and_found_holder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                app:icon="@drawable/ic_lost"
+                app:ratio="0.572"
+                app:title="@string/lost_and_found" />
+
+            <View
+                android:layout_width="12dp"
+                android:layout_height="0dp" />
+
+            <com.mredrock.cyxbs.ui.widget.ExploreItem
+                android:id="@+id/explore_what_to_eat_holder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                app:icon="@drawable/ic_find_food"
+                app:ratio="0.572"
+                app:title="@string/explore_eat" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

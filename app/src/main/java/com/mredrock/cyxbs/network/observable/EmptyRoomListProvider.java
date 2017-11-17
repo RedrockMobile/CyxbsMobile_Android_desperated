@@ -10,8 +10,9 @@ import com.mredrock.cyxbs.util.EmptyConverter;
 import java.io.IOException;
 import java.util.List;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 public enum EmptyRoomListProvider {
     INSTANCE;
@@ -46,7 +47,7 @@ public enum EmptyRoomListProvider {
         return Observable.create(new OnSubscribe(week, weekday, building, sections));
     }
 
-    private class OnSubscribe implements Observable.OnSubscribe<List<EmptyRoom>> {
+    private class OnSubscribe implements ObservableOnSubscribe<List<EmptyRoom>> {
         private final int mWeek;
         private final int mWeekday;
         private final int mBuilding;
@@ -57,22 +58,6 @@ public enum EmptyRoomListProvider {
             mWeekday = weekday;
             mBuilding = building;
             mSections = sections;
-        }
-
-        @Override
-        public void call(Subscriber<? super List<EmptyRoom>> subscriber) {
-            subscriber.onStart();
-            try {
-                EmptyConverter converter = new EmptyConverter();
-                for (int section : mSections) {
-                    converter.setEmptyData(load(section));
-                }
-                subscriber.onNext(converter.convert());
-                subscriber.onCompleted();
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                subscriber.onError(throwable);
-            }
         }
 
         private List<String> load(int section) throws IOException {
@@ -86,6 +71,21 @@ public enum EmptyRoomListProvider {
                 mMemoryCache.put(key, list);
             }
             return list;
+        }
+
+        @Override
+        public void subscribe(ObservableEmitter<List<EmptyRoom>> e) throws Exception {
+            try {
+                EmptyConverter converter = new EmptyConverter();
+                for (int section : mSections) {
+                    converter.setEmptyData(load(section));
+                }
+                e.onNext(converter.convert());
+                e.onComplete();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+                e.onError(throwable);
+            }
         }
     }
 }

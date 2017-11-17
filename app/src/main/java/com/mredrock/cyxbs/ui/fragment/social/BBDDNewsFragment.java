@@ -9,19 +9,19 @@ import com.mredrock.cyxbs.util.RxBus;
 
 import java.util.List;
 
-import rx.Subscriber;
-import rx.Subscription;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by mathiasluo on 16-4-26.
  */
 public class BBDDNewsFragment extends BaseNewsFragment {
 
-    private Subscription mSubscription;
+    private Disposable mDisposable;
 
     @Override
-    void provideData(Subscriber<List<HotNews>> subscriber, int size, int page) {
-        RequestManager.getInstance().getListArticle(subscriber, BBDDNews.BBDD, size, page);
+    void provideData(Observer<List<HotNews>> observer, int size, int page) {
+        RequestManager.getInstance().getListArticle(observer, BBDDNews.BBDD, size, page);
     }
 
     @Override
@@ -38,8 +38,8 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     }
 
     private void registerObservable() {
-        mSubscription = RxBus.getDefault()
-                .toObserverable(HotNews.class)
+        mDisposable = RxBus.getDefault()
+                .toFlowable(HotNews.class)
                 .subscribe(s -> {
                     ((SocialContainerFragment) getParentFragment()).changeViewPagerIndex(1);
                     //注释掉的这句话是把 最新发送的推到顶部
@@ -49,8 +49,8 @@ public class BBDDNewsFragment extends BaseNewsFragment {
     }
 
     private void unregisterObservable() {
-        if (mSubscription != null && !mSubscription.isUnsubscribed())
-            mSubscription.unsubscribe();
+        if (mDisposable != null && !mDisposable.isDisposed())
+            mDisposable.dispose();
     }
 
     @Override

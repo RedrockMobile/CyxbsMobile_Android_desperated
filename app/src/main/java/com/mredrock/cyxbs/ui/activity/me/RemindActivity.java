@@ -19,18 +19,18 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.fragment.me.RemindFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RemindActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.app_bar)
+    @BindView(R.id.app_bar)
     AppBarLayout mAppBar;
-    @Bind(R.id.fragment_remind)
+    @BindView(R.id.fragment_remind)
     FrameLayout mFragmentRemind;
     public static final String TAG = RemindActivity.class.getSimpleName();
 

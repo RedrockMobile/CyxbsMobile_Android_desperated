@@ -13,7 +13,7 @@ import com.mredrock.cyxbs.model.Course;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 
 /**
@@ -43,7 +43,7 @@ public enum  DBManager {
             db.execSQL("INSERT INTO affair(uid,stuNum,isUpload,data) VALUES ('" + uid
                     + "','" + stuNum + "','" + isUpload + "','" + json + "');");
             subscriber.onNext(null);
-            subscriber.onCompleted();
+            subscriber.onComplete();
         });
     }
 
@@ -57,7 +57,7 @@ public enum  DBManager {
             db.execSQL("INSERT INTO affair(uid,stuNum,isUpload,data) VALUES ('" + uid
                     + "','" + stuNum + "','" + isUpload + "','" + json + "');");
             subscriber.onNext(null);
-            subscriber.onCompleted();
+            subscriber.onComplete();
         });
     }
 
@@ -75,7 +75,7 @@ public enum  DBManager {
             values.put("data",uid);
             db.update("affair",values,"uid = ?",new String[]{uid});
             subscriber.onNext(null);
-            subscriber.onCompleted();
+            subscriber.onComplete();
         }));
     }
 
@@ -84,7 +84,7 @@ public enum  DBManager {
             open();
             db.delete("affair", "uid = ?", new String[]{uid});
             subscriber.onNext(null);
-            subscriber.onCompleted();
+            subscriber.onComplete();
         }));
     }
 

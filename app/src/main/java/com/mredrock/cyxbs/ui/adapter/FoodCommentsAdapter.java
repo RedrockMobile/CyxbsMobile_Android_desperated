@@ -15,7 +15,7 @@ import com.mredrock.cyxbs.util.SchoolCalendar;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -45,13 +45,13 @@ public class FoodCommentsAdapter extends BaseRecyclerViewAdapter<FoodComment, Fo
     }
 
     public static class RestaurantCommentsViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.comment)
+        @BindView(R.id.comment)
         TextView mCommentContent;
-        @Bind(R.id.avatar)
+        @BindView(R.id.avatar)
         ImageView mCommentUserIcon;
-        @Bind(R.id.name)
+        @BindView(R.id.name)
         TextView mCommentAuthor;
-        @Bind(R.id.date)
+        @BindView(R.id.date)
         TextView mCommentDate;
 
         public RestaurantCommentsViewHolder(View itemView) {

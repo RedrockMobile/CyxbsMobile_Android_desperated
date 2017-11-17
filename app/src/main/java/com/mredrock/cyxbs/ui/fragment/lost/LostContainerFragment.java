@@ -13,12 +13,12 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.lost.LostViewPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -26,9 +26,9 @@ import butterknife.ButterKnife;
  */
 
 public class LostContainerFragment extends BaseFragment{
-    @Bind(R.id.lost_tab_layout)
+    @BindView(R.id.lost_tab_layout)
     TabLayout tab;
-    @Bind(R.id.lost_view_pager)
+    @BindView(R.id.lost_view_pager)
     ViewPager pager;
     private boolean firstLogin = false;
     private int resumeCount = 0;
@@ -95,7 +95,7 @@ public class LostContainerFragment extends BaseFragment{
             return;
         }
         if (mUser != null){
-            RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(getActivity(), new SubscriberListener<PersonInfo>() {
+            RequestManager.getInstance().getPersonInfo(new SimpleObserver<>(getActivity(), new SubscriberListener<PersonInfo>() {
                 @Override
                 public void onNext(PersonInfo personInfo) {
                     super.onNext(personInfo);
@@ -147,7 +147,7 @@ public class LostContainerFragment extends BaseFragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     public void changeViewPagerIndex(int index) {
