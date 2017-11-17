@@ -109,7 +109,6 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
             loadVolunteerTime(uid);
         }
     }
-
     private void loadVolunteerTime(String uid) {
         RequestManager.INSTANCE.getVolunteerTime(new Subscriber<VolunteerTime.DataBean>() {
             @Override
