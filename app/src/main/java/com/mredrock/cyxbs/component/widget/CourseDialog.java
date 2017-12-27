@@ -43,8 +43,6 @@ public class CourseDialog {
         CoursePagerAdapter adapter = new CoursePagerAdapter(context, inflater, list, dialog);
         view.setAdapter(adapter);
         dialog.show();
-
-
     }
 
     static class CoursePagerAdapter extends PagerAdapter {

@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.network;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.BuildConfig;
@@ -22,6 +23,7 @@ import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.RollerViewInfo;
+import com.mredrock.cyxbs.model.SchoolCarLocation;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
@@ -191,6 +193,11 @@ public enum RequestManager {
     public void getVolunteerTime(Observer<VolunteerTime.DataBean> subscriber, String uid) {
         Observable<VolunteerTime.DataBean> observable = volunteerService.getVolunteerUseUid(uid)
                 .map(VolunteerTime::getData);
+        emitObservable(observable, subscriber);
+    }
+
+    public void getSchoolCarLocation(Observer<SchoolCarLocation> subscriber) {
+        Observable<SchoolCarLocation> observable = redrockApiService.schoolcar();
         emitObservable(observable, subscriber);
     }
 
@@ -780,5 +787,6 @@ public enum RequestManager {
                 .map(new RedrockApiWrapperFunc<>());
         emitObservable(observable, observer);
     }
+
 }
 
