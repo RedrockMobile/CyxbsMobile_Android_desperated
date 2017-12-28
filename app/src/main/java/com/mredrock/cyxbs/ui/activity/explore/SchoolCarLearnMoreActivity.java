@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SchoolCarLearnMore extends AppCompatActivity {
+public class SchoolCarLearnMoreActivity extends AppCompatActivity {
     @BindView(R.id.learn_more_school_car_toolbar)
     Toolbar toolbar;
     @BindView(R.id.learn_more_toolbar_back)

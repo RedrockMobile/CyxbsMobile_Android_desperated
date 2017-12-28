@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mredrock.cyxbs.ui.activity.explore.SchoolCarLearnMore">
+    tools:context="com.mredrock.cyxbs.ui.activity.explore.SchoolCarLearnMoreActivity">
 
     <View
         android:id="@+id/learn_more_school_car_statusbar"

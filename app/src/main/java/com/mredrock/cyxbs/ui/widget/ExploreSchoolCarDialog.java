@@ -5,13 +5,11 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCar;
+import com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCarActivity;
 
 /**
  * Created by glossimar on 2017/12/26.
@@ -20,17 +18,18 @@ import com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCar;
 public class ExploreSchoolCarDialog {
     AlertDialog dialog;
 
-    public void show(Context context, Activity activity, int type) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public void show(Activity activity, int type) {
+        LayoutInflater inflater = activity.getLayoutInflater();
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.dialog_explore_school_car_notserve, null);
-        ImageButton diasmissButton = (ImageButton) layout.findViewById(R.id.school_car_dialog_dismiss_button);
-        ImageButton negativeButton = (ImageButton) layout.findViewById(R.id.school_car_dialog_negative_button);
-        ImageButton positiveButton = (ImageButton) layout.findViewById(R.id.school_car_dialog_positive_button);
+        ImageButton diasmissButton = layout.findViewById(R.id.school_car_dialog_dismiss_button);
+        ImageButton negativeButton = layout.findViewById(R.id.school_car_dialog_negative_button);
+        ImageButton positiveButton = layout.findViewById(R.id.school_car_dialog_positive_button);
 
-        dialog = new AlertDialog.Builder(context)
+        dialog = new AlertDialog.Builder(activity)
                 .setCancelable(true)
                 .setView(layout)
                 .create();
+        dialog.setOnDismissListener(listener -> activity.finish());
 
         diasmissButton.setOnClickListener(v -> {
             if (v.getId() == R.id.school_car_dialog_dismiss_button) {
@@ -48,13 +47,13 @@ public class ExploreSchoolCarDialog {
 
         try {
             switch (type) {
-                case ExploreSchoolCar.LOST_SERVICES:
+                case ExploreSchoolCarActivity.LOST_SERVICES:
                     dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_school_car_not_serve);
                     break;
-                case ExploreSchoolCar.TIME_OUT:
+                case ExploreSchoolCarActivity.TIME_OUT:
                     dialog.getWindow().setBackgroundDrawableResource(R.drawable.ic_school_car_search_time_out);
                     break;
-                case ExploreSchoolCar.NO_GPS:
+                case ExploreSchoolCarActivity.NO_GPS:
                     dialog.getWindow().setBackgroundDrawableResource(R.drawable.ic_school_car_search_no_gps);
                     negativeButton.setOnClickListener(v -> {
                         dialog.cancel();
