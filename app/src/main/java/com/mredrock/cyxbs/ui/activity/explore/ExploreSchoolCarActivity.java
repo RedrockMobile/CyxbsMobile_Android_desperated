@@ -58,6 +58,7 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import pl.droidsonroids.gif.GifImageView;
 
 public class ExploreSchoolCarActivity extends BaseActivity {
 
@@ -71,7 +72,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
     private static final int SCHOOL_CAR = 2;
 
     @BindView(R.id.explore_schoolcar_load)
-    ImageView loadImage;
+    GifImageView loadImage;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.explore_schoolcar_linearLayout)
@@ -116,8 +117,6 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         ButterKnife.bind(this);
         cheakActivityPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 2);
         cheakActivityPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
-//
-//        loadCarLocation(savedInstanceState);
     }
 
     private boolean checkBeforeEnter(LatLng carLocation){
@@ -139,8 +138,6 @@ public class ExploreSchoolCarActivity extends BaseActivity {
 
     private void initView(){
         dialog = new ExploreSchoolCarDialog();
-        Glide.with(ExploreSchoolCarActivity.this).load( R.drawable.ic_school_car_search_load).asGif().into(loadImage) ;
-
         SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
 
         if (toolbar != null) {
