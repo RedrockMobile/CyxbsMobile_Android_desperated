@@ -13,6 +13,7 @@ import android.support.v13.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -45,9 +46,12 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.ExploreSchoolCarDialog;
 
+import java.security.Permission;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -58,9 +62,9 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
-public class ExploreSchoolCarActivity extends BaseActivity {
+public class ExploreSchoolCar extends BaseActivity {
 
-    private static final String TAG = "ExploreSchoolCarActivity";
+    private static final String TAG = "ExploreSchoolCar";
     public static final int TIME_OUT = 1;
     public static final int LOST_SERVICES = 2;
     public static final int NO_GPS = 3;
@@ -102,7 +106,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
 
 
     public static void startSchoolCarActivity(Activity startingActivity) {
-        Intent intent = new Intent(startingActivity, ExploreSchoolCarActivity.class);
+        Intent intent = new Intent(startingActivity, ExploreSchoolCar.class);
         startingActivity.startActivity(intent);
     }
 
@@ -110,7 +114,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
-        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
+
         setContentView(R.layout.activity_explore_school_car);
         ButterKnife.bind(this);
         cheakActivityPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 2);
@@ -124,12 +128,12 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         int hour = calendar.get(Calendar.HOUR);
         int AM_PM = calendar.get(Calendar.AM_PM);
         if(((AM_PM == Calendar.AM && hour < 11 )||(AM_PM == Calendar.PM && ((hour >1 && hour < 5) || (hour > 9))))) {
-            dialog.show(this, TIME_OUT);
+            dialog.show(this, this, TIME_OUT);
             return false;
         } else {
             float carDistance = AMapUtils.calculateLineDistance(new LatLng(29.531876 ,106.606789), carLocation);
             if (carDistance > 1300) {
-                dialog.show(this, LOST_SERVICES);
+                dialog.show(this, this, LOST_SERVICES);
                 return false;
             }
         }
@@ -139,6 +143,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
     private void initView(){
         dialog = new ExploreSchoolCarDialog();
         Glide.with(this ).load( R.drawable.ic_school_car_search_load).asGif().into(loadImage) ;
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
 
         if (toolbar != null) {
             toolbar.setTitle("");
@@ -155,6 +160,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                     @Override
                     public void onNext(Long aLong) {
                         loadImage.setVisibility(View.VISIBLE);
+                        Log.d(TAG, "onNext: 校车正在初始化..." + aLong);
 
                     }
 
@@ -194,6 +200,10 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         
         if (aMap == null) {
             aMap = mapView.getMap();
+            Log.d(TAG, "initAMap: .........");
+            if (mapView == null){
+                Log.d(TAG, "initAMap: gggggggggggggg");
+            }
         }
 
         aMap.setMyLocationEnabled(true);
@@ -445,7 +455,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
     @OnClick(R.id.explore_schoolcar_toolbar_learnmore)
     public void learnMore(View v) {
         if (v.getId() == R.id.explore_schoolcar_toolbar_learnmore) {
-            Intent intent = new Intent(this, SchoolCarLearnMoreActivity.class);
+            Intent intent = new Intent(this, SchoolCarLearnMore.class);
             startActivity(intent);
         }
     }
@@ -529,7 +539,72 @@ public class ExploreSchoolCarActivity extends BaseActivity {
             if (dialog == null) {
                 dialog = new ExploreSchoolCarDialog();
             }
-            dialog.show(this, NO_GPS);
+            dialog.show(this,this, NO_GPS);
         }
     }
 }
+//    public List<LatLng> setPoints(){
+//        List<LatLng> schoolCarTrace = new ArrayList<>();
+//
+//        schoolCarTrace.add(new LatLng(29.532769,106.604673));
+//        schoolCarTrace.add(new LatLng(29.532811,106.604631));
+//        schoolCarTrace.add(new LatLng(29.532839,106.604636));
+//        schoolCarTrace.add(new LatLng(29.532886,106.604636));
+//        schoolCarTrace.add(new LatLng(29.532937,106.604641));
+//        schoolCarTrace.add(new LatLng(29.534244,106.605457));
+//        schoolCarTrace.add(new LatLng(29.535402,106.605462));
+//        schoolCarTrace.add(new LatLng(29.535369,106.605585));
+//        schoolCarTrace.add(new LatLng(29.535323,106.608112));
+//        schoolCarTrace.add(new LatLng(29.534534,106.608139));
+//        schoolCarTrace.add(new LatLng(29.534539,106.608922));
+//        schoolCarTrace.add(new LatLng(29.534515,106.609727));
+//        schoolCarTrace.add(new LatLng(29.534529,106.610076));
+//        schoolCarTrace.add(new LatLng(29.535944,106.610102));
+//        schoolCarTrace.add(new LatLng(29.535892,106.610633));
+//        schoolCarTrace.add(new LatLng(29.535888,106.610671));
+//        schoolCarTrace.add(new LatLng(29.535855,106.610714));
+//        schoolCarTrace.add(new LatLng(29.535804,106.610762));
+//        schoolCarTrace.add(new LatLng(29.534161,106.610751));
+//        schoolCarTrace.add(new LatLng(29.534044,106.610772));
+//        schoolCarTrace.add(new LatLng(29.533946,106.610896));
+//        schoolCarTrace.add(new LatLng(29.533862,106.611143));
+//        schoolCarTrace.add(new LatLng(29.533811,106.611314));
+//        schoolCarTrace.add(new LatLng(29.533746,106.611395));
+//        schoolCarTrace.add(new LatLng(29.533232,106.611384));
+//        schoolCarTrace.add(new LatLng(29.533059,106.611357));
+//        schoolCarTrace.add(new LatLng(29.531188,106.611373));
+//        schoolCarTrace.add(new LatLng(29.531104,106.611320));
+//        schoolCarTrace.add(new LatLng(29.531085,106.611234));
+//        schoolCarTrace.add(new LatLng(29.531099,106.610617));
+//        schoolCarTrace.add(new LatLng(29.531085,106.609769));
+//        schoolCarTrace.add(new LatLng(29.531043,106.609356));
+//        schoolCarTrace.add(new LatLng(29.531015,106.609206));
+//        schoolCarTrace.add(new LatLng(29.530954,106.609099));
+//        schoolCarTrace.add(new LatLng(29.530880,106.609034));
+//        schoolCarTrace.add(new LatLng(29.530810,106.609008));
+//        schoolCarTrace.add(new LatLng(29.530698,106.608965));
+//        schoolCarTrace.add(new LatLng(29.530497,106.608970));
+//        schoolCarTrace.add(new LatLng(29.528975,106.608943));
+//        schoolCarTrace.add(new LatLng(29.528971,106.608954));
+//        schoolCarTrace.add(new LatLng(29.528961,106.608101));
+//        schoolCarTrace.add(new LatLng(29.529055,106.608106));
+//        schoolCarTrace.add(new LatLng(29.529288,106.608149));
+//        schoolCarTrace.add(new LatLng(29.529839,106.608214));
+//        schoolCarTrace.add(new LatLng(29.530544,106.608230));
+//        schoolCarTrace.add(new LatLng(29.530651,106.607495));
+//        schoolCarTrace.add(new LatLng(29.530632,106.606953));
+//        schoolCarTrace.add(new LatLng(29.529344,106.606937));
+//        schoolCarTrace.add(new LatLng(29.529325,106.604512));
+//        schoolCarTrace.add(new LatLng(29.529358,106.604394));
+//        schoolCarTrace.add(new LatLng(29.529386,106.604314));
+//        schoolCarTrace.add(new LatLng(29.529428,106.604287));
+//        schoolCarTrace.add(new LatLng(29.529480,106.604276));
+//        schoolCarTrace.add(new LatLng(29.530208,106.604244));
+//        schoolCarTrace.add(new LatLng(29.530544,106.604239));
+//        schoolCarTrace.add(new LatLng(29.531795,106.604330));
+//        schoolCarTrace.add(new LatLng(29.532682,106.604641));
+//        schoolCarTrace.add(new LatLng(29.532756,106.604673));
+//
+//        return schoolCarTrace;
+//    }
+

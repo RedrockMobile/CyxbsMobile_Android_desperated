@@ -185,6 +185,7 @@ dependencies {
     implementation 'com.jude:easyrecyclerview:4.4.0'
     implementation 'com.lapism:searchview:4.0'
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
 
     compile project(':push')
 
