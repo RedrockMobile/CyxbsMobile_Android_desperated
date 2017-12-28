@@ -58,7 +58,7 @@ public class ExploreSchoolCarDialog {
                 dialog.getWindow().setBackgroundDrawableResource(R.drawable.ic_school_car_search_time_out);
                 break;
             case ExploreSchoolCar.NO_GPS:
-                dialog.getWindow().setBackgroundDrawableResource(R.drawable.ic_school_car_search_unhave_gps);
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.ic_school_car_search_no_gps);
                 negativeButton.setOnClickListener(v -> {
                     dialog.dismiss();
                     activity.finish();

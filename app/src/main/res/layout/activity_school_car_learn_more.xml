@@ -10,14 +10,14 @@
         android:id="@+id/learn_more_school_car_statusbar"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:background="@color/explore_school_car_toobar"/>
+        android:background="@drawable/school_car_search_promot_toolbar"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/learn_more_school_car_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/learn_more_school_car_statusbar"
-        android:background="@color/explore_school_car_toobar">
+        android:background="@drawable/school_car_search_promot_toolbar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,11 +34,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/explore_schoolcar_toolbar_learnmore"
-                android:layout_marginLeft="106dp"
-                android:layout_marginStart="106dp"
-                android:layout_toEndOf="@+id/learn_more_toolbar_back"
-                android:layout_toRightOf="@+id/learn_more_toolbar_back"
+                android:layout_centerInParent="true"
                 android:text="提示"
                 android:textColor="@color/white"
                 android:textSize="17sp" />

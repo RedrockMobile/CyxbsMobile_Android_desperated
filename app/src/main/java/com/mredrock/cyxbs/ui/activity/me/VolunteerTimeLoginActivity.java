@@ -182,7 +182,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
                             @Override
                             public void onPositive(MaterialDialog dialog) {
                                 super.onPositive(dialog);
-                                accountView.setText("");
+//                                accountView.setText("");
                                 passwordView.setText("");
                             }
                         }).show());
