@@ -100,7 +100,7 @@ public class ExploreSchoolCar extends BaseActivity {
 
     private AMap aMap;
     private MapView mapView;
-    private ExploreSchoolCarDialog dialog;
+    private ExploreSchoolCarDialog dialog = new ExploreSchoolCarDialog();
     private ImageButton  holeSchoolButton;
     private SmoothMoveMarker smoothMarker;
     private MyLocationStyle locationStyle;
@@ -121,6 +121,7 @@ public class ExploreSchoolCar extends BaseActivity {
 
         setContentView(R.layout.activity_explore_school_car);
         ButterKnife.bind(this);
+        cheakActivityPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 2);
         cheakActivityPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
 //
 //        loadCarLocation(savedInstanceState);
@@ -130,7 +131,7 @@ public class ExploreSchoolCar extends BaseActivity {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR);
         int AM_PM = calendar.get(Calendar.AM_PM);
-        if(!((AM_PM == Calendar.AM && hour < 11 )||(AM_PM == Calendar.PM && ((hour >1 && hour < 5) || (hour > 9))))) {
+        if(((AM_PM == Calendar.AM && hour < 11 )||(AM_PM == Calendar.PM && ((hour >1 && hour < 5) || (hour > 9))))) {
             dialog.show(this, this, TIME_OUT);
             return false;
         } else {
@@ -318,8 +319,6 @@ public class ExploreSchoolCar extends BaseActivity {
                 if (checkBeforeEnter(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon())) && firstEnter && aLong == 3) {
                     timer();
                 }
-
-                Log.d(TAG, "onNext: " + String.valueOf(checkBeforeEnter(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon())) && firstEnter && aLong == 3) + smoothMoveList.size());
 
                 if (firstEnter && aLong > 5) {
                     showMap(schoolCarLocation.getStatus());
@@ -522,20 +521,28 @@ public class ExploreSchoolCar extends BaseActivity {
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{permission}, processingMethod);
         } else {
-            Log.d(TAG, "onRequestPermissionsResult: ssssssssssssssss");
-            initView();
-            loadCarLocation(3);
+            switch (processingMethod) {
+                case 1:
+                    initView();
+                    loadCarLocation(3);
+                    break;
+                case 2:
+                    break;
+            }
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "onRequestPermissionsResult: lllllllllllllllll");
-            initView();
-            loadCarLocation(3);
+            if (requestCode == 1) {
+                initView();
+                loadCarLocation(3);
+            }
         } else {
-
+            if (dialog == null) {
+                dialog = new ExploreSchoolCarDialog();
+            }
             dialog.show(this,this, NO_GPS);
         }
     }

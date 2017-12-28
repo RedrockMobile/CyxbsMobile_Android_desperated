@@ -55,7 +55,7 @@
         android:id="@+id/explore_schoolcar_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/explore_schoolcar_toolbar">
+        android:layout_below="@+id/toolbar">
 
     </RelativeLayout>
 

@@ -58,11 +58,9 @@ public class ExploreSchoolCarDialog {
                     dialog.getWindow().setBackgroundDrawableResource(R.drawable.ic_school_car_search_no_gps);
                     negativeButton.setOnClickListener(v -> {
                         dialog.cancel();
-                        activity.finish();
                     });
                     positiveButton.setOnClickListener(v -> {
                         dialog.cancel();
-                        activity.finish();
                     });
                     break;
             }
