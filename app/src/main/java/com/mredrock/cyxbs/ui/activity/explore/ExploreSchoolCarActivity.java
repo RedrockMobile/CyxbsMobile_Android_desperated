@@ -62,7 +62,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
-public class ExploreSchoolCar extends BaseActivity {
+public class ExploreSchoolCarActivity extends BaseActivity {
 
     private static final String TAG = "ExploreSchoolCar";
     public static final int TIME_OUT = 1;
@@ -106,7 +106,7 @@ public class ExploreSchoolCar extends BaseActivity {
 
 
     public static void startSchoolCarActivity(Activity startingActivity) {
-        Intent intent = new Intent(startingActivity, ExploreSchoolCar.class);
+        Intent intent = new Intent(startingActivity, ExploreSchoolCarActivity.class);
         startingActivity.startActivity(intent);
     }
 
@@ -128,12 +128,12 @@ public class ExploreSchoolCar extends BaseActivity {
         int hour = calendar.get(Calendar.HOUR);
         int AM_PM = calendar.get(Calendar.AM_PM);
         if(((AM_PM == Calendar.AM && hour < 11 )||(AM_PM == Calendar.PM && ((hour >1 && hour < 5) || (hour > 9))))) {
-            dialog.show(this, this, TIME_OUT);
+            dialog.show(this, TIME_OUT);
             return false;
         } else {
             float carDistance = AMapUtils.calculateLineDistance(new LatLng(29.531876 ,106.606789), carLocation);
             if (carDistance > 1300) {
-                dialog.show(this, this, LOST_SERVICES);
+                dialog.show(this, LOST_SERVICES);
                 return false;
             }
         }
@@ -455,7 +455,7 @@ public class ExploreSchoolCar extends BaseActivity {
     @OnClick(R.id.explore_schoolcar_toolbar_learnmore)
     public void learnMore(View v) {
         if (v.getId() == R.id.explore_schoolcar_toolbar_learnmore) {
-            Intent intent = new Intent(this, SchoolCarLearnMore.class);
+            Intent intent = new Intent(this, SchoolCarLearnMoreActivity.class);
             startActivity(intent);
         }
     }
@@ -539,7 +539,7 @@ public class ExploreSchoolCar extends BaseActivity {
             if (dialog == null) {
                 dialog = new ExploreSchoolCarDialog();
             }
-            dialog.show(this,this, NO_GPS);
+            dialog.show(this, NO_GPS);
         }
     }
 }
