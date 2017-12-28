@@ -7,18 +7,12 @@
     android:background="@color/white"
     tools:context="com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCar">
 
-    <View
-        android:id="@+id/explore_schoolcar_statusbar"
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:background="@color/explore_school_car_toobar"/>
-
     <android.support.v7.widget.Toolbar
-        android:id="@+id/explore_schoolcar_toolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/explore_schoolcar_statusbar"
-        android:background="@color/explore_school_car_toobar">
+        android:background="@color/explore_school_car_toobar"
+        android:fitsSystemWindows="true">
 
         <RelativeLayout
             android:layout_width="match_parent"

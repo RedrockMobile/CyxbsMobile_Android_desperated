@@ -1,14 +1,19 @@
 package com.mredrock.cyxbs.ui.activity.explore;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v13.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.amap.api.fence.GeoFenceClient;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
@@ -37,16 +41,16 @@ import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.maps.utils.overlay.SmoothMoveMarker;
 import com.bumptech.glide.Glide;
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.SchoolCarLocation;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
+import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.ExploreSchoolCarDialog;
-import com.orhanobut.logger.AndroidLogTool;
 
-import org.apache.commons.lang3.ClassUtils;
-
+import java.security.Permission;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -62,7 +66,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
-public class ExploreSchoolCar extends AppCompatActivity {
+public class ExploreSchoolCar extends BaseActivity {
 
     private static final String TAG = "ExploreSchoolCar";
     public static final int TIME_OUT = 1;
@@ -75,7 +79,7 @@ public class ExploreSchoolCar extends AppCompatActivity {
 
     @BindView(R.id.explore_schoolcar_load)
     ImageView loadImage;
-    @BindView(R.id.explore_schoolcar_toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.explore_schoolcar_linearLayout)
     RelativeLayout layout;
@@ -84,8 +88,9 @@ public class ExploreSchoolCar extends AppCompatActivity {
     @BindView(R.id.explore_schoolcar_toolbar_learnmore)
     ImageButton learnMore;
 
-    private int i = 0;
+//    private int i = 0;
 //    List<LatLng> testList = setPoints();
+    private Bundle savedInstanceState;
     private boolean firstEnter = true;
     private int locationStatus;
     private double carAngle;
@@ -95,6 +100,7 @@ public class ExploreSchoolCar extends AppCompatActivity {
 
     private AMap aMap;
     private MapView mapView;
+    private ExploreSchoolCarDialog dialog;
     private ImageButton  holeSchoolButton;
     private SmoothMoveMarker smoothMarker;
     private MyLocationStyle locationStyle;
@@ -108,13 +114,15 @@ public class ExploreSchoolCar extends AppCompatActivity {
         startingActivity.startActivity(intent);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
+
         setContentView(R.layout.activity_explore_school_car);
         ButterKnife.bind(this);
-        initView(savedInstanceState);
+        cheakActivityPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
+//
 //        loadCarLocation(savedInstanceState);
     }
 
@@ -122,33 +130,30 @@ public class ExploreSchoolCar extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR);
         int AM_PM = calendar.get(Calendar.AM_PM);
-        if(((AM_PM == Calendar.AM && hour < 11 )||(AM_PM == Calendar.PM && ((hour >1 && hour < 5) || (hour > 9))))) {
-            ExploreSchoolCarDialog.show(this, this, TIME_OUT);
+        if(!((AM_PM == Calendar.AM && hour < 11 )||(AM_PM == Calendar.PM && ((hour >1 && hour < 5) || (hour > 9))))) {
+            dialog.show(this, this, TIME_OUT);
             return false;
         } else {
             float carDistance = AMapUtils.calculateLineDistance(new LatLng(29.531876 ,106.606789), carLocation);
             if (carDistance > 1300) {
-                ExploreSchoolCarDialog.show(this, this, LOST_SERVICES);
+                dialog.show(this, this, LOST_SERVICES);
                 return false;
             }
         }
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void initView(Bundle savedInstanceState){
+    private void initView(){
+        dialog = new ExploreSchoolCarDialog();
         Glide.with(this ).load( R.drawable.ic_school_car_search_load).asGif().into(loadImage) ;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
 
         if (toolbar != null) {
             toolbar.setTitle("");
             setSupportActionBar(toolbar);
         }
 
-        Observable.timer(5000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).
+        Observable.timer(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).
                 subscribe(new Observer<Long>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -158,7 +163,8 @@ public class ExploreSchoolCar extends AppCompatActivity {
                     @Override
                     public void onNext(Long aLong) {
                         loadImage.setVisibility(View.VISIBLE);
-                        Log.d(TAG, "onNext: 校车正在初始化...");
+                        Log.d(TAG, "onNext: 校车正在初始化..." + aLong);
+
                     }
 
                     @Override
@@ -168,8 +174,7 @@ public class ExploreSchoolCar extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                       loadCarLocation(savedInstanceState);
-                        Log.d(TAG, "onComplete: .......................");
+                        loadCarLocation(55);
                     }
                 });
 
@@ -193,16 +198,23 @@ public class ExploreSchoolCar extends AppCompatActivity {
         }
 
     private void initAMap(){
+
+        aMap = mapView.getMap();
+        
         if (aMap == null) {
             aMap = mapView.getMap();
+            Log.d(TAG, "initAMap: .........");
+            if (mapView == null){
+                Log.d(TAG, "initAMap: gggggggggggggg");
+            }
         }
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(29.531876 ,106.606789), 17f);
 
         aMap.setMyLocationEnabled(true);
         aMap.setMyLocationStyle(locationStyle);
         aMap.getUiSettings().setMyLocationButtonEnabled(false);
-        aMap.animateCamera(update);
 
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(29.531876 ,106.606789), 17f);
+        aMap.animateCamera(update);
         smoothMarker = new SmoothMoveMarker(aMap);
     }
 
@@ -224,15 +236,15 @@ public class ExploreSchoolCar extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void showMap(String status, Bundle savedInstanceState) {
+    private void showMap(String status) {
         if (status.equals("200")) {
+            loadImage.setVisibility(View.INVISIBLE);
             if(mapView == null) {
                 mapView = new MapView(this);
                 layout.addView(mapView);
                 mapView.onCreate(savedInstanceState);
             }
-            loadImage.setVisibility(View.GONE);
+
             RelativeLayout relativeLayout  = new RelativeLayout(this);
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -294,22 +306,23 @@ public class ExploreSchoolCar extends AppCompatActivity {
 
     }
 
-    private void loadCarLocation(Bundle savedInstanceState) {
+    private void loadCarLocation(long aLong) {
         RequestManager.INSTANCE.getSchoolCarLocation(new Observer<SchoolCarLocation>() {
             @Override
             public void onSubscribe(Disposable d) {}
 
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onNext(SchoolCarLocation schoolCarLocation) {
+//                float carDistance = 0;
                 dataList = schoolCarLocation.getData();
-                if (firstEnter) {
-                    showMap(schoolCarLocation.getStatus(), savedInstanceState);
-//                    if (checkBeforeEnter(testList.get(0))) {
-                    if (checkBeforeEnter(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon()))) {
-                        timer(savedInstanceState);
-                    }
-//                    smoothMoveList.add(testList.get(i));
+                if (checkBeforeEnter(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon())) && firstEnter && aLong == 3) {
+                    timer();
+                }
+
+                Log.d(TAG, "onNext: " + String.valueOf(checkBeforeEnter(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon())) && firstEnter && aLong == 3) + smoothMoveList.size());
+
+                if (firstEnter && aLong > 5) {
+                    showMap(schoolCarLocation.getStatus());
                     firstEnter = false;
                 }
 
@@ -317,12 +330,7 @@ public class ExploreSchoolCar extends AppCompatActivity {
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon()), 17f);
                     aMap.animateCamera(update);
                 }
-//                smoothMoveList.add(testList.get(i));
-//                if (i == 58) {
-//                    i = 0;
-//                } else {
-//                    i++;
-//                }
+//
                 smoothMoveList.add(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon()));
             }
 
@@ -350,8 +358,8 @@ public class ExploreSchoolCar extends AppCompatActivity {
 //        smoothMarker = new SmoothMoveMarker(aMap);
         smoothMarker.setDescriptor(BitmapDescriptorFactory.fromBitmap(bitmapChanged));
         if(smoothMoveList.size() > 1) {
-            changeCarOrientation(smoothMoveList.get(smoothMoveList.size() - 2), smoothMoveList.get(smoothMoveList.size() - 1), 2);
-            smoothMarker.setPoints(smoothMoveList.subList(smoothMoveList.size() - 2, smoothMoveList.size() - 1));
+            changeCarOrientation(smoothMoveList.get(smoothMoveList.size() - 4), smoothMoveList.get(smoothMoveList.size() - 3), 2);
+            smoothMarker.setPoints(smoothMoveList.subList(smoothMoveList.size() - 4, smoothMoveList.size() - 3));
             smoothMarker.setTotalDuration(1);
             smoothMarker.startSmoothMove();
             drawTraceLine();
@@ -421,11 +429,13 @@ public class ExploreSchoolCar extends AppCompatActivity {
 
     }
 
-    private void timer(Bundle saveInstanceState){
+    private void timer(){
         Observable.interval(1, TimeUnit.SECONDS)
                 .doOnNext(aLong -> {
-                    carSmoothMove(smoothMoveList);
-                    loadCarLocation(saveInstanceState);
+                    if (!firstEnter) {
+                        carSmoothMove(smoothMoveList);
+                    }
+                    loadCarLocation(0);
                 }).observeOn(AndroidSchedulers.mainThread()).
                 subscribe(new Observer<Long>() {
                     @Override
@@ -440,7 +450,6 @@ public class ExploreSchoolCar extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        ExploreSchoolCarDialog.show(ExploreSchoolCar.this, ExploreSchoolCar.this, LOST_SERVICES);
                     }
 
                     @Override
@@ -473,6 +482,9 @@ public class ExploreSchoolCar extends AppCompatActivity {
         if (disposable != null) {
             disposable.dispose();
         }
+        if (dialog != null) {
+            dialog.cancleDialog();
+        }
     }
 
     @Override
@@ -480,6 +492,9 @@ public class ExploreSchoolCar extends AppCompatActivity {
         super.onPause();
         if (mapView != null) {
             mapView.onPause();
+        }
+        if (dialog != null) {
+            dialog.cancleDialog();
         }
     }
 
@@ -499,6 +514,32 @@ public class ExploreSchoolCar extends AppCompatActivity {
         }
     }
 
+    public void cheakActivityPermission (String permission, int processingMethod) {
+        if (permission == null) {
+            Toast.makeText(this, "No permissions are passed in", Toast.LENGTH_SHORT).show();
+            throw new RuntimeException("The corresponding permission access failed");
+        }
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, processingMethod);
+        } else {
+            Log.d(TAG, "onRequestPermissionsResult: ssssssssssssssss");
+            initView();
+            loadCarLocation(3);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "onRequestPermissionsResult: lllllllllllllllll");
+            initView();
+            loadCarLocation(3);
+        } else {
+
+            dialog.show(this,this, NO_GPS);
+        }
+    }
+}
 //    public List<LatLng> setPoints(){
 //        List<LatLng> schoolCarTrace = new ArrayList<>();
 //
@@ -563,4 +604,4 @@ public class ExploreSchoolCar extends AppCompatActivity {
 //
 //        return schoolCarTrace;
 //    }
-}
+
