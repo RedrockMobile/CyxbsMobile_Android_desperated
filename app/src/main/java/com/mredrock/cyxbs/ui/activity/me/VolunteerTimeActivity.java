@@ -2,12 +2,14 @@ package com.mredrock.cyxbs.ui.activity.me;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -18,6 +20,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.VolunteerTime;
+import com.mredrock.cyxbs.model.social.Image;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.me.VolunteerFragmentAdapter;
@@ -46,10 +49,13 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     private static final String TAG = "VolunteerTimeActivity";
 
     private String uid;
+    private String account;
+    private String password;
     private List<String> yearList;
     private List<String> allYearList;
     private List<Fragment> fragmentList;
     private VolunteerTimeSP volunteerSP;
+    private AnimationDrawable animationDrawable;
     private List<VolunteerTime.DataBean.RecordBean> firstYear;
     private List<VolunteerTime.DataBean.RecordBean> secondYear;
     private List<VolunteerTime.DataBean.RecordBean> thirdYear;
@@ -70,10 +76,11 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     ImageView showTab;
     @BindView(R.id.volunteer_unshow_image)
     ImageView unshowTab;
-    @BindView(R.id.volunteer_time_progress)
-    ProgressBar progressBar;
     @BindView(R.id.volunteer_time_title)
     TextView toolbarTittle;
+    @BindView(R.id.volunteer_refresh)
+    ImageView refreshView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +102,9 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     public void initData() {
         volunteerSP = new VolunteerTimeSP(this);
         uid = volunteerSP.getVolunteerUid();
+        account = volunteerSP.getVolunteerAccount();
+        password = volunteerSP.getVolunteerPassword();
+        animationDrawable = (AnimationDrawable)refreshView.getDrawable();
         if (uid.equals("404") || volunteerSP.getVolunteerAccount().equals("404") ||
                     volunteerSP.getVolunteerPassword().equals("404")){
             Toast.makeText(this, "请先登录绑定账号哦", Toast.LENGTH_SHORT).show();
@@ -102,21 +112,53 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
             startActivity(intent);
             finish();
         } else {
-            loadVolunteerTime(uid);
+            animationDrawable.start();
+            loadVolunteerTime(account, password);
         }
     }
+//    private void loadVolunteerTime(String uid) {
+//        RequestManager.INSTANCE.getVolunteerTime(new Observer<VolunteerTime.DataBean>() {
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                e.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onComplete() {
+//
+//            }
+//
+//            @Override
+//            public void onSubscribe(Disposable d) {
+//
+//            }
+//
+//            @Override
+//            public void onNext(VolunteerTime.DataBean dataBean) {
+//                fragmentList = new ArrayList<>();
+//                allYearList = new ArrayList<>();
+//                animationDrawable.stop();
+//                refreshView.setVisibility(View.GONE);
+//
+//                initializeYears();
+//                initFragmentList(dataBean);
+//                setTabLayout();
+//            }
+//        }, uid);
+//    }
 
-    private void loadVolunteerTime(String uid) {
-        RequestManager.INSTANCE.getVolunteerTime(new Observer<VolunteerTime.DataBean>() {
+
+    private void loadVolunteerTime(String account, String password) {
+        RequestManager.INSTANCE.getVolunteer(new Observer<VolunteerTime>() {
+
+            @Override
+            public void onComplete() {
+            }
 
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
-            }
-
-            @Override
-            public void onComplete() {
-
             }
 
             @Override
@@ -125,18 +167,18 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
             }
 
             @Override
-            public void onNext(VolunteerTime.DataBean dataBean) {
+            public void onNext(VolunteerTime dataBean) {
                 fragmentList = new ArrayList<>();
                 allYearList = new ArrayList<>();
-                progressBar.setVisibility(View.GONE);
+                animationDrawable.stop();
+                refreshView.setVisibility(View.GONE);
 
                 initializeYears();
-                initFragmentList(dataBean);
+                initFragmentList(dataBean.getData());
                 setTabLayout();
-            }
-        }, uid);
+                }
+        }, account, password);
     }
-
 
     private void setTabLayout(){
         for (String tabTitles: yearList){

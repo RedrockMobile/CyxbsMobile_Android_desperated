@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
-import com.mredrock.cyxbs.model.VolunteerTime;
 
 
 import java.util.List;
@@ -17,8 +16,7 @@ public class VolunteerFragmentAdapter extends FragmentPagerAdapter {
     private List<Fragment> fragmentList;
     private List<String> yearList;
 
-    public VolunteerFragmentAdapter(FragmentManager fm
-            , List<Fragment> fragmentList, List<String> yearList) {
+    public VolunteerFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> yearList) {
         super(fm);
         this.fragmentList = fragmentList;
         this.yearList = yearList;
