@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCar;
+import com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCarActivity;
 
 /**
  * Created by glossimar on 2017/12/26.
@@ -48,13 +48,13 @@ public class ExploreSchoolCarDialog {
 
         try {
             switch (type) {
-                case ExploreSchoolCar.LOST_SERVICES:
+                case ExploreSchoolCarActivity.LOST_SERVICES:
                     dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_school_car_not_serve);
                     break;
-                case ExploreSchoolCar.TIME_OUT:
+                case ExploreSchoolCarActivity.TIME_OUT:
                     dialog.getWindow().setBackgroundDrawableResource(R.drawable.ic_school_car_search_time_out);
                     break;
-                case ExploreSchoolCar.NO_GPS:
+                case ExploreSchoolCarActivity.NO_GPS:
                     dialog.getWindow().setBackgroundDrawableResource(R.drawable.ic_school_car_search_no_gps);
                     negativeButton.setOnClickListener(v -> {
                         dialog.cancel();

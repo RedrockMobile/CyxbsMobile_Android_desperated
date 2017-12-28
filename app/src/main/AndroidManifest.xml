@@ -327,7 +327,7 @@
             android:name=".PushActivity"
             android:exported="true" />
         <!--<activity android:name=".ui.activity.explore.SchoolCarSearch" />-->
-        <activity android:name=".ui.activity.explore.ExploreSchoolCar" />
+        <activity android:name=".ui.activity.explore.ExploreSchoolCarActivity" />
         <activity android:name=".ui.activity.explore.SchoolCarLearnMore"></activity>
     </application>
 

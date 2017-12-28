@@ -15,7 +15,7 @@ import com.mredrock.cyxbs.model.RollerViewInfo;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCar;
+import com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCarActivity;
 import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
@@ -60,7 +60,7 @@ public class ExploreFragment extends BaseFragment {
     @OnClick(R.id.explore_map_holder)
     void clickToMap() {
         if (isAdded()) {
-            ExploreSchoolCar.startSchoolCarActivity(getActivity());
+            MapActivity.startMapActivity(getActivity());
         }
     }
 
@@ -94,6 +94,10 @@ public class ExploreFragment extends BaseFragment {
         LostActivity.start(getActivity());
     }
 
+    @OnClick(R.id.explore_school_car)
+    void clickToExploreSchoolCar() {
+        ExploreSchoolCarActivity.startSchoolCarActivity(getActivity());
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

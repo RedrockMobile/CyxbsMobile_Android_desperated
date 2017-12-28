@@ -8,13 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -50,12 +46,9 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.ExploreSchoolCarDialog;
 
-import java.security.Permission;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -66,9 +59,9 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
-public class ExploreSchoolCar extends BaseActivity {
+public class ExploreSchoolCarActivity extends BaseActivity {
 
-    private static final String TAG = "ExploreSchoolCar";
+    private static final String TAG = "ExploreSchoolCarActivity";
     public static final int TIME_OUT = 1;
     public static final int LOST_SERVICES = 2;
     public static final int NO_GPS = 3;
@@ -110,7 +103,7 @@ public class ExploreSchoolCar extends BaseActivity {
 
 
     public static void startSchoolCarActivity(Activity startingActivity) {
-        Intent intent = new Intent(startingActivity, ExploreSchoolCar.class);
+        Intent intent = new Intent(startingActivity, ExploreSchoolCarActivity.class);
         startingActivity.startActivity(intent);
     }
 
