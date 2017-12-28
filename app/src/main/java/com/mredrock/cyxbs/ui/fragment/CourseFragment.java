@@ -219,6 +219,7 @@ public class CourseFragment extends BaseFragment {
     }
 
     private void loadCourse(int week, boolean update, boolean forceFetch) {
+        showNoCourseFrame(true);
 
         if (BaseAPP.isLogin()) {
             mUser = BaseAPP.getUser(getActivity());
@@ -238,15 +239,6 @@ public class CourseFragment extends BaseFragment {
                                 courseList.clear();
                                 courseList.addAll(courses);
                                 loadAffair(mWeek);
-
-                                if (courses.isEmpty()) {
-                                    mNoCourseHolder.setVisibility(View.VISIBLE);
-                                    mNoCourseHolder.setTranslationY(DensityUtils.getScreenHeight(getContext()) * 0.13f);
-                                    mCourseScheduleContent.setVisibility(View.GONE);
-                                } else {
-                                    mNoCourseHolder.setVisibility(View.GONE);
-                                    mCourseScheduleContent.setVisibility(View.VISIBLE);
-                                }
                             }
 
                             @Override
@@ -257,7 +249,7 @@ public class CourseFragment extends BaseFragment {
                             }
 
                             @Override
-                             public void onComplete() {
+                            public void onComplete() {
                                 super.onComplete();
                                 loadAffair(week);
                                 hideRefreshLoading();
@@ -266,7 +258,7 @@ public class CourseFragment extends BaseFragment {
 
                 RequestManager.getInstance().getAffair(new SimpleObserver<>(getActivity(), false, false, new SubscriberListener<List<Affair>>() {
                     @Override
-                     public void onComplete() {
+                    public void onComplete() {
                         super.onComplete();
                     }
 
@@ -278,7 +270,7 @@ public class CourseFragment extends BaseFragment {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Observer<List<Course>>() {
                                     @Override
-                                     public void onComplete() {
+                                    public void onComplete() {
 
                                     }
 
@@ -329,12 +321,24 @@ public class CourseFragment extends BaseFragment {
         }
     }
 
+    private void showNoCourseFrame(boolean show) {
+        if (show) {
+            mNoCourseHolder.setVisibility(View.VISIBLE);
+            mNoCourseHolder.setTranslationY(DensityUtils.getScreenHeight(getContext()) * 0.13f);
+            mCourseScheduleContent.setVisibility(View.GONE);
+        } else {
+            mNoCourseHolder.setVisibility(View.GONE);
+            mCourseScheduleContent.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     private synchronized void loadAffair(int mWeek) {
         List<Course> tempCourseList = new ArrayList<>();
         tempCourseList.addAll(courseList);
         tempCourseList.addAll(affairList);
         tempCourseList.addAll(localAffairList);
+        showNoCourseFrame(tempCourseList.isEmpty());
         if (mCourseScheduleContent != null) {
             mCourseScheduleContent.clearList();
             mCourseScheduleContent.addContentView(tempCourseList);
@@ -345,7 +349,8 @@ public class CourseFragment extends BaseFragment {
             observable.map(courses -> {
                 CourseListAppWidgetUpdateService.start(getActivity(), false);
                 return courses;
-            }).subscribe();
+            }).subscribe(courses -> {
+            }, Throwable::printStackTrace);
         }
 
     }
@@ -357,7 +362,7 @@ public class CourseFragment extends BaseFragment {
             Affair affair = (Affair) event.getCourse();
             RequestManager.getInstance().deleteAffair(new SimpleObserver<>(getActivity(), true, true, new SubscriberListener<Object>() {
                 @Override
-                 public void onComplete() {
+                public void onComplete() {
                     super.onComplete();
 
 
@@ -378,7 +383,7 @@ public class CourseFragment extends BaseFragment {
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new SimpleObserver(getActivity(), new SubscriberListener() {
                                 @Override
-                                 public void onComplete() {
+                                public void onComplete() {
                                     super.onComplete();
                                 }
 
