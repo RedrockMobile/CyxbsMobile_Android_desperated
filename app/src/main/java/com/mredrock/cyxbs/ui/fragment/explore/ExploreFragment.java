@@ -16,6 +16,7 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCarActivity;
+import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
 import com.mredrock.cyxbs.ui.activity.explore.electric.ElectricChargeActivity;
@@ -59,7 +60,7 @@ public class ExploreFragment extends BaseFragment {
     @OnClick(R.id.explore_map_holder)
     void clickToMap() {
         if (isAdded()) {
-            ExploreSchoolCarActivity.startSchoolCarActivity(getActivity());
+            MapActivity.startMapActivity(getActivity());
         }
     }
 
@@ -71,6 +72,11 @@ public class ExploreFragment extends BaseFragment {
             startLocation[0] += mWhatToEatHolder.getWidth() / 2;
             WhatToEatActivity.startWhatToEatActivity(startLocation, getActivity());
         }
+    }
+
+    @OnClick(R.id.explore_school_car)
+    void clickToSchoolcar(){
+        ExploreSchoolCarActivity.startSchoolCarActivity(getActivity());
     }
 
     @OnClick(R.id.explore_surrounding_food_holder)

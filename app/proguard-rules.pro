@@ -46,7 +46,6 @@
 -dontwarn com.a.a.**
 -dontwarn com.autonavi.**
 
-
 -keep class com.autonavi.** {*;}
 -keep class com.a.a.** {*;}
 #butterknife

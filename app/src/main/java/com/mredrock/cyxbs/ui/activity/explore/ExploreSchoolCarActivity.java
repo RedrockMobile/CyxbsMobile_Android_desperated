@@ -142,7 +142,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
 
     private void initView(){
         dialog = new ExploreSchoolCarDialog();
-        Glide.with(this ).load( R.drawable.ic_school_car_search_load).asGif().into(loadImage) ;
+//        Glide.with(this ).load( R.drawable.ic_school_car_search_load).asGif().into(loadImage) ;
         SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
 
         if (toolbar != null) {
@@ -317,15 +317,16 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                 }
 
                 if (firstEnter && aLong > 5) {
+                    disposable.dispose();
+                    timer();
                     showMap(schoolCarLocation.getStatus());
                     firstEnter = false;
                 }
 
-                if (!firstEnter && locationStatus == SCHOOL_CAR){
+                if (locationStatus == SCHOOL_CAR){
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon()), 17f);
                     aMap.animateCamera(update);
                 }
-//
                 smoothMoveList.add(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon()));
             }
 
@@ -345,7 +346,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         float scaleWidth = ((float) 150) / width;
-        float scaleHeight = ((float) 75) / height;
+        float scaleHeight = ((float) 65) / height;
         Matrix matrix = new Matrix();
         matrix.postScale(scaleWidth, scaleHeight);
         Bitmap bitmapChanged = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
@@ -363,7 +364,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
 
     private void drawTraceLine(){
         Polyline polyline =aMap.addPolyline(new PolylineOptions().
-                addAll(smoothMoveList.subList(0, smoothMoveList.size() - 1)).width(8).color(Color.argb(255, 93,152,255)));
+                addAll(smoothMoveList.subList(0, smoothMoveList.size() - 2)).width(8).color(Color.argb(255, 93,152,255)));
     }
 
     public void changeCarOrientation(LatLng latlng1, LatLng latlng2, double errorRange) {
