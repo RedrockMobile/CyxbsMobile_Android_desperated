@@ -88,6 +88,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
 //    List<LatLng> testList = setPoints();
     private Bundle savedInstanceState;
     private boolean firstEnter = true;
+    private boolean ifLocation = true;
     private int locationStatus;
     private double carAngle;
     private Disposable disposable;
@@ -117,10 +118,8 @@ public class ExploreSchoolCarActivity extends BaseActivity {
 
         setContentView(R.layout.activity_explore_school_car);
         ButterKnife.bind(this);
-        cheakActivityPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 2);
         cheakActivityPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
-//
-//        loadCarLocation(savedInstanceState);
+
     }
 
     private boolean checkBeforeEnter(LatLng carLocation){
@@ -181,8 +180,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         BitmapDescriptor descriptor;
         locationStyle = new MyLocationStyle();
 
-        User user = BaseAPP.getUser(this);
-        if (user.gender.equals("女")){
+        if (BaseAPP.getUser(this).gender.equals("女")){
             descriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_school_car_search_girl);
         } else {
             descriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_school_car_search_boy);
@@ -205,11 +203,12 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                 Log.d(TAG, "initAMap: gggggggggggggg");
             }
         }
+        if (ifLocation) {
+            aMap.setMyLocationEnabled(true);
+            aMap.setMyLocationStyle(locationStyle);
+        }
 
-        aMap.setMyLocationEnabled(true);
-        aMap.setMyLocationStyle(locationStyle);
         aMap.getUiSettings().setMyLocationButtonEnabled(false);
-
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(29.531876 ,106.606789), 17f);
         aMap.animateCamera(update);
         smoothMarker = new SmoothMoveMarker(aMap);
@@ -269,14 +268,18 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                 switch (locationStatus) {
                     case HOLE_SCHOOL:
                         holeSchoolButton.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_school_car_search_me));
-                        locationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW);
-                        aMap.setMyLocationStyle(locationStyle);
+                        if (ifLocation) {
+                            locationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW);
+                            aMap.setMyLocationStyle(locationStyle);
+                        }
                         locationStatus = ME;
                         break;
                     case ME:
                         holeSchoolButton.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_school_car_search_car_button));
-                        locationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER);
-                        aMap.setMyLocationStyle(locationStyle);
+                        if (ifLocation) {
+                            locationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER);
+                            aMap.setMyLocationStyle(locationStyle);
+                        }
                         locationStatus = SCHOOL_CAR;
                         break;
                     case  SCHOOL_CAR:
@@ -293,10 +296,11 @@ public class ExploreSchoolCarActivity extends BaseActivity {
             lPHoleSchool.rightMargin = 25;
             lPHoleSchool.topMargin = 0;
             relativeLayoutDown.addView(holeSchoolButton, lPHoleSchool);
-
-            initLocationType();
+            if (ifLocation) {
+                initLocationType();
+                initData();
+            }
             initAMap();
-            initData();
         } else {
             Toast.makeText(this, "校车暂时不在线哟～", Toast.LENGTH_SHORT).show();
         }
@@ -317,7 +321,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                 }
 
                 if (firstEnter && aLong > 5) {
-                    disposable.dispose();
+                    if (disposable != null) disposable.dispose();
                     timer();
                     showMap(schoolCarLocation.getStatus());
                     firstEnter = false;
@@ -520,10 +524,10 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         } else {
             switch (processingMethod) {
                 case 1:
-                    initView();
-                    loadCarLocation(3);
                     break;
                 case 2:
+                    initView();
+                    loadCarLocation(3);
                     break;
             }
         }
@@ -532,15 +536,29 @@ public class ExploreSchoolCarActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if (requestCode == 1) {
-                initView();
-                loadCarLocation(3);
+            switch (requestCode ) {
+                case 1:
+                    cheakActivityPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 2);
+                    break;
+                case 2:
+                    initView();
+                    loadCarLocation(3);
+                    break;
             }
         } else {
-            if (dialog == null) {
-                dialog = new ExploreSchoolCarDialog();
+            switch (requestCode) {
+                case 1:
+                    ifLocation = false;
+                    cheakActivityPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 2);
+                    break;
+                case 2:
+                    if (dialog == null) {
+                        dialog = new ExploreSchoolCarDialog();
+                    }
+                    dialog.show(this, NO_GPS);
+                    finish();
+                    break;
             }
-            dialog.show(this, NO_GPS);
         }
     }
 }
