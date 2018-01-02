@@ -45,7 +45,7 @@
 
 -dontwarn com.a.a.**
 -dontwarn com.autonavi.**
- #-ignorewarnings
+ -ignorewarnings
 
 
 -keep class com.autonavi.** {*;}
