@@ -69,10 +69,7 @@ public class VolunteerRecyclerAdapter extends RecyclerView.Adapter<VolunteerRecy
         holder.monthRecycler.setLayoutManager(new LinearLayoutManager(context));
 
         if (position == yearList.size()-1){
-
             holder.divider.setVisibility(View.VISIBLE);
-
-
         }
     }
 

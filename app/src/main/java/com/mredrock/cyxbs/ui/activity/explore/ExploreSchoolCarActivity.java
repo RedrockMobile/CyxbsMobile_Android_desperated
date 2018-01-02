@@ -119,14 +119,16 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         setContentView(R.layout.activity_explore_school_car);
         ButterKnife.bind(this);
         cheakActivityPermission(Manifest.permission.ACCESS_FINE_LOCATION, 1);
-
+        cheakActivityPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 2);
     }
 
     private boolean checkBeforeEnter(LatLng carLocation){
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR);
         int AM_PM = calendar.get(Calendar.AM_PM);
+        Log.d(TAG, "checkBeforeEnter: .....,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + String.valueOf(((AM_PM == Calendar.AM && hour < 11 )||(AM_PM == Calendar.PM && ((hour >1 && hour < 5) || (hour > 9))))));
         if(((AM_PM == Calendar.AM && hour < 11 )||(AM_PM == Calendar.PM && ((hour >1 && hour < 5) || (hour > 9))))) {
+            Log.d(TAG, "checkBeforeEnter: ..................................................");
             dialog.show(this, TIME_OUT);
             return false;
         } else {
@@ -538,7 +540,6 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             switch (requestCode ) {
                 case 1:
-                    cheakActivityPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 2);
                     break;
                 case 2:
                     initView();
@@ -549,7 +550,6 @@ public class ExploreSchoolCarActivity extends BaseActivity {
             switch (requestCode) {
                 case 1:
                     ifLocation = false;
-                    cheakActivityPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 2);
                     break;
                 case 2:
                     if (dialog == null) {
