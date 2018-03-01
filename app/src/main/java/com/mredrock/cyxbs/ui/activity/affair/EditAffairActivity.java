@@ -61,6 +61,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import kotlin.Unit;
 
 
 public class EditAffairActivity extends BaseActivity {
@@ -223,20 +224,6 @@ public class EditAffairActivity extends BaseActivity {
                 });
     }
 
-    /*
-        private void setData(Affair course) {
-            mTitleEdit.setText(course.course);
-            mContentEdit.setText(course.teacher);
-            mRemindText.setText(TIMES[transferTimeToText(course.time)]);
-
-            mWeekAdapter.addAllWeekNum(course.week);
-
-            Position position = new Position(course.hash_day, course.hash_lesson);
-            mPositions.add(position);
-            StringBuilder builder = new StringBuilder();
-            mTimeText.setText(builder.toString());
-        }
-    */
     private boolean initData() {
         Position position = (Position) getIntent().getSerializableExtra(BUNDLE_KEY);
         if (position != null) {
@@ -446,20 +433,6 @@ public class EditAffairActivity extends BaseActivity {
         return index;
     }
 
-    //不知道啥用，删了~
-/*
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTimeChooseEvent(TimeChooseEvent event) {
-        mPositions.clear();
-        mPositions.addAll(event.getPositions());
-        StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i < mPositions.size() && i < 3; i++) {
-            stringBuffer.append(WEEKS[mPositions.get(i).getX()] + CLASSES[mPositions.get(i).getY()] + " ");
-        }
-        mTimeText.setText(stringBuffer.toString());
-    }
-*/
-
     class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.WeekViewHolder> {
         private List<String> weekName = new ArrayList<>();
         private Set<Integer> weekNum = new HashSet<>();
@@ -576,7 +549,7 @@ public class EditAffairActivity extends BaseActivity {
             }
             affair.week = affairItem.getDate().get(0).getWeek();
             if (!isStartByCourse) {
-                RequestManager.getInstance().addAffair(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
+                RequestManager.getInstance().addAffair(new SimpleObserver<>(this, true, false, new SubscriberListener<Unit>() {
                     @Override
                     public void onComplete() {
                         super.onComplete();
@@ -607,34 +580,10 @@ public class EditAffairActivity extends BaseActivity {
                                     }
                                 });
                     }
-
-                    @Override
-                    public boolean onError(Throwable e) {
-                        if (e instanceof SocketTimeoutException)
-                            Toast.makeText(EditAffairActivity.this, "连接超时，检查一下网络哦", Toast.LENGTH_SHORT).show();
-                        else if (e instanceof RedrockApiException)
-                            Toast.makeText(EditAffairActivity.this, "服务器出了点小毛病，请稍后再试", Toast.LENGTH_SHORT).show();
-                        else if (e instanceof MalformedJsonException) {
-
-                        }
-                        return true;
-
-                    }
-
-                    @Override
-                    public void onNext(Object object) {
-                        super.onNext(object);
-                        // LOGE("EditAffairActivity",redrockApiWrapper.id);
-                    }
-
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                    }
                 }), BaseAPP.getUser(this).stuNum, BaseAPP.getUser(this).idNum, x, title, content, gson.toJson(affairItem.getDate()), affairItem.getTime());
             } else {
                 //  Log.e(TAG, "onSaveClick: isStartByCourse");
-                RequestManager.getInstance().editAffair(new SimpleObserver<Object>(this, true, false, new SubscriberListener<Object>() {
+                RequestManager.getInstance().editAffair(new SimpleObserver(this, true, false, new SubscriberListener<Unit>() {
                     @Override
                     public void onComplete() {
                         super.onComplete();
@@ -677,17 +626,6 @@ public class EditAffairActivity extends BaseActivity {
                             Log.e(TAG, "onError: " + e.getMessage());
                         }
                         return true;
-                    }
-
-                    @Override
-                    public void onNext(Object object) {
-                        super.onNext(object);
-                        // LOGE("EditAffairActivity",redrockApiWrapper.id);
-                    }
-
-                    @Override
-                    public void onStart() {
-                        super.onStart();
                     }
                 }), BaseAPP.getUser(this).stuNum, BaseAPP.getUser(this).idNum, x, title, content, gson.toJson(affairItem.getDate()), affairItem.getTime());
             }
