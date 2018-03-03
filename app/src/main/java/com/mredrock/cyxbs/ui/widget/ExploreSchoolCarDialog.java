@@ -40,7 +40,7 @@ public class ExploreSchoolCarDialog {
         try {
             Window dialogWindow =  dialog.getWindow();
             dialog.show();
-            dialogWindow.setLayout(845, 1070);
+            dialogWindow.setLayout(645, 870);
         } catch (Exception e) {
             e.printStackTrace();
         }
