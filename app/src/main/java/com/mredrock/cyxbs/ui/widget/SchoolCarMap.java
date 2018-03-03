@@ -123,7 +123,6 @@ public class SchoolCarMap {
                 if (mapView == null){
                 }
             }
-            if (locationStyle == null) Log.d(TAG, "showMap: aaaa");
             carMapInterface.initLocationMapButton(aMap, locationStyle);
         } else {
             Toast.makeText(context, "校车暂时不在线哟～", Toast.LENGTH_SHORT).show();
