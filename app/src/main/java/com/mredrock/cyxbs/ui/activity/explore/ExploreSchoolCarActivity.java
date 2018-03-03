@@ -28,33 +28,21 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdate;
 import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.BitmapDescriptor;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.amap.api.maps.model.Polyline;
-import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.maps.utils.overlay.SmoothMoveMarker;
-import com.bumptech.glide.Glide;
 import com.jude.swipbackhelper.SwipeBackHelper;
-import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.SchoolCarLocation;
-import com.mredrock.cyxbs.model.User;
-import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.ui.Interface.SchoolCarMapInterface;
+import com.mredrock.cyxbs.ui.Interface.SchoolCarInterface;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.ExploreSchoolCarDialog;
 import com.mredrock.cyxbs.ui.widget.SchoolCarMap;
 import com.mredrock.cyxbs.ui.widget.SchoolcarsSmoothMove;
 
-import java.security.Permission;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -146,7 +134,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
     }
 
     private void initSchoolCarMap() {
-        schoolCarMap = new SchoolCarMap(this, savedInstanceState, new SchoolCarMapInterface() {
+        schoolCarMap = new SchoolCarMap(this, savedInstanceState, new SchoolCarInterface() {
             @Override
             public void initLocationMapButton(AMap aMap, MyLocationStyle locationStyle) {
                 RelativeLayout relativeLayoutDown = new RelativeLayout(ExploreSchoolCarActivity.this);
@@ -197,7 +185,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
             }
 
             @Override
-            public void init(SchoolCarLocation carLocationInfo, long aLong, int carID) {
+            public void processLocationInfo(SchoolCarLocation carLocationInfo, long aLong, int carID) {
 
             }
         });
@@ -207,13 +195,13 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         dialog = new ExploreSchoolCarDialog();
         makerBitmap = getSmoothMakerBitmap();
         smoothMoveData = new SchoolcarsSmoothMove(schoolCarMap);
-        smoothMoveData.setCarMapInterface(new SchoolCarMapInterface() {
+        smoothMoveData.setCarMapInterface(new SchoolCarInterface() {
             @Override
             public void initLocationMapButton(AMap aMap, MyLocationStyle locationStyle) {
             }
 
             @Override
-            public void init(SchoolCarLocation carLocationInfo, long aLong, int carID) {
+            public void processLocationInfo(SchoolCarLocation carLocationInfo, long aLong, int carID) {
                 dataList = carLocationInfo.getData();
                 if (checkBeforeEnter(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon())) && firstEnter && aLong == 3) {
                     timer();
@@ -349,25 +337,25 @@ public class ExploreSchoolCarActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (dialog != null) {
+            dialog.cancleDialog();
+        }
         if (schoolCarMap != null) {
             schoolCarMap.distroyMap(locationClient);
         }
         if (disposable != null) {
             disposable.dispose();
         }
-        if (dialog != null) {
-            dialog.cancleDialog();
-        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (schoolCarMap != null) {
-            schoolCarMap.pauseMap();
-        }
         if (dialog != null) {
             dialog.cancleDialog();
+        }
+        if (schoolCarMap != null) {
+            schoolCarMap.pauseMap();
         }
     }
 
