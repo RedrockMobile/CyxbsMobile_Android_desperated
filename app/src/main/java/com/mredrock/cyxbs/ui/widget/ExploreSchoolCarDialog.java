@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
@@ -38,9 +39,13 @@ public class ExploreSchoolCarDialog {
             }
         });
         try {
+            WindowManager manager = activity.getWindowManager();
+            int width = manager.getDefaultDisplay().getWidth();
+            int height = manager.getDefaultDisplay().getHeight();
+
             Window dialogWindow =  dialog.getWindow();
             dialog.show();
-            dialogWindow.setLayout(645, 870);
+            dialogWindow.setLayout(width*4/5, height*7/11);
         } catch (Exception e) {
             e.printStackTrace();
         }

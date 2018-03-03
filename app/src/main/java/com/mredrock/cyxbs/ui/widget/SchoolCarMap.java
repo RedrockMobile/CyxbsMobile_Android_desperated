@@ -1,6 +1,5 @@
 package com.mredrock.cyxbs.ui.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -24,7 +23,7 @@ import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.utils.overlay.SmoothMoveMarker;
 import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.ui.Interface.SchoolCarMapInterface;
+import com.mredrock.cyxbs.ui.Interface.SchoolCarInterface;
 
 /**
  * Created by glossimar on 2018/1/29.
@@ -35,7 +34,7 @@ public class SchoolCarMap {
 
     private Context context;
     private Bundle savedInstanceState;
-    private SchoolCarMapInterface carMapInterface;
+    private SchoolCarInterface carInterface;
     private AMap aMap;
     private MapView mapView;
     private MyLocationStyle locationStyle;
@@ -43,10 +42,10 @@ public class SchoolCarMap {
 
 
 
-    public SchoolCarMap(Context context, Bundle savedInstanceState, SchoolCarMapInterface carMapInterface) {
+    public SchoolCarMap(Context context, Bundle savedInstanceState, SchoolCarInterface carInterface) {
         this.context = context;
         this.savedInstanceState = savedInstanceState;
-        this.carMapInterface = carMapInterface;
+        this.carInterface = carInterface;
     }
 
     public SchoolCarMap() {
@@ -123,7 +122,7 @@ public class SchoolCarMap {
                 if (mapView == null){
                 }
             }
-            carMapInterface.initLocationMapButton(aMap, locationStyle);
+            carInterface.initLocationMapButton(aMap, locationStyle);
         } else {
             Toast.makeText(context, "校车暂时不在线哟～", Toast.LENGTH_SHORT).show();
         }

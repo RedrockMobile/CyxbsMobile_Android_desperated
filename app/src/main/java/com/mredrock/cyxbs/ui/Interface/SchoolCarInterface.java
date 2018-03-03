@@ -10,7 +10,7 @@ import java.util.List;
  * Created by glossimar on 2018/1/29.
  */
 
-public interface SchoolCarMapInterface {
+public interface SchoolCarInterface {
     void initLocationMapButton (AMap aMap, MyLocationStyle locationStyle);
-    void init(SchoolCarLocation carLocationInfo, long aLong, int carID);
+    void processLocationInfo(SchoolCarLocation carLocationInfo, long aLong, int carID);
 }

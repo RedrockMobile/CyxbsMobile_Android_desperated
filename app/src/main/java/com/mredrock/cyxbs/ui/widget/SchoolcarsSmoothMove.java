@@ -1,28 +1,17 @@
 package com.mredrock.cyxbs.ui.widget;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.util.Log;
-import android.util.Pair;
 
 import com.amap.api.maps.AMap;
-import com.amap.api.maps.CameraUpdate;
-import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
-import com.amap.api.maps.utils.SpatialRelationUtil;
 import com.amap.api.maps.utils.overlay.SmoothMoveMarker;
-import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.SchoolCarLocation;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.ui.Interface.SchoolCarMapInterface;
-import com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCarActivity;
+import com.mredrock.cyxbs.ui.Interface.SchoolCarInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +27,7 @@ public class SchoolcarsSmoothMove {
     private double carAngle;
 
     private SchoolCarMap schoolCarMap;
-    private SchoolCarMapInterface carMapInterface;
+    private SchoolCarInterface carInterface;
     private List<LatLng> smoothMoveList1;
     private List<LatLng> smoothMoveList2;
     private List<LatLng> smoothMoveList3;
@@ -57,7 +46,7 @@ public class SchoolcarsSmoothMove {
 
             @Override
             public void onNext(SchoolCarLocation schoolCarLocation) {
-              carMapInterface.init(schoolCarLocation, aLong, carID);
+              carInterface.processLocationInfo(schoolCarLocation, aLong, carID);
               SchoolCarLocation.Data location = schoolCarLocation.getData().get(carID-1);
               switch (carID) {
                   case 1:
@@ -164,8 +153,8 @@ public class SchoolcarsSmoothMove {
 
     }
 
-    public void setCarMapInterface(SchoolCarMapInterface carMapInterface) {
-        this.carMapInterface = carMapInterface;
+    public void setCarMapInterface(SchoolCarInterface carMapInterface) {
+        this.carInterface = carMapInterface;
     }
 
     public List<LatLng> getSmoothMoveList(int carID) {
