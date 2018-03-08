@@ -2,6 +2,7 @@ package com.mredrock.cyxbs.ui.widget;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
@@ -47,19 +48,21 @@ public class SchoolcarsSmoothMove {
             @Override
             public void onNext(SchoolCarLocation schoolCarLocation) {
               carInterface.processLocationInfo(schoolCarLocation, aLong, carID);
-              SchoolCarLocation.Data location = schoolCarLocation.getData().get(carID-1);
-              switch (carID) {
-                  case 1:
-                    smoothMoveList1.add(new LatLng(location.getLat(), location.getLon()));
-                    break;
-                case 2:
-                    smoothMoveList2.add(new LatLng(location.getLat(), location.getLon()));
-                    break;
-                case 3:
-                    smoothMoveList3.add(new LatLng(location.getLat(), location.getLon()));
-                    break;
-                default:
-                    break;
+              if (carID != 0) {
+                  SchoolCarLocation.Data location = schoolCarLocation.getData().get(carID - 1);
+                  switch (carID) {
+                      case 1:
+                          smoothMoveList1.add(new LatLng(location.getLat(), location.getLon()));
+                          break;
+                      case 2:
+                          smoothMoveList2.add(new LatLng(location.getLat(), location.getLon()));
+                          break;
+                      case 3:
+                          smoothMoveList3.add(new LatLng(location.getLat(), location.getLon()));
+                          break;
+                      default:
+                          break;
+                  }
               }
             }
 
@@ -96,15 +99,15 @@ public class SchoolcarsSmoothMove {
         }
     }
 
-    public void smoothMove(List<LatLng> smoothMoveList, List<SmoothMoveMarker> smoothMoveMarkers, Bitmap bitmapChanged ) {
+    public void smoothMove(List<SmoothMoveMarker> smoothMoveMarkers, Bitmap bitmapChanged ) {
         SmoothMoveMarker smoothMarker = new SmoothMoveMarker(schoolCarMap.getaMap());
         smoothMoveMarkers.add(smoothMarker);
         int carAmount = smoothMoveMarkers.size() - 1;
         smoothMoveMarkers.get(carAmount).setDescriptor(BitmapDescriptorFactory.fromBitmap(bitmapChanged));
-        changeCarOrientation(smoothMoveMarkers.get(carAmount), smoothMoveList.get(smoothMoveList.size() - 4), smoothMoveList.get(smoothMoveList.size() - 3), 2);
-        smoothMoveMarkers.get(carAmount).setPoints(smoothMoveList.subList(smoothMoveList.size() - 4, smoothMoveList.size() - 3));
-        smoothMoveMarkers.get(carAmount).setTotalDuration(1);
-        drawTraceLine(schoolCarMap.getaMap(),smoothMoveList);
+//        changeCarOrientation(smoothMoveMarkers.get(carAmount), smoothMoveList.get(smoothMoveList.size() - 4), smoothMoveList.get(smoothMoveList.size() - 3), 2);
+        smoothMoveMarkers.get(carAmount).setPoints(getSmoothMoveList(carAmount).subList(getSmoothMoveList(carAmount).size() - 3, getSmoothMoveList(carAmount).size() - 1));
+        smoothMoveMarkers.get(carAmount).setTotalDuration(2);
+        drawTraceLine(schoolCarMap.getaMap(),getSmoothMoveList(carAmount));
         smoothMoveMarkers.get(carAmount).startSmoothMove();
     }
 
