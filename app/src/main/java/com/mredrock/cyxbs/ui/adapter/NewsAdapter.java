@@ -40,6 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
+import kotlin.Unit;
 
 /**
  * Created by mathiasluo on 16-4-4.
@@ -186,7 +187,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         public void like(TextView textView) {
             RequestManager.getInstance().addThumbsUp(new SimpleObserver<>(textView.getContext()
-                            , new SubscriberListener<String>() {
+                            , new SubscriberListener<Unit>() {
                         @Override
                         public boolean onError(Throwable e) {
                             super.onError(e);
@@ -197,7 +198,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         }
 
                         @Override
-                        public void onNext(String s) {
+                        public void onNext(Unit s) {
                             super.onNext(s);
                             //Log.i(TAG, "赞成功");
                             String likeNumber = Integer.parseInt(textView.getText().toString()) + 1 + "";
@@ -223,7 +224,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         public void dislike(TextView textView) {
             RequestManager.getInstance().cancelThumbsUp(new SimpleObserver<>(textView.getContext()
-                            , new SubscriberListener<String>() {
+                            , new SubscriberListener<Unit>() {
                         @Override
                         public boolean onError(Throwable e) {
                             super.onError(e);
@@ -234,7 +235,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         }
 
                         @Override
-                        public void onNext(String s) {
+                        public void onNext(Unit s) {
                             super.onNext(s);
                             String likeNumber = Integer.parseInt(textView.getText().toString()) - 1 + "";
 

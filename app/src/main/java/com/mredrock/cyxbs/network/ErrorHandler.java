@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.network;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.mredrock.cyxbs.BuildConfig;
@@ -48,6 +49,8 @@ public class ErrorHandler {
                     MobclickAgent.reportError(context, ((HttpException) e).response().raw().toString());
                 }
                 LogUtils.LOGE("HttpException", "RawResponse: " + ((HttpException) e).response().raw().toString());
+            } else if (e.getMessage().equals("Are you sure the data exist ? If not consider use RedrockApiNoDataWrapperFunc instead.")) {
+                Log.e("SimpleObserver", "onError", e);
             } else {
                 if (e.getMessage()!=null&&BuildConfig.DEBUG) {
                     Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();

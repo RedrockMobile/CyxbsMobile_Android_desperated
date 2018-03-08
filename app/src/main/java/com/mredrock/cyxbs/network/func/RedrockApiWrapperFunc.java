@@ -17,6 +17,9 @@ public class RedrockApiWrapperFunc<T> implements Function<RedrockApiWrapper<T>, 
         if (wrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
             throw new RedrockApiException(wrapper.info);
         }
+        if (wrapper.data == null) {
+            throw new RedrockApiException("Are you sure the data exist ? If not consider use RedrockApiNoDataWrapperFunc instead.");
+        }
         return wrapper.data;
     }
 }

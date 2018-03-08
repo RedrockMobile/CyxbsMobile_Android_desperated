@@ -1,11 +1,11 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
 import com.mredrock.cyxbs.config.Const;
-import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.umeng.analytics.MobclickAgent;
 
 import io.reactivex.Observer;
+import kotlin.Unit;
 
 
 public class EditPhoneActivity extends EditCommonActivity {
@@ -25,7 +25,7 @@ public class EditPhoneActivity extends EditCommonActivity {
 
 
     @Override
-    protected void provideData(Observer<RedrockApiWrapper<Object>> observer, String stuNum, String idNum, String info) {
+    protected void provideData(Observer<Unit> observer, String stuNum, String idNum, String info) {
         RequestManager.getInstance().setPersonPhone(observer, stuNum, idNum, info);
     }
 

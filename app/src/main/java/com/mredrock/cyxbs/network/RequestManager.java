@@ -47,7 +47,6 @@ import com.mredrock.cyxbs.network.func.ElectricQueryFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiNoDataWrapperFunc;
 import com.mredrock.cyxbs.network.func.RedrockApiWrapperFunc;
 import com.mredrock.cyxbs.network.func.StartPageFunc;
-import com.mredrock.cyxbs.network.func.UpdateVerifyFunc;
 import com.mredrock.cyxbs.network.func.UserCourseFilterFunc;
 import com.mredrock.cyxbs.network.func.UserInfoVerifyFunc;
 import com.mredrock.cyxbs.network.interceptor.StudentNumberInterceptor;
@@ -157,11 +156,9 @@ public enum RequestManager {
         return okHttpClient;
     }
 
-    public void checkUpdate(Observer<UpdateInfo> observer, int versionCode) {
+    public void checkUpdate(Observer<UpdateInfo> observer) {
 
-        Observable<UpdateInfo> observable = redrockApiService.update()
-                .map(new UpdateVerifyFunc(versionCode));
-
+        Observable<UpdateInfo> observable = redrockApiService.update();
         emitObservable(observable, observer);
     }
 
@@ -490,29 +487,29 @@ public enum RequestManager {
         emitObservable(observable, observer);
     }
 
-    public Observable<String> sendDynamic(int type_id,
-                                          String title,
-                                          String content,
-                                          String thumbnail_src,
-                                          String photo_src,
-                                          String user_id,
-                                          String stuNum,
-                                          String idNum) {
+    public Observable<Unit> sendDynamic(int type_id,
+                                        String title,
+                                        String content,
+                                        String thumbnail_src,
+                                        String photo_src,
+                                        String user_id,
+                                        String stuNum,
+                                        String idNum) {
 
         return redrockApiService.sendDynamic(type_id, title, user_id, content, thumbnail_src, photo_src, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                .map(new RedrockApiNoDataWrapperFunc()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<String> sendTopicArticle(int topicId,
-                                               String title,
-                                               String content,
-                                               String thumbnailSrc,
-                                               String photoSrc,
-                                               String stuNum,
-                                               String idNum
+    public Observable<Unit> sendTopicArticle(int topicId,
+                                             String title,
+                                             String content,
+                                             String thumbnailSrc,
+                                             String photoSrc,
+                                             String stuNum,
+                                             String idNum
     ) {
         return redrockApiService.sendTopicArticle(topicId, title, content, thumbnailSrc, photoSrc, stuNum, idNum, false)
-                .map(new RedrockApiWrapperFunc<>()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                .map(new RedrockApiNoDataWrapperFunc()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     public void getRemarks(Observer<List<CommentContent>> observer,
@@ -524,7 +521,7 @@ public enum RequestManager {
     }
 
 
-    public void postReMarks(Observer<String> observer,
+    public void postReMarks(Observer<Unit> observer,
                             String article_id,
                             int type_id,
                             String content,
@@ -532,42 +529,44 @@ public enum RequestManager {
                             String stuNum,
                             String idNum) {
         if (!checkWithUserId("没有完善信息,还想发回复？")) return;
-        Observable<String> observable = redrockApiService.addSocialComment(article_id, type_id, content, user_id, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>());
+        Observable<Unit> observable = redrockApiService.addSocialComment(article_id, type_id, content, user_id, stuNum, idNum)
+                .map(new RedrockApiNoDataWrapperFunc());
         emitObservable(observable, observer);
     }
 
-    public void addThumbsUp(Observer<String> observer,
+    public void addThumbsUp(Observer<Unit> observer,
                             String article_id,
                             int type_id,
                             String stuNum,
                             String idNum) {
         if (!checkWithUserId("没有完善信息,肯定不让你点赞呀")) return;
-        Observable<String> observable = redrockApiService.socialLike(article_id, type_id, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>());
+        Observable<Unit> observable = redrockApiService.socialLike(article_id, type_id, stuNum, idNum)
+                .map(new RedrockApiNoDataWrapperFunc());
         emitObservable(observable, observer);
     }
 
-    public void cancelThumbsUp(Observer<String> observer,
+    public void cancelThumbsUp(Observer<Unit> observer,
                                String article_id,
                                int type_id,
                                String stuNum,
                                String idNum) {
         if (!checkWithUserId("没有完善信息,肯定不让你点赞呀")) return;
-        Observable<String> observable = redrockApiService.socialUnlike(article_id, type_id, stuNum, idNum)
-                .map(new RedrockApiWrapperFunc<>());
+        Observable<Unit> observable = redrockApiService.socialUnlike(article_id, type_id, stuNum, idNum)
+                .map(new RedrockApiNoDataWrapperFunc());
         emitObservable(observable, observer);
     }
 
     @SuppressWarnings("unchecked")
-    public Observable<RedrockApiWrapper> setPersonInfo(String stuNum, String idNum, String photo_thumbnail_src, String photo_src) {
+    public Observable<Unit> setPersonInfo(String stuNum, String idNum, String photo_thumbnail_src, String photo_src) {
 
-        return redrockApiService.setPersonInfo(stuNum, idNum, photo_thumbnail_src, photo_src);
+        return redrockApiService.setPersonInfo(stuNum, idNum, photo_thumbnail_src, photo_src)
+                .map(new RedrockApiNoDataWrapperFunc());
     }
 
     @SuppressWarnings("unchecked")
-    public void setPersonNickName(Observer<RedrockApiWrapper<Object>> observer, String stuNum, String idNum, String nickName) {
-        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonNickName(stuNum, idNum, nickName);
+    public void setPersonNickName(Observer<Unit> observer, String stuNum, String idNum, String nickName) {
+        Observable<Unit> observable = redrockApiService.setPersonNickName(stuNum, idNum, nickName)
+                .map(new RedrockApiNoDataWrapperFunc());
         emitObservable(observable, observer);
     }
 
@@ -591,27 +590,27 @@ public enum RequestManager {
     }
 
     @SuppressWarnings("unchecked")
-    public void setPersonIntroduction(Observer<RedrockApiWrapper<Object>> observer, String stuNum, String idNum, String introduction) {
+    public void setPersonIntroduction(Observer<RedrockApiWrapper<Unit>> observer, String stuNum, String idNum, String introduction) {
 
-        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonIntroduction(stuNum, idNum, introduction);
-
-        emitObservable(observable, observer);
-    }
-
-    @SuppressWarnings("unchecked")
-    public void setPersonQQ(Observer<RedrockApiWrapper<Object>> observer, String stuNum, String idNum, String qq) {
-
-        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonQQ(stuNum, idNum, qq)
-                .map(new RedrockApiWrapperFunc());
+        Observable<RedrockApiWrapper<Unit>> observable = redrockApiService.setPersonIntroduction(stuNum, idNum, introduction);
 
         emitObservable(observable, observer);
     }
 
     @SuppressWarnings("unchecked")
-    public void setPersonPhone(Observer<RedrockApiWrapper<Object>> observer, String stuNum, String idNum, String phone) {
+    public void setPersonQQ(Observer<Unit> observer, String stuNum, String idNum, String qq) {
 
-        Observable<RedrockApiWrapper<Object>> observable = redrockApiService.setPersonPhone(stuNum, idNum, phone)
-                .map(new RedrockApiWrapperFunc());
+        Observable<Unit> observable = redrockApiService.setPersonQQ(stuNum, idNum, qq)
+                .map(new RedrockApiNoDataWrapperFunc());
+
+        emitObservable(observable, observer);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setPersonPhone(Observer<Unit> observer, String stuNum, String idNum, String phone) {
+
+        Observable<Unit> observable = redrockApiService.setPersonPhone(stuNum, idNum, phone)
+                .map(new RedrockApiNoDataWrapperFunc());
 
         emitObservable(observable, observer);
     }
@@ -676,7 +675,7 @@ public enum RequestManager {
         if (!checkWithUserId("需要先登录才能查询绑定寝室哦"))
             return;
         Observable<Object> observable = redrockApiService.bindDormitory(stuNum, idNum, room)
-                .map(new RedrockApiWrapperFunc<>());
+                .map(new RedrockApiNoDataWrapperFunc());
         emitObservable(observable, subscriber);
     }
 

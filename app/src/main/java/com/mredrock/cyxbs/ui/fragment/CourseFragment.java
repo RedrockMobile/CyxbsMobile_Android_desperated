@@ -359,7 +359,7 @@ public class CourseFragment extends BaseFragment {
     @SuppressWarnings("unchecked")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAffairDeleteEvent(AffairDeleteEvent event) {
-        if (mWeek == 0 || event.getCourse().week.contains(mWeek)) {
+        if (event.getCourse().week.contains(mWeek)) {
             Affair affair = (Affair) event.getCourse();
             RequestManager.getInstance().deleteAffair(new SimpleObserver<>(getActivity(), true, true, new SubscriberListener<Unit>() {
 
@@ -394,7 +394,6 @@ public class CourseFragment extends BaseFragment {
                             }));
                 }
             }), mUser.stuNum, mUser.idNum, affair.uid);
-
         }
 
     }

@@ -38,6 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
+import kotlin.Unit;
 
 public class PostNewsActivity extends BaseActivity implements View.OnClickListener,TopicEditText.OnTopicEditListener {
     public static final String TAG = "PostNewsActivity";
@@ -71,7 +72,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void sendTopicArticle(String title, String content,int topicId) {
-        Observable<String> observable;
+        Observable<Unit> observable;
         List<Image> currentImgs = new ArrayList<>();
         currentImgs.addAll(mImgList);
         currentImgs.remove(0);
@@ -180,7 +181,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
             Toast.makeText(PostNewsActivity.this, getString(R.string.noContent), Toast.LENGTH_SHORT).show();
             return;
         }
-        Observable<String> observable;
+        Observable<Unit> observable;
         List<Image> currentImgs = new ArrayList<>();
         currentImgs.addAll(mImgList);
         currentImgs.remove(0);
@@ -205,7 +206,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         }));
     }
 
-    private Observable<String> uploadWithImg(List<Image> currentImgs, String title, String content, int type, @Nullable Integer topicId) {
+    private Observable<Unit> uploadWithImg(List<Image> currentImgs, String title, String content, int type, @Nullable Integer topicId) {
         return Observable.fromIterable(currentImgs)
                 .observeOn(Schedulers.io())
                 .map(image -> image.url)
@@ -228,7 +229,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                 });
     }
 
-    private Observable<String> uploadWithoutImg(String title, String content, int type,@Nullable Integer topicId) {
+    private Observable<Unit> uploadWithoutImg(String title, String content, int type, @Nullable Integer topicId) {
         if (type == BBDDNews.BBDD) {
             return RequestManager.getInstance()
                     .sendDynamic(type, title, content, " ", " ", mUser.id, mUser.stuNum, mUser.idNum);

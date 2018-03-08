@@ -93,20 +93,6 @@
             android:paddingRight="15dp">
 
             <com.mredrock.cyxbs.ui.widget.ExploreItem
-                android:id="@+id/explore_lost_and_found_holder"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                app:icon="@drawable/ic_lost"
-                app:ratio="0.572"
-                app:title="@string/lost_and_found" />
-
-            <View
-                android:layout_width="12dp"
-                android:layout_height="0dp" />
-
-            <com.mredrock.cyxbs.ui.widget.ExploreItem
                 android:id="@+id/explore_what_to_eat_holder"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -115,6 +101,21 @@
                 app:icon="@drawable/ic_find_food"
                 app:ratio="0.572"
                 app:title="@string/explore_eat" />
+
+            <View
+                android:layout_width="12dp"
+                android:layout_height="0dp" />
+
+            <com.mredrock.cyxbs.ui.widget.ExploreItem
+                android:id="@+id/explore_lost_and_found_holder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                app:icon="@drawable/ic_lost"
+                app:ratio="0.572"
+                app:title="@string/lost_and_found" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
