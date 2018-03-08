@@ -81,15 +81,12 @@ public class ExploreSchoolCarActivity extends BaseActivity {
 
     private Bundle savedInstanceState;
     private Bitmap makerBitmap;
+    private ImageButton holeSchoolButton;
     private SchoolCarMap schoolCarMap;
     private SchoolcarsSmoothMove smoothMoveData;
     private List<SmoothMoveMarker> smoothMoveMarkers;
 
-
-    private ImageButton holeSchoolButton;
     private AMapLocationClient locationClient;
-    private AMapLocationClientOption locationClientOption;
-    private AMapLocationListener locationListener;
     private Disposable disposable;
     private List<SchoolCarLocation.Data> dataList;
 
@@ -229,7 +226,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
             setSupportActionBar(toolbar);
         }
 
-        Observable.timer(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).
+        Observable.timer(10, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).
                 subscribe(new Observer<Long>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -252,9 +249,9 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                     public void onComplete() {
                         smoothMoveMarkers = new ArrayList<>();
 
-                        for (int i = 0; i < 3; i ++) {
-                            smoothMoveData.loadCarLocation(55, i+1);
-                        }
+//                        for (int i = 0; i < 3; i ++) {
+                            smoothMoveData.loadCarLocation(55, 0);
+//                        }
                     }
                 });
     }
@@ -262,7 +259,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
 
 
     private void initData() {
-        locationListener = aMapLocation -> {
+        AMapLocationListener locationListener = aMapLocation -> {
             if (firstEnter) {
                 float myDistance = AMapUtils.calculateLineDistance(new LatLng(29.531876, 106.606789), new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()));
                 if (myDistance > 1300) {
@@ -271,7 +268,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
             }
         };
         locationClient = new AMapLocationClient(getApplicationContext());
-        locationClientOption = new AMapLocationClientOption();
+        AMapLocationClientOption locationClientOption = new AMapLocationClientOption();
 
         locationClient.setLocationOption(locationClientOption);
         locationClient.setLocationListener(locationListener);
@@ -279,12 +276,20 @@ public class ExploreSchoolCarActivity extends BaseActivity {
     }
 
     private void timer() {
-        Observable.interval(1, TimeUnit.SECONDS)
+        Observable.interval(2, TimeUnit.SECONDS)
                 .doOnNext(aLong -> {
-                        for (int i = 0; i < dataList.size() && dataList.get(i).getLat() != 0; i++) {
-                            if (!firstEnter)
-                            smoothMoveData.smoothMove(smoothMoveData.getSmoothMoveList(i), smoothMoveMarkers, makerBitmap);
-                            smoothMoveData.loadCarLocation(0, i + 1);
+//                    Log.d(TAG, "timer:  + smoothMoveMarkers.size" + String.valueOf( smoothMoveMarkers.size() != 0 && smoothMoveMarkers != null));
+                    if (smoothMoveMarkers != null) {
+                        for (int i = 0; i < smoothMoveMarkers.size(); i++) {
+                            smoothMoveMarkers.get(i).removeMarker();
+                        }
+                    }
+                    smoothMoveMarkers = new ArrayList<>();
+                    for (int i = 0; i < dataList.size() && dataList.get(i).getLat() != 0; i++) {
+                        if (!firstEnter) {
+                            smoothMoveData.smoothMove(smoothMoveMarkers, makerBitmap);
+                        }
+                        smoothMoveData.loadCarLocation(0, i + 1);
                     }
                 }).observeOn(AndroidSchedulers.mainThread()).
                 subscribe(new Observer<Long>() {
@@ -334,6 +339,65 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         finish();
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (schoolCarMap.getMapView() != null) {
+            schoolCarMap.getMapView().onSaveInstanceState(outState);
+        }
+    }
+
+    public void checkActivityPermission(String permission, int processingMethod) {
+        if (permission == null) {
+            Toast.makeText(this, "No permissions are passed in", Toast.LENGTH_SHORT).show();
+            throw new RuntimeException("The corresponding permission access failed");
+        }
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, processingMethod);
+        } else {
+            switch (processingMethod) {
+                case 1:
+                    break;
+                case 2:
+                    initView();
+//                    for (int i = 0; i < 3; i++)
+                        smoothMoveData.loadCarLocation(3, 0);
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            switch (requestCode) {
+                case 1:
+                    break;
+                case 2:
+                    checkBeforeEnter(null);
+                    initView();
+//                    for (int i = 0; i < 3; i++)
+//                        smoothMoveData.loadCarLocation(3, i + 1);
+                    smoothMoveData.loadCarLocation(3, 0);
+                    break;
+            }
+        } else {
+            switch (requestCode) {
+                case 1:
+                    ifLocation = false;
+                    break;
+                case 2:
+                    if (dialog == null) {
+                        dialog = new ExploreSchoolCarDialog();
+                    }
+                    dialog.show(this, NO_GPS);
+                    finish();
+                    break;
+            }
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -367,60 +431,6 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (schoolCarMap.getMapView() != null) {
-            schoolCarMap.getMapView().onSaveInstanceState(outState);
-        }
-    }
-
-    public void checkActivityPermission(String permission, int processingMethod) {
-        if (permission == null) {
-            Toast.makeText(this, "No permissions are passed in", Toast.LENGTH_SHORT).show();
-            throw new RuntimeException("The corresponding permission access failed");
-        }
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{permission}, processingMethod);
-        } else {
-            switch (processingMethod) {
-                case 1:
-                    break;
-                case 2:
-                    initView();
-                    for (int i = 0; i < 3; i++) smoothMoveData.loadCarLocation(3, i + 1);
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            switch (requestCode) {
-                case 1:
-                    break;
-                case 2:
-                    checkBeforeEnter(null);
-                    initView();
-                    for (int i = 0; i < 3; i++) smoothMoveData.loadCarLocation(3, i + 1);
-                    break;
-            }
-        } else {
-            switch (requestCode) {
-                case 1:
-                    ifLocation = false;
-                    break;
-                case 2:
-                    if (dialog == null) {
-                        dialog = new ExploreSchoolCarDialog();
-                    }
-                    dialog.show(this, NO_GPS);
-                    finish();
-                    break;
-            }
-        }
-    }
 
 //    public List<LatLng> setPoints() {
 //        List<LatLng> schoolCarTrace = new ArrayList<>();
