@@ -7,6 +7,7 @@ import android.util.Log;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.maps.utils.overlay.SmoothMoveMarker;
@@ -92,8 +93,11 @@ public class SchoolcarsSmoothMove {
             if (Math.abs(nextOrientation - currentAngle) > errorRange) {
                 carAngle = nextOrientation;
                 float computAngle = (float) computRotateAngle(currentAngle, nextOrientation);
-                if (marker != null) {
-                    marker.getMarker().setRotateAngle(marker.getMarker().getRotateAngle() + computAngle);
+                if (marker.getMarker() != null) {
+                    Marker makerLocal = marker.getMarker();
+                    makerLocal.setRotateAngle(marker.getMarker().getRotateAngle() + computAngle);
+                } else {
+                    int a = 0;
                 }
             }
         }
@@ -104,7 +108,7 @@ public class SchoolcarsSmoothMove {
         smoothMoveMarkers.add(smoothMarker);
         int carAmount = smoothMoveMarkers.size() - 1;
         smoothMoveMarkers.get(carAmount).setDescriptor(BitmapDescriptorFactory.fromBitmap(bitmapChanged));
-//        changeCarOrientation(smoothMoveMarkers.get(carAmount), smoothMoveList.get(smoothMoveList.size() - 4), smoothMoveList.get(smoothMoveList.size() - 3), 2);
+        changeCarOrientation(smoothMoveMarkers.get(carAmount), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 4), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 3), 2);
         smoothMoveMarkers.get(carAmount).setPoints(getSmoothMoveList(carAmount).subList(getSmoothMoveList(carAmount).size() - 3, getSmoothMoveList(carAmount).size() - 1));
         smoothMoveMarkers.get(carAmount).setTotalDuration(2);
         drawTraceLine(schoolCarMap.getaMap(),getSmoothMoveList(carAmount));
@@ -125,13 +129,13 @@ public class SchoolcarsSmoothMove {
         b = longitudeDif;
         c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
         if (a == 0) {
-            if ((latlng2.longitude - latlng1.longitude) < 0) {// 经度；
+            if ((latlng2.longitude - latlng1.longitude) < 0) {
                 angle = 180;
             } else {
                 angle = 0;
             }
         } else if (b == 0) {
-            if ((latlng2.latitude - latlng1.latitude) < 0) {// 纬度；
+            if ((latlng2.latitude - latlng1.latitude) < 0) {
                 angle = 270;
             } else {
                 angle = 90;
@@ -161,7 +165,7 @@ public class SchoolcarsSmoothMove {
     }
 
     public List<LatLng> getSmoothMoveList(int carID) {
-        List<LatLng> smoothMoveList;
+        List<LatLng> smoothMoveList = null;
         switch (carID) {
             case 0:
                 smoothMoveList = smoothMoveList1;
@@ -169,11 +173,11 @@ public class SchoolcarsSmoothMove {
             case 1:
                 smoothMoveList = smoothMoveList2;
                 return smoothMoveList;
+
             case 2:
                 smoothMoveList = smoothMoveList3;
                 return smoothMoveList;
-            default:
-                return null;
         }
+        return smoothMoveList;
     }
 }
