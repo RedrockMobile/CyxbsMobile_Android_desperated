@@ -1,8 +1,10 @@
 package com.mredrock.cyxbs.ui.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -109,6 +111,12 @@ public class SchoolCarMap {
 
             ImageView imageView = new ImageView(context);
             imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_school_car_search_orgnization_logo));
+            imageView.setOnClickListener(v -> {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://eini.cqupt.edu.cn/"));
+                context.startActivity(intent);
+            });
             RelativeLayout.LayoutParams lpLogo = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lpLogo.topMargin = 45;
             relativeLayout.addView(imageView, lpLogo);

@@ -317,8 +317,8 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         Bitmap bitmap = BitmapFactory.decodeResource(ExploreSchoolCarActivity.this.getResources(), R.drawable.ic_school_car);
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
-        float scaleWidth = ((float) 150) / width;
-        float scaleHeight = ((float) 65) / height;
+        float scaleWidth = ((float) 70) / width;
+        float scaleHeight = ((float) 140) / height;
         Matrix matrix = new Matrix();
         matrix.postScale(scaleWidth, scaleHeight);
 
