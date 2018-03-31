@@ -82,7 +82,7 @@ public class SchoolcarsSmoothMove {
 
     private void drawTraceLine(AMap aMap, List<LatLng> smoothMoveList){
         Polyline polyline =aMap.addPolyline(new PolylineOptions().
-                addAll(smoothMoveList.subList(0, smoothMoveList.size() - 2)).width(8).color(Color.argb(255, 93,152,255)));
+                addAll(smoothMoveList.subList(0, smoothMoveList.size() - 1)).width(8).color(Color.argb(255, 93,152,255)));
     }
 
     private void changeCarOrientation(SmoothMoveMarker marker, LatLng latlng1, LatLng latlng2, double errorRange) {
@@ -96,8 +96,6 @@ public class SchoolcarsSmoothMove {
                 if (marker.getMarker() != null) {
                     Marker makerLocal = marker.getMarker();
                     makerLocal.setRotateAngle(marker.getMarker().getRotateAngle() + computAngle);
-                } else {
-                    int a = 0;
                 }
             }
         }
@@ -108,7 +106,7 @@ public class SchoolcarsSmoothMove {
         smoothMoveMarkers.add(smoothMarker);
         int carAmount = smoothMoveMarkers.size() - 1;
         smoothMoveMarkers.get(carAmount).setDescriptor(BitmapDescriptorFactory.fromBitmap(bitmapChanged));
-        changeCarOrientation(smoothMoveMarkers.get(carAmount), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 4), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 3), 2);
+        changeCarOrientation(smoothMoveMarkers.get(carAmount), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 3), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 2), 2);
         smoothMoveMarkers.get(carAmount).setPoints(getSmoothMoveList(carAmount).subList(getSmoothMoveList(carAmount).size() - 3, getSmoothMoveList(carAmount).size() - 1));
         smoothMoveMarkers.get(carAmount).setTotalDuration(2);
         drawTraceLine(schoolCarMap.getaMap(),getSmoothMoveList(carAmount));
