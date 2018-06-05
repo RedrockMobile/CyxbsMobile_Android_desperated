@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -131,6 +132,10 @@ public class ScheduleView extends FrameLayout {
 
     private void createLessonText(final CourseList courses) {
         final Course course = courses.list.get(0);
+//        if (course != null && course.classroom.length() >= 4){
+//            course.classroom = course.classroom.replaceAll("[\\u4e00-\\u9fa5\\(\\)\\（\\）]","");
+//            Log.e("zia",course.classroom);
+//        }
 
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         CardView cardView = (CardView) layoutInflater.inflate(R.layout.item_schedule, this, false);
@@ -148,7 +153,11 @@ public class ScheduleView extends FrameLayout {
         tvTop.setText(course.getCourseType() == 1 ? course.course : " ");
 
         TextView tvBottom = (TextView) cardView.findViewById(R.id.bottom);
-        tvBottom.setText(course.getCourseType() == 1 ? course.classroom : " ");
+        if (course.classroom.length() >= 4){
+            tvBottom.setText(course.getCourseType() == 1 ? course.classroom.replaceAll("[\\u4e00-\\u9fa5()（）]","") : " ");
+        }else{
+            tvBottom.setText(course.getCourseType() == 1 ? course.classroom : " ");
+        }
 
         GradientDrawable gd = new GradientDrawable();
         gd.setCornerRadius(DensityUtils.dp2px(getContext(), 3));

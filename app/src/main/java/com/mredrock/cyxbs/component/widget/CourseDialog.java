@@ -111,6 +111,9 @@ public class CourseDialog {
                     }));
                     modify.setOnClickListener((view -> {
                         dialog.dismiss();
+                        if (!(course instanceof Affair)){
+                            return;
+                        }
                         Affair affair = (Affair) course;
                         EditAffairActivity.editAffairActivityStart(context,affair);
                     }));
