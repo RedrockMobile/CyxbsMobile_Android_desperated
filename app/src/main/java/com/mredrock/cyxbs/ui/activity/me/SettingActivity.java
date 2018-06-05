@@ -97,7 +97,7 @@ public class SettingActivity extends BaseActivity implements EasyPermissions.Per
                 editor.putBoolean(SHOW_MODE, b);
                 editor.apply();
                 currentMode = b;
-                subscriber.onNext(null);
+                subscriber.onNext("");
                 subscriber.onComplete();
             }).subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io()).subscribe();
