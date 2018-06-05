@@ -153,7 +153,7 @@ public class ScheduleView extends FrameLayout {
         tvTop.setText(course.getCourseType() == 1 ? course.course : " ");
 
         TextView tvBottom = (TextView) cardView.findViewById(R.id.bottom);
-        if (course.classroom.length() >= 4){
+        if (course.classroom.length() > 8){
             tvBottom.setText(course.getCourseType() == 1 ? course.classroom.replaceAll("[\\u4e00-\\u9fa5()（）]","") : " ");
         }else{
             tvBottom.setText(course.getCourseType() == 1 ? course.classroom : " ");
