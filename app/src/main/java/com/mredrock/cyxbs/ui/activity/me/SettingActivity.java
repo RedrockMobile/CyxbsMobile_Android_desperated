@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -29,10 +30,14 @@ import com.mredrock.cyxbs.event.LoginStateChangeEvent;
 import com.mredrock.cyxbs.network.func.AppWidgetCacheAndUpdateFunc;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.SaveImageUtils;
+import com.mredrock.cyxbs.util.permission.AfterPermissionGranted;
+import com.mredrock.cyxbs.util.permission.EasyPermissions;
 import com.suke.widget.SwitchButton;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +45,7 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
     public static final String SHOW_MODE = "showMode";
 
@@ -61,6 +66,7 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout mSettingShareLayout;
     @BindView(R.id.setting_switch_show)
     SwitchButton switchCompat;
+    ImageView QRImageView;
 
     private SharedPreferences preferences;
     private boolean currentMode = true;
@@ -213,14 +219,40 @@ public class SettingActivity extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_share, null, false);
         builder.setView(view).show();
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-        imageView.setOnLongClickListener(v -> {
-            Drawable drawable = imageView.getDrawable();
+        QRImageView = (ImageView) view.findViewById(R.id.imageView);
+        QRImageView.setOnLongClickListener(v -> {
+            Drawable drawable = QRImageView.getDrawable();
             if (drawable instanceof BitmapDrawable) {
-                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                SaveImageUtils.imageSave(bitmap, System.currentTimeMillis() + "", this);
+                if (!EasyPermissions.hasPermissions(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                    EasyPermissions.requestPermissions(this, "要想保存二维码的话给个权限吧",0, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                }else {
+                    storeQRCode();
+                }
             }
             return true;
         });
     }
+
+
+    @AfterPermissionGranted(0)
+    public void storeQRCode(){
+        Bitmap bitmap = ((BitmapDrawable) QRImageView.getDrawable()).getBitmap();
+        SaveImageUtils.imageSave(bitmap, String.valueOf(System.currentTimeMillis()));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Toast.makeText(this,"要想保存二维码必须给权限哟~",Toast.LENGTH_LONG).show();
+    }
+
 }

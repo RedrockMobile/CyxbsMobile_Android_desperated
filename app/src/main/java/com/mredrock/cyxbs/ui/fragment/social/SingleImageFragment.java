@@ -123,7 +123,7 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
                                 public void onClick(DialogInterface dialog, int which) {
                                     mImageView.setDrawingCacheEnabled(true);
                                     if (mImageView != null){
-                                        SaveImageUtils.imageSave(resource,url,getContext());
+                                        SaveImageUtils.imageSave(resource,url);
                                     }
                                 }
                             })
@@ -138,7 +138,7 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
                                 public void onClick(DialogInterface dialog, int which) {
                                     mImageView.setDrawingCacheEnabled(true);
                                     if (mImageView != null){
-                                        SaveImageUtils.imageSave(resource,url,getContext());
+                                        SaveImageUtils.imageSave(resource,url);
                                     }
                                 }
                             })
