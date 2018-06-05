@@ -1,8 +1,10 @@
 package com.mredrock.cyxbs.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +48,7 @@ import butterknife.OnClick;
 public class UserFragment extends BaseFragment /*implements CompoundButton.OnCheckedChangeListener*/ {
 
     public static final int REQUEST_EDIT_INFO = 10;
+    private Context mContext;
 
     @BindView(R.id.relate)
     LinearLayout myPageRelateLayout;
@@ -193,6 +196,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mContext = getActivity();
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         ButterKnife.bind(this, view);
         getPersonInfoData();
@@ -240,8 +244,9 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
                         public void onNext(User user) {
                             super.onNext(user);
                             if (user != null) {
+                                Log.d("zzxzzx", "onNext: "+mContext);
                                 mUser = User.cloneFromUserInfo(mUser, user);
-                                BaseAPP.setUser(getActivity(), mUser);
+                                BaseAPP.setUser(mContext, mUser);
                                 refreshEditLayout();
                             }
                         }
