@@ -33,20 +33,22 @@ public class ExploreRollerViewAdapter extends RollerView.RollerViewAdapter {
     }
 
     public ExploreRollerViewAdapter(Context context, List<RollerViewInfo> urlList ) {
-        mImageViews = new ArrayList<>();
-        if (urlList == null) return;
-        for (RollerViewInfo url : urlList) {
-            ImageView imageView = new ImageView(context);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            if (url.picture_goto_url != null) {
-                imageView.setOnClickListener(v -> RollerViewActivity.startRollerViewActivity(url.picture_goto_url, context)
-                        //context.startActivity(new Intent(context, SplashActivity.class))
-                );
+        if (context != null){
+            mImageViews = new ArrayList<>();
+            if (urlList == null) return;
+            for (RollerViewInfo url : urlList) {
+                ImageView imageView = new ImageView(context);
+                imageView.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                if (url.picture_goto_url != null) {
+                    imageView.setOnClickListener(v -> RollerViewActivity.startRollerViewActivity(url.picture_goto_url, context)
+                            //context.startActivity(new Intent(context, SplashActivity.class))
+                    );
+                }
+                Glide.with(context).load(url.picture_url).into(imageView);
+                mImageViews.add(imageView);
             }
-            Glide.with(context).load(url.picture_url).into(imageView);
-            mImageViews.add(imageView);
         }
     }
 

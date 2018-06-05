@@ -156,7 +156,7 @@ public class RollerView extends FrameLayout implements Runnable, ViewPager.PageT
         }
     }
 
-    private class Adapter extends PagerAdapter {
+    private static class Adapter extends PagerAdapter {
         private RollerViewAdapter mRollerViewAdapter;
 
         public void setAdapter(RollerViewAdapter adapter) {
