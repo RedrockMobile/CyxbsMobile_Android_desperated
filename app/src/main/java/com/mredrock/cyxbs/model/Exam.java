@@ -23,12 +23,23 @@ public class Exam implements Comparable<Exam>{
 
     @Override
     public int compareTo(Exam exam) {
-        int weekDifference =Integer.parseInt(week ) -  Integer.parseInt(exam.week);
-        if (weekDifference != 0)
+        int weekDifference = 0;
+        int weekDayDifference = 0;
+
+        if (exam.week != null && week != null) {
+            weekDifference = Integer.parseInt(week) - Integer.parseInt(exam.week);
+        }
+        if (weekDifference != 0) {
             return weekDifference;
-        int weekDayDifference = Integer.parseInt(weekday) - Integer.parseInt(exam.weekday);
-        if (weekDayDifference != 0)
+        }
+
+        if (exam.weekday != null && weekday != null) {
+            weekDayDifference = Integer.parseInt(weekday) - Integer.parseInt(exam.weekday);
+        }
+        if (weekDayDifference != 0) {
             return weekDayDifference;
+        }
+
         return  Integer.parseInt(begin_time.replace(":",""))
                 - Integer.parseInt(exam.begin_time.replace(":",""));
 
