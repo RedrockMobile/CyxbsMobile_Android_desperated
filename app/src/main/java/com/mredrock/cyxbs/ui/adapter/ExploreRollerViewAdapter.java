@@ -21,19 +21,21 @@ public class ExploreRollerViewAdapter extends RollerView.RollerViewAdapter {
     private List<ImageView> mImageViews;
 
     public ExploreRollerViewAdapter(Context context, int[] images) {
-        mImageViews = new ArrayList<>();
-        for (int id : images) {
-            ImageView imageView = new ImageView(context);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            Glide.with(context).load(id).into(imageView);
-            mImageViews.add(imageView);
+        if (context != null) {
+            mImageViews = new ArrayList<>();
+            for (int id : images) {
+                ImageView imageView = new ImageView(context);
+                imageView.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                Glide.with(context).load(id).into(imageView);
+                mImageViews.add(imageView);
+            }
         }
     }
 
-    public ExploreRollerViewAdapter(Context context, List<RollerViewInfo> urlList ) {
-        if (context != null){
+    public ExploreRollerViewAdapter(Context context, List<RollerViewInfo> urlList) {
+        if (context != null) {
             mImageViews = new ArrayList<>();
             if (urlList == null) return;
             for (RollerViewInfo url : urlList) {

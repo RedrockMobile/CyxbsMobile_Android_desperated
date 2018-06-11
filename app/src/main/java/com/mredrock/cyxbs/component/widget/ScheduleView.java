@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -153,9 +152,9 @@ public class ScheduleView extends FrameLayout {
         tvTop.setText(course.getCourseType() == 1 ? course.course : " ");
 
         TextView tvBottom = (TextView) cardView.findViewById(R.id.bottom);
-        if (course.classroom.length() > 8){
-            tvBottom.setText(course.getCourseType() == 1 ? course.classroom.replaceAll("[\\u4e00-\\u9fa5()（）]","") : " ");
-        }else{
+        if (course.classroom.length() > 8) {
+            tvBottom.setText(course.getCourseType() == 1 ? course.classroom.replaceAll("[\\u4e00-\\u9fa5()（）]", "") : " ");
+        } else {
             tvBottom.setText(course.getCourseType() == 1 ? course.classroom : " ");
         }
 
@@ -250,15 +249,18 @@ public class ScheduleView extends FrameLayout {
         }
         int distance = (int) Math.sqrt(Math.pow(startX - endX, 2) + Math.pow(startY - endY, 2));
         if (distance <= 2) {
-            int x = (int) (event.getX() / getWidth() * 7);
-            int y = (int) (event.getY() / getHeight() * 12);
+            int tentativeX = (int) (event.getX() / getWidth() * 7);
+            int tentativeY = (int) (event.getY() / getHeight() * 12);
+
+            int x = tentativeX == 7 ? 6 : tentativeX;
+            int y = tentativeY == 12 ? 11 : tentativeY;
+
             if (course[x][y / 2] == null || course[x][y / 2].list == null || course[x][y / 2].list.size() == 0) {
                 if (mClickImageView == null) {
                     mClickImageView = new ImageView(context);
                     mClickImageView.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.ic_add_circle));
                     mClickImageView.setBackgroundColor(Color.parseColor("#60000000"));
                     mClickImageView.setScaleType(ImageView.ScaleType.CENTER);
-
                 }
                 if (onImageViewClickListener != null) {
                     mClickImageView.setOnClickListener((view -> onImageViewClickListener.onClick(x, y)));
