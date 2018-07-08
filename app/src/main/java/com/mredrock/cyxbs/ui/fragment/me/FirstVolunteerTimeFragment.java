@@ -3,7 +3,7 @@ package com.mredrock.cyxbs.ui.fragment.me;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,13 +17,12 @@ import com.mredrock.cyxbs.ui.adapter.me.VolunteerRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  * Created by glossimar on 2017/10/1.
  */
 
-public class FirstVolunteerTimeFragment extends Fragment{
+public class FirstVolunteerTimeFragment extends Fragment {
     private View view;
     private TextView holeTime;
     private RecyclerView recyclerView;

@@ -1,18 +1,16 @@
 package com.mredrock.cyxbs.ui.activity.me;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +18,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.VolunteerTime;
-import com.mredrock.cyxbs.model.social.Image;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.me.VolunteerFragmentAdapter;
@@ -186,7 +183,7 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
         }
 
         viewPager.setOffscreenPageLimit(1);
-        viewPager.setAdapter(new VolunteerFragmentAdapter(getFragmentManager(), fragmentList, yearList));
+        viewPager.setAdapter(new VolunteerFragmentAdapter(getSupportFragmentManager(), fragmentList, yearList));
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.addOnTabSelectedListener(this);

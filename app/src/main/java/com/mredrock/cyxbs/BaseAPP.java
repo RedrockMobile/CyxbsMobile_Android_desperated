@@ -62,6 +62,7 @@ public class BaseAPP extends MultiDexApplication {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        context = base;
     }
 
     public static void setUser(Context context, User user) {
@@ -141,7 +142,6 @@ public class BaseAPP extends MultiDexApplication {
         initPush();
         UMShareAPI.get(this);
         initShareKey();
-        context = getApplicationContext();
         initThemeMode();
         //  FIR.init(this);
         Logger.init("cyxbs_mobile");
