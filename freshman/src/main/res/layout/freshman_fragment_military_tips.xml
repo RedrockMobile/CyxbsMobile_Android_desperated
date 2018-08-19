@@ -29,7 +29,6 @@
                 android:id="@+id/freshman_military_tips_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="标题"
                 android:textColor="#020203"
                 android:textSize="18sp"
                 app:autoSizeMaxTextSize="16sp"
@@ -40,7 +39,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="我是内容"
                 android:textSize="14sp"
                 app:autoSizeMaxTextSize="14sp"
                 app:autoSizeTextType="uniform" />
@@ -50,7 +48,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="标题"
                 android:textColor="#020203"
                 android:textSize="18sp"
                 app:autoSizeMaxTextSize="16sp"
@@ -61,7 +58,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="我是内容"
                 android:textSize="14sp"
                 app:autoSizeMaxTextSize="14sp"
                 app:autoSizeTextType="uniform" />

@@ -16,12 +16,11 @@ public class CquptMienActPresenter extends BasePresenter<CquptMienBaseContract.I
     }
 
     public void start() {
-        checkIsAttach();
         model.LoadAnotherData(new BaseContract.ISomethingModel.LoadCallBack() {
             @Override
             public void succeed(Object o) {
                 MienStu stu = (MienStu) o;
-                if (stu != null) {
+                if (stu != null && getView() != null) {
                     getView().setData(stu);
                 }
             }

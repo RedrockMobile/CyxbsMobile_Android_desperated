@@ -23,7 +23,6 @@
             android:layout_height="match_parent"
             android:foreground="@drawable/freshman_video_iv_shape"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"
             app:riv_corner_radius="10dp" />
 
         <Button

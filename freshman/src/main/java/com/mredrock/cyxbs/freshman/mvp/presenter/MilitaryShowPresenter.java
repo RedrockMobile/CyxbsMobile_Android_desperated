@@ -17,12 +17,13 @@ public class MilitaryShowPresenter extends BasePresenter<MilitaryShowContract.IM
     }
 
     public void start() {
-        checkIsAttach();
         model.loadData(new BaseContract.ISomethingModel.LoadCallBack() {
             @Override
             public void succeed(Object o) {
                 MilitaryShow bean = (MilitaryShow) o;
-                getView().setData(bean);
+                if (getView() != null) {
+                    getView().setData(bean);
+                }
             }
 
             @Override

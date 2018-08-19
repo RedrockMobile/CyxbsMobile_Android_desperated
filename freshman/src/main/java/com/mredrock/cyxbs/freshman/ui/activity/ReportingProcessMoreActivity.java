@@ -1,12 +1,14 @@
 package com.mredrock.cyxbs.freshman.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.mredrock.cyxbs.freshman.R;
 import com.mredrock.cyxbs.freshman.bean.StrategyData;
@@ -53,14 +55,28 @@ public class ReportingProcessMoreActivity extends BaseActivity implements View.O
         step.setText(temp);
         realStr = "http://47.106.33.112:8080/welcome2018" + mData.getPicture().get(0);
         mapStr = "http://47.106.33.112:8080/welcome2018" + mData.getPicture().get(1);
-        Glide.with(App.getContext())
+        Glide.with(this)
                 .load(realStr)
-                .thumbnail(0.1f)
-                .into(real);
-        Glide.with(App.getContext())
+                .asBitmap()
+                .thumbnail(0.2f)
+                .placeholder(R.drawable.freshman_preload_img)
+                .into(new BitmapImageViewTarget(real) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        real.setImageBitmap(resource);
+                    }
+                });
+        Glide.with(this)
                 .load(mapStr)
-                .thumbnail(0.1f)
-                .into(map);
+                .asBitmap()
+                .thumbnail(0.2f)
+                .placeholder(R.drawable.freshman_preload_img)
+                .into(new BitmapImageViewTarget(map) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        map.setImageBitmap(resource);
+                    }
+                });
         context.setText(mData.getContent());
     }
 

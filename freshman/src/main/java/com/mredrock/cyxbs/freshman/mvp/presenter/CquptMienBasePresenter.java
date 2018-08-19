@@ -35,7 +35,9 @@ public class CquptMienBasePresenter extends BasePresenter<CquptMienBaseContract.
                         fragments.add(fragment);
                         titles.add(stu.getArray().get(i).getName());
                     }
-                    getView().setData(fragments, titles);
+                    if (getView()!=null){
+                        getView().setData(fragments, titles);
+                    }
                 }
             }
 

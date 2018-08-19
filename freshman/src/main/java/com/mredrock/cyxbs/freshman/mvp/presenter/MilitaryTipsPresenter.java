@@ -15,12 +15,13 @@ public class MilitaryTipsPresenter extends BasePresenter<MilitaryTipsContract.IM
     }
 
     public void start() {
-        checkIsAttach();
         model.loadData(new BaseContract.ISomethingModel.LoadCallBack() {
             @Override
             public void succeed(Object o) {
                 Description description = (Description) o;
-                getView().setData(description);
+                if (getView() != null) {
+                    getView().setData(description);
+                }
             }
 
             @Override

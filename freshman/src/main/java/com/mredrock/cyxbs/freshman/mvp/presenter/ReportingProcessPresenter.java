@@ -18,17 +18,20 @@ public class ReportingProcessPresenter extends BasePresenter<ReportingProcessCon
     }
 
     public void start() {
-        checkIsAttach();//检查是否绑定
         model.loadData(new BaseContract.ISomethingModel.LoadCallBack() {
             @Override
             public void succeed(Object o) {
                 StrategyData data = (StrategyData) o;
-                getView().setData(data);
+                if (getView() != null) {
+                    getView().setData(data);
+                }
             }
 
             @Override
             public void failed(String msg) {
-                getView().showError(msg);
+                if (getView() != null) {
+                    getView().showError(msg);
+                }
             }
         });
     }

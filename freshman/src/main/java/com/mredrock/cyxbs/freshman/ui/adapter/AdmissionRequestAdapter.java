@@ -49,6 +49,10 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
         return mDataList.size();
     }
 
+    public void setDataList(List<Description.DescribeBean> mDataList){
+        this.mDataList = mDataList;
+    }
+
     public void changeData(Boolean isEdit) {
         this.isEdit = isEdit;
         deleteNum = 0;

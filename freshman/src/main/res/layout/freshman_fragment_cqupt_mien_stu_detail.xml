@@ -46,7 +46,7 @@
 
             <TextView
                 android:id="@+id/freshman_CyMien_detail_desc"
-                android:autoLink="web|phone|email"
+                android:autoLink="web|email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"

@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.freshman.ui.activity
 import android.animation.*
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
@@ -57,24 +58,17 @@ class MainActivity : BaseMVPActivity<MainContract.IMainView, MainContract.IMainP
     }
 
     override fun initBuilding(pos: Int) =
-            buildings.forEachIndexed { i, building ->
-                setScaledBitmap(building.first, building.second.first, building.second.second, pos < i)
-            }.also {
+            iv_bg.setImageResource(R.drawable.freshman_bg_main).also {
+                buildings.forEachIndexed { i, building ->
+                    setScaledBitmap(building.first, building.second.first, building.second.second, pos < i)
+                }
                 setScaledBitmap(freshman_building_mien, R.drawable.freshman_building_mien)
                 setScaledBitmap(freshman_building_military, R.drawable.freshman_building_military)
             }
 
     override fun unlockBuilding(pos: Int) {
         val building = buildings[pos]
-        //todo 解锁动画
-        /*
-        objectAnimator = ObjectAnimator.ofFloat(this, "rotation", 0f, 360f);//添加旋转动画，旋转中心默认为控件中点
-        objectAnimator.setDuration(3000);//设置动画时间
-        objectAnimator.setInterpolator(new LinearInterpolator());//动画时间线性渐变
-        objectAnimator.setRepeatCount(ObjectAnimator.INFINITE);
-        objectAnimator.setRepeatMode(ObjectAnimator.RESTART);
-         */
-        ObjectAnimator.ofFloat(building.first, "rotation", 0f, -10f, 10f).apply {
+        ObjectAnimator.ofFloat(building.first, "rotation", 0f, -5f, 5f).apply {
             duration = 300
             interpolator = AccelerateInterpolator()
             repeatCount = 3
@@ -88,9 +82,14 @@ class MainActivity : BaseMVPActivity<MainContract.IMainView, MainContract.IMainP
     }
 
     private fun setScaledBitmap(view: ImageView, unlockId: Int, lockedId: Int = unlockId, isLocked: Boolean = false) {
-        val bitmap = BitmapFactory.decodeResource(resources, if (isLocked) lockedId else unlockId)
-        view.setImageBitmap(Bitmap.createScaledBitmap(bitmap, (scale * bitmap.width).toInt(), (scale * bitmap.height).toInt(), true))
-        bitmap.recycle()
+        Thread(Runnable {
+            val bitmap = BitmapFactory.decodeResource(resources, if (isLocked) lockedId else unlockId)
+            runOnUiThread {
+                view.setImageBitmap(Bitmap.createScaledBitmap(bitmap, (scale * bitmap.width).toInt(), (scale * bitmap.height).toInt(), true))
+            }
+            bitmap.recycle()
+        }).run()
+
     }
 
     override fun driveAnimator(pos: Int) {

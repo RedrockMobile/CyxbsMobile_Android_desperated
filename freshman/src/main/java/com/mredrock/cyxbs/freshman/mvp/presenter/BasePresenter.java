@@ -21,18 +21,4 @@ public class BasePresenter<V extends BaseContract.ISomethingView> implements IBa
     public V getView() {
         return view;
     }
-
-
-    private boolean isViewAttach() {
-        return view != null;
-    }
-
-    //确定是否关联了视图
-    public void checkIsAttach() {
-        if (!isViewAttach()) {
-            throw new RuntimeException("未连接View");
-        }
-    }
-
-
 }

@@ -17,7 +17,6 @@
         android:id="@+id/freshman_chatonline_textView"
         android:textSize="14sp"
         android:gravity="center|left"
-        android:text="我是文字"
         android:layout_marginLeft="10dp"
         android:layout_gravity="center"
         android:paddingTop="10dp"

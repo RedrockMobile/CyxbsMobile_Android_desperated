@@ -32,6 +32,9 @@ import com.mredrock.cyxbs.freshman.utils.SPHelper;
 import com.mredrock.cyxbs.freshman.utils.ScrollSpeedLinearLayoutManger;
 import com.mredrock.cyxbs.freshman.utils.ToastUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AdmissionRequestActivity extends AppCompatActivity implements AdmissionRequestContract.IAdmissionRequestView, View.OnClickListener {
 
     private TextView edit;
@@ -64,6 +67,7 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
         mFabtn.setOnClickListener(this);
         edit.setOnClickListener(this);
 
+        initRv();
         initMVP();
     }
 
@@ -72,6 +76,29 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
         mPresenter = new AdmissionRequestPresenter(new AdmissionRequestModel());
         mPresenter.attachView(this);
         mPresenter.start();
+    }
+
+    private void initRv(){
+        List<Description.DescribeBean> mData = new ArrayList<>();
+        mAdapter = new AdmissionRequestAdapter(mData, new AdmissionRequestAdapter.OnDeleteDataListener() {
+            @Override
+            public void getTotalNum(int count) {
+                String total = App.getContext().getResources().getString(R.string.freshmen_admission_delete);
+                if (count != 0)
+                    total = App.getContext().getResources().getString(R.string.freshmen_admission_delete) + "(" + count + ")";
+                edit.setText(total);
+            }
+
+            @Override
+            public void scrollToTop(boolean isGoTo) {
+                if (isGoTo)
+                    scrollToPos(0);
+            }
+        });
+        mRv.setLayoutManager(new LinearLayoutManager(this));
+        mRv.setAdapter(mAdapter);
+        mRv.getItemAnimator().setChangeDuration(100);
+        mRv.getItemAnimator().setMoveDuration(200);
     }
 
     @Override
@@ -100,25 +127,7 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
     public void setRv(Description description) {
         ScrollSpeedLinearLayoutManger manger = new ScrollSpeedLinearLayoutManger(App.getContext());
         manger.setSpeedSlow();
-        mAdapter = new AdmissionRequestAdapter(description.getDescribe(), new AdmissionRequestAdapter.OnDeleteDataListener() {
-            @Override
-            public void getTotalNum(int count) {
-                String total = App.getContext().getResources().getString(R.string.freshmen_admission_delete);
-                if (count != 0)
-                    total = App.getContext().getResources().getString(R.string.freshmen_admission_delete) + "(" + count + ")";
-                edit.setText(total);
-            }
-
-            @Override
-            public void scrollToTop(boolean isGoTo) {
-                if (isGoTo)
-                    scrollToPos(0);
-            }
-        });
-        mRv.setLayoutManager(new LinearLayoutManager(this));
-        mRv.setAdapter(mAdapter);
-        mRv.getItemAnimator().setChangeDuration(100);
-        mRv.getItemAnimator().setMoveDuration(200);
+        mAdapter.setDataList(description.getDescribe());
     }
 
     @Override

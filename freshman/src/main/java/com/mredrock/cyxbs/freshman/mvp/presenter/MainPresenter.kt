@@ -19,8 +19,10 @@ class MainPresenter : BasePresenter<IMainView, IMainModel>(), IMainPresenter {
     override fun onResume() {
         val now = model.getNowStop()
         mvpView?.initCars(if (now == 0) 1 else now)
-        if (isAnimationPlaying && now != 1) {
-            mvpView?.unlockBuilding(now)
+        if (isAnimationPlaying) {
+            if (now < 5){
+                mvpView?.unlockBuilding(now)
+            }
             isAnimationPlaying = false
         }
     }

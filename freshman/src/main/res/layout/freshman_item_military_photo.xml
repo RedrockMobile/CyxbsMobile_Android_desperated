@@ -29,7 +29,6 @@
         android:textColor="#FFFFFF"
         android:lines="1"
         android:background="@drawable/freshman_military_tv_shape"
-        android:text="我是任务1"
         android:textSize="14dp" />
 
 </com.mredrock.cyxbs.freshman.ui.widget.JCardView>

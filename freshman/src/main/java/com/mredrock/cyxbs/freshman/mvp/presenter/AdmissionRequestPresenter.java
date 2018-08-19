@@ -35,17 +35,20 @@ public class AdmissionRequestPresenter extends BasePresenter<AdmissionRequestCon
     }
 
     public void start() {
-        checkIsAttach();//检查是否绑定
         mModel.loadData(new BaseContract.ISomethingModel.LoadCallBack() {
             @Override
             public void succeed(Object o) {
                 Description temp = (Description) o;
-                getView().setRv(temp);
+                if (getView() != null) {
+                    getView().setRv(temp);
+                }
             }
 
             @Override
             public void failed(String msg) {
-                getView().showError();
+                if (getView() != null) {
+                    getView().showError();
+                }
             }
         });
     }

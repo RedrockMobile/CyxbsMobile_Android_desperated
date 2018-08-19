@@ -23,12 +23,16 @@ public class DataDetailSubjectPresenter extends BasePresenter<DataDetailSubjectC
             @Override
             public void succeed(Object o) {
                 subject = (SubjectProportion) o;
-                getView().loadSubjectView(subject);
+                if (getView() != null) {
+                    getView().loadSubjectView(subject);
+                }
             }
 
             @Override
             public void failed(String msg) {
-                getView().showError(msg);
+                if (getView() != null) {
+                    getView().showError(msg);
+                }
             }
         });
     }

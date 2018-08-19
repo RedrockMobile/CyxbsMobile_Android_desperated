@@ -23,12 +23,16 @@ public class DataDetailSexPresenter extends BasePresenter<DataDetailSexContract.
             @Override
             public void succeed(Object o) {
                 sex = (SexProportion) o;
-                getView().loadSexView(sex);
+                if (getView() != null) {
+                    getView().loadSexView(sex);
+                }
             }
 
             @Override
             public void failed(String msg) {
-                getView().showError(msg);
+                if (getView() != null) {
+                    getView().showError(msg);
+                }
             }
         });
     }

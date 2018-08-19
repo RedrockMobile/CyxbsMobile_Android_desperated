@@ -21,8 +21,8 @@ operator fun SharedPreferences.invoke(modify: SharedPreferences.Editor.() -> Uni
 
 @JvmOverloads
 fun <T> getBeanFromSP(keyName: String, clazz: Class<T>, spName: String = "FreshManDefault"): T? =
-        try {
-            gson.fromJson(sp(spName).getString(keyName, null), clazz)
+        label@ try {
+            gson.fromJson(sp(spName).getString(keyName, null) ?: return@label null, clazz)
         } catch (e: Exception) {
             null
         }
@@ -36,10 +36,12 @@ fun <T> withSPCache(keyName: String, clazz: Class<T>, observable: APIService.() 
                     onGetBean: (T) -> Unit, fail: (Throwable) -> Unit = { it.printStackTrace() },
                     spName: String = "FreshManDefault") {
     val jsonFromSP = sp(spName).getString(keyName, null)
-    try {
-        gson.fromJson(jsonFromSP, clazz)
-    } catch (e: Exception) {
-        null
+    jsonFromSP?.let {
+        try {
+            gson.fromJson(it, clazz)
+        } catch (e: Exception) {
+            null
+        }
     }?.let { onGetBean(it) }
     getBeanFromNet({
         if (jsonFromSP != gson.toJson(it)) {
