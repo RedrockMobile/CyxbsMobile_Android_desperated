@@ -42,7 +42,7 @@ public class CourseListProvider implements ObservableOnSubscribe<List<Course>> {
      * @return RxJava Observable
      */
     public static Observable<List<Course>> start(String stuNum, String idNum, boolean preferRefresh, boolean forceFetch) {
-        return Observable.create(new CourseListProvider(stuNum, idNum, preferRefresh,forceFetch));
+        return Observable.create(new CourseListProvider(stuNum, idNum, preferRefresh, forceFetch));
     }
 
     /**
@@ -53,11 +53,11 @@ public class CourseListProvider implements ObservableOnSubscribe<List<Course>> {
      * @param preferRefresh if true, we will try network first, or try cache first
      * @return a list of course
      */
-    public static List<Course> exec(String stuNum, String idNum, boolean preferRefresh,boolean forceFetch) {
-        return new CourseListProvider(stuNum, idNum, preferRefresh,forceFetch).doubleTryLoadSync();
+    public static List<Course> exec(String stuNum, String idNum, boolean preferRefresh, boolean forceFetch) {
+        return new CourseListProvider(stuNum, idNum, preferRefresh, forceFetch).doubleTryLoadSync();
     }
 
-    private CourseListProvider(String stuNum, String idNum, boolean preferRefresh,boolean forceFetch) {
+    private CourseListProvider(String stuNum, String idNum, boolean preferRefresh, boolean forceFetch) {
         this.stuNum = stuNum;
         this.idNum = idNum;
         this.preferRefresh = preferRefresh;
@@ -119,7 +119,7 @@ public class CourseListProvider implements ObservableOnSubscribe<List<Course>> {
 
     private List<Course> getCourseFromNetwork() throws IOException {
         LogUtils.LOGI("CourseProviderObservable", "onGetFromNetwork");
-        List<Course> courses = RequestManager.getInstance().getCourseListSync(stuNum, idNum,forceFetch);
+        List<Course> courses = RequestManager.getInstance().getCourseListSync(stuNum, idNum, forceFetch);
         if (courses == null || courses.size() == 0) {
             throw new NullPointerException();
         }
@@ -130,7 +130,8 @@ public class CourseListProvider implements ObservableOnSubscribe<List<Course>> {
     private List<Course> getCourseFromCache() {
         LogUtils.LOGI("CourseProviderObservable", "onGetFromCache");
         String json = FileUtils.readStringFromFile(new File(cacheFilePath));
-        List<Course> courses = new Gson().fromJson(json, new TypeToken<List<Course>>() {}.getType());
+        List<Course> courses = new Gson().fromJson(json, new TypeToken<List<Course>>() {
+        }.getType());
         if (courses == null || courses.size() == 0) {
             throw new NullPointerException();
         } else {

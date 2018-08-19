@@ -36,7 +36,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-
 import io.reactivex.schedulers.Schedulers;
 
 public class EditInfoActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
@@ -256,7 +255,7 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
                         dismissProgress();
                         Toast.makeText(this, "修改头像成功", Toast.LENGTH_SHORT)
                                 .show();
-                        editInfoAvatar.setImageURI(resultUri);
+                        ImageLoader.getInstance().loadAvatar(mUser.photo_src, editInfoAvatar);
                     }, throwable -> {
                         dismissProgress();
                         Toast.makeText(this,

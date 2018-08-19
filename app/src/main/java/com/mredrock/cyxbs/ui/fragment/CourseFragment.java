@@ -54,6 +54,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import kotlin.Unit;
 
 
 public class CourseFragment extends BaseFragment {
@@ -358,23 +359,12 @@ public class CourseFragment extends BaseFragment {
     @SuppressWarnings("unchecked")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAffairDeleteEvent(AffairDeleteEvent event) {
-        if (mWeek == 0 || event.getCourse().week.contains(mWeek)) {
+        if (event.getCourse().week.contains(mWeek)) {
             Affair affair = (Affair) event.getCourse();
-            RequestManager.getInstance().deleteAffair(new SimpleObserver<>(getActivity(), true, true, new SubscriberListener<Object>() {
-                @Override
-                public void onComplete() {
-                    super.onComplete();
-
-
-                }
+            RequestManager.getInstance().deleteAffair(new SimpleObserver<>(getActivity(), true, true, new SubscriberListener<Unit>() {
 
                 @Override
-                public boolean onError(Throwable e) {
-                    return super.onError(e);
-                }
-
-                @Override
-                public void onNext(Object object) {
+                public void onNext(Unit object) {
                     super.onNext(object);
                     loadCourse(mWeek, false, false);
                     DBManager.INSTANCE.deleteAffair(affair.uid)
@@ -403,13 +393,7 @@ public class CourseFragment extends BaseFragment {
                                 }
                             }));
                 }
-
-                @Override
-                public void onStart() {
-                    super.onStart();
-                }
             }), mUser.stuNum, mUser.idNum, affair.uid);
-
         }
 
     }

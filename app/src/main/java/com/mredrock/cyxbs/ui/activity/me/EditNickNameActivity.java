@@ -11,13 +11,13 @@ import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Toolbar;
 import com.mredrock.cyxbs.config.Const;
-import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import io.reactivex.Observer;
+import kotlin.Unit;
 
 
 public class EditNickNameActivity extends EditCommonActivity {
@@ -51,7 +51,7 @@ public class EditNickNameActivity extends EditCommonActivity {
     }
 
     @Override
-    protected void provideData(Observer<RedrockApiWrapper<Object>> observer, String stuNum, String idNum, String info) {
+    protected void provideData(Observer<Unit> observer, String stuNum, String idNum, String info) {
         RequestManager.getInstance().setPersonNickName(observer, stuNum, idNum, info);
     }
 

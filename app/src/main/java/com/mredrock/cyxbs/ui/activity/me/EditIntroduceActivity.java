@@ -25,6 +25,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import kotlin.Unit;
 
 public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
 
@@ -89,7 +90,7 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
         }
         RequestManager.getInstance()
                 .setPersonIntroduction(new SimpleObserver<>(
-                                EditIntroduceActivity.this, true, new SubscriberListener<RedrockApiWrapper<Object>>() {
+                                EditIntroduceActivity.this, true, new SubscriberListener<RedrockApiWrapper<Unit>>() {
 
                             @Override
                              public void onComplete() {

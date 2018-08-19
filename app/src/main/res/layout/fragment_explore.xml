@@ -26,6 +26,7 @@
             android:orientation="horizontal"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
+
             <com.mredrock.cyxbs.ui.widget.ExploreItem
                 android:id="@+id/explore_school_car"
                 android:layout_width="0dp"

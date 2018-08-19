@@ -7,13 +7,13 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
-        ndk{
-            abiFilter 'armeabi'
-        }
     }
 
     buildTypes {
         release {
+            ndk{
+                abiFilter 'armeabi'
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }

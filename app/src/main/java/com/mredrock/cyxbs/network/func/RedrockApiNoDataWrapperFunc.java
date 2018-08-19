@@ -5,21 +5,19 @@ import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.network.exception.RedrockApiException;
 
 import io.reactivex.functions.Function;
-
+import kotlin.Unit;
 
 /**
- * Created by cc on 16/5/6.
+ * Created By jay68 on 2018/3/1.
  */
-public class RedrockApiWrapperFunc<T> implements Function<RedrockApiWrapper<T>, T> {
+
+public class RedrockApiNoDataWrapperFunc implements Function<RedrockApiWrapper<Unit>, Unit> {
 
     @Override
-    public T apply(RedrockApiWrapper<T> wrapper) throws Exception {
+    public Unit apply(RedrockApiWrapper<Unit> wrapper) throws Exception {
         if (wrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
             throw new RedrockApiException(wrapper.info);
         }
-        if (wrapper.data == null) {
-            throw new RedrockApiException("Are you sure the data exist ? If not consider use RedrockApiNoDataWrapperFunc instead.");
-        }
-        return wrapper.data;
+        return Unit.INSTANCE;
     }
 }

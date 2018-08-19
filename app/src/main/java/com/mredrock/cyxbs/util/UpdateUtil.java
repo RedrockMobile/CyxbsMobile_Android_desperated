@@ -23,7 +23,7 @@ public class UpdateUtil {
                       .checkUpdate(new SimpleObserver<>(context, shouldReturnResult, false, new SubscriberListener<UpdateInfo>() {
                                   @Override
                                   public void onNext(UpdateInfo updateInfo) {
-                                      if (updateInfo != null) {
+                                      if (updateInfo.versionCode > Utils.getAppVersionCode(context)) {
                                           new MaterialDialog.Builder(context)
                                                   .title("更新")
                                                   .title("有新版本更新")
@@ -48,9 +48,7 @@ public class UpdateUtil {
                                           Utils.toast(context.getApplicationContext(), "已经是最新版了");
                                       }
                                   }
-                              }),
-                              Utils.getAppVersionCode(context)
-                      );
+                      }));
     }
 
     private static void startDownload(String urlStr, Context context) {

@@ -52,6 +52,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
+import kotlin.Unit;
 
 public class SpecificNewsActivity extends BaseActivity
         implements SwipeRefreshLayout.OnRefreshListener, EditTextBottomSheetDialog.OnClickListener
@@ -406,7 +407,7 @@ public class SpecificNewsActivity extends BaseActivity
         if (editText.getText().toString().equals(""))
             Toast.makeText(SpecificNewsActivity.this, getString(R.string.alter), Toast.LENGTH_SHORT).show();
         else {
-            RequestManager.getInstance().postReMarks(new SimpleObserver<>(this, true, false, new SubscriberListener<String>() {
+            RequestManager.getInstance().postReMarks(new SimpleObserver<>(this, true, false, new SubscriberListener<Unit>() {
                 @Override
                 public void onComplete() {
                     super.onComplete();
