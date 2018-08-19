@@ -10,14 +10,10 @@ android {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 38
-        versionName "2017秋季版"
+        versionCode 40
+        versionName "2018迎新版"
         multiDexEnabled true
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "official"]
-
-        ndk{
-            abiFilter 'armeabi'
-        }
     }
 
     flavorDimensions "default"
@@ -78,6 +74,10 @@ android {
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true
+
+            ndk{
+                abiFilter 'armeabi'
+            }
 
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
