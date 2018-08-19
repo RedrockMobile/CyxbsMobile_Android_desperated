@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#F3F3F3"
+    android:clipChildren="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.mredrock.cyxbs.freshman.ui.widget.JCardView
+        android:layout_width="match_parent"
+        app:hideLeftShadow="true"
+        app:hideRightShadow="true"
+        android:clipChildren="false"
+        android:layout_marginTop="5dp"
+        app:shadowColor="#DADADA"
+        app:shadowRadius="10dp"
+        app:radius="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/freshman_military_show_video_parent1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:layout_weight="2"
+                android:text="@string/freshman_military_photo"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/freshman_military_show_photo_vp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginRight="66dp"
+                android:layout_marginLeft="66dp"
+                android:layout_weight="8"
+                android:clipChildren="false"
+                android:layout_gravity="center"
+                android:layout_marginBottom="33dp"
+                android:layout_marginTop="12dp">
+
+            </android.support.v4.view.ViewPager>
+
+        </LinearLayout>
+    </com.mredrock.cyxbs.freshman.ui.widget.JCardView>
+
+    <com.mredrock.cyxbs.freshman.ui.widget.JCardView
+        app:shadowColor="#DADADA"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="45dp"
+        app:radius="0dp"
+        app:shadowRadius="5dp"
+        app:hideLeftShadow="true"
+        app:hideRightShadow="true"
+        android:clipChildren="false"
+        android:layout_marginTop="20dp"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/freshman_military_show_video_parent2"
+            android:clipChildren="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@string/freshman_military_video"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/freshman_military_show_video_vp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:clipChildren="false"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="8">
+
+            </android.support.v4.view.ViewPager>
+
+
+        </LinearLayout>
+
+    </com.mredrock.cyxbs.freshman.ui.widget.JCardView>
+</LinearLayout>

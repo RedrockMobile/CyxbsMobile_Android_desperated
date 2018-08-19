@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_admission"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.AdmissionRequestActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_admission"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/freshman_bg_tb"
+        android:minHeight="@dimen/abc_action_bar_default_height_material"
+        app:contentInsetStart="0dp"
+        tools:ignore="PrivateResource">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_admission_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/freshman_icon_back"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tv_admission_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:text="@string/freshmen_admission_title"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:textColor="@color/freshman_title_white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_admission_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:layout_marginRight="15dp"
+                android:text="@string/freshmen_admission_edit"
+                android:textColor="@color/freshman_title_white"
+                android:textSize="18sp"
+                tools:ignore="RelativeOverlap" />
+
+            <ImageView
+                android:id="@+id/iv_admission_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/tv_admission_title"
+                android:src="@drawable/freshman_icon_detail"
+                tools:ignore="ContentDescription"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@id/tv_admission_title" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tb_admission">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_admission"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/freshman_bg_phone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tb_admission"
+            app:layout_constraintVertical_bias="0.0">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabtn_admission_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/freshman_icon_add"
+            app:backgroundTint="@color/freshman_btn_blue"
+            app:layout_anchor="@+id/rv_admission"
+            app:layout_anchorGravity="right|bottom"
+            app:layout_behavior="com.mredrock.cyxbs.freshman.utils.kt.HideFabBehavior"
+            app:rippleColor="@color/freshman_btn_blue" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/freshman_bg_phone"
+    tools:context=".ui.activity.ReportingProcessMoreActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/freshman_include_toolbar" />
+
+    <com.mredrock.cyxbs.freshman.ui.widget.JCardView
+        android:id="@+id/jcv_report_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:radius="5dp"
+        app:shadowRadius="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="13dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/riv_report_real_more"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:paddingEnd="8dp"
+                    android:paddingRight="8dp"
+                    android:scaleType="centerCrop"
+                    app:riv_corner_radius="5dp"
+                    tools:src="@drawable/freshman_preload_img"
+                    tools:ignore="RtlSymmetry" />
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/riv_report_map_more"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
+                    android:scaleType="centerCrop"
+                    app:riv_corner_radius="5dp"
+                    tools:src="@drawable/freshman_preload_img"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_report_location_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayout1"
+                android:layout_marginTop="20dp"
+                android:textColor="#cc010100"
+                android:textSize="16sp"
+                tools:text="体育馆" />
+
+            <TextView
+                android:id="@+id/tv_report_step_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tv_report_location_more"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@id/tv_report_location_more"
+                android:layout_toRightOf="@id/tv_report_location_more"
+                android:textColor="#99000000"
+                android:textSize="14sp"
+                tools:text="(步骤一)" />
+
+            <TextView
+                android:id="@+id/tv_report_context_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_report_location_more"
+                android:layout_marginTop="13dp"
+                android:textColor="#b3000000"
+                android:textSize="14sp"
+                tools:text="具体报名流程，什么步骤等等等具体报名流程，什么步骤等等等具体报名流程，什么步骤等等等具体报名流程，什么步骤等等等具体报名流程，什么步骤等等等具体报名流程，什么步骤等等等耶等具体报名流程" />
+
+            <ImageView
+                android:id="@+id/iv_report_arrow_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_report_context_more"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="23dp"
+                android:src="@drawable/freshman_icon_report_simple"
+                tools:ignore="ContentDescription" />
+
+        </RelativeLayout>
+    </com.mredrock.cyxbs.freshman.ui.widget.JCardView>
+
+</android.support.constraint.ConstraintLayout>

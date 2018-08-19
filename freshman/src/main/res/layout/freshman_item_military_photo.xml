@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.mredrock.cyxbs.freshman.ui.widget.JCardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    app:radius="10dp"
+    android:clipChildren="false"
+    app:hideTopShadow="true"
+    app:hideBottomShadow="true"
+    app:hideLeftShadow="true"
+    app:hideRightShadow="true">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/freshman_military_card_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="10dp" />
+
+    <TextView
+        android:id="@+id/freshman_military_card_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="#FFFFFF"
+        android:lines="1"
+        android:background="@drawable/freshman_military_tv_shape"
+        android:text="我是任务1"
+        android:textSize="14dp" />
+
+</com.mredrock.cyxbs.freshman.ui.widget.JCardView>

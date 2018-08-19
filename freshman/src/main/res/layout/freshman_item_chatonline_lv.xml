@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mredrock.cyxbs.freshman.ui.widget.JCardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:background="@drawable/freshman_chat_online_tv"
+    app:hideTopShadow="true"
+    app:hideRightShadow="true"
+    app:hideLeftShadow="true"
+    app:hideBottomShadow="true"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    app:radius="0dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/freshman_chatonline_textView"
+        android:textSize="14sp"
+        android:gravity="center|left"
+        android:text="我是文字"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </TextView>
+
+    <View
+        android:id="@+id/freshman_chatonline_decoration"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#ffEFEFEF"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+</com.mredrock.cyxbs.freshman.ui.widget.JCardView>

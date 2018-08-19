@@ -63,6 +63,7 @@ public class BaseAPP extends MultiDexApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         context = base;
+        com.mredrock.cyxbs.freshman.ui.activity.App.setAppContext(context);
     }
 
     public static void setUser(Context context, User user) {
