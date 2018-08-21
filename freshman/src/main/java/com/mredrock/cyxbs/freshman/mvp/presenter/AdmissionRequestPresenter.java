@@ -2,10 +2,13 @@ package com.mredrock.cyxbs.freshman.mvp.presenter;
 
 import android.content.Context;
 
+import com.mredrock.cyxbs.freshman.R;
 import com.mredrock.cyxbs.freshman.bean.Description;
 import com.mredrock.cyxbs.freshman.mvp.contract.AdmissionRequestContract;
 import com.mredrock.cyxbs.freshman.mvp.contract.BaseContract;
+import com.mredrock.cyxbs.freshman.ui.activity.App;
 import com.mredrock.cyxbs.freshman.ui.widget.ARHintDialog;
+import com.mredrock.cyxbs.freshman.utils.ToastUtils;
 
 public class AdmissionRequestPresenter extends BasePresenter<AdmissionRequestContract.IAdmissionRequestView> {
     private AdmissionRequestContract.IAdmissionRequestModel mModel;
@@ -46,9 +49,7 @@ public class AdmissionRequestPresenter extends BasePresenter<AdmissionRequestCon
 
             @Override
             public void failed(String msg) {
-                if (getView() != null) {
-                    getView().showError();
-                }
+                ToastUtils.show(App.getContext().getResources().getString(R.string.freshman_error_soft));
             }
         });
     }

@@ -7,8 +7,8 @@ import com.mredrock.cyxbs.freshman.bean.StrategyData;
 import com.mredrock.cyxbs.freshman.mvp.contract.ReportingProcessContract;
 import com.mredrock.cyxbs.freshman.ui.activity.App;
 import com.mredrock.cyxbs.freshman.utils.SPHelper;
+import com.mredrock.cyxbs.freshman.utils.kt.SpKt;
 import com.mredrock.cyxbs.freshman.utils.net.Const;
-import com.mredrock.cyxbs.freshman.utils.net.HttpLoader;
 
 /*
  by Cynthia at 2018/8/16
@@ -31,15 +31,28 @@ public class ReportingProcessModel implements ReportingProcessContract.IReportin
 
     @Override
     public void loadData(LoadCallBack callBack) {
-        StrategyData data = SPHelper.getBean(Const.INDEX_REGISTRATION, StrategyData.class);
-        if (data == null) {
-            HttpLoader.<StrategyData>get(
-                    service -> service.getStrategyData(Const.INDEX_REGISTRATION, Const.STRATEGY_PAGE_NUM, Const.STRATEGY_PAGE_SIZE),
-                    item -> setData(item, callBack),
-                    error -> showError(error.toString(), callBack)
-            );
-        } else {
-            callBack.succeed(data);
-        }
+//       todo 刷新
+//        StrategyData data = SPHelper.getBean(Const.INDEX_REGISTRATION,StrategyData.class);
+//        if (data == null){
+//            HttpLoader.<StrategyData>get(
+//                    service -> service.getStrategyData(Const.INDEX_REGISTRATION,Const.STRATEGY_PAGE_NUM,Const.STRATEGY_PAGE_SIZE),
+//                    item -> setData(item,callBack),
+//                    error -> showError(error.toString(),callBack)
+//            );
+//        } else {
+//            callBack.succeed(data);
+//        }
+
+        SpKt.withSPCache(Const.INDEX_REGISTRATION, StrategyData.class,
+                apiService -> apiService.getStrategyData(Const.INDEX_REGISTRATION, Const.STRATEGY_PAGE_NUM, Const.STRATEGY_PAGE_SIZE),
+                data -> {
+                    callBack.succeed(data);
+                    return null;
+                },
+                fail -> {
+                    callBack.failed(fail.toString());
+                    return null;
+                }
+        );
     }
 }

@@ -2,6 +2,7 @@ package com.mredrock.cyxbs.freshman.ui.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ public class DataDetailSubjectFragment extends Fragment implements DataDetailSub
     private int max;
     private float time;
     private String name;
-    private int[] personNum;
+    private float[] personNum;
     private String[] subjectName;
 
     private boolean rectFirst;
@@ -41,7 +42,7 @@ public class DataDetailSubjectFragment extends Fragment implements DataDetailSub
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.freshman_fragment_data_detail_subject, container, false);
         rectFirst = true;
         rootView = view;
@@ -87,25 +88,13 @@ public class DataDetailSubjectFragment extends Fragment implements DataDetailSub
     public void loadSubjectView(SubjectProportion subjectProportion) {
         int num = subjectProportion.getArray().size();
         subjectName = new String[num];
-        personNum = new int[num];
+        personNum = new float[num];
+        max = 100;
+        time = 1.0f;
         for (int i = 0; i < num; i++) {
             subjectName[i] = subjectProportion.getArray().get(i).getSubject_name();
             personNum[i] = subjectProportion.getArray().get(i).getBelow_amount();
-            if (personNum[i] > max) {
-                max = personNum[i];
-            }
         }
-        int temp = 120;
-        while (temp < max) {
-            temp = temp + 30;
-        }
-        while (temp - max > 45) {
-            temp = temp - 30;
-        }
-        time = temp <= 60 ? 0.5f : 2f;
-        time = temp <= 30 ? 0.2f : 2f;
-        if (temp - max < temp / 6 / 3 && temp != 120)
-            temp = temp + 30;
-        max = temp;
+
     }
 }

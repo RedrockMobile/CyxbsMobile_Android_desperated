@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.freshman.ui.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import com.mredrock.cyxbs.freshman.R;
 import com.mredrock.cyxbs.freshman.bean.Description;
 import com.mredrock.cyxbs.freshman.ui.activity.App;
+import com.mredrock.cyxbs.freshman.utils.SPHelper;
+import com.mredrock.cyxbs.freshman.utils.ToastUtils;
 
 import java.util.List;
 
@@ -33,14 +36,15 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
         this.mListener = mListener;
     }
 
+    @NonNull
     @Override
-    public AdmissionRequestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AdmissionRequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View mView = LayoutInflater.from(App.getContext()).inflate(R.layout.freshman_recycle_item_admission, parent, false);
         return new AdmissionRequestViewHolder(mView);
     }
 
     @Override
-    public void onBindViewHolder(AdmissionRequestViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdmissionRequestViewHolder holder, int position) {
         holder.initData(mDataList.get(position));
     }
 
@@ -51,6 +55,7 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
 
     public void setDataList(List<Description.DescribeBean> mDataList){
         this.mDataList = mDataList;
+        notifyItemRangeInserted(0,mDataList.size() - 1);
     }
 
     public void changeData(Boolean isEdit) {
@@ -65,8 +70,14 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
     }
 
     public void add(Description.DescribeBean bean) {
-        mDataList.add(bean);
-        notifyItemInserted(mDataList.size());
+        if (mDataList.size() != 0){
+            mDataList.add(bean);
+            notifyItemInserted(mDataList.size());
+            SPHelper.putBean("admission", "admission", getDatas());
+        }
+        else{
+            ToastUtils.show("还未成功加载数据哦~");
+        }
     }
 
     public void deleteDatas() {

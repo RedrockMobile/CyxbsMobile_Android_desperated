@@ -1,9 +1,12 @@
 package com.mredrock.cyxbs.freshman.mvp.presenter;
 
+import com.mredrock.cyxbs.freshman.R;
 import com.mredrock.cyxbs.freshman.bean.StrategyData;
 import com.mredrock.cyxbs.freshman.mvp.contract.BaseContract;
 import com.mredrock.cyxbs.freshman.mvp.contract.ReportingProcessContract;
 import com.mredrock.cyxbs.freshman.mvp.model.ReportingProcessModel;
+import com.mredrock.cyxbs.freshman.ui.activity.App;
+import com.mredrock.cyxbs.freshman.utils.ToastUtils;
 
 /*
  by Cynthia at 2018/8/16
@@ -29,9 +32,7 @@ public class ReportingProcessPresenter extends BasePresenter<ReportingProcessCon
 
             @Override
             public void failed(String msg) {
-                if (getView() != null) {
-                    getView().showError(msg);
-                }
+                ToastUtils.show(App.getContext().getResources().getString(R.string.freshman_error_soft));
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.freshman.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,14 +35,15 @@ public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProce
         this.content = context;
     }
 
+    @NonNull
     @Override
-    public ReportingProcessViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ReportingProcessViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(App.getContext()).inflate(R.layout.freshman_recycle_item_report, parent, false);
         return new ReportingProcessViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ReportingProcessViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ReportingProcessViewHolder holder, int position) {
         holder.loadData(list.get(position));
     }
 
@@ -52,6 +54,11 @@ public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProce
 
     public List<StrategyData.DetailData> getList() {
         return list;
+    }
+
+    public void setList(List<StrategyData.DetailData> mData){
+        this.list = mData;
+        notifyDataSetChanged();
     }
 
     class ReportingProcessViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -86,6 +93,8 @@ public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProce
         }
 
         private void loadData(StrategyData.DetailData detailData) {
+            if (detailData == null)
+                return;
             title.setText(detailData.getName());
             String temp = "步骤" + detailData.getId();
             step.setText(temp);

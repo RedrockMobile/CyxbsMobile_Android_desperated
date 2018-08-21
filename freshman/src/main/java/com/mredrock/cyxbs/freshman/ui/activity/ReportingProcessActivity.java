@@ -17,6 +17,10 @@ import com.mredrock.cyxbs.freshman.utils.net.Const;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class ReportingProcessActivity extends BaseActivity implements ReportingProcessContract.IReportingProcessView {
 
     private ReportingProcessAdapter mAdapter;
@@ -24,7 +28,19 @@ public class ReportingProcessActivity extends BaseActivity implements ReportingP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initRv();
         initMVP();
+    }
+
+    public void initRv(){
+        List<StrategyData.DetailData> mData = new ArrayList<>();
+        mAdapter = new ReportingProcessAdapter(mData,
+                ((pos) -> expandItem(mAdapter.getList().get(pos))), this);
+        RecyclerView mRv = findViewById(R.id.rv_report);
+        mRv.setLayoutManager(new LinearLayoutManager(App.getContext()));
+        mRv.setAdapter(mAdapter);
+        mRv.getItemAnimator().setChangeDuration(100);
+        mRv.getItemAnimator().setMoveDuration(200);
     }
 
     private void initMVP() {
@@ -40,13 +56,7 @@ public class ReportingProcessActivity extends BaseActivity implements ReportingP
 
     @Override
     public void setData(StrategyData data) {
-        mAdapter = new ReportingProcessAdapter(data.getDetails(),
-                ((pos) -> expandItem(mAdapter.getList().get(pos))), this);
-        RecyclerView mRv = findViewById(R.id.rv_report);
-        mRv.setLayoutManager(new LinearLayoutManager(App.getContext()));
-        mRv.setAdapter(mAdapter);
-        mRv.getItemAnimator().setChangeDuration(100);
-        mRv.getItemAnimator().setMoveDuration(200);
+       mAdapter.setList(data.getDetails());
     }
 
     @Override

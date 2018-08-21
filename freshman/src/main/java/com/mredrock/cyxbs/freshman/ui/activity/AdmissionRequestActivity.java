@@ -28,8 +28,6 @@ import com.mredrock.cyxbs.freshman.mvp.model.AdmissionRequestModel;
 import com.mredrock.cyxbs.freshman.mvp.presenter.AdmissionRequestPresenter;
 import com.mredrock.cyxbs.freshman.ui.adapter.AdmissionRequestAdapter;
 import com.mredrock.cyxbs.freshman.utils.DensityUtils;
-import com.mredrock.cyxbs.freshman.utils.SPHelper;
-import com.mredrock.cyxbs.freshman.utils.ScrollSpeedLinearLayoutManger;
 import com.mredrock.cyxbs.freshman.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -125,8 +123,6 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
 
     @Override
     public void setRv(Description description) {
-        ScrollSpeedLinearLayoutManger manger = new ScrollSpeedLinearLayoutManger(App.getContext());
-        manger.setSpeedSlow();
         mAdapter.setDataList(description.getDescribe());
     }
 
@@ -194,8 +190,6 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
 
     @Override
     protected void onDestroy() {
-        if (mAdapter != null)
-            SPHelper.putBean("admission", "admission", mAdapter.getDatas());
         mPresenter.detachView();
         super.onDestroy();
     }
@@ -211,6 +205,7 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
         if (keyCode == KeyEvent.KEYCODE_BACK && isEdit) {
             isEdit = false;
             mAdapter.changeData(false);
+            edit.setText(getResources().getString(R.string.freshmen_admission_edit));
             return false;
         }
         return super.onKeyDown(keyCode, event);
