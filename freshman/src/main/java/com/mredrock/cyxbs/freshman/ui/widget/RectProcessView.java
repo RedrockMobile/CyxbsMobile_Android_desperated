@@ -49,6 +49,8 @@ public class RectProcessView extends View {
     private Rect rect = new Rect();
     private RectF rectF = new RectF();
 
+    private String TAG = "RectProcessView";
+
     public RectProcessView(Context context) {
         this(context, null);
     }

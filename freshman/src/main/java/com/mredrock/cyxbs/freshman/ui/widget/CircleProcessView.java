@@ -137,7 +137,7 @@ public class CircleProcessView extends View {
             @SuppressLint("DefaultLocale")
             String mProcess = String.valueOf((int) process[i]);
             String text = mProcess + "%";
-            textPaint.setColor(Color.parseColor(colors[i]));
+            textPaint.setColor(Color.parseColor(colors[i + 2]));
             textPaint.getTextBounds(text, 0, text.length(), mText);
             int h = mText.height();
             canvas.drawText(text, (float) x * 0.65f, (float) x - centerLocation[i] + h / 1.5f, textPaint);

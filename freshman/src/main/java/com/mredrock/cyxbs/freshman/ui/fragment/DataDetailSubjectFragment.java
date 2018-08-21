@@ -93,7 +93,7 @@ public class DataDetailSubjectFragment extends Fragment implements DataDetailSub
         time = 1.0f;
         for (int i = 0; i < num; i++) {
             subjectName[i] = subjectProportion.getArray().get(i).getSubject_name();
-            personNum[i] = subjectProportion.getArray().get(i).getBelow_amount();
+            personNum[i] = subjectProportion.getArray().get(i).getBelow_amount() / 10f;
         }
 
     }

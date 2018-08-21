@@ -1,6 +1,7 @@
 package com.mredrock.cyxbs.freshman.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +15,13 @@ import com.mredrock.cyxbs.freshman.R;
 import com.mredrock.cyxbs.freshman.bean.StrategyData;
 import com.mredrock.cyxbs.freshman.ui.activity.App;
 import com.mredrock.cyxbs.freshman.ui.activity.PhotoViewerActivityKt;
+import com.mredrock.cyxbs.freshman.utils.net.Const;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /*
  by Cynthia at 2018/8/16
- description :
  */
 public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProcessAdapter.ReportingProcessViewHolder> {
 
@@ -34,14 +35,15 @@ public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProce
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public ReportingProcessViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ReportingProcessViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(App.getContext()).inflate(R.layout.freshman_recycle_item_report, parent, false);
         return new ReportingProcessViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ReportingProcessViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ReportingProcessViewHolder holder, int position) {
         holder.loadData(list.get(position));
     }
 
@@ -52,6 +54,11 @@ public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProce
 
     public List<StrategyData.DetailData> getList() {
         return list;
+    }
+
+    public void setList(List<StrategyData.DetailData> mData){
+        this.list = mData;
+        notifyItemRangeInserted(0,list.size() - 1);
     }
 
     class ReportingProcessViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -89,8 +96,8 @@ public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProce
             title.setText(detailData.getName());
             String temp = "步骤" + detailData.getId();
             step.setText(temp);
-            realStr = "http://47.106.33.112:8080/welcome2018" + detailData.getPicture().get(0);
-            mapStr = "http://47.106.33.112:8080/welcome2018" + detailData.getPicture().get(1);
+            realStr = Const.IMG_BASE_URL + detailData.getPicture().get(0);
+            mapStr = Const.IMG_BASE_URL  + detailData.getPicture().get(1);
             Glide.with(context)
                     .load(realStr)
                     .thumbnail(0.1f)

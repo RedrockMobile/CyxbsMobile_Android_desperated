@@ -99,7 +99,6 @@
             app:backgroundTint="@color/freshman_btn_blue"
             app:layout_anchor="@+id/rv_admission"
             app:layout_anchorGravity="right|bottom"
-            app:layout_behavior="com.mredrock.cyxbs.freshman.utils.kt.HideFabBehavior"
             app:rippleColor="@color/freshman_btn_blue" />
 
     </android.support.design.widget.CoordinatorLayout>

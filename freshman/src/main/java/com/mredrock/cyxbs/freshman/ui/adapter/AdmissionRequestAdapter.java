@@ -132,7 +132,7 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
                         mListener.getTotalNum(deleteNum);
                     }
                 } else {
-                    if (mDataList.get(getLayoutPosition()).getProperty().equals("用户自定义"))
+                    if (mDataList.get(getLayoutPosition()).getProperty().equals("用户自定义") || mDataList.get(getLayoutPosition()).getContent().equals(""))
                         return;
                     if (!mDataList.get(getLayoutPosition()).isOpen()) {
                         more.setImageDrawable(App.getContext().getResources().getDrawable(R.drawable.freshman_icon_see_simple));
@@ -155,7 +155,7 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
             title.setTextColor(App.getContext().getResources().getColor(colorId));
             item.setImageDrawable(App.getContext().getResources().getDrawable(drawableIdCheck));
             delete.setImageDrawable(App.getContext().getResources().getDrawable(drawableIdDelete));
-            if (mData.getProperty().equals("用户自定义")) {
+            if (mData.getProperty().equals("用户自定义") || mData.getContent().equals("")) {
                 more.setVisibility(View.GONE);
             } else if (mData.getProperty().equals("必需") || mData.getProperty().equals("非必需")) {
                 more.setVisibility(View.VISIBLE);
@@ -185,6 +185,8 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
             Description.DescribeBean temp = mDataList.get(from);
             mDataList.remove(from);
             mDataList.add(to, temp);
+            if (from == to)
+                return;
             notifyItemRemoved(from);
             notifyItemInserted(to);
         }

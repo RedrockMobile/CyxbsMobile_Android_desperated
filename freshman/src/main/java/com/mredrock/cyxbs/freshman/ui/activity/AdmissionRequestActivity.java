@@ -171,11 +171,11 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
             isEdit = !isEdit;
             if (isEdit) {
                 edit.setText(getResources().getString(R.string.freshmen_admission_delete));
-                mFabtn.show();
+                mFabtn.hide();
             } else {
                 edit.setText(getResources().getString(R.string.freshmen_admission_edit));
                 mAdapter.deleteDatas();
-                mFabtn.hide();
+                mFabtn.show();
             }
             mAdapter.changeData(isEdit);
 
