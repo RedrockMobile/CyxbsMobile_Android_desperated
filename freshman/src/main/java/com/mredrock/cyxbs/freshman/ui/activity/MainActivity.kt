@@ -3,7 +3,6 @@ package com.mredrock.cyxbs.freshman.ui.activity
 import android.animation.*
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
@@ -25,12 +24,12 @@ class MainActivity : BaseMVPActivity<MainContract.IMainView, MainContract.IMainP
     private val mPassCars by lazy { arrayOf(car1_2, car2_3, car3_4, car4_5) }
     private val scale by lazy { getScreenWidth().toDouble() / iv_bg.drawable.intrinsicWidth }
     private val carScale by lazy {
-        arrayOf(0.4762f, 0.5556f, 0.7143f, 0.8741f, 1f)
+        arrayOf(0.4762, 0.5556, 0.7143, 0.8741, 1.0)
                 .map { it * scale }
     }
     private val buildings by lazy {
         arrayOf(
-                freshman_building_request1 to (R.drawable.freshman_building_request to R.drawable.freshman_building_request),
+                freshman_building_request1 to (R.drawable.freshman_building_request to R.drawable.freshman_building_request_locked),
                 freshman_building_strategy2 to (R.drawable.freshman_building_strategy_unlock to R.drawable.freshman_building_strategy_locked),
                 freshman_building_chat3 to (R.drawable.freshman_building_chat_unlock to R.drawable.freshman_building_chat_locked),
                 freshman_building_process4 to (R.drawable.freshman_building_process_unlock to R.drawable.freshman_building_process_locked),
@@ -40,18 +39,18 @@ class MainActivity : BaseMVPActivity<MainContract.IMainView, MainContract.IMainP
     override fun initCars(pos: Int) {
         with(mCars) {
             forEach {
-                it.visibility = android.view.View.INVISIBLE
+                it.visibility = View.INVISIBLE
             }
-            val bitmap = android.graphics.BitmapFactory.decodeResource(resources, when (pos) {
-                1, 2, 4 -> com.mredrock.cyxbs.freshman.R.drawable.freshman_img_car_left
-                else -> com.mredrock.cyxbs.freshman.R.drawable.freshman_img_car_right
+            val bitmap = BitmapFactory.decodeResource(resources, when (pos) {
+                1, 2, 4 -> R.drawable.freshman_img_car_left
+                else -> R.drawable.freshman_img_car_right
             })
-            kotlin.with(get(pos - 1)) {
-                setImageBitmap(android.graphics.Bitmap.createScaledBitmap(bitmap,
+            with(get(pos - 1)) {
+                setImageBitmap(Bitmap.createScaledBitmap(bitmap,
                         (carScale[pos - 1] * bitmap.width).toInt(),
                         (carScale[pos - 1] * bitmap.height).toInt(),
                         true))
-                visibility = android.view.View.VISIBLE
+                visibility = View.VISIBLE
             }
             bitmap.recycle()
         }
@@ -60,7 +59,7 @@ class MainActivity : BaseMVPActivity<MainContract.IMainView, MainContract.IMainP
     override fun initBuilding(pos: Int) =
             iv_bg.setImageResource(R.drawable.freshman_bg_main).also {
                 buildings.forEachIndexed { i, building ->
-                    setScaledBitmap(building.first, building.second.first, building.second.second, pos < i)
+                    setScaledBitmap(building.first, building.second.first, building.second.second, if (i == 0) pos == 0 else pos < i )
                 }
                 setScaledBitmap(freshman_building_mien, R.drawable.freshman_building_mien)
                 setScaledBitmap(freshman_building_military, R.drawable.freshman_building_military)
@@ -68,6 +67,9 @@ class MainActivity : BaseMVPActivity<MainContract.IMainView, MainContract.IMainP
 
     override fun unlockBuilding(pos: Int) {
         val building = buildings[pos]
+        if (pos == 1) {
+            setScaledBitmap(buildings[0].first, buildings[0].second.first)
+        }
         ObjectAnimator.ofFloat(building.first, "rotation", 0f, -5f, 5f).apply {
             duration = 300
             interpolator = AccelerateInterpolator()
@@ -128,7 +130,7 @@ class MainActivity : BaseMVPActivity<MainContract.IMainView, MainContract.IMainP
                                     val bitmap = BitmapFactory.decodeResource(resources,
                                             if (pos == 4) R.drawable.freshman_img_car_left
                                             else R.drawable.freshman_img_car_right)
-                                    now.setImageBitmap(android.graphics.Bitmap.createScaledBitmap(bitmap,
+                                    now.setImageBitmap(Bitmap.createScaledBitmap(bitmap,
                                             (carScale[nowIndex] * bitmap.width).toInt(),
                                             (carScale[nowIndex] * bitmap.height).toInt(),
                                             true))

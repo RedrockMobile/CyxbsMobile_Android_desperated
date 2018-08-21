@@ -7,6 +7,7 @@ import com.mredrock.cyxbs.freshman.mvp.contract.MainContract.*
 import com.mredrock.cyxbs.freshman.mvp.model.MainModel
 import com.mredrock.cyxbs.freshman.ui.activity.*
 import com.mredrock.cyxbs.freshman.ui.activity.campus.CampusStrategyEntranceActivity
+import com.mredrock.cyxbs.freshman.utils.ToastUtils
 import com.mredrock.cyxbs.freshman.utils.kt.BasePresenter
 
 class MainPresenter : BasePresenter<IMainView, IMainModel>(), IMainPresenter {
@@ -49,6 +50,8 @@ class MainPresenter : BasePresenter<IMainView, IMainModel>(), IMainPresenter {
             } else if (it == nextStop) {
                 isAnimationPlaying = true
                 mvpView?.driveAnimator(it)
+            } else {
+                ToastUtils.show("需要按顺序解锁哦")
             }
             Unit
         }

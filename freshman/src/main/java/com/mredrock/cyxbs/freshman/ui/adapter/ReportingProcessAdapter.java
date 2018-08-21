@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.freshman.ui.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,29 +20,28 @@ import java.util.List;
 
 /*
  by Cynthia at 2018/8/16
- description : 
+ description :
  */
 public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProcessAdapter.ReportingProcessViewHolder> {
 
     private List<StrategyData.DetailData> list;
     private ClickItemListener listener;
-    private Context content;
+    private Context context;
 
     public ReportingProcessAdapter(List<StrategyData.DetailData> report, ClickItemListener listener, Context context) {
         this.list = report;
         this.listener = listener;
-        this.content = context;
+        this.context = context;
     }
 
-    @NonNull
     @Override
-    public ReportingProcessViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ReportingProcessViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(App.getContext()).inflate(R.layout.freshman_recycle_item_report, parent, false);
         return new ReportingProcessViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ReportingProcessViewHolder holder, int position) {
+    public void onBindViewHolder(ReportingProcessViewHolder holder, int position) {
         holder.loadData(list.get(position));
     }
 
@@ -56,18 +54,13 @@ public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProce
         return list;
     }
 
-    public void setList(List<StrategyData.DetailData> mData){
-        this.list = mData;
-        notifyDataSetChanged();
-    }
-
     class ReportingProcessViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private RoundedImageView real;
         private RoundedImageView map;
         private TextView title;
         private TextView step;
-        private TextView context;
+        private TextView content;
         private ImageView arrow;
 
         private String realStr;
@@ -83,32 +76,30 @@ public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProce
             map = view.findViewById(R.id.riv_report_map);
             title = view.findViewById(R.id.tv_report_location);
             step = view.findViewById(R.id.tv_report_step);
-            context = view.findViewById(R.id.tv_report_context);
+            content = view.findViewById(R.id.tv_report_context);
             arrow = view.findViewById(R.id.iv_report_arrow);
 
             real.setOnClickListener(this);
             map.setOnClickListener(this);
-            context.setOnClickListener(this);
+            content.setOnClickListener(this);
             arrow.setOnClickListener(this);
         }
 
         private void loadData(StrategyData.DetailData detailData) {
-            if (detailData == null)
-                return;
             title.setText(detailData.getName());
             String temp = "步骤" + detailData.getId();
             step.setText(temp);
             realStr = "http://47.106.33.112:8080/welcome2018" + detailData.getPicture().get(0);
             mapStr = "http://47.106.33.112:8080/welcome2018" + detailData.getPicture().get(1);
-            Glide.with(App.getContext())
+            Glide.with(context)
                     .load(realStr)
                     .thumbnail(0.1f)
                     .into(real);
-            Glide.with(App.getContext())
+            Glide.with(context)
                     .load(mapStr)
                     .thumbnail(0.1f)
                     .into(map);
-            context.setText(detailData.getContent());
+            content.setText(detailData.getContent());
         }
 
         @Override
@@ -118,10 +109,10 @@ public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProce
             url.add(mapStr);
             int i = v.getId();
             if (i == R.id.riv_report_map) {
-                PhotoViewerActivityKt.start(content, url, 1);
+                PhotoViewerActivityKt.start(context, url, 1);
 
             } else if (i == R.id.riv_report_real) {
-                PhotoViewerActivityKt.start(content, url, 0);
+                PhotoViewerActivityKt.start(context, url, 0);
 
             } else if (i == R.id.tv_report_context || i == R.id.iv_report_arrow) {
                 listener.isClick(getLayoutPosition());

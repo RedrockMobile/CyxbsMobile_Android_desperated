@@ -14,6 +14,8 @@ class HideFabBehavior : FloatingActionButton.Behavior {
     constructor(c: Context, a: AttributeSet) : super(c, a)
     constructor() : super()
 
+    var isCanHind = true
+
     val listener = object : FloatingActionButton.OnVisibilityChangedListener() {
         override fun onHidden(fab: FloatingActionButton?) {
             super.onHidden(fab)
@@ -24,19 +26,17 @@ class HideFabBehavior : FloatingActionButton.Behavior {
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: FloatingActionButton, directTargetChild: View, target: View, axes: Int, type: Int) = isScrollVertical(axes)
 
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: FloatingActionButton, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
-        if (isSlipDown(dyConsumed, dyUnconsumed)) {
-            child.show()
-        } else if (isSlipUp(dyConsumed, dyUnconsumed)) {
-            // 这里不能用默认的hide函数，
-            // 因为默认hide动画完成后会将visibility设为GONE，
-            // 那样Behavior就不进行拦截了
+        if (isCanHind) {
             child.hide(listener)
+            isCanHind = false
         }
+    }
+
+    override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: FloatingActionButton, target: View, type: Int) {
+        child.show()
+        isCanHind = true
     }
 
     private fun isScrollVertical(axes: Int) = axes == ViewCompat.SCROLL_AXIS_VERTICAL
 
-    private fun isSlipDown(dyConsumed: Int, dyUnconsumed: Int) = (dyConsumed < 0 && dyUnconsumed == 0) || (dyConsumed == 0 && dyUnconsumed < 0)
-
-    private fun isSlipUp(dyConsumed: Int, dyUnconsumed: Int) = (dyConsumed > 0 && dyUnconsumed == 0) || (dyConsumed == 0 && dyUnconsumed > 0)
 }
