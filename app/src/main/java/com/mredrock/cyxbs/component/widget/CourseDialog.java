@@ -43,8 +43,6 @@ public class CourseDialog {
         CoursePagerAdapter adapter = new CoursePagerAdapter(context, inflater, list, dialog);
         view.setAdapter(adapter);
         dialog.show();
-
-
     }
 
     static class CoursePagerAdapter extends PagerAdapter {
@@ -111,6 +109,9 @@ public class CourseDialog {
                     }));
                     modify.setOnClickListener((view -> {
                         dialog.dismiss();
+                        if (!(course instanceof Affair)){
+                            return;
+                        }
                         Affair affair = (Affair) course;
                         EditAffairActivity.editAffairActivityStart(context,affair);
                     }));

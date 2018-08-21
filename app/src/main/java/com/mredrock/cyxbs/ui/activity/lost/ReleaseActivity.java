@@ -27,7 +27,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.lost.LostDetail;
 import com.mredrock.cyxbs.model.lost.LostStatus;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.LostCircleButton;
@@ -38,10 +38,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.adapter.rxjava.HttpException;
+import retrofit2.HttpException;
 
 /**
  * Created by wusui on 2017/2/7.
@@ -49,21 +49,21 @@ import retrofit2.adapter.rxjava.HttpException;
 
 
 public class ReleaseActivity extends BaseActivity {
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolbarTitle;
-    @Bind(R.id.edit_describe)
+    @BindView(R.id.edit_describe)
     EditText mDescribe;
-    @Bind(R.id.lost_place)
+    @BindView(R.id.lost_place)
     EditText mPlace;
-    @Bind(R.id.lost_tel)
+    @BindView(R.id.lost_tel)
     EditText mTel;
-    @Bind(R.id.lost_qq_number)
+    @BindView(R.id.lost_qq_number)
     EditText mQQ;
-    @Bind(R.id.lost_type)
+    @BindView(R.id.lost_type)
     TextView mType;
-    @Bind(R.id.lost_choose_time)
+    @BindView(R.id.lost_choose_time)
     TextView mTime;
     ImageView mAlertImage;
     TextView mAlertText;
@@ -223,7 +223,7 @@ public class ReleaseActivity extends BaseActivity {
             return;
         }
 
-        RequestManager.getInstance().createLost(new SimpleSubscriber<LostStatus>(getBaseContext(), new SubscriberListener<LostStatus>() {
+        RequestManager.getInstance().createLost(new SimpleObserver<LostStatus>(getBaseContext(), new SubscriberListener<LostStatus>() {
             @Override
             public boolean onError(Throwable e) {
                 if (e instanceof HttpException) {

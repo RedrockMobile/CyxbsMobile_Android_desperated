@@ -21,7 +21,7 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.model.social.Image;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.social.ImageActivity;
 import com.mredrock.cyxbs.ui.activity.social.PersonInfoActivity;
@@ -36,10 +36,11 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
+import io.reactivex.disposables.Disposable;
+import kotlin.Unit;
 
 /**
  * Created by mathiasluo on 16-4-4.
@@ -99,29 +100,29 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         public static final String TAG = "NewsAdapter.NormalViewHolder";
 
-        @Bind(R.id.list_news_img_avatar)
+        @BindView(R.id.list_news_img_avatar)
         public ImageView mImgAvatar;
-        @Bind(R.id.list_news_text_nickname)
+        @BindView(R.id.list_news_text_nickname)
         public TextView mTextName;
-        @Bind(R.id.list_news_text_time)
+        @BindView(R.id.list_news_text_time)
         public TextView mTextTime;
-        @Bind(R.id.expandable_text)
+        @BindView(R.id.expandable_text)
         public TextView mTextContent;
-        @Bind(R.id.list_news_btn_message)
+        @BindView(R.id.list_news_btn_message)
         public TextView mBtnMsg;
-        @Bind(R.id.list_news_btn_favorites)
+        @BindView(R.id.list_news_btn_favorites)
         public TextView mBtnFavor;
-        @Bind(R.id.textView_ex)
+        @BindView(R.id.textView_ex)
         public TextView mTextViewEx;
-        @Bind(R.id.expand_text_view)
+        @BindView(R.id.expand_text_view)
         public ExpandableTextView mExpandableTextView;
-        @Bind(R.id.autoNineLayout)
+        @BindView(R.id.autoNineLayout)
         public AutoNineGridlayout mAutoNineGridlayout;
-        @Bind(R.id.singleImg)
+        @BindView(R.id.singleImg)
         public ImageView mImageView;
-        @Bind(R.id.divider)
+        @BindView(R.id.divider)
         public View mDivider;
-        @Bind(R.id.news_item_card_view)
+        @BindView(R.id.news_item_card_view)
         public CardView mCardView;
 
         public View itemView;
@@ -132,8 +133,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         public boolean isFromMyTrend = false;
 
         private boolean isSingle = false;
-        private Subscription mSubscription;
-
+        private Disposable mDisposable;
 
         public NewsViewHolder(View itemView) {
             super(itemView);
@@ -171,8 +171,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         private void registerObservable() {
-            mSubscription = RxBus.getDefault()
-                    .toObserverable(HotNewsContent.class)
+            mDisposable = RxBus.getDefault()
+                    .toFlowable(HotNewsContent.class)
                     .subscribe(hotNewsContent -> {
 //                        setData(hotNewsContent, false);
                         unregisterObservable();
@@ -180,14 +180,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         private void unregisterObservable() {
-            if (mSubscription != null && !mSubscription.isUnsubscribed()) {
-                mSubscription.unsubscribe();
+            if (mDisposable != null && !mDisposable.isDisposed()) {
+                mDisposable.dispose();
             }
         }
 
         public void like(TextView textView) {
-            RequestManager.getInstance().addThumbsUp(new SimpleSubscriber<>(textView.getContext()
-                            , new SubscriberListener<String>() {
+            RequestManager.getInstance().addThumbsUp(new SimpleObserver<>(textView.getContext()
+                            , new SubscriberListener<Unit>() {
                         @Override
                         public boolean onError(Throwable e) {
                             super.onError(e);
@@ -198,7 +198,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         }
 
                         @Override
-                        public void onNext(String s) {
+                        public void onNext(Unit s) {
                             super.onNext(s);
                             //Log.i(TAG, "赞成功");
                             String likeNumber = Integer.parseInt(textView.getText().toString()) + 1 + "";
@@ -212,8 +212,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         }
 
                         @Override
-                        public void onCompleted() {
-                            super.onCompleted();
+                         public void onComplete() {
+                            super.onComplete();
                             mBtnFavor.setClickable(true);
                         }
                     }),
@@ -223,8 +223,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         public void dislike(TextView textView) {
-            RequestManager.getInstance().cancelThumbsUp(new SimpleSubscriber<>(textView.getContext()
-                            , new SubscriberListener<String>() {
+            RequestManager.getInstance().cancelThumbsUp(new SimpleObserver<>(textView.getContext()
+                            , new SubscriberListener<Unit>() {
                         @Override
                         public boolean onError(Throwable e) {
                             super.onError(e);
@@ -235,7 +235,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         }
 
                         @Override
-                        public void onNext(String s) {
+                        public void onNext(Unit s) {
                             super.onNext(s);
                             String likeNumber = Integer.parseInt(textView.getText().toString()) - 1 + "";
 
@@ -247,8 +247,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         }
 
                         @Override
-                        public void onCompleted() {
-                            super.onCompleted();
+                         public void onComplete() {
+                            super.onComplete();
                             mBtnFavor.setClickable(true);
                         }
                     }), mHotNewsContent.articleId, mHotNewsContent.typeId,

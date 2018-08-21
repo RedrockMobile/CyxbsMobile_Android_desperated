@@ -15,8 +15,8 @@ import com.mredrock.cyxbs.component.remind_service.Task.BaskRemindTask;
 import com.mredrock.cyxbs.component.remind_service.Task.CourseRemindTask;
 import com.mredrock.cyxbs.component.remind_service.Task.DayRemindTask;
 import com.mredrock.cyxbs.component.remind_service.receiver.RebootReceiver;
-import com.mredrock.cyxbs.component.remind_service.service.RemindJobService;
 import com.mredrock.cyxbs.component.remind_service.service.NotificationService;
+import com.mredrock.cyxbs.component.remind_service.service.RemindJobService;
 
 import java.util.ArrayList;
 

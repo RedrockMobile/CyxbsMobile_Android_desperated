@@ -1,7 +1,7 @@
 package com.mredrock.cyxbs.component.remind_service.func;
 
-import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.component.remind_service.Reminder;
+import com.mredrock.cyxbs.model.Course;
 
 import java.util.Calendar;
 import java.util.List;
@@ -18,7 +18,7 @@ public class CourseRemindConvertFunc extends BaseRemindFunc {
     }
 
     @Override
-    public List<Reminder> call(List<Course> courses) {
+    public List<Reminder> apply(List<Course> courses) throws Exception {
         for (Course c : courses) {
             Calendar calendar = delayCompute(courseToCalendar(c), mDelay);
             if (isToadyCourse(calendar) && !isLateToRemind(calendar)) {

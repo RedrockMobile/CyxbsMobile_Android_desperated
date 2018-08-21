@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Student;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.me.NoCourseAdapter;
@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NoCourseActivity extends BaseActivity
@@ -42,13 +42,13 @@ public class NoCourseActivity extends BaseActivity
     public static final int REQUEST_SELECT = 1;
     public static final String EXTRA_NO_COURSE = "extra_no_course";
 
-    @Bind(R.id.no_course_recycler_view)
+    @BindView(R.id.no_course_recycler_view)
     RecyclerView noCourseRecyclerView;
-    @Bind(R.id.query)
+    @BindView(R.id.query)
     Button noCourseSearch;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     private ArrayList<String> stuNumList;
@@ -175,7 +175,7 @@ public class NoCourseActivity extends BaseActivity
                     .show();
         } else {
             RequestManager.INSTANCE.getStudent(
-                    new SimpleSubscriber<>(this, true,
+                    new SimpleObserver<>(this, true,
                             new SubscriberListener<List<Student>>() {
                                 @Override
                                 public void onNext(List<Student> students) {

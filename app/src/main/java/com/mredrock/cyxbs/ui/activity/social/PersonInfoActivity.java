@@ -26,7 +26,7 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
@@ -39,7 +39,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -52,11 +52,11 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     public static final String PERSON_NICKNAME = "userNickName";
     public static final String PERSON_USER_ID = "userId";
 
-    @Bind(R.id.mToolbar)
+    @BindView(R.id.mToolbar)
     Toolbar mToolbar;
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @Bind(R.id.swipeRefreshLayout)
+    @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     private String mUserAvatar;
@@ -103,7 +103,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
     private void requestData() {
 
-        RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(this, new SubscriberListener<PersonInfo>() {
+        RequestManager.getInstance().getPersonInfo(new SimpleObserver<>(this, new SubscriberListener<PersonInfo>() {
             @Override
             public void onNext(PersonInfo personInfo) {
                 super.onNext(personInfo);
@@ -118,7 +118,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
             }
         }), mUserId, mUser.stuNum, mUser.idNum);
 
-        RequestManager.getInstance().getPersonLatestList(new SimpleSubscriber<>(this, new SubscriberListener<List<HotNews>>() {
+        RequestManager.getInstance().getPersonLatestList(new SimpleObserver<>(this, new SubscriberListener<List<HotNews>>() {
             @Override
             public boolean onError(Throwable e) {
                 super.onError(e);
@@ -163,7 +163,7 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
     }
 
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
-        mFooterViewWrapper = new FooterViewWrapper(this, mRecyclerView);
+        mFooterViewWrapper = new FooterViewWrapper(mRecyclerView);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterViewWrapper.getFooterView());
         mFooterViewWrapper.showLoadingNoMoreData();
         mFooterViewWrapper.onFailedClick(view -> requestData());
@@ -206,13 +206,13 @@ public class PersonInfoActivity extends BaseActivity implements SwipeRefreshLayo
 
     class HeaderViewWrapper {
         View view;
-        @Bind(R.id.person_info_avatar)
+        @BindView(R.id.person_info_avatar)
         ImageView mCircleImageView;
-        @Bind(R.id.peron_info_nickname)
+        @BindView(R.id.peron_info_nickname)
         TextView mTextNickName;
-        @Bind(R.id.person_info_introduction)
+        @BindView(R.id.person_info_introduction)
         TextView mTextIntroduction;
-        @Bind(R.id.person_info_gender)
+        @BindView(R.id.person_info_gender)
         TextView mTextGender;
 
         public HeaderViewWrapper(Context context, int layoutId) {

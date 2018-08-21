@@ -29,7 +29,7 @@ import com.mredrock.cyxbs.model.FoodComment;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.FoodCommentsAdapter;
 import com.mredrock.cyxbs.ui.adapter.HeaderViewRecyclerAdapter;
@@ -41,10 +41,11 @@ import com.mredrock.cyxbs.util.permission.EasyPermissions;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by Stormouble on 16/4/16.
@@ -58,9 +59,9 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     private static final int RC_PHONE = 124;
     private static final long ANIMATION_DURATION = 700;
 
-    @Bind(R.id.surrounding_food_detail_rv)
+    @BindView(R.id.surrounding_food_detail_rv)
     RecyclerView mFoodDetailRv;
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton mFloatingActionButton;
 
     private String mRestaurantKey;
@@ -155,8 +156,8 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
      * Get food data and comments
      */
     private void getFoodAndCommentList(int page, boolean firstLoaded) {
-        Subscription subscription = RequestManager.getInstance().getFoodAndCommentList(
-                new SimpleSubscriber<FoodDetail>(getActivity(), firstLoaded, new SubscriberListener<FoodDetail>() {
+        Disposable subscription = RequestManager.getInstance().getFoodAndCommentList(
+                new SimpleObserver<FoodDetail>(getActivity(), firstLoaded, new SubscriberListener<FoodDetail>() {
                     @Override
                     public void onStart() {
                         if (!firstLoaded) {
@@ -165,7 +166,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                     }
 
                     @Override
-                    public void onCompleted() {
+                     public void onComplete() {
                         onRefreshingStateChanged(false);
                         onErrorLayoutVisibleChanged(mFoodDetailRv, false);
 
@@ -198,15 +199,15 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
 
                 }), mRestaurantKey, String.valueOf(page));
 
-        mCompositeSubscription.add(subscription);
+        mCompositeDisposable.add(subscription);
     }
 
     /**
      * Get comments
      */
     private void getFoodCommentList(int page) {
-        Subscription subscription = RequestManager.getInstance().getFoodCommentList(
-                new SimpleSubscriber<List<FoodComment>>(getActivity(), new SubscriberListener<List<FoodComment>>() {
+        Disposable subscription = RequestManager.getInstance().getFoodCommentList(
+                new SimpleObserver<List<FoodComment>>(getActivity(), new SubscriberListener<List<FoodComment>>() {
                     @Override
                     public void onNext(List<FoodComment> foodCommentList) {
                         if (page == 1) {
@@ -217,13 +218,13 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                     }
                 }), mRestaurantKey, String.valueOf(page));
 
-        mCompositeSubscription.add(subscription);
+        mCompositeDisposable.add(subscription);
     }
 
     private void sendCommentAndRefresh(String content, boolean shouldRetry) {
         User user = BaseAPP.getUser(getActivity());
-        Subscription subscription = RequestManager.getInstance().sendCommentAndRefresh(
-                new SimpleSubscriber<List<FoodComment>>(getActivity(), true, new SubscriberListener<List<FoodComment>>() {
+        Disposable subscription = RequestManager.getInstance().sendCommentAndRefresh(
+                new SimpleObserver<List<FoodComment>>(getActivity(), true, new SubscriberListener<List<FoodComment>>() {
                     @Override
                     public void onNext(List<FoodComment> commentList) {
                         if (commentList != null) {
@@ -241,7 +242,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                     }
                 }), mRestaurantKey, user.stuNum, user.idNum, content, user.name);
 
-        mCompositeSubscription.add(subscription);
+        mCompositeDisposable.add(subscription);
     }
 
     private void animateFab() {
@@ -281,17 +282,17 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
     }
 
     class HeaderViewWrapper {
-        @Bind(R.id.restaurant_photo)
+        @BindView(R.id.restaurant_photo)
         ImageView mRestaurantPhoto;
-        /*@Bind(R.id.restaurant_introduction)
+        /*@BindView(R.id.restaurant_introduction)
         TextView mRestaurantIntroduction;*/
-        @Bind(R.id.restaurant_phone)
+        @BindView(R.id.restaurant_phone)
         TextView mRestaurantPhone;
-        @Bind(R.id.restaurant_location)
+        @BindView(R.id.restaurant_location)
         TextView mRestaurantLocation;
-        /*@Bind(R.id.restaurant_promotion)
+        /*@BindView(R.id.restaurant_promotion)
         TextView mRestaurantPromotion;
-        @Bind(R.id.restaurant_comment)
+        @BindView(R.id.restaurant_comment)
         TextView mRestaurantComment;*/
 
         private String phone;

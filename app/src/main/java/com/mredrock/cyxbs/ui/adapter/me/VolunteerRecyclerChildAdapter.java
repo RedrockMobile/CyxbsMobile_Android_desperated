@@ -14,7 +14,7 @@ import com.mredrock.cyxbs.model.VolunteerTime;
 import java.util.List;
 
 /**
- * Created by glossimar on 2017/10/2.
+ * Created by glossimarsun on 2017/10/2.
  */
 
 public class VolunteerRecyclerChildAdapter extends RecyclerView.Adapter<VolunteerRecyclerChildAdapter.ViewHolder> {

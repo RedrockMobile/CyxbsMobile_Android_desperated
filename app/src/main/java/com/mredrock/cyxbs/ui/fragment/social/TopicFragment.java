@@ -19,7 +19,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.Topic;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.social.TopicArticleActivity;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicAdapter;
@@ -28,13 +28,13 @@ import com.mredrock.cyxbs.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String EXTRA_TYPE = "topic_type";
-    @Bind(R.id.rv_topic)
+    @BindView(R.id.rv_topic)
     EasyRecyclerView mRvTopic;
     private RecyclerArrayAdapter<Topic> mAdapter;
     private int mPage = 0;
@@ -62,7 +62,7 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
 
     public void getTopic() {
         User user = BaseAPP.getUser(getContext());
-        RequestManager.getInstance().getTopicList(new SimpleSubscriber<>(getContext(),
+        RequestManager.getInstance().getTopicList(new SimpleObserver<>(getContext(),
                 false, new SubscriberListener<List<Topic>>() {
             @Override
             public boolean onError(Throwable e) {
@@ -72,8 +72,8 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
             }
 
             @Override
-            public void onCompleted() {
-                super.onCompleted();
+             public void onComplete() {
+                super.onComplete();
                 if (mRvTopic != null && mRvTopic.getSwipeToRefresh() != null)
                     mRvTopic.setRefreshing(false);
             }
@@ -130,7 +130,7 @@ public class TopicFragment extends Fragment implements RecyclerArrayAdapter.OnMo
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     @Override

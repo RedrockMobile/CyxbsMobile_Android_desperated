@@ -3,7 +3,6 @@ package com.mredrock.cyxbs.event;
 import com.mredrock.cyxbs.component.widget.Position;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ：AceMurder

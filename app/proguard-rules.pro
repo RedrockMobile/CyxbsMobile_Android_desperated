@@ -42,9 +42,12 @@
 -dontwarn org.simpleframework.xml.stream.**
 -keep class org.simpleframework.xml.** { *; }
 
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
 
 -dontwarn com.a.a.**
 -dontwarn com.autonavi.**
+ -ignorewarnings
 
 
 -keep class com.autonavi.** {*;}

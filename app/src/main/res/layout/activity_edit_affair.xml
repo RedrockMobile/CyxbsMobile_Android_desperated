@@ -22,7 +22,7 @@
             android:layout_width="15dp"
             android:layout_height="17dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_edit_affair_title"/>
+            android:src="@drawable/ic_edit_affair_title" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
             android:layout_marginLeft="22dp"
             android:text="标题"
             android:textColor="#333333"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/title"
@@ -44,7 +44,7 @@
             android:maxLines="1"
             android:textColor="#666666"
             android:textColorHint="#999999"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </LinearLayout>
 
     <View

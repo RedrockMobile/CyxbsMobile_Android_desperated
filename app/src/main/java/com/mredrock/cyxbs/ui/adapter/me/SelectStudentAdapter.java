@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Student;
-import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
+import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -57,11 +57,11 @@ public class SelectStudentAdapter extends BaseRecyclerViewAdapter<Student, Selec
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.select_name)
+        @BindView(R.id.select_name)
         TextView selectName;
-        @Bind(R.id.select_major)
+        @BindView(R.id.select_major)
         TextView selectMajor;
-        @Bind(R.id.select_stu_num)
+        @BindView(R.id.select_stu_num)
         TextView selectStuNum;
 
         public ViewHolder(View itemView) {

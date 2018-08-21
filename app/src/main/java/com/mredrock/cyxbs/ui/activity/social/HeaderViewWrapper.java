@@ -16,7 +16,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.Topic;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicHeaderAdapter;
 import com.mredrock.cyxbs.ui.fragment.social.TopicFragment;
@@ -25,7 +25,7 @@ import com.mredrock.cyxbs.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -37,7 +37,7 @@ public class HeaderViewWrapper {
 
     public static final String TAG = HeaderViewWrapper.class.getSimpleName();
 
-    @Bind(R.id.rv_topic_header)
+    @BindView(R.id.rv_topic_header)
     EasyRecyclerView mRvTopicHeader;
     private View mView;
 
@@ -51,10 +51,10 @@ public class HeaderViewWrapper {
         topicHeaderAdapter.addFooter(new Header());
         User user = BaseAPP.getUser(context);
         ArrayList<Topic> list = new ArrayList<>();
-        RequestManager.getInstance().getTopicList(new SimpleSubscriber<>(context, new SubscriberListener<List<Topic>>() {
+        RequestManager.getInstance().getTopicList(new SimpleObserver<>(context, new SubscriberListener<List<Topic>>() {
             @Override
-            public void onCompleted() {
-                super.onCompleted();
+             public void onComplete() {
+                super.onComplete();
             }
 
             @Override

@@ -19,34 +19,35 @@ import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.Toolbar;
 import com.mredrock.cyxbs.config.Const;
-import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.User;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscriber;
+import io.reactivex.Observer;
+import kotlin.Unit;
+
 
 /**
  * Created by skylineTan on 2016/5/5 19:03.
  */
 public abstract class EditCommonActivity extends BaseActivity implements TextWatcher {
 
-    @Bind(R.id.edit_common_toolbar)
+    @BindView(R.id.edit_common_toolbar)
     Toolbar editCommonToolbar;
-    @Bind(R.id.edit_common_et)
+    @BindView(R.id.edit_common_et)
     EditText editCommonEt;
-    @Bind(R.id.edit_common_delete)
+    @BindView(R.id.edit_common_delete)
     ImageView editCommonDelete;
-    @Bind(R.id.edit_common_count)
+    @BindView(R.id.edit_common_count)
     TextView editCommonCount;
 
     protected User mUser;
     private String editTextContent;
 
-    protected abstract void provideData(Subscriber<RedrockApiWrapper<Object>> subscriber, String
+    protected abstract void provideData(Observer<Unit> observer, String
             stuNum, String idNum, String info);
 
     protected abstract String getExtra();
@@ -112,12 +113,11 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
 
 
     protected void setPersonInfo() {
-        provideData(new SimpleSubscriber<>(this, true,
-                new SubscriberListener<RedrockApiWrapper<Object>>() {
+        provideData(new SimpleObserver<>(this, true,
+                new SubscriberListener<Unit>() {
 
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
+                     public void onComplete() {
                         Intent intent = new Intent();
                         intent.putExtra(getExtra(), editCommonEt.getText().toString());
                         setResult(RESULT_OK, intent);

@@ -19,7 +19,7 @@ import com.mredrock.cyxbs.component.widget.NoScheduleView;
 import com.mredrock.cyxbs.model.Course;
 import com.mredrock.cyxbs.model.NoCourse;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 import com.mredrock.cyxbs.util.SchoolCalendar;
@@ -30,7 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -42,13 +42,13 @@ public class NoCourseItemFragment extends BaseFragment {
     public static final String EXTRA_STU_NUM_LIST = "extra_stu_num_list";
     public static final String EXTRA_NAME_LIST = "extra_name_list";
 
-    @Bind(R.id.no_course_week)
+    @BindView(R.id.no_course_week)
     LinearLayout noCourseWeek;
-    @Bind(R.id.no_course_time)
+    @BindView(R.id.no_course_time)
     LinearLayout noCourseTime;
-    @Bind(R.id.no_course_schedule_content)
+    @BindView(R.id.no_course_schedule_content)
     NoScheduleView noCourseScheduleContent;
-    @Bind(R.id.no_course_swipe_refresh_layout)
+    @BindView(R.id.no_course_swipe_refresh_layout)
     SwipeRefreshLayout noCourseSwipeRefreshLayout;
 
     private Map<String, List<Course>> mCourseMap;
@@ -109,7 +109,7 @@ public class NoCourseItemFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
 
@@ -172,7 +172,7 @@ public class NoCourseItemFragment extends BaseFragment {
     private void loadWeekNoCourse() {
         if (blocked) return;
         RequestManager.getInstance().getPublicCourse(new
-                SimpleSubscriber<>(getActivity(), new SubscriberListener<List<Course>>() {
+                SimpleObserver<>(getActivity(), new SubscriberListener<List<Course>>() {
 
             @Override
             public void onStart() {
@@ -189,10 +189,15 @@ public class NoCourseItemFragment extends BaseFragment {
                 count++;
             }
 
+            @Override
+            public boolean onError(Throwable e) {
+                blocked = false;
+                return super.onError(e);
+            }
 
             @Override
-            public void onCompleted() {
-                super.onCompleted();
+             public void onComplete() {
+                super.onComplete();
                 dismissProgress();
                 getNoCourseTable();
                 blocked = false;

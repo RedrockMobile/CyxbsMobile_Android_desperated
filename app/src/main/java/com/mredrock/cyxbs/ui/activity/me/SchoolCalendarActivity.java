@@ -10,18 +10,18 @@ import com.bumptech.glide.Glide;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SchoolCalendarActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.calendar_img_s1)
+    @BindView(R.id.calendar_img_s1)
     ImageView mCalendarImgS1;
-    @Bind(R.id.calendar_img_s2)
+    @BindView(R.id.calendar_img_s2)
     ImageView mCalendarImgS2;
 
     @Override

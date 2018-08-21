@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.me.GradeAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
@@ -27,7 +27,7 @@ import com.mredrock.cyxbs.util.NetUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -35,13 +35,13 @@ import butterknife.ButterKnife;
  */
 public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    @Bind(R.id.no_data)
+    @BindView(R.id.no_data)
     ViewGroup mNoDataLayout;
-    @Bind(R.id.text)
+    @BindView(R.id.text)
     TextView mNoDataText;
-    @Bind(R.id.grade_recyclerView)
+    @BindView(R.id.grade_recyclerView)
     RecyclerView mGradeRecyclerView;
-    @Bind(R.id.grade_swipe_refresh_layout)
+    @BindView(R.id.grade_swipe_refresh_layout)
     SwipeRefreshLayout
             mGradeRefreshLayout;
 
@@ -102,7 +102,7 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     @Override
@@ -113,7 +113,7 @@ public class GradeFragment extends BaseFragment implements SwipeRefreshLayout.On
     }
 
     private void loadGradeList(boolean update) {
-        RequestManager.getInstance().getGradeList(new SimpleSubscriber<>(
+        RequestManager.getInstance().getGradeList(new SimpleObserver<>(
                 getActivity(), new SubscriberListener<List<Grade>>() {
 
             @Override

@@ -11,7 +11,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.util.ElectricRemindUtil;
 import com.mredrock.cyxbs.util.SPUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -20,10 +20,10 @@ public class ElectricRemindActivity extends AppCompatActivity {
     public final static String ELECTRIC_REMIND_MONEY = "sp_eletric_money";
 
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView titleTextView;
     
-    @Bind(R.id.et_electric_remind_money)
+    @BindView(R.id.et_electric_remind_money)
     EditText mMoneyEdit;
 
     @Override

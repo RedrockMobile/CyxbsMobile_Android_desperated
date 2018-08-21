@@ -2,7 +2,6 @@ package com.mredrock.cyxbs.util.permission;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
@@ -39,7 +38,7 @@ public class EasyPermissions {
      * Check if the calling context has a set of permissions.
      *
      * @param context the calling context.
-     * @param perms   one ore more permissions, such as {@code android.Manifest.permission.CAMERA}.
+     * @param perms   one or more permissions, such as {@code android.Manifest.permission.CAMERA}.
      * @return true if all permissions are already granted, false if at least one permission
      * is not yet granted.
      */
@@ -104,18 +103,10 @@ public class EasyPermissions {
         if (shouldShowRationale) {
             AlertDialog dialog = new AlertDialog.Builder(getActivity(object))
                     .setMessage(rationale)
-                    .setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            executePermissionsRequest(object, perms, requestCode);
-                        }
-                    })
-                    .setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // act as if the permissions were denied
-                            callbacks.onPermissionsDenied(requestCode, Arrays.asList(perms));
-                        }
+                    .setPositiveButton(positiveButton, (dialog1, which) -> executePermissionsRequest(object, perms, requestCode))
+                    .setNegativeButton(negativeButton, (dialog12, which) -> {
+                        // act as if the permissions were denied
+                        callbacks.onPermissionsDenied(requestCode, Arrays.asList(perms));
                     }).create();
             dialog.show();
         } else {

@@ -4,14 +4,16 @@ import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.ui.activity.me.EditNickNameActivity;
 
-import rx.functions.Func1;
+import io.reactivex.functions.Function;
+
 
 /**
  * Created by cc on 16/5/6.
  */
-public class UserInfoVerifyFunc implements Func1<User, User>{
+public class UserInfoVerifyFunc implements Function<User, User> {
+
     @Override
-    public User call(User user) {
+    public User apply(User user) throws Exception {
         if (user == null) {
             EditNickNameActivity.start(BaseAPP.getContext());
         }

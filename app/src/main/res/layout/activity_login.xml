@@ -52,12 +52,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.37"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="210dp"/>
+        app:layout_constraintGuide_percent="0.36" />
 
     <ImageView
-        android:id="@+id/logo"
         android:layout_width="107dp"
         android:layout_height="107dp"
         android:layout_marginBottom="8dp"

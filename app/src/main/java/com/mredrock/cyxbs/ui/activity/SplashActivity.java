@@ -12,21 +12,21 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.remind_service.RemindManager;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends Activity {
 
     public static final String TAG = "SplashActivity";
 
-    @Bind(R.id.iv_splash)
+    @BindView(R.id.iv_splash)
     ImageView mIvSplash;
 
     @Override
@@ -65,11 +65,16 @@ public class SplashActivity extends Activity {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 SplashActivity.this.finish();
             }
-        }, 2000);
+        }, 1000);
 
         RemindManager.getInstance().pushAll(this);
 
-        RequestManager.getInstance().getStartPage(new SimpleSubscriber<>(this, new SubscriberListener<StartPage>() {
+        RequestManager.getInstance().getStartPage(new SimpleObserver<>(this, new SubscriberListener<StartPage>() {
+            @Override
+            public boolean onError(Throwable e) {
+                return true;
+            }
+
             @Override
             public void onNext(StartPage startPage) {
                 if (startPage != null) {

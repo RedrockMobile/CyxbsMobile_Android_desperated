@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.mredrock.cyxbs.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -26,7 +26,7 @@ import butterknife.OnClick;
 
 public class DialogRemindFragment extends DialogFragment {
 
-    @Bind(R.id.tv_dialog_remind_electric)
+    @BindView(R.id.tv_dialog_remind_electric)
     TextView textView;
     private String remindText;
 

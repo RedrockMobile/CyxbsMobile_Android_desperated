@@ -2,16 +2,17 @@ package com.mredrock.cyxbs.network.func;
 
 import android.util.Log;
 
-import io.rx_cache.Reply;
-import rx.functions.Func1;
+import io.reactivex.functions.Function;
+import io.rx_cache2.Reply;
+
 
 /**
  * Created by cc on 16/4/28.
  */
-public class CacheMapFunc<T> implements Func1<Reply<T>, T> {
+public class CacheMapFunc<T> implements Function<Reply<T>, T> {
 
     @Override
-    public T call(Reply<T> reply) {
+    public T apply(Reply<T> reply) throws Exception {
         Log.d("CacheMapFunc", "source: " + reply.getSource());
         return reply.getData();
     }

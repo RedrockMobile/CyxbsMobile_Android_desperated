@@ -12,7 +12,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.ui.adapter.ViewPagerAdapter;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  */
 public class ImageActivity extends AppCompatActivity {
 
-    @Bind(R.id.container)
+    @BindView(R.id.container)
     ViewPager mViewPager;
 
     private HotNewsContent mDataBean;
