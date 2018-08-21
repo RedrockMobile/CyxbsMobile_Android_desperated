@@ -29,13 +29,13 @@ public class MapActivity extends BaseExploreActivity {
         dialog.setMessage("加载中...");
         dialog.show();
 
-        WebView webView = (WebView) findViewById(R.id.map);
+        WebView webView = findViewById(R.id.map);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
         }
-        webView.loadUrl("http://720yun.com/t/0e929mp6utn?pano_id=473004");
+        webView.loadUrl("https://720yun.com/t/ae8jtpsnOn3?scene_id=13628522&from=singlemessage&isappinstalled=0");
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {

@@ -22,6 +22,7 @@ import java.util.List;
 
 /*
  by Cynthia at 2018/8/16
+ description :
  */
 public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProcessAdapter.ReportingProcessViewHolder> {
 
