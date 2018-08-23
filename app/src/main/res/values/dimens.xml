@@ -38,4 +38,6 @@
     <dimen name="ts_app_widget_course_list_item_order">14sp</dimen>
 
     <dimen name="toolbar_padding">0dp</dimen>
+    <dimen name="splash_indicator_margin">6dp</dimen>
+    <dimen name="splash_indicator_size">7dp</dimen>
 </resources>
