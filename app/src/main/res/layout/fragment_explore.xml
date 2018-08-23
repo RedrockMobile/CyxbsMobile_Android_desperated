@@ -28,12 +28,23 @@
             android:paddingRight="15dp">
 
             <com.mredrock.cyxbs.ui.widget.ExploreItem
+                android:id="@+id/explore_portal_holder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                app:icon="@drawable/ic_portal"
+                app:ratio="0.572"
+                app:title="@string/explore_portal" />
+
+            <com.mredrock.cyxbs.ui.widget.ExploreItem
                 android:id="@+id/explore_school_car"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_margin="3dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
+                android:visibility="gone"
                 app:icon="@drawable/ic_explore_school_car"
                 app:ratio="0.572"
                 app:title="校车查询" />
@@ -89,16 +100,16 @@
                 app:title="@string/explore_around_food" />
 
 
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingRight="15dp"
+            android:weightSum="2">
 
             <com.mredrock.cyxbs.ui.widget.ExploreItem
                 android:id="@+id/explore_lost_and_found_holder"
@@ -121,19 +132,10 @@
                 app:icon="@drawable/ic_find_food"
                 app:ratio="0.572"
                 app:title="@string/explore_eat" />
+
             <View
                 android:layout_width="12dp"
                 android:layout_height="0dp" />
-
-            <com.mredrock.cyxbs.ui.widget.ExploreItem
-                android:id="@+id/explore_portal_holder"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                app:icon="@drawable/ic_portal"
-                app:ratio="0.572"
-                app:title="@string/explore_portal" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
