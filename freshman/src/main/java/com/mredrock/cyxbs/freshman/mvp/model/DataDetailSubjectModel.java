@@ -38,7 +38,7 @@ public class DataDetailSubjectModel implements DataDetailSubjectContract.IDataDe
     public void loadData(LoadCallBack callBack) {
         SubjectProportion subjectProportion = SPHelper.getBean("subject", name, SubjectProportion.class);
         if (subjectProportion == null) {
-            HttpLoader.<SubjectProportion>get(
+            HttpLoader.get(
                     service -> service.getSubjectProportion(name),
                     item -> setSubject(item, callBack),
                     error -> error(error.toString(), callBack));

@@ -16,7 +16,7 @@ public class MilitaryShowModel implements MilitaryShowContract.IMilitaryShowMode
         MilitaryShow show = SPHelper.getBean("军训特辑", MilitaryShow.class);
         if (show == null) {
             Log.d("fxy", "loadData: 网络");
-            HttpLoader.<MilitaryShow>get(
+            HttpLoader.get(
                     APIService::getMilitaryShow,
                     item -> setItem(item, callBack),
                     error -> error(error.toString(), callBack)
