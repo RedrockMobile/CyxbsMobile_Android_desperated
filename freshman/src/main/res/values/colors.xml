@@ -18,6 +18,8 @@
 
     <color name="freshmen_shadow_black">#0D000000</color>
     <color name="freshmen_finish_black">#999</color>
+    <color name="freshman_content_finish_black">#33000000</color>
+    <color name="freshman_content_black">#666</color>
     <color name="freshmen_title_black">#333</color>
     <color name="freshmen_container_text_black">#555</color>
     <color name="freshmen_hint_black">#B2B2B2</color>

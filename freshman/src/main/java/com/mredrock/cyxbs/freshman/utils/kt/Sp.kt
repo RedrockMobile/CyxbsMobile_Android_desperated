@@ -36,13 +36,13 @@ fun <T> withSPCache(keyName: String, clazz: Class<T>, observable: APIService.() 
                     onGetBean: (T) -> Unit, fail: (Throwable) -> Unit = { it.printStackTrace() },
                     spName: String = "FreshManDefault") {
     val jsonFromSP = sp(spName).getString(keyName, null)
-    
-    try {
-        gson.fromJson(jsonFromSP, clazz)
-    } catch (e: Exception) {
-        null
+    jsonFromSP?.let {
+        try {
+            gson.fromJson(it, clazz)
+        } catch (e: Exception) {
+            null
+        }
     }?.let { onGetBean(it) }
-
     getBeanFromNet({
         if (jsonFromSP != gson.toJson(it)) {
             putBeanToSP(keyName, it, spName)
@@ -50,4 +50,3 @@ fun <T> withSPCache(keyName: String, clazz: Class<T>, observable: APIService.() 
         }
     }, fail, observable)
 }
-

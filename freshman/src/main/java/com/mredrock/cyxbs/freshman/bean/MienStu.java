@@ -13,7 +13,7 @@ public class MienStu {
      */
 
     private String index;
-    private List<ArrayBean> array;
+    private List<MienDetailBean> array;
 
     public String getIndex() {
         return index;
@@ -23,15 +23,15 @@ public class MienStu {
         this.index = index;
     }
 
-    public List<ArrayBean> getArray() {
+    public List<MienDetailBean> getArray() {
         return array;
     }
 
-    public void setArray(List<ArrayBean> array) {
+    public void setArray(List<MienDetailBean> array) {
         this.array = array;
     }
 
-    public static class ArrayBean {
+    public static class MienDetailBean {
         /**
          * id :
          * name :

@@ -10,7 +10,7 @@ public class ChatOnline {
      */
 
     private String index;
-    private List<ArrayBean> array;
+    private List<ChatBean> array;
 
     public String getIndex() {
         return index;
@@ -20,22 +20,22 @@ public class ChatOnline {
         this.index = index;
     }
 
-    public List<ArrayBean> getArray() {
+    public List<ChatBean> getArray() {
         return array;
     }
 
-    public void setArray(List<ArrayBean> array) {
+    public void setArray(List<ChatBean> array) {
         this.array = array;
     }
 
-    public static class ArrayBean {
+    public static class ChatBean {
         /**
          * name : 重庆铜梁
          * array1 : [{"code":"198472776","name":"重庆铜梁老乡群"}]
          */
 
         private String name;
-        private List<Array1Bean> array1;
+        private List<ChatNumBean> array1;
 
         public String getName() {
             return name;
@@ -45,15 +45,15 @@ public class ChatOnline {
             this.name = name;
         }
 
-        public List<Array1Bean> getArray1() {
+        public List<ChatNumBean> getArray1() {
             return array1;
         }
 
-        public void setArray1(List<Array1Bean> array1) {
+        public void setArray1(List<ChatNumBean> array1) {
             this.array1 = array1;
         }
 
-        public static class Array1Bean {
+        public static class ChatNumBean {
             /**
              * code : 198472776
              * name : 重庆铜梁老乡群

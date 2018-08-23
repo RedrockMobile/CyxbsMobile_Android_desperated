@@ -74,8 +74,7 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
             mDataList.add(bean);
             notifyItemInserted(mDataList.size());
             SPHelper.putBean("admission", "admission", getDatas());
-        }
-        else{
+        } else {
             ToastUtils.show("还未成功加载数据哦~");
         }
     }
@@ -149,10 +148,12 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
 
         void initData(Description.DescribeBean mData) {
             title.setText(mData.getName());
-            int colorId = mData.isCheck() ? R.color.freshmen_finish_black : R.color.freshmen_title_black;
+            int colorTitleId = mData.isCheck() ? R.color.freshmen_finish_black : R.color.freshmen_title_black;
+            int colorContentId = mData.isCheck() ? R.color.freshman_content_finish_black : R.color.freshman_content_black;
             int drawableIdCheck = mData.isCheck() ? R.drawable.freshman_check_pressed : R.drawable.freshman_check_normal;
             int drawableIdDelete = mData.isDelete() ? R.drawable.freshman_check_delete_pressed : R.drawable.freshman_check_delete_normal;
-            title.setTextColor(App.getContext().getResources().getColor(colorId));
+            title.setTextColor(App.getContext().getResources().getColor(colorTitleId));
+            description.setTextColor(App.getContext().getResources().getColor(colorContentId));
             item.setImageDrawable(App.getContext().getResources().getDrawable(drawableIdCheck));
             delete.setImageDrawable(App.getContext().getResources().getDrawable(drawableIdDelete));
             if (mData.getProperty().equals("用户自定义") || mData.getContent().equals("")) {
@@ -198,6 +199,7 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
                 if (!mDataList.get(getLayoutPosition()).isCheck()) {
                     item.setImageDrawable(App.getContext().getResources().getDrawable(R.drawable.freshman_check_pressed));
                     title.setTextColor(App.getContext().getResources().getColor(R.color.freshmen_finish_black));
+                    description.setTextColor(App.getContext().getResources().getColor(R.color.freshman_content_finish_black));
                     mDataList.get(getLayoutPosition()).setCheck(true);
                     from2(getLayoutPosition(), 0);
                     mListener.scrollToTop(true);

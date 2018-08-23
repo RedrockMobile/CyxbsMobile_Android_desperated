@@ -58,6 +58,7 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
 
         mRv = findViewById(R.id.rv_admission);
         mFabtn = findViewById(R.id.fabtn_admission_add);
+        mFabtn.hide();
         edit = findViewById(R.id.tv_admission_edit);
 
         help.setOnClickListener(this);
@@ -124,6 +125,7 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
     @Override
     public void setRv(Description description) {
         mAdapter.setDataList(description.getDescribe());
+        mFabtn.show();
     }
 
     @Override
@@ -137,6 +139,7 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
         mAdapter.add(temp);
         returnButton();
         scrollToPos(mAdapter.getItemCount() - 1);
+
     }
 
     @Override
@@ -173,9 +176,11 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
                 edit.setText(getResources().getString(R.string.freshmen_admission_delete));
                 mFabtn.hide();
             } else {
+                if (mAdapter.getDatas().getDescribe().size() != 0){
+                    mAdapter.deleteDatas();
+                    mFabtn.show();
+                }
                 edit.setText(getResources().getString(R.string.freshmen_admission_edit));
-                mAdapter.deleteDatas();
-                mFabtn.show();
             }
             mAdapter.changeData(isEdit);
 

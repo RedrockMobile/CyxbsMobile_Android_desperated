@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class SubjectProportion {
     private String name;
-    private List<ArrayBean> array;
+    private List<SubjectBean> array;
 
     public String getName() {
         return name;
@@ -18,15 +18,15 @@ public class SubjectProportion {
         this.name = name;
     }
 
-    public List<ArrayBean> getArray() {
+    public List<SubjectBean> getArray() {
         return array;
     }
 
-    public void setArray(List<ArrayBean> array) {
+    public void setArray(List<SubjectBean> array) {
         this.array = array;
     }
 
-    public class ArrayBean {
+    public class SubjectBean {
         /**
          * below_amount : 138
          * id : 1

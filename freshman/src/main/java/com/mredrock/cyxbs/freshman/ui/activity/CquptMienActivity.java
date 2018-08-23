@@ -3,6 +3,7 @@ package com.mredrock.cyxbs.freshman.ui.activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.ViewGroup;
 
 import com.mredrock.cyxbs.freshman.R;
@@ -49,13 +50,15 @@ public class CquptMienActivity extends BaseActivity {
         fragments.add(new CquptMienActFragment());
         titles.add("学生组织");
         titles.add("大型活动");
-        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragments, titles);
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(viewPager.getChildCount());
-        viewPager.setScanScroll(false);//设置不能滑动
-        tabLayout.setupWithViewPager(viewPager);
+        FragmentManager manager = getSupportFragmentManager();
+        if(manager!=null){
+            MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(manager, fragments, titles);
+            viewPager.setAdapter(adapter);
+            viewPager.setOffscreenPageLimit(viewPager.getChildCount());
+            viewPager.setScanScroll(false);//设置不能滑动
+            tabLayout.setupWithViewPager(viewPager);
+        }
         TabLayoutUtil.setIndicator(tabLayout, 50, 50);
-
         ViewGroup.LayoutParams layoutParams = tabLayout.getLayoutParams();
         layoutParams.height = DensityUtils.getScreenHeight(this) / 16;
         tabLayout.setLayoutParams(layoutParams);

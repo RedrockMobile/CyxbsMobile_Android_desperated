@@ -28,7 +28,7 @@ import com.mredrock.cyxbs.freshman.utils.net.Const;
 @SuppressLint("ValidFragment")
 public class CquptMienStuFragment extends Fragment {
 
-    private MienStu.ArrayBean bean;
+    private MienStu.MienDetailBean bean;
     private View parent;
     private RoundedImageView img;
     private TextView tv;
@@ -37,7 +37,7 @@ public class CquptMienStuFragment extends Fragment {
     private boolean isSeeMore = false;
 
 
-    public void setBean(MienStu.ArrayBean bean) {
+    public void setBean(MienStu.MienDetailBean bean) {
         this.bean = bean;
     }
 

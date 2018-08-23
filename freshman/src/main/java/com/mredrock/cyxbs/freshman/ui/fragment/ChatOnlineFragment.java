@@ -36,7 +36,7 @@ public class ChatOnlineFragment extends Fragment implements ChatOnlineContract.I
     private EditText editText;
     private RecyclerView recyclerView;
     private ChatOnlinePresenter presenter;
-    private List<ChatOnline.ArrayBean> datas;
+    private List<ChatOnline.ChatBean> datas;
     private ChatOnlineAdapter adapter;
     private ImageView search_img;
     private JCardView jCardView;

@@ -10,6 +10,8 @@ import com.mredrock.cyxbs.freshman.utils.SPHelper;
 import com.mredrock.cyxbs.freshman.utils.kt.SpKt;
 import com.mredrock.cyxbs.freshman.utils.net.Const;
 
+import kotlin.Unit;
+
 /*
  by Cynthia at 2018/8/16
  description : 
@@ -31,7 +33,6 @@ public class ReportingProcessModel implements ReportingProcessContract.IReportin
 
     @Override
     public void loadData(LoadCallBack callBack) {
-//       todo 刷新
 //        StrategyData data = SPHelper.getBean(Const.INDEX_REGISTRATION,StrategyData.class);
 //        if (data == null){
 //            HttpLoader.<StrategyData>get(
@@ -47,11 +48,11 @@ public class ReportingProcessModel implements ReportingProcessContract.IReportin
                 apiService -> apiService.getStrategyData(Const.INDEX_REGISTRATION, Const.STRATEGY_PAGE_NUM, Const.STRATEGY_PAGE_SIZE),
                 data -> {
                     callBack.succeed(data);
-                    return null;
+                    return Unit.INSTANCE;
                 },
                 fail -> {
                     callBack.failed(fail.toString());
-                    return null;
+                    return Unit.INSTANCE;
                 }
         );
     }
