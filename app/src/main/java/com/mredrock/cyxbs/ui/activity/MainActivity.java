@@ -119,8 +119,10 @@ public class MainActivity extends BaseActivity {
         intentFilterFor3DTouch();
         initBottomNavigationView();
         setCourseUnfold(BaseAPP.isLogin(), mUnfold);
-        findViewById(R.id.freshman).setOnClickListener((view) -> {
-            //todo intent to freshman
+        final Intent i = new Intent(this, com.mredrock.cyxbs.freshman.ui.activity.MainActivity.class);
+        findViewById(R.id.fab).setOnClickListener(v -> {
+            Log.d("test", "on start freshman");
+            startActivity(i);
         });
     }
 

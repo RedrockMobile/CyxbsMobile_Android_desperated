@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:background="#f3f3f3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include layout="@layout/freshman_include_toolbar" />
+
+    <com.mredrock.cyxbs.freshman.ui.widget.JCardView
+        app:hideTopShadow="true"
+        app:hideLeftShadow="true"
+        app:hideRightShadow="true"
+        app:radius="0dp"
+        app:shadowColor="#DADADA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/freshman_CyMien_tl"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#8BA2EB"
+            app:tabBackground="@drawable/freshman_tablayout_select_transparent"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize" />
+    </com.mredrock.cyxbs.freshman.ui.widget.JCardView>
+
+    <com.mredrock.cyxbs.freshman.ui.adapter.CustomVIewPager
+        android:background="#F3F3F3"
+        android:id="@+id/freshman_CyMien_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

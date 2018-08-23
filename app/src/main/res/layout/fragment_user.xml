@@ -335,7 +335,6 @@
             android:layout_height="1dp"
             android:background="#E4E4E4" />
 
-        <!--TODO 因为接口问题暂时隐藏-->
         <RelativeLayout
             android:id="@+id/volunteer_time"
             android:layout_width="match_parent"
@@ -345,8 +344,7 @@
             android:paddingBottom="11dp"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
-            android:paddingTop="11dp"
-            android:visibility="gone">
+            android:paddingTop="11dp">
 
             <ImageView
                 android:id="@+id/ic_volunteer_time"
