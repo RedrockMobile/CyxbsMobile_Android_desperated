@@ -41,9 +41,9 @@ public class BaseActivity extends AppCompatActivity {
 
     private boolean mActionBarAutoHideEnbale = false;
     private boolean mActionBarShown;
-    private int mActionBarAutoHideMinY        = 0;
+    private int mActionBarAutoHideMinY = 0;
     private int mActionBarAutoHideSensitivity = 0;
-    private int mActionBarAutoHideSingnal     = 0;
+    private int mActionBarAutoHideSingnal = 0;
 
     private ArrayList<View> mHideableHeaderViews;
 
@@ -53,7 +53,9 @@ public class BaseActivity extends AppCompatActivity {
         PushAgent.getInstance(this).onAppStart();
         EventBus.getDefault().register(this);
         SwipeBackHelper.onCreate(this);
-        SwipeBackHelper.getCurrentPage(this).setSwipeRelateEnable(true);
+        //note: 为了解决api26设置屏幕方向崩溃的bug，关闭了窗口透明
+        //SwipeBackHelper需要与窗口透明一起使用
+        SwipeBackHelper.getCurrentPage(this).setSwipeRelateEnable(Build.VERSION_CODES.O != Build.VERSION.SDK_INT);
 
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
@@ -77,7 +79,9 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        SwipeBackHelper.onPostCreate(this);
+        if (Build.VERSION_CODES.O != Build.VERSION.SDK_INT) {
+            SwipeBackHelper.onPostCreate(this);
+        }
     }
 
     @Override
@@ -178,17 +182,17 @@ public class BaseActivity extends AppCompatActivity {
             for (final View view : mHideableHeaderViews) {
                 if (shown) {
                     ViewCompat.animate(view)
-                              .translationY(0)
-                              .alpha(1)
-                              .setDuration(HEADER_HIDE_ANIM_DURATION)
-                              .withLayer();
+                            .translationY(0)
+                            .alpha(1)
+                            .setDuration(HEADER_HIDE_ANIM_DURATION)
+                            .withLayer();
                 } else {
                     ViewCompat.animate(view)
-                              .translationY(-view.getBottom())
-                              .alpha(1)
-                              .setDuration(HEADER_HIDE_ANIM_DURATION)
-                              .setInterpolator(new DecelerateInterpolator())
-                              .withLayer();
+                            .translationY(-view.getBottom())
+                            .alpha(1)
+                            .setDuration(HEADER_HIDE_ANIM_DURATION)
+                            .setInterpolator(new DecelerateInterpolator())
+                            .withLayer();
                 }
             }
         }
@@ -251,7 +255,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onExitEvent(ExitEvent event) {
-       // this.finish();
+        // this.finish();
     }
 
     @Override
