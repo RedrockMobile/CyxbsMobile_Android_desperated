@@ -28,7 +28,6 @@ import com.mredrock.cyxbs.ui.activity.me.EmptyRoomQueryActivity;
 import com.mredrock.cyxbs.ui.activity.me.ExamAndGradeActivity;
 import com.mredrock.cyxbs.ui.activity.me.MyTrendActivity;
 import com.mredrock.cyxbs.ui.activity.me.NoCourseActivity;
-import com.mredrock.cyxbs.ui.activity.me.RemindActivity;
 import com.mredrock.cyxbs.ui.activity.me.SchoolCalendarActivity;
 import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
 import com.mredrock.cyxbs.ui.activity.me.VolunteerTimeLoginActivity;
@@ -72,8 +71,6 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
     TextView myPageNickName;
     @BindView(R.id.introduce)
     TextView myPageIntroduce;
-    @BindView(R.id.remind)
-    RelativeLayout mMyPageRemindLayout;
 
     @BindView(R.id.new_function)
     ImageView mNewFunction;
@@ -140,15 +137,6 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
         SPUtils.set(getContext(), "showNewFunctionIcon", false);
         mNewFunction.setVisibility(View.GONE);
         startActivity(new Intent(getActivity(), VolunteerTimeLoginActivity.class));
-    }
-
-    @OnClick(R.id.remind)
-    public void onClick() {
-        if (BaseAPP.isLogin()) {
-            startActivity(new Intent(getActivity(), RemindActivity.class));
-        } else {
-            EventBus.getDefault().post(new AskLoginEvent("登录后才能使用课前提醒哟"));
-        }
     }
 /*
 

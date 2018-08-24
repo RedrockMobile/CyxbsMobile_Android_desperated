@@ -131,7 +131,6 @@
             android:name=".ui.activity.explore.MapActivity"
             android:label="@string/map_activity_name"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             android:theme="@style/Fullscreen" />
         <activity android:name=".ui.activity.me.EditInfoActivity" />
         <activity android:name=".ui.activity.me.AboutMeActivity" />
@@ -160,7 +159,6 @@
         <activity android:name=".ui.activity.social.ImageActivity" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppThemeFit" />
         <activity android:name=".ui.activity.social.PersonInfoActivity" />
         <activity android:name=".ui.activity.lost.LostActivity" />
@@ -188,20 +186,6 @@
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:process=":AppWidget" />
-
-        <!-- 用于课表提醒 -->
-        <receiver android:name=".component.remind_service.receiver.RemindReceiver" />
-
-        <!-- 开机自启 -->
-        <receiver
-            android:name=".component.remind_service.receiver.RebootReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <activity android:name=".ui.activity.me.RemindActivity" />
 
         <service
             android:name=".ui.widget.CourseListAppWidgetUpdateService"
@@ -233,20 +217,12 @@
             android:name=".ui.activity.explore.electric.DormitorySettingActivity"
             android:launchMode="singleTop" />
 
-        <service
-            android:name=".component.remind_service.service.RemindJobService"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <activity
             android:name=".ui.activity.explore.electric.PastElectricChargeActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".ui.activity.explore.electric.ElectricRemindActivity"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
-        <service android:name=".component.remind_service.service.NotificationService" />
 
         <activity android:name=".ui.activity.social.TopicActivity" />
         <activity android:name=".ui.activity.social.TopicArticleActivity" />
@@ -270,8 +246,7 @@
         <!-- 社会化分享 -->
         <activity
             android:name=".WBShareActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait">
+            android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
 
@@ -289,7 +264,6 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -307,7 +281,6 @@
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 社会化分享 -->
         <activity android:name=".ui.activity.me.VolunteerTimeLoginActivity" />
@@ -321,7 +294,7 @@
             android:exported="true" />
         <!--<activity android:name=".ui.activity.explore.SchoolCarSearch" />-->
         <activity android:name=".ui.activity.explore.ExploreSchoolCarActivity" />
-        <activity android:name=".ui.activity.explore.SchoolCarLearnMoreActivity"/>
+        <activity android:name=".ui.activity.explore.SchoolCarLearnMoreActivity" />
     </application>
 
 </manifest>

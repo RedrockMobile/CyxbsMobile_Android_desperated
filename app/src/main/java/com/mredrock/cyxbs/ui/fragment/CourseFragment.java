@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.affair.EditAffairActivity;
 import com.mredrock.cyxbs.ui.activity.me.SettingActivity;
-import com.mredrock.cyxbs.ui.widget.CourseListAppWidgetUpdateService;
+import com.mredrock.cyxbs.ui.widget.CourseListAppWidgetUpdateWorker;
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
@@ -343,15 +344,9 @@ public class CourseFragment extends BaseFragment {
         if (mCourseScheduleContent != null) {
             mCourseScheduleContent.clearList();
             mCourseScheduleContent.addContentView(tempCourseList);
-            Observable<List<Course>> observable = Observable.create(subscriber -> {
-                subscriber.onNext(affairList);
-                subscriber.onComplete();
-            });
-            observable.map(courses -> {
-                CourseListAppWidgetUpdateService.start(getActivity(), false);
-                return courses;
-            }).subscribe(courses -> {
-            }, Throwable::printStackTrace);
+            User user = BaseAPP.getUser(getContext());
+            if (user == null) return;
+            CourseListAppWidgetUpdateWorker.startSingleWork(user.stuNum, user.idNum, false, 0);
         }
 
     }

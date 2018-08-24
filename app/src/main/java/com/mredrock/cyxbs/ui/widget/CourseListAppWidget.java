@@ -1,17 +1,17 @@
 package com.mredrock.cyxbs.ui.widget;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
+import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.ui.activity.ActionActivity;
 import com.mredrock.cyxbs.ui.activity.MainActivity;
 
@@ -20,11 +20,10 @@ import java.util.GregorianCalendar;
 
 /**
  * Course List App Widget Provider
+ *
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 public class CourseListAppWidget extends AppWidgetProvider {
-
-    PendingIntent updatePendingIntent;
     public static final String EXTRA_COURSES = "appwidget_extra_courses";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
@@ -56,18 +55,13 @@ public class CourseListAppWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // set alarm first
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (updatePendingIntent == null) {
-            Intent alarmIntent = new Intent(context, CourseListAppWidgetUpdateService.class);
-            alarmIntent.putExtra(CourseListAppWidgetUpdateService.EXTRA_UPDATE, true);
-            updatePendingIntent = PendingIntent.getService(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        User user = BaseAPP.getUser(context);
+        if (user == null) {
+            Log.i(getClass().getName(), "onUpdate: can not get user");
+            return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC, getTomorrowTimeInMillis(), updatePendingIntent);
-        } else {
-            alarmManager.set(AlarmManager.RTC, getTomorrowTimeInMillis(), updatePendingIntent);
-        }
+        CourseListAppWidgetUpdateWorker.startSingleWork(user.stuNum, user.id, true, 0);
+        CourseListAppWidgetUpdateWorker.startSingleWork(user.stuNum, user.idNum, true, getTomorrowTimeInMillis());
         // refresh app widget
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
@@ -77,7 +71,12 @@ public class CourseListAppWidget extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
-        CourseListAppWidgetUpdateService.start(context, true);
+        User user = BaseAPP.getUser(context);
+        if (user == null) {
+            Log.i(getClass().getName(), "onEnabled: can not get user");
+            return;
+        }
+        CourseListAppWidgetUpdateWorker.startPeriodicWork(user.stuNum, user.idNum, true);
     }
 
     private long getTomorrowTimeInMillis() {
@@ -92,12 +91,7 @@ public class CourseListAppWidget extends AppWidgetProvider {
 
     @Override
     public void onDisabled(Context context) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (updatePendingIntent == null) {
-            Intent alarmIntent = new Intent(context, CourseListAppWidgetUpdateService.class);
-            updatePendingIntent = PendingIntent.getService(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-        alarmManager.cancel(updatePendingIntent);
+        CourseListAppWidgetUpdateWorker.cancel();
     }
 
     public static void updateNow(Context context) {

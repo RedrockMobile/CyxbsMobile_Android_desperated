@@ -198,5 +198,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko:$anko_version"
     implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'
 
+    implementation 'android.arch.work:work-runtime:1.0.0-alpha07'
+
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
