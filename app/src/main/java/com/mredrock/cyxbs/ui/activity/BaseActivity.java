@@ -53,9 +53,8 @@ public class BaseActivity extends AppCompatActivity {
         PushAgent.getInstance(this).onAppStart();
         EventBus.getDefault().register(this);
         SwipeBackHelper.onCreate(this);
-        //note: 为了解决api26设置屏幕方向崩溃的bug，关闭了窗口透明
         //SwipeBackHelper需要与窗口透明一起使用
-        SwipeBackHelper.getCurrentPage(this).setSwipeRelateEnable(Build.VERSION_CODES.O != Build.VERSION.SDK_INT);
+        SwipeBackHelper.getCurrentPage(this).setSwipeRelateEnable(true);
 
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
@@ -79,9 +78,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if (Build.VERSION_CODES.O != Build.VERSION.SDK_INT) {
-            SwipeBackHelper.onPostCreate(this);
-        }
+        SwipeBackHelper.onPostCreate(this);
     }
 
     @Override
