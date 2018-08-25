@@ -6,13 +6,13 @@ package com.mredrock.cyxbs.config;
 public class Const {
     public static final int REDROCK_API_STATUS_SUCCESS = 200;
 
-    public static final String APP_HOME = "https://wx.idsbllp.cn/cyxbsMobile";
+    public static final String APP_HOME = "https://wx.redrock.team/cyxbsMobile";
 
-    public static final String END_POINT_REDROCK = "https://wx.idsbllp.cn";
-    public static final String REDROCK_PORTAL = "https://wx.idsbllp.cn/aboutus/";
+    public static final String END_POINT_REDROCK = "https://wx.redrock.team";
+    public static final String REDROCK_PORTAL = "https://wx.redrock.team/aboutus/";
     public static final String API_PERSON_SCHEDULE = "/redapi2/api/kebiao";
-    public static final String APP_WEBSITE = "https://wx.idsbllp.cn/app/";
-    public static final String API_VOLUNTEER = "https://wx.idsbllp.cn/servicerecord/";
+    public static final String APP_WEBSITE = "https://wx.redrock.team/app/";
+    public static final String API_VOLUNTEER = "https://wx.redrock.team/servicerecord/";
 
     //Explore
     public static final String API_MAP_PICTURE          = "/welcome/2015/index.php/home/api/banner";
@@ -65,7 +65,7 @@ public class Const {
     public static final String API_VOLUNTEER_UID = "/servicerecord/getrecord";
 
     //轮播图
-    public static final String API_ROLLER_VIEW = "https://wx.idsbllp.cn/app/api/pictureCarousel.php";
+    public static final String API_ROLLER_VIEW = "https://wx.redrock.team/app/api/pictureCarousel.php";
 
     //Affair
     public static final  String API_GET_AFFAIR = "/cyxbsMobile/index.php/Home/Person/getTransaction";
@@ -89,7 +89,7 @@ public class Const {
 
     // 失物招领
 
-    public static final String END_POINT_LOST = "https://wx.idsbllp.cn/app/laf/api";
+    public static final String END_POINT_LOST = "https://wx.redrock.team/app/laf/api";
     public static final String API_LOST_LIST = "/view/{theme}/{category}/{page}";
     public static final String PATH_THEME = "theme";
     public static final String PATH_CATEGORY = "category";

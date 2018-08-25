@@ -153,7 +153,7 @@ public class ChatOnlineFragment extends Fragment implements ChatOnlineContract.I
             adapter.refreshData(bean);
             adapter.notifyDataSetChanged();
         } else {
-            ToastUtils.show("开发小哥：没有搜索到对应数据噢！");
+            ToastUtils.show("没有搜索到对应数据噢！");
         }
     }
 

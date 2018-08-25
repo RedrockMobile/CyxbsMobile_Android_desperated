@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Freshman</string>
 
-    <string name="freshman_error_soft">开发组：获取数据出了些错误呢！\n或许要检查一下网络环境？</string>
+    <string name="freshman_error_soft">获取数据出了些错误呢！\n或许要检查一下网络环境？</string>
 
     <string name="freshmen_admission_title">入学必备</string>
     <string name="freshmen_admission_edit">编辑</string>
