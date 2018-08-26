@@ -388,43 +388,6 @@
             android:background="#E4E4E4" />
 
         <RelativeLayout
-            android:id="@+id/remind"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:foreground="?selectableItemBackground"
-            android:paddingBottom="11dp"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
-            android:paddingTop="11dp">
-
-            <ImageView
-                android:id="@+id/ic_remind"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_remind" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@+id/ic_remind"
-                android:text="课前提醒"
-                android:textColor="#333333"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_arrow_right" />
-        </RelativeLayout>
-
-        <RelativeLayout
             android:id="@+id/option"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

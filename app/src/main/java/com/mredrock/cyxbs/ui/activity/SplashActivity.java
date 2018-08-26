@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,7 +16,6 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.component.remind_service.RemindManager;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleObserver;
@@ -37,7 +35,6 @@ public class SplashActivity extends Activity {
     private ViewPager mGuideViewPager;
 
     private boolean mainActivityIsStarted = false;
-    private ViewPropertyAnimator mViewPropertyAnimator;
 
     @Override
     public void onResume() {
@@ -65,8 +62,6 @@ public class SplashActivity extends Activity {
         } else {
             showSplashImage();
         }
-
-        RemindManager.getInstance().pushAll(this);
     }
 
     private void setFullScreen() {
@@ -176,7 +171,7 @@ public class SplashActivity extends Activity {
 
     private void showButtonWithAnimation(Button button, boolean show) {
         if (show && button.getVisibility() != View.VISIBLE) {
-            mViewPropertyAnimator = button.animate().alpha(1).setDuration(1000).setListener(new AnimatorListenerAdapter() {
+            button.animate().alpha(1).setDuration(1000).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationStart(Animator animation) {
                     super.onAnimationStart(animation);
@@ -185,7 +180,7 @@ public class SplashActivity extends Activity {
                 }
             });
         } else if (!show && button.getVisibility() == View.VISIBLE) {
-            mViewPropertyAnimator = button.animate().alpha(0).setDuration(1000).setListener(new AnimatorListenerAdapter() {
+            button.animate().alpha(0).setDuration(1000).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
