@@ -1,12 +1,9 @@
 package com.mredrock.cyxbs.network;
 
 import android.content.Context;
-import android.os.Bundle;
 
 import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.BuildConfig;
-import com.mredrock.cyxbs.component.remind_service.Reminder;
-import com.mredrock.cyxbs.component.remind_service.func.BaseRemindFunc;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.event.AskLoginEvent;
 import com.mredrock.cyxbs.model.AboutMe;
@@ -181,7 +178,7 @@ public enum RequestManager {
                     }
                     return Integer.parseInt(courseWrapper.nowWeek);
                 });
-         emitObservable(observable, observer);
+        emitObservable(observable, observer);
     }
 
     public void getVolunteer(Observer<VolunteerTime> subscriber, String account, String password) {
@@ -208,18 +205,10 @@ public enum RequestManager {
     }
 
     public void getCourseList(Observer<List<Course>> observer, String stuNum, String idNum,
-                                             int week, boolean update, boolean forceFetch) {
+                              int week, boolean update, boolean forceFetch) {
         Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update, forceFetch)
                 .map(new UserCourseFilterFunc(week));
-         emitObservable(observable, observer);
-    }
-
-    public void getRemindableList(Observer<List<Reminder>> observer, Context context, BaseRemindFunc remindFunc) {
-        Observable<List<Reminder>> observable = CourseListProvider.start(BaseAPP.getUser(context).stuNum, BaseAPP.getUser(context).idNum, false, false)
-                .map(new UserCourseFilterFunc(new SchoolCalendar()
-                        .getWeekOfTerm()))
-                .map(remindFunc);
-         emitObservable(observable, observer);
+        emitObservable(observable, observer);
     }
 
     public Observable<List<Course>> getCourseList(String stuNum, String idNum) {

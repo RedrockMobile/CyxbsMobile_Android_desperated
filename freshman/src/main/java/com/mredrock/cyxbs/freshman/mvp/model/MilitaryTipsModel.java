@@ -12,7 +12,7 @@ public class MilitaryTipsModel implements MilitaryTipsContract.IMilitaryTipsMode
     public void loadData(LoadCallBack callBack) {
         Description description = SPHelper.getBean(Const.INDEX_MILITARY_TRAINING, Description.class);
         if (description == null) {
-            HttpLoader.<Description>get(
+            HttpLoader.get(
                     service -> service.getDescriptions(Const.INDEX_MILITARY_TRAINING),
                     item -> setItem(item, callBack),
                     error -> error(error.toString(), callBack)
