@@ -32,7 +32,7 @@ public class ReportingProcessActivity extends BaseActivity implements ReportingP
         initMVP();
     }
 
-    public void initRv(){
+    public void initRv() {
         List<StrategyData.DetailData> mData = new ArrayList<>();
         mAdapter = new ReportingProcessAdapter(mData,
                 ((pos) -> expandItem(mAdapter.getList().get(pos))), this);
@@ -56,7 +56,7 @@ public class ReportingProcessActivity extends BaseActivity implements ReportingP
 
     @Override
     public void setData(StrategyData data) {
-       mAdapter.setList(data.getDetails());
+        mAdapter.setList(data.getDetails());
     }
 
     @Override

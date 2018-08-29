@@ -1,8 +1,6 @@
 package com.mredrock.cyxbs.freshman.utils.net;
 
 
-import android.annotation.SuppressLint;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;

@@ -1,7 +1,5 @@
 package com.mredrock.cyxbs.freshman.mvp.model;
 
-import android.util.Log;
-
 import com.mredrock.cyxbs.freshman.R;
 import com.mredrock.cyxbs.freshman.bean.StrategyData;
 import com.mredrock.cyxbs.freshman.mvp.contract.ReportingProcessContract;
@@ -26,8 +24,6 @@ public class ReportingProcessModel implements ReportingProcessContract.IReportin
 
     @Override
     public void showError(String msg, LoadCallBack callBack) {
-        String TAG = "ReportingProcessModel";
-        Log.i(TAG, msg);
         callBack.failed(App.getContext().getResources().getString(R.string.freshman_error_soft));
     }
 

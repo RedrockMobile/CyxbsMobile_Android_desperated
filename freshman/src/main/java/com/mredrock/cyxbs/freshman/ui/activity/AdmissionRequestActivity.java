@@ -77,7 +77,7 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
         mPresenter.start();
     }
 
-    private void initRv(){
+    private void initRv() {
         List<Description.DescribeBean> mData = new ArrayList<>();
         mAdapter = new AdmissionRequestAdapter(mData, new AdmissionRequestAdapter.OnDeleteDataListener() {
             @Override
@@ -176,7 +176,7 @@ public class AdmissionRequestActivity extends AppCompatActivity implements Admis
                 edit.setText(getResources().getString(R.string.freshmen_admission_delete));
                 mFabtn.hide();
             } else {
-                if (mAdapter.getDatas().getDescribe().size() != 0){
+                if (mAdapter.getDatas().getDescribe().size() != 0) {
                     mAdapter.deleteDatas();
                     mFabtn.show();
                 }

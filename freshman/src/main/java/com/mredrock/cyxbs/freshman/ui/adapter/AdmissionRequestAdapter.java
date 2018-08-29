@@ -53,9 +53,9 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
         return mDataList.size();
     }
 
-    public void setDataList(List<Description.DescribeBean> mDataList){
+    public void setDataList(List<Description.DescribeBean> mDataList) {
         this.mDataList = mDataList;
-        notifyItemRangeInserted(0,mDataList.size() - 1);
+        notifyItemRangeInserted(0, mDataList.size() - 1);
     }
 
     public void changeData(Boolean isEdit) {
@@ -70,7 +70,7 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
     }
 
     public void add(Description.DescribeBean bean) {
-        if (mDataList.size() != 0){
+        if (mDataList.size() != 0) {
             mDataList.add(bean);
             notifyItemInserted(mDataList.size());
             SPHelper.putBean("admission", "admission", getDatas());

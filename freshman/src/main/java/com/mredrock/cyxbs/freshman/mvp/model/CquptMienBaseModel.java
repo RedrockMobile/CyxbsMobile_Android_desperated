@@ -3,23 +3,25 @@ package com.mredrock.cyxbs.freshman.mvp.model;
 import com.mredrock.cyxbs.freshman.bean.MienStu;
 import com.mredrock.cyxbs.freshman.mvp.contract.CquptMienBaseContract;
 import com.mredrock.cyxbs.freshman.utils.SPHelper;
+import com.mredrock.cyxbs.freshman.utils.kt.SpKt;
 import com.mredrock.cyxbs.freshman.utils.net.Const;
-import com.mredrock.cyxbs.freshman.utils.net.HttpLoader;
+
+import kotlin.Unit;
 
 public class CquptMienBaseModel implements CquptMienBaseContract.ICquptMienBaseModel {
 
     @Override
     public void loadData(LoadCallBack callBack) {
-        MienStu stu = SPHelper.getBean(Const.INDEX_ORGANIZATION, MienStu.class);
-        if (stu == null) {
-            HttpLoader.<MienStu>get(
-                    service -> service.getMienStu(Const.INDEX_ORGANIZATION, "1", "30")
-                    , item -> setItem(item, callBack)
-                    , error -> error(error.toString(), callBack)
-            );
-        } else {
-            setItem(stu, callBack);
-        }
+        SpKt.withSPCache(Const.INDEX_ORGANIZATION, MienStu.class,
+                service -> service.getMienStu(Const.INDEX_ORGANIZATION, "1", "30"),
+                mienStu -> {
+                    callBack.succeed(mienStu);
+                    return Unit.INSTANCE;
+                },
+                fail -> {
+                    callBack.failed(fail.getMessage());
+                    return Unit.INSTANCE;
+                });
     }
 
     @Override
@@ -30,16 +32,16 @@ public class CquptMienBaseModel implements CquptMienBaseContract.ICquptMienBaseM
 
     @Override
     public void LoadAnotherData(LoadCallBack callBack) {
-        MienStu stu = SPHelper.getBean(Const.INDEX_ACTIVITY, MienStu.class);
-        if (stu == null) {
-            HttpLoader.get(
-                    service -> service.getMienStu(Const.INDEX_ACTIVITY, "1", "30")
-                    , item -> setAnotherItem(item, callBack)
-                    , error -> error(error.toString(), callBack)
-            );
-        } else {
-            setAnotherItem(stu, callBack);
-        }
+        SpKt.withSPCache(Const.INDEX_ACTIVITY, MienStu.class,
+                service -> service.getMienStu(Const.INDEX_ACTIVITY, "1", "30"),
+                mienStu -> {
+                    callBack.succeed(mienStu);
+                    return Unit.INSTANCE;
+                },
+                fail -> {
+                    callBack.failed(fail.getMessage());
+                    return Unit.INSTANCE;
+                });
     }
 
     @Override

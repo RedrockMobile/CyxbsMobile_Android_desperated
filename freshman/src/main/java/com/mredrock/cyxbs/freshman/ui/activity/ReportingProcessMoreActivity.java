@@ -53,8 +53,8 @@ public class ReportingProcessMoreActivity extends BaseActivity implements View.O
         title.setText(mData.getName());
         String temp = "步骤" + mData.getId();
         step.setText(temp);
-        realStr = Const.IMG_BASE_URL  + mData.getPicture().get(0);
-        mapStr = Const.IMG_BASE_URL  + mData.getPicture().get(1);
+        realStr = Const.IMG_BASE_URL + mData.getPicture().get(0);
+        mapStr = Const.IMG_BASE_URL + mData.getPicture().get(1);
         Glide.with(this)
                 .load(realStr)
                 .asBitmap()

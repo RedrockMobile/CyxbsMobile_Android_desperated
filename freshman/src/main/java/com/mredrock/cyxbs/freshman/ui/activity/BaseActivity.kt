@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.freshman.ui.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.mredrock.cyxbs.freshman.utils.DensityUtils
@@ -26,5 +27,14 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         MobclickAgent.onPause(this)
+    }
+
+    /**
+     * 这里是因为应用被切后台，Activity被回收之后会出BUG
+     * 因为没想到好的解决方案，就强行这样了
+     */
+    @SuppressLint("MissingSuperCall")
+    override fun onSaveInstanceState(outState: Bundle?) {
+//        super.onSaveInstanceState(outState)
     }
 }
