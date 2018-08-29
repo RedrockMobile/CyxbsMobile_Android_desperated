@@ -68,7 +68,7 @@ public class UpdateService extends Service {
     public void createNotification() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_LOW;
-            createNotificationChannel(CHANNEL_NAME, CHANNEL_ID, importance);
+            createNotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
         }
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         builder = new NotificationCompat.Builder(this, CHANNEL_ID)
