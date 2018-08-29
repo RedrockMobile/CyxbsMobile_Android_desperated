@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
@@ -25,17 +26,16 @@ public class HttpLoader {
             .build()
             .create(APIService.class);
 
-    @SuppressLint("CheckResult")
-    public static <T> void get(ApiChooser chooser, Consumer<T> item, Consumer<? super Throwable> error) {
-        chooser.getObservable(service)
+    public static <T> Disposable get(ApiChooser<T> chooser, Consumer<T> item, Consumer<? super Throwable> error) {
+        return chooser.getObservable(service)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(item, error);
     }
 
     @FunctionalInterface
-    public interface ApiChooser {
-        Observable getObservable(APIService service);
+    public interface ApiChooser<T> {
+        Observable<T> getObservable(APIService service);
     }
 
 }

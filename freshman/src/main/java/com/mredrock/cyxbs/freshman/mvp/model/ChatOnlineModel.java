@@ -18,7 +18,7 @@ public class ChatOnlineModel implements ChatOnlineContract.IChatOnlineModel {
 
     @Override
     public void LoadData(String index, String key, LoadCallBack callBack) {
-        HttpLoader.<ChatOnline>get(
+        HttpLoader.get(
                 service -> service.getChatOnline(index, key),
                 item -> setItem(item, callBack),
                 error -> error(error.getMessage(), callBack)

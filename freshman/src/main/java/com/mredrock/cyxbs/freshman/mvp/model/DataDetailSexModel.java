@@ -38,7 +38,7 @@ public class DataDetailSexModel implements DataDetailSexContract.IDataDetailSexM
     public void loadData(LoadCallBack callBack) {
         SexProportion sexProportion = SPHelper.getBean("sex", name, SexProportion.class);
         if (sexProportion == null) {
-            HttpLoader.<SexProportion>get(
+            HttpLoader.get(
                     service -> service.getSexProportion(name),
                     item -> setSex(item, callBack),
                     error -> error(error.toString(), callBack));

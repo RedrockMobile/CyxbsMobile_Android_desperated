@@ -17,7 +17,7 @@ public class AdmissionRequestModel implements AdmissionRequestContract.IAdmissio
 //      先从缓存中读取，加入没有再从网络中获取
         Description mDatas = SPHelper.getBean("admission", "admission", Description.class);
         if (mDatas == null || mDatas.getDescribe().size() == 0) {
-            HttpLoader.<Description>get(
+            HttpLoader.get(
                     service -> service.getDescriptions(Const.INDEX_REQUIRED),
                     item -> setItem(item, callBack),
                     error -> error(error.toString(), callBack)

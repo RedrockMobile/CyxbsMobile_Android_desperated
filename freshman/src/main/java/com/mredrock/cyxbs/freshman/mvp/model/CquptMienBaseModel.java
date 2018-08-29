@@ -32,7 +32,7 @@ public class CquptMienBaseModel implements CquptMienBaseContract.ICquptMienBaseM
     public void LoadAnotherData(LoadCallBack callBack) {
         MienStu stu = SPHelper.getBean(Const.INDEX_ACTIVITY, MienStu.class);
         if (stu == null) {
-            HttpLoader.<MienStu>get(
+            HttpLoader.get(
                     service -> service.getMienStu(Const.INDEX_ACTIVITY, "1", "30")
                     , item -> setAnotherItem(item, callBack)
                     , error -> error(error.toString(), callBack)
