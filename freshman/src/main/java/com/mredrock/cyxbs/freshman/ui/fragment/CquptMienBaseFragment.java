@@ -58,7 +58,10 @@ public class CquptMienBaseFragment extends Fragment implements CquptMienBaseCont
 
     @Override
     public void setData(List<Fragment> list, List<String> titles) {
-        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(((AppCompatActivity) context).getSupportFragmentManager(), list, titles);
+        if (getActivity() == null) {
+            return;
+        }
+        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getActivity().getSupportFragmentManager(), list, titles);
         pager.setAdapter(adapter);
         pager.setOffscreenPageLimit(3);
         layout.setupWithViewPager(pager);
