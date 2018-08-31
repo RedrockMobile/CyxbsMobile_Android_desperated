@@ -28,7 +28,7 @@ public class NoTimeVolunteerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_volunteer_notime,container,false);
+        view = inflater.inflate(R.layout.fragment_volunteer_notime, container, false);
         return view;
     }
 
@@ -65,11 +65,11 @@ public class NoTimeVolunteerFragment extends Fragment {
         this.infoListener = infoListener;
     }
 
-    public interface RefreshInfoListener{
+    public interface RefreshInfoListener {
         void callRefreshAgain();
     }
 
-    public interface RefreshListStatusListener{
+    public interface RefreshListStatusListener {
         boolean checkListStatus();
     }
 }

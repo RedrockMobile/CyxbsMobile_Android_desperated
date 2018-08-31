@@ -164,7 +164,7 @@ public class CourseContainerFragment extends BaseFragment {
 
     public void forceFetchCourse() {
         //FIXME: When reinstall，mPager sometimes is null,but the Course View shows normally。
-        if (mPager != null){
+        if (mPager != null) {
             int week = mPager.getCurrentItem();
             EventBus.getDefault().post(new ForceFetchCourseEvent(week));
         }

@@ -23,7 +23,7 @@ import io.reactivex.Observable;
  * Enjoy it !!!
  */
 
-public enum  DBManager {
+public enum DBManager {
 
     INSTANCE;
 
@@ -36,9 +36,8 @@ public enum  DBManager {
     }
 
 
-
-    public Observable insert(boolean isUpload,String uid,String stuNum,String json) {
-        return  Observable.create(subscriber -> {
+    public Observable insert(boolean isUpload, String uid, String stuNum, String json) {
+        return Observable.create(subscriber -> {
 
             db.execSQL("INSERT INTO affair(uid,stuNum,isUpload,data) VALUES ('" + uid
                     + "','" + stuNum + "','" + isUpload + "','" + json + "');");
@@ -48,9 +47,8 @@ public enum  DBManager {
     }
 
 
-
-    public Observable insert(boolean isUpload,String uid,String stuNum,String json, boolean delete) {
-        return  Observable.create(subscriber -> {
+    public Observable insert(boolean isUpload, String uid, String stuNum, String json, boolean delete) {
+        return Observable.create(subscriber -> {
             if (delete)
                 db.delete("affair", "uid = ?", new String[]{uid});
 
@@ -68,12 +66,12 @@ public enum  DBManager {
         db.update("affair", cv, "uid = ?", new String[]{uid});
     }
 
-    public Observable upDateAffair(String data,String uid){
+    public Observable upDateAffair(String data, String uid) {
         return Observable.create((subscriber -> {
             open();
             ContentValues values = new ContentValues();
-            values.put("data",uid);
-            db.update("affair",values,"uid = ?",new String[]{uid});
+            values.put("data", uid);
+            db.update("affair", values, "uid = ?", new String[]{uid});
             subscriber.onNext(new Object());
             subscriber.onComplete();
         }));
@@ -88,12 +86,12 @@ public enum  DBManager {
         }));
     }
 
-    public Observable<AffairApi.AffairItem> queryItem(String uid){
+    public Observable<AffairApi.AffairItem> queryItem(String uid) {
         return Observable.create(subscriber -> {
             open();
-            Cursor c = db.rawQuery("SELECT data FROM affair WHERE uid = "+uid,null);
+            Cursor c = db.rawQuery("SELECT data FROM affair WHERE uid = " + uid, null);
             String data = null;
-            if (c.moveToFirst()){
+            if (c.moveToFirst()) {
                 data = c.getString(0);
             }
             AffairApi.AffairItem item = new Gson().fromJson(data, AffairApi.AffairItem.class);
@@ -103,11 +101,11 @@ public enum  DBManager {
         });
     }
 
-    public Observable<List<Course>> query(String stuNum,int week) {
+    public Observable<List<Course>> query(String stuNum, int week) {
 
         return Observable.create(subscriber -> {
             open();
-            Cursor c = db.rawQuery("SELECT data FROM affair WHERE stuNum = "+stuNum,null);
+            Cursor c = db.rawQuery("SELECT data FROM affair WHERE stuNum = " + stuNum, null);
             List<String> data = new ArrayList<>();
             List<Course> courses = new ArrayList<Course>();
             while (c.moveToNext()) {
@@ -115,8 +113,8 @@ public enum  DBManager {
             }
             c.close();
             Gson gson = new Gson();
-            for (String a : data){
-                AffairApi.AffairItem  affairItem =  gson.fromJson(a, AffairApi.AffairItem.class);
+            for (String a : data) {
+                AffairApi.AffairItem affairItem = gson.fromJson(a, AffairApi.AffairItem.class);
                 for (AffairApi.AffairItem.DateBean dateBean : affairItem.getDate()) {
                     Affair affair = new Affair();
                     affair.time = affairItem.getTime();
@@ -141,11 +139,11 @@ public enum  DBManager {
         });
     }
 
-    public Observable<List<Course>> query(String stuNum,int week,boolean isUpload) {
+    public Observable<List<Course>> query(String stuNum, int week, boolean isUpload) {
 
         return Observable.create(subscriber -> {
             open();
-            Cursor c = db.rawQuery("SELECT data FROM affair WHERE stuNum = "+stuNum + "AND isUpload = " + isUpload  ,null);
+            Cursor c = db.rawQuery("SELECT data FROM affair WHERE stuNum = " + stuNum + "AND isUpload = " + isUpload, null);
             List<String> data = new ArrayList<>();
             List<Course> courses = new ArrayList<Course>();
             while (c.moveToNext()) {
@@ -153,8 +151,8 @@ public enum  DBManager {
             }
             c.close();
             Gson gson = new Gson();
-            for (String a : data){
-                AffairApi.AffairItem  affairItem =  gson.fromJson(a, AffairApi.AffairItem.class);
+            for (String a : data) {
+                AffairApi.AffairItem affairItem = gson.fromJson(a, AffairApi.AffairItem.class);
                 for (AffairApi.AffairItem.DateBean dateBean : affairItem.getDate()) {
                     Affair affair = new Affair();
                     affair.time = affairItem.getTime();
@@ -185,7 +183,7 @@ public enum  DBManager {
     }
 
 
-    private void open(){
+    private void open() {
         if (db == null || !db.isOpen())
             db = new AffairDatabaseHelper(BaseAPP.getContext()).getWritableDatabase();
     }

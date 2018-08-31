@@ -72,7 +72,7 @@ public class UserInfoEncryption {
     /**
      * if you update the encrypt method in the future, please update here for compatibility
      *
-     * @param i old version
+     * @param i  old version
      * @param ii new version
      */
     public void onUpdate(int i, int ii) {

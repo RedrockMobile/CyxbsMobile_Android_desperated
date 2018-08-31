@@ -196,7 +196,7 @@ public class NoCourseItemFragment extends BaseFragment {
             }
 
             @Override
-             public void onComplete() {
+            public void onComplete() {
                 super.onComplete();
                 dismissProgress();
                 getNoCourseTable();

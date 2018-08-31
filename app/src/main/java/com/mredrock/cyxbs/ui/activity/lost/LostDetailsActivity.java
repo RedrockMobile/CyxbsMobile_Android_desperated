@@ -39,6 +39,7 @@ public class LostDetailsActivity extends BaseActivity {
     @BindView(R.id.lost_detail_qq)
     TextView mQQ;
     LostDetail lostDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,8 @@ public class LostDetailsActivity extends BaseActivity {
         });
         init();
     }
-    public void init(){
+
+    public void init() {
         /*lost = (Lost) getIntent().getSerializableExtra("LOST");
         if (lost != null){
             RequestManager.getInstance().getLostDetail(new SimpleObserver<LostDetail>(this, new SubscriberListener<LostDetail>() {
@@ -78,7 +80,7 @@ public class LostDetailsActivity extends BaseActivity {
         }*/
         lostDetail = (LostDetail) getIntent().getSerializableExtra("LostDetail");
         mNickName.setText(lostDetail.connectName);
-        ImageLoader.getInstance().loadAvatar(lostDetail.avatar,mAvatar);
+        ImageLoader.getInstance().loadAvatar(lostDetail.avatar, mAvatar);
         mType.setText(lostDetail.category);
         mConnectName.setText(lostDetail.connectName);
         mPlace.setText(lostDetail.place);

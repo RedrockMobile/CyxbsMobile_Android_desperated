@@ -212,7 +212,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         }
 
                         @Override
-                         public void onComplete() {
+                        public void onComplete() {
                             super.onComplete();
                             mBtnFavor.setClickable(true);
                         }
@@ -247,7 +247,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         }
 
                         @Override
-                         public void onComplete() {
+                        public void onComplete() {
                             super.onComplete();
                             mBtnFavor.setClickable(true);
                         }

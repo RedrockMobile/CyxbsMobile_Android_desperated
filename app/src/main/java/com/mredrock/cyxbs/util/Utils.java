@@ -62,9 +62,9 @@ import static android.view.View.VISIBLE;
 public class Utils {
 
     public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    public static final SimpleDateFormat DATE_FORMAT_DATE    = new SimpleDateFormat("yyyy-MM-dd");
-    private static      int              screenWidth         = 0;
-    private static      int              screenHeight        = 0;
+    public static final SimpleDateFormat DATE_FORMAT_DATE = new SimpleDateFormat("yyyy-MM-dd");
+    private static int screenWidth = 0;
+    private static int screenHeight = 0;
 
     public static int sp2px(Context context, float spValue) {
         float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
@@ -192,7 +192,7 @@ public class Utils {
      */
     public static View hideSoftInput(final View view) {
         InputMethodManager manager = (InputMethodManager) view.getContext()
-                                                              .getSystemService(INPUT_METHOD_SERVICE);
+                .getSystemService(INPUT_METHOD_SERVICE);
         if (manager != null)
             manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         return view;
@@ -317,8 +317,8 @@ public class Utils {
                 // lays out its children before we call getHitRect()
                 public void run() {
                     final float densityDpi = delegate.getContext()
-                                                     .getResources()
-                                                     .getDisplayMetrics().densityDpi;
+                            .getResources()
+                            .getDisplayMetrics().densityDpi;
                     final Rect r = new Rect();
                     delegate.getHitRect(r);
                     r.top -= transformToDensityPixel(top, densityDpi);
@@ -906,9 +906,10 @@ public class Utils {
 
     /**
      * Check null, return default value if it is null
-     * @param object the object which need to be checked
+     *
+     * @param object       the object which need to be checked
      * @param defaultValue the default value which will be return when the object == null
-     * @param <T> the type of object
+     * @param <T>          the type of object
      * @return object when it not equal to null, or defaultValue when object == null
      */
     public static <T> T checkNotNullWithDefaultValue(T object, T defaultValue) {

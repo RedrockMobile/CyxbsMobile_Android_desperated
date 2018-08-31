@@ -10,7 +10,7 @@ import org.simpleframework.xml.Root;
 public class UpdateInfo {
 
     @Element(name = "versionCode")
-    public int    versionCode;
+    public int versionCode;
     @Element(name = "versionName")
     public String versionName;
     @Element(name = "updateContent")

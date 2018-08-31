@@ -41,7 +41,7 @@ public class TopicArticleAdapter extends RecyclerArrayAdapter<TopicArticle.Artic
         @Override
         public void setData(com.mredrock.cyxbs.model.social.TopicArticle.ArticlesBean data) {
             super.setData(data);
-             mTopicArticleViewHolder.setData(new ArticleAdapter().convert(data),false);
+            mTopicArticleViewHolder.setData(new ArticleAdapter().convert(data), false);
         }
 
         private class TopicArticleViewHolder extends NewsAdapter.NewsViewHolder {
@@ -52,7 +52,7 @@ public class TopicArticleAdapter extends RecyclerArrayAdapter<TopicArticle.Artic
         }
     }
 
-    private static class ArticleAdapter{
+    private static class ArticleAdapter {
         HotNewsContent convert(TopicArticle.ArticlesBean articlesBean) {
             HotNewsContent hotNewsContent = new HotNewsContent();
             hotNewsContent.userHead = articlesBean.getUser_thumbnail_src();

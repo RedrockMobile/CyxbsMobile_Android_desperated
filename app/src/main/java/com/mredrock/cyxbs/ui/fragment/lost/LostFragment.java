@@ -63,12 +63,16 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
     public int currentIndex = 0;
     public LostAdapter mAdapter;
     private FooterViewWrapper mFooterViewWrapper;
-    private List<Lost>mLostlist = new ArrayList<>();
+    private List<Lost> mLostlist = new ArrayList<>();
     private Disposable mDisposable;
 
-    @BindView(R.id.information_RecyclerView) RecyclerView recycler;
-    @BindView(R.id.fab_main) FloatingActionButton mFabMain;
-    @BindView(R.id.information_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.information_RecyclerView)
+    RecyclerView recycler;
+    @BindView(R.id.fab_main)
+    FloatingActionButton mFabMain;
+    @BindView(R.id.information_refresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +83,7 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
         } else {
             category = getResources().getStringArray(R.array.lost_category_list)[0];
         }
-        if (category.equals("全部")){
+        if (category.equals("全部")) {
             category = "all";
         }
     }
@@ -103,7 +107,8 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
                 ReleaseActivity.startActivity(getActivity());
         });
     }
-    public void init(){
+
+    public void init() {
         mSwipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(BaseAPP.getContext(), R.color.colorAccent),
                 ContextCompat.getColor(BaseAPP.getContext(), R.color.colorPrimary)
@@ -114,26 +119,28 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
         recycler.setLayoutManager(mLinearLayoutManager);
 
         addOnScrollListener();
-        mAdapter = new LostAdapter(mLostlist,getContext());
+        mAdapter = new LostAdapter(mLostlist, getContext());
         initAdapter(null);
         registerObservable();
     }
+
     @Override
     protected void onFirstUserVisible() {
-        getCurrentData(theme,category, FIRST_PAGE_INDEX);
+        getCurrentData(theme, category, FIRST_PAGE_INDEX);
     }
 
-    public void provideData(Observer<LostWrapper<List<Lost>>> observer, int theme, String category, int page){
-        RequestManager.getInstance().getLostList(observer,theme,category,page);
+    public void provideData(Observer<LostWrapper<List<Lost>>> observer, int theme, String category, int page) {
+        RequestManager.getInstance().getLostList(observer, theme, category, page);
     }
+
     private void addOnScrollListener() {
         if (endlessRecyclerOnScrollListener != null)
             recycler.removeOnScrollListener(endlessRecyclerOnScrollListener);
-            endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(mLinearLayoutManager) {
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(mLinearLayoutManager) {
             @Override
             public void onLoadMore(int page) {
                 currentIndex++;
-                getNextPageData(theme,category, currentIndex);
+                getNextPageData(theme, category, currentIndex);
             }
 
             @Override
@@ -151,7 +158,7 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
-        getCurrentData(theme, category,FIRST_PAGE_INDEX);
+        getCurrentData(theme, category, FIRST_PAGE_INDEX);
         currentIndex = 0;
         addOnScrollListener();
     }
@@ -168,7 +175,7 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
         }
     }
 
-    public void getCurrentData(int theme,String category,int page){
+    public void getCurrentData(int theme, String category, int page) {
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.post(this::showLoadingProgress);
         }
@@ -188,15 +195,15 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
                     mAdapter = new LostAdapter(losts.data, getContext());
                     initAdapter(losts.data);
                     if (losts.data.size() == 0) mFooterViewWrapper.showLoadingNoData();
-                }else mAdapter.replaceDataList(losts.data);
+                } else mAdapter.replaceDataList(losts.data);
                 LogUtils.LOGI("====>>>", "page===>>>" + page + "size==>>" + losts.data.size());
                 closeLoadingProgress();
             }
-        }),theme,category,page);
+        }), theme, category, page);
     }
 
-    private void initAdapter(List<Lost> lostList){
-        if (recycler == null)return;
+    private void initAdapter(List<Lost> lostList) {
+        if (recycler == null) return;
         mLostlist = lostList;
 
         recycler.setAdapter(mAdapter);
@@ -214,27 +221,27 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
                     @Override
                     public void onNext(LostDetail lostDetail) {
                         super.onNext(lostDetail);
-                        Intent intent = new Intent(getActivity(),LostDetailsActivity.class);
-                        intent.putExtra("LostDetail",lostDetail);
+                        Intent intent = new Intent(getActivity(), LostDetailsActivity.class);
+                        intent.putExtra("LostDetail", lostDetail);
                         startActivity(intent);
                     }
-                }),lost);
+                }), lost);
             }
         });
-        mFooterViewWrapper = new FooterViewWrapper(getContext(),recycler);
+        mFooterViewWrapper = new FooterViewWrapper(getContext(), recycler);
         mFooterViewWrapper.onFailedClick(view -> {
-            if (currentIndex == 0)getCurrentData(theme,category,currentIndex);
-            getNextPageData(theme,category,currentIndex);
+            if (currentIndex == 0) getCurrentData(theme, category, currentIndex);
+            getNextPageData(theme, category, currentIndex);
         });
         mFooterViewWrapper.mCircleProgressBar.setVisibility(View.INVISIBLE);
     }
 
-    public void getNextPageData(int theme,String category,int page){
+    public void getNextPageData(int theme, String category, int page) {
         mFooterViewWrapper.showLoading();
         provideData(new SimpleObserver<LostWrapper<List<Lost>>>(getContext(), new SubscriberListener<LostWrapper<List<Lost>>>() {
             @Override
             public boolean onError(Throwable e) {
-                 super.onError(e);
+                super.onError(e);
                 mFooterViewWrapper.showLoadingFailed();
                 return true;
             }
@@ -242,20 +249,21 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
             @Override
             public void onNext(LostWrapper<List<Lost>> lost) {
                 super.onNext(lost);
-                if (lost.data.size() == 0){
+                if (lost.data.size() == 0) {
                     mFooterViewWrapper.showLoadingNoData();
                     return;
                 }
                 mAdapter.addDataList(lost.data);
             }
-        }),theme,category,page);
+        }), theme, category, page);
     }
+
     @Override
     public void onResume() {
         super.onResume();
         if (hasLoginStateChanged) {
             mLostlist.clear();
-            getCurrentData(theme,category, 0);
+            getCurrentData(theme, category, 0);
             hasLoginStateChanged = false;
         }
     }
@@ -315,11 +323,12 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
         }
 
     }
+
     private void registerObservable() {
         mDisposable = RxBus.getDefault()
                 .toFlowable(HotNews.class)
                 .subscribe(s -> {
-                    getCurrentData(theme,category,FIRST_PAGE_INDEX);
+                    getCurrentData(theme, category, FIRST_PAGE_INDEX);
                     recycler.scrollToPosition(0);
                 });
     }
@@ -328,6 +337,7 @@ public class LostFragment extends BaseLazyFragment implements SwipeRefreshLayout
         if (mDisposable != null && !mDisposable.isDisposed())
             mDisposable.dispose();
     }
+
     @Override
     public void onLoginStateChangeEvent(LoginStateChangeEvent event) {
         super.onLoginStateChangeEvent(event);

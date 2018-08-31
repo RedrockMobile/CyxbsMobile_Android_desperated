@@ -148,7 +148,6 @@ public class ElectricCircleView extends View {
     }
 
 
-
     private void drawLittleCircle(Canvas canvas, float outSideWidth) {
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.parseColor("#2112d0ff"));

@@ -485,7 +485,6 @@ public class SimpleBanner extends RelativeLayout {
 
 
     /**
-     *
      * 方法使用状态 ：viewpager处于暂停的状态
      * 开始滚动
      */

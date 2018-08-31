@@ -17,25 +17,26 @@ public class LostTabPagerAdapter extends FragmentStatePagerAdapter {
     private final List<String> mTitleList;
     private final Fragment fragment;
     Bundle bundle;
-    String message ;
+    String message;
+
     public LostTabPagerAdapter(FragmentManager fm, Fragment fragment, List<String> titleList, Bundle bundle) {
         super(fm);
         this.fragment = fragment;
         this.mTitleList = titleList;
         this.bundle = bundle;
         message = fragment.getArguments().getString("ARGUEMENT");
-        if (message == null){
+        if (message == null) {
             message = "全部";
-        }else {
+        } else {
             return;
         }
 
-        LogUtils.LOGE("TabAdapter",message);
+        LogUtils.LOGE("TabAdapter", message);
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragment ;
+        return fragment;
     }
 
     @Override

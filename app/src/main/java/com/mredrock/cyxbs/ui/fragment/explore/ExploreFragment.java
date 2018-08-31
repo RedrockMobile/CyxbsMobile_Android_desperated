@@ -15,7 +15,6 @@ import com.mredrock.cyxbs.model.RollerViewInfo;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
-import com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCarActivity;
 import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
@@ -72,11 +71,6 @@ public class ExploreFragment extends BaseFragment {
             startLocation[0] += mWhatToEatHolder.getWidth() / 2;
             WhatToEatActivity.startWhatToEatActivity(startLocation, getActivity());
         }
-    }
-
-    @OnClick(R.id.explore_school_car)
-    void clickToSchoolcar(){
-        ExploreSchoolCarActivity.startSchoolCarActivity(getActivity());
     }
 
     @OnClick(R.id.explore_surrounding_food_holder)

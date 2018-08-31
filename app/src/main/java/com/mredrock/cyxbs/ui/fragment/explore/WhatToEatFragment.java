@@ -180,7 +180,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
     private void getFood() {
         Disposable subscription = RequestManager.getInstance().getFood(new SimpleObserver<>(getActivity(), new SubscriberListener<FoodDetail>() {
             @Override
-             public void onComplete() {
+            public void onComplete() {
                 onRefreshingStateChanged(false);
                 onErrorLayoutVisibleChanged(mContainerLayout, false);
             }

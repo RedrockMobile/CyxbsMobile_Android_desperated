@@ -191,7 +191,8 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
 
         private List<Course> getCourseList() {
             String json = FileUtils.readStringFromFile(new File(BaseAPP.getContext().getFilesDir().getAbsolutePath() + "/" + Config.APP_WIDGET_CACHE_FILE_NAME));
-            return new Gson().fromJson(json, new TypeToken<List<Course>>() {}.getType());
+            return new Gson().fromJson(json, new TypeToken<List<Course>>() {
+            }.getType());
         }
 
         @Override

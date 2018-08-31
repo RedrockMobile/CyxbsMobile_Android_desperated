@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.ui.widget;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -21,12 +20,13 @@ public class VolunteerTimeSP {
         editor = sharedPref.edit();
     }
 
-    public void bindVolunteerInfo(String account, String password, String uid){
+    public void bindVolunteerInfo(String account, String password, String uid) {
         editor.putString("account", account);
         editor.putString("password", password);
         editor.putString("uid", uid);
         editor.commit();
     }
+
     public void unBindVolunteerInfo() {
         editor.putString("account", "404");
         editor.putString("password", "404");

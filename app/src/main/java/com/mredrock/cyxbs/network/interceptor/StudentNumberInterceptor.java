@@ -18,6 +18,7 @@ import okhttp3.Response;
  * {@link com.mredrock.cyxbs.config.Const#API_SOCIAL_HOT_LIST}
  * {@link com.mredrock.cyxbs.config.Const#API_SOCIAL_BBDD_LIST}
  * {@link com.mredrock.cyxbs.config.Const#API_GET_PERSON_LATEST}
+ *
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
@@ -26,11 +27,11 @@ public class StudentNumberInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         String url = chain.request().url().toString();
         if (BaseAPP.isLogin() && (
-                   url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_HOT_LIST)
-                || url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_BBDD_LIST)
-                || url.equals(Const.END_POINT_REDROCK + Const.API_GET_PERSON_LATEST)
-                || url.equals(Const.END_POINT_REDROCK + Const.API_TREND_DETAIL)
-                || url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_OFFICIAL_NEWS_LIST))) {
+                url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_HOT_LIST)
+                        || url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_BBDD_LIST)
+                        || url.equals(Const.END_POINT_REDROCK + Const.API_GET_PERSON_LATEST)
+                        || url.equals(Const.END_POINT_REDROCK + Const.API_TREND_DETAIL)
+                        || url.equals(Const.END_POINT_REDROCK + Const.API_SOCIAL_OFFICIAL_NEWS_LIST))) {
             return doIntercept(chain);
         } else {
             return chain.proceed(chain.request());

@@ -16,6 +16,7 @@ import com.mredrock.cyxbs.BuildConfig;
 /**
  * 显示异常 Activity
  * <p><b>仅用于 DEBUG 版本</b>，捕获导致崩溃的异常并显示出来</p>
+ *
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
@@ -48,7 +49,7 @@ public class ExceptionActivity extends AppCompatActivity {
         while (t != null) {
             builder.append(t.getClass().getName()).append(": ");
             builder.append(t.getMessage());
-            for (StackTraceElement i: t.getStackTrace()) {
+            for (StackTraceElement i : t.getStackTrace()) {
                 builder.append('\n').append("\t\tat ").append(i.toString());
             }
             t = t.getCause();
@@ -61,6 +62,7 @@ public class ExceptionActivity extends AppCompatActivity {
 
     /**
      * 显示一个带有异常信息的 Dialog
+     *
      * @param context
      * @param t
      */
@@ -70,6 +72,7 @@ public class ExceptionActivity extends AppCompatActivity {
 
     /**
      * 显示一个带有异常信息的 Dialog
+     *
      * @param context
      * @param threadName
      * @param t
@@ -97,10 +100,11 @@ public class ExceptionActivity extends AppCompatActivity {
 
     /**
      * 安装此工具
+     *
      * @param applicationContext
-     * @param enable 设置为 false 可以禁用此工具
+     * @param enable             设置为 false 可以禁用此工具
      */
-    public static void install(Context applicationContext , boolean enable) {
+    public static void install(Context applicationContext, boolean enable) {
         ExceptionActivity.originHandler = Thread.getDefaultUncaughtExceptionHandler();
         if (BuildConfig.DEBUG && enable) {
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> {

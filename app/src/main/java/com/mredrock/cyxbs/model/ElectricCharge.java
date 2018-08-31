@@ -96,7 +96,7 @@ public class ElectricCharge {
     }
 
 
-    public static class ElectricChargeWrapper{
+    public static class ElectricChargeWrapper {
         private int status;
 
         @SerializedName("elec_inf")
@@ -119,9 +119,6 @@ public class ElectricCharge {
             this.status = status;
         }
     }
-
-
-
 
 
 }

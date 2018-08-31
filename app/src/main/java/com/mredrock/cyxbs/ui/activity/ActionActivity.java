@@ -21,6 +21,7 @@ import java.util.ArrayList;
  * 负责处理和分发各种 action
  * <p>避免重新启动已经在运行的 activity 造成的 getIntent 不更新问题</p>
  * <p>这个 Activity 启动后必须马上 finish ，而且不应该有界面</p>
+ *
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
@@ -100,5 +101,6 @@ public class ActionActivity extends AppCompatActivity {
         }
     }
 
-    private class ActionMatchException extends RuntimeException {}
+    private class ActionMatchException extends RuntimeException {
+    }
 }

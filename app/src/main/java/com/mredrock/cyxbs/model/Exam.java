@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by skylineTan on 2016/4/22 19:44.
  */
-public class Exam implements Comparable<Exam>{
+public class Exam implements Comparable<Exam> {
     public String week;
     public String weekday;
     public String student;
@@ -40,8 +40,8 @@ public class Exam implements Comparable<Exam>{
             return weekDayDifference;
         }
 
-        return  Integer.parseInt(begin_time.replace(":",""))
-                - Integer.parseInt(exam.begin_time.replace(":",""));
+        return Integer.parseInt(begin_time.replace(":", ""))
+                - Integer.parseInt(exam.begin_time.replace(":", ""));
 
 
     }

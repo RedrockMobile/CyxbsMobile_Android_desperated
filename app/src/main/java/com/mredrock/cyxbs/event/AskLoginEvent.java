@@ -9,11 +9,11 @@ package com.mredrock.cyxbs.event;
 public class AskLoginEvent {
     private String msg;
 
-    public AskLoginEvent(String msg){
+    public AskLoginEvent(String msg) {
         this.msg = msg;
     }
 
-    public String getMsg(){
+    public String getMsg() {
         return msg;
     }
 }

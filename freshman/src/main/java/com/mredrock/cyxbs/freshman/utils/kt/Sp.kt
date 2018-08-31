@@ -54,5 +54,6 @@ fun <T> withSPCache(keyName: String, clazz: Class<T>, observable: APIService.() 
             }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .onErrorReturn { null }
-            .subscribe({ it?.let(onGetBean) }, { (it as? JsonSyntaxException) ?: fail(it) })
+            .subscribe({ it?.let(onGetBean) }, {
+                (it as? JsonSyntaxException) ?: (it as? NullPointerException) ?: fail(it) })
 }

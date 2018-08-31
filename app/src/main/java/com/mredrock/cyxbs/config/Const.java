@@ -15,12 +15,12 @@ public class Const {
     public static final String API_VOLUNTEER = "https://wx.redrock.team/servicerecord/";
 
     //Explore
-    public static final String API_MAP_PICTURE          = "/welcome/2015/index.php/home/api/banner";
-    public static final String API_SHAKE                = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shake";
-    public static final String API_FOOD_LIST            = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shoplist";
-    public static final String API_FOOD_DETAIL          = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shopinfo";
-    public static final String API_FOOD_COMMENT_LIST    = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/comList";
-    public static final String API_SEND_FOOD_COMMENT    = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/addCom";
+    public static final String API_MAP_PICTURE = "/welcome/2015/index.php/home/api/banner";
+    public static final String API_SHAKE = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shake";
+    public static final String API_FOOD_LIST = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shoplist";
+    public static final String API_FOOD_DETAIL = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/shopinfo";
+    public static final String API_FOOD_COMMENT_LIST = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/comList";
+    public static final String API_SEND_FOOD_COMMENT = "/cyxbs_api_2014/cqupthelp/index.php/admin/shop/addCom";
     public static final String API_SCHOOL_CARS_LOCATION = "/extension/test";
 
     public static final String APT_SEARCH_STUDENT = "/cyxbsMobile/index.php/home/searchPeople/peopleList";
@@ -34,16 +34,16 @@ public class Const {
     public static final String API_SOCIAL_COMMENT_ADD = "/cyxbsMobile/index.php/Home/ArticleRemark/postremarks";
     public static final String API_SOCIAL_LIKE = "/cyxbsMobile/index.php/Home/Praise/addone";
     public static final String API_SOCIAL_UNLIKE = "/cyxbsMobile/index.php/Home/Praise/cancel";
-    public static final String API_UPDATE_OLD               = "/app/cyxbsAppUpdate.xml";
+    public static final String API_UPDATE_OLD = "/app/cyxbsAppUpdate.xml";
 
-    public static final String API_AVATAR_UPLOAD     = "/cyxbsMobile/index.php/home/photo/upload";
-    public static final String API_GET_PERSON_INFO   = "/cyxbsMobile/index.php/Home/Person/search";
+    public static final String API_AVATAR_UPLOAD = "/cyxbsMobile/index.php/home/photo/upload";
+    public static final String API_GET_PERSON_INFO = "/cyxbsMobile/index.php/Home/Person/search";
     public static final String API_GET_PERSON_LATEST = "/cyxbsMobile/index.php/Home/NewArticle/searchtrends";
 
     //登陆验证接口
-    public static final String API_VERIFY          = "/api/verify";
+    public static final String API_VERIFY = "/api/verify";
     //无课表
-    public static final String API_EMPTYROOM       = "/api/roomEmpty";
+    public static final String API_EMPTYROOM = "/api/roomEmpty";
     //考试安排
     public static final String API_EXAM_SCHEDULE = "/api/examSchedule";
     //补考安排
@@ -68,7 +68,7 @@ public class Const {
     public static final String API_ROLLER_VIEW = "https://wx.redrock.team/app/api/pictureCarousel.php";
 
     //Affair
-    public static final  String API_GET_AFFAIR = "/cyxbsMobile/index.php/Home/Person/getTransaction";
+    public static final String API_GET_AFFAIR = "/cyxbsMobile/index.php/Home/Person/getTransaction";
 
     public static final String API_ADD_AFFAIR = "/cyxbsMobile/index.php/Home/Person/addTransaction";
 
@@ -84,7 +84,7 @@ public class Const {
     //往期电费
     public static final String API_BIND_DORMITORY = "/cyxbsMobile/index.php/Home/Person/bindDormitory";
     public static final String API_UNBIND_DORMITORU = "/cyxbsMobile/index.php/Home/Person/deBindDormitory";
-    public static final String API_ELECTRIC_QUERY_STUNUM  = "/cyxbsMobile/index.php/Home/Extent/getElectric";
+    public static final String API_ELECTRIC_QUERY_STUNUM = "/cyxbsMobile/index.php/Home/Extent/getElectric";
 
 
     // 失物招领
@@ -106,6 +106,7 @@ public class Const {
     public static final String API_MY_TOPIC_LIST = "/cyxbsMobile/index.php/Home/Topic/myJoinedTopic";
     public static final String API_TOPIC_ARTICLE = "/cyxbsMobile/index.php/Home/Topic/listTopicArticle";
     public static final String API_ADD_TOPIC_ARTICLE = "/cyxbsMobile/index.php/Home/Topic/addTopicArticle";
+
     public static final class Extras {
         public static final String EDIT_USER = "10";
         public static final String EDIT_NICK_NAME = "10";

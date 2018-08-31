@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Model of the wrapper of lost and found API <br>
- *       http://hongyan.cqupt.edu.cn/laf/api/view/lost/all/1
+ * http://hongyan.cqupt.edu.cn/laf/api/view/lost/all/1
  *
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */

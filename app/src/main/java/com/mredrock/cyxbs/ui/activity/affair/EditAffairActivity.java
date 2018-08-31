@@ -168,7 +168,7 @@ public class EditAffairActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AffairApi.AffairItem>() {
                     @Override
-                     public void onComplete() {
+                    public void onComplete() {
 
                     }
 
@@ -593,7 +593,7 @@ public class EditAffairActivity extends BaseActivity {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Observer() {
                                     @Override
-                                     public void onComplete() {
+                                    public void onComplete() {
                                         EventBus.getDefault().post(new AffairModifyEvent());
                                         onBackPressed();
                                     }

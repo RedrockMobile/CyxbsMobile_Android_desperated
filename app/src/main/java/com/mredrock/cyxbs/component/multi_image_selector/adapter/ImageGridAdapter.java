@@ -32,10 +32,10 @@ public class ImageGridAdapter extends BaseAdapter {
     private Context mContext;
 
     private LayoutInflater mInflater;
-    private boolean showCamera          = true;
+    private boolean showCamera = true;
     private boolean showSelectIndicator = true;
 
-    private List<Image> mImages         = new ArrayList<>();
+    private List<Image> mImages = new ArrayList<>();
     private List<Image> mSelectedImages = new ArrayList<>();
 
     final int mGridWidth;
@@ -197,7 +197,7 @@ public class ImageGridAdapter extends BaseAdapter {
     class ViewHolder {
         ImageView image;
         ImageView indicator;
-        View      mask;
+        View mask;
 
         ViewHolder(View view) {
             image = (ImageView) view.findViewById(R.id.image);
@@ -227,11 +227,11 @@ public class ImageGridAdapter extends BaseAdapter {
             if (imageFile.exists()) {
                 // 显示图片
                 Glide.with(mContext)
-                     .load(imageFile)
-                     .placeholder(R.drawable.default_error)
-                     .override(mGridWidth, mGridWidth)
-                     .centerCrop()
-                     .into(image);
+                        .load(imageFile)
+                        .placeholder(R.drawable.default_error)
+                        .override(mGridWidth, mGridWidth)
+                        .centerCrop()
+                        .into(image);
             } else {
                 image.setImageResource(R.drawable.default_error);
             }

@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.util.Utils;
  * 12:44
  */
 
-public class SearchView extends FrameLayout{
+public class SearchView extends FrameLayout {
 
     public static final String TAG = SearchView.class.getSimpleName();
 
@@ -54,13 +54,13 @@ public class SearchView extends FrameLayout{
             mSearchView.setVisibility(VISIBLE);
             mImageView.setVisibility(GONE);
             mSearchView.setIconified(false);
-            if(mSearchSwitchListener!=null) mSearchSwitchListener.onSearch();
+            if (mSearchSwitchListener != null) mSearchSwitchListener.onSearch();
         });
         mSearchView.setOnCloseListener(() -> {
             mSearchView.setVisibility(GONE);
             mImageView.setVisibility(VISIBLE);
             mSearchView.setIconified(false);
-            if(mSearchSwitchListener!=null) mSearchSwitchListener.close();
+            if (mSearchSwitchListener != null) mSearchSwitchListener.close();
             return false;
         });
     }

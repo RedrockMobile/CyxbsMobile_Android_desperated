@@ -7,6 +7,7 @@ import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.social.HotNews;
 
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.rx_cache2.DynamicKey;
 import io.rx_cache2.DynamicKeyGroup;

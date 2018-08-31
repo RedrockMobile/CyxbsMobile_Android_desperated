@@ -223,9 +223,9 @@ public class SettingActivity extends BaseActivity implements EasyPermissions.Per
         QRImageView.setOnLongClickListener(v -> {
             Drawable drawable = QRImageView.getDrawable();
             if (drawable instanceof BitmapDrawable) {
-                if (!EasyPermissions.hasPermissions(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-                    EasyPermissions.requestPermissions(this, "要想保存二维码的话给个权限吧",0, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                }else {
+                if (!EasyPermissions.hasPermissions(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    EasyPermissions.requestPermissions(this, "要想保存二维码的话给个权限吧", 0, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                } else {
                     storeQRCode();
                 }
             }
@@ -235,14 +235,14 @@ public class SettingActivity extends BaseActivity implements EasyPermissions.Per
 
 
     @AfterPermissionGranted(0)
-    public void storeQRCode(){
+    public void storeQRCode() {
         Bitmap bitmap = ((BitmapDrawable) QRImageView.getDrawable()).getBitmap();
         SaveImageUtils.imageSave(bitmap, String.valueOf(System.currentTimeMillis()));
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,this);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
@@ -252,7 +252,7 @@ public class SettingActivity extends BaseActivity implements EasyPermissions.Per
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        Toast.makeText(this,"要想保存二维码必须给权限哟~",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "要想保存二维码必须给权限哟~", Toast.LENGTH_LONG).show();
     }
 
 }

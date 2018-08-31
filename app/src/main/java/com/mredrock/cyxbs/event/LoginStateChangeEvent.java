@@ -13,6 +13,7 @@ public class LoginStateChangeEvent {
 
     /**
      * Construct this event
+     *
      * @param newState true = login, false = logout
      */
     public LoginStateChangeEvent(boolean newState) {
@@ -21,6 +22,7 @@ public class LoginStateChangeEvent {
 
     /**
      * Get the new state after user login or logout
+     *
      * @return true = user has login, false = user has logout
      */
     public boolean getNewState() {

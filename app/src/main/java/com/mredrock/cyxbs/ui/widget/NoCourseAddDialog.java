@@ -23,6 +23,7 @@ import com.mredrock.cyxbs.util.DensityUtils;
 public class NoCourseAddDialog extends Dialog implements View.OnClickListener {
     public interface OnClickListener {
         void onCancel();
+
         void onSure(EditText editText);
     }
 

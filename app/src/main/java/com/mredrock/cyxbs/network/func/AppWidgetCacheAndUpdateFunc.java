@@ -18,13 +18,14 @@ import io.reactivex.functions.Function;
 
 /**
  * Manage cache file for {@link CourseListAppWidget} and call its update
+ *
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
 public class AppWidgetCacheAndUpdateFunc implements Function<List<Course>, List<Course>> {
 
     @Override
-    public List<Course> apply(List<Course> courses)throws Exception {
+    public List<Course> apply(List<Course> courses) throws Exception {
         List<Course> weekCourses = new UserCourseFilterFunc(new SchoolCalendar().getWeekOfTerm()).apply(courses);
         List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(new GregorianCalendar().get(Calendar.DAY_OF_WEEK)).apply(weekCourses);
         // List<Course> dayCourses = new UserCourseFilterByWeekDayFunc(Calendar.THURSDAY).call(weekCourses);

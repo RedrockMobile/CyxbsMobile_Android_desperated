@@ -61,7 +61,7 @@ public class PastElectricChargeActivity extends BaseActivity {
 
                         ElectricCharge electricCharge = pastElectricResultWrapper.getResult().getCurrent();
                         if (electricCharge == null)
-                            Toast.makeText(BaseAPP.getContext(),"没有获取到数据，请检查设置的寝室号",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BaseAPP.getContext(), "没有获取到数据，请检查设置的寝室号", Toast.LENGTH_SHORT).show();
                         else {
                             for (int i = pastElectricResultWrapper.getResult().getTrend().size(); i > 0; i--) {
                                 electricSpends.add((double) pastElectricResultWrapper.getResult().getTrend().get(i - 1).getSpend());
@@ -74,12 +74,12 @@ public class PastElectricChargeActivity extends BaseActivity {
                             pastElectric.setSpend(Integer.parseInt(electricCharge.getElectricSpend()));
                             pastElectric.setElectricStart(electricCharge.getElectricStart());
                             pastElectrics.add(pastElectric);
-                            months.add(electricCharge.getElectricMonth() +"月");
+                            months.add(electricCharge.getElectricMonth() + "月");
                             chartView.setxValue(months);
                             chartView.setyValue(electricSpends);
                         }
 
-                  }
+                    }
                 }));
 
 
@@ -115,7 +115,7 @@ public class PastElectricChargeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       // chartView.requestLayout();
+        // chartView.requestLayout();
     }
 
     @Override

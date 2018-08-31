@@ -19,6 +19,7 @@ import com.mredrock.cyxbs.component.widget.ninelayout.CustomImageView;
  */
 public class ImageLoader {
     private static ImageLoader instance;
+
     private ImageLoader() {
 
     }

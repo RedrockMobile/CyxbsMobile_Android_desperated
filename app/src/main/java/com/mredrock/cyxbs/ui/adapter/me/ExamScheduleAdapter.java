@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ExamScheduleAdapter extends RecyclerView.Adapter<ExamScheduleAdapter.ExamViewHolder> {
-    private static final int[] IDS = new int[] {R.drawable.circle_pink, R.drawable.circle_blue, R.drawable.circle_yellow};
+    private static final int[] IDS = new int[]{R.drawable.circle_pink, R.drawable.circle_blue, R.drawable.circle_yellow};
 
     private Context mContext;
     private List<Exam> mExamList;
@@ -33,8 +33,8 @@ public class ExamScheduleAdapter extends RecyclerView.Adapter<ExamScheduleAdapte
 
     @Override
     public ExamScheduleAdapter.ExamViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_exam, parent, false);
-            return new ExamViewHolder(view);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_exam, parent, false);
+        return new ExamViewHolder(view);
     }
 
     @Override

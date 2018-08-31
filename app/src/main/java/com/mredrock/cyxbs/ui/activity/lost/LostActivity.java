@@ -20,17 +20,23 @@ import butterknife.OnClick;
 
 /**
  * 失物招领
+ *
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
 public class LostActivity extends BaseActivity {
 
-    @BindView(R.id.toolbar) RelativeLayout toolbar;
-    @BindView(R.id.rb_lost) RadioButton chooseModeLost;
-    @BindView(R.id.rb_found) RadioButton chooseModeFound;
+    @BindView(R.id.toolbar)
+    RelativeLayout toolbar;
+    @BindView(R.id.rb_lost)
+    RadioButton chooseModeLost;
+    @BindView(R.id.rb_found)
+    RadioButton chooseModeFound;
 
-    @BindView(R.id.view_pager) ViewPager pager;
-    @BindView(R.id.tab_layout) TabLayout tab;
+    @BindView(R.id.view_pager)
+    ViewPager pager;
+    @BindView(R.id.tab_layout)
+    TabLayout tab;
 
     LostViewPagerAdapter adapter;
     String[] lostKindList;
@@ -46,7 +52,7 @@ public class LostActivity extends BaseActivity {
 
         lostKindList = getResources().getStringArray(R.array.lost_category_list);
         adapter = new LostViewPagerAdapter(getSupportFragmentManager());
-        LogUtils.LOGE("LostActivity",adapter.getItem(0).toString());
+        LogUtils.LOGE("LostActivity", adapter.getItem(0).toString());
         pager.setAdapter(adapter);
 
         pager.setCurrentItem(0);
@@ -71,7 +77,6 @@ public class LostActivity extends BaseActivity {
     public void onNavigationUpClick() {
         finish();
     }
-
 
 
     public static void start(Context context) {

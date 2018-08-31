@@ -24,12 +24,14 @@ import butterknife.ButterKnife;
 
 public class LostAdapter extends RecyclerView.Adapter<LostAdapter.ViewHolder> implements View.OnClickListener {
 
-    private List<Lost>mList = new ArrayList<>();
+    private List<Lost> mList = new ArrayList<>();
     private Context mContext;
-    public LostAdapter(List<Lost> list,Context context){
+
+    public LostAdapter(List<Lost> list, Context context) {
         replaceDataList(list);
         mContext = context;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lost, parent, false);
@@ -40,7 +42,7 @@ public class LostAdapter extends RecyclerView.Adapter<LostAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ImageLoader.getInstance().loadAvatar(mList.get(position).avatar,holder.mAvator);
+        ImageLoader.getInstance().loadAvatar(mList.get(position).avatar, holder.mAvator);
         holder.mNickName.setText(mList.get(position).connectName);
         holder.mType.setText(mList.get(position).category);
         holder.mTime.setText(mList.get(position).createdAt);
@@ -53,6 +55,7 @@ public class LostAdapter extends RecyclerView.Adapter<LostAdapter.ViewHolder> im
     public int getItemCount() {
         return mList.size();
     }
+
     public void replaceDataList(List<Lost> dataList) {
         mList.clear();
         if (dataList != null) {
@@ -63,40 +66,49 @@ public class LostAdapter extends RecyclerView.Adapter<LostAdapter.ViewHolder> im
 
     public void addDataList(List<Lost> dataList) {
         if (dataList != null) {
-            for (Lost d: dataList) {
+            for (Lost d : dataList) {
                 if (!mList.contains(d)) {
                     mList.add(d);
                 }
             }
-            notifyItemRangeInserted(mList.size(),dataList.size());
+            notifyItemRangeInserted(mList.size(), dataList.size());
         }
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.list_lost_img_avatar)CircularImageView mAvator;
-        @BindView(R.id.list_lost_text_nickname)TextView mNickName;
-        @BindView(R.id.list_lost_text_kind)TextView mType;
-        @BindView(R.id.list_lost_text_time)TextView mTime;
-        @BindView(R.id.textView_content)TextView mContent;
+        @BindView(R.id.list_lost_img_avatar)
+        CircularImageView mAvator;
+        @BindView(R.id.list_lost_text_nickname)
+        TextView mNickName;
+        @BindView(R.id.list_lost_text_kind)
+        TextView mType;
+        @BindView(R.id.list_lost_text_time)
+        TextView mTime;
+        @BindView(R.id.textView_content)
+        TextView mContent;
         public static final String TAG = "LostAdapter.NormalViewHolder";
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
+
     public interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view ,Lost lost);
+        void onItemClick(View view, Lost lost);
     }
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
+
     @Override
     public void onClick(View view) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取数据
-            mOnItemClickListener.onItemClick(view,(Lost) view.getTag());
+            mOnItemClickListener.onItemClick(view, (Lost) view.getTag());
         }
     }
 

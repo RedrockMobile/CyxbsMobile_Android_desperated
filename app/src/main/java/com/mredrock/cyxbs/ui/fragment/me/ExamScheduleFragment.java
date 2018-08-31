@@ -114,7 +114,7 @@ public class ExamScheduleFragment extends BaseFragment {
             if (NetUtils.isNetWorkAvailable(getActivity())) {
                 showProgress();
             } else {
-              //  examTvNothing.setVisibility(View.VISIBLE);
+                //  examTvNothing.setVisibility(View.VISIBLE);
             }
         } else {
             if (mIsVisibleToUser) {

@@ -52,7 +52,7 @@ public class PastElectric {
     }
 
 
-    public static class Result{
+    public static class Result {
         ElectricCharge current;
         List<PastElectric> trend;
 
@@ -74,7 +74,7 @@ public class PastElectric {
     }
 
 
-    public static class PastElectricResultWrapper{
+    public static class PastElectricResultWrapper {
         private String building;
         private String room;
         private Result result;

@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Stormouble on 16/4/28.
  */
-public class FoodCommentsAdapter extends BaseRecyclerViewAdapter<FoodComment, FoodCommentsAdapter.RestaurantCommentsViewHolder>{
+public class FoodCommentsAdapter extends BaseRecyclerViewAdapter<FoodComment, FoodCommentsAdapter.RestaurantCommentsViewHolder> {
 
     private GlideHelper mGlideHelper;
 

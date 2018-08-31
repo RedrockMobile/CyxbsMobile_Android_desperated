@@ -74,26 +74,26 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
 
     @Override
     protected void onFirstUserVisible() {
-        if (!(url  == null || url.length() <= 0)){
-                ImageLoader.getInstance()
-                        .loadImageWithTargetView(url, new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                if (mImageView == null) return;
-                                mImageView.setImageBitmap(resource);
-                                closeProgress();
+        if (!(url == null || url.length() <= 0)) {
+            ImageLoader.getInstance()
+                    .loadImageWithTargetView(url, new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            if (mImageView == null) return;
+                            mImageView.setImageBitmap(resource);
+                            closeProgress();
 
-                                mAttacher = new PhotoViewAttacher(mImageView);
-                                mAttacher.update();
-                                mAttacher.setOnPhotoTapListener(SingleImageFragment.this);
-                                onUserVisible(resource);
+                            mAttacher = new PhotoViewAttacher(mImageView);
+                            mAttacher.update();
+                            mAttacher.setOnPhotoTapListener(SingleImageFragment.this);
+                            onUserVisible(resource);
 
-                            }
-                        });
-            }else {
-                mImageView.setImageResource(R.drawable.default_avatar);
-                mAttacher = new PhotoViewAttacher(mImageView);
-                mAttacher.update();
+                        }
+                    });
+        } else {
+            mImageView.setImageResource(R.drawable.default_avatar);
+            mAttacher = new PhotoViewAttacher(mImageView);
+            mAttacher.update();
             mAttacher.setOnPhotoTapListener(SingleImageFragment.this);
             //onUserVisible();
         }
@@ -109,11 +109,12 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
     public void onOutsidePhotoTap() {
         getActivity().finish();
     }
+
     public void onUserVisible(Bitmap resource) {
         mAttacher.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (!isWifi(getContext())){
+                if (!isWifi(getContext())) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("保存图片")
                             .setMessage("您确定保存此图？会耗费您一点点流量哟~")
@@ -122,13 +123,13 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mImageView.setDrawingCacheEnabled(true);
-                                    if (mImageView != null){
-                                        SaveImageUtils.imageSave(resource,url);
+                                    if (mImageView != null) {
+                                        SaveImageUtils.imageSave(resource, url);
                                     }
                                 }
                             })
                             .show();
-                }else {
+                } else {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("保存图片")
                             .setMessage("您确定保存此图？")
@@ -137,8 +138,8 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mImageView.setDrawingCacheEnabled(true);
-                                    if (mImageView != null){
-                                        SaveImageUtils.imageSave(resource,url);
+                                    if (mImageView != null) {
+                                        SaveImageUtils.imageSave(resource, url);
                                     }
                                 }
                             })
@@ -156,11 +157,11 @@ public class SingleImageFragment extends BaseLazyFragment implements PhotoViewAt
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        Toast.makeText(getContext(),"抱歉，您没有开启权限保存图片哦~",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "抱歉，您没有开启权限保存图片哦~", Toast.LENGTH_SHORT).show();
 
     }
 
-    public  boolean isWifi(Context context){
+    public boolean isWifi(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI;

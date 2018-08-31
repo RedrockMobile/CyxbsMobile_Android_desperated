@@ -32,26 +32,26 @@ public class LostCircleButton extends Button {
     private int shape = 0;
     private Boolean fillet = false;
 
-    public LostCircleButton(Context context, AttributeSet attrs,int defStyle){
-        super(context,attrs,defStyle);
+    public LostCircleButton(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
         init();
     }
 
-    public LostCircleButton(Context context,AttributeSet attrs){
-        this(context,attrs,0);
+    public LostCircleButton(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
     public LostCircleButton(Context context) {
-       this(context,null);
+        this(context, null);
     }
 
-    private void init(){
-        if (fillet){
-            if (gradientDrawable == null){
+    private void init() {
+        if (fillet) {
+            if (gradientDrawable == null) {
                 gradientDrawable = new GradientDrawable();
             }
             gradientDrawable.setColor(Color.TRANSPARENT);
-        }else {
+        } else {
             setBackgroundColor(Color.TRANSPARENT);
         }
         setGravity(Gravity.CENTER);
@@ -64,28 +64,29 @@ public class LostCircleButton extends Button {
         });
     }
 
-    private void setColor(int state){
-        if (state == MotionEvent.ACTION_DOWN){
-            if (backColorSelectedi != 0){
+    private void setColor(int state) {
+        if (state == MotionEvent.ACTION_DOWN) {
+            if (backColorSelectedi != 0) {
 
-                if (fillet){
-                    if (gradientDrawable == null){
+                if (fillet) {
+                    if (gradientDrawable == null) {
                         gradientDrawable = new GradientDrawable();
-                    }gradientDrawable.setColor(backColorSelectedi);
-                }else {
+                    }
+                    gradientDrawable.setColor(backColorSelectedi);
+                } else {
                     setBackgroundColor(backColorSelectedi);
                 }
-            }else if (!backColorSelecteds.equals("") ){
-                if (fillet){
-                    if (gradientDrawable == null){
+            } else if (!backColorSelecteds.equals("")) {
+                if (fillet) {
+                    if (gradientDrawable == null) {
                         gradientDrawable = new GradientDrawable();
                     }
                     gradientDrawable.setColor(Color.parseColor(backColorSelecteds));
-                }else{
+                } else {
                     setBackgroundColor(Color.parseColor(backColorSelecteds));
                 }
             }
-            if (backGroundImageSelected != 0){
+            if (backGroundImageSelected != 0) {
                 setBackgroundResource(backGroundImageSelected);
             }
         }
@@ -130,8 +131,10 @@ public class LostCircleButton extends Button {
             }
         }*/
     }
+
     /**
      * 设置按钮的背景色,如果未设置则默认为透明
+     *
      * @param backColor
      */
     public void setBackColor(String backColor) {
@@ -142,22 +145,24 @@ public class LostCircleButton extends Button {
                     gradientDrawable = new GradientDrawable();
                 }
                 gradientDrawable.setColor(Color.TRANSPARENT);
-            }else {
+            } else {
                 setBackgroundColor(Color.TRANSPARENT);
             }
-        }else {
+        } else {
             if (fillet) {
                 if (gradientDrawable == null) {
                     gradientDrawable = new GradientDrawable();
                 }
                 gradientDrawable.setColor(Color.parseColor(backColor));
-            }else {
+            } else {
                 setBackgroundColor(Color.parseColor(backColor));
             }
         }
     }
+
     /**
      * 设置按钮的背景色,如果未设置则默认为透明
+     *
      * @param backColor
      */
     public void setBackColor(int backColor) {
@@ -168,36 +173,42 @@ public class LostCircleButton extends Button {
                     gradientDrawable = new GradientDrawable();
                 }
                 gradientDrawable.setColor(Color.TRANSPARENT);
-            }else {
+            } else {
                 setBackgroundColor(Color.TRANSPARENT);
             }
-        }else {
+        } else {
             if (fillet) {
                 if (gradientDrawable == null) {
                     gradientDrawable = new GradientDrawable();
                 }
                 gradientDrawable.setColor(backColor);
-            }else {
+            } else {
                 setBackgroundColor(backColor);
             }
         }
     }
+
     /**
      * 设置按钮按下后的颜色
+     *
      * @param backColorSelected
      */
     public void setBackColorSelected(int backColorSelected) {
         this.backColorSelectedi = backColorSelected;
     }
+
     /**
      * 设置按钮按下后的颜色
+     *
      * @param backColorSelected
      */
     public void setBackColorSelected(String backColorSelected) {
         this.backColorSelecteds = backColorSelected;
     }
+
     /**
      * 设置按钮的背景图
+     *
      * @param backGroundImage
      */
     public void setBackGroundImage(int backGroundImage) {
@@ -206,15 +217,19 @@ public class LostCircleButton extends Button {
             setBackgroundResource(backGroundImage);
         }
     }
+
     /**
      * 设置按钮按下的背景图
+     *
      * @param backGroundImageSeleted
      */
     public void setBackGroundImageSeleted(int backGroundImageSeleted) {
         this.backGroundImageSelected = backGroundImageSeleted;
     }
+
     /**
      * 设置按钮圆角半径大小
+     *
      * @param radius
      */
     public void setRadius(float radius) {
@@ -223,31 +238,39 @@ public class LostCircleButton extends Button {
         }
         gradientDrawable.setCornerRadius(radius);
     }
+
     /**
      * 设置按钮文字颜色
+     *
      * @param textColor
      */
     public void setTextColors(String textColor) {
         this.textColors = textColor;
         setTextColor(Color.parseColor(textColor));
     }
+
     /**
      * 设置按钮文字颜色
+     *
      * @param textColor
      */
     public void setTextColori(int textColor) {
         this.textColori = textColor;
         setTextColor(textColor);
     }
+
     /**
      * 按钮的形状
+     *
      * @param shape
      */
     public void setShape(int shape) {
         this.shape = shape;
     }
+
     /**
      * 设置其是否为圆角
+     *
      * @param fillet
      */
     @SuppressWarnings("deprecation")

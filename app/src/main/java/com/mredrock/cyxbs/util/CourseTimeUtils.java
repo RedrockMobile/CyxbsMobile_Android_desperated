@@ -15,7 +15,7 @@ public class CourseTimeUtils {
         calendar.setTimeInMillis(System.currentTimeMillis());
         switch (course.hash_lesson) {
             case 0:
-                calendar.set(Calendar.HOUR_OF_DAY,8);
+                calendar.set(Calendar.HOUR_OF_DAY, 8);
                 calendar.set(Calendar.MINUTE, 0);
                 break;
             case 1:
