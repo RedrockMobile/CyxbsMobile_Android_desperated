@@ -62,7 +62,7 @@
             android:layout_height="50dp"
             android:drawableLeft="@drawable/volunteer_login_number"
             android:drawablePadding="16dp"
-            android:hint="请输入暖清汇账号"
+            android:hint="请输入暖青汇账号"
             android:textSize="14dp"
             android:textColorHint="@color/volunteer_edit_Normal"
             android:textCursorDrawable="@drawable/volunteer_cursor_color"
