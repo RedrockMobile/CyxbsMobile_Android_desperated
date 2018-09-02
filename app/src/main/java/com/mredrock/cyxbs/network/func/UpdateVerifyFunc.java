@@ -2,12 +2,13 @@ package com.mredrock.cyxbs.network.func;
 
 import com.mredrock.cyxbs.model.UpdateInfo;
 
-import rx.functions.Func1;
+import io.reactivex.functions.Function;
+
 
 /**
  * Created by cc on 16/5/8.
  */
-public class UpdateVerifyFunc implements Func1<UpdateInfo, UpdateInfo> {
+public class UpdateVerifyFunc implements Function<UpdateInfo, UpdateInfo> {
 
     private int versionCode;
 
@@ -16,7 +17,7 @@ public class UpdateVerifyFunc implements Func1<UpdateInfo, UpdateInfo> {
     }
 
     @Override
-    public UpdateInfo call(UpdateInfo updateInfo) {
+    public UpdateInfo apply(UpdateInfo updateInfo) throws Exception {
         if (updateInfo.versionCode <= versionCode) {
             return null;
         }

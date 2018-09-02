@@ -9,18 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.Exam;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 
 import java.util.List;
-import java.util.Locale;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ExamScheduleAdapter extends RecyclerView.Adapter<ExamScheduleAdapter.ExamViewHolder> {
-    private static final int[] IDS = new int[] {R.drawable.circle_pink, R.drawable.circle_blue, R.drawable.circle_yellow};
+    private static final int[] IDS = new int[]{R.drawable.circle_pink, R.drawable.circle_blue, R.drawable.circle_yellow};
 
     private Context mContext;
     private List<Exam> mExamList;
@@ -34,8 +33,8 @@ public class ExamScheduleAdapter extends RecyclerView.Adapter<ExamScheduleAdapte
 
     @Override
     public ExamScheduleAdapter.ExamViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_exam, parent, false);
-            return new ExamViewHolder(view);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_exam, parent, false);
+        return new ExamViewHolder(view);
     }
 
     @Override
@@ -94,21 +93,21 @@ public class ExamScheduleAdapter extends RecyclerView.Adapter<ExamScheduleAdapte
     }
 
     public static class ExamViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.day_of_month)
+        @BindView(R.id.day_of_month)
         TextView dayOfMonth;
-        @Bind(R.id.month)
+        @BindView(R.id.month)
         TextView month;
-        @Bind(R.id.circle)
+        @BindView(R.id.circle)
         ImageView circle;
-        @Bind(R.id.exam_name)
+        @BindView(R.id.exam_name)
         TextView examName;
-        @Bind(R.id.day_of_week)
+        @BindView(R.id.day_of_week)
         TextView dayOfWeek;
-        @Bind(R.id.time)
+        @BindView(R.id.time)
         TextView time;
-        @Bind(R.id.location)
+        @BindView(R.id.location)
         TextView location;
-        @Bind(R.id.line)
+        @BindView(R.id.line)
         View line;
 
         public ExamViewHolder(View view) {

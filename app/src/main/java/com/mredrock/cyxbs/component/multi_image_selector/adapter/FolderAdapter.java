@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class FolderAdapter extends BaseAdapter {
 
-    private Context        mContext;
+    private Context mContext;
     private LayoutInflater mInflater;
 
     private List<Folder> mFolders = new ArrayList<>();
@@ -36,7 +36,7 @@ public class FolderAdapter extends BaseAdapter {
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mImageSize = mContext.getResources()
-                             .getDimensionPixelOffset(R.dimen.folder_cover_size);
+                .getDimensionPixelOffset(R.dimen.folder_cover_size);
     }
 
     /**
@@ -84,15 +84,15 @@ public class FolderAdapter extends BaseAdapter {
                 holder.path.setText("/sdcard");
                 holder.size.setText(String.format("%d%s",
                         getTotalImageSize(), mContext.getResources()
-                                                     .getString(R.string.photo_unit)));
+                                .getString(R.string.photo_unit)));
                 if (mFolders.size() > 0) {
                     Folder f = mFolders.get(0);
                     Glide.with(mContext)
-                         .load(new File(f.cover.path))
-                         .error(R.drawable.default_error)
-                         .override(R.dimen.folder_cover_size, R.dimen.folder_cover_size)
-                         .centerCrop()
-                         .into(holder.cover);
+                            .load(new File(f.cover.path))
+                            .error(R.drawable.default_error)
+                            .override(R.dimen.folder_cover_size, R.dimen.folder_cover_size)
+                            .centerCrop()
+                            .into(holder.cover);
                 }
             } else {
                 holder.bindData(getItem(i));
@@ -129,9 +129,9 @@ public class FolderAdapter extends BaseAdapter {
 
     static class ViewHolder {
         ImageView cover;
-        TextView  name;
-        TextView  path;
-        TextView  size;
+        TextView name;
+        TextView path;
+        TextView size;
         ImageView indicator;
 
         Context mContext;
@@ -154,19 +154,19 @@ public class FolderAdapter extends BaseAdapter {
             path.setText(data.path);
             if (data.images != null) {
                 size.setText(String.format("%d%s", data.images.size(), mContext.getResources()
-                                                                               .getString(R.string.photo_unit)));
+                        .getString(R.string.photo_unit)));
             } else {
                 size.setText("*" + mContext.getResources()
-                                           .getString(R.string.photo_unit));
+                        .getString(R.string.photo_unit));
             }
             // 显示图片
             if (data.cover != null) {
                 Glide.with(mContext)
-                     .load(new File(data.cover.path))
-                     .placeholder(R.drawable.default_error)
-                     .override(R.dimen.folder_cover_size, R.dimen.folder_cover_size)
-                     .centerCrop()
-                     .into(cover);
+                        .load(new File(data.cover.path))
+                        .placeholder(R.drawable.default_error)
+                        .override(R.dimen.folder_cover_size, R.dimen.folder_cover_size)
+                        .centerCrop()
+                        .into(cover);
             } else {
                 cover.setImageResource(R.drawable.default_error);
             }

@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
 
 public abstract class ProgressHandler extends Handler {
     public static final int UPDATE = 0x01;
-    public static final int START  = 0x02;
+    public static final int START = 0x02;
     public static final int FINISH = 0x03;
     //弱引用
     private final WeakReference<UIProgressListener> mUIProgressListenerWeakReference;

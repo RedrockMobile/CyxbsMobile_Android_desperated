@@ -1,5 +1,7 @@
 package com.mredrock.cyxbs.service;
 
+import android.annotation.TargetApi;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -22,8 +24,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class UpdateService extends Service {
+    public static final String CHANNEL_ID = "app_update";
+    public static final String CHANNEL_NAME = "更新消息";
 
-    private NotificationManager        notificationManager;
+    private NotificationManager notificationManager;
     private NotificationCompat.Builder builder;
     private int notification_id = 1003;
     private DownloadAsyncTask task;
@@ -62,16 +66,31 @@ public class UpdateService extends Service {
     }
 
     public void createNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            createNotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
+        }
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        builder = new NotificationCompat.Builder(this).setSmallIcon(R.mipmap.ic_launcher)
-                                                      .setContentTitle("掌上重邮更新中...")
-                                                      .setContentText("0%");
+        builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("掌上重邮更新中...")
+                .setContentText("0%");
         builder.setProgress(100, 0, false);
 
         Intent stopIntent = new Intent(this, UpdateService.class);
         builder.setDeleteIntent(PendingIntent.getService(this, 0, stopIntent, 0));
         builder.setAutoCancel(true);
         builder.setTicker("新版掌上重邮开始下载了...");
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void createNotificationChannel(String channelId, String channelName, int importance) {
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(
+                NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     private void updateNotification(int progress) {
@@ -86,8 +105,8 @@ public class UpdateService extends Service {
     }
 
     class DownloadAsyncTask extends AsyncTask<String, Integer, Boolean> {
-        private String  path;
-        private String  name;
+        private String path;
+        private String name;
         private boolean cancelUpdate;
 
         private void stop() {

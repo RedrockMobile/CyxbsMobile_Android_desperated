@@ -13,7 +13,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.RollerViewInfo;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
@@ -27,7 +27,7 @@ import com.mredrock.cyxbs.util.LogUtils;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -39,11 +39,11 @@ public class ExploreFragment extends BaseFragment {
 
     private static final String TAG = LogUtils.makeLogTag(ExploreFragment.class);
 
-    @Bind(R.id.rollerView)
+    @BindView(R.id.rollerView)
     RollerView mRollerView;
-    @Bind(R.id.explore_what_to_eat_holder)
+    @BindView(R.id.explore_what_to_eat_holder)
     ViewGroup mWhatToEatHolder;
-    @Bind(R.id.explore_surrounding_food_holder)
+    @BindView(R.id.explore_surrounding_food_holder)
     ViewGroup mSurroundingFoodHolder;
 
     @OnClick(R.id.explore_portal_holder)
@@ -111,15 +111,15 @@ public class ExploreFragment extends BaseFragment {
                 R.drawable.img_cqupt2,
                 R.drawable.img_cqupt3}));
 
-        RequestManager.getInstance().getRollerViewInfo(new SimpleSubscriber<>(getActivity(), new SubscriberListener<List<RollerViewInfo>>() {
+        RequestManager.getInstance().getRollerViewInfo(new SimpleObserver<>(getActivity(), new SubscriberListener<List<RollerViewInfo>>() {
             @Override
             public void onStart() {
                 super.onStart();
             }
 
             @Override
-            public void onCompleted() {
-                super.onCompleted();
+            public void onComplete() {
+                super.onComplete();
             }
 
             @Override
@@ -145,6 +145,6 @@ public class ExploreFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 }

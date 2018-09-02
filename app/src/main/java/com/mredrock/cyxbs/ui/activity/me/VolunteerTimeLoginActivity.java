@@ -22,10 +22,16 @@ import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.VolunteerTimeSP;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
+/**
+ * Created by glossimarsun on 2017/10/2.
+ */
+
 
 public class VolunteerTimeLoginActivity extends BaseActivity {
     private String account;
@@ -34,17 +40,17 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
     private VolunteerTimeSP volunteerSP;
     private ProgressDialog dialog;
 
-    @Bind(R.id.volunteer_toolbar)
+    @BindView(R.id.volunteer_toolbar)
     Toolbar toolbar;
-    @Bind(R.id.volunteer_login_back)
+    @BindView(R.id.volunteer_login_back)
     ImageView backImage;
-    @Bind(R.id.volunteer_toolbar_title)
+    @BindView(R.id.volunteer_toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.volunteer_account)
+    @BindView(R.id.volunteer_account)
     EditText accountView;
-    @Bind(R.id.volunteer_password)
+    @BindView(R.id.volunteer_password)
     EditText passwordView;
-    @Bind(R.id.volunteer_login)
+    @BindView(R.id.volunteer_login)
     ImageView login;
 
 
@@ -70,6 +76,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
     public void finishActivity(View v) {
         finish();
     }
+
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
@@ -78,11 +85,11 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
     }
 
     public void initData() {
-        account =  accountView.getText().toString();
+        account = accountView.getText().toString();
         password = passwordView.getText().toString();
         volunteerSP = new VolunteerTimeSP(this);
         if (!(volunteerSP.getVolunteerUid().equals("404")
-            || volunteerSP.getVolunteerUid().equals("null")
+                || volunteerSP.getVolunteerUid().equals("null")
                 || volunteerSP.getVolunteerUid().equals(""))) {
             Intent intent = new Intent(this, VolunteerTimeActivity.class);
             startActivity(intent);
@@ -96,7 +103,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
             if (actionId == EditorInfo.IME_ACTION_GO) {
                 showProgressDialog();
                 initData();
-                login(account,password);
+                login(account, password);
                 handled = true;
 
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -109,17 +116,23 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
     }
 
     private void login(String account, String password) {
-        RequestManager.INSTANCE.getVolunteer(new Subscriber<VolunteerTime>() {
+        RequestManager.INSTANCE.getVolunteer(new Observer<VolunteerTime>() {
 
             @Override
-            public void onCompleted() {}
+            public void onComplete() {
+            }
 
             @Override
             public void onError(Throwable e) {
-               showUnsuccessDialog("网络有问题哦");
+                showUnsuccessDialog("网络有问题哦");
                 Log.d("RequestManager", "onError: ------------------------------------------------------------------------------");
                 dialog.dismiss();
                 e.printStackTrace();
+            }
+
+            @Override
+            public void onSubscribe(Disposable d) {
+
             }
 
             @Override
@@ -156,7 +169,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
         dialog.show();
     }
 
-    public void showUnsuccessDialog(String text){
+    public void showUnsuccessDialog(String text) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -170,7 +183,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
                             @Override
                             public void onPositive(MaterialDialog dialog) {
                                 super.onPositive(dialog);
-                                accountView.setText("");
+//                                accountView.setText("");
                                 passwordView.setText("");
                             }
                         }).show());

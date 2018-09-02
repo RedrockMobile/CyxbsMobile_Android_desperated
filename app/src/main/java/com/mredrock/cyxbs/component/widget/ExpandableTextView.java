@@ -299,7 +299,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
             text = "";
         }
         String matcher = getTopicMatcher(text);
-        if (matcher != null&&text.substring(0,matcher.length()).equals(matcher)) {
+        if (matcher != null && text.substring(0, matcher.length()).equals(matcher)) {
             SpannableString spanned = new SpannableString(text);
             spanned.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(),
                     R.color.colorAccent)), 0, matcher.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

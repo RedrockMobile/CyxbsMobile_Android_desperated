@@ -7,13 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by skylineTan on 2016/4/14 14:22.
@@ -42,7 +42,7 @@ public class NoCourseDialogAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.no_course_tv)
+        @BindView(R.id.no_course_tv)
         TextView noCourseTv;
 
         public ViewHolder(View itemView) {

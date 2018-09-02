@@ -27,7 +27,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.lost.LostDetail;
 import com.mredrock.cyxbs.model.lost.LostStatus;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.LostCircleButton;
@@ -38,10 +38,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.adapter.rxjava.HttpException;
+import retrofit2.HttpException;
 
 /**
  * Created by wusui on 2017/2/7.
@@ -49,21 +49,21 @@ import retrofit2.adapter.rxjava.HttpException;
 
 
 public class ReleaseActivity extends BaseActivity {
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolbarTitle;
-    @Bind(R.id.edit_describe)
+    @BindView(R.id.edit_describe)
     EditText mDescribe;
-    @Bind(R.id.lost_place)
+    @BindView(R.id.lost_place)
     EditText mPlace;
-    @Bind(R.id.lost_tel)
+    @BindView(R.id.lost_tel)
     EditText mTel;
-    @Bind(R.id.lost_qq_number)
+    @BindView(R.id.lost_qq_number)
     EditText mQQ;
-    @Bind(R.id.lost_type)
+    @BindView(R.id.lost_type)
     TextView mType;
-    @Bind(R.id.lost_choose_time)
+    @BindView(R.id.lost_choose_time)
     TextView mTime;
     ImageView mAlertImage;
     TextView mAlertText;
@@ -74,10 +74,11 @@ public class ReleaseActivity extends BaseActivity {
     private AlertDialog dialog;
     public LostCircleButton mButton;
     public LostCircleButton mButton1;
-    String place,time,connectPhone,category,qq;
+    String place, time, connectPhone, category, qq;
     int theme;
     LostDetail detail = new LostDetail();
     private CharSequence temp = "1234567890";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +91,7 @@ public class ReleaseActivity extends BaseActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    LogUtils.LOGE("ReleaseActivity",hasFocus + "");
+                    LogUtils.LOGE("ReleaseActivity", hasFocus + "");
                     if (temp.length() < 10) {
                         Toast.makeText(ReleaseActivity.this, "抱歉，描述不得不少于10个字哦~", Toast.LENGTH_SHORT).show();
                     }
@@ -111,7 +112,7 @@ public class ReleaseActivity extends BaseActivity {
     }
 
 
-    public void initButton(){
+    public void initButton() {
         mButton = (LostCircleButton) findViewById(R.id.button_find);
         mButton1 = (LostCircleButton) findViewById(R.id.button_lost);
         mButton.setTextColori(Color.WHITE);
@@ -142,7 +143,7 @@ public class ReleaseActivity extends BaseActivity {
     }
 
     @OnClick(R.id.rl_activity_release_distinguish_container)
-    public void chooseDistinguish(){
+    public void chooseDistinguish() {
         if (optionsPickerView == null) {
             type.add("一卡通");
             type.add("钱包");
@@ -168,8 +169,9 @@ public class ReleaseActivity extends BaseActivity {
         optionsPickerView.setPicker(type);
         optionsPickerView.show();
     }
+
     @OnClick(R.id.rl_activity_release_choose_time_container)
-    public void chooseTime(){
+    public void chooseTime() {
         Calendar calendar = Calendar.getInstance();
 
         if (timePickerView == null) {
@@ -188,28 +190,29 @@ public class ReleaseActivity extends BaseActivity {
         }
         timePickerView.show();
     }
+
     @OnClick(R.id.release_details)
-    public void releaseDetails(){
+    public void releaseDetails() {
         detail.time = time;
         place = mPlace.getText().toString();
-        qq =  mQQ.getText().toString();
+        qq = mQQ.getText().toString();
         connectPhone = mTel.getText().toString();
 
-        if (category != null && category.length() >0) {
+        if (category != null && category.length() > 0) {
             detail.category = category;
         } else {
-            showAlertDialog(R.drawable.img_lost_require_classification,"请选择分类");
+            showAlertDialog(R.drawable.img_lost_require_classification, "请选择分类");
             return;
         }
 
-        if ( place!= null && place.length() > 0) {
+        if (place != null && place.length() > 0) {
             detail.place = place;
         } else {
             showAlertDialog(R.drawable.img_lost_require_location, "请写明失物地点");
             return;
         }
 
-        if ( connectPhone!= null && connectPhone.length() > 0) {
+        if (connectPhone != null && connectPhone.length() > 0) {
             detail.connectPhone = connectPhone;
         } else {
             showAlertDialog(R.drawable.img_lost_require_contact, "请留下您的联系方式");
@@ -223,7 +226,7 @@ public class ReleaseActivity extends BaseActivity {
             return;
         }
 
-        RequestManager.getInstance().createLost(new SimpleSubscriber<LostStatus>(getBaseContext(), new SubscriberListener<LostStatus>() {
+        RequestManager.getInstance().createLost(new SimpleObserver<LostStatus>(getBaseContext(), new SubscriberListener<LostStatus>() {
             @Override
             public boolean onError(Throwable e) {
                 if (e instanceof HttpException) {
@@ -242,25 +245,28 @@ public class ReleaseActivity extends BaseActivity {
             @Override
             public void onNext(LostStatus lostStatus) {
                 super.onNext(lostStatus);
-                Intent intent = new Intent(ReleaseActivity.this,ReleaseSucceedActivity.class);
+                Intent intent = new Intent(ReleaseActivity.this, ReleaseSucceedActivity.class);
                 startActivity(intent);
                 ReleaseActivity.super.finish();
             }
-        }),detail,theme);
+        }), detail, theme);
     }
-    public static void startActivity(Context context){
-        Intent intent = new Intent(context,ReleaseActivity.class);
+
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, ReleaseActivity.class);
         context.startActivity(intent);
     }
+
     public static String getTime(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
         return format.format(date);
     }
-    public void showAlertDialog(int image,String str){
+
+    public void showAlertDialog(int image, String str) {
         dialog.show();
         Window window = dialog.getWindow();
         window.setContentView(R.layout.dialog_lost_classfication);
-        mAlertImage = (ImageView)window.findViewById(R.id.lost_iv_alert);
+        mAlertImage = (ImageView) window.findViewById(R.id.lost_iv_alert);
         mAlertText = (TextView) window.findViewById(R.id.lost_tx_alert);
         mAlertButton = (Button) window.findViewById(R.id.lost_bt_alert);
         mAlertImage.setImageResource(image);
@@ -273,10 +279,10 @@ public class ReleaseActivity extends BaseActivity {
         });
     }
 
-    class EditChangedListener implements TextWatcher{
+    class EditChangedListener implements TextWatcher {
 
-        private int selectionStart ;
-        private int selectionEnd ;
+        private int selectionStart;
+        private int selectionEnd;
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -294,9 +300,9 @@ public class ReleaseActivity extends BaseActivity {
             selectionEnd = mDescribe.getSelectionEnd();
             if (temp.length() > 100) {
                 s.delete(selectionStart - 1, selectionEnd);
-                showAlertDialog(R.drawable.img_lost_overfull,"描述内容过多 请删减");
+                showAlertDialog(R.drawable.img_lost_overfull, "描述内容过多 请删减");
 
-            }else {
+            } else {
                 detail.description = mDescribe.getText().toString();
             }
         }
@@ -340,7 +346,7 @@ public class ReleaseActivity extends BaseActivity {
             timePickerView.dismiss();
         } else if (optionsPickerView != null && optionsPickerView.isShowing()) {
             optionsPickerView.dismiss();
-        } else  {
+        } else {
             super.onBackPressed();
         }
     }

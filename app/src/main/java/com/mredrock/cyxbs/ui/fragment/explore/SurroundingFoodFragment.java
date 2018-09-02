@@ -10,7 +10,7 @@ import com.mredrock.cyxbs.component.widget.recycler.EndlessRecyclerViewScrollLis
 import com.mredrock.cyxbs.component.widget.recycler.RestaurantsItemAnimator;
 import com.mredrock.cyxbs.model.Food;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.BaseExploreActivity;
 import com.mredrock.cyxbs.ui.adapter.FoodListAdapter;
@@ -20,8 +20,8 @@ import com.mredrock.cyxbs.util.UIUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import rx.Subscription;
+import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Stormouble on 16/5/4.
@@ -30,9 +30,9 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
 
     private static final String TAG = LogUtils.makeLogTag(SurroundingFoodFragment.class);
 
-    /*@Bind(R.id.reveal_background)
+    /*@BindView(R.id.reveal_background)
     RevealBackgroundView mRevealBackground;*/
-    @Bind(R.id.surrounding_food_rv)
+    @BindView(R.id.surrounding_food_rv)
     RecyclerView mSurroundingFoodListRv;
 
     private int[] mDrawingStartLocation;
@@ -102,39 +102,39 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
 
 
     private void loadFoodList(int page, boolean shouldRefresh) {
-        Subscription subscription = RequestManager.getInstance().getFoodList(
-                new SimpleSubscriber<List<Food>>(getActivity(), new SubscriberListener<List<Food>>() {
+        Disposable subscription = RequestManager.getInstance().getFoodList(
+                new SimpleObserver<List<Food>>(getActivity(), new SubscriberListener<List<Food>>() {
 
-            @Override
-            public void onStart() {
-                if (shouldRefresh) {
-                    mSwipeRefreshLayout.post(() -> onRefreshingStateChanged(true));
-                }
-            }
+                    @Override
+                    public void onStart() {
+                        if (shouldRefresh) {
+                            mSwipeRefreshLayout.post(() -> onRefreshingStateChanged(true));
+                        }
+                    }
 
-            @Override
-            public void onCompleted() {
-                onRefreshingStateChanged(false);
-                onErrorLayoutVisibleChanged(mSurroundingFoodListRv, false);
-            }
+                    @Override
+                    public void onComplete() {
+                        onRefreshingStateChanged(false);
+                        onErrorLayoutVisibleChanged(mSurroundingFoodListRv, false);
+                    }
 
-            @Override
-            public boolean onError(Throwable e) {
-                onRefreshingStateChanged(false);
-                onErrorLayoutVisibleChanged(mSurroundingFoodListRv, true);
-                return false;
-            }
+                    @Override
+                    public boolean onError(Throwable e) {
+                        onRefreshingStateChanged(false);
+                        onErrorLayoutVisibleChanged(mSurroundingFoodListRv, true);
+                        return false;
+                    }
 
-            @Override
-            public void onNext(List<Food> foodList) {
-                if (page == 1) {
-                    mAdapter.updateDataWithAnimation(foodList);
-                } else {
-                    mAdapter.updateDataWhenPagination(foodList);
-                }
-            }
-        }), String.valueOf(page), getResources().getString(R.string.restaurant_default_intro));
+                    @Override
+                    public void onNext(List<Food> foodList) {
+                        if (page == 1) {
+                            mAdapter.updateDataWithAnimation(foodList);
+                        } else {
+                            mAdapter.updateDataWhenPagination(foodList);
+                        }
+                    }
+                }), String.valueOf(page), getResources().getString(R.string.restaurant_default_intro));
 
-        mCompositeSubscription.add(subscription);
+        mCompositeDisposable.add(subscription);
     }
 }

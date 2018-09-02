@@ -59,6 +59,7 @@ public class Course implements Serializable, Parcelable {
     /****************************************/
     /* If you update this class, please     */
     /* regenerate these code.               */
+
     /****************************************/
 
     protected Course(Parcel in) {

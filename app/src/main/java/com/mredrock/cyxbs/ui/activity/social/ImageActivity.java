@@ -12,7 +12,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.ui.adapter.ViewPagerAdapter;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  */
 public class ImageActivity extends AppCompatActivity {
 
-    @Bind(R.id.container)
+    @BindView(R.id.container)
     ViewPager mViewPager;
 
     private HotNewsContent mDataBean;
@@ -54,10 +54,10 @@ public class ImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image);
         ButterKnife.bind(this);
         mPosition = getIntent().getIntExtra(POSITION, 0);
-        if (getIntent().getParcelableExtra(DATA)!= null){
+        if (getIntent().getParcelableExtra(DATA) != null) {
             mDataBean = getIntent().getParcelableExtra(DATA);
             init();
-        }else {
+        } else {
             mUrl = getIntent().getStringExtra(URL);
             init(mUrl);
         }
@@ -65,15 +65,15 @@ public class ImageActivity extends AppCompatActivity {
 
     private void init() {
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mViewPager, mDataBean);
-        if (mUrl != null){
-            mAdapter = new ViewPagerAdapter(getSupportFragmentManager(),mViewPager,mUrl);
+        if (mUrl != null) {
+            mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mViewPager, mUrl);
         }
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mPosition);
     }
 
     private void init(String url) {
-        mAdapter = new ViewPagerAdapter(getSupportFragmentManager(),mViewPager,url);
+        mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mViewPager, url);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mPosition);
     }

@@ -1,10 +1,6 @@
 package com.mredrock.cyxbs.component.widget;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
-import java.util.Comparator;
 
 /**
  * Created by ：AceMurder
@@ -13,7 +9,7 @@ import java.util.Comparator;
  * Enjoy it !!!
  */
 
-public class Position implements Comparable<Position>,Serializable {
+public class Position implements Comparable<Position>, Serializable {
     private int x;
     private int y;
 
@@ -40,8 +36,6 @@ public class Position implements Comparable<Position>,Serializable {
     public void setY(int y) {
         this.y = y;
     }
-
-
 
 
     @Override

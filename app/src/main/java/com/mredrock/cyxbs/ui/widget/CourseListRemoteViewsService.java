@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * ListView Remote Adapter of {@link com.mredrock.cyxbs.R.id#lv_app_widget_course_list} in {@link CourseListAppWidget}
+ *
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
@@ -85,7 +86,8 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             }
         }
 
-        private @DrawableRes int getCornerDrawableId(Item item) {
+        private @DrawableRes
+        int getCornerDrawableId(Item item) {
             if ((item.getType() & Item.ITEM_TYPE_COURSE_ONLY) != 0) {
                 return R.drawable.ic_regular_triangle_white;
             } else if (item.start <= 4) {
@@ -189,7 +191,8 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
 
         private List<Course> getCourseList() {
             String json = FileUtils.readStringFromFile(new File(BaseAPP.getContext().getFilesDir().getAbsolutePath() + "/" + Config.APP_WIDGET_CACHE_FILE_NAME));
-            return new Gson().fromJson(json, new TypeToken<List<Course>>() {}.getType());
+            return new Gson().fromJson(json, new TypeToken<List<Course>>() {
+            }.getType());
         }
 
         @Override
@@ -215,6 +218,7 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
 
         @Override
         public RemoteViews getViewAt(int position) {
+            if (position < 0 || position >= views.size()) return null;
             return this.views.get(position);
         }
 
@@ -262,7 +266,8 @@ public class CourseListRemoteViewsService extends RemoteViewsService {
             }
 
             Item addCourse(Course course) {
-                if (start != course.getBeginLesson()) throw new IllegalArgumentException("Can't merge two course which have different start time");
+                if (start != course.getBeginLesson())
+                    throw new IllegalArgumentException("Can't merge two course which have different start time");
                 // Don't use merged course text according to 产品规划运营部
                 // text += "，" + course.toCourseString();
                 if (courses == null) {

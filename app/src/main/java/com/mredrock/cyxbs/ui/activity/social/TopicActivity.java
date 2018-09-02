@@ -16,7 +16,7 @@ import com.mredrock.cyxbs.ui.fragment.social.TopicFragment;
 import java.util.Arrays;
 import java.util.Collections;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -24,13 +24,13 @@ public class TopicActivity extends BaseActivity implements android.support.v7.wi
 
     public static final String TAG = TopicActivity.class.getSimpleName();
 
-    @Bind(R.id.tl_topic)
+    @BindView(R.id.tl_topic)
     TabLayout mTlTopic;
-    @Bind(R.id.vp_topic)
+    @BindView(R.id.vp_topic)
     ViewPager mVpTopic;
-    @Bind(R.id.sv_topic)
+    @BindView(R.id.sv_topic)
     SearchView mSvTopic;
-    @Bind(R.id.bt_topic_back)
+    @BindView(R.id.bt_topic_back)
     ImageView mBtTopicBack;
 
     TabPagerAdapter mSearchAdapter;

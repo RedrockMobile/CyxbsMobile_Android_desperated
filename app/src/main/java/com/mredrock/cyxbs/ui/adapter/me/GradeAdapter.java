@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.ui.adapter.me;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import com.mredrock.cyxbs.ui.adapter.BaseRecyclerViewAdapter;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -49,11 +48,11 @@ public class GradeAdapter extends BaseRecyclerViewAdapter<Grade, GradeAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.item_grade_tv_course)
+        @BindView(R.id.item_grade_tv_course)
         TextView mTvCourse;
-        @Bind(R.id.item_grade_tv_property)
+        @BindView(R.id.item_grade_tv_property)
         TextView mTvProperty;
-        @Bind(R.id.item_grade_tv_score)
+        @BindView(R.id.item_grade_tv_score)
         TextView mTvGrade;
 
         public ViewHolder(View itemView) {

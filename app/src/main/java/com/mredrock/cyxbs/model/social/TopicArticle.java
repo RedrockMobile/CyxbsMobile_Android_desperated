@@ -15,23 +15,23 @@ public class TopicArticle extends RedrockApiWrapper<TopicArticle> {
     /**
      * keyword : test2
      * content : 彭时夏！！！  13:31:17
-     几点啊
-     16 通信 杨瑞鑫  13:32:37
-     两点吧
-     web-王炜松  13:33:18
-     两点
-     16-计算机-张德明  13:33:54
-
-     16-计算机-张德明  13:34:24
-     只会echp的要不要
-     16-计算机-张德明  13:34:27
-     echo
-     16-通信-刘金峰  13:35:28
-     6
-     web-王炜松  13:42:51
-     如果两点钟2202没人     就直接来网校吧
-     蛤  13:43:48
-
+     * 几点啊
+     * 16 通信 杨瑞鑫  13:32:37
+     * 两点吧
+     * web-王炜松  13:33:18
+     * 两点
+     * 16-计算机-张德明  13:33:54
+     * <p>
+     * 16-计算机-张德明  13:34:24
+     * 只会echp的要不要
+     * 16-计算机-张德明  13:34:27
+     * echo
+     * 16-通信-刘金峰  13:35:28
+     * 6
+     * web-王炜松  13:42:51
+     * 如果两点钟2202没人     就直接来网校吧
+     * 蛤  13:43:48
+     * <p>
      * photo_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/1481705086_584114143.jpg
      * thumbnail_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/1481705086_584114143.jpg
      * like_num : 0
@@ -211,25 +211,25 @@ public class TopicArticle extends RedrockApiWrapper<TopicArticle> {
          * article_thumbnail_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/1481705086_584114143.jpg
          * title : redrock
          * content : 16-网络空间安全-伊俊墨  13:54:31
-         在2202吗  我可能要晚些过去了
-         学姐粉丝  13:54:55
-         2202好多不认识的人ad
-         16 通信 杨瑞鑫  13:54:57
-         2202全不认识。。。。
-         学姐粉丝  13:55:00
-         溜了溜了
-         16 通信 杨瑞鑫  13:55:04
-         好像是移动的在那上课
-         学姐粉丝  13:55:07
-         网校见
-         web-王炜松  13:55:21
-         蛤？我申请的教室
-         学姐粉丝  13:56:11
-
-         16 通信 杨瑞鑫  13:56:28
-
-         16 通信 杨瑞鑫  13:56:33
-         我能怎么办
+         * 在2202吗  我可能要晚些过去了
+         * 学姐粉丝  13:54:55
+         * 2202好多不认识的人ad
+         * 16 通信 杨瑞鑫  13:54:57
+         * 2202全不认识。。。。
+         * 学姐粉丝  13:55:00
+         * 溜了溜了
+         * 16 通信 杨瑞鑫  13:55:04
+         * 好像是移动的在那上课
+         * 学姐粉丝  13:55:07
+         * 网校见
+         * web-王炜松  13:55:21
+         * 蛤？我申请的教室
+         * 学姐粉丝  13:56:11
+         * <p>
+         * 16 通信 杨瑞鑫  13:56:28
+         * <p>
+         * 16 通信 杨瑞鑫  13:56:33
+         * 我能怎么办
          * nickname : simonla
          * user_id : 2015213870
          * user_photo_src : http://hongyan.cqupt.edu.cn/cyxbsMobile/Public/photo/1473705996_829405456.png

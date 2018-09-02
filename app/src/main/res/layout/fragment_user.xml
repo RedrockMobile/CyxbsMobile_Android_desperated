@@ -1,8 +1,6 @@
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.UserFragment">
@@ -31,9 +29,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="我 的"
+                tools:text="我 的"
                 android:textColor="#F6F6F6"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
         </android.support.v7.widget.Toolbar>
 
         <LinearLayout
@@ -48,7 +46,7 @@
                 android:layout_width="74dp"
                 android:layout_height="74dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/default_avatar"/>
+                android:src="@drawable/default_avatar" />
 
             <TextView
                 android:id="@+id/name"
@@ -57,7 +55,7 @@
                 android:layout_marginTop="10dp"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
-                tools:text="Jay"/>
+                tools:text="Jay" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -69,7 +67,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
@@ -80,22 +78,22 @@
                         android:id="@+id/introduce"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawablePadding="2dp"
+                        android:drawableRight="@drawable/ic_edit"
                         android:ellipsize="end"
                         android:lines="1"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         app:layout_constraintHorizontal_bias="0.55"
-                        android:drawablePadding="2dp"
-                        android:drawableRight="@drawable/ic_edit"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        tools:text="We are red-rocker"/>
+                        tools:text="We are red-rocker" />
                 </android.support.constraint.ConstraintLayout>
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
 
@@ -109,7 +107,7 @@
                 android:layout_width="2dp"
                 android:layout_height="38dp"
                 android:layout_centerInParent="true"
-                android:background="#FFFFFF"/>
+                android:background="#FFFFFF" />
 
             <LinearLayout
                 android:id="@+id/relate"
@@ -127,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:text="与我相关"
                     android:textColor="#FFFFFF"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -136,7 +134,7 @@
                     android:text="0"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -156,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:text="我的动态"
                     android:textColor="#FFFFFF"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -165,7 +163,7 @@
                     android:text="0"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -185,7 +183,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_no_course"/>
+                android:src="@drawable/ic_no_course" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -195,7 +193,7 @@
                 android:layout_toRightOf="@+id/ic_no_course"
                 android:text="没课约"
                 android:textColor="#333333"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="14dp"
@@ -203,13 +201,13 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_arrow_right"/>
+                android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E4E4E4"/>
+            android:background="#E4E4E4" />
 
         <RelativeLayout
             android:id="@+id/empty_classroom"
@@ -227,7 +225,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_empty_classroom"/>
+                android:src="@drawable/ic_empty_classroom" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -237,7 +235,7 @@
                 android:layout_toRightOf="@+id/ic_empty_classroom"
                 android:text="空教室"
                 android:textColor="#333333"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="14dp"
@@ -245,13 +243,13 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_arrow_right"/>
+                android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E4E4E4"/>
+            android:background="#E4E4E4" />
 
         <RelativeLayout
             android:id="@+id/grade"
@@ -269,7 +267,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_grade"/>
+                android:src="@drawable/ic_grade" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -279,7 +277,7 @@
                 android:layout_toRightOf="@+id/ic_grade"
                 android:text="考试与成绩"
                 android:textColor="#333333"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="14dp"
@@ -287,13 +285,13 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_arrow_right"/>
+                android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E4E4E4"/>
+            android:background="#E4E4E4" />
 
         <RelativeLayout
             android:id="@+id/calendar"
@@ -311,7 +309,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_calendar"/>
+                android:src="@drawable/ic_calendar" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -321,7 +319,7 @@
                 android:layout_toRightOf="@+id/ic_calendar"
                 android:text="校历"
                 android:textColor="#333333"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="14dp"
@@ -329,13 +327,13 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_arrow_right"/>
+                android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E4E4E4"/>
+            android:background="#E4E4E4" />
 
         <RelativeLayout
             android:id="@+id/volunteer_time"
@@ -353,7 +351,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_volunteer_time"/>
+                android:src="@drawable/ic_volunteer_time" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -363,7 +361,7 @@
                 android:layout_toRightOf="@+id/ic_volunteer_time"
                 android:text="志愿时长"
                 android:textColor="#333333"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/user_volunteer_enter"
@@ -372,59 +370,22 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_arrow_right"/>
+                android:src="@drawable/ic_arrow_right" />
 
             <ImageView
                 android:id="@+id/new_function"
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/volunteer_ic_new"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
                 android:layout_toLeftOf="@id/user_volunteer_enter"
-                android:layout_marginRight="20dp"/>
+                android:src="@drawable/volunteer_ic_new" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E4E4E4"/>
-
-        <RelativeLayout
-            android:id="@+id/remind"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:foreground="?selectableItemBackground"
-            android:paddingBottom="11dp"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
-            android:paddingTop="11dp">
-
-            <ImageView
-                android:id="@+id/ic_remind"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_remind"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@+id/ic_remind"
-                android:text="课前提醒"
-                android:textColor="#333333"
-                android:textSize="14sp"/>
-
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_arrow_right"/>
-        </RelativeLayout>
+            android:background="#E4E4E4" />
 
         <RelativeLayout
             android:id="@+id/option"
@@ -443,7 +404,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_empty_classroom"/>
+                android:src="@drawable/ic_empty_classroom" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -453,7 +414,7 @@
                 android:layout_toRightOf="@+id/ic_option"
                 android:text="设置"
                 android:textColor="#333333"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="14dp"
@@ -461,7 +422,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_arrow_right"/>
+                android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -27,6 +27,7 @@ public class Affair extends Course implements Serializable, Parcelable {
     /****************************************/
     /* If you update this class, please     */
     /* merge the change here.               */
+
     /****************************************/
 
     protected Affair(Parcel in) {
@@ -42,15 +43,12 @@ public class Affair extends Course implements Serializable, Parcelable {
         dest.writeInt(time);
     }
 
-    public static final Parcelable.Creator<Affair> CREATOR = new Parcelable.Creator<Affair>()
-    {
-        public Affair createFromParcel(Parcel in)
-        {
+    public static final Parcelable.Creator<Affair> CREATOR = new Parcelable.Creator<Affair>() {
+        public Affair createFromParcel(Parcel in) {
             return new Affair(in);
         }
 
-        public Affair[] newArray(int size)
-        {
+        public Affair[] newArray(int size) {
             return new Affair[size];
         }
     };

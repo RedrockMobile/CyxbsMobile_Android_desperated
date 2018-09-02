@@ -6,12 +6,12 @@ import java.io.Serializable;
 
 /**
  * Model of the detail of Lost and Found API <br>
- *      http://hongyan.cqupt.edu.cn/laf/api/detail/458
+ * http://hongyan.cqupt.edu.cn/laf/api/detail/458
  *
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class LostDetail extends Lost implements Serializable{
+public class LostDetail extends Lost implements Serializable {
 
     @SerializedName("L_or_F_time")
     public String time; // when lost or found
@@ -22,6 +22,7 @@ public class LostDetail extends Lost implements Serializable{
 
     /**
      * marge external detail information with origin lost item
+     *
      * @param l origin lost item
      * @return a full lost detail item
      */

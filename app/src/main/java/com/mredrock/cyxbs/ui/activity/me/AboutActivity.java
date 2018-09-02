@@ -14,25 +14,27 @@ import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.UpdateUtil;
 import com.mredrock.cyxbs.util.Utils;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AboutActivity extends BaseActivity {
 
-    @Bind(R.id.about_1)
+    @BindView(R.id.about_1)
     TextView about1;
-    @Bind(R.id.about_version)
+    @BindView(R.id.about_version)
     TextView aboutVersion;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
-    Toolbar  toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    RxPermissions rxPermissions;
 
     @OnClick(R.id.about_website)
     void clickToWebsite() {
-       // WebViewUtils.showPortalWebView(this, Const.APP_HOME);
+        // WebViewUtils.showPortalWebView(this, Const.APP_HOME);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Const.APP_WEBSITE));
         startActivity(intent);
     }
@@ -41,21 +43,22 @@ public class AboutActivity extends BaseActivity {
     @OnClick(R.id.about_legal)
     void clickToSee() {
         new MaterialDialog.Builder(this).title("使用条款")
-                                        .content("版权归红岩网校工作站所有,感谢您的使用")
-                                        .positiveText("确定")
-                                        .build()
-                                        .show();
+                .content("版权归红岩网校工作站所有,感谢您的使用")
+                .positiveText("确定")
+                .build()
+                .show();
     }
 
     @OnClick(R.id.about_update)
     void clickToUpdate() {
-        UpdateUtil.checkUpdate(this, true);
+        UpdateUtil.checkUpdate(this, true, rxPermissions);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        rxPermissions = new RxPermissions(this);
         ButterKnife.bind(this);
         initializeToolbar();
         aboutVersion.setText(new StringBuilder("Version ").append(Utils.getAppVersionName(this)));

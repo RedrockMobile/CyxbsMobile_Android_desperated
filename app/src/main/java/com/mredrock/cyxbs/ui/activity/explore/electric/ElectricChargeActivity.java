@@ -18,7 +18,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.component.widget.ElectricCircleView;
 import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.SPUtils;
@@ -26,7 +26,7 @@ import com.mredrock.cyxbs.util.Utils;
 
 import java.text.DecimalFormat;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -41,23 +41,23 @@ public class ElectricChargeActivity extends BaseActivity {
     private String dormitoryNum;
     private ElectricCharge mElectricCharge;
 
-    @Bind(R.id.ecv_electric_circle_view)
+    @BindView(R.id.ecv_electric_circle_view)
     ElectricCircleView electricCircleView;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolbarText;
-    @Bind(R.id.tv_electric_query_notice)
+    @BindView(R.id.tv_electric_query_notice)
     TextView mNoticeText;
-    @Bind(R.id.tv_electric_query_begin)
+    @BindView(R.id.tv_electric_query_begin)
     TextView mBeginText;
-    @Bind(R.id.tv_electric_query_free)
+    @BindView(R.id.tv_electric_query_free)
     TextView mFreeText;
-    @Bind(R.id.tv_electric_query_end)
+    @BindView(R.id.tv_electric_query_end)
     TextView mEndText;
-    @Bind(R.id.tv_electric_query_average)
+    @BindView(R.id.tv_electric_query_average)
     TextView mAverageText;
-    @Bind(R.id.tool_iv_right)
+    @BindView(R.id.tool_iv_right)
     ImageView mToolbarRightImage;
-    @Bind(R.id.electric_query_toolbar)
+    @BindView(R.id.electric_query_toolbar)
     View toolbar;
 
     private PopupWindow popupWindow;
@@ -92,11 +92,11 @@ public class ElectricChargeActivity extends BaseActivity {
 
     private void queryElectricCharge() {
         if (mBuildingPosition < 0) {
-            startActivityForResult(new Intent(this,DormitorySettingActivity.class),1);
+            startActivityForResult(new Intent(this, DormitorySettingActivity.class), 1);
             return;
         }
         String building = BaseAPP.getContext().getResources().getStringArray(R.array.dormitory_buildings_api)[mBuildingPosition];
-        RequestManager.INSTANCE.queryElectricCharge(new SimpleSubscriber<ElectricCharge>(this,true, new SubscriberListener<ElectricCharge>() {
+        RequestManager.INSTANCE.queryElectricCharge(new SimpleObserver<>(this, true, new SubscriberListener<ElectricCharge>() {
             @Override
             public void onNext(ElectricCharge electricCharge) {
                 super.onNext(electricCharge);
@@ -108,7 +108,6 @@ public class ElectricChargeActivity extends BaseActivity {
     }
 
 
-
     private void updateView() {
         String data = mElectricCharge.getElectricCost().get(0) + "." + mElectricCharge.getElectricCost().get(1);
         electricCircleView.drawWithData(Float.parseFloat(data), data, mElectricCharge.getElectricSpend());
@@ -118,8 +117,8 @@ public class ElectricChargeActivity extends BaseActivity {
             mNoticeText.setText(noticeInfo + "\t\t" + recordTime);
             int beginIndex = recordTime.indexOf("月");
             int endIndex = recordTime.indexOf("日");
-            float days = Float.parseFloat(recordTime.substring(beginIndex + 1,endIndex));
-            float average = Float.parseFloat(mElectricCharge.getElectricSpend())  / days;
+            float days = Float.parseFloat(recordTime.substring(beginIndex + 1, endIndex));
+            float average = Float.parseFloat(mElectricCharge.getElectricSpend()) / days;
             DecimalFormat df = new DecimalFormat("#.00");
             mAverageText.setText(df.format(average));
 
@@ -136,28 +135,28 @@ public class ElectricChargeActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1){
-            Log.i(TAG,"onActivityResult");
-            if (resultCode == REQUEST_SET_CODE){
+        if (requestCode == 1) {
+            Log.i(TAG, "onActivityResult");
+            if (resultCode == REQUEST_SET_CODE) {
                 onActivityResult = true;
                 mBuildingPosition = (int) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.BUILDING_KEY, -1);
                 dormitoryNum = (String) SPUtils.get(BaseAPP.getContext(), DormitorySettingActivity.DORMITORY_KEY, String.valueOf("null"));
                 queryElectricCharge();
-            }else
+            } else
                 onActivityResult = false;
         }
 
     }
 
     @OnClick(R.id.toolbar_iv_left)
-    public void onBackClick(){
+    public void onBackClick() {
         onBackPressed();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG,"omResume");
+        Log.i(TAG, "omResume");
         if (mElectricCharge != null && !onActivityResult) {
             updateView();
         }
@@ -166,7 +165,7 @@ public class ElectricChargeActivity extends BaseActivity {
     }
 
     @OnClick(R.id.tool_iv_right)
-    public void onMenuClick(){
+    public void onMenuClick() {
         Rect frame = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
         int xOffset = frame.top + toolbar.getHeight() - 60;//减去阴影宽度，适配UI.
@@ -174,7 +173,7 @@ public class ElectricChargeActivity extends BaseActivity {
         View parentView = getLayoutInflater().inflate(R.layout.activity_electric_charge, null);
         View popView = getLayoutInflater().inflate(
                 R.layout.popup_window_eletric_query, null);
-        popupWindow= new PopupWindow(popView,
+        popupWindow = new PopupWindow(popView,
                 WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true);//popView即popupWindow的布局，ture设置focusAble.
 
         //必须设置BackgroundDrawable后setOutsideTouchable(true)才会有效。这里在XML中定义背景，所以这里设置为null;
@@ -183,17 +182,17 @@ public class ElectricChargeActivity extends BaseActivity {
         popupWindow.setAnimationStyle(R.style.PopupAnimation);    //设置一个动画。
         //设置Gravity，让它显示在右上角。
         if (popupWindow.getContentView() != null) {
-            popupWindow.getContentView().findViewById(R.id.tv_popup_window_set_room).setOnClickListener((v) ->{
-                startActivityForResult(new Intent(this,DormitorySettingActivity.class),1);
+            popupWindow.getContentView().findViewById(R.id.tv_popup_window_set_room).setOnClickListener((v) -> {
+                startActivityForResult(new Intent(this, DormitorySettingActivity.class), 1);
                 popupWindow.dismiss();
             });
 
-            popupWindow.getContentView().findViewById(R.id.tv_popup_window_past_electric).setOnClickListener((v) ->{
-                startActivity(new Intent(this,PastElectricChargeActivity.class));
+            popupWindow.getContentView().findViewById(R.id.tv_popup_window_past_electric).setOnClickListener((v) -> {
+                startActivity(new Intent(this, PastElectricChargeActivity.class));
                 popupWindow.dismiss();
             });
-            popupWindow.getContentView().findViewById(R.id.tv_popup_window_set_remind).setOnClickListener((v) ->{
-                startActivity(new Intent(this,ElectricRemindActivity.class));
+            popupWindow.getContentView().findViewById(R.id.tv_popup_window_set_remind).setOnClickListener((v) -> {
+                startActivity(new Intent(this, ElectricRemindActivity.class));
                 popupWindow.dismiss();
             });
         }

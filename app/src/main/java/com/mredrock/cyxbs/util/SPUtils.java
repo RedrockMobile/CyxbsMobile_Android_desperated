@@ -17,7 +17,6 @@ public class SPUtils {
     }
 
     public static void set(Context context, String key, Object object, String fileName) {
-
         SharedPreferences sp = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 

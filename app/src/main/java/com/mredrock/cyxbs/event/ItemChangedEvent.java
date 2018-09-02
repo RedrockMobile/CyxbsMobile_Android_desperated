@@ -10,7 +10,7 @@ public class ItemChangedEvent {
     private String articleId;
     private boolean isMyLike;
 
-    public ItemChangedEvent(String num, String articleId,boolean isMyLike) {
+    public ItemChangedEvent(String num, String articleId, boolean isMyLike) {
         this.num = num;
         this.articleId = articleId;
         this.isMyLike = isMyLike;

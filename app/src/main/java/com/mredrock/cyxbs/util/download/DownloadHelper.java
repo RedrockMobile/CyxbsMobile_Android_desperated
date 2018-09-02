@@ -11,13 +11,13 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.R;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.util.Utils;
 import com.mredrock.cyxbs.util.download.callback.OnDownloadListener;
 import com.mredrock.cyxbs.util.download.progress.ProgressHelper;
 import com.mredrock.cyxbs.util.download.progress.UIProgressListener;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -93,9 +93,9 @@ public class DownloadHelper {
                 .build();
     }
 
-    private void checkPermissionBefore(Context context, Runnable r) {
-        RxPermissions.getInstance(context).request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(new SimpleSubscriber<>(context, new SubscriberListener<Boolean>() {
+    private void checkPermissionBefore(RxPermissions rxPermissions, Context context, Runnable r) {
+        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new SimpleObserver<>(context, new SubscriberListener<Boolean>() {
                     @Override
                     public void onNext(Boolean isGranted) {
                         if (isGranted) {
@@ -111,7 +111,8 @@ public class DownloadHelper {
                                         intent.setData(uri);
                                         context.startActivity(intent);
                                     })
-                                    .setNegativeButton("放弃", (dialog, which) -> {});
+                                    .setNegativeButton("放弃", (dialog, which) -> {
+                                    });
                             noPermissionDialogBuilder.create().show();
                         }
                     }
@@ -125,8 +126,8 @@ public class DownloadHelper {
      * @param urlList  待下载文件的链接
      * @param listener 下载回调
      */
-    public void prepare(List<String> nameList, List<String> urlList, OnDownloadListener listener) {
-        checkPermissionBefore(mContext, () -> {
+    public void prepare(RxPermissions rxPermissions, List<String> nameList, List<String> urlList, OnDownloadListener listener) {
+        checkPermissionBefore(rxPermissions, mContext, () -> {
             if (mContext != null && listener != null) {
                 initialize(listener);
 
@@ -362,9 +363,9 @@ public class DownloadHelper {
         String end = fName.substring(dotIndex, fName.length()).toLowerCase();
         if (end.equals("")) return type;
 
-        for (int i = 0; i < MIME_TABLE.length; i++) {
-            if (end.equals(MIME_TABLE[i][0]))
-                type = MIME_TABLE[i][1];
+        for (String[] aMIME_TABLE : MIME_TABLE) {
+            if (end.equals(aMIME_TABLE[0]))
+                type = aMIME_TABLE[1];
         }
         return type;
     }

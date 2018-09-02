@@ -39,7 +39,8 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -61,6 +62,8 @@ public class BaseAPP extends MultiDexApplication {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        context = base;
+        com.mredrock.cyxbs.freshman.ui.activity.App.setAppContext(context);
     }
 
     public static void setUser(Context context, User user) {
@@ -140,7 +143,6 @@ public class BaseAPP extends MultiDexApplication {
         initPush();
         UMShareAPI.get(this);
         initShareKey();
-        context = getApplicationContext();
         initThemeMode();
         //  FIR.init(this);
         Logger.init("cyxbs_mobile");
@@ -157,13 +159,14 @@ public class BaseAPP extends MultiDexApplication {
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "123b419248120b9fb91a38260a13e972");
         UMConfigure.setLogEnabled(true);
         PushAgent mPushAgent = PushAgent.getInstance(this);
-        MiPushRegistar.register(this,"2882303761517258683","5341725868683");
+        MiPushRegistar.register(this, "2882303761517258683", "5341725868683");
         HuaWeiRegister.register(this);
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String deviceToken) {
                 Log.d(TAG, "友盟注册成功: " + deviceToken);
             }
+
             @Override
             public void onFailure(String s, String s1) {
                 Log.e(TAG, "onFailure: 友盟注册失败" + s + s1);
@@ -183,14 +186,19 @@ public class BaseAPP extends MultiDexApplication {
     public void reloadCourseList() {
         if (isLogin()) {
             User user = getUser(getContext());
-            RequestManager.getInstance().getCourseList(new Subscriber<List<Course>>() {
+            RequestManager.getInstance().getCourseList(new Observer<List<Course>>() {
                 @Override
-                public void onCompleted() {
+                public void onComplete() {
                 }
 
                 @Override
                 public void onError(Throwable e) {
                     Log.e("CSET", "reloadCourseList", e);
+                }
+
+                @Override
+                public void onSubscribe(Disposable d) {
+
                 }
 
                 @Override

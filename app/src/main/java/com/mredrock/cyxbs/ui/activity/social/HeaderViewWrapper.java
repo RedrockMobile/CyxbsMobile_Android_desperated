@@ -16,7 +16,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.Topic;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.topic.TopicHeaderAdapter;
 import com.mredrock.cyxbs.ui.fragment.social.TopicFragment;
@@ -25,7 +25,7 @@ import com.mredrock.cyxbs.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -37,7 +37,7 @@ public class HeaderViewWrapper {
 
     public static final String TAG = HeaderViewWrapper.class.getSimpleName();
 
-    @Bind(R.id.rv_topic_header)
+    @BindView(R.id.rv_topic_header)
     EasyRecyclerView mRvTopicHeader;
     private View mView;
 
@@ -45,16 +45,16 @@ public class HeaderViewWrapper {
         mView = LayoutInflater.from(context).inflate(R.layout.item_topic_header, parent, false);
         ButterKnife.bind(this, mView);
         mRvTopicHeader.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        mRvTopicHeader.addItemDecoration(new SpaceDecoration((int) Utils.dp2Px(context,10)));
+        mRvTopicHeader.addItemDecoration(new SpaceDecoration((int) Utils.dp2Px(context, 10)));
         TopicHeaderAdapter topicHeaderAdapter = new TopicHeaderAdapter(context);
         mRvTopicHeader.setAdapter(topicHeaderAdapter);
         topicHeaderAdapter.addFooter(new Header());
         User user = BaseAPP.getUser(context);
         ArrayList<Topic> list = new ArrayList<>();
-        RequestManager.getInstance().getTopicList(new SimpleSubscriber<>(context, new SubscriberListener<List<Topic>>() {
+        RequestManager.getInstance().getTopicList(new SimpleObserver<>(context, new SubscriberListener<List<Topic>>() {
             @Override
-            public void onCompleted() {
-                super.onCompleted();
+            public void onComplete() {
+                super.onComplete();
             }
 
             @Override
@@ -62,21 +62,21 @@ public class HeaderViewWrapper {
                 super.onNext(topics);
                 topicHeaderAdapter.addAll(topics);
                 list.addAll(topics);
-                Log.d(TAG, "onNext: "+topics.toString());
+                Log.d(TAG, "onNext: " + topics.toString());
             }
         }), 10, 0, user.stuNum, user.idNum, TopicFragment.TopicType.ALL_TOPIC);
-        topicHeaderAdapter.setOnItemClickListener(position -> TopicArticleActivity.start(context,list.get(position).getTopic_id()));
+        topicHeaderAdapter.setOnItemClickListener(position -> TopicArticleActivity.start(context, list.get(position).getTopic_id()));
     }
 
     public View getView() {
         return mView;
     }
 
-    private class Header implements RecyclerArrayAdapter.ItemView{
+    private class Header implements RecyclerArrayAdapter.ItemView {
 
         @Override
         public View onCreateView(ViewGroup parent) {
-           return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic_bbdd_footer, parent, false);
+            return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic_bbdd_footer, parent, false);
         }
 
         @Override

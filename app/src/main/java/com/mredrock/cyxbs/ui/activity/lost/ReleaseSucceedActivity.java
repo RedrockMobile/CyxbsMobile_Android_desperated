@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -17,9 +17,9 @@ import butterknife.ButterKnife;
 
 public class ReleaseSucceedActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
 
     @Override
@@ -42,7 +42,7 @@ public class ReleaseSucceedActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Intent intent = new Intent(this,LostActivity.class);
+        Intent intent = new Intent(this, LostActivity.class);
         startActivity(intent);
     }
 

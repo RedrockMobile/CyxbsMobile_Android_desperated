@@ -1,7 +1,6 @@
 package com.mredrock.cyxbs.component.task.progress;
 
 import android.content.Context;
-
 import android.os.Handler;
 import android.os.Message;
 

@@ -28,7 +28,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="46dp"/>
         <View
-            android:id="@+id/volunteer_time_divider_block"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:background="#fff"

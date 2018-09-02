@@ -25,7 +25,7 @@ import com.mredrock.cyxbs.component.widget.selector.StringAdapter;
 import com.mredrock.cyxbs.component.widget.selector.ViewInitializer;
 import com.mredrock.cyxbs.model.EmptyRoom;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.adapter.me.EmptyRoomResultAdapter;
@@ -35,31 +35,31 @@ import com.mredrock.cyxbs.util.SchoolCalendar;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelector.OnItemSelectedChangeListener {
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mToolbarTitle;
 
-    @Bind(R.id.selector_container)
+    @BindView(R.id.selector_container)
     ViewGroup mSelectorContainer;
-    @Bind(R.id.week_selector)
+    @BindView(R.id.week_selector)
     MultiSelector mWeekSelector;
-    @Bind(R.id.weekday_selector)
+    @BindView(R.id.weekday_selector)
     MultiSelector mWeekdaySelector;
-    @Bind(R.id.building_selector)
+    @BindView(R.id.building_selector)
     MultiSelector mBuildingSelector;
-    @Bind(R.id.section_selector)
+    @BindView(R.id.section_selector)
     MultiSelector mSectionSelector;
-    @Bind(R.id.arrow)
+    @BindView(R.id.arrow)
     ImageView mArrow;
-    @Bind(R.id.result)
+    @BindView(R.id.result)
     RecyclerView mRecyclerView;
-    @Bind(R.id.querying)
+    @BindView(R.id.querying)
     ImageView mQuerying;
 
     private EmptyRoomResultAdapter mResultAdapter;
@@ -117,7 +117,7 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         mWeekSelector.setDisplayValues(list);
         mWeekApi = new int[list.size()];
         for (int i = 0; i < list.size(); i++) {
-            mWeekApi[i] = week++;
+            mWeekApi[i] = ++week;
         }
     }
 
@@ -215,7 +215,7 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
         int weekday = mWeekdaySelector.getSelectedValues()[0];
         int building = mBuildingSelector.getSelectedValues()[0];
         int[] sections = mSectionSelector.getSelectedValues();
-        RequestManager.getInstance().queryEmptyRoomList(new SimpleSubscriber<>(this,
+        RequestManager.getInstance().queryEmptyRoomList(new SimpleObserver<>(this,
                 new SubscriberListener<List<EmptyRoom>>() {
                     @Override
                     public void onStart() {
@@ -232,8 +232,8 @@ public class EmptyRoomQueryActivity extends BaseActivity implements MultiSelecto
                     }
 
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
+                    public void onComplete() {
+                        super.onComplete();
                         mQuerying.setVisibility(View.GONE);
                         mRecyclerView.setVisibility(View.VISIBLE);
                         mQueryAnimator.cancel();

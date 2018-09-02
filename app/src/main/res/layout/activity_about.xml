@@ -39,7 +39,6 @@
         android:textSize="14sp"/>
 
     <LinearLayout
-        android:id="@+id/about_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -95,7 +94,6 @@
         android:text="红岩网校产品"/>
 
     <TextView
-        android:id="@+id/tv_about_copyright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

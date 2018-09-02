@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 public class DensityUtils {
 
-    private static int screenWidth  = 0;
+    private static int screenWidth = 0;
     private static int screenHeight = 0;
 
     private DensityUtils() {

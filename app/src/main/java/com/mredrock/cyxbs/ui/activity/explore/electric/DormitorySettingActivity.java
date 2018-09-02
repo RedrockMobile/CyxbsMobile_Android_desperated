@@ -17,7 +17,7 @@ import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.fragment.explore.eletric.DialogRemindFragment;
@@ -26,18 +26,18 @@ import com.mredrock.cyxbs.util.KeyboardUtils;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.Utils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
 public class DormitorySettingActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView titleText;
-    @Bind(R.id.et_building_number)
+    @BindView(R.id.et_building_number)
     EditText buildingNumberEdit;
-    @Bind(R.id.et_dormitory_number)
+    @BindView(R.id.et_dormitory_number)
     EditText dormitoryNumberEdit;
 
     private static final String TAG = "DormitorySetting";
@@ -92,26 +92,27 @@ public class DormitorySettingActivity extends BaseActivity {
             return;
         buildingNumberEdit.setText(sDormitoryBuildings[buildingPosition]);
         mBuildingPosition = buildingPosition;
-        String dormitory = (String) SPUtils.get(BaseAPP.getContext(),DORMITORY_KEY,"");
+        String dormitory = (String) SPUtils.get(BaseAPP.getContext(), DORMITORY_KEY, "");
         dormitoryNumberEdit.setText(dormitory);
 
     }
 
     @OnClick(R.id.et_building_number)
-    public void onBuildingEditClick(View v){
+    public void onBuildingEditClick(View v) {
         KeyboardUtils.hideInput(dormitoryNumberEdit);
         KeyboardUtils.hideInput(buildingNumberEdit);
 
         dialog.show();
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
+
     @OnClick(R.id.toolbar_iv_left)
-    public void onBackImageClick(){
+    public void onBackImageClick() {
         onBackPressed();
     }
 
     @OnClick(R.id.btn_dormitory_ok)
-    public void onOkClick(){
+    public void onOkClick() {
 
         if (mBuildingPosition < 0 || dormitoryNumberEdit.getText().toString().length() < 3) {
             //Toast.makeText(this,"信息不完整",Toast.LENGTH_SHORT).show();
@@ -119,22 +120,22 @@ public class DormitorySettingActivity extends BaseActivity {
             DialogRemindFragment dialogRemindFragment = new DialogRemindFragment();
             if (mBuildingPosition < 0 && dormitoryNumberEdit.getText().toString().isEmpty()) {
                 bundle.putString("REMIND_TEXT", "你还没有填写哦");
-            }else if(dormitoryNumberEdit.getText().toString().length() < 3 && dormitoryNumberEdit.getText().toString().length() > 0 ){
+            } else if (dormitoryNumberEdit.getText().toString().length() < 3 && dormitoryNumberEdit.getText().toString().length() > 0) {
                 bundle.putString("REMIND_TEXT", "请填写正确的寝室号");
-            }else {
-                bundle.putString("REMIND_TEXT","请将信息填写完整哦");
+            } else {
+                bundle.putString("REMIND_TEXT", "请将信息填写完整哦");
             }
             dialogRemindFragment.setArguments(bundle);
-            dialogRemindFragment.show(getFragmentManager(),"DialogRemindFragment");
-        }else {
+            dialogRemindFragment.show(getFragmentManager(), "DialogRemindFragment");
+        } else {
             User user = BaseAPP.getUser(this);
             SPUtils.set(BaseAPP.getContext(), BUILDING_KEY, mBuildingPosition);
-            SPUtils.set(BaseAPP.getContext(),DORMITORY_KEY,dormitoryNumberEdit.getText().toString()+"");
+            SPUtils.set(BaseAPP.getContext(), DORMITORY_KEY, dormitoryNumberEdit.getText().toString() + "");
             SPUtils.set(BaseAPP.getContext(), ElectricRemindUtil.SP_KEY_ELECTRIC_REMIND_TIME, System.currentTimeMillis() / 2);
-            SimpleSubscriber<Object> subscriber = new SimpleSubscriber<Object>(this, true, new SubscriberListener<Object>() {
+            SimpleObserver<Object> subscriber = new SimpleObserver<>(this, true, new SubscriberListener<Object>() {
                 @Override
-                public void onCompleted() {
-                    super.onCompleted();
+                public void onComplete() {
+                    super.onComplete();
                     setResult(ElectricChargeActivity.REQUEST_SET_CODE);
                     onBackPressed();
                 }
@@ -154,7 +155,6 @@ public class DormitorySettingActivity extends BaseActivity {
     }
 
 
-
     static class DormitoryAdapter extends RecyclerView.Adapter<DormitoryAdapter.Holder> {
 
         private OnItemClickListener mItemClickListener;
@@ -172,7 +172,7 @@ public class DormitorySettingActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(final DormitoryAdapter.Holder holder, int position) {
             holder.tv.setText(sDormitoryBuildings[position]);
-            if(mItemClickListener != null) {
+            if (mItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

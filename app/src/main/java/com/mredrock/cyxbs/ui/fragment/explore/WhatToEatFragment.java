@@ -21,7 +21,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.FoodDetail;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.explore.BaseExploreActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
@@ -29,10 +29,10 @@ import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
 import com.mredrock.cyxbs.util.LogUtils;
 import com.mredrock.cyxbs.util.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Stormouble on 16/4/27.
@@ -45,11 +45,11 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
     private static final int MAIN_CONTENT_SCALE_DURATION = 200;
     private static final int SHAKE_FORCE = 350;
 
-    @Bind(R.id.what_to_eat_container)
+    @BindView(R.id.what_to_eat_container)
     FrameLayout mContainerLayout;
-    @Bind(R.id.shake_container)
+    @BindView(R.id.shake_container)
     ViewGroup mShakeContainer;
-    @Bind(R.id.shake)
+    @BindView(R.id.shake)
     ImageView mShakePhoto;
 
     private int[] mDrawingStartLocation;
@@ -148,16 +148,15 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
         if (System.currentTimeMillis() - mLastTime > MIN_SHAKE_DURATION) {
             mVibrator.vibrate(500);
             mLastTime = System.currentTimeMillis();
-
-            Subscription subscription = RequestManager.getInstance().getShake(
-                    new SimpleSubscriber<>(getActivity(), new SubscriberListener<Shake>() {
+            Disposable subscription = RequestManager.getInstance().getShake(
+                    new SimpleObserver<>(getActivity(), new SubscriberListener<Shake>() {
                         @Override
                         public void onNext(Shake data) {
                             setFoodData(data);
                         }
                     }));
 
-            mCompositeSubscription.add(subscription);
+            mCompositeDisposable.add(subscription);
         }
     }
 
@@ -179,9 +178,9 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
 
 
     private void getFood() {
-        Subscription subscription = RequestManager.getInstance().getFood(new SimpleSubscriber<>(getActivity(), new SubscriberListener<FoodDetail>() {
+        Disposable subscription = RequestManager.getInstance().getFood(new SimpleObserver<>(getActivity(), new SubscriberListener<FoodDetail>() {
             @Override
-            public void onCompleted() {
+            public void onComplete() {
                 onRefreshingStateChanged(false);
                 onErrorLayoutVisibleChanged(mContainerLayout, false);
             }
@@ -201,7 +200,7 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
             }
         }), mResultViewWrapper.mRestaurantKey);
 
-        mCompositeSubscription.add(subscription);
+        mCompositeDisposable.add(subscription);
     }
 
     private void startIntroAnimation() {
@@ -220,13 +219,13 @@ public class WhatToEatFragment extends BaseExploreFragment implements SensorEven
     }
 
     class ResultViewWrapper {
-        @Bind(R.id.restaurant_photo)
+        @BindView(R.id.restaurant_photo)
         ImageView mRestaurantImageView;
-        @Bind(R.id.restaurant_name)
+        @BindView(R.id.restaurant_name)
         TextView mRestaurantName;
-        @Bind(R.id.restaurant_location)
+        @BindView(R.id.restaurant_location)
         TextView mRestaurantAddress;
-        @Bind(R.id.shake_again)
+        @BindView(R.id.shake_again)
         TextView mAgainText;
 
         @OnClick(R.id.restaurant_photo)

@@ -17,7 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @SuppressWarnings("unused")
 public class WeakHandler {
     private final Handler.Callback mCallback;
-    private final ExecHandler      mExec;
+    private final ExecHandler mExec;
     private Lock mLock = new ReentrantLock();
 
     @SuppressWarnings("ConstantConditions")
@@ -174,7 +174,7 @@ public class WeakHandler {
     }
 
     static class WeakRunnable implements Runnable {
-        private final WeakReference<Runnable>   mDelegate;
+        private final WeakReference<Runnable> mDelegate;
         private final WeakReference<ChainedRef> mReference;
 
         WeakRunnable(WeakReference<Runnable> delegate, WeakReference<ChainedRef> reference) {
@@ -197,7 +197,7 @@ public class WeakHandler {
 
     static class ChainedRef {
         @NonNull
-        final Runnable     runnable;
+        final Runnable runnable;
         @NonNull
         final WeakRunnable wrapper;
         @Nullable
@@ -205,7 +205,7 @@ public class WeakHandler {
         @Nullable
         ChainedRef prev;
         @NonNull
-        Lock       lock;
+        Lock lock;
 
         public ChainedRef(@NonNull Lock lock, @NonNull Runnable r) {
             this.runnable = r;

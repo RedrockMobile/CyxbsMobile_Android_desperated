@@ -21,7 +21,6 @@ import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.config.Const;
 import com.mredrock.cyxbs.model.User;
-import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.DialogUtil;
@@ -33,41 +32,39 @@ import com.yalantis.ucrop.UCrop;
 import java.io.File;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class EditInfoActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
     private static final String PATH_CROP_PICTURES = Environment.getExternalStorageDirectory() + "/cyxbsmobile/" + "Pictures";
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.edit_avatar)
+    @BindView(R.id.edit_avatar)
     RelativeLayout editInfoAvatarLayout;
-    @Bind(R.id.edit_name)
+    @BindView(R.id.edit_name)
     RelativeLayout editInfoNickLayout;
-    @Bind(R.id.edit_introduce)
+    @BindView(R.id.edit_introduce)
     RelativeLayout editInfoIntroduceLayout;
-    @Bind(R.id.avatar)
+    @BindView(R.id.avatar)
     ImageView editInfoAvatar;
-    @Bind(R.id.name)
+    @BindView(R.id.name)
     TextView editInfoNickName;
-    @Bind(R.id.introduce)
+    @BindView(R.id.introduce)
     TextView editInfoIntroduce;
-    @Bind(R.id.qq)
+    @BindView(R.id.qq)
     TextView editInfoQq;
-    @Bind(R.id.edit_qq)
+    @BindView(R.id.edit_qq)
     RelativeLayout editInfoQqLayout;
-    @Bind(R.id.phone)
+    @BindView(R.id.phone)
     TextView editInfoPhone;
-    @Bind(R.id.edit_phone)
+    @BindView(R.id.edit_phone)
     RelativeLayout editInfoPhoneLayout;
 
     private User mUser;
@@ -225,7 +222,7 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
         options.setCompressionFormat(Bitmap.CompressFormat.PNG);
         options.setCompressionQuality(90);
         options.setToolbarTitleTextColor(ContextCompat.getColor(this, R.color.black_lightly));
-        options.setLogoColor(ContextCompat.getColor(this,R.color.black_lightly));
+        options.setLogoColor(ContextCompat.getColor(this, R.color.black_lightly));
         options.setToolbarColor(
                 ContextCompat.getColor(this, R.color.colorPrimary));
         options.setStatusBarColor(
@@ -242,21 +239,23 @@ public class EditInfoActivity extends BaseActivity implements EasyPermissions.Pe
             RequestManager.getInstance()
                     .uploadNewsImg(mUser.stuNum, resultUri.getPath())
                     .subscribeOn(Schedulers.io())
-                    .flatMap((Func1<UploadImgResponse.Response, Observable<?>>) response -> {
-                        mUser.photo_thumbnail_src = response.thumbnailSrc;
-                        mUser.photo_src = response.photoSrc;
-                        return RequestManager.getInstance()
-                                .setPersonInfo(mUser.stuNum,
-                                        mUser.idNum,
-                                        response.thumbnailSrc,
-                                        response.photoSrc);
-                    })
+                    .flatMap(response ->
+                            {
+                                mUser.photo_thumbnail_src = response.thumbnailSrc;
+                                mUser.photo_src = response.photoSrc;
+                                return RequestManager.getInstance()
+                                        .setPersonInfo(mUser.stuNum,
+                                                mUser.idNum,
+                                                response.thumbnailSrc,
+                                                response.photoSrc);
+                            }
+                    )
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(okResponse -> {
                         dismissProgress();
                         Toast.makeText(this, "修改头像成功", Toast.LENGTH_SHORT)
                                 .show();
-                        editInfoAvatar.setImageURI(resultUri);
+                        ImageLoader.getInstance().loadAvatar(mUser.photo_src, editInfoAvatar);
                     }, throwable -> {
                         dismissProgress();
                         Toast.makeText(this,

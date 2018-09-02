@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 
@@ -105,12 +104,16 @@ public class TextLimitButton extends android.support.v7.widget.AppCompatButton {
         animator.setInterpolator(new AccelerateInterpolator());
         animator.addUpdateListener(animation -> {
             if (isOpen) {
-                if(animation.getCurrentPlayTime()>=500) {setBackgroundColor(mFreeColor);}
+                if (animation.getCurrentPlayTime() >= 500) {
+                    setBackgroundColor(mFreeColor);
+                }
                 mRadius = (float) animation.getAnimatedValue();
                 mAnimSwitch &= ~OPEN_MASK;
                 mAnimSwitch |= CLOSE_MASK;
             } else {
-                if(animation.getCurrentPlayTime()>=500){ setBackgroundColor(mLimitColor);}
+                if (animation.getCurrentPlayTime() >= 500) {
+                    setBackgroundColor(mLimitColor);
+                }
                 mRadius = (float) Math.hypot(getWidth(), getHeight()) - (float) animation.getAnimatedValue();
                 mAnimSwitch &= ~CLOSE_MASK;
                 mAnimSwitch |= OPEN_MASK;

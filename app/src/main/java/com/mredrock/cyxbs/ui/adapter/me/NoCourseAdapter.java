@@ -16,7 +16,7 @@ import com.mredrock.cyxbs.ui.widget.NoCourseAddDialog;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -112,9 +112,9 @@ public class NoCourseAdapter extends RecyclerView.Adapter {
     }
 
     public class NormalViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.no_course_name)
+        @BindView(R.id.no_course_name)
         TextView noCourseName;
-        @Bind(R.id.no_course_delete)
+        @BindView(R.id.no_course_delete)
         ImageView noCourseDelete;
 
 
@@ -130,7 +130,7 @@ public class NoCourseAdapter extends RecyclerView.Adapter {
     }
 
     public class EndViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.add)
+        @BindView(R.id.add)
         FrameLayout mAdd;
 
         public EndViewHolder(View itemView) {

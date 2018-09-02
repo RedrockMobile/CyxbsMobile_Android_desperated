@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 public class LoopAdapter extends PagerAdapter {
     private PagerAdapter mAdapter;
 
-    private int mItemCount=0;
+    private int mItemCount = 0;
 
     public LoopAdapter(PagerAdapter adapter) {
         mAdapter = adapter;
@@ -61,7 +61,7 @@ public class LoopAdapter extends PagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        if (mItemCount>0){
+        if (mItemCount > 0) {
             mItemCount--;
             return POSITION_NONE;
         }
@@ -70,6 +70,7 @@ public class LoopAdapter extends PagerAdapter {
 
     /**
      * 根据外层position的获取内层的position
+     *
      * @param position 外层ViewPager的position
      * @return 外层viewPager当前数据位置对应的内层viewPager对应的位置。
      */
@@ -94,6 +95,7 @@ public class LoopAdapter extends PagerAdapter {
 
     /**
      * 根据内层postion的位置，返回映射后外层position的位置
+     *
      * @param position 内层position的位置
      * @return 无限轮播ViewPager的切换位置
      */

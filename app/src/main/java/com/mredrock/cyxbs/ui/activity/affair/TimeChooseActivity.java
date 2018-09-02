@@ -22,7 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -32,22 +32,21 @@ public class TimeChooseActivity extends BaseActivity {
 
     public static final String BUNDLE_KEY = "TIME_CHOOSE";
 
-    @Bind(R.id.course_weeks)
+    @BindView(R.id.course_weeks)
     LinearLayout mCourseWeeks;
-    @Bind(R.id.course_weekday)
+    @BindView(R.id.course_weekday)
     LinearLayout mCourseWeekday;
-    @Bind(R.id.course_time)
+    @BindView(R.id.course_time)
     LinearLayout mCourseTime;
-    @Bind(R.id.course_schedule_holder)
+    @BindView(R.id.course_schedule_holder)
     LinearLayout mCourseScheduleHolder;
 
-    @Bind(R.id.time_choose_content)
+    @BindView(R.id.time_choose_content)
     TimeChooseView timeChooseView;
 
 
-
-    @OnClick({R.id.choose_time_iv_back,R.id.time_choose_iv_ok})
-    public void onTitleClick(View v){
+    @OnClick({R.id.choose_time_iv_back, R.id.time_choose_iv_ok})
+    public void onTitleClick(View v) {
         if (v.getId() == R.id.choose_time_iv_back)
             onBackPressed();
         else
@@ -68,7 +67,7 @@ public class TimeChooseActivity extends BaseActivity {
         int screeHeight = DensityUtils.getScreenHeight(this);
 
 
-        int height = (screeHeight - findViewById(R.id.affair_toolbar).getHeight() - mCourseWeeks.getHeight()) / 6 * 5 - DensityUtils.dp2px(this,3);
+        int height = (screeHeight - findViewById(R.id.affair_toolbar).getHeight() - mCourseWeeks.getHeight()) / 6 * 5 - DensityUtils.dp2px(this, 3);
 
         mCourseTime.setLayoutParams(new LinearLayout.LayoutParams(DensityUtils.dp2px(this, 40), height));
         timeChooseView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height));
@@ -95,12 +94,12 @@ public class TimeChooseActivity extends BaseActivity {
     public void getPosition() {
         ArrayList<Position> positions = new ArrayList<>();
         positions.addAll(timeChooseView.getPositions());
-        if (positions.size() == 0){
-            Toast.makeText(BaseAPP.getContext(),"还没有选择时间哦",Toast.LENGTH_SHORT).show();
-        }else {
+        if (positions.size() == 0) {
+            Toast.makeText(BaseAPP.getContext(), "还没有选择时间哦", Toast.LENGTH_SHORT).show();
+        } else {
             Collections.sort(positions);
             for (Position p : positions)
-                LogUtils.LOGD(this.getClass().getSimpleName(),p.toString());
+                LogUtils.LOGD(this.getClass().getSimpleName(), p.toString());
             EventBus.getDefault().post(new TimeChooseEvent(positions));
             onBackPressed();
         }

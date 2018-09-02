@@ -12,14 +12,14 @@ import com.mredrock.cyxbs.model.ElectricCharge;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -34,14 +34,14 @@ public class PastElectricChargeActivity extends BaseActivity {
     private List<PastElectric> pastElectrics = new ArrayList<>();
     private List<String> months = new ArrayList<>();
 
-    @Bind(R.id.tv_past_electric_end)
+    @BindView(R.id.tv_past_electric_end)
     TextView mEndTextView;
-    @Bind(R.id.tv_past_electric_start)
+    @BindView(R.id.tv_past_electric_start)
     TextView mStartTextView;
-    @Bind(R.id.tv_past_electric_spend)
+    @BindView(R.id.tv_past_electric_spend)
     TextView mSpendTextView;
 
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView title;
 
     @Override
@@ -53,7 +53,7 @@ public class PastElectricChargeActivity extends BaseActivity {
 
         mUser = BaseAPP.getUser(this);
         RequestManager.INSTANCE.queryPastElectricCharge(mUser.stuNum, mUser.idNum,
-                new SimpleSubscriber<PastElectric.PastElectricResultWrapper>(this, true, new SubscriberListener<PastElectric.PastElectricResultWrapper>() {
+                new SimpleObserver<PastElectric.PastElectricResultWrapper>(this, true, new SubscriberListener<PastElectric.PastElectricResultWrapper>() {
                     @Override
                     public void onNext(PastElectric.PastElectricResultWrapper pastElectricResultWrapper) {
                         super.onNext(pastElectricResultWrapper);
@@ -61,7 +61,7 @@ public class PastElectricChargeActivity extends BaseActivity {
 
                         ElectricCharge electricCharge = pastElectricResultWrapper.getResult().getCurrent();
                         if (electricCharge == null)
-                            Toast.makeText(BaseAPP.getContext(),"没有获取到数据，请检查设置的寝室号",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BaseAPP.getContext(), "没有获取到数据，请检查设置的寝室号", Toast.LENGTH_SHORT).show();
                         else {
                             for (int i = pastElectricResultWrapper.getResult().getTrend().size(); i > 0; i--) {
                                 electricSpends.add((double) pastElectricResultWrapper.getResult().getTrend().get(i - 1).getSpend());
@@ -74,12 +74,12 @@ public class PastElectricChargeActivity extends BaseActivity {
                             pastElectric.setSpend(Integer.parseInt(electricCharge.getElectricSpend()));
                             pastElectric.setElectricStart(electricCharge.getElectricStart());
                             pastElectrics.add(pastElectric);
-                            months.add(electricCharge.getElectricMonth() +"月");
+                            months.add(electricCharge.getElectricMonth() + "月");
                             chartView.setxValue(months);
                             chartView.setyValue(electricSpends);
                         }
 
-                  }
+                    }
                 }));
 
 
@@ -115,7 +115,7 @@ public class PastElectricChargeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       // chartView.requestLayout();
+        // chartView.requestLayout();
     }
 
     @Override

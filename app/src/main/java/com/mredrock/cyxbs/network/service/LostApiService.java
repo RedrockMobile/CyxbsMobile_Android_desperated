@@ -8,12 +8,12 @@ import com.mredrock.cyxbs.model.lost.LostWrapper;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import rx.Observable;
 
 /**
  * @author Haruue Icymoon haruue@caoyue.com.cn
@@ -23,8 +23,8 @@ public interface LostApiService {
 
     @GET(Const.END_POINT_LOST + Const.API_LOST_LIST)
     Observable<LostWrapper<List<Lost>>> getLostList(@Path(Const.PATH_THEME) String theme,
-                                              @Path(Const.PATH_CATEGORY) String category,
-                                              @Path(Const.PATH_PAGE) int page);
+                                                    @Path(Const.PATH_CATEGORY) String category,
+                                                    @Path(Const.PATH_PAGE) int page);
 
     @GET(Const.END_POINT_LOST + Const.API_LOST_DETAIL)
     Observable<LostDetail> getLostDetial(@Path(Const.PATH_PRODUCT) int id);

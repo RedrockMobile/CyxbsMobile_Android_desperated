@@ -37,7 +37,6 @@ public class PastElectricChartView extends View {
     private int position;
 
 
-
     private boolean needDraw = true;
 
     private int startX, startY, endX, endY;
@@ -125,7 +124,6 @@ public class PastElectricChartView extends View {
     }
 
 
-
     public void setyValue(List<Double> yValue) {
         this.yValue = yValue;
         position = yValue.size() - 1;
@@ -198,34 +196,34 @@ public class PastElectricChartView extends View {
         int width = getWidth() - dip2px(getContext(), 40);
         mPaint.setColor(Color.WHITE);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setTextSize(dip2px(getContext(),15));
+        mPaint.setTextSize(dip2px(getContext(), 15));
         for (int i = 0; i < xValue.size(); i++) {
-            Log.i(TAG,xValue.get(i));
-            canvas.drawText(xValue.get(i),width / (yValue.size() - 1) * i + dip2px(getContext(), 10),getHeight() - dip2px(getContext(),30),mPaint);
+            Log.i(TAG, xValue.get(i));
+            canvas.drawText(xValue.get(i), width / (yValue.size() - 1) * i + dip2px(getContext(), 10), getHeight() - dip2px(getContext(), 30), mPaint);
 
         }
     }
 
 
-    private void drawAnchor(int i){
-        Log.i(TAG,"drawAnchor" + "  " + i);
+    private void drawAnchor(int i) {
+        Log.i(TAG, "drawAnchor" + "  " + i);
         int width = getWidth() - dip2px(getContext(), 40);
         mPath.reset();
         mPaint.setColor(Color.WHITE);
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setAntiAlias(true);
 
-        int x1 =  mPoints.get(i).x;
-        int y1 = getHeight() - dip2px(getContext(),12);
+        int x1 = mPoints.get(i).x;
+        int y1 = getHeight() - dip2px(getContext(), 12);
         int x2 = x1 - width / (yValue.size() - 1) / 2;
 
         int y2 = getHeight();
-        mPath.moveTo(x2,y2);
-        mPath.quadTo((x1 + x2) / 2,getHeight(),x1,y1);
-        int x3 =  x1 + width / (yValue.size() - 1) / 2;
-        mPath.quadTo((x1 + x3) / 2,getHeight(),x3,getHeight());
-        mPath.lineTo(x2,y2);
-        mCanvas.drawPath(mPath,mPaint);
+        mPath.moveTo(x2, y2);
+        mPath.quadTo((x1 + x2) / 2, getHeight(), x1, y1);
+        int x3 = x1 + width / (yValue.size() - 1) / 2;
+        mPath.quadTo((x1 + x3) / 2, getHeight(), x3, getHeight());
+        mPath.lineTo(x2, y2);
+        mCanvas.drawPath(mPath, mPaint);
 
 
     }

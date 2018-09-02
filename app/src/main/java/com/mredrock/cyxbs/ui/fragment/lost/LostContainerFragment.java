@@ -13,22 +13,22 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.model.social.PersonInfo;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.adapter.lost.LostViewPagerAdapter;
 import com.mredrock.cyxbs.ui.fragment.BaseFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by wusui on 2017/2/7.
  */
 
-public class LostContainerFragment extends BaseFragment{
-    @Bind(R.id.lost_tab_layout)
+public class LostContainerFragment extends BaseFragment {
+    @BindView(R.id.lost_tab_layout)
     TabLayout tab;
-    @Bind(R.id.lost_view_pager)
+    @BindView(R.id.lost_view_pager)
     ViewPager pager;
     private boolean firstLogin = false;
     private int resumeCount = 0;
@@ -49,7 +49,7 @@ public class LostContainerFragment extends BaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lost_container, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
         mAdapter = new LostViewPagerAdapter(getActivity().getSupportFragmentManager());
         pager.setAdapter(mAdapter);
@@ -66,36 +66,38 @@ public class LostContainerFragment extends BaseFragment{
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if (firstLogin && resumeCount == 1){
+        if (firstLogin && resumeCount == 1) {
             firstLogin = false;
             getUserData();
         }
         ++resumeCount;
     }
-    public  static LostContainerFragment newInstance() {
+
+    public static LostContainerFragment newInstance() {
         LostContainerFragment fragment = new LostContainerFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
         return fragment;
     }
+
     private void getUserData() {
         if (BaseAPP.isLogin()) {
             mUser = BaseAPP.getUser(getContext());
             if (mUser.id == null) getPersonInfoData();
             //else init();
-        }else {
+        } else {
             firstLogin = true;
         }
     }
 
     public void getPersonInfoData() {
-        if (!BaseAPP.isLogin()){
+        if (!BaseAPP.isLogin()) {
             return;
         }
-        if (mUser != null){
-            RequestManager.getInstance().getPersonInfo(new SimpleSubscriber<>(getActivity(), new SubscriberListener<PersonInfo>() {
+        if (mUser != null) {
+            RequestManager.getInstance().getPersonInfo(new SimpleObserver<>(getActivity(), new SubscriberListener<PersonInfo>() {
                 @Override
                 public void onNext(PersonInfo personInfo) {
                     super.onNext(personInfo);
@@ -147,7 +149,7 @@ public class LostContainerFragment extends BaseFragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     public void changeViewPagerIndex(int index) {

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/volunteer_pager_background"
     tools:context="com.mredrock.cyxbs.ui.activity.me.VolunteerTimeActivity">
 
     <TextView
@@ -25,8 +26,9 @@
             <!--android:layout_centerInParent="true"-->
             <ImageView
                 android:id="@+id/volunteer_time_back"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
                 android:layout_gravity="center_vertical"
                 android:layout_centerVertical="true"
                 android:src="@drawable/volunteer_time_back_arrow" />
@@ -102,11 +104,13 @@
         app:tabSelectedTextColor="@color/volunteer_time_left"
         app:tabIndicatorColor="@color/volunteer_edit_activated" />
 
-    <ProgressBar
-        android:id="@+id/volunteer_time_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/volunteer_pager_background"/>
+    <ImageView
+        android:id="@+id/volunteer_refresh"
+        android:layout_width="43dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:src="@drawable/volunteer_refresh_animation"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

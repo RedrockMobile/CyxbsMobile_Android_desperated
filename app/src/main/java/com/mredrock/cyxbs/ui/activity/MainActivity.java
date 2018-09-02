@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -16,7 +15,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jude.swipbackhelper.SwipeBackHelper;
@@ -40,29 +39,32 @@ import com.mredrock.cyxbs.ui.fragment.UnLoginFragment;
 import com.mredrock.cyxbs.ui.fragment.UserFragment;
 import com.mredrock.cyxbs.ui.fragment.explore.ExploreFragment;
 import com.mredrock.cyxbs.ui.fragment.social.SocialContainerFragment;
-import com.mredrock.cyxbs.ui.widget.BottomNavigationViewHelper;
 import com.mredrock.cyxbs.ui.widget.JToolbar;
+import com.mredrock.cyxbs.util.BottomNavigationViewHelper;
 import com.mredrock.cyxbs.util.DensityUtils;
 import com.mredrock.cyxbs.util.ElectricRemindUtil;
 import com.mredrock.cyxbs.util.SPUtils;
 import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.UpdateUtil;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
+import org.jetbrains.anko.DimensionsKt;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import kotlin.Unit;
 
 public class MainActivity extends BaseActivity {
 
-    @Bind(R.id.main_toolbar)
+    @BindView(R.id.main_toolbar)
     JToolbar mToolbar;
-    @Bind(R.id.main_coordinator_layout)
-    LinearLayout mCoordinatorLayout;
-    @Bind(R.id.main_view_pager)
+    @BindView(R.id.main_coordinator_layout)
+    ViewGroup mCoordinatorLayout;
+    @BindView(R.id.main_view_pager)
     ViewPager mViewPager;
 
     @BindString(R.string.community)
@@ -79,15 +81,26 @@ public class MainActivity extends BaseActivity {
     BaseFragment exploreFragment;
     BaseFragment userFragment;
     BaseFragment unLoginFragment;
-    /*@Bind(R.id.main_toolbar_face)
+    /*@BindView(R.id.main_toolbar_face)
     CircleImageView mMainToolbarFace;*/
-    @Bind(R.id.main_bnv)
+    @BindView(R.id.main_bnv)
     BottomNavigationView mMainBottomNavView;
 
     private Menu mMenu;
     private ArrayList<Fragment> mFragments;
     private TabPagerAdapter mAdapter;
     private boolean mUnfold;
+
+    private BottomNavigationViewHelper navHelpers;
+    private MenuItem preCheckedItem;
+    private int preCheckedItemPosition;
+    private int[] icons = {
+            R.drawable.main_ic_course_unselected, R.drawable.main_ic_course_selected,
+            R.drawable.main_ic_qa_unselected, R.drawable.main_ic_qa_selected,
+            R.drawable.main_ic_explore_unselected, R.drawable.main_ic_explore_selected,
+            R.drawable.main_ic_mine_unselected, R.drawable.main_ic_mine_selected
+    };
+
 
     public static final String TAG = "MainActivity";
 
@@ -98,15 +111,69 @@ public class MainActivity extends BaseActivity {
         SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         ButterKnife.bind(this);
         initView();
-        UpdateUtil.checkUpdate(this, false);
+        UpdateUtil.checkUpdate(this, false, new RxPermissions(this));
         ElectricRemindUtil.check(this);
         setCourseUnfold(true, false);
         // FIXME: 2016/10/23 won't be call when resume, such as start by press app widget after dismiss this activity by press HOME button, set launchMode to normal may fix it but will launch MainActivity many times.
         // TODO: Filter these intents in another activity (such as LaunchActivity), not here, to fix the fixme above
         intentFilterFor3DTouch();
-        BottomNavigationViewHelper btNavViewHelper = new BottomNavigationViewHelper(mMainBottomNavView);
-        btNavViewHelper.enableBottomNavAnim(false);
-        btNavViewHelper.setBottomNavTextSize(10);
+        initBottomNavigationView();
+        setCourseUnfold(BaseAPP.isLogin(), mUnfold);
+        final Intent i = new Intent(this, com.mredrock.cyxbs.freshman.ui.activity.MainActivity.class);
+        findViewById(R.id.fab).setOnClickListener(v -> {
+            Log.d("test", "on start freshman");
+            startActivity(i);
+        });
+    }
+
+    private void initBottomNavigationView() {
+        navHelpers = new BottomNavigationViewHelper(mMainBottomNavView);
+        navHelpers.enableAnimation(false);
+        navHelpers.enableShiftMode(false);
+        navHelpers.enableItemShiftMode(false);
+        navHelpers.setTextSize(11f);
+        navHelpers.setIconSize(DimensionsKt.dip(this, 21));
+        navHelpers.setItemIconTintList(null);
+        navHelpers.bindViewPager(mViewPager, (position, menuItem) -> {
+            preCheckedItem.setIcon(icons[preCheckedItemPosition * 2]);
+            preCheckedItem = menuItem;
+            preCheckedItemPosition = position;
+            menuItem.setIcon(icons[(position * 2) + 1]);
+
+            switch (position) {
+                case 0:
+                    showMenu();
+                    mToolbar.setVisibility(View.VISIBLE);
+                    setCourseUnfold(BaseAPP.isLogin(), mUnfold);
+                    setTitle("课 表");
+                    break;
+                case 1:
+                    hiddenMenu();
+                    mToolbar.setVisibility(View.VISIBLE);
+                    setCourseUnfold(false, mUnfold);
+                    setTitle("社 区");
+                    break;
+                case 2:
+                    hiddenMenu();
+                    mToolbar.setVisibility(View.VISIBLE);
+                    setCourseUnfold(false, mUnfold);
+                    setTitle("发 现");
+                    break;
+                case 3:
+                    hiddenMenu();
+                    mToolbar.setVisibility(View.GONE);
+                    setCourseUnfold(false, mUnfold);
+                    if (!BaseAPP.isLogin()) {
+                        EventBus.getDefault().post(new LoginEvent());
+                    }
+                    break;
+            }
+
+            return Unit.INSTANCE;
+        });
+        mMainBottomNavView.getMenu().getItem(0).setIcon(icons[1]);  //一定要放在上面的代码后面;
+        preCheckedItem = mMainBottomNavView.getMenu().getItem(0);
+        preCheckedItemPosition = 0;
     }
 
     /**
@@ -170,8 +237,6 @@ public class MainActivity extends BaseActivity {
         mAdapter = new TabPagerAdapter(getSupportFragmentManager(), mFragments, titles);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
-        mViewPager.addOnPageChangeListener(new ViewPagerChangedListener());
-        mMainBottomNavView.setOnNavigationItemSelectedListener(new BottomSelectedListener());
     }
 /*
 
@@ -324,125 +389,11 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+
     }
 
     public int getCurrentPosition() {
         return mViewPager.getCurrentItem();
-    }
-
-    private class ViewPagerChangedListener implements ViewPager.OnPageChangeListener {
-
-        float preOffset = 0;
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            switch (position) {
-                case 0:
-                    break;
-                case 1:
-//                    if (positionOffset > preOffset) {
-//                        toolbarStepByStepClose(positionOffset, true);
-//                    } else {
-//                        toolbarStepByStepClose(positionOffset, false);
-//                    }
-//                    preOffset = positionOffset;
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            switch (position) {
-                case 0:
-                    mMainBottomNavView.setSelectedItemId(R.id.item1);
-                    mToolbar.setVisibility(View.VISIBLE);
-                    showMenu();
-                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
-//                    mMainToolbarFace.setVisibility(View.VISIBLE);
-                    break;
-                case 1:
-                    mMainBottomNavView.setSelectedItemId(R.id.item2);
-                    hiddenMenu();
-//                    mMainToolbarFace.setVisibility(View.GONE);
-                    mToolbar.setVisibility(View.GONE);
-                    break;
-                case 2:
-                    hiddenMenu();
-                    mMainBottomNavView.setSelectedItemId(R.id.item3);
-//                    mMainToolbarFace.setVisibility(View.GONE);
-                    mToolbar.setVisibility(View.VISIBLE);
-                    setTitle("发 现");
-                    break;
-                case 3:
-                    hiddenMenu();
-                    mMainBottomNavView.setSelectedItemId(R.id.item4);
-                    mToolbar.setVisibility(View.VISIBLE);
-//                    mMainToolbarFace.setVisibility(View.GONE);
-                    setTitle("我 的");
-                    if (!BaseAPP.isLogin()) {
-                        EventBus.getDefault().post(new LoginEvent());
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    }
-
-    private class BottomSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getOrder()) {
-                case 0:
-                    mViewPager.setCurrentItem(0);
-                    mToolbar.setVisibility(View.VISIBLE);
-                    setCourseUnfold(true, mUnfold);
-                    showMenu();
-                    setTitle(((CourseContainerFragment) courseContainerFragment).getTitle());
-//                    mMainToolbarFace.setVisibility(View.GONE);
-                    break;
-                case 1:
-                    mViewPager.setCurrentItem(1);
-//                    mMainToolbarFace.setVisibility(View.GONE);
-                    mToolbar.setVisibility(View.VISIBLE);
-                    setCourseUnfold(false, mUnfold);
-                    setTitle("社 区");
-                    hiddenMenu();
-                    break;
-                case 2:
-                    hiddenMenu();
-                    mViewPager.setCurrentItem(2);
-//                    mMainToolbarFace.setVisibility(View.GONE);
-                    mToolbar.setVisibility(View.VISIBLE);
-                    setCourseUnfold(false, mUnfold);
-                    setTitle("发 现");
-                    break;
-                case 3:
-                    hiddenMenu();
-                    mViewPager.setCurrentItem(3);
-                    mToolbar.setVisibility(View.GONE);
-//                    mMainToolbarFace.setVisibility(View.GONE);
-                    setCourseUnfold(false, mUnfold);
-                    if (!BaseAPP.isLogin()) {
-                        EventBus.getDefault().post(new LoginEvent());
-                    }
-                    break;
-                default:
-                    break;
-            }
-            return true;
-        }
     }
 
     @Override

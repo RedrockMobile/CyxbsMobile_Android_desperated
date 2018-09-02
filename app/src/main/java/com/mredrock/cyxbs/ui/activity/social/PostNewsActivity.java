@@ -23,39 +23,40 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.Image;
 import com.mredrock.cyxbs.model.social.UploadImgResponse;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.util.RxBus;
 import com.mredrock.cyxbs.util.Utils;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
+import kotlin.Unit;
 
-public class PostNewsActivity extends BaseActivity implements View.OnClickListener,TopicEditText.OnTopicEditListener {
+public class PostNewsActivity extends BaseActivity implements View.OnClickListener, TopicEditText.OnTopicEditListener {
     public static final String TAG = "PostNewsActivity";
     private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
     public static final String EXTRA_TOPIC_ID = "extra_topic_id";
     public static final String EXTRA_TOPIC_TITLE = "extra_topic_title";
     private final static int REQUEST_IMAGE = 0001;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView mTitleText;
-    @Bind(R.id.toolbar_save)
+    @BindView(R.id.toolbar_save)
     TextView mSend;
-    @Bind(R.id.add_news_edit)
+    @BindView(R.id.add_news_edit)
     TopicEditText mAddNewsEdit;
-    @Bind(R.id.iv_ngrid_layout)
+    @BindView(R.id.iv_ngrid_layout)
     NineGridlayout mNineGridlayout;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.iv_add_topic)
+    @BindView(R.id.iv_add_topic)
     AppCompatImageView mIvAddTopic;
     private List<Image> mImgList;
     private User mUser;
@@ -70,8 +71,8 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private void sendTopicArticle(String title, String content,int topicId) {
-        Observable<String> observable;
+    private void sendTopicArticle(String title, String content, int topicId) {
+        Observable<Unit> observable;
         List<Image> currentImgs = new ArrayList<>();
         currentImgs.addAll(mImgList);
         currentImgs.remove(0);
@@ -80,10 +81,10 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
             observable = uploadWithImg(currentImgs, title, content, BBDDNews.TOPIC_ARTICLE, topicId);
         else observable = uploadWithoutImg(title, content, BBDDNews.TOPIC_ARTICLE, topicId);
 
-        observable.subscribe(new SimpleSubscriber<>(this, true, false, new SubscriberListener<Object>() {
+        observable.subscribe(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
             @Override
-            public void onCompleted() {
-                super.onCompleted();
+            public void onComplete() {
+                super.onComplete();
                 Intent intent = new Intent();
                 intent.putExtra(TopicArticleActivity.EXTRA_POST_SUCCESS, true);
                 PostNewsActivity.this.setResult(TopicArticleActivity.RESULT_CODE, intent);
@@ -136,12 +137,13 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void init() {
+        RxPermissions rxPermissions = new RxPermissions(this);
         mAddNewsEdit.setTopicEditListener(this);
         mImgList = new ArrayList<>();
         mImgList.add(new Image(ADD_IMG, Image.TYPE_ADD));
         mNineGridlayout.setImagesData(mImgList);
         mNineGridlayout.setOnAddImagItemClickListener((v, position) ->
-                RxPermissions.getInstance(this)
+                rxPermissions
                         .request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
                         .subscribe(granted -> {
                             if (granted) {
@@ -179,7 +181,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
             Toast.makeText(PostNewsActivity.this, getString(R.string.noContent), Toast.LENGTH_SHORT).show();
             return;
         }
-        Observable<String> observable;
+        Observable<Unit> observable;
         List<Image> currentImgs = new ArrayList<>();
         currentImgs.addAll(mImgList);
         currentImgs.remove(0);
@@ -188,10 +190,10 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
             observable = uploadWithImg(currentImgs, title, content, type, null);
         else observable = uploadWithoutImg(title, content, type, null);
 
-        observable.subscribe(new SimpleSubscriber<>(this, true, false, new SubscriberListener<Object>() {
+        observable.subscribe(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
             @Override
-            public void onCompleted() {
-                super.onCompleted();
+            public void onComplete() {
+                super.onComplete();
                 showUploadSuccess(content);
             }
 
@@ -204,8 +206,8 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         }));
     }
 
-    private Observable<String> uploadWithImg(List<Image> currentImgs, String title, String content, int type, @Nullable Integer topicId) {
-        return Observable.from(currentImgs)
+    private Observable<Unit> uploadWithImg(List<Image> currentImgs, String title, String content, int type, @Nullable Integer topicId) {
+        return Observable.fromIterable(currentImgs)
                 .observeOn(Schedulers.io())
                 .map(image -> image.url)
                 .flatMap(url -> RequestManager.getInstance().uploadNewsImg(mUser.stuNum, url))
@@ -227,7 +229,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                 });
     }
 
-    private Observable<String> uploadWithoutImg(String title, String content, int type,@Nullable Integer topicId) {
+    private Observable<Unit> uploadWithoutImg(String title, String content, int type, @Nullable Integer topicId) {
         if (type == BBDDNews.BBDD) {
             return RequestManager.getInstance()
                     .sendDynamic(type, title, content, " ", " ", mUser.id, mUser.stuNum, mUser.idNum);
@@ -235,6 +237,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
             return RequestManager.getInstance().sendTopicArticle(topicId, title, content, "", "", mUser.stuNum, mUser.idNum);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -252,13 +255,13 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
                     Utils.toast(this, "最多只能选9张图");
                     return;
                 }
-                Observable.from(pathList)
+                Observable.fromIterable(pathList)
                         .map(s -> new Image(s, Image.TYPE_NORMAL))
                         .map(image -> {
                             mImgList.add(image);
                             return mImgList;
                         })
-                        .subscribe(new SimpleSubscriber<>(this, new SubscriberListener<List<Image>>() {
+                        .subscribe(new SimpleObserver<>(this, new SubscriberListener<List<Image>>() {
                             @Override
                             public void onNext(List<Image> list) {
                                 super.onNext(list);

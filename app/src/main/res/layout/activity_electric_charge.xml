@@ -6,7 +6,6 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/activity_electric_charge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -151,7 +150,6 @@
             android:textSize="16sp"/>
 
         <TextView
-            android:id="@+id/tv_electric_query_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"

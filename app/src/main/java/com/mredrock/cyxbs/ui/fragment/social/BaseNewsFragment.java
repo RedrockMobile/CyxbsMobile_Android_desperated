@@ -20,7 +20,7 @@ import com.mredrock.cyxbs.model.social.HotNews;
 import com.mredrock.cyxbs.model.social.HotNewsContent;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.EndlessRecyclerOnScrollListener;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.social.FooterViewWrapper;
 import com.mredrock.cyxbs.ui.activity.social.HeaderViewWrapper;
@@ -34,9 +34,10 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscriber;
+import io.reactivex.Observer;
+
 
 /**
  * Created by mathiasluo on 16-4-26.
@@ -46,14 +47,14 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     public static final int PER_PAGE_NUM = 10;
     public static final String TAG = "BaseNewsFragment";
     public static final int FIRST_PAGE_INDEX = 0;
-    @Bind(R.id.fab_main)
+    @BindView(R.id.fab_main)
     FloatingActionButton mFabMain;
 
     private boolean hasLoginStateChanged = false;
 
-    @Bind(R.id.information_RecyclerView)
+    @BindView(R.id.information_RecyclerView)
     RecyclerView mRecyclerView;
-    @Bind(R.id.information_refresh)
+    @BindView(R.id.information_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
@@ -64,7 +65,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     protected NewsAdapter mNewsAdapter;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
-    abstract void provideData(Subscriber<List<HotNews>> subscriber, int size, int page);
+    abstract void provideData(Observer<List<HotNews>> observer, int size, int page);
 
     @Nullable
     @Override
@@ -148,7 +149,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
 
     public void getCurrentData(int size, int page) {
         mSwipeRefreshLayout.post(this::showLoadingProgress);
-        provideData(new SimpleSubscriber<>(getActivity(), new SubscriberListener<List<HotNews>>() {
+        provideData(new SimpleObserver<>(getActivity(), new SubscriberListener<List<HotNews>>() {
             @Override
             public boolean onError(Throwable e) {
                 super.onError(e);
@@ -190,7 +191,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     }
 
     private void addFooterView(HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter) {
-        mFooterViewWrapper = new FooterViewWrapper(getContext(), mRecyclerView);
+        mFooterViewWrapper = new FooterViewWrapper(mRecyclerView);
         mHeaderViewRecyclerAdapter.addFooterView(mFooterViewWrapper.getFooterView());
         mFooterViewWrapper.onFailedClick(view -> {
             if (currentIndex == 0) getCurrentData(PER_PAGE_NUM, currentIndex);
@@ -204,7 +205,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
 
     private void getNextPageData(int size, int page) {
         mFooterViewWrapper.showLoading();
-        provideData(new SimpleSubscriber<>(getContext(), new SubscriberListener<List<HotNews>>() {
+        provideData(new SimpleObserver<>(getContext(), new SubscriberListener<List<HotNews>>() {
             @Override
             public boolean onError(Throwable e) {
                 super.onError(e);
@@ -237,7 +238,7 @@ public abstract class BaseNewsFragment extends BaseLazyFragment implements Swipe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+
     }
 
     @Override

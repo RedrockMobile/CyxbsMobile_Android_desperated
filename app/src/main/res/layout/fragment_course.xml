@@ -62,7 +62,6 @@
                     android:orientation="vertical"/>
 
                 <FrameLayout
-                    android:id="@+id/course_scheduleview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF">
@@ -131,6 +130,7 @@
                     </LinearLayout>
 
                     <FrameLayout
+                        android:id="@+id/course_holder"
                         android:layout_width="match_parent"
                         android:layout_height="600dp">
 

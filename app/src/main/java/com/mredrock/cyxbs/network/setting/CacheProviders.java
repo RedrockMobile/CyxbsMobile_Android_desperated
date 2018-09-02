@@ -8,11 +8,11 @@ import com.mredrock.cyxbs.model.social.HotNews;
 
 import java.util.List;
 
-import io.rx_cache.DynamicKey;
-import io.rx_cache.DynamicKeyGroup;
-import io.rx_cache.EvictDynamicKey;
-import io.rx_cache.Reply;
-import rx.Observable;
+import io.reactivex.Observable;
+import io.rx_cache2.DynamicKey;
+import io.rx_cache2.DynamicKeyGroup;
+import io.rx_cache2.EvictDynamicKey;
+import io.rx_cache2.Reply;
 
 /**
  * Created by mathiasluo on 16-4-17.

@@ -16,7 +16,7 @@ import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.AboutMe;
 import com.mredrock.cyxbs.model.User;
 import com.mredrock.cyxbs.network.RequestManager;
-import com.mredrock.cyxbs.subscriber.SimpleSubscriber;
+import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.activity.social.SpecificNewsActivity;
@@ -25,19 +25,19 @@ import com.mredrock.cyxbs.ui.adapter.me.AboutMeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AboutMeActivity extends BaseActivity implements
         SwipeRefreshLayout.OnRefreshListener, AboutMeAdapter.OnItemClickListener {
 
-    @Bind(R.id.relate_me_recycler_View)
+    @BindView(R.id.relate_me_recycler_View)
     RecyclerView aboutMeRecyclerView;
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.about_me_swipe_refresh)
+    @BindView(R.id.about_me_swipe_refresh)
     SwipeRefreshLayout aboutMeSwipeRefresh;
 
     private List<AboutMe> mAboutMeList;
@@ -86,7 +86,7 @@ public class AboutMeActivity extends BaseActivity implements
     }
 
     public void getCurrentData(boolean update) {
-        RequestManager.getInstance().getAboutMeList(new SimpleSubscriber<>(this, new SubscriberListener<List<AboutMe>>() {
+        RequestManager.getInstance().getAboutMeList(new SimpleObserver<>(this, new SubscriberListener<List<AboutMe>>() {
             @Override
             public boolean onError(Throwable e) {
                 super.onError(e);

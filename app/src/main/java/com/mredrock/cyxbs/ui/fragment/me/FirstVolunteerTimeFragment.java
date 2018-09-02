@@ -3,7 +3,7 @@ package com.mredrock.cyxbs.ui.fragment.me;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,13 +17,12 @@ import com.mredrock.cyxbs.ui.adapter.me.VolunteerRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  * Created by glossimar on 2017/10/1.
  */
 
-public class FirstVolunteerTimeFragment extends Fragment{
+public class FirstVolunteerTimeFragment extends Fragment {
     private View view;
     private TextView holeTime;
     private RecyclerView recyclerView;
@@ -37,8 +36,8 @@ public class FirstVolunteerTimeFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_volunteer_time,container,false);
-        holeTime = (TextView)view.findViewById(R.id.volunteer_time_number);
+        view = inflater.inflate(R.layout.fragment_volunteer_time, container, false);
+        holeTime = (TextView) view.findViewById(R.id.volunteer_time_number);
         recyclerView = (RecyclerView) view.findViewById(R.id.volunteer_time_recycler);
         yearList = new ArrayList<>();
         initData();
@@ -47,7 +46,7 @@ public class FirstVolunteerTimeFragment extends Fragment{
 
     private void initData() {
         int holehour = 0;
-        for (int i = 0; i < recordBeanList.size(); i ++) {
+        for (int i = 0; i < recordBeanList.size(); i++) {
             int nowHour = (int) Double.parseDouble(recordBeanList.get(i).getHours());
             holehour = holehour + nowHour;
         }
