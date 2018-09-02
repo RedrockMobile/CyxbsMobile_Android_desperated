@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,9 +57,12 @@ public class CquptMienBaseFragment extends Fragment implements CquptMienBaseCont
 
     @Override
     public void setData(List<Fragment> list, List<String> titles) {
-        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(((AppCompatActivity) context).getSupportFragmentManager(), list, titles);
+        if (getActivity() == null) {
+            return;
+        }
+        MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getActivity().getSupportFragmentManager(), list, titles);
         pager.setAdapter(adapter);
-        pager.setOffscreenPageLimit(9);
+        pager.setOffscreenPageLimit(3);
         layout.setupWithViewPager(pager);
 
         ViewGroup.LayoutParams layoutParams = layout.getLayoutParams();

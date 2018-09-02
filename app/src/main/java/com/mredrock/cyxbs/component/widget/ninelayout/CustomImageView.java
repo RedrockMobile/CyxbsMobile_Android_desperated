@@ -41,7 +41,7 @@ public class CustomImageView extends android.support.v7.widget.AppCompatImageVie
     }
 
     public CustomImageView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     private void init(Context context) {
@@ -118,7 +118,7 @@ public class CustomImageView extends android.support.v7.widget.AppCompatImageVie
         if (type == Image.TYPE_NORMAL) {
             int w = canvas.getWidth();
             int blackPlace = mBitmapBack.getHeight();
-            canvas.drawBitmap(mBitmapBack, w - blackPlace-blackPlace/8 , blackPlace/8, null);
+            canvas.drawBitmap(mBitmapBack, w - blackPlace - blackPlace / 8, blackPlace / 8, null);
         }
     }
 

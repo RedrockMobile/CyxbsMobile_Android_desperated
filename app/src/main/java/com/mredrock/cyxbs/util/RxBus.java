@@ -9,7 +9,7 @@ import io.reactivex.subscribers.SerializedSubscriber;
  * Created by mathiasluo on 16-4-25.
  */
 public class RxBus {
-    private static volatile RxBus   defaultInstance;
+    private static volatile RxBus defaultInstance;
     // 主题
     private final FlowableProcessor<Object> bus;
 

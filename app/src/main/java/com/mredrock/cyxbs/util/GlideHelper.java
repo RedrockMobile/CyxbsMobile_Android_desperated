@@ -29,7 +29,7 @@ public class GlideHelper {
             new ModelCache<String, GlideUrl>(150);
 
     private final BitmapTypeRequest<String> mGlideModelRequest;
-    private final CenterCrop                mCenterCrop;
+    private final CenterCrop mCenterCrop;
 
     private int mPlaceHolderResId = -1;
 
@@ -102,11 +102,11 @@ public class GlideHelper {
                                                RequestListener<String, Bitmap> requestListener, boolean crop) {
         if (crop) {
             return mGlideModelRequest.load(url)
-                                     .listener(requestListener)
-                                     .transform(mCenterCrop);
+                    .listener(requestListener)
+                    .transform(mCenterCrop);
         } else {
             return mGlideModelRequest.load(url)
-                                     .listener(requestListener);
+                    .listener(requestListener);
         }
     }
 

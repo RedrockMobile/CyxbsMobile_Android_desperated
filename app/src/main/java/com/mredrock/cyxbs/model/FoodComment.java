@@ -40,6 +40,6 @@ public class FoodComment implements Comparable<FoodComment> {
     @Override
     public int compareTo(@NonNull FoodComment another) {
         return Integer.valueOf(another.comment_id)
-                      .compareTo(Integer.valueOf(comment_id));
+                .compareTo(Integer.valueOf(comment_id));
     }
 }

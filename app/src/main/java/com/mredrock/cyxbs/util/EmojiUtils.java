@@ -22,7 +22,8 @@ public class EmojiUtils {
 
     public static final String DECODE_REGEX = "!\\[emoji&[a-f|0-9]{4}\\$[a-f|0-9]{4}]";
 
-    private EmojiUtils() {}
+    private EmojiUtils() {
+    }
 
     public static String encodeEmoji(String str) {
         Pattern pattern = Pattern.compile(ENCODE_REGEX);

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.VolunteerTime;
 
-
 import java.util.List;
 
 /**
@@ -24,7 +23,7 @@ public class VolunteerRecyclerChildAdapter extends RecyclerView.Adapter<Voluntee
         this.recordBeanList = recordBeanList;
     }
 
-    static  class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView dateText;
         TextView hourText;
         TextView activityText;
@@ -40,6 +39,7 @@ public class VolunteerRecyclerChildAdapter extends RecyclerView.Adapter<Voluntee
             addressText = (TextView) itemView.findViewById(R.id.volunteer_time_address);
         }
     }
+
     @Override
     public VolunteerRecyclerChildAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer_child_month, parent, false);

@@ -7,5 +7,5 @@ import com.umeng.weixin.callback.WXCallbackActivity;
  * 08:50
  */
 
-public class WXEntryActivity extends WXCallbackActivity{
+public class WXEntryActivity extends WXCallbackActivity {
 }

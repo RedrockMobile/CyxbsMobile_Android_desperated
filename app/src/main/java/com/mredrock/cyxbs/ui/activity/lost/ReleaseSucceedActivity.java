@@ -42,7 +42,7 @@ public class ReleaseSucceedActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Intent intent = new Intent(this,LostActivity.class);
+        Intent intent = new Intent(this, LostActivity.class);
         startActivity(intent);
     }
 

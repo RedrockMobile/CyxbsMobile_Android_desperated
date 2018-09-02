@@ -14,7 +14,6 @@ import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.RollerViewInfo;
-import com.mredrock.cyxbs.model.SchoolCarLocation;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.Student;
@@ -57,9 +56,6 @@ public interface RedrockApiService {
     @GET(Const.API_UPDATE_OLD)
     @XmlApi
     Observable<UpdateInfo> update();
-
-    @GET(Const.API_SCHOOL_CARS_LOCATION)
-    Observable<SchoolCarLocation> schoolcar();
 
     @FormUrlEncoded
     @POST(Const.API_VERIFY)
@@ -303,7 +299,7 @@ public interface RedrockApiService {
 
     @FormUrlEncoded
     @POST(Const.API_ELECTRIC_QUERY_STUNUM)
-    Observable<RedrockApiWrapper<PastElectric.PastElectricResultWrapper>> getPastElectricCharge(@Field("stuNum")String stuNum, @Field("idNum") String idNum);
+    Observable<RedrockApiWrapper<PastElectric.PastElectricResultWrapper>> getPastElectricCharge(@Field("stuNum") String stuNum, @Field("idNum") String idNum);
 
     @FormUrlEncoded
     @POST(Const.API_ALL_TOPIC_LIST)
@@ -345,6 +341,7 @@ public interface RedrockApiService {
                                                          @Field("stuNum") String stuNum,
                                                          @Field("idNum") String idNum,
                                                          @Field("official") boolean official);
+
     @FormUrlEncoded
     @POST(Const.API_ROLLER_VIEW)
     Observable<RedrockApiWrapper<List<RollerViewInfo>>> getRollerViewInfo(@Field("pic_num") String pic_num);

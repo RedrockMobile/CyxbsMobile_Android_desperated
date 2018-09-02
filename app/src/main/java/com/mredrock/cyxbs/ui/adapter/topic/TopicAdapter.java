@@ -50,7 +50,7 @@ public class TopicAdapter extends RecyclerArrayAdapter<Topic> {
         @Override
         public void setData(Topic data) {
             super.setData(data);
-            mTvTopicJoinNumber.setText(" "+data.getJoin_num() + "人参与");
+            mTvTopicJoinNumber.setText(" " + data.getJoin_num() + "人参与");
             String keyword = data.getKeyword();
             if (keyword.length() > 7) {
                 keyword = keyword.substring(0, 7);

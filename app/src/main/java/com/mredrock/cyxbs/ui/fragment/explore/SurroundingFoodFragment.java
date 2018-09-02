@@ -105,35 +105,35 @@ public class SurroundingFoodFragment extends BaseExploreFragment {
         Disposable subscription = RequestManager.getInstance().getFoodList(
                 new SimpleObserver<List<Food>>(getActivity(), new SubscriberListener<List<Food>>() {
 
-            @Override
-            public void onStart() {
-                if (shouldRefresh) {
-                    mSwipeRefreshLayout.post(() -> onRefreshingStateChanged(true));
-                }
-            }
+                    @Override
+                    public void onStart() {
+                        if (shouldRefresh) {
+                            mSwipeRefreshLayout.post(() -> onRefreshingStateChanged(true));
+                        }
+                    }
 
-            @Override
-             public void onComplete() {
-                onRefreshingStateChanged(false);
-                onErrorLayoutVisibleChanged(mSurroundingFoodListRv, false);
-            }
+                    @Override
+                    public void onComplete() {
+                        onRefreshingStateChanged(false);
+                        onErrorLayoutVisibleChanged(mSurroundingFoodListRv, false);
+                    }
 
-            @Override
-            public boolean onError(Throwable e) {
-                onRefreshingStateChanged(false);
-                onErrorLayoutVisibleChanged(mSurroundingFoodListRv, true);
-                return false;
-            }
+                    @Override
+                    public boolean onError(Throwable e) {
+                        onRefreshingStateChanged(false);
+                        onErrorLayoutVisibleChanged(mSurroundingFoodListRv, true);
+                        return false;
+                    }
 
-            @Override
-            public void onNext(List<Food> foodList) {
-                if (page == 1) {
-                    mAdapter.updateDataWithAnimation(foodList);
-                } else {
-                    mAdapter.updateDataWhenPagination(foodList);
-                }
-            }
-        }), String.valueOf(page), getResources().getString(R.string.restaurant_default_intro));
+                    @Override
+                    public void onNext(List<Food> foodList) {
+                        if (page == 1) {
+                            mAdapter.updateDataWithAnimation(foodList);
+                        } else {
+                            mAdapter.updateDataWhenPagination(foodList);
+                        }
+                    }
+                }), String.valueOf(page), getResources().getString(R.string.restaurant_default_intro));
 
         mCompositeDisposable.add(subscription);
     }

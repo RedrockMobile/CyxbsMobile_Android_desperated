@@ -34,16 +34,17 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             fragments.add(singleImageFragment);
         }
     }
+
     public ViewPagerAdapter(FragmentManager fm, ViewPager viewPager, String url) {
         super(fm);
         avtorurl = url;
         this.mViewPager = viewPager;
         mViewPager.setOffscreenPageLimit(1);
-            SingleImageFragment singleImageFragment = new SingleImageFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("url", url);
-            singleImageFragment.setArguments(bundle);
-            fragments.add(singleImageFragment);
+        SingleImageFragment singleImageFragment = new SingleImageFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("url", url);
+        singleImageFragment.setArguments(bundle);
+        fragments.add(singleImageFragment);
 
     }
 

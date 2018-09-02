@@ -76,6 +76,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
     public void finishActivity(View v) {
         finish();
     }
+
     private void initToolbar() {
         if (toolbar != null) {
             toolbar.setTitle("");
@@ -84,11 +85,11 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
     }
 
     public void initData() {
-        account =  accountView.getText().toString();
+        account = accountView.getText().toString();
         password = passwordView.getText().toString();
         volunteerSP = new VolunteerTimeSP(this);
         if (!(volunteerSP.getVolunteerUid().equals("404")
-            || volunteerSP.getVolunteerUid().equals("null")
+                || volunteerSP.getVolunteerUid().equals("null")
                 || volunteerSP.getVolunteerUid().equals(""))) {
             Intent intent = new Intent(this, VolunteerTimeActivity.class);
             startActivity(intent);
@@ -102,7 +103,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
             if (actionId == EditorInfo.IME_ACTION_GO) {
                 showProgressDialog();
                 initData();
-                login(account,password);
+                login(account, password);
                 handled = true;
 
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -123,7 +124,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable e) {
-               showUnsuccessDialog("网络有问题哦");
+                showUnsuccessDialog("网络有问题哦");
                 Log.d("RequestManager", "onError: ------------------------------------------------------------------------------");
                 dialog.dismiss();
                 e.printStackTrace();
@@ -168,7 +169,7 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
         dialog.show();
     }
 
-    public void showUnsuccessDialog(String text){
+    public void showUnsuccessDialog(String text) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

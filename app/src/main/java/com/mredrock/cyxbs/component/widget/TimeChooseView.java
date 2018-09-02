@@ -125,20 +125,20 @@ public class TimeChooseView extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         for (int i = 1; i < 8; i++) {
-            canvas.drawLine(getWidth() / 7 * i - DensityUtils.dp2px(context, (float) (i * 1.5)), 0, getWidth() / 7 * i - DensityUtils.dp2px(context, (float) (i * 1.5)) , getHeight(), mPaint);
+            canvas.drawLine(getWidth() / 7 * i - DensityUtils.dp2px(context, (float) (i * 1.5)), 0, getWidth() / 7 * i - DensityUtils.dp2px(context, (float) (i * 1.5)), getHeight(), mPaint);
         }
 
         for (int i = 1; i < 6; i++) {
-            canvas.drawLine(0,getHeight() / 6 * i, getWidth() - DensityUtils.dp2px(context , 10.5f) ,getHeight() / 6 * i, mPaint);
+            canvas.drawLine(0, getHeight() / 6 * i, getWidth() - DensityUtils.dp2px(context, 10.5f), getHeight() / 6 * i, mPaint);
         }
 
     }
 
-    private void initPaint(){
+    private void initPaint() {
         mPaint = new Paint();
         mPaint.setColor(Color.parseColor("#F6F6F6"));
-     //   mPaint.setColor(Color.RED);
+        //   mPaint.setColor(Color.RED);
 
-        mPaint.setStrokeWidth(DensityUtils.dp2px(context,2));
+        mPaint.setStrokeWidth(DensityUtils.dp2px(context, 2));
     }
 }

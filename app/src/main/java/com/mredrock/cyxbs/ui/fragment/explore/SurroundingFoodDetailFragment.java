@@ -166,7 +166,7 @@ public class SurroundingFoodDetailFragment extends BaseExploreFragment
                     }
 
                     @Override
-                     public void onComplete() {
+                    public void onComplete() {
                         onRefreshingStateChanged(false);
                         onErrorLayoutVisibleChanged(mFoodDetailRv, false);
 

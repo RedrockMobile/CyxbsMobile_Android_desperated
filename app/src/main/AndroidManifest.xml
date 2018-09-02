@@ -26,6 +26,7 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:name=".BaseAPP"
@@ -292,9 +293,6 @@
         <activity
             android:name=".PushActivity"
             android:exported="true" />
-        <!--<activity android:name=".ui.activity.explore.SchoolCarSearch" />-->
-        <activity android:name=".ui.activity.explore.ExploreSchoolCarActivity" />
-        <activity android:name=".ui.activity.explore.SchoolCarLearnMoreActivity" />
     </application>
 
 </manifest>

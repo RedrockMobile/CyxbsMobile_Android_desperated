@@ -6,12 +6,12 @@ import java.io.Serializable;
 
 /**
  * Model of the single item of lost and found API <br>
- *       http://hongyan.cqupt.edu.cn/laf/api/view/lost/all/1
+ * http://hongyan.cqupt.edu.cn/laf/api/view/lost/all/1
  *
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class Lost implements Serializable{
+public class Lost implements Serializable {
 
     @SerializedName("pro_id")
     public int id;   // id, unique in items

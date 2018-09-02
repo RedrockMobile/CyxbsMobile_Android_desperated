@@ -147,7 +147,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
         User user = BaseAPP.getUser(this);
         RequestManager.getInstance().getTopicArticle(new SimpleObserver<>(this, new SubscriberListener<TopicArticle>() {
             @Override
-             public void onComplete() {
+            public void onComplete() {
                 super.onComplete();
                 mPage++;
                 mSrlTopic.setRefreshing(false);
@@ -228,6 +228,7 @@ public class TopicArticleActivity extends BaseActivity implements SwipeRefreshLa
 //                    }
 //                });
     }
+
     private class ArticleFooter implements RecyclerArrayAdapter.ItemView {
 
         private View mView;

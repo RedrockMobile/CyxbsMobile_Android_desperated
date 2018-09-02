@@ -53,9 +53,9 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
         return mDataList.size();
     }
 
-    public void setDataList(List<Description.DescribeBean> mDataList){
+    public void setDataList(List<Description.DescribeBean> mDataList) {
         this.mDataList = mDataList;
-        notifyItemRangeInserted(0,mDataList.size() - 1);
+        notifyItemRangeInserted(0, mDataList.size() - 1);
     }
 
     public void changeData(Boolean isEdit) {
@@ -63,14 +63,14 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
         deleteNum = 0;
         if (isEdit) {
             for (int i = 0; i < mDataList.size(); i++) {
-                mDataList.get(i).setCheck(false);
+                mDataList.get(i).setOpen(false);
             }
         }
         notifyDataSetChanged();
     }
 
     public void add(Description.DescribeBean bean) {
-        if (mDataList.size() != 0){
+        if (mDataList.size() != 0) {
             mDataList.add(bean);
             notifyItemInserted(mDataList.size());
             SPHelper.putBean("admission", "admission", getDatas());
@@ -87,6 +87,7 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
                 notifyItemRemoved(i);
             }
         }
+        SPHelper.putBean("admission", "admission", getDatas());
     }
 
     public Description getDatas() {
@@ -116,6 +117,9 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
 
             item.setOnClickListener(this);
             itemView.setOnClickListener(v -> {
+                if (getLayoutPosition() == -1) {
+                    return;
+                }
                 if (isEdit) {
                     if (mDataList.get(getLayoutPosition()).getProperty().equals("必需"))
                         return;
@@ -196,6 +200,9 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
         public void onClick(View v) {
             int i = v.getId();
             if (i == R.id.iv_admission_check) {
+                if (getLayoutPosition() == -1) {
+                    return;
+                }
                 if (!mDataList.get(getLayoutPosition()).isCheck()) {
                     item.setImageDrawable(App.getContext().getResources().getDrawable(R.drawable.freshman_check_pressed));
                     title.setTextColor(App.getContext().getResources().getColor(R.color.freshmen_finish_black));
@@ -209,7 +216,7 @@ public class AdmissionRequestAdapter extends RecyclerView.Adapter<AdmissionReque
                     mDataList.get(getLayoutPosition()).setCheck(false);
                     from2(getLayoutPosition(), getItemCount() - 1);
                 }
-
+                SPHelper.putBean("admission", "admission", getDatas());
             }
         }
     }

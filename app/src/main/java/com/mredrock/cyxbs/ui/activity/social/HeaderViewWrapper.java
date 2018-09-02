@@ -45,7 +45,7 @@ public class HeaderViewWrapper {
         mView = LayoutInflater.from(context).inflate(R.layout.item_topic_header, parent, false);
         ButterKnife.bind(this, mView);
         mRvTopicHeader.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        mRvTopicHeader.addItemDecoration(new SpaceDecoration((int) Utils.dp2Px(context,10)));
+        mRvTopicHeader.addItemDecoration(new SpaceDecoration((int) Utils.dp2Px(context, 10)));
         TopicHeaderAdapter topicHeaderAdapter = new TopicHeaderAdapter(context);
         mRvTopicHeader.setAdapter(topicHeaderAdapter);
         topicHeaderAdapter.addFooter(new Header());
@@ -53,7 +53,7 @@ public class HeaderViewWrapper {
         ArrayList<Topic> list = new ArrayList<>();
         RequestManager.getInstance().getTopicList(new SimpleObserver<>(context, new SubscriberListener<List<Topic>>() {
             @Override
-             public void onComplete() {
+            public void onComplete() {
                 super.onComplete();
             }
 
@@ -62,21 +62,21 @@ public class HeaderViewWrapper {
                 super.onNext(topics);
                 topicHeaderAdapter.addAll(topics);
                 list.addAll(topics);
-                Log.d(TAG, "onNext: "+topics.toString());
+                Log.d(TAG, "onNext: " + topics.toString());
             }
         }), 10, 0, user.stuNum, user.idNum, TopicFragment.TopicType.ALL_TOPIC);
-        topicHeaderAdapter.setOnItemClickListener(position -> TopicArticleActivity.start(context,list.get(position).getTopic_id()));
+        topicHeaderAdapter.setOnItemClickListener(position -> TopicArticleActivity.start(context, list.get(position).getTopic_id()));
     }
 
     public View getView() {
         return mView;
     }
 
-    private class Header implements RecyclerArrayAdapter.ItemView{
+    private class Header implements RecyclerArrayAdapter.ItemView {
 
         @Override
         public View onCreateView(ViewGroup parent) {
-           return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic_bbdd_footer, parent, false);
+            return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic_bbdd_footer, parent, false);
         }
 
         @Override

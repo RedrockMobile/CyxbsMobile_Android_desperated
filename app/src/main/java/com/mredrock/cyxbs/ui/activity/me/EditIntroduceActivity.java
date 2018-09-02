@@ -93,7 +93,7 @@ public class EditIntroduceActivity extends BaseActivity implements TextWatcher {
                                 EditIntroduceActivity.this, true, new SubscriberListener<RedrockApiWrapper<Unit>>() {
 
                             @Override
-                             public void onComplete() {
+                            public void onComplete() {
                                 super.onComplete();
                                 Intent intent = new Intent();
                                 intent.putExtra(EXTRA_EDIT_INTRODUCE,

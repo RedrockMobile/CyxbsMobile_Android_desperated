@@ -6,15 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mredrock.cyxbs.R;
 import com.mredrock.cyxbs.model.VolunteerTime;
 
 import java.util.List;
-import java.util.TreeMap;
 
 
 /**
@@ -29,7 +26,7 @@ public class VolunteerRecyclerAdapter extends RecyclerView.Adapter<VolunteerRecy
     private List<List<VolunteerTime.DataBean.RecordBean>> allList;
 
     public VolunteerRecyclerAdapter(List<VolunteerTime.DataBean.RecordBean> recordBeanList, Context context
-            , List<String> yearList, List<List<VolunteerTime.DataBean.RecordBean>> allList){
+            , List<String> yearList, List<List<VolunteerTime.DataBean.RecordBean>> allList) {
         this.recordBeanList = recordBeanList;
         this.yearList = yearList;
         this.context = context;
@@ -48,6 +45,7 @@ public class VolunteerRecyclerAdapter extends RecyclerView.Adapter<VolunteerRecy
             divider = (TextView) itemView.findViewById(R.id.volunteer_time_divider_line);
         }
     }
+
     @Override
     public VolunteerRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_volunteer_child_year, parent, false);
@@ -68,7 +66,7 @@ public class VolunteerRecyclerAdapter extends RecyclerView.Adapter<VolunteerRecy
         holder.monthRecycler.setAdapter(adapter);
         holder.monthRecycler.setLayoutManager(new LinearLayoutManager(context));
 
-        if (position == yearList.size()-1){
+        if (position == yearList.size() - 1) {
             holder.divider.setVisibility(View.VISIBLE);
         }
     }

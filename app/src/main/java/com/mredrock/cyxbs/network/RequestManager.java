@@ -1,7 +1,5 @@
 package com.mredrock.cyxbs.network;
 
-import android.content.Context;
-
 import com.mredrock.cyxbs.BaseAPP;
 import com.mredrock.cyxbs.BuildConfig;
 import com.mredrock.cyxbs.config.Const;
@@ -20,7 +18,6 @@ import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.RollerViewInfo;
-import com.mredrock.cyxbs.model.SchoolCarLocation;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
@@ -59,7 +56,6 @@ import com.mredrock.cyxbs.network.setting.QualifiedTypeConverterFactory;
 import com.mredrock.cyxbs.ui.activity.lost.LostActivity;
 import com.mredrock.cyxbs.ui.fragment.social.TopicFragment;
 import com.mredrock.cyxbs.util.BitmapUtil;
-import com.mredrock.cyxbs.util.SchoolCalendar;
 import com.mredrock.cyxbs.util.Utils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -183,17 +179,6 @@ public enum RequestManager {
 
     public void getVolunteer(Observer<VolunteerTime> subscriber, String account, String password) {
         Observable<VolunteerTime> observable = volunteerService.getVolunteerUseLogin(account, password);
-        emitObservable(observable, subscriber);
-    }
-
-    public void getVolunteerTime(Observer<VolunteerTime.DataBean> subscriber, String uid) {
-        Observable<VolunteerTime.DataBean> observable = volunteerService.getVolunteerUseUid(uid)
-                .map(VolunteerTime::getData);
-        emitObservable(observable, subscriber);
-    }
-
-    public void getSchoolCarLocation(Observer<SchoolCarLocation> subscriber) {
-        Observable<SchoolCarLocation> observable = redrockApiService.schoolcar();
         emitObservable(observable, subscriber);
     }
 

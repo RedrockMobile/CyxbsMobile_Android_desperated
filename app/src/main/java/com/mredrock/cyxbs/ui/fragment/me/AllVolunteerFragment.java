@@ -34,8 +34,8 @@ public class AllVolunteerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_volunteer_time,container,false);
-        holeTime = (TextView)view.findViewById(R.id.volunteer_time_number);
+        view = inflater.inflate(R.layout.fragment_volunteer_time, container, false);
+        holeTime = (TextView) view.findViewById(R.id.volunteer_time_number);
         recyclerView = (RecyclerView) view.findViewById(R.id.volunteer_time_recycler);
         initData();
         return view;

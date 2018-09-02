@@ -36,8 +36,8 @@ public class FirstVolunteerTimeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_volunteer_time,container,false);
-        holeTime = (TextView)view.findViewById(R.id.volunteer_time_number);
+        view = inflater.inflate(R.layout.fragment_volunteer_time, container, false);
+        holeTime = (TextView) view.findViewById(R.id.volunteer_time_number);
         recyclerView = (RecyclerView) view.findViewById(R.id.volunteer_time_recycler);
         yearList = new ArrayList<>();
         initData();
@@ -46,7 +46,7 @@ public class FirstVolunteerTimeFragment extends Fragment {
 
     private void initData() {
         int holehour = 0;
-        for (int i = 0; i < recordBeanList.size(); i ++) {
+        for (int i = 0; i < recordBeanList.size(); i++) {
             int nowHour = (int) Double.parseDouble(recordBeanList.get(i).getHours());
             holehour = holehour + nowHour;
         }

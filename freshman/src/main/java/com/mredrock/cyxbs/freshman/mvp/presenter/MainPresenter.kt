@@ -21,7 +21,7 @@ class MainPresenter : BasePresenter<IMainView, IMainModel>(), IMainPresenter {
         val now = model.getNowStop()
         mvpView?.initCars(if (now == 0) 1 else now)
         if (isAnimationPlaying) {
-            if (now < 5){
+            if (now < 5) {
                 mvpView?.unlockBuilding(now)
             }
             isAnimationPlaying = false

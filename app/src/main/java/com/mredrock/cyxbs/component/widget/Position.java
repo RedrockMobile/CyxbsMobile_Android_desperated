@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Enjoy it !!!
  */
 
-public class Position implements Comparable<Position>,Serializable {
+public class Position implements Comparable<Position>, Serializable {
     private int x;
     private int y;
 
@@ -36,8 +36,6 @@ public class Position implements Comparable<Position>,Serializable {
     public void setY(int y) {
         this.y = y;
     }
-
-
 
 
     @Override

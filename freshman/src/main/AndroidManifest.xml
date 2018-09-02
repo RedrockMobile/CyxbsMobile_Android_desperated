@@ -15,7 +15,8 @@
         <activity android:name=".ui.activity.ChatOnlineActivity" />
         <activity android:name=".ui.activity.campus.CampusStrategyEntranceActivity" />
         <activity android:name=".ui.activity.campus.CampusDataDetailActivity" />
-        <activity android:name=".ui.activity.PhotoViewerActivity" />
+        <activity android:name=".ui.activity.PhotoViewerActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".ui.activity.strategy.DormitoryStrategyActivity" />
         <activity android:name=".ui.activity.ReportingProcessActivity" />
         <activity android:name=".ui.activity.ReportingProcessMoreActivity" />

@@ -51,7 +51,7 @@ public class AboutActivity extends BaseActivity {
 
     @OnClick(R.id.about_update)
     void clickToUpdate() {
-        UpdateUtil.checkUpdate(this, true,rxPermissions);
+        UpdateUtil.checkUpdate(this, true, rxPermissions);
     }
 
     @Override

@@ -40,7 +40,7 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import kotlin.Unit;
 
-public class PostNewsActivity extends BaseActivity implements View.OnClickListener,TopicEditText.OnTopicEditListener {
+public class PostNewsActivity extends BaseActivity implements View.OnClickListener, TopicEditText.OnTopicEditListener {
     public static final String TAG = "PostNewsActivity";
     private final static String ADD_IMG = "file:///android_asset/add_news.jpg";
     public static final String EXTRA_TOPIC_ID = "extra_topic_id";
@@ -71,7 +71,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private void sendTopicArticle(String title, String content,int topicId) {
+    private void sendTopicArticle(String title, String content, int topicId) {
         Observable<Unit> observable;
         List<Image> currentImgs = new ArrayList<>();
         currentImgs.addAll(mImgList);
@@ -83,7 +83,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
 
         observable.subscribe(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
             @Override
-             public void onComplete() {
+            public void onComplete() {
                 super.onComplete();
                 Intent intent = new Intent();
                 intent.putExtra(TopicArticleActivity.EXTRA_POST_SUCCESS, true);
@@ -192,7 +192,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
 
         observable.subscribe(new SimpleObserver<>(this, true, false, new SubscriberListener<Object>() {
             @Override
-             public void onComplete() {
+            public void onComplete() {
                 super.onComplete();
                 showUploadSuccess(content);
             }
@@ -237,6 +237,7 @@ public class PostNewsActivity extends BaseActivity implements View.OnClickListen
             return RequestManager.getInstance().sendTopicArticle(topicId, title, content, "", "", mUser.stuNum, mUser.idNum);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

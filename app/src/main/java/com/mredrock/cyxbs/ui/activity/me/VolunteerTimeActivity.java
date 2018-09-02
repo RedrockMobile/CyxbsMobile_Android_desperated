@@ -42,7 +42,7 @@ import io.reactivex.disposables.Disposable;
  */
 
 
-public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener{
+public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener {
     private static final String TAG = "VolunteerTimeActivity";
 
     private String uid;
@@ -101,9 +101,9 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
         uid = volunteerSP.getVolunteerUid();
         account = volunteerSP.getVolunteerAccount();
         password = volunteerSP.getVolunteerPassword();
-        animationDrawable = (AnimationDrawable)refreshView.getDrawable();
+        animationDrawable = (AnimationDrawable) refreshView.getDrawable();
         if (uid.equals("404") || volunteerSP.getVolunteerAccount().equals("404") ||
-                    volunteerSP.getVolunteerPassword().equals("404")){
+                volunteerSP.getVolunteerPassword().equals("404")) {
             Toast.makeText(this, "请先登录绑定账号哦", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, VolunteerTimeLoginActivity.class);
             startActivity(intent);
@@ -173,12 +173,12 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
                 initializeYears();
                 initFragmentList(dataBean.getData());
                 setTabLayout();
-                }
+            }
         }, account, password);
     }
 
-    private void setTabLayout(){
-        for (String tabTitles: yearList){
+    private void setTabLayout() {
+        for (String tabTitles : yearList) {
             tabLayout.addTab(tabLayout.newTab().setText(tabTitles));
         }
 
@@ -189,17 +189,17 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
         tabLayout.addOnTabSelectedListener(this);
     }
 
-    private void initializeYears(){
+    private void initializeYears() {
         yearList = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         yearList.add("全部");
-        for (int i = 0; i < 4; i ++) {
+        for (int i = 0; i < 4; i++) {
             yearList.add(year - i + "");
         }
     }
 
-    private void initFragmentList(VolunteerTime.DataBean dataBean){
+    private void initFragmentList(VolunteerTime.DataBean dataBean) {
         if (dataBean == null || dataBean.getRecord() == null || dataBean.getRecord().size() == 0) {
             for (int i = 0; i < 5; i++) {
                 fragmentList.add(new NoTimeVolunteerFragment());
@@ -246,11 +246,11 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
         lastYear = new ArrayList<>();
         List<Integer> yearListInt = new ArrayList<>();
         List<VolunteerTime.DataBean.RecordBean> recordBeen = dataBean.getRecord();
-        for (int x = 0; x < 4; x ++) {
+        for (int x = 0; x < 4; x++) {
             yearListInt.add(yearCalender - x);
         }
-        for (int x = 0; x < recordBeen.size(); x ++) {
-            year = Integer.parseInt(recordBeen.get(x).getStart_time().substring(0,4));
+        for (int x = 0; x < recordBeen.size(); x++) {
+            year = Integer.parseInt(recordBeen.get(x).getStart_time().substring(0, 4));
             if (year == yearListInt.get(nowYear)) {
                 switch (nowYear) {
                     case 0:
@@ -340,7 +340,7 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     }
 
     @OnClick(R.id.volunteer_show_image)
-    public void showTab(View view){
+    public void showTab(View view) {
         if (view.getId() == R.id.volunteer_show_image) {
             if (tabLayout.getVisibility() == View.VISIBLE) {
                 tabLayout.setVisibility(View.GONE);
@@ -355,7 +355,7 @@ public class VolunteerTimeActivity extends BaseActivity implements TabLayout.OnT
     }
 
     @OnClick(R.id.volunteer_unshow_image)
-    public void unshowTab(View view){
+    public void unshowTab(View view) {
         if (view.getId() == R.id.volunteer_unshow_image) {
             if (tabLayout.getVisibility() == View.VISIBLE) {
                 tabLayout.setVisibility(View.GONE);

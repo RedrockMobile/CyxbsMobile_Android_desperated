@@ -7,7 +7,7 @@ import com.mredrock.cyxbs.util.Utils;
  */
 public class Food {
 
-    public int    page;
+    public int page;
     public String id;
     public String name;
     public String shop_address;

@@ -45,9 +45,8 @@ public class TimeChooseActivity extends BaseActivity {
     TimeChooseView timeChooseView;
 
 
-
-    @OnClick({R.id.choose_time_iv_back,R.id.time_choose_iv_ok})
-    public void onTitleClick(View v){
+    @OnClick({R.id.choose_time_iv_back, R.id.time_choose_iv_ok})
+    public void onTitleClick(View v) {
         if (v.getId() == R.id.choose_time_iv_back)
             onBackPressed();
         else
@@ -68,7 +67,7 @@ public class TimeChooseActivity extends BaseActivity {
         int screeHeight = DensityUtils.getScreenHeight(this);
 
 
-        int height = (screeHeight - findViewById(R.id.affair_toolbar).getHeight() - mCourseWeeks.getHeight()) / 6 * 5 - DensityUtils.dp2px(this,3);
+        int height = (screeHeight - findViewById(R.id.affair_toolbar).getHeight() - mCourseWeeks.getHeight()) / 6 * 5 - DensityUtils.dp2px(this, 3);
 
         mCourseTime.setLayoutParams(new LinearLayout.LayoutParams(DensityUtils.dp2px(this, 40), height));
         timeChooseView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height));
@@ -95,12 +94,12 @@ public class TimeChooseActivity extends BaseActivity {
     public void getPosition() {
         ArrayList<Position> positions = new ArrayList<>();
         positions.addAll(timeChooseView.getPositions());
-        if (positions.size() == 0){
-            Toast.makeText(BaseAPP.getContext(),"还没有选择时间哦",Toast.LENGTH_SHORT).show();
-        }else {
+        if (positions.size() == 0) {
+            Toast.makeText(BaseAPP.getContext(), "还没有选择时间哦", Toast.LENGTH_SHORT).show();
+        } else {
             Collections.sort(positions);
             for (Position p : positions)
-                LogUtils.LOGD(this.getClass().getSimpleName(),p.toString());
+                LogUtils.LOGD(this.getClass().getSimpleName(), p.toString());
             EventBus.getDefault().post(new TimeChooseEvent(positions));
             onBackPressed();
         }

@@ -59,7 +59,7 @@ class MainActivity : BaseMVPActivity<MainContract.IMainView, MainContract.IMainP
     override fun initBuilding(pos: Int) =
             iv_bg.setImageResource(R.drawable.freshman_bg_main).also {
                 buildings.forEachIndexed { i, building ->
-                    setScaledBitmap(building.first, building.second.first, building.second.second, if (i == 0) pos == 0 else pos < i )
+                    setScaledBitmap(building.first, building.second.first, building.second.second, if (i == 0) pos == 0 else pos < i)
                 }
                 setScaledBitmap(freshman_building_mien, R.drawable.freshman_building_mien)
                 setScaledBitmap(freshman_building_military, R.drawable.freshman_building_military)

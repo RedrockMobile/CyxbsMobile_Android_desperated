@@ -13,7 +13,7 @@ import com.mredrock.cyxbs.util.LogUtils;
 /**
  * Created by Stormouble on 16/4/24.
  */
-public class RestaurantsItemAnimator extends DefaultItemAnimator{
+public class RestaurantsItemAnimator extends DefaultItemAnimator {
 
     private static final String TAG = LogUtils.makeLogTag(RestaurantsItemAnimator.class);
 

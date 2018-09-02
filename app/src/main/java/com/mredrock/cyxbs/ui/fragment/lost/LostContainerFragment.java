@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by wusui on 2017/2/7.
  */
 
-public class LostContainerFragment extends BaseFragment{
+public class LostContainerFragment extends BaseFragment {
     @BindView(R.id.lost_tab_layout)
     TabLayout tab;
     @BindView(R.id.lost_view_pager)
@@ -49,7 +49,7 @@ public class LostContainerFragment extends BaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lost_container, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
         mAdapter = new LostViewPagerAdapter(getActivity().getSupportFragmentManager());
         pager.setAdapter(mAdapter);
@@ -66,35 +66,37 @@ public class LostContainerFragment extends BaseFragment{
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if (firstLogin && resumeCount == 1){
+        if (firstLogin && resumeCount == 1) {
             firstLogin = false;
             getUserData();
         }
         ++resumeCount;
     }
-    public  static LostContainerFragment newInstance() {
+
+    public static LostContainerFragment newInstance() {
         LostContainerFragment fragment = new LostContainerFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
         return fragment;
     }
+
     private void getUserData() {
         if (BaseAPP.isLogin()) {
             mUser = BaseAPP.getUser(getContext());
             if (mUser.id == null) getPersonInfoData();
             //else init();
-        }else {
+        } else {
             firstLogin = true;
         }
     }
 
     public void getPersonInfoData() {
-        if (!BaseAPP.isLogin()){
+        if (!BaseAPP.isLogin()) {
             return;
         }
-        if (mUser != null){
+        if (mUser != null) {
             RequestManager.getInstance().getPersonInfo(new SimpleObserver<>(getActivity(), new SubscriberListener<PersonInfo>() {
                 @Override
                 public void onNext(PersonInfo personInfo) {

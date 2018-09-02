@@ -33,7 +33,7 @@ public class DialogRemindFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-       // setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_MinWidth);
+        // setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_MinWidth);
         return super.onCreateDialog(savedInstanceState);
 
     }
@@ -42,13 +42,13 @@ public class DialogRemindFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        return inflater.inflate(R.layout.dialog_dormitory_setting_remind,container,false);
+        return inflater.inflate(R.layout.dialog_dormitory_setting_remind, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         remindText = getArguments().getString("REMIND_TEXT");
         if (remindText != null)
             textView.setText(remindText);
@@ -57,7 +57,7 @@ public class DialogRemindFragment extends DialogFragment {
 
 
     @OnClick(R.id.btn_dormitory_dialog_confirm)
-    public void onOKClick(){
+    public void onOKClick() {
         dismiss();
     }
 

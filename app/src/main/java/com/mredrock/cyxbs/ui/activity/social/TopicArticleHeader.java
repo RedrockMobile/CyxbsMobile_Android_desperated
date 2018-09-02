@@ -78,6 +78,7 @@ public class TopicArticleHeader implements RecyclerArrayAdapter.ItemView {
     }
 
     @Override
-    public void onBindView(View headerView) {}
+    public void onBindView(View headerView) {
+    }
 }
 

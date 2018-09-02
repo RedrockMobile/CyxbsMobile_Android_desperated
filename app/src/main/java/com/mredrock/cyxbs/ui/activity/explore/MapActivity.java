@@ -19,6 +19,26 @@ public class MapActivity extends BaseExploreActivity {
         startingActivity.startActivity(intent);
     }
 
+    private WebView mWebView;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mWebView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mWebView.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mWebView.destroy();
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,14 +49,14 @@ public class MapActivity extends BaseExploreActivity {
         dialog.setMessage("加载中...");
         dialog.show();
 
-        WebView webView = findViewById(R.id.map);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
+        mWebView = findViewById(R.id.map);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setDomStorageEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+            mWebView.getSettings().setMediaPlaybackRequiresUserGesture(false);
         }
-        webView.loadUrl("https://720yun.com/t/ae8jtpsnOn3?scene_id=13628522&from=singlemessage&isappinstalled=0");
-        webView.setWebChromeClient(new WebChromeClient() {
+        mWebView.loadUrl("https://720yun.com/t/ae8jtpsnOn3?scene_id=13628522&from=singlemessage&isappinstalled=0");
+        mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
@@ -45,7 +65,7 @@ public class MapActivity extends BaseExploreActivity {
                 }
             }
         });
-        webView.setWebViewClient(new WebViewClient() {
+        mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);

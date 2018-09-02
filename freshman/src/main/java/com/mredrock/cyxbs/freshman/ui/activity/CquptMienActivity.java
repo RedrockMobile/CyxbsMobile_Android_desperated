@@ -45,13 +45,18 @@ public class CquptMienActivity extends BaseActivity {
         List<Fragment> fragments = new ArrayList<>();
         List<String> titles = new ArrayList<>();
         CquptMienBaseFragment fragment = new CquptMienBaseFragment();
-        fragment.setContext(this);
-        fragments.add(fragment);
-        fragments.add(new CquptMienActFragment());
-        titles.add("学生组织");
-        titles.add("大型活动");
+        if (!fragment.isAdded()) {
+            fragment.setContext(this);
+            fragments.add(fragment);
+            titles.add("学生组织");
+        }
+        CquptMienActFragment actFragment = new CquptMienActFragment();
+        if (!actFragment.isAdded()) {
+            fragments.add(actFragment);
+            titles.add("大型活动");
+        }
         FragmentManager manager = getSupportFragmentManager();
-        if(manager!=null){
+        if (manager != null) {
             MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(manager, fragments, titles);
             viewPager.setAdapter(adapter);
             viewPager.setOffscreenPageLimit(viewPager.getChildCount());

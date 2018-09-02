@@ -232,7 +232,7 @@ public class UserFragment extends BaseFragment /*implements CompoundButton.OnChe
                         public void onNext(User user) {
                             super.onNext(user);
                             if (user != null) {
-                                Log.d("zzxzzx", "onNext: "+mContext);
+                                Log.d("zzxzzx", "onNext: " + mContext);
                                 mUser = User.cloneFromUserInfo(mUser, user);
                                 BaseAPP.setUser(mContext, mUser);
                                 refreshEditLayout();

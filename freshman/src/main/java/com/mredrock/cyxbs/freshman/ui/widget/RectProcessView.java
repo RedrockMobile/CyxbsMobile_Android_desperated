@@ -168,7 +168,7 @@ public class RectProcessView extends View {
         int margin = max / 5;
         textPaint.setAlpha(165);
         for (int i = 0; i < 6; i++) {
-            String t = maxNum+"%";
+            String t = maxNum + "%";
             textPaint.getTextBounds(t, 0, t.length(), rect);
             float height = rect.height();
             float width = rect.width();
@@ -211,12 +211,12 @@ public class RectProcessView extends View {
             canvas.drawRoundRect(rectF, 5, 5, processPaint);
 
             @SuppressLint("DefaultLocale")
-            String pe = String.format("%.1f",current[i]) + "%";
+            String pe = String.format("%.1f", current[i]) + "%";
             textPaint.getTextBounds(pe, 0, pe.length(), rect);
             float h = rect.height();
             textPaint.setColor(Color.parseColor("#ccFF5A5A"));
             if (pe.length() < "100人".length())
-                canvas.drawText(pe, columnarLocation[2 * (i + 1)] + columnarLocation[0] / 4, dashLocation[5] - pro - h /2, textPaint);
+                canvas.drawText(pe, columnarLocation[2 * (i + 1)] + columnarLocation[0] / 4, dashLocation[5] - pro - h / 2, textPaint);
             else
                 canvas.drawText(pe, columnarLocation[2 * (i + 1)], dashLocation[5] - pro - h / 2, textPaint);
         }

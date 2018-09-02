@@ -57,9 +57,9 @@ public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProce
         return list;
     }
 
-    public void setList(List<StrategyData.DetailData> mData){
+    public void setList(List<StrategyData.DetailData> mData) {
         this.list = mData;
-        notifyItemRangeInserted(0,list.size() - 1);
+        notifyItemRangeInserted(0, list.size() - 1);
     }
 
     class ReportingProcessViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -98,7 +98,7 @@ public class ReportingProcessAdapter extends RecyclerView.Adapter<ReportingProce
             String temp = "步骤" + detailData.getId();
             step.setText(temp);
             realStr = Const.IMG_BASE_URL + detailData.getPicture().get(0);
-            mapStr = Const.IMG_BASE_URL  + detailData.getPicture().get(1);
+            mapStr = Const.IMG_BASE_URL + detailData.getPicture().get(1);
             Glide.with(context)
                     .load(realStr)
                     .thumbnail(0.1f)

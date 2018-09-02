@@ -21,13 +21,13 @@ public class UserCourseFilterByWeekDayFunc implements Function<List<Course>, Lis
      * filter courses by week day in {@link Calendar}
      *
      * @param dayOfWeek the same as {@link java.util.Calendar#DAY_OF_WEEK}<br>
-     * should be one of {@link java.util.Calendar#SUNDAY},
-     * {@link java.util.Calendar#MONDAY},
-     * {@link java.util.Calendar#TUESDAY},
-     * {@link java.util.Calendar#WEDNESDAY},
-     * {@link java.util.Calendar#THURSDAY},
-     * {@link java.util.Calendar#FRIDAY},
-     * {@link java.util.Calendar#SATURDAY}
+     *                  should be one of {@link java.util.Calendar#SUNDAY},
+     *                  {@link java.util.Calendar#MONDAY},
+     *                  {@link java.util.Calendar#TUESDAY},
+     *                  {@link java.util.Calendar#WEDNESDAY},
+     *                  {@link java.util.Calendar#THURSDAY},
+     *                  {@link java.util.Calendar#FRIDAY},
+     *                  {@link java.util.Calendar#SATURDAY}
      */
     public UserCourseFilterByWeekDayFunc(int dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
@@ -42,7 +42,7 @@ public class UserCourseFilterByWeekDayFunc implements Function<List<Course>, Lis
             hashDay = 6;
         }
         List<Course> resultList = new ArrayList<>();
-        for (Course c: courses) {
+        for (Course c : courses) {
             if (c.hash_day == hashDay) {
                 resultList.add(c);
             }

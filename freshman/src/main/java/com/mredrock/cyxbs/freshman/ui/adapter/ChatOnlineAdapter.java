@@ -47,7 +47,7 @@ public class ChatOnlineAdapter<T> extends MultiLayoutBaseAdapter {
                             getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlQQ)));
                         } else {
                             cm.setText(datas.get(position).getCode());
-                            ToastUtils.show("开发小哥：您手机上可能没有QQ，已经复制了群号到您的剪切板上了呢！");
+                            ToastUtils.show("您手机上可能没有QQ，已经复制了群号到您的剪切板上了呢！");
                         }
                     }
                 });
@@ -62,7 +62,7 @@ public class ChatOnlineAdapter<T> extends MultiLayoutBaseAdapter {
         }
     }
 
-    public static boolean isQQClientAvailable(Context context) {
+    private static boolean isQQClientAvailable(Context context) {
         final PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
         if (pinfo != null) {

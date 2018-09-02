@@ -93,7 +93,7 @@ public class DownloadHelper {
                 .build();
     }
 
-    private void checkPermissionBefore(RxPermissions rxPermissions,Context context, Runnable r) {
+    private void checkPermissionBefore(RxPermissions rxPermissions, Context context, Runnable r) {
         rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe(new SimpleObserver<>(context, new SubscriberListener<Boolean>() {
                     @Override
@@ -111,7 +111,8 @@ public class DownloadHelper {
                                         intent.setData(uri);
                                         context.startActivity(intent);
                                     })
-                                    .setNegativeButton("放弃", (dialog, which) -> {});
+                                    .setNegativeButton("放弃", (dialog, which) -> {
+                                    });
                             noPermissionDialogBuilder.create().show();
                         }
                     }
@@ -126,7 +127,7 @@ public class DownloadHelper {
      * @param listener 下载回调
      */
     public void prepare(RxPermissions rxPermissions, List<String> nameList, List<String> urlList, OnDownloadListener listener) {
-        checkPermissionBefore(rxPermissions,mContext, () -> {
+        checkPermissionBefore(rxPermissions, mContext, () -> {
             if (mContext != null && listener != null) {
                 initialize(listener);
 

@@ -57,6 +57,7 @@ public class TopicHeaderAdapter extends RecyclerArrayAdapter<Topic> {
             }
         }
     }
+
     public static int loadByRandom(Context context) {
         ArrayList<Integer> colors = new ArrayList<>();
         colors.add(ContextCompat.getColor(context, R.color.material_color_blue_800));

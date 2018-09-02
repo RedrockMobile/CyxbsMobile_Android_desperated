@@ -117,7 +117,7 @@ public abstract class EditCommonActivity extends BaseActivity implements TextWat
                 new SubscriberListener<Unit>() {
 
                     @Override
-                     public void onComplete() {
+                    public void onComplete() {
                         Intent intent = new Intent();
                         intent.putExtra(getExtra(), editCommonEt.getText().toString());
                         setResult(RESULT_OK, intent);
