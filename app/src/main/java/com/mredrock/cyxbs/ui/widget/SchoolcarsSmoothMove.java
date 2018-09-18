@@ -95,11 +95,6 @@ public class SchoolcarsSmoothMove {
                 float computAngle = (float) computRotateAngle(currentAngle, nextOrientation);
                 if (marker.getMarker() != null) {
                     Marker makerLocal = marker.getMarker();
-                    Log.d("SchoolcarSmoothMove", "changeCarOrientation: nextOrientation : " + nextOrientation
-                            + "\n currentAngle : " + currentAngle
-                            + "\n comupteAngle : " + computAngle
-                            + "\n RotateAngle : " + marker.getMarker().getRotateAngle()
-                            + "\n NewRotateAngle : " + marker.getMarker().getRotateAngle() + computAngle);
                     makerLocal.setRotateAngle(marker.getMarker().getRotateAngle() + computAngle);
                 }
             }
@@ -112,7 +107,7 @@ public class SchoolcarsSmoothMove {
         int carAmount = smoothMoveMarkers.size() - 1;
         smoothMoveMarkers.get(carAmount).setDescriptor(BitmapDescriptorFactory.fromBitmap(bitmapChanged));
         changeCarOrientation(smoothMoveMarkers.get(carAmount), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 3), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 2), 2);
-        smoothMoveMarkers.get(carAmount).setPoints(getSmoothMoveList(carAmount).subList(getSmoothMoveList(carAmount).size() - 2, getSmoothMoveList(carAmount).size()));
+        smoothMoveMarkers.get(carAmount).setPoints(getSmoothMoveList(carAmount).subList(getSmoothMoveList(carAmount).size() - 3, getSmoothMoveList(carAmount).size() - 1));
         smoothMoveMarkers.get(carAmount).setTotalDuration(2);
         drawTraceLine(schoolCarMap.getaMap(),getSmoothMoveList(carAmount));
         smoothMoveMarkers.get(carAmount).startSmoothMove();

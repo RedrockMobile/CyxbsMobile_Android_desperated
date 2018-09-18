@@ -157,19 +157,17 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                             locationStatus = ME;
                             break;
                         case ME:
-                            holeSchoolButton.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_school_car_search_car_button));
-                            if (ifLocation) {
-                                locationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER);
-                                aMap.setMyLocationStyle(locationStyle);
-                            }
-                            locationStatus = SCHOOL_CAR;
-                            break;
-                        case SCHOOL_CAR:
                             holeSchoolButton.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_school_car_search_hole_school));
                             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(29.531876, 106.606789), 17f);
                             aMap.animateCamera(update);
                             locationStatus = HOLE_SCHOOL;
                             break;
+//                        case SCHOOL_CAR:
+//                            holeSchoolButton.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_school_car_search_hole_school));
+//                            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(29.531876, 106.606789), 17f);
+//                            aMap.animateCamera(update);
+//                            locationStatus = HOLE_SCHOOL;
+//                            break;
                     }
                 });
 
