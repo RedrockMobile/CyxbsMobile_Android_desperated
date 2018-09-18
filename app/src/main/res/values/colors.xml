@@ -69,5 +69,8 @@
     <color name="grey">#f3f7fa</color>
     <color name="ab__gray_light">#F4F4F4</color>
 
+    <!--schoolcar-->
+    <color name="explore_school_car_toobar">#74b9fa</color>
+    <color name="explore_school_car_right">#95b5f7</color>
     <color name="Transent">#00000000</color>
 </resources>

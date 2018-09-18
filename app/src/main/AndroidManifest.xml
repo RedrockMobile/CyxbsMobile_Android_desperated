@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mredrock.cyxbs">
 
-    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
@@ -187,7 +187,6 @@
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:process=":AppWidget" />
-
         <service
             android:name=".ui.widget.CourseListAppWidgetUpdateService"
             android:enabled="true"
@@ -217,14 +216,12 @@
         <activity
             android:name=".ui.activity.explore.electric.DormitorySettingActivity"
             android:launchMode="singleTop" />
-
         <activity
             android:name=".ui.activity.explore.electric.PastElectricChargeActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".ui.activity.explore.electric.ElectricRemindActivity"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <activity android:name=".ui.activity.social.TopicActivity" />
         <activity android:name=".ui.activity.social.TopicArticleActivity" />
         <activity
@@ -293,6 +290,8 @@
         <activity
             android:name=".PushActivity"
             android:exported="true" />
+        <activity android:name=".ui.activity.explore.ExploreSchoolCarActivity" />
+        <activity android:name=".ui.activity.explore.SchoolCarLearnMoreActivity"></activity>
     </application>
 
 </manifest>

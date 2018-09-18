@@ -15,6 +15,7 @@ import com.mredrock.cyxbs.model.RollerViewInfo;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.subscriber.SimpleObserver;
 import com.mredrock.cyxbs.subscriber.SubscriberListener;
+import com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCarActivity;
 import com.mredrock.cyxbs.ui.activity.explore.MapActivity;
 import com.mredrock.cyxbs.ui.activity.explore.SurroundingFoodActivity;
 import com.mredrock.cyxbs.ui.activity.explore.WhatToEatActivity;
@@ -91,6 +92,11 @@ public class ExploreFragment extends BaseFragment {
     @OnClick(R.id.explore_lost_and_found_holder)
     void clickToLostAndFound() {
         LostActivity.start(getActivity());
+    }
+
+    @OnClick(R.id.explore_school_car)
+    void clickToSchoolcar(){
+        ExploreSchoolCarActivity.startSchoolCarActivity(getActivity());
     }
 
     @Override

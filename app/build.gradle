@@ -75,7 +75,7 @@ android {
             zipAlignEnabled true
             shrinkResources true
 
-            ndk{
+            ndk {
                 abiFilter 'armeabi'
             }
 

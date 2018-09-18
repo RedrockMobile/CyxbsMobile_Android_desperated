@@ -18,6 +18,7 @@ import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.RollerViewInfo;
+import com.mredrock.cyxbs.model.SchoolCarLocation;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.UpdateInfo;
@@ -182,6 +183,11 @@ public enum RequestManager {
         emitObservable(observable, subscriber);
     }
 
+
+    public void getSchoolCarLocation(Observer<SchoolCarLocation> subscriber) {
+        Observable<SchoolCarLocation> observable = redrockApiService.schoolcar();
+        emitObservable(observable, subscriber);
+    }
     public void getCourseList(Observer<List<Course>> observer, String stuNum, String idNum, int week, boolean update) {
 //        Observable<List<Course>> observable = CourseListProvider.start(stuNum, idNum, update,false)
 //                .map(new UserCourseFilterFunc(week));

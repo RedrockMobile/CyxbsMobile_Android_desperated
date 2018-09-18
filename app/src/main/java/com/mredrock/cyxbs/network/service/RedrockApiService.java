@@ -14,6 +14,7 @@ import com.mredrock.cyxbs.model.Grade;
 import com.mredrock.cyxbs.model.PastElectric;
 import com.mredrock.cyxbs.model.RedrockApiWrapper;
 import com.mredrock.cyxbs.model.RollerViewInfo;
+import com.mredrock.cyxbs.model.SchoolCarLocation;
 import com.mredrock.cyxbs.model.Shake;
 import com.mredrock.cyxbs.model.StartPage;
 import com.mredrock.cyxbs.model.Student;
@@ -56,6 +57,9 @@ public interface RedrockApiService {
     @GET(Const.API_UPDATE_OLD)
     @XmlApi
     Observable<UpdateInfo> update();
+
+    @GET(Const.API_SCHOOL_CARS_LOCATION)
+    Observable<SchoolCarLocation> schoolcar();
 
     @FormUrlEncoded
     @POST(Const.API_VERIFY)

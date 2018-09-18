@@ -123,6 +123,21 @@
             <View
                 android:layout_width="12dp"
                 android:layout_height="0dp" />
+
+            <com.mredrock.cyxbs.ui.widget.ExploreItem
+                android:id="@+id/explore_school_car"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                app:icon="@drawable/ic_explore_school_car"
+                app:ratio="0.572"
+                app:title="校车查询" />
+
+            <View
+                android:layout_width="12dp"
+                android:layout_height="0dp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
