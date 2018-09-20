@@ -27,7 +27,8 @@ public class UpdateUtil {
                             new MaterialDialog.Builder(context)
                                     .title("更新")
                                     .title("有新版本更新")
-                                    .content("最新版本:" + updateInfo.versionName + "\n" + updateInfo.updateContent + "\n点击点击，现在就更新一发吧~")
+                                    .content("最新版本: 4.3"
+                                            + updateInfo.versionName + "\n" + updateInfo.updateContent  + "\n点击点击，现在就更新一发吧~")
                                     .positiveText("更新")
                                     .negativeText("下次吧")
                                     .onNegative((dialog, which) -> dialog.dismiss())

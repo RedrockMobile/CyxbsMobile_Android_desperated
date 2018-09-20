@@ -9,6 +9,7 @@ import java.util.List;
 public class SchoolCarLocation {
     private String status;
     private String info;
+    private String time;
     private List<Data> data;
     public void setStatus(String status) {
         this.status = status;
@@ -31,11 +32,20 @@ public class SchoolCarLocation {
         return data;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public class Data {
         private double lat;
         private double lon;
         private double speed;
         private int id;
+        private String updated_at;
         public void setLat(double lat) {
             this.lat = lat;
         }
@@ -64,6 +74,13 @@ public class SchoolCarLocation {
             return id;
         }
 
+        public String getUpdated_at() {
+            return updated_at;
+        }
+
+        public void setUpdated_at(String updated_at) {
+            this.updated_at = updated_at;
+        }
     }
 }
 

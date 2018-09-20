@@ -202,7 +202,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
             @Override
             public void processLocationInfo(SchoolCarLocation carLocationInfo, long aLong, int carID) {
                 dataList = carLocationInfo.getData();
-                if (checkBeforeEnter(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon())) && firstEnter && aLong == 3) {
+                if (aLong == 3) {
                     timer();
                 }
 
@@ -250,7 +250,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                     @Override
                     public void onComplete() {
                         smoothMoveMarkers = new ArrayList<>();
-
+                        smoothMoveData.checkBeforeEnter(ExploreSchoolCarActivity.this, dialog);
 //                        for (int i = 0; i < 3; i ++) {
                         smoothMoveData.loadCarLocation(55, 0);
 //                        }
@@ -377,7 +377,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                 case 1:
                     break;
                 case 2:
-                    checkBeforeEnter(null);
+//                    checkBeforeEnter(null);
                     initView();
 //                    for (int i = 0; i < 3; i++)
 //                        smoothMoveData.loadCarLocation(3, i + 1);

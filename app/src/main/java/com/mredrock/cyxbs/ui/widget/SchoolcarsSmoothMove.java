@@ -1,5 +1,6 @@
 package com.mredrock.cyxbs.ui.widget;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
@@ -21,6 +22,8 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+import static com.mredrock.cyxbs.ui.activity.explore.ExploreSchoolCarActivity.TIME_OUT;
+
 /**
  * Created by glossimar on 2018/1/29.
  */
@@ -30,12 +33,14 @@ public class SchoolcarsSmoothMove {
 
     private SchoolCarMap schoolCarMap;
     private SchoolCarInterface carInterface;
+    private List<String> timeList;
     private List<LatLng> smoothMoveList1;
     private List<LatLng> smoothMoveList2;
     private List<LatLng> smoothMoveList3;
 
     public SchoolcarsSmoothMove(SchoolCarMap schoolCarMap) {
         this.schoolCarMap = schoolCarMap;
+        timeList = new ArrayList<>();
         smoothMoveList1 = new ArrayList<>();
         smoothMoveList2 = new ArrayList<>();
         smoothMoveList3 = new ArrayList<>();
@@ -51,6 +56,9 @@ public class SchoolcarsSmoothMove {
                 carInterface.processLocationInfo(schoolCarLocation, aLong, carID);
                 if (carID != 0) {
                     SchoolCarLocation.Data location = schoolCarLocation.getData().get(carID - 1);
+                    if (timeList != null) {
+                        timeList.add(schoolCarLocation.getTime());
+                    }
                     switch (carID) {
                         case 1:
                             smoothMoveList1.add(new LatLng(location.getLat(), location.getLon()));
@@ -177,6 +185,16 @@ public class SchoolcarsSmoothMove {
                 return smoothMoveList;
         }
         return smoothMoveList;
+    }
+
+    public boolean checkBeforeEnter(Activity activity, ExploreSchoolCarDialog dialog) {
+        if (timeList == null || (timeList.size() > 1 && timeList.get(timeList.size() - 1).equals(timeList.get(timeList.size() - 3))) ) {
+            timeList = null;
+            dialog.show(activity, TIME_OUT);
+            return false;
+        }
+        timeList.clear();
+        return true;
     }
 }
 
