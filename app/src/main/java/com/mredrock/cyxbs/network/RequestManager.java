@@ -184,8 +184,8 @@ public enum RequestManager {
     }
 
 
-    public void getSchoolCarLocation(Observer<SchoolCarLocation> subscriber) {
-        Observable<SchoolCarLocation> observable = redrockApiService.schoolcar();
+    public void getSchoolCarLocation(Observer<SchoolCarLocation> subscriber, String authorization, String s, String t, String r) {
+        Observable<SchoolCarLocation> observable = redrockApiService.schoolcar(authorization, s, t, r);
         emitObservable(observable, subscriber);
     }
     public void getCourseList(Observer<List<Course>> observer, String stuNum, String idNum, int week, boolean update) {

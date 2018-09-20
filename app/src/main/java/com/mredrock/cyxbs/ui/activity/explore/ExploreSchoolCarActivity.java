@@ -158,6 +158,10 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                             break;
                         case ME:
                             holeSchoolButton.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_school_car_search_hole_school));
+                            if (ifLocation) {
+                                locationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER);
+                                aMap.setMyLocationStyle(locationStyle);
+                            }
                             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(29.531876, 106.606789), 17f);
                             aMap.animateCamera(update);
                             locationStatus = HOLE_SCHOOL;
@@ -207,16 +211,17 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                 }
 
                 if (firstEnter && aLong > 5) {
+                    Log.d(TAG, "processLocationInfo: aaaaaaaaaaa");
                     if (disposable != null) disposable.dispose();
                     timer();
                     schoolCarMap.showMap(carLocationInfo.getStatus(), layout, loadImage);
                     firstEnter = false;
                 }
 
-                if (locationStatus == SCHOOL_CAR) {
-                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(dataList.get(0).getLat(), dataList.get(0).getLon()), 17f);
-                    schoolCarMap.getaMap().animateCamera(update);
-                }
+//                if (locationStatus == SCHOOL_CAR) {
+//                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(dataList.get(1).getLat(), dataList.get(1).getLon()), 17f);
+//                    schoolCarMap.getaMap().animateCamera(update);
+//                }
             }
         });
 
@@ -251,7 +256,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                     public void onComplete() {
                         smoothMoveMarkers = new ArrayList<>();
                         smoothMoveData.checkBeforeEnter(ExploreSchoolCarActivity.this, dialog);
-//                        for (int i = 0; i < 3; i ++) {
+//                       dialog for (int i = 0; i < 3; i ++) {
                         smoothMoveData.loadCarLocation(55, 0);
 //                        }
                     }
@@ -423,6 +428,13 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         if (schoolCarMap != null) {
             schoolCarMap.pauseMap();
         }
+        if (disposable != null) {
+            if (disposable.isDisposed()){
+                Log.d(TAG, "onRestart: disposed!!!" );
+            } else {
+                Log.d(TAG, "onRestart: not disposed!!!");
+            }
+        }
     }
 
     @Override
@@ -431,5 +443,12 @@ public class ExploreSchoolCarActivity extends BaseActivity {
         if (schoolCarMap != null) {
             schoolCarMap.resumeMap();
         }
+
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        smoothMoveData.clearAllList();
     }
 }

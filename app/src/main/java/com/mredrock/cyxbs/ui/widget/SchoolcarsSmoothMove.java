@@ -15,6 +15,7 @@ import com.amap.api.maps.utils.overlay.SmoothMoveMarker;
 import com.mredrock.cyxbs.model.SchoolCarLocation;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.Interface.SchoolCarInterface;
+import com.mredrock.cyxbs.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,43 +49,46 @@ public class SchoolcarsSmoothMove {
 
     public void loadCarLocation(long aLong, int carID) {
         RequestManager.INSTANCE.getSchoolCarLocation(new Observer<SchoolCarLocation>() {
-            @Override
-            public void onSubscribe(Disposable d) {}
+                                                         @Override
+                                                         public void onSubscribe(Disposable d) {
+                                                         }
 
-            @Override
-            public void onNext(SchoolCarLocation schoolCarLocation) {
-                carInterface.processLocationInfo(schoolCarLocation, aLong, carID);
-                if (carID != 0) {
-                    SchoolCarLocation.Data location = schoolCarLocation.getData().get(carID - 1);
-                    if (timeList != null) {
-                        timeList.add(schoolCarLocation.getTime());
-                    }
-                    switch (carID) {
-                        case 1:
-                            smoothMoveList1.add(new LatLng(location.getLat(), location.getLon()));
-                            break;
-                        case 2:
-                            smoothMoveList2.add(new LatLng(location.getLat(), location.getLon()));
-                            break;
-                        case 3:
-                            smoothMoveList3.add(new LatLng(location.getLat(), location.getLon()));
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
+                                                         @Override
+                                                         public void onNext(SchoolCarLocation schoolCarLocation) {
+                                                             carInterface.processLocationInfo(schoolCarLocation, aLong, carID);
+                                                             if (carID != 0) {
+                                                                 SchoolCarLocation.Data location = schoolCarLocation.getData().get(carID - 1);
+                                                                 if (timeList != null) {
+                                                                     timeList.add(schoolCarLocation.getTime());
+                                                                 }
+                                                                 switch (carID) {
+                                                                     case 1:
+                                                                         smoothMoveList1.add(new LatLng(location.getLat(), location.getLon()));
+                                                                         break;
+                                                                     case 2:
+                                                                         smoothMoveList2.add(new LatLng(location.getLat(), location.getLon()));
+                                                                         break;
+                                                                     case 3:
+                                                                         smoothMoveList3.add(new LatLng(location.getLat(), location.getLon()));
+                                                                         break;
+                                                                     default:
+                                                                         break;
+                                                                 }
+                                                             }
+                                                         }
 
-            @Override
-            public void onError(Throwable e) {
+                                                         @Override
+                                                         public void onError(Throwable e) {
 //                dialog.show(ExploreSchoolCarActivity.this, LOST_SERVICES);
-            }
+                                                         }
 
-            @Override
-            public void onComplete() {
+                                                         @Override
+                                                         public void onComplete() {
 //                dialog.show(ExploreSchoolCarActivity.this, LOST_SERVICES);
-            }
-        });
+                                                         }
+                                                     }, "Redrock", Utils.md5Hex(String.valueOf(System.currentTimeMillis()).substring(0, 10) + "." + "Redrock"),
+                String.valueOf(System.currentTimeMillis()).substring(0, 10),
+                Utils.md5Hex(String.valueOf(System.currentTimeMillis() - 1).substring(0, 10)));
     }
 
 
@@ -110,15 +114,41 @@ public class SchoolcarsSmoothMove {
     }
 
     public void smoothMove(List<SmoothMoveMarker> smoothMoveMarkers, Bitmap bitmapChanged ) {
-        SmoothMoveMarker smoothMarker = new SmoothMoveMarker(schoolCarMap.getaMap());
-        smoothMoveMarkers.add(smoothMarker);
-        int carAmount = smoothMoveMarkers.size() - 1;
-        smoothMoveMarkers.get(carAmount).setDescriptor(BitmapDescriptorFactory.fromBitmap(bitmapChanged));
-        changeCarOrientation(smoothMoveMarkers.get(carAmount), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 3), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 2), 2);
-        smoothMoveMarkers.get(carAmount).setPoints(getSmoothMoveList(carAmount).subList(getSmoothMoveList(carAmount).size() - 3, getSmoothMoveList(carAmount).size() - 1));
-        smoothMoveMarkers.get(carAmount).setTotalDuration(2);
-        drawTraceLine(schoolCarMap.getaMap(),getSmoothMoveList(carAmount));
-        smoothMoveMarkers.get(carAmount).startSmoothMove();
+        if (smoothMoveList1.size() > 0 || smoothMoveList2.size() > 0) {
+            SmoothMoveMarker smoothMarker = new SmoothMoveMarker(schoolCarMap.getaMap());
+            smoothMoveMarkers.add(smoothMarker);
+            int carAmount = smoothMoveMarkers.size() - 1;
+            smoothMoveMarkers.get(carAmount).setDescriptor(BitmapDescriptorFactory.fromBitmap(bitmapChanged));
+            if (smoothMoveList2.size() > 3 || smoothMoveList1.size() > 3) {
+                changeCarOrientation(smoothMoveMarkers.get(carAmount), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 3), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 2), 2);
+                smoothMoveMarkers.get(carAmount).setPoints(getSmoothMoveList(carAmount).subList(getSmoothMoveList(carAmount).size() - 3, getSmoothMoveList(carAmount).size() - 1));
+            } else {
+                changeCarOrientation(smoothMoveMarkers.get(carAmount), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 1), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 1), 2);
+                smoothMoveMarkers.get(carAmount).setPoints(getSmoothMoveList(carAmount).subList(getSmoothMoveList(carAmount).size() - 1, getSmoothMoveList(carAmount).size() - 1));
+            }
+            smoothMoveMarkers.get(carAmount).setTotalDuration(2);
+            drawTraceLine(schoolCarMap.getaMap(), getSmoothMoveList(carAmount));
+            smoothMoveMarkers.get(carAmount).startSmoothMove();
+        }
+
+//        if (smoothMoveList2.size() > 0 || smoothMoveList1.size() > 0) {
+//            SmoothMoveMarker smoothMarker = new SmoothMoveMarker(schoolCarMap.getaMap());
+//            smoothMoveMarkers.add(smoothMarker);
+//            int carAmount = smoothMoveMarkers.size() - 1;
+//            smoothMoveMarkers.get(carAmount).setDescriptor(BitmapDescriptorFactory.fromBitmap(bitmapChanged));
+//            if (smoothMoveList1.size() < 4 || smoothMoveList2.size() < 4) {
+//                changeCarOrientation(smoothMoveMarkers.get(carAmount), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 3), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 2), 2);
+//                smoothMoveMarkers.get(carAmount).setPoints(getSmoothMoveList(carAmount).subList(getSmoothMoveList(carAmount).size() - 3, getSmoothMoveList(carAmount).size() - 1));
+//                smoothMoveMarkers.get(carAmount).setTotalDuration(2);
+//                drawTraceLine(schoolCarMap.getaMap(), getSmoothMoveList(carAmount));
+//            } else {
+//                changeCarOrientation(smoothMoveMarkers.get(carAmount), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 1), getSmoothMoveList(carAmount).get(getSmoothMoveList(carAmount).size() - 1), 2);
+//                smoothMoveMarkers.get(carAmount).setPoints(getSmoothMoveList(carAmount).subList(getSmoothMoveList(carAmount).size() - 1, getSmoothMoveList(carAmount).size() - 1));
+//                smoothMoveMarkers.get(carAmount).setTotalDuration(2);
+//                drawTraceLine(schoolCarMap.getaMap(), getSmoothMoveList(carAmount));
+//            }
+//            smoothMoveMarkers.get(carAmount).startSmoothMove();
+//        }
     }
 
 
@@ -188,13 +218,20 @@ public class SchoolcarsSmoothMove {
     }
 
     public boolean checkBeforeEnter(Activity activity, ExploreSchoolCarDialog dialog) {
-        if (timeList == null || (timeList.size() > 1 && timeList.get(timeList.size() - 1).equals(timeList.get(timeList.size() - 3))) ) {
+        List<String> list = timeList;
+         if (timeList == null || (timeList.size() > 1 && timeList.get(timeList.size() - 1).equals(timeList.get(0))) ) {
             timeList = null;
             dialog.show(activity, TIME_OUT);
             return false;
         }
         timeList.clear();
         return true;
+    }
+
+    public void clearAllList() {
+        smoothMoveList3.clear();
+        smoothMoveList2.clear();
+        smoothMoveList1.clear();
     }
 }
 

@@ -43,6 +43,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -57,9 +58,12 @@ public interface RedrockApiService {
     @GET(Const.API_UPDATE_OLD)
     @XmlApi
     Observable<UpdateInfo> update();
-
-    @GET(Const.API_SCHOOL_CARS_LOCATION)
-    Observable<SchoolCarLocation> schoolcar();
+    @FormUrlEncoded
+    @POST(Const.API_SCHOOL_CARS_LOCATION)
+    Observable<SchoolCarLocation> schoolcar(@Header("Authorization") String authorization,
+                                            @Field("s") String s,
+                                            @Field("t") String t,
+                                            @Field("r") String r);
 
     @FormUrlEncoded
     @POST(Const.API_VERIFY)

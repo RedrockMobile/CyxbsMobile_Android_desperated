@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mredrock.cyxbs.R;
@@ -21,6 +22,7 @@ import com.mredrock.cyxbs.model.VolunteerTime;
 import com.mredrock.cyxbs.network.RequestManager;
 import com.mredrock.cyxbs.ui.activity.BaseActivity;
 import com.mredrock.cyxbs.ui.widget.VolunteerTimeSP;
+import com.mredrock.cyxbs.util.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,6 +84,13 @@ public class VolunteerTimeLoginActivity extends BaseActivity {
             toolbar.setTitle("");
             setSupportActionBar(toolbar);
         }
+//
+//        Log.d("Volunteer", "initToolbar: " + Utils.md5Hex(String.valueOf(System.currentTimeMillis()).substring(0, 10) +"."+"Redrock" ) + " dddddddddd\n" +
+//                System.currentTimeMillis() + " dasdddddddd"+"       \n    " + Utils.md5Hex(String.valueOf(System.currentTimeMillis() - 1)));
+
+        Log.d("Volunteer", "initToolbar: " + Utils.md5Hex(String.valueOf(System.currentTimeMillis()).substring(0, 10) + "."+"Redrock")+ " dddddddddd\n" +
+                String.valueOf(System.currentTimeMillis()).substring(0, 10) + " dasdddddddd"+"       \n    " + Utils.md5Hex(String.valueOf(System.currentTimeMillis() - 1).substring(0, 10)));
+
     }
 
     public void initData() {
