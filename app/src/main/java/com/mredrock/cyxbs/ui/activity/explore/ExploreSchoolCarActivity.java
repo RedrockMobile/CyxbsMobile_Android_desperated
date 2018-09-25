@@ -8,11 +8,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -233,7 +232,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
             setSupportActionBar(toolbar);
         }
 
-        Observable.timer(10, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).
+        Observable.timer(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).
                 subscribe(new Observer<Long>() {
                     @Override
                     public void onSubscribe(Disposable d) {

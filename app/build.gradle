@@ -10,8 +10,8 @@ android {
         applicationId "com.mredrock.cyxbs"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 43
-        versionName "4.3"
+        versionCode 44
+        versionName "4.4"
         multiDexEnabled true
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "official"]
     }
@@ -21,13 +21,12 @@ android {
     productFlavors {
         official {}
         xiaomi {}
-        //     _360 {}
+        samsung {}
         baidu {}
-        wandoujia {}
+        alibaba {}
         kuan {}
         tencent {}
-        anzhi {}
-        //     _91{}
+        huawei {}
     }
 
     productFlavors.all { flavor ->
