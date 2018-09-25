@@ -133,7 +133,7 @@
                 android:layout_weight="1"
                 app:icon="@drawable/ic_explore_school_car"
                 app:ratio="0.572"
-                app:title="校车查询" />
+                app:title="校车轨迹" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

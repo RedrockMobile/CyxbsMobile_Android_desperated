@@ -32,9 +32,10 @@
                 android:layout_alignBottom="@+id/explore_schoolcar_toolbar_learnmore"
                 android:layout_marginLeft="106dp"
                 android:layout_marginStart="106dp"
+                android:layout_centerInParent="true"
                 android:layout_toEndOf="@+id/explore_schoolcar_toolbar_back"
                 android:layout_toRightOf="@+id/explore_schoolcar_toolbar_back"
-                android:text="校车查询"
+                android:text="校车轨迹"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
 
@@ -43,11 +44,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:background="#00000000"
-                android:layout_marginLeft="315dp"
                 android:layout_marginRight="10dp"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:padding="6dp"
-                android:src="@drawable/ic_school_car_search_tool_more" />
+                android:src="@drawable/ic_school_car_search_tool_more"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="10dp" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
