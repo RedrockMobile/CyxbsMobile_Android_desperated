@@ -255,7 +255,7 @@ public class ExploreSchoolCarActivity extends BaseActivity {
                     @Override
                     public void onComplete() {
                         smoothMoveMarkers = new ArrayList<>();
-//                        smoothMoveData.checkBeforeEnter(ExploreSchoolCarActivity.this, dialog);
+                        smoothMoveData.checkBeforeEnter(ExploreSchoolCarActivity.this, dialog);
 //                       dialog for (int i = 0; i < 3; i ++) {
                         smoothMoveData.loadCarLocation(55, 0);
 //                        }
